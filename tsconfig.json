@@ -1,4 +1,4 @@
-/* To learn more about this file see: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -10,22 +10,22 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": false,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022",
-    "useDefineForClassFields": false,
-    "lib": ["ES2022", "dom"]
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ESNext", "dom"]
   },
   "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
-    "_enabledBlockTypes": ["if", "for"]
+    "strictTemplates": true
   }
 }
