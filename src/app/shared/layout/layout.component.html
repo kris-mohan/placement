@@ -6,7 +6,7 @@
     </button>
 
     <a class="navbar-brand" [routerLink]="['/']" matTooltip="Home">
-      <h1>placements</h1>
+      <h1>PLACEMENTS</h1>
     </a>
 
     <span class="navbar-spacer"></span>
@@ -63,8 +63,6 @@
       class="sidenav"
     >
       <mat-nav-list>
-        <h3 mat-subheader>Home</h3>
-
         <a
           mat-list-item
           [routerLink]="['/dashboard']"
@@ -73,6 +71,14 @@
           <mat-icon mat-list-icon> dashboard </mat-icon>
           Dashboard
         </a>
+        <a
+          mat-list-item
+          [routerLink]="['/company-config']"
+          routerLinkActive="active"
+        >
+          <mat-icon mat-list-icon> business </mat-icon>
+          Company Configuration
+        </a>
 
         <a
           mat-list-item
@@ -80,14 +86,15 @@
           routerLinkActive="active"
         >
           <mat-icon mat-list-icon> business </mat-icon>
-          Customers
-        </a>
-        <a mat-list-item [routerLink]="['/users']" routerLinkActive="active">
-          <mat-icon mat-list-icon> people </mat-icon>
-          Users
+          Campus Configuration
         </a>
 
-        <a mat-list-item [routerLink]="['/account/profile']">
+        <a mat-list-item [routerLink]="['/users']" routerLinkActive="active">
+          <mat-icon mat-list-icon> people </mat-icon>
+          Trainig Configuration
+        </a>
+
+        <!-- <a mat-list-item [routerLink]="['/account/profile']">
           <mat-icon mat-list-icon>person</mat-icon>
           Account
         </a>
@@ -95,9 +102,9 @@
         <a mat-list-item [routerLink]="['/auth/login']">
           <mat-icon mat-list-icon>exit_to_app</mat-icon>
           Log out
-        </a>
+        </a> -->
 
-        <mat-divider></mat-divider>
+        <!-- <mat-divider></mat-divider>
 
         <h3 mat-subheader>Resources</h3>
 
@@ -168,7 +175,7 @@
         >
           <mat-icon mat-list-icon> info_outline </mat-icon>
           About
-        </a>
+        </a> -->
       </mat-nav-list>
     </mat-sidenav>
 

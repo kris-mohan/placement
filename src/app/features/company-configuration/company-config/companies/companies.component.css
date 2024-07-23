@@ -1,0 +1,29 @@
+button {
+  margin: 0 8px 8px 0;
+}
+.mat-mdc-card-header {
+  display: unset;
+}
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+}
+table {
+  width: 100%;
+}
+
+.addbutton {
+  background-color: #3f51b5;
+}
+.addicon {
+  color: white;
+}
+.addName {
+  color: white;
+}

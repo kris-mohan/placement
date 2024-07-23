@@ -1,4 +1,3 @@
-// import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { DashboardHomeComponent } from "./features/dashboard/dashboard-home/dashboard-home.component";
 import { TypographyComponent } from "./features/typography/typography/typography.component";
@@ -13,14 +12,15 @@ import { ProfileDetailsComponent } from "./features/account/profile-details/prof
 import { Item1Component } from "./features/test/test/item1/item1.component";
 import { LoginComponent } from "./features/auth/login/login.component";
 import { Item2Component } from "./features/test/test/item2/item2.component";
-import { Item3Component } from "./features/test/test/item3/item3.component";
+import { Component } from "@angular/core";
+import { CompanyConfigComponent } from "./features/company-configuration/company-config/company-config.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
 const appRoutes: Routes = [
   {
-    path: "auth/login",
-    component: LoginComponent,
+    path: "company-config",
+    component: CompanyConfigComponent,
   },
   {
     path: "dashboard",
@@ -28,54 +28,55 @@ const appRoutes: Routes = [
     title: "Dashboard",
   },
   {
-    path: "customers",
-    component: CustomerListComponent,
-  },
-  {
-    path: "users",
-    component: UserListComponent,
-  },
-  {
-    path: "account/profile",
-    component: AccountPageComponent,
-  },
-  {
-    path: "icons",
-    component: IconsComponent,
-  },
-
-  {
-    path: "typography",
-    component: TypographyComponent,
-  },
-  {
-    path: "test",
-    component: TestComponent,
-    children: [
-      {
-        path: "item1",
-        component: Item1Component,
-      },
-      {
-        path: "item2",
-        component: Item2Component,
-      },
-      {
-        path: "item3",
-        component: Item3Component,
-      },
-    ],
-  },
-
-  {
-    path: "about",
-    component: AboutPageComponent,
-  },
-  {
     path: "**",
     redirectTo: "dashboard",
     pathMatch: "full",
   },
+  // {
+  //   path: "auth/login",
+  //   component: LoginComponent,
+  // },
+  //
+  // {
+  //   path: "customers",
+  //   component: CustomerListComponent,
+  // },
+  // {
+  //   path: "users",
+  //   component: UserListComponent,
+  // },
+  // {
+  //   path: "account/profile",
+  //   component: AccountPageComponent,
+  // },
+  // {
+  //   path: "icons",
+  //   component: IconsComponent,
+  // },
+
+  // {
+  //   path: "typography",
+  //   component: TypographyComponent,
+  // },
+  // {
+  //   path: "test",
+  //   component: TestComponent,
+  //   children: [
+  //     {
+  //       path: "item1",
+  //       component: Item1Component,
+  //     },
+  //     {
+  //       path: "item2",
+  //       component: Item2Component,
+  //     },
+  //   ],
+  // },
+
+  // {
+  //   path: "about",
+  //   component: AboutPageComponent,
+  // },
 ];
 
 export default appRoutes;
