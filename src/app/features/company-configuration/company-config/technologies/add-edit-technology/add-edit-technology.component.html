@@ -1,0 +1,98 @@
+<!-- <mat-card> -->
+<mat-card-header class="custom-card-header">
+  <div class="example-button-row">
+    <div class="example-flex-container">
+      <div class="example-button-container">
+        <a [routerLink]="['/company-configuration']">
+          <mat-icon>keyboard_backspace</mat-icon>
+        </a>
+      </div>
+      <div>
+        <p class="matHeaderName">
+          {{ technologyId ? "Edit Technology" : "Add Technology" }}
+        </p>
+      </div>
+    </div>
+  </div>
+</mat-card-header>
+<mat-divider></mat-divider>
+<form [formGroup]="addEditTechnologyForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-content>
+      <mat-grid-list cols="12">
+        <mat-grid-tile colspan="2">
+          <mat-label>Company Name</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2">
+          <mat-form-field>
+            <mat-label>Select Company name</mat-label>
+            <mat-select>
+              <!-- @for (company of technologyTableList; track company) {
+                <mat-option [value]="company">{{ company }}</mat-option>
+                } -->
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-grid-list cols="12">
+        <mat-grid-tile colspan="2">
+          <mat-label>Technology Name</mat-label></mat-grid-tile
+        >
+        <mat-grid-tile colspan="2">
+          <mat-form-field appearance="outline">
+            <mat-label>Technology Name</mat-label>
+            <input matInput placeholder="Enter Technology Name" />
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-grid-list cols="12">
+        <mat-grid-tile colspan="2">
+          <mat-label>Description</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2">
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="Enter Description" />
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-grid-list cols="12">
+        <mat-grid-tile colspan="2">
+          <mat-label>category</mat-label></mat-grid-tile
+        >
+        <mat-grid-tile colspan="2">
+          <mat-form-field appearance="outline">
+            <mat-label>category</mat-label>
+            <input matInput placeholder="Enter category" />
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-grid-list cols="12">
+        <mat-grid-tile colspan="2">
+          <mat-label>version</mat-label></mat-grid-tile
+        >
+        <mat-grid-tile colspan="2">
+          <mat-form-field appearance="outline">
+            <mat-label>version</mat-label>
+            <input matInput placeholder="Enter version" />
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+  </mat-card>
+  <mat-card-actions align="end">
+    <button mat-raised-button class="matbutton">
+      <p class="matName">Reset</p>
+    </button>
+    <button mat-raised-button class="matbutton" type="submit">
+      <p class="matName">
+        {{ technologyId ? "Update" : "Add" }}
+      </p>
+    </button>
+  </mat-card-actions>
+</form>
+<!-- </mat-card> -->

@@ -1,5 +1,9 @@
 <mat-card>
-  <mat-tab-group animationDuration="0ms">
+  <mat-tab-group
+    animationDuration="0ms"
+    #tabGroup
+    (selectedIndexChange)="onTabChange($event)"
+  >
     <mat-tab label="Companies"><app-companies></app-companies></mat-tab>
 
     <mat-tab label="Technologies"

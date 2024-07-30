@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-tab-group
+    animationDuration="0ms"
+    #tabGroupCampusConfig
+    (selectedIndexChange)="onTabChange($event)"
+  >
+    <mat-tab label="Calendar Events"
+      ><app-calendar-events></app-calendar-events
+    ></mat-tab>
+
+    <mat-tab label="Invitations"><app-invitations></app-invitations></mat-tab>
+
+    <mat-tab label="Job Posts"><app-job-postings></app-job-postings></mat-tab>
+    <mat-tab label="Mapping Job Postings"
+      ><app-mapping-jop-post></app-mapping-jop-post
+    ></mat-tab>
+  </mat-tab-group>
+</mat-card>

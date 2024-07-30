@@ -1,7 +1,13 @@
 import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
 import { AppComponent } from "src/app/app.component";
 import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
+import {
+  RouterEvent,
+  RouterLink,
+  RouterLinkActive,
+  RouterLinkWithHref,
+  RouterModule,
+} from "@angular/router";
 import { Subscription, timer } from "rxjs";
 import { MediaMatcher } from "@angular/cdk/layout";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -22,6 +28,9 @@ import { MatExpansionPanel } from "@angular/material/expansion";
     RouterModule,
     SharedModule,
     FlexLayoutModule,
+    RouterLinkActive,
+    RouterLink,
+    RouterLinkWithHref,
   ],
   templateUrl: "./layout.component.html",
   styleUrl: "./layout.component.css",

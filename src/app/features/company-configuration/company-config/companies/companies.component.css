@@ -13,17 +13,32 @@ button {
 .example-button-container {
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
+.example-button-container :hover {
+  background-color: rgb(234, 234, 234);
+}
+.button-label-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-mat-label {
+  margin-left: 3rem;
+  font-weight: bolder;
+  font-size: larger;
+}
+
 table {
   width: 100%;
 }
 
-.addbutton {
+.matbutton {
   background-color: #3f51b5;
 }
-.addicon {
+.maticon {
   color: white;
 }
-.addName {
+.matButtonText {
   color: white;
 }

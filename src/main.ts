@@ -4,7 +4,7 @@ import {
 } from "@angular/platform-browser";
 import { AppComponent } from "./app/app.component";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
-import { provideRouter } from "@angular/router";
+import { provideRouter, withComponentInputBinding } from "@angular/router";
 import appRoutes from "./app/appRoutes";
 import { importProvidersFrom } from "@angular/core";
 import { provideHttpClient } from "@angular/common/http";
@@ -17,7 +17,7 @@ const loggerConfig = {
 bootstrapApplication(AppComponent, {
   providers: [
     provideProtractorTestingSupport(),
-    provideRouter(appRoutes),
+    provideRouter(appRoutes, withComponentInputBinding()),
     provideAnimationsAsync(),
     provideAnimationsAsync(),
     provideHttpClient(),

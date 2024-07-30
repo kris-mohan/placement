@@ -1,18 +1,18 @@
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { Item3Component } from './item3.component';
+// import { AddEditTechnologyComponent } from './add-edit-technology.component';
 
-// describe('Item3Component', () => {
-//   let component: Item3Component;
-//   let fixture: ComponentFixture<Item3Component>;
+// describe('AddEditTechnologyComponent', () => {
+//   let component: AddEditTechnologyComponent;
+//   let fixture: ComponentFixture<AddEditTechnologyComponent>;
 
 //   beforeEach(async () => {
 //     await TestBed.configureTestingModule({
-//       imports: [Item3Component]
+//       imports: [AddEditTechnologyComponent]
 //     })
 //     .compileComponents();
 
-//     fixture = TestBed.createComponent(Item3Component);
+//     fixture = TestBed.createComponent(AddEditTechnologyComponent);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });

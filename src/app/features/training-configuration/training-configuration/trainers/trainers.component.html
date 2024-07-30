@@ -1,0 +1,59 @@
+<mat-card>
+  <mat-card-header class="custom-card-header">
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="button-label-container">
+          <div class="example-button-container">
+            <mat-icon (click)="goBack()">keyboard_backspace</mat-icon>
+          </div>
+          <div class="header-mat-label">
+            <mat-label>TRAINERS</mat-label>
+          </div>
+        </div>
+        <div class="example-button-container">
+          <button
+            mat-raised-button
+            class="matbutton"
+            (click)="openAddEditTrainerForm()"
+          >
+            <mat-icon class="maticon">add</mat-icon>
+            <p class="matName">Add Trainer</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
+        <th mat-header-cell *matHeaderCellDef>
+          <ng-container [ngSwitch]="column.key">
+            <ng-container *ngSwitchDefault>{{ column.label }} </ng-container>
+          </ng-container>
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          <ng-container [ngSwitch]="column.key">
+            <ng-container *ngSwitchCase="'actions'">
+              <button
+                mat-icon-button
+                (click)="openAddEditTrainerForm(element.trainerId)"
+              >
+                <mat-icon> edit </mat-icon>
+              </button>
+              <button mat-icon-button>
+                <mat-icon> delete </mat-icon>
+              </button>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              {{ element[column.key] }}
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

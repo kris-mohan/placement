@@ -1,8 +1,11 @@
 import { SelectionModel } from "@angular/cdk/collections";
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { Component } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
+import { DialogMessageService } from "src/app/services/dialog-message/dialog-message/dialog-message.service";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 
 export interface companyTableList {
@@ -13,7 +16,7 @@ export interface companyTableList {
   address: string;
   actions: string;
 }
-const COMPANIES_DATA: companyTableList[] = [
+export const COMPANIES_DATA: companyTableList[] = [
   {
     slNo: 1,
     id: 1,
@@ -64,16 +67,21 @@ const COMPANIES_DATA: companyTableList[] = [
   styleUrl: "./companies.component.css",
 })
 export class CompaniesComponent {
+  constructor(
+    private router: Router,
+    private dialogService: DialogMessageService,
+    private sweetAlertService: SweetAlertService,
+    private location: Location
+  ) {}
   displayedColumns: string[] = [
-    "select",
     "slNo",
     "id",
+    "name",
     "url",
     "address",
     "actions",
   ];
   columns = [
-    { key: "select", label: "" },
     { key: "slNo", label: "Sl No" },
     { key: "id", label: "Id" },
     { key: "name", label: "Name" },
@@ -84,28 +92,27 @@ export class CompaniesComponent {
   dataSource = new MatTableDataSource<companyTableList>(COMPANIES_DATA);
   selection = new SelectionModel<companyTableList>(true, []);
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  openAddEditCompanyForm(id?: number) {
+    if (id !== undefined) {
+      this.router.navigate(["/company-configuration/addEditCompany", id]);
+    } else {
+      this.router.navigate(["/company-configuration/addEditCompany", "new"]);
+    }
   }
 
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
+  async deleteCompany(id: number) {
+    const confirmed = await this.sweetAlertService.confirmDelete(
+      "Do you really want to delete this company?"
+    );
+    if (confirmed) {
+      this.dataSource.data = this.dataSource.data.filter(
+        (company) => company.id !== id
+      );
+      this.sweetAlertService.success("Company deleted successfully!");
     }
-
-    this.selection.select(...this.dataSource.data);
   }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: companyTableList): string {
-    if (!row) {
-      return `${this.isAllSelected() ? "deselect" : "select"} all`;
-    }
-    return `${this.selection.isSelected(row) ? "deselect" : "select"} row ${
-      row.slNo + 1
-    }`;
+  goBack(): void {
+    this.location.back();
   }
 }
