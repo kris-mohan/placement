@@ -18,11 +18,14 @@
 <form [formGroup]="addEditScheduleForm" (ngSubmit)="onSubmit()">
   <mat-card>
     <mat-card-content>
-      <mat-grid-list cols="12">
-        <mat-grid-tile colspan="2">
-          <mat-label>Company Name</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="2">
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>Company Name</p>
           <mat-form-field>
             <mat-label>Select Company name</mat-label>
             <mat-select>
@@ -31,14 +34,14 @@
                 } -->
             </mat-select>
           </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
-
-      <mat-grid-list cols="12">
-        <mat-grid-tile colspan="2">
-          <mat-label>Technology Name</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="2">
+        </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>Technology Name</p>
           <mat-form-field>
             <mat-label>Select Technology name</mat-label>
             <mat-select>
@@ -47,34 +50,35 @@
                 } -->
             </mat-select>
           </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
-
-      <mat-grid-list cols="12">
-        <mat-grid-tile colspan="2">
-          <mat-label>Training Timings</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="2">
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>Training Timings</p>
           <mat-form-field appearance="fill">
             <mat-label>Start Time</mat-label>
             <input matInput [ngxTimepicker]="startTimePicker" />
             <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="3">
           <mat-form-field appearance="fill">
             <mat-label>End Time</mat-label>
             <input matInput [ngxTimepicker]="endTimePicker" />
             <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
           </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
+        </div>
 
-      <mat-grid-list cols="12">
-        <mat-grid-tile colspan="2">
-          <mat-label>Training Duration</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="2">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>Training Duration</p>
           <mat-form-field appearance="fill">
             <mat-label>Start Date</mat-label>
             <input matInput [matDatepicker]="startDatePicker" />
@@ -84,8 +88,6 @@
             ></mat-datepicker-toggle>
             <mat-datepicker #startDatePicker></mat-datepicker>
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="3">
           <mat-form-field appearance="fill">
             <mat-label>End Date</mat-label>
             <input matInput [matDatepicker]="endDatePicker" />
@@ -95,47 +97,52 @@
             ></mat-datepicker-toggle>
             <mat-datepicker #endDatePicker></mat-datepicker>
           </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
+        </div>
+      </div>
 
-      <mat-grid-list cols="12">
-        <mat-grid-tile colspan="2">
-          <mat-label>Role Name</mat-label></mat-grid-tile
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
         >
-        <mat-grid-tile colspan="2">
-          <mat-form-field appearance="outline">
-            <mat-label>Role Name</mat-label>
-            <input matInput placeholder="Enter Technology Name" />
+          <p class="grid-label">Company Name</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Company Name</mat-label>
+            <input matInput placeholder="Company Name" />
           </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
+        </div>
 
-      <mat-grid-list cols="12">
-        <mat-grid-tile colspan="2">
-          <mat-label>Description</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="2">
-          <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <input matInput placeholder="Enter Description" />
-          </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
-
-      <mat-grid-list cols="12">
-        <mat-grid-tile colspan="2">
-          <mat-label>category</mat-label></mat-grid-tile
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
         >
-        <mat-grid-tile colspan="2">
-          <mat-form-field appearance="outline">
-            <mat-label>category</mat-label>
-            <input matInput placeholder="Enter category" />
+          <p class="grid-label">Company Name</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Company Name</mat-label>
+            <input matInput placeholder="Company Name" />
           </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Company Name</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Company Name</mat-label>
+            <input matInput placeholder="Company Name" />
+          </mat-form-field>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
-  <mat-card-actions align="end">
+  <mat-card-actions class="footer-actions">
     <button mat-raised-button class="matbutton">
       <p class="matName">Reset</p>
     </button>

@@ -7,17 +7,7 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { DialogMessageService } from "src/app/services/dialog-message/dialog-message/dialog-message.service";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
-
-export interface InvitationList {
-  invitationid: number;
-  recipientName: string;
-  recipientEmail: string;
-  eventTitle: string;
-  eventDate: Date;
-  eventLocation: string;
-  message: string;
-  status: "pending" | "accepted" | "declined";
-}
+import { InvitationList } from "./invitations-model";
 
 export const INVITATION_DATA: InvitationList[] = [
   {
@@ -111,10 +101,10 @@ export class InvitationsComponent {
   selection = new SelectionModel<InvitationList>(true, []);
 
   openAddEditInvitationForm(id?: number) {
-    if (id !== undefined) {
-      this.router.navigate(["/campus-configuration/addEditInvitation", id]);
+    if (id !== undefined && id !== null) {
+      this.router.navigate(["/campus-configuration", id]);
     } else {
-      this.router.navigate(["/campus-configuration/addEditInvitation", "new"]);
+      this.router.navigate(["/campus-configuration", 0]);
     }
   }
 

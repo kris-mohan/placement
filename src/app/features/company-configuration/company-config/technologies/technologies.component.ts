@@ -6,17 +6,7 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { AddEditTechnologyComponent } from "./add-edit-technology/add-edit-technology.component";
 import { Router } from "@angular/router";
-
-export interface TechnologyTableList {
-  slNo: number;
-  comnpanyId: number;
-  technologyId: number;
-  name: string;
-  description: string;
-  category: string;
-  version: string;
-  actions: string;
-}
+import { TechnologyTableList } from "./technologies-model";
 
 export const TECHNOLOGIES_DATA: TechnologyTableList[] = [
   {
@@ -162,12 +152,9 @@ export class TechnologiesComponent {
 
   openAddEditTechnologyForm(technologyId?: number) {
     if (technologyId !== undefined) {
-      this.router.navigate([
-        "/company-configuration/addEditTechnology",
-        technologyId,
-      ]);
+      this.router.navigate(["/company-configuration", technologyId]);
     } else {
-      this.router.navigate(["/company-configuration/addEditTechnology", "new"]);
+      this.router.navigate(["/company-configuration", null]);
     }
   }
 

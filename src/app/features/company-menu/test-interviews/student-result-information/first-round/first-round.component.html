@@ -1,0 +1,58 @@
+<form class="form-content">
+  <div class="form-container">
+    <mat-card-content>
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Assesment Name</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Assesment Name</mat-label>
+            <input matInput placeholder="Assesment Name" />
+          </mat-form-field>
+        </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Score</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label> Score</mat-label>
+            <input matInput placeholder="Score" />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="footer-actions">
+      <button mat-raised-button class="matbutton">
+        <p class="matName">Reset</p>
+      </button>
+      <button mat-raised-button class="matbutton" type="submit">
+        <p class="matName">
+          Add
+          <!-- {{ TrainerId ? "Update" : "Add" }} -->
+        </p>
+      </button>
+    </mat-card-actions>
+  </div>
+</form>
+
+<mat-card-actions class="footer-actions">
+  <button mat-raised-button class="matbutton" (click)="openMoveToNextRound()">
+    <p class="matName">Move to next Round</p>
+  </button>
+  <button
+    mat-raised-button
+    class="matbutton"
+    type="submit"
+    (click)="openReject()"
+  >
+    <p class="matName">Reject</p>
+  </button>
+</mat-card-actions>

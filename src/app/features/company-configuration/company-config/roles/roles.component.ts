@@ -7,15 +7,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { AddEditCompanyComponent } from "../companies/add-edit-company/add-edit-company.component";
 import { AddEditRoleComponent } from "./add-edit-role/add-edit-role.component";
 import { Router } from "@angular/router";
-
-export interface RoleTableList {
-  slNo: number;
-  roleId: number;
-  roleName: string;
-  description: string;
-  createdDate: string;
-  actions: string;
-}
+import { RoleTableList } from "./roles-model";
 
 export const ROLES_DATA: RoleTableList[] = [
   {
@@ -96,10 +88,10 @@ export class RolesComponent {
   constructor(private router: Router, private location: Location) {}
 
   openAddEditRoleForm(roleId?: number) {
-    if (roleId != undefined) {
-      this.router.navigate(["company-configuration/addEditRole", roleId]);
+    if (roleId != undefined && roleId! == null) {
+      this.router.navigate(["company-configuration", roleId]);
     } else {
-      this.router.navigate(["company-configuration/addEditRole", "new"]);
+      this.router.navigate(["company-configuration", 0]);
     }
   }
 

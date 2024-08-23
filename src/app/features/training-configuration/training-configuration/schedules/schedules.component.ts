@@ -5,14 +5,8 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
+import { ScheduleTableList } from "./schedules-model";
 
-export interface ScheduleTableList {
-  slNo: number;
-  scheduleId: number;
-  description: string;
-  createdDate: string;
-  actions: string;
-}
 export const ScheduleTableList_Data: ScheduleTableList[] = [
   {
     slNo: 1,
@@ -88,14 +82,10 @@ export class SchedulesComponent {
   constructor(private router: Router, private location: Location) {}
 
   openAddEditScheduleForm(scheduleId?: number) {
-    if (scheduleId != undefined) {
-      this.router.navigate([
-        "training-configuration/addEditSchedule",
-        scheduleId,
-      ]);
-    } else {
-      this.router.navigate(["training-configuration/addEditSchedule", "new"]);
-    }
+    const id = scheduleId !== undefined ? scheduleId : 0;
+    this.router.navigate(["training-configuration", id], {
+      queryParams: { from: "schedules" },
+    });
   }
 
   goBack(): void {

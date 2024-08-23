@@ -8,18 +8,31 @@ import { TabsTrainingConfigurationService } from "../tabs-training-configuartion
 import { TrainersComponent } from "./trainers/trainers.component";
 import { SchedulesComponent } from "./schedules/schedules.component";
 import { CoursesComponent } from "./courses/courses.component";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-training-configuration",
   standalone: true,
-  imports: [AppComponent, AMGModules, SharedModule, CommonModule, TrainersComponent, SchedulesComponent, CoursesComponent],
+  imports: [
+    AppComponent,
+    AMGModules,
+    SharedModule,
+    CommonModule,
+    TrainersComponent,
+    SchedulesComponent,
+    CoursesComponent,
+  ],
   templateUrl: "./training-configuration.component.html",
   styleUrl: "./training-configuration.component.css",
 })
 export class TrainingConfigurationComponent {
   @ViewChild("tabGroupTrainingConfig") tabGroup!: MatTabGroup;
 
-  constructor(private tabService: TabsTrainingConfigurationService) {}
+  constructor(
+    private tabService: TabsTrainingConfigurationService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngAfterViewInit(): void {
     this.tabGroup.selectedIndex = this.tabService.getActiveTab();

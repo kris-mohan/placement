@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
 import { AppComponent } from "src/app/app.component";
 import { CommonModule } from "@angular/common";
 import {
+  Router,
   RouterEvent,
   RouterLink,
   RouterLinkActive,
@@ -47,7 +48,8 @@ export class LayoutComponent {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private media: MediaMatcher,
-    public spinnerService: SpinnerService // private authService: AuthenticationService, // private authGuard: AuthGuard
+    public spinnerService: SpinnerService,
+    private router: Router // private authService: AuthenticationService, // private authGuard: AuthGuard
   ) {
     this.mobileQuery = this.media.matchMedia("(max-width: 1000px)");
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -76,5 +78,11 @@ export class LayoutComponent {
 
   ngAfterViewInit(): void {
     this.changeDetectorRef.detectChanges();
+  }
+
+  showConfigurationItems = false;
+
+  toggleConfigurationItems() {
+    this.showConfigurationItems = !this.showConfigurationItems;
   }
 }

@@ -14,7 +14,7 @@
           <button
             mat-raised-button
             class="matbutton"
-            (click)="openAddEditTechnologyForm()"
+            (click)="openAddEditTechnologyForm(0)"
           >
             <mat-icon class="maticon">add</mat-icon>
             <p class="matName">Add Technology</p>
@@ -35,15 +35,17 @@
         <td mat-cell *matCellDef="let element">
           <ng-container [ngSwitch]="column.key">
             <ng-container *ngSwitchCase="'actions'">
-              <button
-                mat-icon-button
-                (click)="openAddEditTechnologyForm(element.technologyId)"
-              >
-                <mat-icon> edit </mat-icon>
-              </button>
-              <button mat-icon-button>
-                <mat-icon> delete </mat-icon>
-              </button>
+              <div class="td-mat-button">
+                <button
+                  mat-icon-button
+                  (click)="openAddEditTechnologyForm(element.technologyId)"
+                >
+                  <mat-icon> edit </mat-icon>
+                </button>
+                <button mat-icon-button>
+                  <mat-icon> delete </mat-icon>
+                </button>
+              </div>
             </ng-container>
             <ng-container *ngSwitchDefault>
               {{ element[column.key] }}

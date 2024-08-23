@@ -1,0 +1,87 @@
+<form class="login-form">
+  <mat-card class="matCard">
+    <div class="grid-container">
+      <div class="logo-wrapper">
+        <img
+          src="../../../../assets/images/sslogoglobal.png"
+          alt="logo"
+          class="logo"
+        />
+      </div>
+      <!-- <div>
+        <P>Placements</P>
+      </div> -->
+      <div class="image-section">
+        <img
+          src="../../../../assets/images/removed background17-Campus-Recruitment-Guide-images (1)_processed.png"
+          alt="Login Illustration"
+          class="login-image"
+        />
+        <mat-card-title class="title">PLACEMENTS</mat-card-title>
+      </div>
+
+      <div class="form-section">
+        <mat-card-title class="card-title">LOGIN</mat-card-title>
+        <mat-card-content class="matCardContent">
+          <p>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Username</mat-label>
+              <input
+                id="emailInput"
+                matInput
+                placeholder="Username"
+                autocomplete="email"
+                type="email"
+              />
+              <mat-icon matSuffix>account_circle</mat-icon>
+              <mat-error id="invalidEmailError">
+                Please enter a valid Username
+              </mat-error>
+              <mat-error id="requiredEmailError">
+                Email is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Password</mat-label>
+              <input
+                id="passwordInput"
+                matInput
+                placeholder="Password"
+                type="password"
+                autocomplete="current-password"
+              />
+              <mat-icon matSuffix>visibility_off</mat-icon>
+              <mat-error id="requiredPasswordError">
+                Password is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </p>
+        </mat-card-content>
+
+        <mat-card-actions class="login-actions">
+          <button
+            mat-raised-button
+            class="matbutton"
+            color="primary"
+            [routerLink]="['/dashboard']"
+          >
+            Sign In
+          </button>
+          <a class="matbutton">Forgot Password?</a>
+        </mat-card-actions>
+        <div class="anchorTags">
+          <div [routerLink]="['/company-registration']">
+            <a>Company Registration?</a>
+          </div>
+          <div [routerLink]="['/campus-registration']">
+            <a>Campus Registration?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</form>

@@ -53,4 +53,35 @@ export class SweetAlertService {
       cancelButtonText: "No, keep it",
     }).then((result) => result.isConfirmed);
   }
+
+  confirm(message: string): Promise<boolean> {
+    return Swal.fire({
+      title: "Confirmation",
+      text: message,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then((result) => result.isConfirmed);
+  }
+
+  feedbackInput(message: string, placeholder: string): Promise<string | null> {
+    return Swal.fire({
+      title: message,
+      input: "textarea",
+      inputPlaceholder: placeholder,
+      inputAttributes: {
+        "aria-label": "Type your feedback here",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        return result.value;
+      } else {
+        return null;
+      }
+    });
+  }
 }

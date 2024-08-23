@@ -1,0 +1,38 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <h2>OFFER LETTER</h2>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="modal-content">
+    <canvas id="pdf-canvas"></canvas>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="modal-footer">
+    <div class="page-controls">
+      <button
+        mat-raised-button
+        (click)="prevPage()"
+        [disabled]="currentPage <= 1"
+      >
+        Previous
+      </button>
+      <span>Page {{ currentPage }} of {{ numPages }}</span>
+      <button
+        mat-raised-button
+        (click)="nextPage()"
+        [disabled]="currentPage >= numPages"
+      >
+        Next
+      </button>
+    </div>
+    <div>
+      <button mat-raised-button class="matbutton" (click)="onCancel()">
+        <p class="matButtonText">Close</p>
+      </button>
+      <button mat-raised-button class="matbutton">
+        <mat-icon class="maticon">mail</mat-icon>
+        <p class="matButtonText">Notify Candidate</p>
+      </button>
+    </div>
+  </div>
+</div>

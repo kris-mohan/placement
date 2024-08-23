@@ -1,0 +1,57 @@
+button {
+  margin: 0 8px 8px 0;
+}
+
+.matbutton {
+  background-color: #3f51b5;
+}
+.maticon {
+  color: white;
+}
+.matName {
+  color: white;
+}
+.example-button-container {
+  cursor: pointer;
+}
+.formGrid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.matHeaderName {
+  font-weight: bolder;
+}
+
+.matFormField {
+  width: 90%;
+}
+
+.footer-actions {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: auto;
+}
+
+.footer-actions button {
+  margin-left: 10px;
+}
+.form-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.form-content {
+  flex: 1;
+  /* overflow: auto; */
+  margin-bottom: 6%;
+}

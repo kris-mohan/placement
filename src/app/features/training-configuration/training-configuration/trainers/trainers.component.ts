@@ -5,15 +5,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
-
-export interface TrainerTableList {
-  slNo: number;
-  trainerId: number;
-  trainerName: string;
-  description: string;
-  createdDate: string;
-  actions: string;
-}
+import { TrainerTableList } from "./trainers-model";
 
 export const TrainerTableList_Data: TrainerTableList[] = [
   {
@@ -98,12 +90,9 @@ export class TrainersComponent {
 
   openAddEditTrainerForm(trainerId?: number) {
     if (trainerId != undefined) {
-      this.router.navigate([
-        "training-configuration/addEditTrainer",
-        trainerId,
-      ]);
+      this.router.navigate(["training-configuration", trainerId]);
     } else {
-      this.router.navigate(["training-configuration/addEditTrainer", "new"]);
+      this.router.navigate(["training-configuration", 0]);
     }
   }
 

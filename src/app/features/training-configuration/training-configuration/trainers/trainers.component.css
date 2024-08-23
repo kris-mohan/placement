@@ -15,9 +15,9 @@ button {
   justify-content: center;
   cursor: pointer;
 }
-.example-button-container :hover {
+/* .example-button-container :hover {
   background-color: rgb(234, 234, 234);
-}
+} */
 
 .button-label-container {
   display: flex;
@@ -42,4 +42,7 @@ table {
 }
 .matName {
   color: white;
+}
+.td-mat-button {
+  display: flex;
 }

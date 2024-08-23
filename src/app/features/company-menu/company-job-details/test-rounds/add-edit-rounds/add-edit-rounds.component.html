@@ -1,0 +1,77 @@
+<mat-card
+  ><mat-card-header class="custom-card-header">
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="example-button-container" (click)="goBack()">
+          <a>
+            <mat-icon>keyboard_backspace</mat-icon>
+          </a>
+        </div>
+        <div>
+          <p class="matHeaderName">
+            {{ roundId ? "Edit Rounds" : "Add Rounds" }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+
+  <form class="form-content">
+    <div class="form-container">
+      <mat-card-content>
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Round Name</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Round Name</mat-label>
+              <input matInput placeholder="Round Name" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Description</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Description</mat-label>
+              <input matInput placeholder="Description" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Duration</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Duration</mat-label>
+              <input matInput placeholder="Duration" />
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="footer-actions">
+        <button mat-raised-button class="matbutton">
+          <p class="matName">Reset</p>
+        </button>
+        <button mat-raised-button class="matbutton" type="submit">
+          <p class="matName">
+            {{ roundId ? "Update" : "Add" }}
+          </p>
+        </button>
+      </mat-card-actions>
+    </div>
+  </form>
+</mat-card>

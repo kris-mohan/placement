@@ -7,17 +7,7 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { DialogMessageService } from "src/app/services/dialog-message/dialog-message/dialog-message.service";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
-
-export interface JobPostingList {
-  jobId: number;
-  jobTitle: string;
-  companyName: string;
-  location: string;
-  jobDescription: string;
-  postedDate: string;
-  applicationDeadline: Date;
-  applicationUrl: string;
-}
+import { JobPostingList } from "./job-postings-model";
 
 export const JOBPOSTING_DATA: JobPostingList[] = [
   {
@@ -104,10 +94,10 @@ export class JobPostingsComponent {
   selection = new SelectionModel<JobPostingList>(true, []);
 
   openAddEditJobPostForm(id?: number) {
-    if (id !== undefined) {
-      this.router.navigate(["/campus-configuration/addEditJobPosting", id]);
+    if (id !== undefined && id !== null) {
+      this.router.navigate(["/campus-configuration", id]);
     } else {
-      this.router.navigate(["/campus-configuration/addEditJobPosting", "new"]);
+      this.router.navigate(["/campus-configuration", 0]);
     }
   }
 

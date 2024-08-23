@@ -15,9 +15,9 @@ button {
   justify-content: center;
   cursor: pointer;
 }
-.example-button-container :hover {
+/* .example-button-container :hover {
   background-color: rgb(234, 234, 234);
-}
+} */
 .button-label-container {
   display: flex;
   align-items: center;
@@ -45,4 +45,7 @@ table {
 .mdc-checkbox__native-control {
   border-color: var(--mdc-checkbox-selected-icon-color);
   background-color: black;
+}
+.td-mat-button {
+  display: flex;
 }

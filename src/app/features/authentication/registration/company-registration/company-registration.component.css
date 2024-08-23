@@ -1,0 +1,88 @@
+.TitleLogo {
+  width: 10%;
+}
+
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.example-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.mat-card {
+  width: 100%;
+  height: 100vh;
+  padding: 16px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.card-title {
+  text-align: center;
+}
+
+.form-fields p {
+  flex: 1;
+  min-width: 45%;
+}
+
+button {
+  margin: 0 8px 8px 0;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.matbutton {
+  background-color: #3f51b5;
+}
+
+.matName {
+  color: white;
+}
+
+.anchorTags a {
+  color: #3b6ab0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.footer-actions {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.footer-actions button {
+  margin-left: 10px;
+}
+
+.matFormField {
+  width: 90%;
+}
+
+.grid-label {
+  margin-bottom: 4px;
+}

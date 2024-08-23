@@ -1,0 +1,290 @@
+<mat-card
+  ><mat-card-header class="custom-card-header">
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="example-button-container">
+          <a [routerLink]="['/company-job-details']">
+            <mat-icon>keyboard_backspace</mat-icon>
+          </a>
+        </div>
+        <div>
+          <p class="matHeaderName">
+            Add
+            <!-- {{ TrainerId ? "Edit Trainer" : "Add Trainer" }} -->
+          </p>
+        </div>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+
+  <form class="form-content">
+    <div class="form-container">
+      <mat-card-content>
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>College Name</p>
+            <mat-form-field>
+              <mat-label>Select College name</mat-label>
+              <mat-select>
+                <!-- @for (company of technologyTableList; track company) {
+                <mat-option [value]="company">{{ company }}</mat-option>
+                } -->
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Batch</p>
+            <mat-form-field>
+              <mat-label>Select Batch</mat-label>
+              <mat-select>
+                <!-- @for (company of technologyTableList; track company) {
+                <mat-option [value]="company">{{ company }}</mat-option>
+                } -->
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Branch</p>
+            <mat-form-field>
+              <mat-label>Select Branch</mat-label>
+              <mat-select>
+                <!-- @for (company of technologyTableList; track company) {
+                <mat-option [value]="company">{{ company }}</mat-option>
+                } -->
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Job Role</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Job Role</mat-label>
+              <input matInput placeholder="Job Role" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Post</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Post</mat-label>
+              <input matInput placeholder="Post" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">No of Posts</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>No of Posts</mat-label>
+              <input matInput placeholder="No of Posts" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Min CGPA</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Min CGPA</mat-label>
+              <input matInput placeholder="Min CGPA" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Number of backlogs allowed</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>No of backlogs</mat-label>
+              <input matInput placeholder="No of backlogs" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Location</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Location</mat-label>
+              <input matInput placeholder="Location" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">CTC</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>CTC</mat-label>
+              <input matInput placeholder="CTC" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Technology</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Technology</mat-label>
+              <input matInput placeholder="Technology" />
+            </mat-form-field>
+          </div>
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Min PUC % / CGPA</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Technology</mat-label>
+              <input matInput placeholder="Technology" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Job type</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Job type</mat-label>
+              <input matInput placeholder="Job type" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Shift</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Shift</mat-label>
+              <input matInput placeholder="Shift" />
+            </mat-form-field>
+          </div>
+
+          <!-- <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Select Pay Roll</p>
+            <mat-form-field>
+              <mat-label>Pay Roll</mat-label>
+              <mat-select>
+                @for (company of technologyTableList; track company) {
+                <mat-option [value]="company">{{ company }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+        </div>
+        <!-- <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Last Date to apply</p>
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="startDatePicker" />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Last Date to apply</p>
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="startDatePicker" />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div> -->
+      </mat-card-content>
+
+      <mat-card-actions class="footer-actions">
+        <button mat-raised-button class="matbutton">
+          <p class="matName">Reset</p>
+        </button>
+        <button mat-raised-button class="matbutton" type="submit">
+          <p class="matName">
+            Add
+            <!-- {{ TrainerId ? "Update" : "Add" }} -->
+          </p>
+        </button>
+      </mat-card-actions>
+    </div>
+  </form>
+</mat-card>

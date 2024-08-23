@@ -7,16 +7,7 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { DialogMessageService } from "src/app/services/dialog-message/dialog-message/dialog-message.service";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
-
-export interface CalendarEventList {
-  slNo: number;
-  calendarEventId: string;
-  title: string;
-  startDate: Date;
-  endDate: Date;
-  location: string;
-  description: string;
-}
+import { CalendarEventList } from "./calendar-events-model";
 
 export const CALENDAREVENT_DATA: CalendarEventList[] = [
   {
@@ -109,12 +100,9 @@ export class CalendarEventsComponent {
 
   openAddEditCalendarEventsForm(id?: string) {
     if (id !== undefined) {
-      this.router.navigate(["/campus-configuration/addEditCalendarEvent", id]);
+      this.router.navigate(["/campus-configuration", id]);
     } else {
-      this.router.navigate([
-        "/campus-configuration/addEditCalendarEvent",
-        "new",
-      ]);
+      this.router.navigate(["/campus-configuration", ""]);
     }
   }
 

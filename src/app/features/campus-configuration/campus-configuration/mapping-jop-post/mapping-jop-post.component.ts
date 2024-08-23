@@ -7,14 +7,8 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { DialogMessageService } from "src/app/services/dialog-message/dialog-message/dialog-message.service";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
+import { MappingJobPostList } from "./mapping-job-post-model";
 
-export interface MappingJobPostList {
-  slNo: number;
-  id: number;
-  JobPostName: string;
-  streams: string;
-  actions: string;
-}
 export const mappingJobPost_Data: MappingJobPostList[] = [
   {
     slNo: 1,
@@ -85,13 +79,10 @@ export class MappingJopPostComponent {
   selection = new SelectionModel<MappingJobPostList>(true, []);
 
   openAddEditMappingJobPostForm(id?: number) {
-    if (id !== undefined) {
-      this.router.navigate(["/campus-configuration/addEditMappingJobPost", id]);
+    if (id !== undefined && id !== null) {
+      this.router.navigate(["/campus-configuration", id]);
     } else {
-      this.router.navigate([
-        "/campus-configuration/addEditMappingJobPost",
-        "new",
-      ]);
+      this.router.navigate(["/campus-configuration", 0]);
     }
   }
 

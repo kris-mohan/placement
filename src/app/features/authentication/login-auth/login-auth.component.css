@@ -1,0 +1,141 @@
+.logo-wrapper {
+  position: absolute;
+  top: 0%;
+  right: 0px;
+}
+
+.logo {
+  width: 75%;
+}
+
+/* @keyframes fadeInScaleUp {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+} */
+
+@keyframes fadeInScaleUp {
+  0%,
+  100% {
+    opacity: 0.9;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.login-form {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d7e0f9;
+  position: relative;
+}
+
+.matCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  background-color: #d7e0f9;
+  height: 100vh;
+}
+
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  background-color: #d7e0f9;
+  height: 100%;
+}
+
+.image-section,
+.form-section {
+  flex: 1;
+  min-width: 300px;
+}
+
+.image-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  flex-direction: column;
+  animation: fadeInScaleUp 4s ease-in-out infinite;
+}
+
+.login-image {
+  width: 100%;
+  height: auto;
+  margin: auto;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); */
+  background-color: #d7e0f9;
+}
+
+.full-width {
+  width: 100%;
+  max-width: 300px;
+  --mat-form-field-container-height: 50px;
+  --mat-form-field-filled-with-label-container-padding-top: 20px;
+  box-shadow: 6px 5px 8px rgb(0 0 0 / 10%);
+}
+
+.matCardContent {
+  padding-left: 0px;
+}
+
+.card-title {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2%;
+}
+
+.card-subtitle {
+  font-size: 16px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.login-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 300px;
+  padding-left: 0px;
+}
+
+.anchorTags {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.anchorTags a {
+  color: #3b6ab0;
+  text-decoration: none;
+  cursor: pointer;
+}
+.title {
+  margin-bottom: 15%;
+  font-size: xxx-large;
+}

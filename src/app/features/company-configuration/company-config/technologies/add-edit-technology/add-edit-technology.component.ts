@@ -11,10 +11,7 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  TECHNOLOGIES_DATA,
-  TechnologyTableList,
-} from "../technologies.component";
+import { TECHNOLOGIES_DATA } from "../technologies.component";
 
 @Component({
   selector: "app-add-edit-technology",
@@ -24,8 +21,6 @@ import {
   styleUrl: "./add-edit-technology.component.css",
 })
 export class AddEditTechnologyComponent implements OnInit {
-  // @Input() technologyTableList: TechnologyTableList | null = null;
-  // @Output() formSubmit = new EventEmitter<TechnologyTableList>();
   addEditTechnologyForm: FormGroup;
   technologyId: number | null = null;
 
@@ -45,7 +40,7 @@ export class AddEditTechnologyComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get("id");
+      const id = params.get("technologyId");
       this.technologyId = id !== null ? +id : null;
       if (this.technologyId) {
         const technology = TECHNOLOGIES_DATA.find(

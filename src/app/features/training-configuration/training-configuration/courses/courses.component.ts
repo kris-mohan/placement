@@ -5,15 +5,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
-
-export interface CourseTableList {
-  slNo: number;
-  courseId: number;
-  courseName: string;
-  description: string;
-  createdDate: string;
-  actions: string;
-}
+import { CourseTableList } from "./courses-model";
 
 export const courseTableList_Data: CourseTableList[] = [
   {
@@ -91,9 +83,9 @@ export class CoursesComponent {
 
   openAddEditCourseForm(courseId?: number) {
     if (courseId != undefined) {
-      this.router.navigate(["training-configuration/addEditCourse", courseId]);
+      this.router.navigate(["training-configuration", courseId]);
     } else {
-      this.router.navigate(["training-configuration/addEditCourse", "new"]);
+      this.router.navigate(["training-configuration", 0]);
     }
   }
 

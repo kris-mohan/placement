@@ -7,15 +7,8 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { AddEditCompanyComponent } from "../companies/add-edit-company/add-edit-company.component";
 import { Router } from "@angular/router";
+import { companyTableList } from "./company-technolog-model";
 
-export interface companyTableList {
-  slNo: number;
-  id: number;
-  name: string;
-  url: string;
-  address: string;
-  actions: string;
-}
 export const COMPANyTechnology_DATA: companyTableList[] = [
   {
     slNo: 1,
@@ -102,10 +95,10 @@ export class CompanyTechnologyComponent {
   constructor(private router: Router, private location: Location) {}
 
   openAddEditCompanyTechnologyForm(Id?: number) {
-    if (Id != undefined) {
-      this.router.navigate(["company-configuration/addEditCompanyTech", Id]);
+    if (Id !== undefined && Id !== null) {
+      this.router.navigate(["company-configuration", Id]);
     } else {
-      this.router.navigate(["company-configuration/addEditCompanyTech", "new"]);
+      this.router.navigate(["company-configuration", 0]);
     }
   }
 

@@ -14,11 +14,11 @@ const loggerConfig = {
   level: NgxLoggerLevel.DEBUG,
   serverLogLevel: NgxLoggerLevel.ERROR,
 };
+
 bootstrapApplication(AppComponent, {
   providers: [
     provideProtractorTestingSupport(),
     provideRouter(appRoutes, withComponentInputBinding()),
-    provideAnimationsAsync(),
     provideAnimationsAsync(),
     provideHttpClient(),
     { provide: "LOCALSTORAGE", useValue: localStorage },

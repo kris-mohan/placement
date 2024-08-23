@@ -1,4 +1,4 @@
-import { NgxLoggerLevel } from 'ngx-logger';
+import { NgxLoggerLevel } from "ngx-logger";
 
 // The file contents for the current environment will overwrite these during build.
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
@@ -8,5 +8,6 @@ import { NgxLoggerLevel } from 'ngx-logger';
 export const environment = {
   production: false,
   logLevel: NgxLoggerLevel.TRACE,
-  serverLogLevel: NgxLoggerLevel.OFF
+  serverLogLevel: NgxLoggerLevel.OFF,
+  API_URL: "https://localhost:44398/odata",
 };

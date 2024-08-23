@@ -7,57 +7,12 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { DialogMessageService } from "src/app/services/dialog-message/dialog-message/dialog-message.service";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
+import { APIService } from "src/app/services/api-services/api-services";
+import { companyTableList } from "./companies-model";
 
-export interface companyTableList {
-  slNo: number;
-  id: number;
-  name: string;
-  url: string;
-  address: string;
-  actions: string;
+export interface ODataResponse<T> {
+  value: T[];
 }
-export const COMPANIES_DATA: companyTableList[] = [
-  {
-    slNo: 1,
-    id: 1,
-    name: "Tech Innovators Inc.",
-    url: "https://www.techinnovators.com",
-    address: "123 Innovation Drive, Tech City, TX 75001",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 2,
-    id: 2,
-    name: "Green Solutions Ltd.",
-    url: "https://www.greensolutions.com",
-    address: "456 Green Way, Eco Town, CA 94016",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 3,
-    id: 3,
-    name: "HealthCare Partners",
-    url: "https://www.healthcarepartners.com",
-    address: "789 Health St, Wellness City, NY 10001",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 4,
-    id: 4,
-    name: "Finance Experts LLC",
-    url: "https://www.financeexperts.com",
-    address: "321 Wealth Blvd, Money City, FL 33101",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 5,
-    id: 5,
-    name: "EduVision Corp.",
-    url: "https://www.eduvision.com",
-    address: "654 Knowledge Lane, Learning Town, MA 02108",
-    actions: "Edit, Delete",
-  },
-];
 
 @Component({
   selector: "app-companies",
@@ -69,34 +24,46 @@ export const COMPANIES_DATA: companyTableList[] = [
 export class CompaniesComponent {
   constructor(
     private router: Router,
-    private dialogService: DialogMessageService,
     private sweetAlertService: SweetAlertService,
-    private location: Location
+    private location: Location,
+    private apiService: APIService
   ) {}
   displayedColumns: string[] = [
-    "slNo",
-    "id",
-    "name",
-    "url",
-    "address",
-    "actions",
+    "CompanyId",
+    "CompanyName",
+    "Location",
+    "Actions",
   ];
   columns = [
-    { key: "slNo", label: "Sl No" },
-    { key: "id", label: "Id" },
-    { key: "name", label: "Name" },
-    { key: "url", label: "URL" },
-    { key: "address", label: "Address" },
-    { key: "actions", label: "Actions" },
+    { key: "CompanyId", label: "Company Id" },
+    { key: "CompanyName", label: "Company Name" },
+    { key: "Location", label: "Location" },
+    { key: "Actions", label: "Actions" },
   ];
-  dataSource = new MatTableDataSource<companyTableList>(COMPANIES_DATA);
+  dataSource = new MatTableDataSource<companyTableList>([]);
   selection = new SelectionModel<companyTableList>(true, []);
 
+  ngOnInit() {
+    this.loadCompanies();
+  }
+
+  loadCompanies() {
+    this.apiService.getCompanyList().subscribe({
+      next: (response: ODataResponse<companyTableList>) => {
+        console.log("API Response:", response);
+        this.dataSource.data = response.value;
+      },
+      error: (error) => {
+        console.error("Error loading companies", error);
+      },
+    });
+  }
+
   openAddEditCompanyForm(id?: number) {
-    if (id !== undefined) {
-      this.router.navigate(["/company-configuration/addEditCompany", id]);
+    if (id !== null && id !== undefined) {
+      this.router.navigate(["/company-configuration", id]);
     } else {
-      this.router.navigate(["/company-configuration/addEditCompany", "new"]);
+      this.router.navigate(["/company-configuration", 0]);
     }
   }
 
@@ -106,7 +73,7 @@ export class CompaniesComponent {
     );
     if (confirmed) {
       this.dataSource.data = this.dataSource.data.filter(
-        (company) => company.id !== id
+        (company) => company.CompanyId !== id
       );
       this.sweetAlertService.success("Company deleted successfully!");
     }

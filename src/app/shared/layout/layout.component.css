@@ -11,6 +11,7 @@
 .navbar-brand {
   text-decoration: none;
   color: white;
+  margin-left: 3%;
 }
 
 .navbar-container {
@@ -68,4 +69,9 @@ mat-sidenav {
 
 .headerLogo {
   width: 12%;
+}
+
+.matExpansionHeader {
+  padding: 0;
+  padding-right: 10%;
 }

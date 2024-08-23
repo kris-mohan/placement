@@ -1,0 +1,133 @@
+<mat-card class="mat-card">
+  <!-- <mat-card-header class="custom-card-header"> -->
+  <!-- <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="example-button-container"> -->
+  <mat-card-title>
+    <div class="header-wrapper">
+      <img
+        src="../../../../assets/images/sslogoglobal.png"
+        alt="logo"
+        class="TitleLogo"
+      />
+      <p class="header-title">Company Registration Form</p>
+      <div class="anchorTags" [routerLink]="['/login']">
+        <a> Login </a>
+      </div>
+    </div>
+    <div class="example-button-container">
+      <a [routerLink]="['/login']">
+        <mat-icon>keyboard_backspace</mat-icon>
+      </a>
+    </div>
+  </mat-card-title>
+  <!-- </div>
+      </div>
+    </div> -->
+  <!-- </mat-card-header> -->
+  <mat-divider></mat-divider>
+  <form>
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Company Name</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Company Name</mat-label>
+              <input matInput placeholder="Company Name" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Company Name</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Company Name</mat-label>
+              <input matInput placeholder="Company Name" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Company Name</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Company Name</mat-label>
+              <input matInput placeholder="Company Name" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Company Name</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Company Name</mat-label>
+              <input matInput placeholder="Company Name" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Company Name</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Company Name</mat-label>
+              <input matInput placeholder="Company Name" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Company Name</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Company Name</mat-label>
+              <input matInput placeholder="Company Name" />
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card-actions class="footer-actions">
+      <button
+        mat-raised-button
+        class="matbutton"
+        style="background-color: darkblue"
+      >
+        <p class="matName">Reset</p>
+      </button>
+      <button
+        mat-raised-button
+        class="matbutton"
+        type="submit"
+        style="background-color: darkblue"
+      >
+        <p class="matName">Submit</p>
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

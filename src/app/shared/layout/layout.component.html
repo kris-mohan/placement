@@ -7,7 +7,7 @@
     </button>
     <img
       class="headerLogo"
-      src="../../../assets/images/sslogoglobal.png"
+      src="../../../assets/images/Softserve-logo1white.png"
       alt="ssgLogo"
     />
     <a class="navbar-brand" [routerLink]="['/']" matTooltip="Home">
@@ -50,7 +50,7 @@
         <span>Account</span>
       </a>
 
-      <a mat-menu-item [routerLink]="['/auth/login']">
+      <a mat-menu-item [routerLink]="['login']">
         <mat-icon>exit_to_app</mat-icon>
         <span>Log out</span>
       </a>
@@ -80,41 +80,157 @@
           </div>
         </a>
 
-        <a
-          mat-list-item
-          [routerLink]="['/company-configuration']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> business </mat-icon></div>
-            <div><mat-label>Company Configuration</mat-label></div>
-          </div>
-        </a>
+        <mat-expansion-panel style="box-shadow: none">
+          <mat-expansion-panel-header class="matExpansionHeader">
+            <a
+              mat-list-item
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <mat-panel-title>
+                <div class="sidebar-list-items">
+                  <div><mat-icon mat-list-icon> business </mat-icon></div>
+                  <div><mat-label>Configuartion</mat-label></div>
+                </div>
+              </mat-panel-title>
+            </a>
+          </mat-expansion-panel-header>
 
-        <a
-          mat-list-item
-          [routerLink]="['/campus-configuration']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> business </mat-icon></div>
-            <div><mat-label> Campus Configuration</mat-label></div>
-          </div>
-        </a>
+          <a
+            mat-list-item
+            [routerLink]="['/company-configuration']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="sidebar-list-items">
+              <div><mat-icon mat-list-icon> business </mat-icon></div>
+              <div><mat-label>Company Configuration</mat-label></div>
+            </div>
+          </a>
 
-        <a
-          mat-list-item
-          [routerLink]="['/training-configuration']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> people </mat-icon></div>
-            <div><mat-label>Trainig Configuration</mat-label></div>
-          </div>
-        </a>
+          <a
+            mat-list-item
+            [routerLink]="['/campus-configuration']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="sidebar-list-items">
+              <div><mat-icon mat-list-icon> business </mat-icon></div>
+              <div><mat-label> Campus Configuration</mat-label></div>
+            </div>
+          </a>
+
+          <a
+            mat-list-item
+            [routerLink]="['/training-configuration']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="sidebar-list-items">
+              <div><mat-icon mat-list-icon> people </mat-icon></div>
+              <div><mat-label>Trainig Configuration</mat-label></div>
+            </div>
+          </a>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel style="box-shadow: none">
+          <mat-expansion-panel-header class="matExpansionHeader">
+            <a
+              mat-list-item
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <mat-panel-title>
+                <div class="sidebar-list-items">
+                  <div><mat-icon mat-list-icon> business </mat-icon></div>
+                  <div><mat-label>Company Menu</mat-label></div>
+                </div>
+              </mat-panel-title>
+            </a>
+          </mat-expansion-panel-header>
+
+          <a
+            mat-list-item
+            [routerLink]="['/company-job-details']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="sidebar-list-items">
+              <div><mat-icon mat-list-icon> business </mat-icon></div>
+              <div><mat-label>Job Details</mat-label></div>
+            </div>
+          </a>
+
+          <a
+            mat-list-item
+            [routerLink]="['/test-interviews']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="sidebar-list-items">
+              <div><mat-icon mat-list-icon> business </mat-icon></div>
+              <div><mat-label>Test/Interviews</mat-label></div>
+            </div>
+          </a>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel style="box-shadow: none">
+          <mat-expansion-panel-header class="matExpansionHeader">
+            <a
+              mat-list-item
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <mat-panel-title>
+                <div class="sidebar-list-items">
+                  <div><mat-icon mat-list-icon> business </mat-icon></div>
+                  <div><mat-label>Placement Cell</mat-label></div>
+                </div>
+              </mat-panel-title>
+            </a>
+          </mat-expansion-panel-header>
+
+          <a
+            mat-list-item
+            [routerLink]="['/company-lists']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="sidebar-list-items">
+              <div><mat-icon>work_outline</mat-icon></div>
+              <div><mat-label>Company Lists</mat-label></div>
+            </div>
+          </a>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel style="box-shadow: none">
+          <mat-expansion-panel-header class="matExpansionHeader">
+            <a
+              mat-list-item
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <mat-panel-title>
+                <div class="sidebar-list-items">
+                  <div><mat-icon mat-list-icon> business </mat-icon></div>
+                  <div><mat-label>Student Menu</mat-label></div>
+                </div>
+              </mat-panel-title>
+            </a>
+          </mat-expansion-panel-header>
+
+          <a
+            mat-list-item
+            [routerLink]="['/job-list']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="sidebar-list-items">
+              <div><mat-icon>work_outline</mat-icon></div>
+              <div><mat-label>Job Invitations</mat-label></div>
+            </div>
+          </a>
+        </mat-expansion-panel>
       </mat-nav-list>
     </mat-sidenav>
 

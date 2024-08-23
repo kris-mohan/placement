@@ -1,0 +1,93 @@
+<mat-card>
+  <mat-card-header class="custom-card-header">
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="button-label-container">
+          <div class="example-button-container" (click)="goBack()">
+            <mat-icon>keyboard_backspace</mat-icon>
+          </div>
+          <div class="header-mat-label">
+            <mat-label>Rounds</mat-label>
+          </div>
+        </div>
+        <div class="example-button-container">
+          <button
+            mat-raised-button
+            class="matbutton"
+            (click)="openAddEditRounds()"
+          >
+            <mat-icon class="maticon">add</mat-icon>
+            <p class="matButtonText">Add Rounds</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel class="mat-expansion-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="mat-panel-title">
+            Job Id:
+            <mat-panel-description class="mat-panel-description">
+              345DES
+            </mat-panel-description>
+          </mat-panel-title>
+          <mat-panel-title class="mat-panel-title">
+            Job Name:
+            <mat-panel-description class="mat-panel-description">
+              Software Engineer
+            </mat-panel-description>
+          </mat-panel-title>
+          <mat-panel-title class="mat-panel-title">
+            Number of Rounds:
+            <mat-panel-description class="mat-panel-description">
+              4
+            </mat-panel-description>
+          </mat-panel-title>
+
+          <mat-panel-title class="mat-panel-title">
+            Duration:
+            <mat-panel-description class="mat-panel-description">
+              jan-20-2024 to mar-3-2024
+            </mat-panel-description>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>I'm visible because I am open</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
+        <th mat-header-cell *matHeaderCellDef>
+          <ng-container [ngSwitch]="column.key">
+            <ng-container *ngSwitchDefault>{{ column.label }} </ng-container>
+          </ng-container>
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          <ng-container [ngSwitch]="column.key">
+            <ng-container *ngSwitchCase="'actions'">
+              <div class="td-mat-button">
+                <button
+                  mat-icon-button
+                  (click)="openAddEditRounds(element.roundId)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button>
+                  <mat-icon> delete </mat-icon>
+                </button>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              {{ element[column.key] }}
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
