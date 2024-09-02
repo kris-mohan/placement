@@ -24,4 +24,6 @@ public partial class Jobposting
     public int? QuantityFilled { get; set; }
 
     public ulong? IsClosed { get; set; }
+
+    public bool Isdeleted { get; set; }
 }

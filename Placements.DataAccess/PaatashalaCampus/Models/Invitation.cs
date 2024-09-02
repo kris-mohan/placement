@@ -18,4 +18,6 @@ public partial class Invitation
     public string? From { get; set; }
 
     public ulong? IsAccepted { get; set; }
+
+    public bool Isdeleted { get; set; }
 }

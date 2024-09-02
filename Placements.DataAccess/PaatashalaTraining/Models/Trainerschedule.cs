@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Placements.DataAccess.PaatashalaTraining.Models;
@@ -11,7 +11,7 @@ public partial class Trainerschedule
 
     public long? SchoolId { get; set; }
 
-    public long? CourseId { get; set; }
+    public long? CourseId { get; set; } 
 
     public DateTime? StartDate { get; set; }
 
@@ -22,6 +22,8 @@ public partial class Trainerschedule
     public string? ScheduleType { get; set; }
 
     public long? StudentId { get; set; }
+
+    public bool IsDeleted { get; set; }
 
     public virtual Trainingcourse? Course { get; set; }
 

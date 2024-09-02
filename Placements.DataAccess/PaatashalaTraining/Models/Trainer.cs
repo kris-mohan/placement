@@ -15,5 +15,7 @@ public partial class Trainer
 
     public string? Password { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public virtual ICollection<Trainerschedule> Trainerschedules { get; set; } = new List<Trainerschedule>();
 }

@@ -18,4 +18,6 @@ public partial class Calendarevent
     public long? OrgId { get; set; }
 
     public long? CompanyId { get; set; }
+
+    public bool Isdeleted { get; set; }
 }

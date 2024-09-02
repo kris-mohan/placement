@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +25,7 @@ public partial class PaatashalatrainingContext : DbContext
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=akram@123;database=paatashalatraining");
+//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=paatashalatraining");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,6 +36,7 @@ public partial class PaatashalatrainingContext : DbContext
             entity.ToTable("trainers");
 
             entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.PhoneNumber).HasMaxLength(50);
@@ -52,6 +53,7 @@ public partial class PaatashalatrainingContext : DbContext
             entity.HasIndex(e => e.CourseId, "FK_TrainerSchedule_TrainingCourse");
 
             entity.Property(e => e.EndDate).HasColumnType("datetime");
+            entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
             entity.Property(e => e.ScheduleType).HasMaxLength(50);
             entity.Property(e => e.StartDate).HasColumnType("datetime");
 
@@ -71,6 +73,7 @@ public partial class PaatashalatrainingContext : DbContext
             entity.ToTable("trainingcourse");
 
             entity.Property(e => e.Description).HasMaxLength(50);
+            entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.ValidFrom).HasColumnType("datetime");
             entity.Property(e => e.ValidTill).HasColumnType("datetime");
@@ -84,6 +87,7 @@ public partial class PaatashalatrainingContext : DbContext
 
             entity.HasIndex(e => e.TrainingCourseId, "FK_TrainingModule_TrainingCourse");
 
+            entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.TrainingAssetFolder).HasMaxLength(50);
             entity.Property(e => e.TrainingMode).HasMaxLength(50);

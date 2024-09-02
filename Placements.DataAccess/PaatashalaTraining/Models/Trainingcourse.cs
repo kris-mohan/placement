@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Placements.DataAccess.PaatashalaTraining.Models;
@@ -14,6 +14,8 @@ public partial class Trainingcourse
     public DateTime? ValidFrom { get; set; }
 
     public DateTime? ValidTill { get; set; }
+
+    public bool IsDeleted { get; set; }
 
     public virtual ICollection<Trainerschedule> Trainerschedules { get; set; } = new List<Trainerschedule>();
 

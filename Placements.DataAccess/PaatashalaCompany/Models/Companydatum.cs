@@ -31,6 +31,10 @@ public partial class Companydatum
 
     public long? ParentCompanyId { get; set; }
 
+    public bool Isdeleted { get; set; }
+
+    public virtual ICollection<Companyindustry> Companyindustries { get; set; } = new List<Companyindustry>();
+
     public virtual ICollection<Companytechonology> Companytechonologies { get; set; } = new List<Companytechonology>();
 
     public virtual ICollection<Login> Logins { get; set; } = new List<Login>();

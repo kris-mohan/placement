@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Placements.DataAccess.PaatashalaTraining.Models;
@@ -14,6 +14,8 @@ public partial class Trainingmodule
     public string? TrainingMode { get; set; }
 
     public string? TrainingAssetFolder { get; set; }
+
+    public bool IsDeleted { get; set; }
 
     public virtual Trainingcourse? TrainingCourse { get; set; }
 }

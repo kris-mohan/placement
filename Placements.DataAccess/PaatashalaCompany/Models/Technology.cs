@@ -11,5 +11,7 @@ public partial class Technology
 
     public string? Description { get; set; }
 
+    public bool Isdeleted { get; set; }
+
     public virtual ICollection<Companytechonology> Companytechonologies { get; set; } = new List<Companytechonology>();
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +29,7 @@ public partial class PaatashalacampusContext : DbContext
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=akram@123;database=paatashalacampus");
+//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=paatashalacampus");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,6 +43,7 @@ public partial class PaatashalacampusContext : DbContext
             entity.Property(e => e.EventEndDateTime).HasColumnType("datetime");
             entity.Property(e => e.EventStartDateTime).HasColumnType("datetime");
             entity.Property(e => e.EventType).HasMaxLength(50);
+            entity.Property(e => e.Isdeleted).HasColumnName("isdeleted");
         });
 
         modelBuilder.Entity<Invitation>(entity =>
@@ -55,6 +56,7 @@ public partial class PaatashalacampusContext : DbContext
             entity.Property(e => e.Cc).HasMaxLength(50);
             entity.Property(e => e.From).HasMaxLength(50);
             entity.Property(e => e.IsAccepted).HasColumnType("bit(1)");
+            entity.Property(e => e.Isdeleted).HasColumnName("isdeleted");
             entity.Property(e => e.Recipients).HasMaxLength(50);
         });
 
@@ -65,6 +67,7 @@ public partial class PaatashalacampusContext : DbContext
             entity.ToTable("jobposting");
 
             entity.Property(e => e.IsClosed).HasColumnType("bit(1)");
+            entity.Property(e => e.Isdeleted).HasColumnName("isdeleted");
             entity.Property(e => e.JobDescription).HasMaxLength(50);
             entity.Property(e => e.JobRole).HasMaxLength(50);
             entity.Property(e => e.ValidFrom).HasColumnType("datetime");
@@ -77,6 +80,7 @@ public partial class PaatashalacampusContext : DbContext
 
             entity.ToTable("jobpostingdetails");
 
+            entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
             entity.Property(e => e.Streams).HasMaxLength(50);
         });
 
