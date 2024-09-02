@@ -38,15 +38,13 @@
               <div class="td-mat-button">
                 <button
                   mat-icon-button
-                  (click)="
-                    openAddEditCalendarEventsForm(element.calendarEventId)
-                  "
+                  (click)="openAddEditCalendarEventsForm(element.Id)"
                 >
                   <mat-icon> edit </mat-icon>
                 </button>
                 <button
                   mat-icon-button
-                  (click)="deleteCalendarEvent(element.calendarEventId)"
+                  (click)="deleteCalendarEvent(element.Id)"
                 >
                   <mat-icon> delete </mat-icon>
                 </button>

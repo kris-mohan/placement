@@ -1,10 +1,8 @@
-export type InvitationList = {
-  invitationid: number;
-  recipientName: string;
-  recipientEmail: string;
-  eventTitle: string;
-  eventDate: Date;
-  eventLocation: string;
-  message: string;
-  status: "pending" | "accepted" | "declined";
+export type Invitation = {
+  Id: number;
+  InvitationTemplateId: number;
+  Recipients: string;
+  Cc: string;
+  Bcc: string;
+  From: string;
 };

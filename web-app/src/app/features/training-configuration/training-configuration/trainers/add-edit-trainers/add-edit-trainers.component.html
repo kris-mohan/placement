@@ -8,7 +8,7 @@
       </div>
       <div>
         <p class="matHeaderName">
-          {{ TrainerId ? "Edit Trainer" : "Add Trainer" }}
+          {{ Id ? "Edit Trainer" : "Add Trainer" }}
         </p>
       </div>
     </div>
@@ -25,46 +25,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p>Company Name</p>
-          <mat-form-field>
-            <mat-label>Select Company name</mat-label>
-            <mat-select>
-              <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p>Technology Name</p>
-          <mat-form-field>
-            <mat-label>Select Technology name</mat-label>
-            <mat-select>
-              <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div fxLayout="row wrap">
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Trainer Name</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Trainer Name</mat-label>
+            <input matInput formControlName="Name" />
           </mat-form-field>
         </div>
 
@@ -74,10 +38,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Email</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="Email" type="email" />
           </mat-form-field>
         </div>
 
@@ -87,63 +51,27 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Contact Number</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div fxLayout="row wrap">
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Contact Number</mat-label>
+            <input matInput formControlName="PhoneNumber" />
           </mat-form-field>
         </div>
       </div>
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button mat-raised-button class="matbutton">
+    <button
+      mat-raised-button
+      class="matbutton"
+      (click)="onReset()"
+      type="button"
+    >
       <p class="matName">Reset</p>
     </button>
     <button mat-raised-button class="matbutton" type="submit">
       <p class="matName">
-        {{ TrainerId ? "Update" : "Add" }}
+        {{ Id ? "Update" : "Add" }}
       </p>
     </button>
   </mat-card-actions>

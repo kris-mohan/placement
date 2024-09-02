@@ -39,8 +39,12 @@ table {
 .maticon {
   color: white;
 }
-.matButtonText {
+.matName {
   color: white;
+}
+.mdc-checkbox__native-control {
+  border-color: var(--mdc-checkbox-selected-icon-color);
+  background-color: black;
 }
 .td-mat-button {
   display: flex;

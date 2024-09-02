@@ -21,82 +21,51 @@
     <mat-card-content>
       <div fxLayout="row wrap">
         <div
+          class="row-wrap-content"
           fxFlex="100%"
-          fxFlex.gt-md="33%"
+          fxFlex.gt-md="50%"
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+          <p>Training Timings</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Start Time</mat-label>
+            <input matInput [ngxTimepicker]="startTimePicker" />
+            <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
           </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+          <mat-form-field appearance="fill">
+            <mat-label>End Time</mat-label>
+            <input matInput [ngxTimepicker]="endTimePicker" />
+            <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
           </mat-form-field>
         </div>
       </div>
-
       <div fxLayout="row wrap">
         <div
+          class="row-wrap-content"
           fxFlex="100%"
-          fxFlex.gt-md="33%"
+          fxFlex.gt-md="50%"
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+          <p>Training Duration</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Start Date</mat-label>
+            <input matInput [matDatepicker]="startDatePicker" />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="startDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
           </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+          <mat-form-field appearance="fill">
+            <mat-label>End Date</mat-label>
+            <input matInput [matDatepicker]="endDatePicker" />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="endDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
           </mat-form-field>
         </div>
       </div>

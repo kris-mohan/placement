@@ -6,8 +6,10 @@ import { CompaniesComponent } from "./companies/companies.component";
 import { TechnologiesComponent } from "./technologies/technologies.component";
 import { RolesComponent } from "./roles/roles.component";
 import { CompanyTechnologyComponent } from "./company-technology/company-technology.component";
+import { IndustryComponent } from "./industry/industry.component";
 import { TabService } from "../tabs-service";
 import { MatTabGroup } from "@angular/material/tabs";
+import { CompanyIndustryComponent } from "./industry-technology/company-industry.component";
 
 @Component({
   selector: "app-company-config",
@@ -20,6 +22,8 @@ import { MatTabGroup } from "@angular/material/tabs";
     TechnologiesComponent,
     RolesComponent,
     CompanyTechnologyComponent,
+    IndustryComponent,
+    CompanyIndustryComponent,
   ],
   templateUrl: "./company-config.component.html",
   styleUrl: "./company-config.component.css",

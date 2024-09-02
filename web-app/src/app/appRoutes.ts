@@ -34,6 +34,8 @@ import { TestInterviewsComponent } from "./features/company-menu/test-interviews
 import { ScheduledJobsListComponent } from "./features/company-menu/test-interviews/scheduled-jobs-list/scheduled-jobs-list.component";
 import { StudentsListComponent } from "./features/company-menu/test-interviews/students-list/students-list.component";
 import { StudentResultInformation } from "./features/company-menu/test-interviews/student-result-information/student-result-information.component";
+import { AddEditIndustryComponent } from "./features/company-configuration/company-config/industry/add-edit-industry/add-edit-industry.component";
+import { AddEditcompanyIndustryComponent } from "./features/company-configuration/company-config/industry-technology/add-edit-industry-technology/add-edit-company-industry.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -81,6 +83,14 @@ const appRoutes: Routes = [
       {
         path: "company-configuration/role/:roleId",
         component: AddEditRoleComponent,
+      },
+      {
+        path: "company-configuration/industry/:industryId",
+        component: AddEditIndustryComponent,
+      },
+      {
+        path: "company-configuration/companyIndustry/:companyIndustryId",
+        component: AddEditcompanyIndustryComponent,
       },
 
       {

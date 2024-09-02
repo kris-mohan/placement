@@ -1,6 +1,8 @@
 export type companyTableList = {
-  CompanyId: number;
-  CompanyName: string;
-  Location: string;
+  Id: number;
+  Name: string;
+  ContactPerson: string;
+  City: string;
+  ZipCode: string;
   Actions: string;
 };

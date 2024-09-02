@@ -1,14 +1,13 @@
-import { SelectionModel } from "@angular/cdk/collections";
-import { CommonModule, Location } from "@angular/common";
 import { Component } from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
-import { AMGModules } from "src/AMG-Module/AMG-module";
-import { DialogMessageService } from "src/app/services/dialog-message/dialog-message/dialog-message.service";
-import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
-import { SharedModule } from "src/app/shared/shared.module";
 import { APIService } from "src/app/services/api-services/api-services";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { companyTableList } from "./companies-model";
+import { MatTableDataSource } from "@angular/material/table";
+import { CommonModule, Location } from "@angular/common";
+import { CompanyAPIService } from "./api.companies";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { SharedModule } from "src/app/shared/shared.module";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -17,7 +16,7 @@ export interface ODataResponse<T> {
 @Component({
   selector: "app-companies",
   standalone: true,
-  imports: [CommonModule, AMGModules, SharedModule],
+  imports: [AMGModules, CommonModule, SharedModule],
   templateUrl: "./companies.component.html",
   styleUrl: "./companies.component.css",
 })
@@ -26,29 +25,33 @@ export class CompaniesComponent {
     private router: Router,
     private sweetAlertService: SweetAlertService,
     private location: Location,
-    private apiService: APIService
+    private apiService: APIService,
+    private apiCompanyService: CompanyAPIService
   ) {}
   displayedColumns: string[] = [
-    "CompanyId",
-    "CompanyName",
-    "Location",
+    "Url",
+    "Name",
+    "ContactPerson",
+    "City",
+    "ZipCode",
     "Actions",
   ];
   columns = [
-    { key: "CompanyId", label: "Company Id" },
-    { key: "CompanyName", label: "Company Name" },
-    { key: "Location", label: "Location" },
+    { key: "Url", label: "Url" },
+    { key: "Name", label: "Name" },
+    { key: "ContactPerson", label: "Contact Person" },
+    { key: "City", label: "City" },
+    { key: "ZipCode", label: "ZipCode" },
     { key: "Actions", label: "Actions" },
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
-  selection = new SelectionModel<companyTableList>(true, []);
 
   ngOnInit() {
     this.loadCompanies();
   }
 
   loadCompanies() {
-    this.apiService.getCompanyList().subscribe({
+    this.apiCompanyService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
         console.log("API Response:", response);
         this.dataSource.data = response.value;
@@ -69,13 +72,26 @@ export class CompaniesComponent {
 
   async deleteCompany(id: number) {
     const confirmed = await this.sweetAlertService.confirmDelete(
-      "Do you really want to delete this company?"
+      "Do you really want to delete this Company?"
     );
+
     if (confirmed) {
-      this.dataSource.data = this.dataSource.data.filter(
-        (company) => company.CompanyId !== id
-      );
-      this.sweetAlertService.success("Company deleted successfully!");
+      this.apiCompanyService.deleteCompany(id).subscribe({
+        next: (response: { success: boolean; message: string }) => {
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+            this.loadCompanies();
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error(
+            "An unexpected error occurred while deleting the Company."
+          );
+          console.error("Error deleting Company:", error);
+        },
+      });
     }
   }
 

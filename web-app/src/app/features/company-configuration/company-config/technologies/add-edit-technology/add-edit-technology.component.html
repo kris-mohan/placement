@@ -9,7 +9,7 @@
       </div>
       <div>
         <p class="matHeaderName">
-          {{ technologyId ? "Edit Technology" : "Add Technology" }}
+          {{ Id ? "Edit Technology" : "Add Technology" }}
         </p>
       </div>
     </div>
@@ -26,10 +26,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Technology Name</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Technology Name</mat-label>
+            <input matInput formControlName="Name" />
           </mat-form-field>
         </div>
 
@@ -39,76 +39,27 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Description</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div fxLayout="row wrap">
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="Description"></textarea>
           </mat-form-field>
         </div>
       </div>
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button mat-raised-button class="matbutton">
+    <button
+      mat-raised-button
+      class="matbutton"
+      type="button"
+      (click)="onReset()"
+    >
       <p class="matName">Reset</p>
     </button>
     <button mat-raised-button class="matbutton" type="submit">
       <p class="matName">
-        {{ technologyId ? "Update" : "Add" }}
+        {{ Id ? "Update" : "Add" }}
       </p>
     </button>
   </mat-card-actions>

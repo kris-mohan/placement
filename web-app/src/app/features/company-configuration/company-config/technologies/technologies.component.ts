@@ -6,112 +6,13 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { AddEditTechnologyComponent } from "./add-edit-technology/add-edit-technology.component";
 import { Router } from "@angular/router";
-import { TechnologyTableList } from "./technologies-model";
+import { Technology } from "./technologies-module";
+import { TechnologyAPIService } from "./api-technology";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 
-export const TECHNOLOGIES_DATA: TechnologyTableList[] = [
-  {
-    slNo: 1,
-    comnpanyId: 1,
-    technologyId: 1,
-    name: "Angular",
-    description: "A framework for building web applications",
-    category: "Frontend",
-    version: "12.0",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 2,
-    comnpanyId: 1,
-    technologyId: 2,
-    name: "React",
-    description: "A library for building user interfaces",
-    category: "Frontend",
-    version: "17.0",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 3,
-    comnpanyId: 1,
-    technologyId: 3,
-    name: "Vue.js",
-    description: "A progressive framework for building user interfaces",
-    category: "Frontend",
-    version: "3.0",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 4,
-    comnpanyId: 2,
-    technologyId: 4,
-    name: "Node.js",
-    description:
-      "A runtime for building server-side applications with JavaScript",
-    category: "Backend",
-    version: "14.0",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 5,
-    comnpanyId: 2,
-    technologyId: 5,
-    name: "Express.js",
-    description: "A web application framework for Node.js",
-    category: "Backend",
-    version: "4.17",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 6,
-    comnpanyId: 2,
-    technologyId: 6,
-    name: "Django",
-    description: "A high-level Python web framework",
-    category: "Backend",
-    version: "3.2",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 7,
-    comnpanyId: 2,
-    technologyId: 7,
-    name: "Flask",
-    description: "A micro web framework written in Python",
-    category: "Backend",
-    version: "2.0",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 8,
-    comnpanyId: 3,
-    technologyId: 8,
-    name: "Spring Boot",
-    description:
-      "A framework for building production-ready applications in Java",
-    category: "Backend",
-    version: "2.5",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 9,
-    comnpanyId: 3,
-    technologyId: 9,
-    name: "Laravel",
-    description: "A PHP framework for web artisans",
-    category: "Backend",
-    version: "8.0",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 10,
-    comnpanyId: 3,
-    technologyId: 10,
-    name: "Ruby on Rails",
-    description: "A server-side web application framework written in Ruby",
-    category: "Backend",
-    version: "6.1",
-    actions: "Edit, Delete",
-  },
-];
+export interface ODataResponse<T> {
+  value: T[];
+}
 
 @Component({
   selector: "app-technologies",
@@ -121,40 +22,80 @@ export const TECHNOLOGIES_DATA: TechnologyTableList[] = [
   styleUrl: "./technologies.component.css",
 })
 export class TechnologiesComponent {
-  constructor(private router: Router, private location: Location) {}
+  constructor(
+    private router: Router,
+    private location: Location,
+    private apiTechnologyService: TechnologyAPIService,
+    private sweetAlertService: SweetAlertService
+  ) {
+    this.generateColumns();
+  }
 
-  displayedColumns: string[] = [
-    "select",
-    "slNo",
-    "technologyId",
-    "name",
-    "description",
-    "category",
-    "version",
-    "actions",
-  ];
+  displayedColumns: string[] = ["Id", "Name", "Description", "Actions"];
 
-  columns = [
-    { key: "select", label: "" },
-    { key: "slNo", label: "Sl No" },
-    { key: "technologyId", label: "Technology Id" },
-    { key: "name", label: "Name" },
-    { key: "description", label: "Description" },
-    { key: "category", label: "Category" },
-    { key: "version", label: "Version" },
-    { key: "actions", label: "Actions" },
-  ];
+  columns: { key: string; label: string }[] = [];
 
-  dataSource = new MatTableDataSource<TechnologyTableList>(TECHNOLOGIES_DATA);
-  selection = new SelectionModel<TechnologyTableList>(true, []);
-  selectedTechnology: AddEditTechnologyComponent | null = null;
-  isEditTechnology = false;
+  generateColumns(): void {
+    this.displayedColumns.forEach((column) => {
+      this.columns.push({
+        key: column,
+        label: this.formatLabel(column),
+      });
+    });
+  }
 
+  formatLabel(key: string): string {
+    return key
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (str) => str.toUpperCase());
+  }
+  dataSource = new MatTableDataSource<Technology>([]);
+  selection = new SelectionModel<Technology>(true, []);
+
+  ngOnInit() {
+    this.loadTechnologyData();
+  }
+
+  loadTechnologyData() {
+    this.apiTechnologyService.loadTechnologyData().subscribe({
+      next: (response: ODataResponse<any>) => {
+        console.log("API Response:", response);
+        this.dataSource.data = response.value;
+      },
+      error: (error) => {
+        console.error("Error loading technology", error);
+      },
+    });
+  }
   openAddEditTechnologyForm(technologyId?: number) {
     if (technologyId !== undefined) {
       this.router.navigate(["/company-configuration/technology", technologyId]);
     } else {
       this.router.navigate(["/company-configuration/technology", null]);
+    }
+  }
+
+  async deleteTechnology(id: number) {
+    const confirmed = await this.sweetAlertService.confirmDelete(
+      "Do you really want to delete this Technology?"
+    );
+
+    if (confirmed) {
+      this.apiTechnologyService.deleteTechnology(id).subscribe({
+        next: (response: { success: boolean; message: string }) => {
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+            this.loadTechnologyData();
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error(
+            "An unexpected error occurred while deleting the Technology."
+          );
+        },
+      });
     }
   }
 

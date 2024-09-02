@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
-import { catchError, retry } from "rxjs/operators";
+import { catchError, retry, switchAll, switchMap } from "rxjs/operators";
 
 @Injectable({ providedIn: "root" })
 export class ApiHttpService {
@@ -20,7 +20,16 @@ export class ApiHttpService {
   public put(url: string, data: any, options?: any): Observable<any> {
     return this.http.put(this.baseUrl + url, data);
   }
+
+  public patch(url: string, data: any, options?: any): Observable<any> {
+    return this.http.patch(this.baseUrl + url, data);
+  }
+
   public delete(url: string, options?: any) {
     return this.http.delete(this.baseUrl + url);
+  }
+
+  public loginpost(url: string, data: any, options?: any): Observable<any> {
+    return this.http.post(url, data);
   }
 }

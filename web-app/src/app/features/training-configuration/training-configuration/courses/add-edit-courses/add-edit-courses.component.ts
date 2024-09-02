@@ -2,55 +2,112 @@ import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
-import { courseTableList_Data } from "../courses.component";
+import { ODataResponse } from "../courses.component";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
-import { TabService } from "src/app/features/company-configuration/tabs-service";
-
+import { TrainingCourseAPIService } from "../api.course";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import { NgxMomentDateModule } from "@angular-material-components/moment-adapter";
+import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
+import * as moment from "moment";
 @Component({
   selector: "app-add-edit-courses",
   standalone: true,
-  imports: [CommonModule, AMGModules, SharedModule],
+  imports: [
+    CommonModule,
+    AMGModules,
+    SharedModule,
+    NgxMomentDateModule,
+    NgxMaterialTimepickerModule,
+  ],
   templateUrl: "./add-edit-courses.component.html",
   styleUrl: "./add-edit-courses.component.css",
 })
 export class AddEditCoursesComponent {
   addEditCourseForm: FormGroup;
-  CourseId: number | null = null;
+  Id: number | null = null;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private tabService: TabService
+    private apiTrainingCourse: TrainingCourseAPIService,
+    private sweetAlertService: SweetAlertService
   ) {
     this.addEditCourseForm = this.fb.group({
-      roleId: [null],
-      roleName: ["", Validators.required],
-      description: ["", Validators.required],
-      createdDate: ["", Validators.required],
+      Name: "",
+      Description: "",
+      ValidFrom: "",
+      ValidTill: "",
     });
   }
 
   ngOnInit(): void {
+    this.getTrainingCourseById();
+  }
+
+  getTrainingCourseById(): void {
     this.route.paramMap.subscribe((params) => {
       const id = params.get("id");
-      this.CourseId = id !== null ? +id : null;
-      if (this.CourseId) {
-        const course = courseTableList_Data.find(
-          (t) => t.courseId === this.CourseId
-        );
-        if (course) {
-          this.addEditCourseForm.patchValue(course);
-        }
+      this.Id = id !== null ? +id : null;
+      if (this.Id) {
+        this.apiTrainingCourse.getTrainingCourseDataById(this.Id).subscribe({
+          next: (response: ODataResponse<any>) => {
+            const company = response.value[0];
+            if (company) {
+              this.addEditCourseForm.patchValue(company);
+            }
+          },
+          error: (error) => {
+            console.error(
+              `Error fetching Training Course data by ${this.Id}`,
+              error
+            );
+          },
+        });
       }
     });
   }
 
-  onSubmit(): void {
-    // if (this.addEditTechnologyForm.valid) {
-    //   this.formSubmit.emit(this.addEditTechnologyForm.value);
-    //   this.router.navigate(["/company-config"]);
-    // }
+  async onSubmit(): Promise<void> {
+    const courseData: Partial<any> = this.addEditCourseForm.value;
+    if (courseData["ValidFrom"]) {
+      courseData["ValidFrom"] = moment(courseData["ValidFrom"]).format(
+        "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+      );
+    }
+    if (courseData["ValidTill"]) {
+      courseData["ValidTill"] = moment(courseData["ValidTill"]).format(
+        "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+      );
+    }
+    const isUpdate = !!this.Id;
+    const actionText = isUpdate ? "update" : "add";
+    const confirmed = await this.sweetAlertService.confirm(
+      `Do you want to ${actionText} this course?`
+    );
+
+    if (confirmed) {
+      this.apiTrainingCourse
+        .addUpdateTrainingCourse(this.Id, courseData)
+        .subscribe({
+          next: (response: { success: boolean; message: any }) => {
+            console.log(response);
+            if (response.success) {
+              this.router.navigate(["/training-configuration"]);
+              this.sweetAlertService.success(response.message);
+            } else {
+              this.sweetAlertService.error(response.message);
+            }
+          },
+          error: (error) => {
+            this.sweetAlertService.error("An unexpected error occurred.");
+          },
+        });
+    }
+  }
+
+  onReset() {
+    this.addEditCourseForm.reset();
   }
 }

@@ -1,0 +1,66 @@
+<!-- <mat-card> -->
+<mat-card-header class="custom-card-header">
+  <div class="example-button-row">
+    <div class="example-flex-container">
+      <div class="example-button-container">
+        <a [routerLink]="['/company-configuration']">
+          <mat-icon>keyboard_backspace</mat-icon>
+        </a>
+      </div>
+      <div>
+        <p class="matHeaderName">
+          {{ Id ? "Edit Industry" : "Add Industry" }}
+        </p>
+      </div>
+    </div>
+  </div>
+</mat-card-header>
+<mat-divider></mat-divider>
+<form [formGroup]="addEditIndustryForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-content>
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Industry Type</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Industry Type</mat-label>
+            <input matInput formControlName="Type" />
+          </mat-form-field>
+        </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Description</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="Description" />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card-actions class="footer-actions">
+    <button
+      mat-raised-button
+      class="matbutton"
+      type="button"
+      (click)="onReset()"
+    >
+      <p class="matName">Reset</p>
+    </button>
+    <button mat-raised-button class="matbutton" type="submit">
+      <p class="matName">
+        {{ Id ? "Update" : "Add" }}
+      </p>
+    </button>
+  </mat-card-actions>
+</form>
+<!-- </mat-card> -->

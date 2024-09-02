@@ -7,57 +7,12 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { DialogMessageService } from "src/app/services/dialog-message/dialog-message/dialog-message.service";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
-import { CalendarEventList } from "./calendar-events-model";
+import { Calendarevent } from "./calendar-events-module";
+import { CalendarEventAPIService } from "./api.calendar.events";
 
-export const CALENDAREVENT_DATA: CalendarEventList[] = [
-  {
-    slNo: 1,
-    calendarEventId: "E001",
-    title: "Team Meeting",
-    startDate: new Date("2024-08-01T10:00:00"),
-    endDate: new Date("2024-08-01T11:00:00"),
-    location: "Conference Room A",
-    description:
-      "Monthly team meeting to discuss project updates and milestones.",
-  },
-  {
-    slNo: 2,
-    calendarEventId: "E002",
-    title: "Client Presentation",
-    startDate: new Date("2024-08-02T14:00:00"),
-    endDate: new Date("2024-08-02T15:00:00"),
-    location: "Client Office",
-    description: "Presentation of the new project proposal to the client.",
-  },
-  {
-    slNo: 3,
-    calendarEventId: "E003",
-    title: "Workshop",
-    startDate: new Date("2024-08-05T09:00:00"),
-    endDate: new Date("2024-08-05T12:00:00"),
-    location: "Main Auditorium",
-    description: "Workshop on new software development methodologies.",
-  },
-  {
-    slNo: 4,
-    calendarEventId: "E004",
-    title: "Project Deadline",
-    startDate: new Date("2024-08-10T00:00:00"),
-    endDate: new Date("2024-08-10T23:59:59"),
-    location: "Office",
-    description: "Final deadline for the current project.",
-  },
-  {
-    slNo: 5,
-    calendarEventId: "E005",
-    title: "Networking Event",
-    startDate: new Date("2024-08-15T18:00:00"),
-    endDate: new Date("2024-08-15T20:00:00"),
-    location: "Downtown Hotel",
-    description: "Networking event with industry professionals.",
-  },
-];
-
+export interface ODataResponse<T> {
+  value: T[];
+}
 @Component({
   selector: "app-calendar-events",
   standalone: true,
@@ -70,33 +25,39 @@ export class CalendarEventsComponent {
     private router: Router,
     private dialogService: DialogMessageService,
     private sweetAlertService: SweetAlertService,
-    private location: Location
-  ) {}
+    private location: Location,
+    private APICalendarEventsService: CalendarEventAPIService
+  ) {
+    this.generateColumns();
+  }
 
   displayedColumns: string[] = [
-    "select",
-    "slNo",
-    "calendarEventId",
-    "title",
-    "startDate",
-    "endDate",
-    "location",
-    "description",
-    "actions",
+    "Id",
+    "EventStartDateTime",
+    "EventEndDateTime",
+    "EventType",
+    "EventDescription",
+    "OrgId",
+    "CompanyId",
+    "Actions",
   ];
-  columns = [
-    { key: "select", label: "" },
-    { key: "slNo", label: "Sl No" },
-    { key: "calendarEventId", label: "Calendar Event Id" },
-    { key: "title", label: "Title" },
-    { key: "startDate", label: "Start Date" },
-    { key: "endDate", label: "End Date" },
-    { key: "location", label: "Location" },
-    { key: "description", label: "Description" },
-    { key: "actions", label: "Actions" },
-  ];
-  dataSource = new MatTableDataSource<CalendarEventList>(CALENDAREVENT_DATA);
-  selection = new SelectionModel<CalendarEventList>(true, []);
+  columns: { key: string; label: string }[] = [];
+  dataSource = new MatTableDataSource<Calendarevent>([]);
+
+  generateColumns(): void {
+    this.displayedColumns.forEach((column) => {
+      this.columns.push({
+        key: column,
+        label: this.formatLabel(column),
+      });
+    });
+  }
+
+  formatLabel(key: string): string {
+    return key
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (str) => str.toUpperCase());
+  }
 
   openAddEditCalendarEventsForm(id?: string) {
     if (id !== undefined) {
@@ -106,15 +67,44 @@ export class CalendarEventsComponent {
     }
   }
 
-  async deleteCalendarEvent(id: string) {
+  ngOnInit() {
+    this.loadCalendarEventData();
+  }
+
+  loadCalendarEventData() {
+    this.APICalendarEventsService.loadCalendarEventData().subscribe({
+      next: (response: ODataResponse<any>) => {
+        console.log("API Response:", response);
+        this.dataSource.data = response.value;
+      },
+      error: (error) => {
+        console.error("Error loading Calendar Event", error);
+      },
+    });
+  }
+
+  async deleteCalendarEvent(id: number) {
     const confirmed = await this.sweetAlertService.confirmDelete(
       "Do you really want to delete this Calendar Event?"
     );
+
     if (confirmed) {
-      this.dataSource.data = this.dataSource.data.filter(
-        (cal) => cal.calendarEventId !== id
-      );
-      this.sweetAlertService.success("Calendar Event deleted successfully!");
+      this.APICalendarEventsService.deleteCalendarEvent(id).subscribe({
+        next: (response: { success: boolean; message: string }) => {
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+            this.loadCalendarEventData();
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error(
+            "An unexpected error occurred while deleting the Calendar Event."
+          );
+          console.error("Error deleting Calendar Event:", error);
+        },
+      });
     }
   }
 

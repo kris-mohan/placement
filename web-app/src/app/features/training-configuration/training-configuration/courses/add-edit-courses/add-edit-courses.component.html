@@ -8,7 +8,7 @@
       </div>
       <div>
         <p class="matHeaderName">
-          {{ CourseId ? "Edit Course details" : "Add Course details" }}
+          {{ Id ? "Edit Course details" : "Add Course details" }}
         </p>
       </div>
     </div>
@@ -25,14 +25,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p>Company Name</p>
-          <mat-form-field>
-            <mat-label>Select Company name</mat-label>
-            <mat-select>
-              <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
-            </mat-select>
+          <p class="grid-label">Course Name</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Course Name</mat-label>
+            <input matInput formControlName="Name" />
           </mat-form-field>
         </div>
 
@@ -42,14 +38,32 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p>Technology Name</p>
-          <mat-form-field>
-            <mat-label>Select Technology name</mat-label>
-            <mat-select>
-              <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
-            </mat-select>
+          <p class="grid-label">Description</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="Description" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>Valid From</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Valid From</mat-label>
+            <input
+              matInput
+              [matDatepicker]="startDatePicker"
+              formControlName="ValidFrom"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="startDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
           </mat-form-field>
         </div>
       </div>
@@ -61,89 +75,36 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div fxLayout="row wrap">
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+          <p>Valid Till</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Valid Till</mat-label>
+            <input
+              matInput
+              [matDatepicker]="endDatePicker"
+              formControlName="ValidTill"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="endDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
           </mat-form-field>
         </div>
       </div>
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button mat-raised-button class="matbutton">
+    <button
+      mat-raised-button
+      class="matbutton"
+      type="button"
+      (click)="onReset()"
+    >
       <p class="matName">Reset</p>
     </button>
     <button mat-raised-button class="matbutton" type="submit">
       <p class="matName">
-        {{ CourseId ? "Update" : "Add" }}
+        {{ Id ? "Update" : "Add" }}
       </p>
     </button>
   </mat-card-actions>

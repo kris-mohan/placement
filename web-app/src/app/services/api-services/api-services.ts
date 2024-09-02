@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { ODataResponse } from "src/app/features/company-configuration/company-config/companies/companies.component";
 import { employeeDataList } from "src/app/features/placement-cell/placement-cell/eligible-students-list/eligible-students-list-model";
+import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
 
 @Injectable({
   providedIn: "root",

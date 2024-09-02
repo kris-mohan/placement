@@ -8,7 +8,7 @@
       </div>
       <div>
         <p class="matHeaderName">
-          {{ companyId ? "Edit Company" : "Add Company" }}
+          {{ Id ? "Edit Company" : "Add Company" }}
         </p>
       </div>
     </div>
@@ -28,11 +28,7 @@
           <p class="grid-label">Company Name</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Company Name</mat-label>
-            <input
-              matInput
-              placeholder="Company Name"
-              formControlName="CompanyName"
-            />
+            <input matInput formControlName="Name" />
           </mat-form-field>
         </div>
 
@@ -42,31 +38,27 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Location Name</p>
+          <p class="grid-label">URL</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Location Name</mat-label>
-            <input
-              matInput
-              placeholder="Location Name"
-              formControlName="Location"
-            />
+            <mat-label>URL</mat-label>
+            <input matInput formControlName="Url" />
           </mat-form-field>
         </div>
-        <!-- 
+
         <div
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Contact Person</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Contact Person</mat-label>
+            <input matInput formControlName="ContactPerson" />
           </mat-form-field>
-        </div> -->
+        </div>
       </div>
-      <!-- 
+
       <div fxLayout="row wrap">
         <div
           fxFlex="100%"
@@ -74,10 +66,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">City</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>City</mat-label>
+            <input matInput formControlName="City" />
           </mat-form-field>
         </div>
 
@@ -87,35 +79,27 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Zip Code</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Zip Code</mat-label>
+            <input matInput formControlName="ZipCode" />
           </mat-form-field>
         </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
-          </mat-form-field>
-        </div>
-      </div> -->
+      </div>
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button mat-raised-button class="matbutton" (click)="onReset()">
+    <button
+      mat-raised-button
+      class="matbutton"
+      (click)="onReset()"
+      type="button"
+    >
       <p class="matName">Reset</p>
     </button>
     <button mat-raised-button class="matbutton" type="submit">
       <p class="matName">
-        {{ companyId ? "Update" : "Add" }}
+        {{ Id ? "Update" : "Add" }}
       </p>
     </button>
   </mat-card-actions>

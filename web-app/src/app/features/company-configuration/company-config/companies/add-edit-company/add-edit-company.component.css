@@ -11,20 +11,15 @@ button {
 .matName {
   color: white;
 }
-.mdc-checkbox__native-control:enabled:indeterminate
-  ~ .mdc-checkbox__background {
-  border-color: var(--mdc-checkbox-selected-icon-color);
-  background-color: black;
-}
+
 .formGrid {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: start;
+  justify-content: end;
 }
 .matHeaderName {
   font-weight: bolder;
 }
-
 .matFormField {
   width: 90%;
 }
@@ -45,3 +40,14 @@ button {
 .footer-actions button {
   margin-left: 10px;
 }
+
+.mat-card {
+  height: 100vh;
+}
+.row-wrap {
+  display: unset;
+}
+/* .row-wrap-content {
+  display: flex;
+  justify-content: space-between;
+} */

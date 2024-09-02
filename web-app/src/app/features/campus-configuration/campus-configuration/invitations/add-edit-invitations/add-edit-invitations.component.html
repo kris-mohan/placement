@@ -9,14 +9,14 @@
       </div>
       <div>
         <p class="matHeaderName">
-          {{ inviteId ? "Edit Invitation Details" : "Add Invitation Details" }}
+          {{ Id ? "Edit Invitation Details" : "Add Invitation Details" }}
         </p>
       </div>
     </div>
   </div>
 </mat-card-header>
 <mat-divider></mat-divider>
-<form [formGroup]="addEditInvitationForm">
+<form [formGroup]="addEditInvitationForm" (ngSubmit)="onSubmit()">
   <mat-card>
     <mat-card-content>
       <div fxLayout="row wrap">
@@ -26,10 +26,17 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+          <p class="grid-label">Invitation Template</p>
+          <mat-form-field appearance="fill" class="matFormField">
+            <mat-label>Invitation Template</mat-label>
+            <mat-select formControlName="InvitationTemplateId">
+              <mat-option
+                *ngFor="let invitationTemplate of invitationTemplates"
+                [value]="invitationTemplate.id"
+              >
+                {{ invitationTemplate.name }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
 
@@ -39,10 +46,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Recipients</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Recipients</mat-label>
+            <input matInput formControlName="Recipients" />
           </mat-form-field>
         </div>
 
@@ -52,10 +59,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Cc</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Cc</mat-label>
+            <input matInput formControlName="Cc" />
           </mat-form-field>
         </div>
       </div>
@@ -67,10 +74,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Bcc</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Bcc</mat-label>
+            <input matInput formControlName="Bcc" />
           </mat-form-field>
         </div>
 
@@ -80,35 +87,42 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">From</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>From</mat-label>
+            <input matInput formControlName="From" />
           </mat-form-field>
         </div>
 
-        <div
+        <!-- <div
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Is Accepted</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>IsAccepted</mat-label>
+            <input matInput formControlName="IsAccepted" />
           </mat-form-field>
-        </div>
+        </div> -->
       </div>
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button mat-raised-button class="matbutton">
+    <button
+      mat-raised-button
+      class="matbutton"
+      type="button"
+      (click)="onReset()"
+    >
       <p class="matName">Reset</p>
     </button>
     <button mat-raised-button class="matbutton" type="submit">
+      <mat-icon class="maticon">mail</mat-icon>
       <p class="matName">
-        {{ inviteId ? "Update" : "Add" }}
+        send
+        <!-- {{ inviteId ? "Update" : "Add" }} -->
       </p>
     </button>
   </mat-card-actions>

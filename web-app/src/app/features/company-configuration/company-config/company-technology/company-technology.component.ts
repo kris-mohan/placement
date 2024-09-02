@@ -7,50 +7,17 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { AddEditCompanyComponent } from "../companies/add-edit-company/add-edit-company.component";
 import { Router } from "@angular/router";
-import { companyTableList } from "./company-technolog-model";
+import {
+  CompanyTechnologies,
+  CompanyTechnologiesUI,
+} from "./company-technology-module";
+import { CompaniesComponent } from "../companies/companies.component";
+import { CompanyTechnologyAPIService } from "./api.company-technology";
 
-export const COMPANyTechnology_DATA: companyTableList[] = [
-  {
-    slNo: 1,
-    id: 1,
-    name: "Tech Innovators Inc.",
-    url: "https://www.techinnovators.com",
-    address: "123 Innovation Drive, Tech City, TX 75001",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 2,
-    id: 2,
-    name: "Green Solutions Ltd.",
-    url: "https://www.greensolutions.com",
-    address: "456 Green Way, Eco Town, CA 94016",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 3,
-    id: 3,
-    name: "HealthCare Partners",
-    url: "https://www.healthcarepartners.com",
-    address: "789 Health St, Wellness City, NY 10001",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 4,
-    id: 4,
-    name: "Finance Experts LLC",
-    url: "https://www.financeexperts.com",
-    address: "321 Wealth Blvd, Money City, FL 33101",
-    actions: "Edit, Delete",
-  },
-  {
-    slNo: 5,
-    id: 5,
-    name: "EduVision Corp.",
-    url: "https://www.eduvision.com",
-    address: "654 Knowledge Lane, Learning Town, MA 02108",
-    actions: "Edit, Delete",
-  },
-];
+export interface ODataResponse<T> {
+  value: T[];
+}
+
 @Component({
   selector: "app-company-technology",
   standalone: true,
@@ -59,40 +26,39 @@ export const COMPANyTechnology_DATA: companyTableList[] = [
   styleUrl: "./company-technology.component.css",
 })
 export class CompanyTechnologyComponent {
-  companies = new FormControl("");
+  dataSource = new MatTableDataSource<CompanyTechnologiesUI>([]);
 
-  CompaniesList: string[] = [
-    "Extra cheese",
-    "Mushroom",
-    "Onion",
-    "Pepperoni",
-    "Sausage",
-    "Tomato",
-  ];
+  constructor(
+    private router: Router,
+    private location: Location,
+    private apiCompanyTechnologyService: CompanyTechnologyAPIService
+  ) {
+    this.generateColumns();
+  }
+
   displayedColumns: string[] = [
-    "select",
-    "slNo",
-    "id",
-    "name",
-    "url",
-    "address",
-    "actions",
+    "Id",
+    "CompanyName",
+    "TechnologyName",
+    "Actions",
   ];
-  columns = [
-    { key: "select", label: "" },
-    { key: "slNo", label: "Sl No" },
-    { key: "id", label: "Id" },
-    { key: "name", label: "Name" },
-    { key: "url", label: "URL" },
-    { key: "address", label: "Address" },
-    { key: "actions", label: "Actions" },
-  ];
-  dataSource = new MatTableDataSource<companyTableList>(COMPANyTechnology_DATA);
-  selection = new SelectionModel<companyTableList>(true, []);
-  selectedCompany: AddEditCompanyComponent | null = null;
-  isEditCompany = false;
 
-  constructor(private router: Router, private location: Location) {}
+  columns: { key: string; label: string }[] = [];
+
+  generateColumns(): void {
+    this.displayedColumns.forEach((column) => {
+      this.columns.push({
+        key: column,
+        label: this.formatLabel(column),
+      });
+    });
+  }
+
+  formatLabel(key: string): string {
+    return key
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (str) => str.toUpperCase());
+  }
 
   openAddEditCompanyTechnologyForm(Id?: number) {
     if (Id !== undefined && Id !== null) {
@@ -105,4 +71,42 @@ export class CompanyTechnologyComponent {
   goBack(): void {
     this.location.back();
   }
+
+  // ngOnInit() {
+  //   this.loadCompanyTechnologyData();
+  // }
+
+  // loadCompanyTechnologyData(): void {
+  //   this.apiCompanyTechnologyService.loadCompanyTechnologyData().subscribe({
+  //     next: (response) => {
+  //       const groupedData = response.value.reduce((acc: any, item: any) => {
+  //         const companyId = item.Company.Id;
+  //         const companyName = item.Company.Name;
+  //         const technologyName = item.Technology.Name;
+
+  //         if (!acc[companyId]) {
+  //           acc[companyId] = {
+  //             Id: companyId,
+  //             CompanyName: companyName,
+  //             TechnologyNames: [],
+  //           };
+  //         }
+  //         acc[companyId].TechnologyNames.push(technologyName);
+  //         return acc;
+  //       }, {});
+
+  //       const companyTechnologyGridData: CompanyTechnologiesUI[] =
+  //         Object.values(groupedData);
+
+  //       companyTechnologyGridData.forEach((item) => {
+  //         item.TechnologyNames = item.TechnologyNames.join(", ");
+  //       });
+
+  //       this.dataSource.data = companyTechnologyGridData;
+  //     },
+  //     error: (error) => {
+  //       console.error("Error loading companies and technologies", error);
+  //     },
+  //   });
+  // }
 }

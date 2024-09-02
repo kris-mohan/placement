@@ -5,50 +5,13 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
-import { ScheduleTableList } from "./schedules-model";
+import { Trainerschedule } from "./schedules-module";
+import { TrainerScheduleAPIService } from "./api.schedules";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 
-export const ScheduleTableList_Data: ScheduleTableList[] = [
-  {
-    slNo: 1,
-    scheduleId: 301,
-    description:
-      "Admin role with full access to all system features and settings.",
-    createdDate: "2024-07-01",
-    actions: "View, Edit, Delete",
-  },
-  {
-    slNo: 2,
-    scheduleId: 302,
-    description:
-      "Manager role with access to project management and team oversight tools.",
-    createdDate: "2024-07-05",
-    actions: "View, Edit, Delete",
-  },
-  {
-    slNo: 3,
-    scheduleId: 303,
-    description:
-      "Developer role with permissions to access code repositories and development tools.",
-    createdDate: "2024-07-10",
-    actions: "View, Edit, Delete",
-  },
-  {
-    slNo: 4,
-    scheduleId: 304,
-    description:
-      "Analyst role with access to data analysis and reporting features.",
-    createdDate: "2024-07-15",
-    actions: "View, Edit, Delete",
-  },
-  {
-    slNo: 5,
-    scheduleId: 305,
-    description:
-      "Support role with permissions to access customer support and ticketing systems.",
-    createdDate: "2024-07-20",
-    actions: "View, Edit, Delete",
-  },
-];
+export interface ODataResponse<T> {
+  value: T[];
+}
 
 @Component({
   selector: "app-schedules",
@@ -58,28 +21,41 @@ export const ScheduleTableList_Data: ScheduleTableList[] = [
   styleUrl: "./schedules.component.css",
 })
 export class SchedulesComponent {
+  constructor(
+    private router: Router,
+    private location: Location,
+    private apiTrainerScheduleservice: TrainerScheduleAPIService,
+    private sweetAlertService: SweetAlertService
+  ) {
+    // this.generateColumns();
+  }
+
   displayedColumns: string[] = [
-    "slNo",
-    "scheduleId",
-    "description",
-    "createdDate",
-    "actions",
+    "Id",
+    "ScheduleType",
+    "StartDate",
+    "EndDate",
+    "CompanyId",
+    "SchoolId",
+    "CourseId",
+    "TrainerId",
+    "Actions",
+    // "StudentId",
   ];
-
   columns = [
-    { key: "slNo", label: "Sl No" },
-    { key: "scheduleId", label: "scheduleId" },
-    { key: "description", label: "description" },
-    { key: "createdDate", label: "createdDate" },
-    { key: "actions", label: "Actions" },
+    { key: "Id", label: "Id" },
+    { key: "ScheduleType", label: "Schedule Type" },
+    { key: "StartDate", label: "Start Date" },
+    { key: "EndDate", label: "End Date" },
+    { key: "CompanyId", label: "Company Name" },
+    { key: "SchoolId", label: "School Name" },
+    { key: "CourseId", label: "Course Name" },
+    { key: "TrainerId", label: "Trainer Name" },
+    // { key: "StudentId", label: "Student Name" },
+    { key: "Actions", label: "Actions" },
   ];
 
-  dataSource = new MatTableDataSource<ScheduleTableList>(
-    ScheduleTableList_Data
-  );
-  selection = new SelectionModel<ScheduleTableList>(true, []);
-
-  constructor(private router: Router, private location: Location) {}
+  dataSource = new MatTableDataSource<Trainerschedule>([]);
 
   openAddEditScheduleForm(scheduleId?: number) {
     if (scheduleId != undefined) {
@@ -90,5 +66,46 @@ export class SchedulesComponent {
   }
   goBack(): void {
     this.location.back();
+  }
+
+  ngOnInit() {
+    this.loadTrainerScheduleData();
+  }
+
+  loadTrainerScheduleData() {
+    this.apiTrainerScheduleservice.loadTrainerScheduleData().subscribe({
+      next: (response: ODataResponse<any>) => {
+        console.log("API Response:", response);
+        this.dataSource.data = response.value;
+      },
+      error: (error) => {
+        console.error("Error loading Trainer Schedule", error);
+      },
+    });
+  }
+
+  async deleteTrainerSchedule(id: number) {
+    const confirmed = await this.sweetAlertService.confirmDelete(
+      "Do you really want to delete this trainer schedule?"
+    );
+
+    if (confirmed) {
+      this.apiTrainerScheduleservice.deleteTrainerSchedule(id).subscribe({
+        next: (response: { success: boolean; message: string }) => {
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+            this.loadTrainerScheduleData();
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error(
+            "An unexpected error occurred while deleting the trainer schedule."
+          );
+          console.error("Error deleting trainer schedule:", error);
+        },
+      });
+    }
   }
 }

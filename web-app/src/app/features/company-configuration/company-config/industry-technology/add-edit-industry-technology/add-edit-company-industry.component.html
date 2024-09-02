@@ -1,0 +1,80 @@
+<!-- <mat-card> -->
+<mat-card-header class="custom-card-header">
+  <div class="example-button-row">
+    <div class="example-flex-container">
+      <div class="example-button-container">
+        <a [routerLink]="['/company-configuration']">
+          <mat-icon>keyboard_backspace</mat-icon>
+        </a>
+      </div>
+      <div>
+        <p class="matHeaderName">
+          {{ Id ? "Edit Industry" : "Add Industry" }}
+        </p>
+      </div>
+    </div>
+  </div>
+</mat-card-header>
+<mat-divider></mat-divider>
+<form [formGroup]="addEditCompanyIndsutryForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-content>
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Company</p>
+          <mat-form-field class="matformfield">
+            <mat-label>Select Company</mat-label>
+            <mat-select formControlName="CompanyId">
+              <mat-option
+                *ngFor="let company of companies"
+                [value]="company.Id"
+              >
+                {{ company.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Industry</p>
+          <mat-form-field class="matformfield">
+            <mat-label>Select Industry</mat-label>
+            <mat-select formControlName="IndustryId">
+              <mat-option
+                *ngFor="let industry of Industries"
+                [value]="industry.Id"
+              >
+                {{ industry.Type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card-actions class="footer-actions">
+    <button
+      mat-raised-button
+      class="matbutton"
+      type="button"
+      (click)="onReset()"
+    >
+      <p class="matName">Reset</p>
+    </button>
+    <button mat-raised-button class="matbutton" type="submit">
+      <p class="matName">
+        {{ Id ? "Update" : "Add" }}
+      </p>
+    </button>
+  </mat-card-actions>
+</form>
+<!-- </mat-card> -->

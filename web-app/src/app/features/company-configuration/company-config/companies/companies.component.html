@@ -7,7 +7,7 @@
             <mat-icon>keyboard_backspace</mat-icon>
           </div>
           <div class="header-mat-label">
-            <mat-label>COMPANY</mat-label>
+            <mat-label>COMPANIES</mat-label>
           </div>
         </div>
         <div class="example-button-container">
@@ -17,7 +17,7 @@
             (click)="openAddEditCompanyForm(0)"
           >
             <mat-icon class="maticon">add</mat-icon>
-            <p class="matButtonText">Add Company</p>
+            <p class="matName">Add Company</p>
           </button>
         </div>
       </div>
@@ -38,14 +38,11 @@
               <div class="td-mat-button">
                 <button
                   mat-icon-button
-                  (click)="openAddEditCompanyForm(element.CompanyId)"
+                  (click)="openAddEditCompanyForm(element.Id)"
                 >
                   <mat-icon> edit </mat-icon>
                 </button>
-                <button
-                  mat-icon-button
-                  (click)="deleteCompany(element.CompanyId)"
-                >
+                <button mat-icon-button (click)="deleteCompany(element.Id)">
                   <mat-icon> delete </mat-icon>
                 </button>
               </div>

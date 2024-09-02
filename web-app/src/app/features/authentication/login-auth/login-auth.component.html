@@ -1,4 +1,4 @@
-<form class="login-form">
+<form class="login-form" #form="ngForm" (ngSubmit)="onClickSignIn(form)">
   <mat-card class="matCard">
     <div class="grid-container">
       <div class="logo-wrapper">
@@ -30,16 +30,21 @@
                 id="emailInput"
                 matInput
                 placeholder="Username"
+                [(ngModel)]="username"
                 autocomplete="email"
                 type="email"
+                name="username"
+                #usernameModel="ngModel"
+                required
               />
               <mat-icon matSuffix>account_circle</mat-icon>
-              <mat-error id="invalidEmailError">
-                Please enter a valid Username
-              </mat-error>
-              <mat-error id="requiredEmailError">
-                Email is
-                <strong>required</strong>
+              <mat-error *ngIf="usernameModel.invalid && usernameModel.touched">
+                <span *ngIf="usernameModel.errors?.['required']"
+                  >Username is <strong>required</strong></span
+                >
+                <span *ngIf="usernameModel.errors?.['email']"
+                  >Please enter a valid email</span
+                >
               </mat-error>
             </mat-form-field>
           </p>
@@ -50,13 +55,18 @@
                 id="passwordInput"
                 matInput
                 placeholder="Password"
-                type="password"
+                [type]="isPasswordVisible ? 'text' : 'password'"
+                [(ngModel)]="password"
                 autocomplete="current-password"
+                name="password"
+                #passwordModel="ngModel"
+                required
               />
-              <mat-icon matSuffix>visibility_off</mat-icon>
-              <mat-error id="requiredPasswordError">
-                Password is
-                <strong>required</strong>
+              <mat-icon matSuffix (click)="togglePasswordVisibility()">{{
+                isPasswordVisible ? "visibility" : "visibility_off"
+              }}</mat-icon>
+              <mat-error *ngIf="passwordModel.invalid && passwordModel.touched">
+                Password is <strong>required</strong>
               </mat-error>
             </mat-form-field>
           </p>
@@ -67,7 +77,7 @@
             mat-raised-button
             class="matbutton"
             color="primary"
-            [routerLink]="['/dashboard']"
+            type="submit"
           >
             Sign In
           </button>

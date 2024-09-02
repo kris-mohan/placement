@@ -1,10 +1,13 @@
-export type JobPostingList = {
-  jobId: number;
-  jobTitle: string;
-  companyName: string;
-  location: string;
-  jobDescription: string;
-  postedDate: string;
-  applicationDeadline: Date;
-  applicationUrl: string;
+export type Jobposting = {
+  Id: number;
+  OrgId: number;
+  CompanyId: number;
+  JobRole: string;
+  JobDescription: string;
+  ValidFrom: Date;
+  ValidTill: Date;
+  Positions: number;
+  QuantityFilled: number;
+  IsClosed: number;
+  Isdeleted: boolean;
 };

@@ -16,8 +16,8 @@
             class="matbutton"
             (click)="openAddEditInvitationForm(0)"
           >
-            <mat-icon class="maticon">add</mat-icon>
-            <p class="matButtonText">Add Invitation</p>
+            <mat-icon class="maticon">mail</mat-icon>
+            <p class="matButtonText">Send Invitation</p>
           </button>
         </div>
       </div>
@@ -34,18 +34,15 @@
 
         <td mat-cell *matCellDef="let element">
           <ng-container [ngSwitch]="column.key">
-            <ng-container *ngSwitchCase="'actions'">
+            <ng-container *ngSwitchCase="'Actions'">
               <div class="td-mat-button">
-                <button
+                <!-- <button
                   mat-icon-button
-                  (click)="openAddEditInvitationForm(element.invitationid)"
+                  (click)="openAddEditInvitationForm(element.Id)"
                 >
                   <mat-icon> edit </mat-icon>
-                </button>
-                <button
-                  mat-icon-button
-                  (click)="deleteInvitation(element.invitationid)"
-                >
+                </button> -->
+                <button mat-icon-button (click)="deleteInvitation(element.Id)">
                   <mat-icon> delete </mat-icon>
                 </button>
               </div>

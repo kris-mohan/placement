@@ -9,14 +9,14 @@
       </div>
       <div>
         <p class="matHeaderName">
-          {{ jobId ? "Edit Job Post details" : "Add Job Post details" }}
+          {{ Id ? "Edit Job Post details" : "Add Job Post details" }}
         </p>
       </div>
     </div>
   </div>
 </mat-card-header>
 <mat-divider></mat-divider>
-<form [formGroup]="addEditJobPostForm">
+<form [formGroup]="addEditJobPostForm" (ngSubmit)="onSubmit()">
   <mat-card>
     <mat-card-content>
       <div fxLayout="row wrap">
@@ -26,10 +26,17 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+          <p class="grid-label">Company</p>
+          <mat-form-field appearance="fill" class="matFormField">
+            <mat-label>Select Company</mat-label>
+            <mat-select formControlName="CompanyId">
+              <mat-option
+                *ngFor="let company of companies"
+                [value]="company.Id"
+              >
+                {{ company.Name }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
 
@@ -39,10 +46,14 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+          <p class="grid-label">Job Role</p>
+          <mat-form-field appearance="fill" class="matFormField">
+            <mat-label>Select Job Role</mat-label>
+            <mat-select formControlName="JobRole">
+              <mat-option *ngFor="let role of Roles" [value]="role.RoleName">
+                {{ role.RoleName }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
 
@@ -52,10 +63,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Job Description</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Job Description</mat-label>
+            <input matInput formControlName="JobDescription" />
           </mat-form-field>
         </div>
       </div>
@@ -67,10 +78,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Positions</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Positions</mat-label>
+            <input matInput formControlName="Positions" />
           </mat-form-field>
         </div>
 
@@ -80,10 +91,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
+          <p class="grid-label">Quantity Filled</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+            <mat-label>Quantity Filled</mat-label>
+            <input matInput formControlName="QuantityFilled" />
           </mat-form-field>
         </div>
 
@@ -93,22 +104,55 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Name</mat-label>
-            <input matInput placeholder="Company Name" />
+          <p>Valid From</p>
+          <mat-form-field appearance="fill" class="matFormField">
+            <mat-label>Valid From</mat-label>
+            <input
+              formControlName="ValidFrom"
+              matInput
+              [matDatepicker]="startDatePicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="startDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>Valid Till</p>
+          <mat-form-field appearance="fill" class="matFormField">
+            <mat-label>Valid Till</mat-label>
+            <input
+              formControlName="ValidTill"
+              matInput
+              [matDatepicker]="endDatePicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="endDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
           </mat-form-field>
         </div>
       </div>
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button mat-raised-button class="matbutton">
+    <button mat-raised-button class="matbutton" type="button">
       <p class="matName">Reset</p>
     </button>
     <button mat-raised-button class="matbutton" type="submit">
       <p class="matName">
-        {{ jobId ? "Update" : "Add" }}
+        {{ Id ? "Update" : "Add" }}
       </p>
     </button>
   </mat-card-actions>

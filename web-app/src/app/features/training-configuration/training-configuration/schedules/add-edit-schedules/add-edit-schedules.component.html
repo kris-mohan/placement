@@ -8,7 +8,7 @@
       </div>
       <div>
         <p class="matHeaderName">
-          {{ ScheduleId ? "Edit Schedule details" : "Add Schedule details" }}
+          {{ Id ? "Edit Schedule details" : "Add Schedule details" }}
         </p>
       </div>
     </div>
@@ -25,13 +25,16 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Select Course</p>
-          <mat-form-field class="mat-form-field">
-            <mat-label>Select </mat-label>
-            <mat-select multiple>
-              <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
+          <p class="grid-label">Company</p>
+          <mat-form-field class="matFormField">
+            <mat-label>select </mat-label>
+            <mat-select formControlName="CompanyId">
+              <mat-option
+                *ngFor="let company of companies"
+                [value]="company.Id"
+              >
+                {{ company.Name }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -41,13 +44,44 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Select Trainers</p>
-          <mat-form-field class="mat-form-field">
+          <p class="grid-label">School</p>
+          <mat-form-field class="matFormField">
+            <mat-label>select</mat-label>
+            <mat-select multiple formControlName="SchoolId">
+              <mat-option> </mat-option
+            ></mat-select>
+          </mat-form-field>
+        </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Students</p>
+          <mat-form-field class="matFormField">
             <mat-label>Select </mat-label>
-            <mat-select multiple>
-              <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
+            <mat-select multiple formControlName="StudentId">
+              <mat-option> </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Course</p>
+          <mat-form-field class="matFormField">
+            <mat-label>Select </mat-label>
+            <mat-select formControlName="CourseId">
+              <mat-option *ngFor="let course of courses" [value]="course.Id">
+                {{ course.Name }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -57,14 +91,136 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Select Students</p>
-          <mat-form-field class="mat-form-field">
-            <mat-label>Select </mat-label>
-            <mat-select multiple>
-              <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
+          <p class="grid-label">Trainers</p>
+          <mat-form-field class="matFormField">
+            <mat-label>select </mat-label>
+            <mat-select formControlName="TrainerId">
+              <mat-option *ngFor="let trainer of trainers" [value]="trainer.Id">
+                {{ trainer.Name }}
+              </mat-option>
             </mat-select>
+          </mat-form-field>
+        </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Schedule Type</p>
+          <mat-form-field class="matFormField">
+            <mat-label>Schedule Type</mat-label>
+            <mat-select formControlName="ScheduleType">
+              <mat-option *ngFor="let type of scheduleTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <div
+          class="row-wrap-content"
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>Start Date</p>
+          <mat-form-field appearance="fill" class="matFormField">
+            <mat-label>Start Date</mat-label>
+            <input
+              formControlName="StartDate"
+              matInput
+              [matDatepicker]="startDatePicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="startDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+          </mat-form-field>
+          <p>Start Time</p>
+          <mat-form-field appearance="fill" class="matFormField">
+            <mat-label>Start Time</mat-label>
+            <input
+              id="StartTimePicker"
+              matInput
+              [ngxTimepicker]="startTimePicker"
+            />
+            <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
+          </mat-form-field>
+        </div>
+        <div
+          class="row-wrap-content"
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>End Date</p>
+          <mat-form-field appearance="fill" class="matFormField">
+            <mat-label>End Date</mat-label>
+            <input
+              formControlName="EndDate"
+              matInput
+              [matDatepicker]="endDatePicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="endDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+          </mat-form-field>
+
+          <p>End Time</p>
+          <mat-form-field appearance="fill" class="matFormField">
+            <mat-label>End Time</mat-label>
+            <input
+              id="EndTimePicker"
+              matInput
+              [ngxTimepicker]="endTimePicker"
+            />
+            <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- <div fxLayout="row wrap">
+        <div
+          class="row-wrap-content"
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>Start Date</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Start Date</mat-label>
+            <input
+              formControlName="StartDate"
+              matInput
+              [matDatepicker]="startDatePicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="startDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div
+          class="row-wrap-content"
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>Start Time</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Start Time</mat-label>
+            <input matInput [ngxTimepicker]="startTimePicker" />
+            <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
           </mat-form-field>
         </div>
       </div>
@@ -73,44 +229,18 @@
         <div
           class="row-wrap-content"
           fxFlex="100%"
-          fxFlex.gt-md="50%"
+          fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p>Training Timings</p>
-          <mat-form-field appearance="fill">
-            <mat-label>Start Time</mat-label>
-            <input matInput [ngxTimepicker]="startTimePicker" />
-            <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>End Time</mat-label>
-            <input matInput [ngxTimepicker]="endTimePicker" />
-            <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
-          </mat-form-field>
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <div
-          class="row-wrap-content"
-          fxFlex="100%"
-          fxFlex.gt-md="50%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p>Training Duration</p>
-          <mat-form-field appearance="fill">
-            <mat-label>Start Date</mat-label>
-            <input matInput [matDatepicker]="startDatePicker" />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="startDatePicker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #startDatePicker></mat-datepicker>
-          </mat-form-field>
+          <p>End Date</p>
           <mat-form-field appearance="fill">
             <mat-label>End Date</mat-label>
-            <input matInput [matDatepicker]="endDatePicker" />
+            <input
+              formControlName="EndDate"
+              matInput
+              [matDatepicker]="endDatePicker"
+            />
             <mat-datepicker-toggle
               matSuffix
               [for]="endDatePicker"
@@ -118,16 +248,31 @@
             <mat-datepicker #endDatePicker></mat-datepicker>
           </mat-form-field>
         </div>
-      </div>
+
+        <div
+          class="row-wrap-content"
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p>End Time</p>
+          <mat-form-field appearance="fill">
+            <mat-label>End Time</mat-label>
+            <input matInput [ngxTimepicker]="endTimePicker" />
+            <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
+          </mat-form-field>
+        </div>
+      </div> -->
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button mat-raised-button class="matbutton">
+    <button mat-raised-button class="matbutton" type="button">
       <p class="matName">Reset</p>
     </button>
     <button mat-raised-button class="matbutton" type="submit">
       <p class="matName">
-        {{ ScheduleId ? "Update" : "Add" }}
+        {{ Id ? "Update" : "Add" }}
       </p>
     </button>
   </mat-card-actions>
