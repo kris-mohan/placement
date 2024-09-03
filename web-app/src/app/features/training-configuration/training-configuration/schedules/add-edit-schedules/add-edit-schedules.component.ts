@@ -35,6 +35,7 @@ export class AddEditSchedulesComponent {
   trainers: Trainer[] = [];
   addEditScheduleForm: FormGroup;
   Id: number | null = null;
+  initialFormValues: any;
   scheduleTypes: string[] = ["Online", "Offline", "Remote", "In-Person"];
 
   constructor(
@@ -64,6 +65,9 @@ export class AddEditSchedulesComponent {
     this.companyData();
     this.trainersCourseData();
     this.trainersData();
+  }
+  onReset() {
+    this.addEditScheduleForm.reset(this.initialFormValues);
   }
 
   companyData(): void {
@@ -112,6 +116,7 @@ export class AddEditSchedulesComponent {
               const TrainerSchedule = response.value[0];
               if (TrainerSchedule) {
                 this.addEditScheduleForm.patchValue(TrainerSchedule);
+                this.initialFormValues = this.addEditScheduleForm.value;
               }
             },
             error: (error) => {

@@ -30,6 +30,7 @@ export class AddEditCompTechComponent {
   Id: number | null = null;
   companies: companyTableList[] = [];
   technologies: Technology[] = [];
+  initialFormValues: any;
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +52,7 @@ export class AddEditCompTechComponent {
   ngOnInit() {
     this.loadCompanyData();
     this.loadTechnologyData();
+    this.getCompanyById();
   }
 
   loadCompanyData() {
@@ -87,6 +89,7 @@ export class AddEditCompTechComponent {
             const company = response.value[0];
             if (company) {
               this.addEditCompanyTechnologyForm.patchValue(company);
+              this.initialFormValues = this.addEditCompanyTechnologyForm.value;
             }
           },
           error: (error) => {
@@ -136,6 +139,6 @@ export class AddEditCompTechComponent {
   }
 
   onReset() {
-    this.addEditCompanyTechnologyForm.reset();
+    this.addEditCompanyTechnologyForm.reset(this.initialFormValues);
   }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +17,8 @@ public partial class PaatashalacampusContext : DbContext
 
     public virtual DbSet<Calendarevent> Calendarevents { get; set; }
 
+    public virtual DbSet<Campusregistration> Campusregistrations { get; set; }
+
     public virtual DbSet<Invitation> Invitations { get; set; }
 
     public virtual DbSet<Jobposting> Jobpostings { get; set; }
@@ -27,9 +29,9 @@ public partial class PaatashalacampusContext : DbContext
 
     public virtual DbSet<Tblstudent> Tblstudents { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=paatashalacampus");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=paatashalacampus");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,6 +46,25 @@ public partial class PaatashalacampusContext : DbContext
             entity.Property(e => e.EventStartDateTime).HasColumnType("datetime");
             entity.Property(e => e.EventType).HasMaxLength(50);
             entity.Property(e => e.Isdeleted).HasColumnName("isdeleted");
+        });
+
+        modelBuilder.Entity<Campusregistration>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("campusregistration");
+
+            entity.Property(e => e.Address).HasMaxLength(100);
+            entity.Property(e => e.CollegeEmail).HasMaxLength(50);
+            entity.Property(e => e.CollegeName).HasMaxLength(100);
+            entity.Property(e => e.Country).HasMaxLength(100);
+            entity.Property(e => e.DateOfRegistration).HasColumnType("datetime");
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Isdeleted).HasColumnName("isdeleted");
+            entity.Property(e => e.Password).HasMaxLength(50);
+            entity.Property(e => e.PlacementOfficerName).HasMaxLength(50);
+            entity.Property(e => e.State).HasMaxLength(100);
+            entity.Property(e => e.ZipCode).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Invitation>(entity =>

@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
 import { Observable } from "rxjs";
 import { ODataResponse } from "./companies.component";
+import { companyTableList } from "./companies-model";
+import { HttpParams } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root",

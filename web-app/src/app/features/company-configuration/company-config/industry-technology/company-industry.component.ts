@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { CommonModule, Location } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
 import { AMGModules } from "src/AMG-Module/AMG-module";
-import { CompanyIndustry } from "./company-industry.module";
+import { CompanyIndustry, CompanyIndustryUI } from "./company-industry.module";
 import { CompanyindustryAPIService } from "./api.company.industries";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 
@@ -27,17 +27,28 @@ export class CompanyIndustryComponent {
     private apiIndustrySevice: IndustryAPIService,
     private apiCompanyIndustryService: CompanyindustryAPIService,
     private sweetAlertService: SweetAlertService
-  ) {}
-  dataSource = new MatTableDataSource<CompanyIndustry>([]);
+  ) {
+    this.generateColumns();
+  }
+  dataSource = new MatTableDataSource<CompanyIndustryUI>([]);
 
-  displayedColumns: string[] = ["Id", "CompanyId", "IndustryId", "Actions"];
-  columns = [
-    { key: "Id", label: "Id" },
-    { key: "CompanyId", label: "Company Name" },
-    { key: "IndustryId", label: "Industry Type" },
-    { key: "Actions", label: "Actions" },
-  ];
+  displayedColumns: string[] = ["Id", "CompanyName", "Industries", "Actions"];
+  columns: { key: string; label: string }[] = [];
 
+  generateColumns(): void {
+    this.displayedColumns.forEach((column) => {
+      this.columns.push({
+        key: column,
+        label: this.formatLabel(column),
+      });
+    });
+  }
+
+  formatLabel(key: string): string {
+    return key
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (str) => str.toUpperCase());
+  }
   openAddEditCompanyIndustryForm(id?: number) {
     if (id !== null && id !== undefined) {
       this.router.navigate(["/company-configuration/companyIndustry", id]);
@@ -50,14 +61,36 @@ export class CompanyIndustryComponent {
     this.loadCompanyIndsutryData();
   }
 
-  loadCompanyIndsutryData() {
+  loadCompanyIndsutryData(): void {
     this.apiCompanyIndustryService.loadCompanyindustryData().subscribe({
-      next: (response: ODataResponse<any>) => {
-        console.log("API Response:", response);
-        this.dataSource.data = response.value;
+      next: (response) => {
+        const groupedData = response.value.reduce((acc: any, item: any) => {
+          const companyId = item.Company.Id;
+          const companyName = item.Company.Name;
+          const IndsutryName = item.Industry.Type;
+
+          if (!acc[companyId]) {
+            acc[companyId] = {
+              Id: companyId,
+              CompanyName: companyName,
+              IndustryTypes: [],
+            };
+          }
+          acc[companyId].IndustryTypes.push(IndsutryName);
+          return acc;
+        }, {});
+
+        const companyIndustryGridData: CompanyIndustryUI[] =
+          Object.values(groupedData);
+
+        companyIndustryGridData.forEach((item) => {
+          item.Industries = item.IndustryTypes.join(", ");
+        });
+
+        this.dataSource.data = companyIndustryGridData;
       },
       error: (error) => {
-        console.error("Error loading Company Industry", error);
+        console.error("Error loading companies and industries", error);
       },
     });
   }

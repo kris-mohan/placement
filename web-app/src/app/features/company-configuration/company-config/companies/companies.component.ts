@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, inject } from "@angular/core";
+import { Router, withDebugTracing } from "@angular/router";
 import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { companyTableList } from "./companies-model";
@@ -8,6 +8,8 @@ import { CommonModule, Location } from "@angular/common";
 import { CompanyAPIService } from "./api.companies";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
+import { ImportCompanyDialogComponent } from "./import-company-dialog/import-company-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -21,12 +23,12 @@ export interface ODataResponse<T> {
   styleUrl: "./companies.component.css",
 })
 export class CompaniesComponent {
+  readonly dialog = inject(MatDialog);
   constructor(
     private router: Router,
     private sweetAlertService: SweetAlertService,
     private location: Location,
-    private apiService: APIService,
-    private apiCompanyService: CompanyAPIService
+    private apiCompanyService: CompanyAPIService // private dialog: MatDialog
   ) {}
   displayedColumns: string[] = [
     "Url",
@@ -97,5 +99,9 @@ export class CompaniesComponent {
 
   goBack(): void {
     this.location.back();
+  }
+
+  openImportCompanyDialog() {
+    this.dialog.open(ImportCompanyDialogComponent);
   }
 }

@@ -8,6 +8,10 @@ import { ApiHttpService } from "src/app/services/api-services/api-http-services"
 import { APIService } from "src/app/services/api-services/api-services";
 import { SharedModule } from "src/app/shared/shared.module";
 
+export interface ODataResponse<T> {
+  value: T[];
+}
+
 @Component({
   selector: "app-login-auth",
   standalone: true,
@@ -16,41 +20,47 @@ import { SharedModule } from "src/app/shared/shared.module";
   styleUrl: "./login-auth.component.css",
 })
 export class LoginAuthComponent {
-  username: string = "";
-  password: string = "";
+  UserName: string = "";
+  Password: string = "";
+  UserType: string = "";
   errorMessage: string = "";
   isPasswordVisible: boolean = false;
   constructor(private apiService: ApiHttpService, private router: Router) {}
 
   loginModel = {
-    userName: this.username,
-    password: this.password,
+    UserName: this.UserName,
+    Password: this.Password,
+    UserType: this.UserType,
   };
 
   onClickSignIn(form: any) {
     if (form.valid) {
       const loginModel = {
-        userName: this.username,
-        password: this.password,
+        userName: this.UserName,
+        password: this.Password,
+        userType: this.UserType,
       };
 
       this.apiService
         .loginpost("https://localhost:44304/WeatherForecast/login", loginModel)
         .subscribe({
           next: (response: any) => {
-            sessionStorage.setItem("authToken", response.accessToken);
-            sessionStorage.setItem("refreshToken", response.refreshToken);
-            this.router.navigate(["/dashboard"]);
+            if (response.accessToken && response.refreshToken) {
+              sessionStorage.setItem("authToken", response.accessToken);
+              sessionStorage.setItem("refreshToken", response.refreshToken);
+              sessionStorage.setItem("userType", response.userType);
+              sessionStorage.setItem("userName", response.userName);
+              this.router.navigate(["/dashboard"]);
+            }
           },
           error: (error: HttpErrorResponse) => {
-            this.errorMessage = "Login failed: " + error.error;
+            this.errorMessage = error.error.message;
           },
         });
     } else {
       this.errorMessage = "Please fill out the form correctly.";
     }
   }
-
   refreshAccessToken() {
     const refreshTokenModel = {
       refreshToken: sessionStorage.getItem("refreshToken"),

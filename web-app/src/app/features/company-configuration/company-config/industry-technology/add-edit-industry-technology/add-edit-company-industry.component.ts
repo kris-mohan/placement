@@ -13,6 +13,7 @@ import { ODataResponse } from "../company-industry.component";
 import { CompanyAPIService } from "../../companies/api.companies";
 import { companyTableList } from "../../companies/companies-model";
 import { CompanyindustryAPIService } from "../api.company.industries";
+import { companyIndustries } from "../company-industry.module";
 
 @Component({
   selector: "app-add-edit-industry-technology",
@@ -32,8 +33,8 @@ export class AddEditcompanyIndustryComponent {
     private apiCompanyindustryService: CompanyindustryAPIService
   ) {
     this.addEditCompanyIndsutryForm = this.fb.group({
-      CompanyId: "",
-      IndustryId: "",
+      CompanyName: "",
+      Industries: [],
     });
   }
 
@@ -41,6 +42,7 @@ export class AddEditcompanyIndustryComponent {
   Id: number | null = null;
   Industries: Industry[] = [];
   companies: companyTableList[] = [];
+
   ngOnInit() {
     this.loadIndustryData();
     this.loadCompanyData();
@@ -79,14 +81,22 @@ export class AddEditcompanyIndustryComponent {
         this.apiCompanyindustryService
           .getCompanyindustryDataById(this.Id)
           .subscribe({
-            next: (response: ODataResponse<companyTableList>) => {
-              const company = response.value[0];
-              if (company) {
-                this.addEditCompanyIndsutryForm.patchValue(company);
+            next: (response: ODataResponse<any>) => {
+              const companyIndustryData = response.value[0];
+              if (companyIndustryData) {
+                this.addEditCompanyIndsutryForm.patchValue({
+                  CompanyName: companyIndustryData.CompanyId,
+                  Industries: companyIndustryData.Industries.map(
+                    (industry: any) => industry.IndustryId
+                  ),
+                });
               }
             },
             error: (error) => {
-              console.error(`Error fetching company data by ${this.Id}`, error);
+              console.error(
+                `Error fetching company industry data by ${this.Id}`,
+                error
+              );
             },
           });
       }
@@ -94,8 +104,16 @@ export class AddEditcompanyIndustryComponent {
   }
 
   async onSubmit(): Promise<void> {
-    const CompanyIndsutryData: Partial<any> =
-      this.addEditCompanyIndsutryForm.value;
+    const selectedCompanyId = this.addEditCompanyIndsutryForm.value.CompanyName;
+    const companyData: companyIndustries = {
+      Id: selectedCompanyId,
+      CompanyIndustries: this.addEditCompanyIndsutryForm.value.Industries.map(
+        (industryId: number) => ({
+          CompanyId: selectedCompanyId,
+          IndustryId: industryId,
+        })
+      ),
+    };
     const isUpdate = !!this.Id;
     const actionText = isUpdate ? "update" : "add";
     const confirmed = await this.sweetAlertService.confirm(
@@ -104,7 +122,7 @@ export class AddEditcompanyIndustryComponent {
 
     if (confirmed) {
       this.apiCompanyindustryService
-        .addUpdateCompanyindustry(this.Id, CompanyIndsutryData)
+        .addUpdateCompanyindustry(selectedCompanyId, companyData)
         .subscribe({
           next: (response: { success: boolean; message: any }) => {
             console.log(response);

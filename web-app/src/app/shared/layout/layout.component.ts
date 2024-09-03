@@ -42,6 +42,7 @@ export class LayoutComponent {
   showSpinner: boolean = false;
   userName: string = "";
   isAdmin: boolean = false;
+  userType: number;
 
   private autoLogoutSubscription: Subscription = new Subscription();
 
@@ -53,8 +54,10 @@ export class LayoutComponent {
   ) {
     this.mobileQuery = this.media.matchMedia("(max-width: 1000px)");
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    // tslint:disable-next-line: deprecation
     this.mobileQuery.addEventListener("change", this._mobileQueryListener);
+    const storedUserType = sessionStorage.getItem("userType");
+    console.log(storedUserType);
+    this.userType = storedUserType ? parseInt(storedUserType) : 0;
   }
 
   // ngOnInit(): void {

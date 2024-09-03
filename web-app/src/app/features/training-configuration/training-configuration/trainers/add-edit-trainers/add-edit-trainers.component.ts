@@ -19,6 +19,7 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
 export class AddEditTrainersComponent {
   addEditTrainerForm: FormGroup;
   Id: number | null = null;
+  initialFormValues: any;
 
   constructor(
     private fb: FormBuilder,
@@ -49,6 +50,7 @@ export class AddEditTrainersComponent {
             const trainer = response.value[0];
             if (trainer) {
               this.addEditTrainerForm.patchValue(trainer);
+              this.initialFormValues = this.addEditTrainerForm.value;
             }
           },
           error: (error) => {
@@ -86,6 +88,6 @@ export class AddEditTrainersComponent {
   }
 
   onReset() {
-    this.addEditTrainerForm.reset();
+    this.addEditTrainerForm.reset(this.initialFormValues);
   }
 }

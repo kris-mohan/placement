@@ -267,7 +267,12 @@
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button mat-raised-button class="matbutton" type="button">
+    <button
+      mat-raised-button
+      class="matbutton"
+      type="button"
+      (click)="onReset()"
+    >
       <p class="matName">Reset</p>
     </button>
     <button mat-raised-button class="matbutton" type="submit">

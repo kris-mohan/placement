@@ -27,6 +27,7 @@ export class AddEditTechnologyComponent implements OnInit {
   technologies: Technology[] = [];
   addEditTechnologyForm: FormGroup;
   Id: number | null = null;
+  initialFormValues: any;
 
   constructor(
     private fb: FormBuilder,
@@ -65,6 +66,7 @@ export class AddEditTechnologyComponent implements OnInit {
             const technology = response.value[0];
             if (technology) {
               this.addEditTechnologyForm.patchValue(technology);
+              this.initialFormValues = this.addEditTechnologyForm.value;
             }
           },
           error: (error) => {
@@ -107,6 +109,6 @@ export class AddEditTechnologyComponent implements OnInit {
   }
 
   onReset() {
-    this.addEditTechnologyForm.reset();
+    this.addEditTechnologyForm.reset(this.initialFormValues);
   }
 }

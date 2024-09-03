@@ -26,6 +26,7 @@ import * as moment from "moment";
 export class AddEditCoursesComponent {
   addEditCourseForm: FormGroup;
   Id: number | null = null;
+  initialFormValues: any;
 
   constructor(
     private fb: FormBuilder,
@@ -53,9 +54,10 @@ export class AddEditCoursesComponent {
       if (this.Id) {
         this.apiTrainingCourse.getTrainingCourseDataById(this.Id).subscribe({
           next: (response: ODataResponse<any>) => {
-            const company = response.value[0];
-            if (company) {
-              this.addEditCourseForm.patchValue(company);
+            const course = response.value[0];
+            if (course) {
+              this.addEditCourseForm.patchValue(course);
+              this.initialFormValues = this.addEditCourseForm.value;
             }
           },
           error: (error) => {
@@ -108,6 +110,6 @@ export class AddEditCoursesComponent {
   }
 
   onReset() {
-    this.addEditCourseForm.reset();
+    this.addEditCourseForm.reset(this.initialFormValues);
   }
 }

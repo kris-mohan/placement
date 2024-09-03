@@ -17,7 +17,7 @@
 </mat-card-header>
 <mat-divider></mat-divider>
 <form [formGroup]="addEditCompanyIndsutryForm" (ngSubmit)="onSubmit()">
-  <mat-card>
+  <mat-card class="matCard">
     <mat-card-content>
       <div fxLayout="row wrap">
         <div
@@ -29,7 +29,7 @@
           <p class="grid-label">Company</p>
           <mat-form-field class="matformfield">
             <mat-label>Select Company</mat-label>
-            <mat-select formControlName="CompanyId">
+            <mat-select formControlName="CompanyName">
               <mat-option
                 *ngFor="let company of companies"
                 [value]="company.Id"
@@ -48,7 +48,7 @@
           <p class="grid-label">Industry</p>
           <mat-form-field class="matformfield">
             <mat-label>Select Industry</mat-label>
-            <mat-select formControlName="IndustryId">
+            <mat-select formControlName="Industries" multiple>
               <mat-option
                 *ngFor="let industry of Industries"
                 [value]="industry.Id"

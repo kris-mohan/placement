@@ -25,6 +25,7 @@ export class AddEditJobPostingsComponent {
   Id: number | null = null;
   companies: companyTableList[] = [];
   Roles: Role[] = [];
+  initialFormValues: any;
 
   constructor(
     private fb: FormBuilder,
@@ -55,7 +56,7 @@ export class AddEditJobPostingsComponent {
   }
 
   onReset() {
-    this.addEditJobPostForm.reset();
+    this.addEditJobPostForm.reset(this.initialFormValues);
   }
 
   loadCompanyData() {
@@ -93,6 +94,7 @@ export class AddEditJobPostingsComponent {
             const Jobposting = response.value[0];
             if (Jobposting) {
               this.addEditJobPostForm.patchValue(Jobposting);
+              this.initialFormValues = this.addEditJobPostForm.value;
             }
           },
           error: (error) => {

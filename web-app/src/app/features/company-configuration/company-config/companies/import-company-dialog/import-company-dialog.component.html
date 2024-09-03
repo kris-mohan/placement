@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-header> Search Company </mat-card-header>
+  <mat-dialog-content>
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Company</mat-label>
+      <input
+        type="text"
+        placeholder="Search Company"
+        aria-label="Search Company"
+        matInput
+        [(ngModel)]="searchTerm"
+        (input)="filterCompanies()"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option
+          *ngFor="let option of filteredCompanies"
+          [value]="option.Name"
+        >
+          {{ option.Name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <div *ngIf="filteredCompanies.length === 0 && searchTerm">
+      <p>No companies found.</p>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</mat-card>

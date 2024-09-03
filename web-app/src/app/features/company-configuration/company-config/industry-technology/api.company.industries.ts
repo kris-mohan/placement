@@ -11,14 +11,16 @@ export class CompanyindustryAPIService {
 
   public loadCompanyindustryData(): Observable<ODataResponse<any>> {
     return this.apiHttpService.get(
-      "/Companyindustry/?filter=Isdeleted eq false"
+      "/Companyindustry/?filter=Isdeleted eq false&$expand=Company&$expand=Industry"
     );
   }
 
   public getCompanyindustryDataById(
     id: number
   ): Observable<ODataResponse<any>> {
-    return this.apiHttpService.get(`/Companyindustry?filter=Id eq ${id}`);
+    return this.apiHttpService.get(
+      `/Companyindustry/?filter=Isdeleted eq false and CompanyId eq ${id}&$expand=Company&$expand=Industry`
+    );
   }
 
   public deleteCompanyindustry(id: number): Observable<any> {
@@ -31,7 +33,7 @@ export class CompanyindustryAPIService {
     id: number | null,
     InvitationData: Partial<any>
   ): Observable<any> {
-    const url = `/Companyindustry?key=${id ? id : ""}`;
+    const url = `/Companydatum?key=${id ? id : ""}`;
     const method = id ? "patch" : "post";
     return this.apiHttpService[method](url, InvitationData);
   }

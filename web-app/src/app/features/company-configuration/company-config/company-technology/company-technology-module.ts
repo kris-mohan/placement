@@ -1,4 +1,5 @@
 export type Companytechonology = {
+  Id: number;
   CompanyId: number;
   TechnologyId: number;
 };
@@ -8,8 +9,9 @@ export type CompanyTechnologies = {
   Companytechonologies: Companytechonology[];
 };
 
-export interface CompanyTechnologiesUI {
+export type CompanyTechnologiesUI = {
   Id: number;
   CompanyName: string;
   TechnologyNames: [];
-}
+  Technologies: string;
+};

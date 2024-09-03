@@ -33,13 +33,14 @@ export class AddEditCompanyComponent {
   }
   addEditCompanyForm: FormGroup;
   Id: number | null = null;
+  initialFormValues: any;
 
   ngOnInit(): void {
     this.getCompanyById();
   }
 
   onReset() {
-    this.addEditCompanyForm.reset();
+    this.addEditCompanyForm.reset(this.initialFormValues);
   }
 
   getCompanyById(): void {
@@ -52,6 +53,7 @@ export class AddEditCompanyComponent {
             const Company = response.value[0];
             if (Company) {
               this.addEditCompanyForm.patchValue(Company);
+              this.initialFormValues = this.addEditCompanyForm.value;
             }
           },
           error: (error) => {

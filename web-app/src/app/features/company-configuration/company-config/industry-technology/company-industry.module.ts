@@ -4,13 +4,14 @@ export type CompanyIndustry = {
   IndustryId: string;
 };
 
-// export type companyIndustries = {
-//   Id: number;
-//   CompanyIndustries: CompanyIndustry[];
-// };
+export type companyIndustries = {
+  Id: number;
+  CompanyIndustries: CompanyIndustry[];
+};
 
-export interface CompanyIndustryUI {
+export type CompanyIndustryUI = {
   Id: number;
   CompanyName: string;
-  IndustryType: string;
-}
+  IndustryTypes: [];
+  Industries: string;
+};

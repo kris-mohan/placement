@@ -36,6 +36,7 @@ export class AddEditIndustryComponent {
   Id: number | null = null;
   Industries: Industry[] = [];
   Technologies: Technology[] = [];
+  initialFormValues: any;
 
   ngOnInit() {
     this.loadIndustryData();
@@ -64,6 +65,7 @@ export class AddEditIndustryComponent {
             const technology = response.value[0];
             if (technology) {
               this.addEditIndustryForm.patchValue(technology);
+              this.initialFormValues = this.addEditIndustryForm.value;
             }
           },
           error: (error) => {
@@ -106,6 +108,6 @@ export class AddEditIndustryComponent {
   }
 
   onReset() {
-    this.addEditIndustryForm.reset();
+    this.addEditIndustryForm.reset(this.initialFormValues);
   }
 }

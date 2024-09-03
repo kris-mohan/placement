@@ -23,14 +23,27 @@
       <div class="form-section">
         <mat-card-title class="card-title">LOGIN</mat-card-title>
         <mat-card-content class="matCardContent">
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+          <mat-radio-group
+            aria-label="Select an option"
+            [(ngModel)]="UserType"
+            name="userType"
+          >
+            <mat-radio-button value="1">Campus</mat-radio-button>
+            <mat-radio-button value="2">Company</mat-radio-button>
+            <mat-radio-button value="3">Student</mat-radio-button>
+          </mat-radio-group>
+
           <p>
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Username</mat-label>
+              <mat-label>Username/Email</mat-label>
               <input
                 id="emailInput"
                 matInput
-                placeholder="Username"
-                [(ngModel)]="username"
+                placeholder="Username/Email"
+                [(ngModel)]="UserName"
                 autocomplete="email"
                 type="email"
                 name="username"
@@ -56,15 +69,20 @@
                 matInput
                 placeholder="Password"
                 [type]="isPasswordVisible ? 'text' : 'password'"
-                [(ngModel)]="password"
+                [(ngModel)]="Password"
                 autocomplete="current-password"
                 name="password"
                 #passwordModel="ngModel"
                 required
               />
-              <mat-icon matSuffix (click)="togglePasswordVisibility()">{{
-                isPasswordVisible ? "visibility" : "visibility_off"
-              }}</mat-icon>
+              <mat-icon
+                matSuffix
+                (click)="togglePasswordVisibility()"
+                style="cursor: pointer"
+                >{{
+                  isPasswordVisible ? "visibility" : "visibility_off"
+                }}</mat-icon
+              >
               <mat-error *ngIf="passwordModel.invalid && passwordModel.touched">
                 Password is <strong>required</strong>
               </mat-error>

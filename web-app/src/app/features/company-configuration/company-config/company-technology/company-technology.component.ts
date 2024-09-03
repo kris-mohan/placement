@@ -36,12 +36,7 @@ export class CompanyTechnologyComponent {
     this.generateColumns();
   }
 
-  displayedColumns: string[] = [
-    "Id",
-    "CompanyName",
-    "TechnologyName",
-    "Actions",
-  ];
+  displayedColumns: string[] = ["Id", "CompanyName", "Technologies", "Actions"];
 
   columns: { key: string; label: string }[] = [];
 
@@ -72,41 +67,45 @@ export class CompanyTechnologyComponent {
     this.location.back();
   }
 
-  // ngOnInit() {
-  //   this.loadCompanyTechnologyData();
-  // }
+  ngOnInit() {
+    this.loadCompanyTechnologyData();
+  }
 
-  // loadCompanyTechnologyData(): void {
-  //   this.apiCompanyTechnologyService.loadCompanyTechnologyData().subscribe({
-  //     next: (response) => {
-  //       const groupedData = response.value.reduce((acc: any, item: any) => {
-  //         const companyId = item.Company.Id;
-  //         const companyName = item.Company.Name;
-  //         const technologyName = item.Technology.Name;
+  loadCompanyTechnologyData(): void {
+    this.apiCompanyTechnologyService.loadCompanyTechnologyData().subscribe({
+      next: (response) => {
+        const groupedData = response.value.reduce((acc: any, item: any) => {
+          const companyId = item.Company.Id;
+          const companyName = item.Company.Name;
+          const technologyName = item.Technology.Name;
 
-  //         if (!acc[companyId]) {
-  //           acc[companyId] = {
-  //             Id: companyId,
-  //             CompanyName: companyName,
-  //             TechnologyNames: [],
-  //           };
-  //         }
-  //         acc[companyId].TechnologyNames.push(technologyName);
-  //         return acc;
-  //       }, {});
+          if (!acc[companyId]) {
+            acc[companyId] = {
+              Id: companyId,
+              CompanyName: companyName,
+              TechnologyNames: [],
+            };
+          }
+          acc[companyId].TechnologyNames.push(technologyName);
+          return acc;
+        }, {});
 
-  //       const companyTechnologyGridData: CompanyTechnologiesUI[] =
-  //         Object.values(groupedData);
+        const companyTechnologyGridData: CompanyTechnologiesUI[] =
+          Object.values(groupedData);
 
-  //       companyTechnologyGridData.forEach((item) => {
-  //         item.TechnologyNames = item.TechnologyNames.join(", ");
-  //       });
+        companyTechnologyGridData.forEach((item) => {
+          item.Technologies = item.TechnologyNames.join(", ");
+        });
 
-  //       this.dataSource.data = companyTechnologyGridData;
-  //     },
-  //     error: (error) => {
-  //       console.error("Error loading companies and technologies", error);
-  //     },
-  //   });
-  // }
+        this.dataSource.data = companyTechnologyGridData;
+      },
+      error: (error) => {
+        console.error("Error loading companies and technologies", error);
+      },
+    });
+  }
+
+  deleteCompanyTechnology(): void {
+    
+  }
 }

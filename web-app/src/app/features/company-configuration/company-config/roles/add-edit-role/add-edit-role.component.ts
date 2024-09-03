@@ -21,6 +21,7 @@ export class AddEditRoleComponent {
   roles: Role[] = [];
   addEditRoleForm: FormGroup;
   Id: number | null = null;
+  initialFormValues: any;
 
   constructor(
     private fb: FormBuilder,
@@ -62,6 +63,7 @@ export class AddEditRoleComponent {
             const role = response.value[0];
             if (role) {
               this.addEditRoleForm.patchValue(role);
+              this.initialFormValues = this.addEditRoleForm.value;
             }
           },
           error: (error) => {
@@ -98,6 +100,6 @@ export class AddEditRoleComponent {
   }
 
   onReset() {
-    this.addEditRoleForm.reset();
+    this.addEditRoleForm.reset(this.initialFormValues);
   }
 }
