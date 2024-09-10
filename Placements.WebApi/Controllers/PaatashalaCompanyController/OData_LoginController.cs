@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using Placements.DataAccess.PaatashalaCampus.Models;
 using Placements.DataAccess.PaatashalaCompany.Models;
 
 namespace Placements.WebApi.Controllers.PaatashalaCompanyController
@@ -29,6 +30,8 @@ namespace Placements.WebApi.Controllers.PaatashalaCompanyController
     {
       try
       {
+        login.DateOfRegistration = DateTime.Now;
+
         _context.Logins.Add(login);
         await _context.SaveChangesAsync();
 

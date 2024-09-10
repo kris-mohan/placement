@@ -26,7 +26,7 @@
     </div> -->
   <!-- </mat-card-header> -->
   <mat-divider></mat-divider>
-  <form>
+  <form [formGroup]="addcompanyRegistrationForm" (ngSubmit)="onSubmit()">
     <mat-card>
       <mat-card-content>
         <div fxLayout="row wrap">
@@ -39,7 +39,7 @@
             <p class="grid-label">Company Name</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Company Name</mat-label>
-              <input matInput placeholder="Company Name" />
+              <input matInput formControlName="UserName" />
             </mat-form-field>
           </div>
 
@@ -49,64 +49,35 @@
             fxFlex.gt-lg="25%"
             fxFlex.gt-sm="50%"
           >
-            <p class="grid-label">Company Name</p>
+            <p class="grid-label">New Password</p>
             <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Company Name</mat-label>
-              <input matInput placeholder="Company Name" />
+              <mat-label>New Password</mat-label>
+              <input
+                matInput
+                [type]="isPasswordVisible ? 'text' : 'password'"
+              />
+              <mat-icon matSuffix (click)="togglePasswordVisibility()">{{
+                isPasswordVisible ? "visibility" : "visibility_off"
+              }}</mat-icon>
             </mat-form-field>
           </div>
-
           <div
             fxFlex="100%"
             fxFlex.gt-md="33%"
             fxFlex.gt-lg="25%"
             fxFlex.gt-sm="50%"
           >
-            <p class="grid-label">Company Name</p>
+            <p class="grid-label">Confirm Password</p>
             <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Company Name</mat-label>
-              <input matInput placeholder="Company Name" />
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div fxLayout="row wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Company Name</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Company Name</mat-label>
-              <input matInput placeholder="Company Name" />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Company Name</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Company Name</mat-label>
-              <input matInput placeholder="Company Name" />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Company Name</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Company Name</mat-label>
-              <input matInput placeholder="Company Name" />
+              <mat-label>Confirm Password</mat-label>
+              <input
+                formControlName="Password"
+                matInput
+                [type]="isConfirmPasswordVisible ? 'text' : 'password'"
+              />
+              <mat-icon matSuffix (click)="toggleConfirmPasswordVisibility()">{{
+                isConfirmPasswordVisible ? "visibility" : "visibility_off"
+              }}</mat-icon>
             </mat-form-field>
           </div>
         </div>
@@ -117,6 +88,7 @@
         mat-raised-button
         class="matbutton"
         style="background-color: darkblue"
+        type="button"
       >
         <p class="matName">Reset</p>
       </button>

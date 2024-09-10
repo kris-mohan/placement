@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "lint": "ng lint",
     "test": "ng test",
-    "build-production": "ng build --configuration=production --base-href=/placements/"
+    "build-production": "ng build --configuration=production"
   },
   "private": true,
   "dependencies": {
@@ -30,6 +30,7 @@
     "ng2-pdf-viewer": "^10.2.2",
     "ngx-extended-pdf-viewer": "^21.3.2",
     "ngx-logger": "^5.0.7",
+    "ngx-mat-select-search": "^7.0.7",
     "ngx-material-timepicker": "^13.1.1",
     "pdfjs-dist": "^4.5.136",
     "rxjs": "^7.8.0",

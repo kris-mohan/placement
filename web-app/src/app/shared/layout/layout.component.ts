@@ -56,8 +56,13 @@ export class LayoutComponent {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener("change", this._mobileQueryListener);
     const storedUserType = sessionStorage.getItem("userType");
+    const storedCollegeName = sessionStorage.getItem("collegeName");
+
+    const storedUserName = sessionStorage.getItem("userName");
     console.log(storedUserType);
     this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    this.userName =
+      storedUserType === "1" ? storedCollegeName! : storedUserName!;
   }
 
   // ngOnInit(): void {

@@ -9,7 +9,7 @@ import { companyTableList } from "src/app/features/company-configuration/company
   providedIn: "root",
 })
 export class APIService {
-  private baseUrl = "https://localhost:44398/odata";
+  private baseUrl = "http://20.219.120.124:92/odata";
   constructor(private http: HttpClient) {}
 
   getCompanyList(): Observable<ODataResponse<companyTableList>> {

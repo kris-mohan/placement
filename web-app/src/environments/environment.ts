@@ -9,5 +9,6 @@ export const environment = {
   production: false,
   logLevel: NgxLoggerLevel.TRACE,
   serverLogLevel: NgxLoggerLevel.OFF,
+  //API_URL: "http://20.219.120.124:92/odata",
   API_URL: "https://localhost:44304/odata",
 };

@@ -4,5 +4,5 @@ export type employeeDataList = {
   Branch: string;
   Batch: string;
   CGPA: string;
-  Actions: string;
+  Status: string;
 };

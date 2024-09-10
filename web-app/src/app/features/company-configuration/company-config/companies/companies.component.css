@@ -49,3 +49,12 @@ table {
 .td-mat-button {
   display: flex;
 }
+cdk-overlay-pane {
+  width: auto;
+}
+.mat-dialog-actions {
+  display: flex;
+}
+.custom-dropdown-panel {
+  width: auto;
+}

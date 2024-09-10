@@ -52,31 +52,32 @@ namespace Placements.WebApi.Controllers
     public IActionResult Login([FromBody] LoginModel user)
     {
       try
-      {
+        {
         if (user is null)
         {
           return BadRequest("Invalid client request");
         }
         bool isValidUser = false;
-        if (user.UserType == "1")
-        {
-          isValidUser = _paatashalacampusContext.Campusregistrations
-              .Any(c => c.Email  == user.UserName || c.CollegeEmail == user.UserName || c.CollegeName == user.UserName && c.Password == user.Password);
-        }
-        else if (user.UserType == "2")
-        {
-          isValidUser = _paatashalacompanydbContext.Logins
-              .Any(c => c.UserName == user.UserName && c.Password == user.Password);
-        }
-        //else if (user.UserType == "3")
-        //{
-        //  isValidUser = _paatashalacampusContext.Campusregistrations
-        //      .Any(c => c.Email == user.UserName || c.CollegeEmail == user.UserName || c.CollegeName == user.UserName && c.Password == user.Password);
-        //}
+        var campusUser = _paatashalacampusContext.Campusregistrations
+           .FirstOrDefault(c => c.Email == user.UserName || c.CollegeEmail == user.UserName || c.CollegeName == user.UserName );
 
-
-        if (isValidUser)
+       
+        var companyUser = _paatashalacompanydbContext.Logins
+           .FirstOrDefault(c => c.UserName == user.UserName);
+        if (campusUser != null && campusUser.Password == user.Password)
         {
+          user.UserType = "1";
+        }
+
+        else if (companyUser != null && companyUser.Password == user.Password)
+        {
+          user.UserType = "2";
+        }
+
+        else
+        {
+          return Unauthorized(new { success = false, message = "Invalid UserName or Password" });
+        }
           var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
           var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
           var tokenOptions = new JwtSecurityToken(
@@ -91,20 +92,17 @@ namespace Placements.WebApi.Controllers
 
           var refreshToken = Guid.NewGuid().ToString(); // Generate refresh token
 
-          // Save refresh token with user details (e.g., in the database)
 
           return Ok(new AuthenticatedResponse
           {
             UserName = user.UserName,
             UserType = user.UserType,
             AccessToken = accessToken,
-            RefreshToken = refreshToken
+            RefreshToken = refreshToken,
+            CollegeName = campusUser?.CollegeName
           });
-        }
-        else
-        {
-          return Unauthorized(new { success = false, message = "Invalid UserName or Password" });
-        }
+        //}
+       
       }
 
       catch (Exception ex)
@@ -151,3 +149,19 @@ namespace Placements.WebApi.Controllers
  
 
 }
+
+//if (user.UserType == "1")
+//{
+//  isValidUser = _paatashalacampusContext.Campusregistrations
+//      .Any(c => c.Email  == user.UserName || c.CollegeEmail == user.UserName || c.CollegeName == user.UserName && c.Password == user.Password);
+//}
+//else if (user.UserType == "2")
+//{
+//  isValidUser = _paatashalacompanydbContext.Logins
+//      .Any(c => c.UserName == user.UserName && c.Password == user.Password);
+//}
+//else if (user.UserType == "3")
+//{
+//  isValidUser = _paatashalacampusContext.Campusregistrations
+//      .Any(c => c.Email == user.UserName || c.CollegeEmail == user.UserName || c.CollegeName == user.UserName && c.Password == user.Password);
+//}

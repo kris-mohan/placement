@@ -1,32 +1,141 @@
-<mat-card>
-  <mat-card-header> Search Company </mat-card-header>
-  <mat-dialog-content>
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Company</mat-label>
-      <input
-        type="text"
-        placeholder="Search Company"
-        aria-label="Search Company"
-        matInput
-        [(ngModel)]="searchTerm"
-        (input)="filterCompanies()"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-        <mat-option
-          *ngFor="let option of filteredCompanies"
-          [value]="option.Name"
-        >
-          {{ option.Name }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+<mat-dialog-content>
+  <!-- <p>Company</p>
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Add Company</mat-label>
+    <input
+      type="text"
+      placeholder="Search Company"
+      aria-label="Search Company"
+      matInput
+      [(ngModel)]="searchCompany"
+      (input)="filterCompanies()"
+      [matAutocomplete]="autoCompany"
+      multiple
+    />
+    <mat-autocomplete autoActiveFirstOption #autoCompany="matAutocomplete">
+      <mat-option
+        *ngFor="let option of filteredCompanies"
+        [value]="option.Name"
+      >
+        {{ option.Name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field> -->
 
-    <div *ngIf="filteredCompanies.length === 0 && searchTerm">
-      <p>No companies found.</p>
-    </div>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-button mat-dialog-close>Close</button>
-  </mat-dialog-actions>
-</mat-card>
+  <p>Company</p>
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Select Companies</mat-label>
+    <mat-select
+      [formControl]="companyControl"
+      multiple
+      (openedChange)="onCompanyDropdownOpen()"
+    >
+      <mat-select-trigger>
+        {{ selectedCompanyNames }}
+      </mat-select-trigger>
+      <mat-form-field appearance="outline">
+        <!-- <mat-label>Add</mat-label> -->
+        <input
+          class="full-width"
+          matInput
+          [(ngModel)]="searchCompany"
+          (ngModelChange)="filterCompanies($event)"
+          placeholder="Search"
+        />
+      </mat-form-field>
+      <mat-option *ngIf="!filteredCompanies.length" disabled
+        >No options</mat-option
+      >
+      <mat-option
+        *ngFor="let company of filteredCompanies"
+        [value]="company.Name"
+      >
+        {{ company.Name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p>Industry</p>
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Industry</mat-label>
+    <mat-select
+      [formControl]="industryControl"
+      multiple
+      (openedChange)="onIndustryDropdownOpen()"
+    >
+      <mat-select-trigger>
+        {{ selectedIndustries }}
+      </mat-select-trigger>
+      <mat-form-field appearance="outline">
+        <input
+          class="full-width"
+          matInput
+          [(ngModel)]="searchIndustry"
+          (ngModelChange)="filterIndustries($event)"
+          placeholder="Search"
+        />
+      </mat-form-field>
+      <mat-option *ngIf="!filteredIndustries.length" disabled
+        >No options</mat-option
+      >
+      <mat-option
+        *ngFor="let industry of filteredIndustries"
+        [value]="industry.Type"
+      >
+        {{ industry.Type }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p>Location</p>
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Location</mat-label>
+    <mat-select
+      [formControl]="CityControl"
+      multiple
+      (openedChange)="onCityDropdownOpen()"
+    >
+      <mat-select-trigger>
+        {{ selectedCompanyCities }}
+      </mat-select-trigger>
+      <mat-form-field appearance="outline">
+        <input
+          class="full-width"
+          matInput
+          [(ngModel)]="searchCity"
+          (ngModelChange)="filterCities($event)"
+          placeholder="Search"
+        />
+      </mat-form-field>
+      <mat-option *ngIf="!filteredCompanies.length" disabled
+        >No options</mat-option
+      >
+      <mat-option
+        *ngFor="let company of filteredCompanies"
+        [value]="company.City"
+      >
+        {{ company.City }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p>Company Size</p>
+  <mat-form-field appearance="outline">
+    <mat-label>Company Size</mat-label>
+    <mat-select [formControl]="companySizeControl" multiple>
+      @for (companySize of companySizes; track companySize) {
+      <mat-option [value]="companySize">{{ companySize }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions class="mat-dialog-actions">
+  <button mat-button mat-dialog-close>Reset</button>
+  <button
+    mat-raised-button
+    class="matbutton"
+    (click)="openAddEditCompanyForm()"
+  >
+    <p class="matName">Show results</p>
+  </button>
+</mat-dialog-actions>

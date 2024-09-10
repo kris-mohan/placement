@@ -12,7 +12,9 @@ export class CompanyAPIService {
   constructor(private apiHttpService: ApiHttpService) {}
 
   public loadCompanyData(): Observable<ODataResponse<any>> {
-    return this.apiHttpService.get("/Companydatum/?filter=Isdeleted eq false");
+    return this.apiHttpService.get(
+      "/Companydatum?filter=Isdeleted eq false& $expand= Companyindustries($expand=Industry)"
+    );
   }
 
   public getCompanyDataById(id: number): Observable<ODataResponse<any>> {

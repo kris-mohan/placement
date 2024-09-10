@@ -30,4 +30,8 @@ public partial class Campusregistration
     public DateTime? DateOfRegistration { get; set; }
 
     public bool Isdeleted { get; set; }
+
+    public bool IsActive { get; set; }
+
+    public int? UserType { get; set; }
 }

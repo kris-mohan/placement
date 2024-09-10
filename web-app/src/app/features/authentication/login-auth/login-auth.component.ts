@@ -42,6 +42,7 @@ export class LoginAuthComponent {
       };
 
       this.apiService
+        // .loginpost("http://20.219.120.124:92/WeatherForecast/login", loginModel)
         .loginpost("https://localhost:44304/WeatherForecast/login", loginModel)
         .subscribe({
           next: (response: any) => {
@@ -50,6 +51,7 @@ export class LoginAuthComponent {
               sessionStorage.setItem("refreshToken", response.refreshToken);
               sessionStorage.setItem("userType", response.userType);
               sessionStorage.setItem("userName", response.userName);
+              sessionStorage.setItem("collegeName", response.collegeName);
               this.router.navigate(["/dashboard"]);
             }
           },

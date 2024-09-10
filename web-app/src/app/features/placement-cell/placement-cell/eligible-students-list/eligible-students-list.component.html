@@ -10,11 +10,24 @@
             <mat-label>Eligible Students</mat-label>
           </div>
         </div>
+
         <div class="example-button-container">
-          <button mat-raised-button class="matbutton">
-            <mat-icon class="maticon">mail</mat-icon>
-            <p class="matButtonText">Invite All</p>
-          </button>
+          <div>
+            <mat-form-field appearance="outline" class="mat-form-field">
+              <mat-label>Status</mat-label>
+              <mat-select [formControl]="statusControl" multiple>
+                @for (stats of status; track stats) {
+                <mat-option [value]="stats">{{ stats }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-raised-button class="matbutton">
+              <mat-icon class="maticon">mail</mat-icon>
+              <p class="matButtonText">Invite All</p>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -86,9 +99,9 @@
 
           <td mat-cell *matCellDef="let element">
             <ng-container [ngSwitch]="column.key">
-              <ng-container *ngSwitchCase="'Actions'">
+              <ng-container *ngSwitchCase="'Status'">
                 <ng-container
-                  *ngIf="element.Actions === 'Invite'; else showChip"
+                  *ngIf="element.Status === 'Invite'; else showChip"
                 >
                   <button mat-raised-button color="primary">
                     <mat-icon class="maticon">mail</mat-icon>Invite
@@ -96,8 +109,8 @@
                 </ng-container>
 
                 <ng-template #showChip>
-                  <mat-chip [ngStyle]="getChipStyle(element.Actions)">
-                    {{ element.Actions }}
+                  <mat-chip [ngStyle]="getChipStyle(element.Status)">
+                    {{ element.Status }}
                   </mat-chip>
                 </ng-template>
               </ng-container>

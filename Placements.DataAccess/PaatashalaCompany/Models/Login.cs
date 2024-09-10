@@ -21,6 +21,10 @@ public partial class Login
 
     public bool Isdeleted { get; set; }
 
+    public int? UserType { get; set; }
+
+    public bool IsActive { get; set; }
+
     public virtual Companydatum? Company { get; set; }
 
     public virtual Role? Role { get; set; }

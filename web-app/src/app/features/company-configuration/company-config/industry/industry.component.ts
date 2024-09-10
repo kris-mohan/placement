@@ -27,9 +27,9 @@ export class IndustryComponent {
   ) {}
   dataSource = new MatTableDataSource<Industry>([]);
 
-  displayedColumns: string[] = ["Id", "Type", "Description", "Actions"];
+  displayedColumns: string[] = ["Type", "Description", "Actions"];
   columns = [
-    { key: "Id", label: "Id" },
+    // { key: "Id", label: "Id" },
     { key: "Type", label: "Industry Type" },
     { key: "Description", label: "Description" },
     { key: "Actions", label: "Actions" },

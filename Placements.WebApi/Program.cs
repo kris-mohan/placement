@@ -21,6 +21,7 @@ handler.MessageQuotas.MaxOperationsPerChangeset = 1000;
 handler.MessageQuotas.MaxReceivedMessageSize = 10000;
 
 // Add services to the container.
+builder.Services.AddCors();
 builder.Services.AddControllers()
           .AddODataNewtonsoftJson()
           .AddOData(options => options.Select().Filter().Count().OrderBy().Expand().SetMaxTop(100)
@@ -40,7 +41,8 @@ var secretKey = jwtSettings["SecretKey"];
 // Configure the HTTP request pipeline.
 
 
-builder.Services.AddAuthentication(opt => {
+builder.Services.AddAuthentication(opt =>
+{
   opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
   opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
@@ -58,15 +60,6 @@ builder.Services.AddAuthentication(opt => {
       };
     });
 
-builder.Services.AddCors(options =>
-{
-  options.AddPolicy("AllowAngularDevClient",
-      builder => builder.WithOrigins("http://localhost:4200")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials()
-                        .Build());
-});
 
 builder.Services.AddEntityFrameworkMySQL()
            .AddDbContext<PaatashalacampusContext>(options =>
@@ -85,11 +78,15 @@ builder.Services.AddEntityFrameworkMySQL()
            });
 
 var app = builder.Build();
-if (app.Environment.IsDevelopment())
-{
-  app.UseSwagger();
-  app.UseSwaggerUI();
-}
+app.UseCors(s => s.AllowAnyHeader()
+  .AllowAnyMethod()
+  .SetIsOriginAllowed((host) => true)
+  .AllowCredentials());
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -98,8 +95,6 @@ app.UseCors("AllowAngularDevClient");
 app.MapControllers();
 
 app.Run();
-
-app.UseCors();
 
 static IEdmModel GetEdmModel()
 {
