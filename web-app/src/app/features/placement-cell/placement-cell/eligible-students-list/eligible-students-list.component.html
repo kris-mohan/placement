@@ -13,6 +13,38 @@
 
         <div class="example-button-container">
           <div>
+            <mat-form-field class="full-width" appearance="outline">
+              <input
+                class="full-width"
+                matInput
+                placeholder="Search Student Name"
+                [formControl]="searchControl"
+              />
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" class="mat-form-field">
+              <mat-label>Batch</mat-label>
+              <mat-select [formControl]="batchControl" multiple>
+                @for (batch of batches; track batch) {
+                <mat-option [value]="batch">{{ batch }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" class="mat-form-field">
+              <mat-label>Branch</mat-label>
+              <mat-select [formControl]="branchControl" multiple>
+                @for (branch of branches; track branch) {
+                <mat-option [value]="branch">{{ branch }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
             <mat-form-field appearance="outline" class="mat-form-field">
               <mat-label>Status</mat-label>
               <mat-select [formControl]="statusControl" multiple>

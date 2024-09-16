@@ -14,30 +14,40 @@ export const CompanyListData: companyList[] = [
     CompanyId: 1,
     CompanyName: "Tech Innovators Inc.",
     Location: "New York, USA",
+    studentRegistered: 20,
+    studentInvited: 40,
     Actions: "Edit | Delete",
   },
   {
     CompanyId: 2,
     CompanyName: "Global Solutions Ltd.",
     Location: "London, UK",
+    studentRegistered: 20,
+    studentInvited: 40,
     Actions: "Edit | Delete",
   },
   {
     CompanyId: 3,
     CompanyName: "Creative Minds Co.",
     Location: "Sydney, Australia",
+    studentRegistered: 20,
+    studentInvited: 40,
     Actions: "Edit | Delete",
   },
   {
     CompanyId: 4,
     CompanyName: "Future Tech Corp.",
     Location: "Berlin, Germany",
+    studentRegistered: 20,
+    studentInvited: 40,
     Actions: "Edit | Delete",
   },
   {
     CompanyId: 5,
     CompanyName: "Pioneers in IT",
     Location: "San Francisco, USA",
+    studentRegistered: 20,
+    studentInvited: 40,
     Actions: "Edit | Delete",
   },
 ];
@@ -57,15 +67,19 @@ export class CompanyListDetailsComponent {
     private apiService: APIService
   ) {}
   displayedColumns: string[] = [
-    "CompanyId",
+    // "CompanyId",
     "CompanyName",
     "Location",
+    "studentRegistered",
+    "studentInvited",
     "Actions",
   ];
   columns = [
-    { key: "CompanyId", label: "Company Id" },
+    // { key: "CompanyId", label: "Company Id" },
     { key: "CompanyName", label: "Company Name" },
     { key: "Location", label: "Location" },
+    { key: "studentRegistered", label: "Total number of Students Registered" },
+    { key: "studentInvited", label: "Total number of Students Invited" },
     { key: "Actions", label: "Actions" },
   ];
   dataSource = new MatTableDataSource<companyList>(CompanyListData);

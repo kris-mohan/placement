@@ -14,6 +14,8 @@ import { IndustryAPIService } from "../industry/api.industry";
 import { Industry } from "../industry/industry.module";
 import { map, Observable, of, startWith } from "rxjs";
 import { FormControl } from "@angular/forms";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { CompanyDetailDialogModalComponent } from "./company-detail-dialog-modal/company-detail-dialog-modal.component";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -43,6 +45,7 @@ export class CompaniesComponent {
   experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
 
   filteredCompanies: companyTableList[] = [];
+  filteredCompany: Observable<any[]> = of([]);
   filteredCities: Observable<any[]> = of([]);
   filteredCompanySize: Observable<string[]> = of([]);
   filteredIndustries: Industry[] = [];
@@ -56,8 +59,8 @@ export class CompaniesComponent {
   industryControl = new FormControl();
   companySizeControl = new FormControl();
   experienceLevelControl = new FormControl();
+  companyControl = new FormControl();
 
-  companyFilterControl = new FormControl();
   CityFilterControl = new FormControl();
   industryFilterControl = new FormControl();
   companySizeFilterControl = new FormControl();
@@ -107,6 +110,44 @@ export class CompaniesComponent {
     this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
       startWith(""),
       map((value) => this._filterIndustries(value))
+    );
+
+    this.filteredCompany = this.companyControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => this._filterCompanies(value))
+    );
+  }
+
+  onCompanySelected(event: MatAutocompleteSelectedEvent) {
+    const selectedCompanyName = event.option.value;
+    const selectedCompany = this.companies.find(
+      (company) => company.Name === selectedCompanyName
+    );
+    if (selectedCompany) {
+      this.apiCompanyService
+        .getCompanyDataById(selectedCompany.Id)
+        .subscribe((response) => {
+          const companyData = response.value[0];
+          this.openCompanyModalPopup(companyData);
+        });
+    }
+  }
+
+  openCompanyModalPopup(company: any): void {
+    this.dialog.open(CompanyDetailDialogModalComponent, {
+      width: "500px",
+      height: "600px",
+      data: company,
+    });
+  }
+
+  _filterCompanies(value: string): companyTableList[] {
+    const filterValue = value.toLowerCase();
+    if (filterValue.length < 2) {
+      return [];
+    }
+    return this.companies.filter((company) =>
+      company.Name.toLowerCase().includes(filterValue)
     );
   }
 
@@ -263,6 +304,13 @@ export class CompaniesComponent {
     this.dataSource.data = this.filteredCompanies;
   }
 
+  resetLocationSelection() {
+    this.CityControl.reset();
+    this.searchCity = "";
+    this.filteredCompanies = this.companies;
+    this.dataSource.data = this.filteredCompanies;
+  }
+
   showIndustryResults() {
     const selectedIndustries = this.industryControl.value;
     if (selectedIndustries && selectedIndustries.length > 0) {
@@ -277,6 +325,19 @@ export class CompaniesComponent {
     this.dataSource.data = this.filteredCompanies;
   }
 
+  showLocationResults() {
+    const selectedCities = this.CityControl.value;
+    if (selectedCities && selectedCities.length > 0) {
+      this.filteredCompanies = this.companies.filter((company) =>
+        selectedCities.includes(company.City)
+      );
+    } else {
+      this.filteredCompanies = this.companies;
+    }
+
+    this.dataSource.data = this.filteredCompanies;
+  }
+
   extractIndustriesFromCompanies(companies: any[]): Industry[] {
     const industriesSet = new Set();
     companies.forEach((company) => {
@@ -286,8 +347,4 @@ export class CompaniesComponent {
     });
     return Array.from(industriesSet) as Industry[];
   }
-
-  resetLocationSelection() {}
-
-  showLocationResults() {}
 }

@@ -24,7 +24,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
   {
     StudentID: 2,
     StudentName: "Jane Smith",
-    Branch: "Mechanical Engineering",
+    Branch: "Civil Engineering",
     Batch: "2020",
     CGPA: "8.7",
     Status: "Accepted",
@@ -133,23 +133,67 @@ export class EligibleStudentsListComponent {
   ];
 
   status: string[] = ["Invite", "Accepted", "Invited", "Rejected", "Pending"];
-  statusControl = new FormControl(["Accepted"]);
+  branches: string[] = [
+    "Computer Science",
+    "Mechanical Engineering",
+    "Electrical Engineering",
+    "Civil Engineering",
+    "Information Technology",
+  ];
+  batches: number[] = [2019, 2020, 2021, 2022];
+
+  statusControl = new FormControl<string[]>(["Accepted"]);
+  branchControl = new FormControl<string[] | null>(null);
+  batchControl = new FormControl<any[] | null>(null);
+  searchControl = new FormControl("");
 
   dataSource = new MatTableDataSource<employeeDataList>(EMPLOYEEDATA);
   selection = new SelectionModel<employeeDataList>(true, []);
 
   ngOnInit() {
-    this.statusControl.valueChanges.subscribe((selectedStatuses) => {
-      this.applyFilter(selectedStatuses);
-    });
-
     this.dataSource.filterPredicate = (
       data: employeeDataList,
       filter: string
     ) => {
-      const statusArray = filter.split(",");
-      return statusArray.includes(data.Status);
+      if (!filter) {
+        return true;
+      }
+      const [statusFilter, branchFilter, batchFilter, searchFilter] =
+        filter.split("|");
+      const statusArray = statusFilter ? statusFilter.split(",") : [];
+      const branchArray = branchFilter ? branchFilter.split(",") : [];
+      const batchArray = batchFilter ? batchFilter.split(",") : [];
+      const searchString = searchFilter ? searchFilter.toLowerCase() : "";
+
+      const statusMatch =
+        statusArray.length === 0 || statusArray.includes(data.Status);
+      const branchMatch =
+        branchArray.length === 0 || branchArray.includes(data.Branch);
+      const batchMatch =
+        batchArray.length === 0 || batchArray.includes(data.Batch);
+      const searchMatch =
+        !searchString || data.StudentName.toLowerCase().includes(searchString);
+
+      return statusMatch && branchMatch && batchMatch && searchMatch;
     };
+
+    this.statusControl.valueChanges.subscribe(() => {
+      this.applyFilter();
+    });
+
+    this.branchControl.valueChanges.subscribe(() => {
+      this.applyFilter();
+    });
+
+    this.batchControl.valueChanges.subscribe(() => {
+      this.applyFilter();
+    });
+
+    this.searchControl.valueChanges.subscribe(() => {
+      this.applyFilter();
+    });
+
+    this.applyFilter();
 
     this.route.paramMap.subscribe((params) => {
       const companyId = Number(params.get("id"));
@@ -158,12 +202,17 @@ export class EligibleStudentsListComponent {
     });
   }
 
-  applyFilter(selectedStatuses: string[] | null) {
-    if (!selectedStatuses || selectedStatuses.length === 0) {
-      this.dataSource.filter = "";
-    } else {
-      this.dataSource.filter = selectedStatuses.join(",");
-    }
+  applyFilter() {
+    const selectedStatuses = this.statusControl.value || [];
+    const selectedBranches = this.branchControl.value || [];
+    const selectedBatch = this.batchControl.value || [];
+    const searchText = this.searchControl.value || "";
+
+    const statusFilter = selectedStatuses.join(",");
+    const branchFilter = selectedBranches.join(",");
+    const batchFilter = selectedBatch.join(",");
+
+    this.dataSource.filter = `${statusFilter}|${branchFilter}|${batchFilter}|${searchText}`;
   }
 
   isAllSelected() {

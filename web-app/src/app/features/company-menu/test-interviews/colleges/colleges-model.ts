@@ -4,4 +4,6 @@ export type Colleges = {
   location: string;
   batch: string;
   branch: string;
+  studentRegistered: number;
+  studentInvited: number;
 };
