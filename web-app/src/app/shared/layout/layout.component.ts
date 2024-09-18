@@ -61,8 +61,7 @@ export class LayoutComponent {
     const storedUserName = sessionStorage.getItem("userName");
     console.log(storedUserType);
     this.userType = storedUserType ? parseInt(storedUserType) : 0;
-    this.userName =
-      storedUserType === "1" ? storedCollegeName! : storedUserName!;
+    this.userName = storedUserName!;
   }
 
   // ngOnInit(): void {

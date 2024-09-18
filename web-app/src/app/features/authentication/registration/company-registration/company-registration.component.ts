@@ -28,10 +28,12 @@ export class CompanyRegistrationComponent {
     private apiCompanyRegistration: CompanyRegistrationAPIService
   ) {
     this.addcompanyRegistrationForm = this.fb.group({
-      CompanyId: 1,
-      UserName: "",
+      CompanyName: "",
+      Email: "",
+      Location: "",
       Password: "",
-      EmployeeId: "",
+      PhoneNumber: "",
+      ContactPerson: "",
     });
   }
 

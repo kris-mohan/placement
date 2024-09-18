@@ -164,9 +164,11 @@
             class="matbutton"
             (click)="openImportCompanyDialog()"
           >
-            <p class="matName">All Filters</p>
+            <p class="matName">Additional Filters</p>
           </button>
+
           <button
+            *ngIf="userType !== 3"
             mat-raised-button
             class="matbutton"
             (click)="openAddEditCompanyForm(0)"
@@ -191,14 +193,22 @@
           <ng-container [ngSwitch]="column.key">
             <ng-container *ngSwitchCase="'Actions'">
               <div class="td-mat-button">
-                <button
+                <!-- <button
                   mat-icon-button
                   (click)="openAddEditCompanyForm(element.Id)"
                 >
                   <mat-icon> edit </mat-icon>
-                </button>
-                <button mat-icon-button (click)="deleteCompany(element.Id)">
+                </button> -->
+                <button
+                  *ngIf="userType !== 3"
+                  mat-icon-button
+                  (click)="deleteCompany(element.Id)"
+                >
                   <mat-icon> delete </mat-icon>
+                </button>
+
+                <button mat-icon-button matTooltip="Read More">
+                  <mat-icon>read_more</mat-icon>
                 </button>
               </div>
             </ng-container>
