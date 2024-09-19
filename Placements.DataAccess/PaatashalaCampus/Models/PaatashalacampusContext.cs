@@ -27,6 +27,8 @@ public partial class PaatashalacampusContext : DbContext
 
     public virtual DbSet<Studentplaced> Studentplaceds { get; set; }
 
+    public virtual DbSet<Studentregistartion> Studentregistartions { get; set; }
+
     public virtual DbSet<Tblstudent> Tblstudents { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -110,6 +112,22 @@ public partial class PaatashalacampusContext : DbContext
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("studentplaced");
+        });
+
+        modelBuilder.Entity<Studentregistartion>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("studentregistartion");
+
+            entity.Property(e => e.Batch).HasMaxLength(50);
+            entity.Property(e => e.Branch).HasMaxLength(50);
+            entity.Property(e => e.DateOfRegistration).HasColumnType("datetime");
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Password).HasMaxLength(50);
+            entity.Property(e => e.PhoneNumber).HasMaxLength(50);
+            entity.Property(e => e.RollNumber).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Tblstudent>(entity =>

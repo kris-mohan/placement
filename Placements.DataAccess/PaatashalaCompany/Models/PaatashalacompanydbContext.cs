@@ -19,6 +19,8 @@ public partial class PaatashalacompanydbContext : DbContext
 
     public virtual DbSet<Companyindustry> Companyindustries { get; set; }
 
+    public virtual DbSet<Companyregistration> Companyregistrations { get; set; }
+
     public virtual DbSet<Companytechonology> Companytechonologies { get; set; }
 
     public virtual DbSet<Industry> Industries { get; set; }
@@ -76,6 +78,21 @@ public partial class PaatashalacompanydbContext : DbContext
             entity.HasOne(d => d.Industry).WithMany(p => p.Companyindustries)
                 .HasForeignKey(d => d.IndustryId)
                 .HasConstraintName("FK_CompanyIndustries_Industries");
+        });
+
+        modelBuilder.Entity<Companyregistration>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("companyregistration");
+
+            entity.Property(e => e.CompanyName).HasMaxLength(50);
+            entity.Property(e => e.ContactPerson).HasMaxLength(50);
+            entity.Property(e => e.DateOfRegistration).HasColumnType("datetime");
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Location).HasMaxLength(50);
+            entity.Property(e => e.Password).HasMaxLength(50);
+            entity.Property(e => e.PhoneNumber).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Companytechonology>(entity =>

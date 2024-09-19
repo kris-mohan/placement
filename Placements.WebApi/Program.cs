@@ -107,6 +107,7 @@ static IEdmModel GetEdmModel()
   modelBuilder.EntitySet<Studentplaced>("Studentplaced");
   modelBuilder.EntitySet<Tblstudent>("Tblstudent");
   modelBuilder.EntitySet<Campusregistration>("Campusregistration");
+  modelBuilder.EntitySet<Studentregistartion>("Studentregistartion");
 
   modelBuilder.EntitySet<Companydatum>("Companydatum");
   modelBuilder.EntitySet<Companytechonology>("Companytechonology");
@@ -116,6 +117,7 @@ static IEdmModel GetEdmModel()
   modelBuilder.EntitySet<Industry>("Industry");
   modelBuilder.EntitySet<Companyindustry>("Companyindustry");
   modelBuilder.EntitySet<Login>("Login");
+  modelBuilder.EntitySet<Companyregistration>("Companyregistration");
 
   modelBuilder.EntitySet<Trainer>("Trainer");
   modelBuilder.EntitySet<Trainerschedule>("Trainerschedule");

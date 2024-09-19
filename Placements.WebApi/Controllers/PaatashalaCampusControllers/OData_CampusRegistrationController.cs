@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Placements.DataAccess.PaatashalaCampus.Models;
+using Placements.DataAccess.PaatashalaCompany.Models;
 
 namespace Placements.WebApi.Controllers.PaatashalaCampusControllers
 {
@@ -13,10 +14,12 @@ namespace Placements.WebApi.Controllers.PaatashalaCampusControllers
   {
 
     private readonly PaatashalacampusContext _context;
+    private readonly PaatashalacompanydbContext _paatashalacompanydbContext;
 
-    public OData_CampusRegistrationController(PaatashalacampusContext context)
+    public OData_CampusRegistrationController(PaatashalacampusContext context, PaatashalacompanydbContext paatashalacompanydbContext)
     {
       _context = context;
+      _paatashalacompanydbContext = paatashalacompanydbContext;
     }
 
 
@@ -35,7 +38,17 @@ namespace Placements.WebApi.Controllers.PaatashalaCampusControllers
         _context.Campusregistrations.Add(campusregistration);
         await _context.SaveChangesAsync();
 
-       return Ok(new { success = true, message = "Campus Registration Added Successfully" });
+        var loginDetails = new Login
+        {
+          UserName = campusregistration.CollegeEmail,
+          Password = campusregistration.Password,
+          UserType = campusregistration.UserType,
+          DateOfRegistration = campusregistration.DateOfRegistration
+        };
+        _paatashalacompanydbContext.Logins.Add(loginDetails);
+        await _paatashalacompanydbContext.SaveChangesAsync();
+
+        return Ok(new { success = true, message = "Campus Registration Added Successfully" });
       }
       catch (Exception ex)
       {

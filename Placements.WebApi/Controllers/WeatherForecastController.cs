@@ -57,28 +57,36 @@ namespace Placements.WebApi.Controllers
         {
           return BadRequest("Invalid client request");
         }
-        bool isValidUser = false;
-        var campusUser = _paatashalacampusContext.Campusregistrations
-           .FirstOrDefault(c => c.Email == user.UserName || c.CollegeEmail == user.UserName || c.CollegeName == user.UserName );
+        var loginUser = _paatashalacompanydbContext.Logins
+           .FirstOrDefault(l => l.UserName == user.UserName && l.Password == user.Password );
 
-       
-        var companyUser = _paatashalacompanydbContext.Logins
-           .FirstOrDefault(c => c.UserName == user.UserName);
-        if (campusUser != null && campusUser.Password == user.Password)
+        if (loginUser == null)
         {
-          user.UserType = "1";
+          return Unauthorized(new { success = false, message = "Invalid UserName, Password or UserType" });
         }
 
-        else if (companyUser != null && companyUser.Password == user.Password)
-        {
-          user.UserType = "2";
-        }
+        //bool isValidUser = false;
+        //var campusUser = _paatashalacampusContext.Campusregistrations
+        //   .FirstOrDefault(c => c.Email == user.UserName || c.CollegeEmail == user.UserName || c.CollegeName == user.UserName );
 
-        else
-        {
-          return Unauthorized(new { success = false, message = "Invalid UserName or Password" });
-        }
-          var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
+
+        //var companyUser = _paatashalacompanydbContext.Logins
+        //   .FirstOrDefault(c => c.UserName == user.UserName);
+        //if (campusUser != null && campusUser.Password == user.Password)
+        //{
+        //  user.UserType = "1";
+        //}
+
+        //else if (companyUser != null && companyUser.Password == user.Password)
+        //{
+        //  user.UserType = "2";
+        //}
+
+        //else
+        //{
+        //  return Unauthorized(new { success = false, message = "Invalid UserName or Password" });
+        //}
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
           var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
           var tokenOptions = new JwtSecurityToken(
               issuer: _configuration["JwtSettings:ValidIssuer"],
@@ -96,10 +104,9 @@ namespace Placements.WebApi.Controllers
           return Ok(new AuthenticatedResponse
           {
             UserName = user.UserName,
-            UserType = user.UserType,
+            UserType = loginUser.UserType,
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            CollegeName = campusUser?.CollegeName
           });
         //}
        
