@@ -2,6 +2,7 @@ export type companyTableList = {
   Id: number;
   Name: string;
   Address: string;
+  Url: string;
   PhoneNumber: string;
   Gstnumber: string;
   ContactPerson: string;

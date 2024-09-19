@@ -194,6 +194,11 @@ const appRoutes: Routes = [
         path: "test-interviews/:collegeId/:jobId/:studentId",
         component: StudentResultInformation,
       },
+
+      {
+        path: "students",
+        component: EligibleStudentsListComponent,
+      },
       {
         path: "**",
         redirectTo: "dashboard",

@@ -38,6 +38,17 @@ export class ImportCompanyDialogComponent implements OnInit {
     "10001+ employees",
   ];
 
+  salaryRanges: string[] = [
+    "0 - 2 LPA",
+    "2 - 4 LPA",
+    "4 - 6 LPA",
+    "6 - 8 LPA",
+    "8 - 10 LPA",
+    "10 - 15 LPA",
+    "15 - 20 LPA",
+    "20+ LPA",
+  ];
+
   filteredCompanies: companyTableList[] = [];
   filteredCities: Observable<any[]> = of([]);
   filteredIndustries: Industry[] = [];
@@ -52,11 +63,13 @@ export class ImportCompanyDialogComponent implements OnInit {
   locationControl = new FormControl();
   industryControl = new FormControl();
   companySizeControl = new FormControl();
+  salaryRangeControl = new FormControl();
 
   companyFilterControl = new FormControl();
   locationFilterControl = new FormControl();
   industryFilterControl = new FormControl();
   companySizeFilterControl = new FormControl();
+  salaryRangeFilterControl = new FormControl();
 
   constructor(
     private apiCompanyService: CompanyAPIService,

@@ -1,10 +1,12 @@
 export type CompanyRegistration = {
   Id: number;
-  CompanyId: number;
-  UserName: string;
+  CompanyName: number;
+  Email: string;
+  Location: string;
   Password: string;
-  EmployeeId: string;
+  PhoneNumber: string;
   DateOfRegistration: Date;
   IsActive: boolean;
   UserType: number;
+  ContactPerson: string;
 };

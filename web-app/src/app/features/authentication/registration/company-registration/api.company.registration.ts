@@ -29,7 +29,7 @@ export class CompanyRegistrationAPIService {
     id: number | null,
     CompanyData: Partial<any>
   ): Observable<any> {
-    const url = `/Login?key=${id ? id : ""}`;
+    const url = `/Companyregistration?key=${id ? id : ""}`;
     const method = id ? "patch" : "post";
     return this.apiHttpService[method](url, CompanyData);
   }

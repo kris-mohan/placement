@@ -120,11 +120,21 @@
   </mat-form-field>
 
   <p>Company Size</p>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="full-width">
     <mat-label>Company Size</mat-label>
     <mat-select [formControl]="companySizeControl" multiple>
       @for (companySize of companySizes; track companySize) {
       <mat-option [value]="companySize">{{ companySize }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <p>Salary Range</p>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Salary Range</mat-label>
+    <mat-select [formControl]="salaryRangeControl" multiple>
+      @for (salaryRange of salaryRanges; track salaryRange) {
+      <mat-option [value]="salaryRange">{{ salaryRange }}</mat-option>
       }
     </mat-select>
   </mat-form-field>

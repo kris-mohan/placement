@@ -30,7 +30,9 @@ export interface ODataResponse<T> {
 })
 export class CompaniesComponent {
   companies: companyTableList[] = [];
+
   industries: Industry[] = [];
+
   companySizes: string[] = [
     "1-10 Employees",
     "11-50 Employees",
@@ -54,6 +56,7 @@ export class CompaniesComponent {
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
+  userType: number;
 
   CityControl = new FormControl();
   industryControl = new FormControl();
@@ -72,21 +75,36 @@ export class CompaniesComponent {
     private location: Location,
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService
-  ) {}
+  ) {
+    const storedUserType = sessionStorage.getItem("userType");
+    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+  }
   displayedColumns: string[] = [
-    "Url",
+    // "Url",
+    // "Name",
+    // "ContactPerson",
+    // "City",
+    // "ZipCode",
+    // "Actions",
     "Name",
+    "Industries",
+    "OpenPosition",
     "ContactPerson",
     "City",
-    "ZipCode",
+    "Email",
+    "PhoneNumber",
+    "Url",
     "Actions",
   ];
   columns = [
-    { key: "Url", label: "Url" },
     { key: "Name", label: "Name" },
+    { key: "Industries", label: "Industries" },
+    { key: "OpenPosition", label: "Open Position" },
     { key: "ContactPerson", label: "Contact Person" },
     { key: "City", label: "City" },
-    { key: "ZipCode", label: "ZipCode" },
+    { key: "Email", label: "Email" },
+    { key: "PhoneNumber", label: "Phone Number" },
+    { key: "Url", label: "URL" },
     { key: "Actions", label: "Actions" },
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);

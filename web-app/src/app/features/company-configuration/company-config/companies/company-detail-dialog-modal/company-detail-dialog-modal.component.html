@@ -4,15 +4,23 @@
   <mat-dialog-content>
     <p><strong>Address:</strong> {{ data.Address }}</p>
     <p><strong>Phone Number:</strong> {{ data.PhoneNumber }}</p>
-    <p><strong>GST Number:</strong> {{ data.Gstnumber }}</p>
+    <p><strong>Email:</strong></p>
+    <!-- <p><strong>GST Number:</strong> {{ data.Gstnumber }}</p> -->
     <p><strong>Contact Person:</strong> {{ data.ContactPerson }}</p>
     <p><strong>Address Line 1:</strong> {{ data.AddressLine1 }}</p>
     <p><strong>City:</strong> {{ data.City }}</p>
     <p><strong>State:</strong> {{ data.State }}</p>
-    <p><strong>Zip Code:</strong> {{ data.ZipCode }}</p>
+    <!-- <p><strong>Zip Code:</strong> {{ data.ZipCode }}</p> -->
     <p><strong>Country:</strong> {{ data.Country }}</p>
-    <p><strong>Parent Company ID:</strong> {{ data.ParentCompanyId }}</p>
+    <!-- <p><strong>Parent Company ID:</strong> {{ data.ParentCompanyId }}</p> -->
     <p><strong>Industries:</strong></p>
+    <p>
+      <strong>Company Website:</strong>
+      <a [href]="data.Url" target="_blank" rel="noopener noreferrer">{{
+        data.Url
+      }}</a>
+    </p>
+
     <!-- <ul>
     <li *ngFor="let industry of data.Companyindustries">
       {{ industry.Name }}
@@ -21,6 +29,11 @@
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button (click)="onClose()">Close</button>
-    <button mat-button (click)="clickKnowMore()">Know More</button>
+    <button *ngIf="userType !== 3" mat-button (click)="clickKnowMore()">
+      Know More
+    </button>
+    <button *ngIf="userType === 3" mat-button (click)="clickKnowMore()">
+      Apply now
+    </button>
   </mat-dialog-actions>
 </div>

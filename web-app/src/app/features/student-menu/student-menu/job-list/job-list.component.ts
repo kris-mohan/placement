@@ -10,6 +10,8 @@ import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 import { JOBS } from "./job-list-model";
+import { FormControl } from "@angular/forms";
+import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
 
 export const CompanyListData: JOBS[] = [
   {
@@ -67,6 +69,8 @@ export const CompanyListData: JOBS[] = [
   styleUrl: "./job-list.component.css",
 })
 export class JobListComponent {
+  companies: companyTableList[] = [];
+
   constructor(
     private router: Router,
     private sweetAlertService: SweetAlertService,
@@ -94,6 +98,61 @@ export class JobListComponent {
   dataSource = new MatTableDataSource<JOBS>(CompanyListData);
   selection = new SelectionModel<JOBS>(true, []);
   @ViewChild(MatSort) sort!: MatSort;
+
+  filteredCompanies: companyTableList[] = [];
+
+  CityControl = new FormControl();
+
+  searchCity: string = "";
+
+  onCityDropdownOpen() {
+    this.filterCities(this.searchCity);
+  }
+
+  filterCities(search: string) {
+    const filterValue = search.toLowerCase();
+
+    const filteredList = this.companies.filter((company) =>
+      company.City.toLowerCase().includes(filterValue)
+    );
+
+    const selectedCompanies = this.CityControl.value || [];
+    this.filteredCompanies = [
+      ...selectedCompanies
+        .map((name: any) =>
+          this.companies.find((company) => company.City === name)
+        )
+        .filter(Boolean),
+      ...filteredList.filter(
+        (company) => !selectedCompanies.includes(company.City)
+      ),
+    ];
+  }
+
+  get selectedCompanyCities(): string {
+    const selected = this.CityControl.value;
+    return selected ? selected.join(", ") : "";
+  }
+
+  resetLocationSelection() {
+    this.CityControl.reset();
+    this.searchCity = "";
+    this.filteredCompanies = this.companies;
+    // this.dataSource.data = this.filteredCompanies;
+  }
+
+  showLocationResults() {
+    const selectedCities = this.CityControl.value;
+    if (selectedCities && selectedCities.length > 0) {
+      this.filteredCompanies = this.companies.filter((company) =>
+        selectedCities.includes(company.City)
+      );
+    } else {
+      this.filteredCompanies = this.companies;
+    }
+
+    // this.dataSource.data = this.filteredCompanies;
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;

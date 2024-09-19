@@ -17,16 +17,18 @@ import { SharedModule } from "src/app/shared/shared.module";
   styleUrl: "./company-detail-dialog-modal.component.css",
 })
 export class CompanyDetailDialogModalComponent {
+  userType: number;
   constructor(
     public dialogRef: MatDialogRef<CompanyDetailDialogModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: companyTableList
-  ) {}
+  ) {
+    const storedUserType = sessionStorage.getItem("userType");
+    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+  }
 
   onClose(): void {
     this.dialogRef.close();
   }
 
-  clickKnowMore() {
-    
-  }
+  clickKnowMore() {}
 }
