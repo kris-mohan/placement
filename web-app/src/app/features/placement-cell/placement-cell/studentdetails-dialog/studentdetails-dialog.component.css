@@ -1,0 +1,68 @@
+/* Dialog Header */
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 8px;
+}
+
+.close-button {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  background: transparent; /* Optional: make it transparent */
+  border: none; /* Optional: remove default button border */
+  color: #000; /* Change color as needed */
+  font-size: 16px; /* Change size as needed */
+  cursor: pointer; /* Change cursor on hover */
+}
+.student-details {
+  padding: 20px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.student-info {
+  margin-left: 20px;
+}
+
+.skills {
+  padding: 10px;
+}
+
+mat-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+mat-chip {
+  margin: 5px;
+}
+
+.status {
+  padding: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+td {
+  background-color: #fff;
+}
