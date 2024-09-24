@@ -36,6 +36,7 @@ import { StudentsListComponent } from "./features/company-menu/test-interviews/s
 import { StudentResultInformation } from "./features/company-menu/test-interviews/student-result-information/student-result-information.component";
 import { AddEditIndustryComponent } from "./features/company-configuration/company-config/industry/add-edit-industry/add-edit-industry.component";
 import { AddEditcompanyIndustryComponent } from "./features/company-configuration/company-config/industry-technology/add-edit-industry-technology/add-edit-company-industry.component";
+import { CalendarComponent } from "./features/company-menu/calendar/calendar.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -198,6 +199,10 @@ const appRoutes: Routes = [
       {
         path: "students",
         component: EligibleStudentsListComponent,
+      },
+      {
+        path: "calendar",
+        component: CalendarComponent,
       },
       {
         path: "**",

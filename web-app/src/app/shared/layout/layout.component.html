@@ -240,6 +240,19 @@
             <div><mat-label>Company Lists</mat-label></div>
           </div>
         </a>
+
+        <!-- <a
+          *ngIf="userType === 1"
+          mat-list-item
+          [routerLink]="['/calendar']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon>work_outline</mat-icon></div>
+            <div><mat-label>calendar</mat-label></div>
+          </div>
+        </a> -->
         <!-- </mat-expansion-panel> -->
         <!-- 
         <mat-expansion-panel style="box-shadow: none" *ngIf="userType === 3">
@@ -271,7 +284,7 @@
           </div>
         </a> -->
 
-        <a
+        <!-- <a
           *ngIf="userType === 3"
           mat-list-item
           routerLinkActive="active"
@@ -281,7 +294,7 @@
             <div><mat-icon>calendar_month</mat-icon></div>
             <div><mat-label>Calendar</mat-label></div>
           </div>
-        </a>
+        </a> -->
 
         <a
           *ngIf="userType === 3"
