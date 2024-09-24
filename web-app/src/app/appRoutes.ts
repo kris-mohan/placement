@@ -36,6 +36,8 @@ import { StudentsListComponent } from "./features/company-menu/test-interviews/s
 import { StudentResultInformation } from "./features/company-menu/test-interviews/student-result-information/student-result-information.component";
 import { AddEditIndustryComponent } from "./features/company-configuration/company-config/industry/add-edit-industry/add-edit-industry.component";
 import { AddEditcompanyIndustryComponent } from "./features/company-configuration/company-config/industry-technology/add-edit-industry-technology/add-edit-company-industry.component";
+import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/add-edit-company-job-details/add-rounds-modal/add-rounds-modal.component";
+import { PanelTabComponent } from "./features/company-menu/company-job-details/panel-tab/panel-tab.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -72,6 +74,7 @@ const appRoutes: Routes = [
         component: CompanyConfigComponent,
         title: "Company Configuration",
       },
+
       {
         path: "company-configuration/company/:companyId",
         component: AddEditCompanyComponent,
@@ -199,6 +202,15 @@ const appRoutes: Routes = [
         path: "students",
         component: EligibleStudentsListComponent,
       },
+      {
+        path: "testr",
+        component: AddRoundsModalComponent,
+      },
+      {
+        path: "Panel",
+        component: PanelTabComponent,
+      },
+
       {
         path: "**",
         redirectTo: "dashboard",

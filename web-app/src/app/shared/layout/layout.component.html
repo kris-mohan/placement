@@ -197,6 +197,18 @@
             <div><mat-label>Job Posting</mat-label></div>
           </div>
         </a>
+        <!-- <a
+          *ngIf="userType === 2"
+          mat-list-item
+          [routerLink]="['/company-job-details']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> </mat-icon></div>
+            <div><mat-label>Panel</mat-label></div>
+          </div>
+        </a> -->
 
         <a
           *ngIf="userType === 2"
@@ -210,6 +222,7 @@
             <div><mat-label>Test/Interviews</mat-label></div>
           </div>
         </a>
+
         <!-- </mat-expansion-panel> -->
 
         <!-- <mat-expansion-panel style="box-shadow: none" *ngIf="userType === 1">

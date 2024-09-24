@@ -7,6 +7,7 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
 import { SharedModule } from "src/app/shared/shared.module";
 import { CompanyRegistrationAPIService } from "./api.company.registration";
 import { CompanyRegistration } from "./company-registration.module";
+import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -15,7 +16,12 @@ export interface ODataResponse<T> {
 @Component({
   selector: "app-company-registration",
   standalone: true,
-  imports: [SharedModule, AMGModules, CommonModule],
+  imports: [
+    SharedModule,
+    AMGModules,
+    CommonModule,
+    NgxMaterialTimepickerModule,
+  ],
   templateUrl: "./company-registration.component.html",
   styleUrl: "./company-registration.component.css",
 })

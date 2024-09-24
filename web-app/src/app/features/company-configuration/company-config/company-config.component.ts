@@ -10,7 +10,6 @@ import { IndustryComponent } from "./industry/industry.component";
 import { TabService } from "../tabs-service";
 import { MatTabGroup } from "@angular/material/tabs";
 import { CompanyIndustryComponent } from "./industry-technology/company-industry.component";
-
 @Component({
   selector: "app-company-config",
   standalone: true,
@@ -25,6 +24,7 @@ import { CompanyIndustryComponent } from "./industry-technology/company-industry
     IndustryComponent,
     CompanyIndustryComponent,
   ],
+
   templateUrl: "./company-config.component.html",
   styleUrl: "./company-config.component.css",
 })
