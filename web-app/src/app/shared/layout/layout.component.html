@@ -78,6 +78,17 @@
           </div>
         </a>
         <a
+          mat-list-item
+          [routerLink]="['/job-postings']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> </mat-icon></div>
+            <div><mat-label>Job Postings</mat-label></div>
+          </div>
+        </a>
+        <a
           *ngIf="userType === 3"
           mat-list-item
           routerLinkActive="active"
@@ -297,7 +308,7 @@
         </a> -->
 
         <a
-          *ngIf="userType === 3"
+          [routerLink]="['/interview']"
           mat-list-item
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"

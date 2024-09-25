@@ -37,6 +37,8 @@ import { StudentResultInformation } from "./features/company-menu/test-interview
 import { AddEditIndustryComponent } from "./features/company-configuration/company-config/industry/add-edit-industry/add-edit-industry.component";
 import { AddEditcompanyIndustryComponent } from "./features/company-configuration/company-config/industry-technology/add-edit-industry-technology/add-edit-company-industry.component";
 import { CalendarComponent } from "./features/company-menu/calendar/calendar.component";
+import { JobPostingsComponent } from "./features/campus-configuration/campus-configuration/job-postings/job-postings.component";
+import { InterviewComponent } from "./features/company-menu/interview/interview.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -203,6 +205,14 @@ const appRoutes: Routes = [
       {
         path: "calendar",
         component: CalendarComponent,
+      },
+      {
+        path: "job-postings",
+        component: JobPostingsComponent,
+      },
+      {
+        path: "interview",
+        component: InterviewComponent,
       },
       {
         path: "**",
