@@ -1,0 +1,9 @@
+.row-wrap
+{
+display: flex;
+justify-content: space-between;
+}
+
+.matFormField {
+  width:100%;
+}

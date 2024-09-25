@@ -41,6 +41,8 @@ import { FeedbackSurveyComponent } from './features/placement-cell/placement-cel
 import { CalendarComponent } from "./features/company-menu/calendar/calendar.component";
 import { JobPostingsComponent } from "./features/campus-configuration/campus-configuration/job-postings/job-postings.component";
 import { InterviewComponent } from "./features/company-menu/interview/interview.component";
+import { ProfileManagementComponent } from "./features/student-menu/student-menu/profile-management/profile-management.component";
+import { AlumniComponent } from "./features/student-menu/alumni/alumni.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -113,7 +115,11 @@ const appRoutes: Routes = [
         component: AddEditCalendarEventsComponent,
       },
       {
-        path: 'campus-configuration/invitations/:id',
+        path: "profile-management",
+        component: ProfileManagementComponent,
+      },
+      {
+        path: "campus-configuration/invitations/:id",
         component: AddEditInvitationsComponent,
       },
       {
@@ -124,7 +130,10 @@ const appRoutes: Routes = [
         path: 'campus-configuration/mapping-jobs/:id',
         component: AddEditMappingJobPostComponent,
       },
-
+      {
+        path: "student-alumni",
+        component: AlumniComponent,
+      },
       {
         path: 'training-configuration',
         component: TrainingConfigurationComponent,
