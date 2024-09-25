@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>Student Details</h2>
+
+<mat-dialog-content>
+  <div class="student-details">
+    <button mat-button class="close-button" mat-dialog-close>X</button>
+    <div class="profile-header">
+      <img src="student-profile.jpg" alt="Profile Photo" />
+      <div class="student-info">
+        <h3>Akshay Kumar</h3>
+        <p>Batch: 2024 | USN: 1EE20C5001</p>
+        <p>Branch: Computer Science & Engineering</p>
+        <!-- <p>CGPA: 8.7 | 8th Semester</p> -->
+      </div>
+    </div>
+
+    <mat-tab-group>
+      <mat-tab label="Overview">
+        <div class="overview">
+          <p><strong>Batch:</strong> 2024</p>
+          <p><strong>USN:</strong> 1EE20C5001</p>
+          <p><strong>CGPA:</strong> 8.7</p>
+          <p><strong>Current Semester:</strong> 8th</p>
+          <p><strong>Branch:</strong> Computer Science & Engineering</p>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Skills">
+        <div class="skills">
+          <table mat-table [dataSource]="skillsData" class="mat-elevation-z8">
+            <ng-container matColumnDef="skillName">
+              <th mat-header-cell *matHeaderCellDef>Skill Name</th>
+              <td mat-cell *matCellDef="let skill">{{ skill.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="proficiencyLevel">
+              <th mat-header-cell *matHeaderCellDef>Proficiency Level</th>
+              <td mat-cell *matCellDef="let skill">{{ skill.level }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="verified">
+              <th mat-header-cell *matHeaderCellDef>Verified</th>
+              <td mat-cell *matCellDef="let skill">{{ skill.verified }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedSkillsColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedSkillsColumns"></tr>
+          </table>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Status">
+        <div class="status">
+          <table mat-table [dataSource]="statusData" class="mat-elevation-z8">
+            <!-- Company Name Column -->
+            <ng-container matColumnDef="companyName">
+              <th mat-header-cell *matHeaderCellDef>Company Name</th>
+              <td mat-cell *matCellDef="let status">{{ status.company }}</td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let status">
+                {{ status.currentStatus }}
+              </td>
+            </ng-container>
+
+            <!-- Interview Date Column -->
+            <ng-container matColumnDef="interviewDate">
+              <th mat-header-cell *matHeaderCellDef>Interview Date</th>
+              <td mat-cell *matCellDef="let status">{{ status.date }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedStatusColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedStatusColumns"></tr>
+          </table>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</mat-dialog-content>

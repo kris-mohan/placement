@@ -1,0 +1,39 @@
+.feedback-survey {
+  padding: 20px;
+}
+
+.summary-cards {
+  display: flex;
+  gap: 15px;
+}
+
+.summary-card {
+  padding: 10px;
+  width: 200px;
+  height: 50px;
+  margin-bottom: 15px;
+}
+
+.question-list {
+  margin-top: 20px;
+}
+
+.question-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 15px;
+}
+
+.mat-tab-group {
+  margin-top: 20px;
+}
+
+.mat-form-field {
+  width: 100%;
+  margin-top: 10px;
+}
