@@ -37,6 +37,7 @@ import { StudentResultInformation } from './features/company-menu/test-interview
 import { AddEditIndustryComponent } from './features/company-configuration/company-config/industry/add-edit-industry/add-edit-industry.component';
 import { AddEditcompanyIndustryComponent } from './features/company-configuration/company-config/industry-technology/add-edit-industry-technology/add-edit-company-industry.component';
 import { CompanyCalendarComponent } from './features/placement-cell/placement-cell/company-calendar/company-calendar.component';
+import { FeedbackSurveyComponent } from './features/placement-cell/placement-cell/feedback-survey/feedback-survey.component';
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -161,6 +162,10 @@ const appRoutes: Routes = [
       {
         path: 'company-calendar',
         component: CompanyCalendarComponent,
+      },
+      {
+        path: 'campus-feedback-survey',
+        component: FeedbackSurveyComponent,
       },
       {
         path: 'company-lists/:companyId',
