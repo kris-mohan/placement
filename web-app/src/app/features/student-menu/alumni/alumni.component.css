@@ -1,0 +1,11 @@
+.date-picker-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  mat-form-field {
+    width: 200px;
+    padding: 30px
+  }
+  

@@ -80,12 +80,13 @@
         <a
           *ngIf="userType === 3"
           mat-list-item
+          [routerLink]="['/profile-management']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> manage_accounts </mat-icon></div>
-            <div><mat-label>Profile Management </mat-label></div>
+            <div><mat-label>Profile Management</mat-label></div>
           </div>
         </a>
 
@@ -283,6 +284,7 @@
           </div>
         </a>
 
+
         <a
           *ngIf="userType === 3"
           mat-list-item
@@ -306,6 +308,18 @@
             <div><mat-label>Notifications</mat-label></div>
           </div>
         </a>
+        <a
+        *ngIf="userType === 3"
+        mat-list-item
+        [routerLink]="['/student-alumni']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <div class="sidebar-list-items">
+          <div><mat-icon>Alumni</mat-icon></div>
+          <div><mat-label>Alumni</mat-label></div>
+        </div>
+      </a>
 
         <a
           *ngIf="userType === 3"
