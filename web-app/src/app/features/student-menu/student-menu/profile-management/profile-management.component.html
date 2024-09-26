@@ -1,3 +1,7 @@
+<div class="example-button-container" (click)="goBack()">
+  <mat-icon>keyboard_backspace</mat-icon>
+</div>
+
 <mat-card>
   <mat-card-content>
     <div fxLayout="row wrap" class="row-wrap">
@@ -5,8 +9,7 @@
         fxFlex="100%"
         fxFlex.gt-md="33%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
         <p class="grid-label">First Name</p>
         <mat-form-field appearance="outline">
           <mat-label>First Name</mat-label>
@@ -18,14 +21,11 @@
         fxFlex="100%"
         fxFlex.gt-md="33%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
         <p class="grid-label">Middle Name</p>
-        <mat-form-field appearance="outline" >
+        <mat-form-field appearance="outline">
           <mat-label>Middle Name</mat-label>
-          <input
-            matInput
-          />
+          <input matInput />
           <!-- <mat-icon matSuffix (click)="togglePasswordVisibility()">{{
             isPasswordVisible ? "visibility" : "visibility_off"
           }}</mat-icon> -->
@@ -35,15 +35,11 @@
         fxFlex="100%"
         fxFlex.gt-md="33%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
         <p class="grid-label">Last Name</p>
-        <mat-form-field appearance="outline" >
+        <mat-form-field appearance="outline">
           <mat-label>Last Name</mat-label>
-          <input
-            formControlName="Password"
-            matInput
-          />
+          <input formControlName="Password" matInput />
           <!-- <mat-icon matSuffix (click)="toggleConfirmPasswordVisibility()">{{
             isConfirmPasswordVisible ? "visibility" : "visibility_off"
           }}</mat-icon> -->
@@ -56,8 +52,7 @@
         fxFlex="100%"
         fxFlex.gt-md="33%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
         <p class="grid-label">Date Of Birth</p>
         <mat-form-field appearance="outline">
           <mat-label>DOB</mat-label>
@@ -69,14 +64,11 @@
         fxFlex="100%"
         fxFlex.gt-md="33%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
         <p class="grid-label">Email</p>
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input
-            matInput
-          />
+          <input matInput />
           <!-- <mat-icon matSuffix (click)="togglePasswordVisibility()">{{
             isPasswordVisible ? "visibility" : "visibility_off"
           }}</mat-icon> -->
@@ -86,15 +78,11 @@
         fxFlex="100%"
         fxFlex.gt-md="33%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
         <p class="grid-label">Blood group</p>
         <mat-form-field appearance="outline">
           <mat-label>Blood gorup</mat-label>
-          <input
-            formControlName="Password"
-            matInput
-          />
+          <input formControlName="Password" matInput />
           <!-- <mat-icon matSuffix (click)="toggleConfirmPasswordVisibility()">{{
             isConfirmPasswordVisible ? "visibility" : "visibility_off"
           }}</mat-icon> -->
@@ -107,8 +95,7 @@
         fxFlex="100%"
         fxFlex.gt-md="33%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
         <p class="grid-label">Enter USN No.</p>
         <mat-form-field appearance="outline">
           <mat-label>USN no.</mat-label>
@@ -120,14 +107,11 @@
         fxFlex="100%"
         fxFlex.gt-md="33%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
         <p class="grid-label">Branch</p>
-        <mat-form-field appearance="outline" >
+        <mat-form-field appearance="outline">
           <mat-label>Branch</mat-label>
-          <input
-            matInput
-          />
+          <input matInput />
           <!-- <mat-icon matSuffix (click)="togglePasswordVisibility()">{{
             isPasswordVisible ? "visibility" : "visibility_off"
           }}</mat-icon> -->
@@ -139,45 +123,40 @@
 
     <div fxLayout="row wrap" class="row-wrap">
       <div
-      fxFlex="100%"
-      fxFlex.gt-md="25%"
-      fxFlex.gt-lg="25%"
-      fxFlex.gt-sm="50%"
-    >
-      <p class="grid-label">10th Board</p>
-      <mat-form-field appearance="outline">
-        <mat-label>Select Board</mat-label>
-        <mat-select (selectionChange)="onBoardChange($event)">
-          <mat-option *ngFor="let board of Boards" [value]="board.value">
-            {{ board.viewValue }}
-          </mat-option>
-          
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div
-      fxFlex="100%"
-      fxFlex.gt-md="25%"
-      fxFlex.gt-lg="25%"
-      fxFlex.gt-sm="50%"
-    >
-      <p class="grid-label">10th Score*</p>
-      <mat-form-field appearance="outline">
-        <mat-label>Select Score</mat-label>
-        <mat-select (selectionChange)="onScoreChange($event)">
-          <mat-option *ngFor="let score of Scores" [value]="score.value">
-            {{ score.viewValue }}
-          </mat-option>      
-                   
-        </mat-select>
-      </mat-form-field>
-    </div>
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%">
+        <p class="grid-label">10th Board</p>
+        <mat-form-field appearance="outline">
+          <mat-label>Select Board</mat-label>
+          <mat-select (selectionChange)="onBoardChange($event)">
+            <mat-option *ngFor="let board of Boards" [value]="board.value">
+              {{ board.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <div
         fxFlex="100%"
         fxFlex.gt-md="25%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
+        <p class="grid-label">10th Score*</p>
+        <mat-form-field appearance="outline">
+          <mat-label>Select Score</mat-label>
+          <mat-select (selectionChange)="onScoreChange($event)">
+            <mat-option *ngFor="let score of Scores" [value]="score.value">
+              {{ score.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%">
         <p class="grid-label">Enter Score</p>
         <mat-form-field appearance="outline">
           <mat-label>Enter Score</mat-label>
@@ -185,59 +164,51 @@
         </mat-form-field>
       </div>
       <div
-      fxFlex="100%"
-      fxFlex.gt-md="25%"
-      fxFlex.gt-lg="25%"
-      fxFlex.gt-sm="50%"
-    >
-      <p class="grid-label">Upload File</p>
-        <input
-          type="file"     
-        />   
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%">
+        <p class="grid-label">Upload File</p>
+        <input type="file" />
+      </div>
     </div>
-</div> 
-
 
     <div fxLayout="row wrap" class="row-wrap">
       <div
-      fxFlex="100%"
-      fxFlex.gt-md="25%"
-      fxFlex.gt-lg="25%"
-      fxFlex.gt-sm="50%"
-    >
-      <p class="grid-label">Select Course</p>
-      <mat-form-field appearance="outline">
-        <mat-label>Select Course</mat-label>
-        <mat-select (selectionChange)="onCourseChange($event)">
-          <mat-option *ngFor="let course of Courses" [value]="course.value">
-            {{ course.viewValue }}
-          </mat-option>
-          
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div
-      fxFlex="100%"
-      fxFlex.gt-md="25%"
-      fxFlex.gt-lg="25%"
-      fxFlex.gt-sm="50%"
-    >
-      <p class="grid-label"> Score*</p>
-      <mat-form-field appearance="outline">
-        <mat-label>Select Type</mat-label>
-        <mat-select (selectionChange)="onPuScoreChange($event)">
-          <mat-option *ngFor="let PuScore of Scores" [value]="PuScore.value">
-            {{ PuScore.viewValue }}
-          </mat-option>                   
-        </mat-select>
-      </mat-form-field>
-    </div>
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%">
+        <p class="grid-label">Select Course</p>
+        <mat-form-field appearance="outline">
+          <mat-label>Select Course</mat-label>
+          <mat-select (selectionChange)="onCourseChange($event)">
+            <mat-option *ngFor="let course of Courses" [value]="course.value">
+              {{ course.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <div
         fxFlex="100%"
         fxFlex.gt-md="25%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
+        <p class="grid-label">Score*</p>
+        <mat-form-field appearance="outline">
+          <mat-label>Select Type</mat-label>
+          <mat-select (selectionChange)="onPuScoreChange($event)">
+            <mat-option *ngFor="let PuScore of Scores" [value]="PuScore.value">
+              {{ PuScore.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%">
         <p class="grid-label">Enter Score</p>
         <mat-form-field appearance="outline">
           <mat-label>Enter Score</mat-label>
@@ -245,60 +216,56 @@
         </mat-form-field>
       </div>
       <div
-      fxFlex="100%"
-      fxFlex.gt-md="25%"
-      fxFlex.gt-lg="25%"
-      fxFlex.gt-sm="50%"
-    >
-      <p class="grid-label">Upload File</p>
-        <input
-          type="file"     
-        />   
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%">
+        <p class="grid-label">Upload File</p>
+        <input type="file" />
+      </div>
     </div>
-</div> 
-<mat-divider></mat-divider>
+    <mat-divider></mat-divider>
 
     <div fxLayout="row wrap" class="row-wrap">
       <div
-      fxFlex="100%"
-      fxFlex.gt-md="25%"
-      fxFlex.gt-lg="25%"
-      fxFlex.gt-sm="50%"
-    >
-      <p class="grid-label">Select Semester</p>
-      <mat-form-field appearance="outline">
-        <mat-label>Select Semester</mat-label>
-        <mat-select (selectionChange)="onSemesterChange($event)">
-          <mat-option *ngFor="let sem of Semesters" [value]="sem.value">
-            {{ sem.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      
-      <p>Selected Semester: {{ selectedSemester }}</p>
-    </div>
-    <div
-      fxFlex="100%"
-      fxFlex.gt-md="25%"
-      fxFlex.gt-lg="25%"
-      fxFlex.gt-sm="50%"
-    >
-      <p class="grid-label">Semester Score*</p>
-      <mat-form-field appearance="outline">
-        <mat-label>Select Type</mat-label>
-        <mat-select (selectionChange)="onSemScoreChange($event)">
-          <mat-option *ngFor="let SemScore of Scores" [value]="SemScore.value">
-            {{ SemScore.viewValue }}
-          </mat-option>            
-        </mat-select>
-      </mat-form-field>
-    </div>
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%">
+        <p class="grid-label">Select Semester</p>
+        <mat-form-field appearance="outline">
+          <mat-label>Select Semester</mat-label>
+          <mat-select (selectionChange)="onSemesterChange($event)">
+            <mat-option *ngFor="let sem of Semesters" [value]="sem.value">
+              {{ sem.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <p>Selected Semester: {{ selectedSemester }}</p>
+      </div>
       <div
         fxFlex="100%"
         fxFlex.gt-md="25%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+        fxFlex.gt-sm="50%">
+        <p class="grid-label">Semester Score*</p>
+        <mat-form-field appearance="outline">
+          <mat-label>Select Type</mat-label>
+          <mat-select (selectionChange)="onSemScoreChange($event)">
+            <mat-option
+              *ngFor="let SemScore of Scores"
+              [value]="SemScore.value">
+              {{ SemScore.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%">
         <p class="grid-label">Enter Score</p>
         <mat-form-field appearance="outline">
           <mat-label>Enter Score</mat-label>
@@ -306,17 +273,14 @@
         </mat-form-field>
       </div>
       <div
-      fxFlex="100%"
-      fxFlex.gt-md="25%"
-      fxFlex.gt-lg="25%"
-      fxFlex.gt-sm="50%"
-    >
-      <p class="grid-label">Upload file</p>
-        <input
-          type="file"     
-        />   
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%">
+        <p class="grid-label">Upload file</p>
+        <input type="file" />
+      </div>
+      <button mat-button (click)="addSemester()">Add Semester</button>
     </div>
-    <button mat-button (click)="addSemester()">Add Semester</button>
-</div>  
   </mat-card-content>
 </mat-card>
