@@ -1,0 +1,59 @@
+.mat-grid-tile {
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
+  background-color: #fefefe;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.company-details {
+  text-align: left;
+  margin: 0.5rem;
+}
+
+.company {
+  text-align: right;
+  margin: 0.5rem;
+}
+.mat-grid-tile {
+  margin-bottom: 16px;
+}
+button {
+  margin: 0 8px 8px 0;
+}
+.mat-mdc-card-header {
+  display: unset;
+}
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.button-label-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-mat-label {
+  margin-left: 3rem;
+  font-weight: bolder;
+  font-size: larger;
+}
+.mat-card-content {
+  display: flex;
+  justify-content: space-evenly;
+}
+.mat-accordion {
+  padding: 1rem;
+}
+.mat-expansion-panel {
+  background-color: #d5d5d6;
+}

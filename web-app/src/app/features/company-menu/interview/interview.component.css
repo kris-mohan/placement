@@ -59,21 +59,24 @@ cdk-overlay-pane {
   width: auto;
 }
 
-mat-grid-tile {
-  border-radius: 2rem;
+.mat-grid-tile {
+  border-radius: 0.5rem;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  background-color: #f9f9f9;
+  background-color: #fefefe;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 }
 
 .company-details {
-  width: 100%;
   text-align: left;
   margin-left: 2rem;
 }
 
 .company {
-  width: 100%;
   text-align: right;
   margin-right: 2rem;
+}
+.mat-grid-tile {
+  margin-bottom: 16px;
 }
