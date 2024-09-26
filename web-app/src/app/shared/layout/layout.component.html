@@ -77,8 +77,7 @@
           mat-list-item
           [routerLink]="['/job-postings']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> </mat-icon></div>
             <div><mat-label>Job Postings</mat-label></div>
@@ -86,10 +85,9 @@
         </a>
         <a
           mat-list-item
-          [routerLink]="['/profile-management']"
+          [routerLink]="['/profile-management-dashboard']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> manage_accounts </mat-icon></div>
             <div><mat-label>Profile Management</mat-label></div>
@@ -341,7 +339,6 @@
           </div>
         </a> -->
 
-
         <a
           [routerLink]="['/interview']"
           mat-list-item
@@ -364,17 +361,16 @@
           </div>
         </a>
         <a
-        *ngIf="userType === 3"
-        mat-list-item
-        [routerLink]="['/student-alumni']"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <div class="sidebar-list-items">
-          <div><mat-icon>Alumni</mat-icon></div>
-          <div><mat-label>Alumni</mat-label></div>
-        </div>
-      </a>
+          *ngIf="userType === 3"
+          mat-list-item
+          [routerLink]="['/student-alumni']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
+          <div class="sidebar-list-items">
+            <div><mat-icon>Alumni</mat-icon></div>
+            <div><mat-label>Alumni</mat-label></div>
+          </div>
+        </a>
 
         <a
           *ngIf="userType === 3"
