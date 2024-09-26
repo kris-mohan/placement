@@ -1,6 +1,6 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -8,6 +8,8 @@ import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 import { HiringRound } from "./test-rounds-model";
+import { AddRoundsModalComponent } from "../add-edit-company-job-details/add-rounds-modal/add-rounds-modal.component";
+import { MatDialog } from "@angular/material/dialog";
 
 export const HIRING_ROUNDS_DATA: HiringRound[] = [
   {
@@ -105,6 +107,7 @@ export class TestRoundsComponent {
   ) {}
 
   jobId: number | undefined = undefined;
+  readonly dialog = inject(MatDialog);
 
   displayedColumns: string[] = [
     "roundId",
@@ -138,7 +141,7 @@ export class TestRoundsComponent {
       this.filteredRounds = HIRING_ROUNDS_DATA.filter(
         (round) => round.jobId === this.jobId
       );
-      this.dataSource.data = this.filteredRounds;
+      // this.dataSource.data = this.filteredRounds;
     });
   }
 
@@ -157,4 +160,14 @@ export class TestRoundsComponent {
   goBack(): void {
     this.location.back();
   }
+
+  handleAddRoundsClick(): void {
+    this.dialog.open(AddRoundsModalComponent, {
+      width: "500px",
+      height: "600px",
+    });
+  }
+
+  openAddEditRoundsForm(roundsId?: number): void {}
+  deleteRounds(roundsId?: number): void {}
 }

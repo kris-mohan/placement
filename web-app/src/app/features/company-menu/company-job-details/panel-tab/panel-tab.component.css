@@ -28,7 +28,6 @@ button {
   font-weight: bolder;
   font-size: larger;
 }
-
 table {
   width: 100%;
 }
@@ -39,40 +38,21 @@ table {
 .maticon {
   color: white;
 }
-.matName {
+.matButtonText {
   color: white;
 }
-.mdc-checkbox__native-control {
-  border-color: var(--mdc-checkbox-selected-icon-color);
-  background-color: black;
+.mat-card-content {
+  margin-top: 3%;
+}
+.mat-panel-title {
+  display: flow;
+}
+.mat-panel-description {
+  margin-top: 2%;
+}
+.mat-expansion-panel {
+  margin-top: 2%;
 }
 .td-mat-button {
   display: flex;
-}
-cdk-overlay-pane {
-  width: auto;
-}
-.mat-dialog-actions {
-  display: flex;
-}
-.custom-dropdown-panel {
-  width: auto;
-}
-
-mat-grid-tile {
-  border-radius: 2rem;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  background-color: #f9f9f9;
-}
-
-.company-details {
-  width: 100%;
-  text-align: left;
-  margin-left: 2rem;
-}
-
-.company {
-  width: 100%;
-  text-align: right;
-  margin-right: 6rem;
 }

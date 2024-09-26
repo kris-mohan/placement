@@ -43,6 +43,9 @@ import { JobPostingsComponent } from "./features/campus-configuration/campus-con
 import { InterviewComponent } from "./features/company-menu/interview/interview.component";
 import { ProfileManagementComponent } from "./features/student-menu/student-menu/profile-management/profile-management.component";
 import { AlumniComponent } from "./features/student-menu/alumni/alumni.component";
+import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/add-edit-company-job-details/add-rounds-modal/add-rounds-modal.component";
+import { PanelTabComponent } from "./features/company-menu/company-job-details/panel-tab/panel-tab.component";
+import { CompanyJobDescriptionComponent } from "./features/company-menu/company-job-description/company-job-description.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -79,6 +82,7 @@ const appRoutes: Routes = [
         component: CompanyConfigComponent,
         title: 'Company Configuration',
       },
+
       {
         path: 'company-configuration/company/:companyId',
         component: AddEditCompanyComponent,
@@ -168,7 +172,11 @@ const appRoutes: Routes = [
         component: AddEditRoundsComponent,
       },
       {
-        path: 'company-lists',
+        path: "company-job-details/companyJobDescription/:jobId",
+        component: CompanyJobDescriptionComponent,
+      },
+      {
+        path: "company-lists",
         component: CompanyListDetailsComponent,
       },
       {
@@ -232,6 +240,14 @@ const appRoutes: Routes = [
       {
         path: "interview",
         component: InterviewComponent,
+      },
+      {
+        path: "testr",
+        component: AddRoundsModalComponent,
+      },
+      {
+        path: "Panel",
+        component: PanelTabComponent,
       },
       {
         path: "**",
