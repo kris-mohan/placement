@@ -49,6 +49,7 @@ import { PanelTabComponent } from './features/company-menu/company-job-details/p
 import { CompanyJobDescriptionComponent } from './features/company-menu/company-job-description/company-job-description.component';
 import { ProfilemanagementDashboardComponent } from './features/student-menu/student-menu/profile-management/profilemanagement-dashboard/profilemanagement-dashboard.component';
 import { JobsComponent } from "./features/student-menu/applied/jobs.component";
+import { ResumeBuilderComponent } from "./features/student-menu/student-menu/resume-builder/resume-builder.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -235,6 +236,12 @@ const appRoutes: Routes = [
         path: "test-interviews/:collegeId/:jobId/:studentId",
         component: StudentResultInformation,
       },
+
+      {
+        path: "resume-builder",
+        component: ResumeBuilderComponent,
+      },
+
       {
         path: "students",
         component: EligibleStudentsListComponent,

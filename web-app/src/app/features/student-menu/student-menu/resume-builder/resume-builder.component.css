@@ -1,0 +1,103 @@
+/* Simple styling for the resume builder form */
+div {
+    margin-bottom: 5px;
+    padding: 25px;
+  }
+  
+  label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+  }
+  
+  input {
+    padding: 5px;
+    width: 300px;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  .buildbutton {
+    width: 120px;
+    height: 40px;
+    font-size: medium;
+  }
+  .example-chip-list {
+    width: 80%;
+    margin-left: 78px;
+    
+  }
+  .crosslang {
+    background-color: transparent;
+  }
+  .email-container {
+    margin-left: 50px;
+  }
+  .phone-container {
+    margin-left: 50px;
+  }
+  .academic-credentials {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Spacing between cards */
+  }
+  
+  mat-card {
+    padding: 16px; /* Inner padding for cards */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for cards */
+  }
+  
+  mat-card-title {
+    font-weight: bold;
+    font-size: 1.2em; /* Increased font size for titles */
+  }
+  mat-label {
+    margin-top: auto;
+  }
+  .address-field {
+    width: 80%;
+    height: fit-content;
+  }
+  .resume-builder-container {
+    margin: 20px auto;
+    max-width: 800px;
+  }
+  
+  .section-card {
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+  }
+  
+  .buildbutton {
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+  }
+  
+  h3, h4 {
+    margin-bottom: 10px;
+  }
+  
+  .mat-elevation-z4 {
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
