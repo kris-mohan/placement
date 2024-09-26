@@ -8,24 +8,19 @@
           </div>
 
           <div class="header-mat-label">
-            <mat-label>Scheduled Interviews</mat-label>
+            <mat-label>Students</mat-label>
           </div>
         </div>
-        <div>
+        <!-- <div>
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Search Company</mat-label>
             <input
               type="text"
               aria-label="Number"
               matInput
-              [formControl]="companyControl"
               [matAutocomplete]="auto"
             />
-            <mat-autocomplete
-              autoActiveFirstOption
-              #auto="matAutocomplete"
-              (optionSelected)="onCompanySelected($event)"
-            >
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               <mat-option
                 *ngFor="let company of filteredCompany | async"
                 [value]="company.Name"
@@ -176,68 +171,183 @@
             <mat-icon class="maticon">add</mat-icon>
             <p class="matName">Company</p>
           </button>
+        </div> -->
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select multiple>
+              <mat-select-trigger> </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input class="full-width" matInput placeholder="Search" />
+              </mat-form-field>
+              <mat-option disabled>No options</mat-option>
+              <!-- <mat-option
+              >
+                {{ industry.Type }}
+              </mat-option> -->
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button mat-button mat-dialog-close>Reset</button>
+                <button mat-raised-button class="matbutton">
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Branch</mat-label>
+            <mat-select multiple>
+              <mat-select-trigger> </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input class="full-width" matInput placeholder="Search" />
+              </mat-form-field>
+              <mat-option disabled>No options</mat-option>
+              <!-- <mat-option
+              >
+                {{ industry.Type }}
+              </mat-option> -->
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button mat-button mat-dialog-close>Reset</button>
+                <button mat-raised-button class="matbutton">
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Batch</mat-label>
+            <mat-select multiple>
+              <mat-select-trigger> </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input class="full-width" matInput placeholder="Search" />
+              </mat-form-field>
+              <mat-option disabled>No options</mat-option>
+              <!-- <mat-option
+              >
+                {{ industry.Type }}
+              </mat-option> -->
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button mat-button mat-dialog-close>Reset</button>
+                <button mat-raised-button class="matbutton">
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Students</mat-label>
+            <mat-select multiple>
+              <mat-select-trigger> </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input class="full-width" matInput placeholder="Search" />
+              </mat-form-field>
+              <mat-option disabled>No options</mat-option>
+              <!-- <mat-option
+              >
+                {{ industry.Type }}
+              </mat-option> -->
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button mat-button mat-dialog-close>Reset</button>
+                <button mat-raised-button class="matbutton">
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>USN Number</mat-label>
+            <mat-select multiple>
+              <mat-select-trigger> </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input class="full-width" matInput placeholder="Search" />
+              </mat-form-field>
+              <mat-option disabled>No options</mat-option>
+              <!-- <mat-option
+              >
+                {{ industry.Type }}
+              </mat-option> -->
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button mat-button mat-dialog-close>Reset</button>
+                <button mat-raised-button class="matbutton">
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
     </div>
   </mat-card-header>
-  <!-- 
-  <mat-card-content>
-    <mat-grid-list cols="2" rowHeight="4:1" gutterSize="16px">
-      <mat-grid-tile
-        *ngFor="let scheduledInterview of scheduledInterviews"
-        (click)="goToCompanyJobDetails(scheduledInterview.id)"
-      >
-        <div class="company-details">
-          <h3>{{ scheduledInterview.roundName }}</h3>
-          <div class="company-type">{{ scheduledInterview.company }}</div>
-          <p><strong>Date:</strong> {{ scheduledInterview.postedDate }}</p>
-          <p>
-            <strong>Description:</strong>
-            {{ scheduledInterview.jobDescription }}
-          </p>
-        </div>
 
-        <div class="company">
-          <p><strong>Status:</strong> {{ scheduledInterview.status }}</p>
-          <p>
-            <strong>Number of students cleared:</strong>
-            {{ scheduledInterview.studentsCleared }}
-          </p>
-          <p>
-            <strong>Number of students rejected:</strong>
-            {{ scheduledInterview.studentsRejected }}
-          </p>
-        </div>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </mat-card-content> -->
+  <mat-accordion class="mat-accordion">
+    <mat-expansion-panel
+      (opened)="panelOpenState.set(true)"
+      (closed)="panelOpenState.set(false)"
+      class="mat-expansion-panel"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title
+          >Company:
+          <mat-panel-description>Google</mat-panel-description>
+        </mat-panel-title>
 
-  <mat-card-content fxLayout="row wrap" fxLayoutAlign="start stretch">
+        <mat-panel-title
+          >RoundName:
+          <mat-panel-description>Test Assesment 1</mat-panel-description>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-card-content
+    fxLayout="row wrap"
+    fxLayoutAlign="start stretch"
+    class="mat-card-content"
+  >
     <div
-      *ngFor="let scheduledInterview of scheduledInterviews"
+      *ngFor="let students of studentsAttending"
       fxFlex="100%"
       fxFlex.gt-sm="50%"
-      fxFlex.gt-md="50%"
+      fxFlex.gt-md="33%"
       fxFlex.gt-lg="25%"
       class="grid-item"
       class="mat-grid-tile"
-      (click)="goToInterviewStudentsDetails(scheduledInterview.id)"
     >
       <div class="company-details">
-        <h3>{{ scheduledInterview.roundName }}</h3>
-        <div class="company-type">{{ scheduledInterview.company }}</div>
-        <p><strong>Date:</strong> {{ scheduledInterview.postedDate }}</p>
+        <h3>{{ students.studentId }}</h3>
+        <div class="company-type">{{ students.studentName }}</div>
+        <p>
+          <strong>Batch:</strong>
+          {{ students.batch }}
+        </p>
+        <p>
+          <strong>Branch:</strong>
+          {{ students.branch }}
+        </p>
       </div>
 
       <div class="company">
-        <p><strong>Status:</strong> {{ scheduledInterview.status }}</p>
+        <p><strong>Status:</strong> {{ students.status }}</p>
         <p>
-          <strong>Number of students cleared:</strong>
-          {{ scheduledInterview.studentsCleared }}
-        </p>
-        <p>
-          <strong>Number of students rejected:</strong>
-          {{ scheduledInterview.studentsRejected }}
+          <strong>Performance Score:</strong>
+          {{ students.performanceScore }}
         </p>
       </div>
     </div>

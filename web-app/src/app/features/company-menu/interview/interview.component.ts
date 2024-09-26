@@ -488,8 +488,8 @@ export class InterviewComponent {
     return Array.from(industriesSet) as Industry[];
   }
 
-  goToCompanyJobDetails(companyId: number) {
-    this.router.navigate(["/students"]);
+  goToInterviewStudentsDetails(companyId: number) {
+    this.router.navigate(["/interview-students-list"]);
   }
 
   scheduledInterviews = [
