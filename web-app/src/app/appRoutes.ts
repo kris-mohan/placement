@@ -47,6 +47,7 @@ import { InterviewStudentsListComponent } from "./features/company-menu/intervie
 import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/add-edit-company-job-details/add-rounds-modal/add-rounds-modal.component";
 import { PanelTabComponent } from "./features/company-menu/company-job-details/panel-tab/panel-tab.component";
 import { CompanyJobDescriptionComponent } from "./features/company-menu/company-job-description/company-job-description.component";
+import { JobsComponent } from "./features/student-menu/applied/jobs.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -73,6 +74,10 @@ const appRoutes: Routes = [
     path: "",
     component: LayoutComponent,
     children: [
+      {
+        path: "student_applied",
+        component: JobsComponent,
+      },
       {
         path: "configuration",
         component: ConfigurationComponent,
