@@ -39,9 +39,40 @@ table {
 .maticon {
   color: white;
 }
-.matButtonText {
+.matName {
   color: white;
+}
+.mdc-checkbox__native-control {
+  border-color: var(--mdc-checkbox-selected-icon-color);
+  background-color: black;
 }
 .td-mat-button {
   display: flex;
+}
+cdk-overlay-pane {
+  width: auto;
+}
+.mat-dialog-actions {
+  display: flex;
+}
+.custom-dropdown-panel {
+  width: auto;
+}
+
+mat-grid-tile {
+  border-radius: 2rem;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+.company-details {
+  width: 100%;
+  text-align: left;
+  margin-left: 2rem;
+}
+
+.company {
+  width: 100%;
+  text-align: right;
+  margin-right: 6rem;
 }

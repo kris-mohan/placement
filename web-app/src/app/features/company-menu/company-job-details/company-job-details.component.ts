@@ -11,6 +11,7 @@ import { JobPostingList } from "./company-job-details-model";
 import { FormControl } from "@angular/forms";
 import { companyTableList } from "../../company-configuration/company-config/companies/companies-model";
 import { Industry } from "../../company-configuration/company-config/industry/industry.module";
+import { Observable, of } from "rxjs";
 
 export const JOBPOSTING_DATA: JobPostingList[] = [
   {
@@ -84,19 +85,256 @@ export class CompanyJobDetailsComponent {
   companyId: number | undefined = undefined;
   companies: companyTableList[] = [];
   experienceLevelControl = new FormControl();
+  filteredCompany: Observable<any[]> = of([]);
 
   dataSource1 = new MatTableDataSource<companyTableList>([]);
-
-  displayedColumns: string[] = [
-    "slNo",
-    "jobId",
-    "jobTitle",
-    // "companyName",
-    "location",
-    "jobDescription",
-    "postedDate",
-    "actions",
+  companiesCard = [
+    {
+      Id: 1,
+      logo: "company-logo-1.png",
+      name: "Haier Appliances",
+      rating: 4.1,
+      reviews: "1.3K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 4,
+      registeredStudents: 120,
+      placedStudents: 80,
+    },
+    {
+      Id: 2,
+      logo: "company-logo-2.png",
+      name: "Sony Electronics",
+      rating: 4.5,
+      reviews: "2K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 5,
+      registeredStudents: 100,
+      placedStudents: 60,
+    },
+    {
+      Id: 3,
+      logo: "company-logo-3.png",
+      name: "Samsung Tech",
+      rating: 4.2,
+      reviews: "1.5K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 3,
+      registeredStudents: 200,
+      placedStudents: 150,
+    },
+    {
+      Id: 4,
+      logo: "company-logo-4.png",
+      name: "LG Electronics",
+      rating: 4.3,
+      reviews: "1.8K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 6,
+      registeredStudents: 140,
+      placedStudents: 110,
+    },
+    {
+      Id: 5,
+      logo: "company-logo-5.png",
+      name: "Apple Inc.",
+      rating: 4.8,
+      reviews: "3K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 7,
+      registeredStudents: 250,
+      placedStudents: 200,
+    },
+    {
+      Id: 6,
+      logo: "company-logo-6.png",
+      name: "Microsoft Corp.",
+      rating: 4.7,
+      reviews: "2.7K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 5,
+      registeredStudents: 180,
+      placedStudents: 160,
+    },
+    {
+      Id: 7,
+      logo: "company-logo-7.png",
+      name: "Google LLC",
+      rating: 4.9,
+      reviews: "5K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 8,
+      registeredStudents: 300,
+      placedStudents: 250,
+    },
+    {
+      Id: 8,
+      logo: "company-logo-8.png",
+      name: "Facebook Inc.",
+      rating: 4.6,
+      reviews: "2.2K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 4,
+      registeredStudents: 170,
+      placedStudents: 130,
+    },
+    {
+      Id: 9,
+      logo: "company-logo-9.png",
+      name: "Amazon Web Services",
+      rating: 4.4,
+      reviews: "2.5K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 6,
+      registeredStudents: 220,
+      placedStudents: 180,
+    },
+    {
+      Id: 10,
+      logo: "company-logo-10.png",
+      name: "Tesla Inc.",
+      rating: 4.7,
+      reviews: "2.8K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 5,
+      registeredStudents: 160,
+      placedStudents: 140,
+    },
   ];
+
+  jobsCard = [
+    {
+      Id: 1,
+      logo: "job-logo-1.png",
+      title: "Software Engineer",
+      experience: "0 - 2 years",
+      salary: "₹6 - 8 LPA",
+      location: "Bengaluru",
+      shift: "Day Shift",
+      modeOfWork: "Hybrid",
+      numberOfOpenings: 10,
+      applicants: 100,
+    },
+    {
+      Id: 2,
+      logo: "job-logo-2.png",
+      title: "Data Analyst",
+      experience: "1 - 3 years",
+      salary: "₹4 - 6 LPA",
+      location: "Hyderabad",
+      shift: "Day Shift",
+      modeOfWork: "Remote",
+      numberOfOpenings: 5,
+      applicants: 80,
+    },
+    {
+      Id: 3,
+      logo: "job-logo-3.png",
+      title: "Product Manager",
+      experience: "3 - 5 years",
+      salary: "₹12 - 15 LPA",
+      location: "Mumbai",
+      shift: "Day Shift",
+      modeOfWork: "On-site",
+      numberOfOpenings: 3,
+      applicants: 50,
+    },
+    {
+      Id: 4,
+      logo: "job-logo-4.png",
+      title: "HR Executive",
+      experience: "0 - 1 year",
+      salary: "₹3 - 5 LPA",
+      location: "Delhi",
+      shift: "Day Shift",
+      modeOfWork: "Hybrid",
+      numberOfOpenings: 7,
+      applicants: 120,
+    },
+    {
+      Id: 5,
+      logo: "job-logo-5.png",
+      title: "Marketing Specialist",
+      experience: "2 - 4 years",
+      salary: "₹7 - 9 LPA",
+      location: "Pune",
+      shift: "Day Shift",
+      modeOfWork: "On-site",
+      numberOfOpenings: 5,
+      applicants: 60,
+    },
+    {
+      Id: 6,
+      logo: "job-logo-6.png",
+      title: "Sales Manager",
+      experience: "4 - 6 years",
+      salary: "₹10 - 12 LPA",
+      location: "Chennai",
+      shift: "Day Shift",
+      modeOfWork: "Remote",
+      numberOfOpenings: 4,
+      applicants: 70,
+    },
+    {
+      Id: 7,
+      logo: "job-logo-7.png",
+      title: "Cloud Engineer",
+      experience: "2 - 4 years",
+      salary: "₹8 - 10 LPA",
+      location: "Bengaluru",
+      shift: "Night Shift",
+      modeOfWork: "On-site",
+      numberOfOpenings: 6,
+      applicants: 150,
+    },
+    {
+      Id: 8,
+      logo: "job-logo-8.png",
+      title: "UI/UX Designer",
+      experience: "1 - 3 years",
+      salary: "₹5 - 7 LPA",
+      location: "Gurugram",
+      shift: "Day Shift",
+      modeOfWork: "Hybrid",
+      numberOfOpenings: 5,
+      applicants: 90,
+    },
+    {
+      Id: 9,
+      logo: "job-logo-9.png",
+      title: "DevOps Engineer",
+      experience: "3 - 5 years",
+      salary: "₹10 - 14 LPA",
+      location: "Noida",
+      shift: "Night Shift",
+      modeOfWork: "Remote",
+      numberOfOpenings: 4,
+      applicants: 85,
+    },
+    {
+      Id: 10,
+      logo: "job-logo-10.png",
+      title: "Cybersecurity Specialist",
+      experience: "5+ years",
+      salary: "₹15 - 18 LPA",
+      location: "Bengaluru",
+      shift: "Day Shift",
+      modeOfWork: "On-site",
+      numberOfOpenings: 2,
+      applicants: 40,
+    },
+  ];
+
+  // displayedColumns: string[] = [
+  //   "slNo",
+  //   "jobId",
+  //   "jobTitle",
+  //   // "companyName",
+  //   "location",
+  //   "jobDescription",
+  //   "postedDate",
+  //   "actions",
+  // ];
+
   companySizes: string[] = [
     "1-10 Employees",
     "11-50 Employees",
@@ -245,5 +483,19 @@ export class CompanyJobDetailsComponent {
       this.filteredCompanies = this.companies;
     }
     this.dataSource1.data = this.filteredCompanies;
+  }
+
+  goToCompanyJobDetails(companyId: number) {}
+
+  openCopmanyJobDescriptionPage(jobId?: number) {
+    console.log(jobId);
+    if (jobId !== undefined) {
+      this.router.navigate([
+        "company-job-details/companyJobDescription",
+        jobId,
+      ]);
+    } else {
+      this.router.navigate(["company-job-details"]);
+    }
   }
 }

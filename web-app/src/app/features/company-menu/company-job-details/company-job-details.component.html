@@ -25,12 +25,12 @@
               #auto="matAutocomplete"
               (optionSelected)="onCompanySelected($event)"
             >
-              <!-- <mat-option
-                  *ngFor="let company of filteredCompany | async"
-                  [value]="company.Name"
-                >
-                  {{ company.Name }}
-                </mat-option> -->
+              <mat-option
+                *ngFor="let company of filteredCompany | async"
+                [value]="company.Name"
+              >
+                {{ company.Name }}
+              </mat-option>
             </mat-autocomplete>
           </mat-form-field>
         </div>
@@ -169,7 +169,7 @@
       </div>
     </div>
   </mat-card-header>
-  <mat-card-content>
+  <!-- <mat-card-content>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
         <th mat-header-cell *matHeaderCellDef>
@@ -211,5 +211,43 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
     <router-outlet></router-outlet>
-  </mat-card-content>
+  </mat-card-content> -->
+  <mat-grid-list cols="2" rowHeight="4:1" gutterSize="16px">
+    <mat-grid-tile *ngFor="let job of jobsCard">
+      <div
+        class="company-details"
+        (click)="openCopmanyJobDescriptionPage(job.Id)"
+      >
+        <!-- <img [src]="company.logo" alt="Company Logo" class="company-logo" /> -->
+        <h3>{{ job.title }}</h3>
+        <!-- <div class="rating-reviews">
+            <span class="rating">{{ company.rating }}</span> ★
+            <span class="reviews">{{ company.reviews }}</span>
+          </div> -->
+        <div class="company-type">{{ job.applicants }}</div>
+      </div>
+      <div class="job-details">
+        <h4>
+          Experience:
+          <span class="rating">{{ job.experience }}</span>
+        </h4>
+        <h4>
+          Salary:
+          <span class="rating">{{ job.salary }}</span>
+        </h4>
+        <h4>
+          Location:
+          <span class="rating">{{ job.location }}</span>
+        </h4>
+        <h4>
+          Shift:
+          <span class="rating">{{ job.shift }}</span>
+        </h4>
+        <h4>
+          Mode of Work:
+          <span class="rating">{{ job.modeOfWork }}</span>
+        </h4>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
 </mat-card>

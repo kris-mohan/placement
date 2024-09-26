@@ -38,6 +38,7 @@ import { AddEditIndustryComponent } from "./features/company-configuration/compa
 import { AddEditcompanyIndustryComponent } from "./features/company-configuration/company-config/industry-technology/add-edit-industry-technology/add-edit-company-industry.component";
 import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/add-edit-company-job-details/add-rounds-modal/add-rounds-modal.component";
 import { PanelTabComponent } from "./features/company-menu/company-job-details/panel-tab/panel-tab.component";
+import { CompanyJobDescriptionComponent } from "./features/company-menu/company-job-description/company-job-description.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -157,6 +158,10 @@ const appRoutes: Routes = [
         component: AddEditRoundsComponent,
       },
       {
+        path: "company-job-details/companyJobDescription/:jobId",
+        component: CompanyJobDescriptionComponent,
+      },
+      {
         path: "company-lists",
         component: CompanyListDetailsComponent,
       },
@@ -210,7 +215,6 @@ const appRoutes: Routes = [
         path: "Panel",
         component: PanelTabComponent,
       },
-
       {
         path: "**",
         redirectTo: "dashboard",
