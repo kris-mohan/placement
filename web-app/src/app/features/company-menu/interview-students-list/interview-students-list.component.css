@@ -9,12 +9,12 @@
 
 .company-details {
   text-align: left;
-  margin-left: 2rem;
+  margin: 0.5rem;
 }
 
 .company {
   text-align: right;
-  margin-right: 2rem;
+  margin: 0.5rem;
 }
 .mat-grid-tile {
   margin-bottom: 16px;
