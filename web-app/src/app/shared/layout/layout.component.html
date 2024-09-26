@@ -318,6 +318,19 @@
             <div><mat-label>Feedback and Support</mat-label></div>
           </div>
         </a>
+
+        <a
+          *ngIf="userType === 3"
+          mat-list-item
+          [routerLink]="['/resume-builder']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon>build</mat-icon></div>
+            <div><mat-label>Resume Builder</mat-label></div>
+          </div>
+        </a>
       </mat-nav-list>
     </mat-sidenav>
 

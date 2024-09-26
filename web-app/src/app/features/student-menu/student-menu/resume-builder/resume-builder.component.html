@@ -1,0 +1,210 @@
+<div class="resume-builder-container">
+  <h1>Resume Builder</h1>
+
+  <!-- Basic Details Section -->
+  <mat-card class="mat-elevation-z4 section-card">
+    <mat-card-title>Basic Details</mat-card-title>
+    <mat-card-content>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input matInput type="text" [(ngModel)]="resumeData.name" id="name" placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label for="fatherName">Father's Name:</label>
+        <input matInput type="text" [(ngModel)]="resumeData.fatherName" id="fatherName" placeholder="Enter father's name">
+      </div>
+      <div class="form-group">
+        <label for="nationality">Nationality:</label>
+        <input matInput type="text" [(ngModel)]="resumeData.nationality" id="nationality" placeholder="Enter nationality">
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth:</label>
+        <input matInput type="date" [(ngModel)]="resumeData.dob" id="dob">
+      </div>
+      <div class="form-group">
+        <label for="gender">Gender:</label>
+        <mat-form-field appearance="fill">
+          <mat-select [(ngModel)]="resumeData.gender" id="gender">
+            <mat-option value="Male">Male</mat-option>
+            <mat-option value="Female">Female</mat-option>
+            <mat-option value="Other">Other</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <section>
+        <h4>Languages Known</h4>
+        <mat-form-field class="example-form-field">
+          <mat-label>Default Languages</mat-label>
+          <mat-chip-grid #templateChipGrid aria-label="Enter language" [(ngModel)]="templateKeywords">
+          @for (keyword of templateKeywords(); track keyword) {
+            <mat-chip-row (removed)="removeTemplateKeyword(keyword)">
+              {{keyword}}
+            <button class = "crosslang" matChipRemove aria-label="'remove template form' + keyword">
+              <mat-icon>cancel</mat-icon>
+            </button>
+            </mat-chip-row>
+          }
+          </mat-chip-grid>
+          <input
+            placeholder="New keyword..."
+            [matChipInputFor]="templateChipGrid"
+            (matChipInputTokenEnd)="addTemplateKeyword($event)"
+          />
+        </mat-form-field>
+      </section>
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card>
+    <mat-card-title>Intern Experience</mat-card-title>   
+    <br>
+      <mat-form-field>
+        <mat-label>Role</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Select</mat-label>
+        <mat-select>
+          <mat-option value="one">Job Offer Received</mat-option>
+          <mat-option value="two">Internship</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Duration in months</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Project description</mat-label>
+        <textarea matInput></textarea>
+      </mat-form-field>
+  </mat-card>
+  <br>
+
+  <!-- Address Section -->
+  <mat-card class="mat-elevation-z4 section-card">
+    <mat-card-title>Contact Information</mat-card-title>
+    <mat-card-content>
+      <div class="form-group">
+        <label for="address">Address:</label><br>
+        <input matInput placeholder="Enter address line 1" [(ngModel)]="resumeData.address">
+        <br>
+          <input matInput placeholder="Enter address line 2" [(ngModel)]="resumeData.address">
+        <br>
+        <input matInput placeholder="Enter address line 3" [(ngModel)]="resumeData.address">
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="email" placeholder="pat@example.com" [formControl]="email" required />
+          <mat-error *ngIf="email.invalid">{{ errorMessage() }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Phone</mat-label>
+          <input matInput type="tel" placeholder="xxxxxxxxxx" [formControl]="phone" required />
+          <mat-error *ngIf="phone.invalid">{{ errorMessage() }}</mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Academic Credentials Section -->
+  <mat-card class="mat-elevation-z4 section-card">
+    <mat-card-title>Academic Credentials</mat-card-title>
+    <mat-card-content>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>10th Grade</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="form-group">
+          <label for="tenthSchool">School:</label>
+          <input matInput [(ngModel)]="resumeData.academicCredentials.tenth.school" placeholder="Enter school name">
+        </div>
+        <div class="form-group">
+          <label for="tenthCurriculum">Curriculum:</label>
+          <input matInput [(ngModel)]="resumeData.academicCredentials.tenth.curriculum" placeholder="Enter curriculum">
+        </div>
+        <div class="form-group">
+          <label for="tenthPercentage">Percentage:</label>
+          <input matInput [(ngModel)]="resumeData.academicCredentials.tenth.percentage" placeholder="Enter percentage">
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>2nd PUC</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="form-group">
+          <label for="pucCollege">College:</label>
+          <input matInput [(ngModel)]="resumeData.academicCredentials.puc.college" placeholder="Enter college name">
+        </div>
+        <div class="form-group">
+          <label for="pucCurriculum">Curriculum:</label>
+          <input matInput [(ngModel)]="resumeData.academicCredentials.puc.curriculum" placeholder="Enter curriculum">
+        </div>
+        <div class="form-group">
+          <label for="pucPercentage">Percentage:</label>
+          <input matInput [(ngModel)]="resumeData.academicCredentials.puc.percentage" placeholder="Enter percentage">
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Degree</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="form-group">
+          <label for="degreeCollege">College:</label>
+          <input matInput [(ngModel)]="resumeData.academicCredentials.degree.college" placeholder="Enter college name">
+        </div>
+        <div class="form-group">
+          <label for="degreeUniversity">University:</label>
+          <input matInput [(ngModel)]="resumeData.academicCredentials.degree.university" placeholder="Enter university name">
+        </div>
+        <div class="form-group">
+          <label for="degreeCGPA">CGPA:</label>
+          <input matInput [(ngModel)]="resumeData.academicCredentials.degree.cgpa" placeholder="Enter CGPA">
+        </div>
+      </mat-expansion-panel>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <!-- Skills section -->
+    <mat-card-title>Skills</mat-card-title>
+
+    <h4>Soft Skills:</h4>
+    <div *ngFor="let skill of resumeData.skills.softSkills; let i = index">
+      <input matInput type="text" [(ngModel)]="resumeData.skills.softSkills[i]" placeholder="Enter soft skill" />
+    </div>
+    <button mat-stroked-button (click)="resumeData.skills.softSkills.push('')">Add Soft Skill</button>
+
+    <h4>Technical Skills:</h4>
+    <div *ngFor="let skill of resumeData.skills.technicalSkills; let i = index">
+      <input matInput type="text" [(ngModel)]="resumeData.skills.technicalSkills[i]" placeholder="Enter technical skill" />
+    </div>
+    <button mat-stroked-button (click)="resumeData.skills.technicalSkills.push('')">Add Technical Skill</button>
+  </mat-card>
+<br>
+  <mat-card>
+  <!-- Hobbies section -->
+  <h3>Hobbies</h3>
+  <input matInput type="text" [(ngModel)]="newHobby" placeholder="Add a new hobby" />
+  <br>
+  <button mat-stroked-button (click)="addHobby()">Add Hobby</button>
+  <h4>Selected Hobbies:</h4>
+  <ul>
+    <li *ngFor="let hobby of resumeData.hobbies">{{ hobby }}</li>
+  </ul>
+
+  </mat-card>
+
+  <!-- Submit Button -->
+  <button class="buildbutton" mat-raised-button color="primary" (click)="onSubmit()">
+    <mat-icon>build></mat-icon>
+    Build Resume</button>
+</div>
