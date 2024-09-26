@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
-import { AMGModules } from 'src/AMG-Module/AMG-module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component } from "@angular/core";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: 'app-feedback-survey',
+  selector: "app-feedback-survey",
   standalone: true,
-  imports: [AMGModules, FormsModule, ReactiveFormsModule],
-  templateUrl: './feedback-survey.component.html',
-  styleUrl: './feedback-survey.component.css',
+  imports: [AMGModules, FormsModule, ReactiveFormsModule, CommonModule],
+  templateUrl: "./feedback-survey.component.html",
+  styleUrl: "./feedback-survey.component.css",
 })
 export class FeedbackSurveyComponent {
   totalFeedback = 150;
@@ -16,16 +17,16 @@ export class FeedbackSurveyComponent {
   feedbackList = [
     {
       id: 101,
-      type: 'Student',
-      category: 'Interview',
-      date: '2024-09-01',
+      type: "Student",
+      category: "Interview",
+      date: "2024-09-01",
       rating: 5,
     },
     {
       id: 102,
-      type: 'Company',
-      category: 'Process',
-      date: '2024-09-05',
+      type: "Company",
+      category: "Process",
+      date: "2024-09-05",
       rating: 4,
     },
   ];
@@ -37,64 +38,64 @@ export class FeedbackSurveyComponent {
   }
 
   displayedColumns: string[] = [
-    'id',
-    'type',
-    'category',
-    'date',
-    'rating',
-    'actions',
+    "id",
+    "type",
+    "category",
+    "date",
+    "rating",
+    "actions",
   ];
 
   studentFeedbackList = [
     {
-      studentName: 'John Doe',
-      date: '2024-09-01',
+      studentName: "John Doe",
+      date: "2024-09-01",
       rating: 5,
-      comments: 'Excellent interview process.',
+      comments: "Excellent interview process.",
     },
     {
-      studentName: 'Jane Smith',
-      date: '2024-09-02',
+      studentName: "Jane Smith",
+      date: "2024-09-02",
       rating: 4,
-      comments: 'Good communication.',
+      comments: "Good communication.",
     },
   ];
 
   companyFeedbackList = [
     {
-      companyName: 'Tech Solutions',
-      date: '2024-09-05',
+      companyName: "Tech Solutions",
+      date: "2024-09-05",
       rating: 4,
-      comments: 'Smooth placement process.',
+      comments: "Smooth placement process.",
     },
     {
-      companyName: 'Global Corp',
-      date: '2024-09-06',
+      companyName: "Global Corp",
+      date: "2024-09-06",
       rating: 5,
-      comments: 'Very satisfied with the talent pool.',
+      comments: "Very satisfied with the talent pool.",
     },
   ];
 
-  surveyTitle = '';
-  surveyDescription = '';
+  surveyTitle = "";
+  surveyDescription = "";
   startDate: Date = new Date();
   endDate: Date = new Date();
 
-  questions: any[] = [{ text: '', type: 'multiple-choice', options: [''] }];
+  questions: any[] = [{ text: "", type: "multiple-choice", options: [""] }];
 
   totalResponses = 0;
   averageSurveyRating = 0;
 
   calculateFeedbackTotals() {
     this.totalStudentFeedback = this.feedbackList.filter(
-      (f) => f.type === 'Student'
+      (f) => f.type === "Student"
     ).length;
     this.totalCompanyFeedback = this.feedbackList.filter(
-      (f) => f.type === 'Company'
+      (f) => f.type === "Company"
     ).length;
   }
   addQuestion() {
-    this.questions.push({ text: '', type: 'multiple-choice' });
+    this.questions.push({ text: "", type: "multiple-choice" });
   }
 
   removeQuestion(index: number) {
@@ -102,7 +103,7 @@ export class FeedbackSurveyComponent {
   }
 
   addOption(questionIndex: number) {
-    this.questions[questionIndex].options.push('');
+    this.questions[questionIndex].options.push("");
   }
 
   // Remove Option for Multiple Choice Question
@@ -117,7 +118,7 @@ export class FeedbackSurveyComponent {
       startDate: this.startDate,
       endDate: this.endDate,
     };
-    console.log('Survey Preview:', previewSurveyData);
+    console.log("Survey Preview:", previewSurveyData);
     // Logic to show a modal preview of the survey
   }
 
