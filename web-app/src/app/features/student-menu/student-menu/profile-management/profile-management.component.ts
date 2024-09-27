@@ -18,6 +18,9 @@ export class ProfileManagementComponent {
   selectedCourse: string = '';
   selectedPuScore: string = '';
   selectedSemScore: string = '';
+  selectedBlood: string ='';
+  selectedDegree: string ='';
+  selectedProgram: string ='';
   semesters = [{ score: '', type: '', file: null }];
   showSemester = false;  
   fileError: string | null = null;
@@ -52,7 +55,37 @@ export class ProfileManagementComponent {
     {value:'Percentage', viewValue:'Percentage'},
     {value:'CGPA', viewValue:'CGPA'}
   ]
-
+  Blood =[
+    {value:'A+', viewValue:'A+'},
+    {value:'A-', viewValue:'A-'},
+    {value:'B+', viewValue:'B+'},
+    {value:'B-', viewValue:'B-'},
+    {value:'O+', viewValue:'O+'},
+    {value:'O-', viewValue:'O-'},
+    {value:'AB+', viewValue:'AB+'},
+    {value:'AB-', viewValue:'AB-'}
+    
+  ]
+degrees =[
+  {value:'Under-Graduate',viewValue:'Under-graduate'},
+  {value:'Post-Graduate',viewValue:'Post-Graduate'},
+]
+Program=[
+  {value:'B.A. (Bachelor of Arts)',viewValue:'B.A. (Bachelor of Arts)'},
+  {value:'B.Sc. (Bachelor of Science)',viewValue:'B.Sc. (Bachelor of Science)'},
+  {value:'B.Com. (Bachelor of Commerce)',viewValue:'B.Com. (Bachelor of Commerce)'},
+  {value:'B.E./B.Tech (Bachelor of Engineering/Technology)',viewValue:'B.E./B.Tech (Bachelor of Engineering/Technology)'},
+  {value:'BBA (Bachelor of Business Administration)',viewValue:'BBA (Bachelor of Business Administration)'},
+  {value:'BCA (Bachelor of Computer Applications)',viewValue:'BCA (Bachelor of Computer Applications)'},
+  {value:'LL.B. (Bachelor of Laws)',viewValue:'LL.B. (Bachelor of Laws)'},
+  {value:'M.A. (Master of Arts)',viewValue:'M.A. (Master of Arts)'},
+  {value:'M.Sc. (Master of Science)',viewValue:'M.Sc. (Master of Science)'},
+  {value:'MBA (Master of Business Administration)',viewValue:'MBA (Master of Business Administration)'},
+  {value:'M.Tech (Master of Technology)',viewValue:'M.Tech (Master of Technology)'},
+  {value:'Diploma in Engineering (Polytechnic)',viewValue:'Diploma in Engineering (Polytechnic)'},
+  {value:'MBBS (Bachelor of Medicine and Bachelor of Surgery)',viewValue:'MBBS (Bachelor of Medicine and Bachelor of Surgery)'},
+  
+]
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -98,7 +131,18 @@ export class ProfileManagementComponent {
      this.selectedSemScore = event.value;
      console.log('Selected semscore:', this.selectedSemScore);
    }
-  
-}
- 
 
+   onBloodChange(event: any) {
+    this.selectedBlood = event.value;
+    console.log('Selected Blood:', this.selectedBlood);
+  }
+  onDegreeChange(event: any) {
+    this.selectedDegree = event.value;
+    console.log('Selected Degree:', this.selectedDegree);
+  }
+  onProgramChange(event: any) {
+    this.selectedProgram= event.value;
+    console.log('Selected Program:', this.selectedProgram);
+  }
+  }
+  
