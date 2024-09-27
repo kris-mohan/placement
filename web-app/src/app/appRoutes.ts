@@ -37,6 +37,7 @@ import { StudentResultInformation } from "./features/company-menu/test-interview
 import { AddEditIndustryComponent } from "./features/company-configuration/company-config/industry/add-edit-industry/add-edit-industry.component";
 import { AddEditcompanyIndustryComponent } from "./features/company-configuration/company-config/industry-technology/add-edit-industry-technology/add-edit-company-industry.component";
 import { ResumeBuilderComponent } from "./features/student-menu/student-menu/resume-builder/resume-builder.component";
+import { ApprovalComponent } from "./features/placement-cell/placement-cell/approval/approval.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -204,6 +205,10 @@ const appRoutes: Routes = [
       {
         path: "students",
         component: EligibleStudentsListComponent,
+      },
+      {
+        path: "student-details-approval",
+        component: ApprovalComponent,
       },
       {
         path: "**",
