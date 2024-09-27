@@ -1,11 +1,11 @@
 import { Component } from "@angular/core";
-import { Location } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-company-job-description",
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, CommonModule],
   templateUrl: "./company-job-description.component.html",
   styleUrl: "./company-job-description.component.css",
 })
