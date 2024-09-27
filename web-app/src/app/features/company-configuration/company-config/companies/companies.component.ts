@@ -489,7 +489,7 @@ export class CompaniesComponent {
     return Array.from(industriesSet) as Industry[];
   }
 
-  goToCompanyJobDetails(companyId: number) {
-    this.router.navigate(["/company-job-details"]);
+  goToCompanyJobDetails(id: number) {
+    this.router.navigate(["company-configuration/company-job-details", id]);
   }
 }

@@ -5,4 +5,5 @@ export type employeeDataList = {
   Batch: string;
   CGPA: string;
   Status: string;
+  ApplicationApprovalStatus: string;
 };

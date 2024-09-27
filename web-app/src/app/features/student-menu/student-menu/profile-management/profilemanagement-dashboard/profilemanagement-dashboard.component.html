@@ -1,4 +1,4 @@
-<button mat-raised-button class="matbutton" (click)="openAddEditProfile()">
+<button mat-raised-button class="matbutton" (click)="openAddEditProfile(1)">
   <mat-icon class="maticon">add</mat-icon>
   <p class="matName">Add Details</p>
 </button>
@@ -107,7 +107,8 @@
       <mat-divider></mat-divider>
       <div
         class="education-section"
-        *ngFor="let college of profileData.educationDetails.otherColleges">
+        *ngFor="let college of profileData.educationDetails.otherColleges"
+      >
         <h3>Other College</h3>
         <div class="education-row">
           <div class="left">

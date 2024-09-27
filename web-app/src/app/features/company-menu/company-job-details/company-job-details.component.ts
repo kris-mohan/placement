@@ -78,7 +78,10 @@ export class CompanyJobDetailsComponent {
     private sweetAlertService: SweetAlertService,
     private location: Location,
     private apiService: APIService
-  ) {}
+  ) {
+    const storedUserType = sessionStorage.getItem("userType");
+    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+  }
 
   searchCity: string = "";
   filteredCompanies: companyTableList[] = [];
@@ -86,6 +89,8 @@ export class CompanyJobDetailsComponent {
   companies: companyTableList[] = [];
   experienceLevelControl = new FormControl();
   filteredCompany: Observable<any[]> = of([]);
+
+  userType: number;
 
   dataSource1 = new MatTableDataSource<companyTableList>([]);
   companiesCard = [
@@ -491,7 +496,7 @@ export class CompanyJobDetailsComponent {
     console.log(jobId);
     if (jobId !== undefined) {
       this.router.navigate([
-        "company-job-details/companyJobDescription",
+        "company-configuration/company-job-details/companyJobDescription",
         jobId,
       ]);
     } else {
