@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AMGModules } from 'src/AMG-Module/AMG-module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatSelectChange } from '@angular/material/select';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-profile-management',
@@ -86,6 +88,13 @@ Program=[
   {value:'MBBS (Bachelor of Medicine and Bachelor of Surgery)',viewValue:'MBBS (Bachelor of Medicine and Bachelor of Surgery)'},
   
 ]
+readonly techSkill = signal(['java', 'c++', 'c']);
+readonly SoftSkill = signal(['Conmmunication skill', 'Leadership skill', 'team managment']);
+readonly ExtracurricularActivities = signal(['sports', 'music', 'dance']);
+readonly Language= signal(['English', 'Hindi', 'Tamil']);
+
+
+  announcer = inject(LiveAnnouncer);
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -143,6 +152,110 @@ Program=[
   onProgramChange(event: any) {
     this.selectedProgram= event.value;
     console.log('Selected Program:', this.selectedProgram);
+  }
+
+  removeTemplateKeyword(keyword: string) {
+    this.techSkill.update(keywords => {
+      const index = keywords.indexOf(keyword);
+      if (index < 0) {
+        return keywords;
+      }
+
+      keywords.splice(index, 1);
+      this.announcer.announce(`removed ${keyword} from template form`);
+      return [...keywords];
+    });
+  }
+
+  addTemplateKeyword(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our keyword
+    if (value) {
+      this.techSkill.update(keywords => [...keywords, value]);
+      this.announcer.announce(`added ${value} to template form`);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+  }
+
+  removeSoftSkill(keyword: string) {
+    this.SoftSkill.update(keywords => {
+      const index = keywords.indexOf(keyword);
+      if (index < 0) {
+        return keywords;
+      }
+
+      keywords.splice(index, 1);
+      this.announcer.announce(`removed ${keyword} from template form`);
+      return [...keywords];
+    });
+  }
+
+  addSoftSkill(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our keyword
+    if (value) {
+      this.SoftSkill.update(keywords => [...keywords, value]);
+      this.announcer.announce(`added ${value} to template form`);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+  }
+
+  removeExtracurricularActivities(keyword: string) {
+    this.ExtracurricularActivities.update(keywords => {
+      const index = keywords.indexOf(keyword);
+      if (index < 0) {
+        return keywords;
+      }
+
+      keywords.splice(index, 1);
+      this.announcer.announce(`removed ${keyword} from template form`);
+      return [...keywords];
+    });
+  }
+
+  addExtracurricularActivities(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our keyword
+    if (value) {
+      this.ExtracurricularActivities.update(keywords => [...keywords, value]);
+      this.announcer.announce(`added ${value} to template form`);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+  }
+
+  removeLanguage(keyword: string) {
+    this.Language.update(keywords => {
+      const index = keywords.indexOf(keyword);
+      if (index < 0) {
+        return keywords;
+      }
+
+      keywords.splice(index, 1);
+      this.announcer.announce(`removed ${keyword} from template form`);
+      return [...keywords];
+    });
+  }
+
+  addLanguage(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our keyword
+    if (value) {
+      this.Language.update(keywords => [...keywords, value]);
+      this.announcer.announce(`added ${value} to template form`);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
   }
   }
   
