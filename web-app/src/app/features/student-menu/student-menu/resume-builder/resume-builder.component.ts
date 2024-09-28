@@ -22,7 +22,6 @@ import { MatIconModule } from "@angular/material/icon";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { merge } from "rxjs";
 import { CommonModule } from "@angular/common";
-import { CommonModule } from '@angular/common';
 
 function phoneValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -37,7 +36,8 @@ function phoneValidator(): ValidatorFn {
   standalone: true,
   imports: [
     AMGModules,
-   CommonModule, FormsModule,
+    CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatChipsModule,
@@ -54,36 +54,30 @@ export class ResumeBuilderComponent {
   errorMessage = signal("");
 
   constructor() {
-    merge(
-      this.phone.statusChanges,
-      this.phone.valueChanges
-    )
-    merge(
-      this.email.statusChanges, 
-      this.email.valueChanges
-    )
-    .pipe(takeUntilDestroyed())
-    .subscribe(() => this.updateErrorMessage());
+    merge(this.phone.statusChanges, this.phone.valueChanges);
+    merge(this.email.statusChanges, this.email.valueChanges)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorMessage());
   }
 
   updateErrorMessage() {
-    if (this.email.hasError('required')) {
-      this.errorMessage.set('You must enter an email address');
-    } else if (this.email.hasError('email')) {
-      this.errorMessage.set('Not a valid email address');
-    } else if (this.phone.hasError('required')) {
-      this.errorMessage.set('You must enter a phone number');
-    } else if (this.phone.hasError('phone')) {
-      this.errorMessage.set('Not a valid phone number (must be 10 digits)');
+    if (this.email.hasError("required")) {
+      this.errorMessage.set("You must enter an email address");
+    } else if (this.email.hasError("email")) {
+      this.errorMessage.set("Not a valid email address");
+    } else if (this.phone.hasError("required")) {
+      this.errorMessage.set("You must enter a phone number");
+    } else if (this.phone.hasError("phone")) {
+      this.errorMessage.set("Not a valid phone number (must be 10 digits)");
     } else {
       this.errorMessage.set("");
     }
-    if (this.email.hasError('required')) {
-      this.errorMessage.set('You must enter a value');
-    } else if (this.email.hasError('email')) {
-      this.errorMessage.set('Not a valid email');
+    if (this.email.hasError("required")) {
+      this.errorMessage.set("You must enter a value");
+    } else if (this.email.hasError("email")) {
+      this.errorMessage.set("Not a valid email");
     } else {
-      this.errorMessage.set('');
+      this.errorMessage.set("");
     }
   }
 
@@ -118,10 +112,10 @@ export class ResumeBuilderComponent {
     curricular: [] as string[],
   };
 
-  newHobby: string = ''; // Declare newHobby
-  newCurricular: string = '';
-  newsoftskill: string = '';
-  newTechnical: string = '';
+  newHobby: string = ""; // Declare newHobby
+  newCurricular: string = "";
+  newsoftskill: string = "";
+  newTechnical: string = "";
 
   readonly templateKeywords = signal(["English", "Hindi", "Kannada"]);
 
@@ -156,13 +150,13 @@ export class ResumeBuilderComponent {
   addHobby() {
     if (this.newHobby) {
       this.resumeData.hobbies.push(this.newHobby);
-      this.newHobby = ''; // Clear the input after adding
+      this.newHobby = ""; // Clear the input after adding
     }
   }
   addTechnical() {
-    if(this.newTechnical){
+    if (this.newTechnical) {
       this.resumeData.technical.push(this.newTechnical);
-      this.newTechnical = '';
+      this.newTechnical = "";
     }
   }
   removesoftskill(index: number) {
@@ -181,37 +175,16 @@ export class ResumeBuilderComponent {
     this.resumeData.curricular.splice(index, 1);
   }
   addCurricular() {
-    if(this.newCurricular){
+    if (this.newCurricular) {
       this.resumeData.curricular.push(this.newCurricular);
-      this.newCurricular = '';
+      this.newCurricular = "";
     }
   }
   addsoftskill() {
     if (this.newsoftskill) {
       this.resumeData.softskills.push(this.newsoftskill);
-      this.newsoftskill = ''; // Clear the input after adding
+      this.newsoftskill = ""; // Clear the input after adding
     }
-  }
-  addTechnical() {
-    if(this.newTechnical){
-      this.resumeData.technical.push(this.newTechnical);
-      this.newTechnical = '';
-    }
-  }
-  removesoftskill(index: number) {
-    this.resumeData.softskills.splice(index, 1);
-  }
-
-  removeTechnical(index: number) {
-    this.resumeData.technical.splice(index, 1);
-  }
-
-  removeHobby(index: number) {
-    this.resumeData.hobbies.splice(index, 1);
-  }
-
-  removeCurricular(index: number) {
-    this.resumeData.curricular.splice(index, 1);
   }
 
   onSubmit() {
