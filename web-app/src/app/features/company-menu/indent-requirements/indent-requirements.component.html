@@ -1,0 +1,85 @@
+<!-- table-form.component.html -->
+
+<h3>Indenting Organisation Details</h3>
+
+<form [formGroup]="indentForm" (ngSubmit)="onSubmit()">
+  <table border="1" cellpadding="10" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Sr No</th>
+        <th>Particulars</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1.</td>
+        <td>Department/Organization</td>
+        <td><input type="text" formControlName="department" /></td>
+      </tr>
+      <tr>
+        <td>2.</td>
+        <td>Address</td>
+        <td><textarea formControlName="address"></textarea></td>
+      </tr>
+      <tr>
+        <td>3.</td>
+        <td>Contact Person:<br />Name<br />Designation</td>
+        <td>
+          <input type="text" formControlName="contactName" /><br />
+          <input type="text" formControlName="designation" />
+        </td>
+      </tr>
+      <tr>
+        <td>4.</td>
+        <td>Contact Person:<br />Phone/Mobile<br />Email address</td>
+        <td>
+          <input type="text" formControlName="phone" /><br />
+          <input type="email" formControlName="email" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button type="submit" [disabled]="indentForm.invalid">Submit</button>
+</form>
+
+<div>
+  <table
+    class="manpower_requirement_table"
+    border="1"
+    cellpadding="10"
+    cellspacing="0"
+    width="100%"
+  >
+    <thead>
+      <tr>
+        <th>Sr. No</th>
+        <th>Category</th>
+        <th>No of assignees</th>
+        <th colspan="2">Period of requirement</th>
+        <th>Location</th>
+        <th>Monthly Payment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>From</th>
+        <th>To</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </tbody>
+  </table>
+</div>

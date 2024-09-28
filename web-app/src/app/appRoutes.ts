@@ -50,6 +50,7 @@ import { CompanyJobDescriptionComponent } from "./features/company-menu/company-
 import { ProfilemanagementDashboardComponent } from "./features/student-menu/student-menu/profile-management/profilemanagement-dashboard/profilemanagement-dashboard.component";
 import { JobsComponent } from "./features/student-menu/applied/jobs.component";
 import { ResumeBuilderComponent } from "./features/student-menu/student-menu/resume-builder/resume-builder.component";
+import { IndentRequirementsComponent } from "./features/company-menu/indent-requirements/indent-requirements.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -184,7 +185,7 @@ const appRoutes: Routes = [
         component: AddEditRoundsComponent,
       },
       {
-        path: "company-configuration/company-job-details/companyJobDescription/:jobId",
+        path: "company-job-details/companyJobDescription/:jobId",
         component: CompanyJobDescriptionComponent,
       },
       {
@@ -271,6 +272,11 @@ const appRoutes: Routes = [
         path: "Panel",
         component: PanelTabComponent,
       },
+      {
+        path: "indent-requirement",
+        component: IndentRequirementsComponent,
+      },
+      
       {
         path: "**",
         redirectTo: "dashboard",

@@ -13,7 +13,7 @@
       </div>
     </div>
   </mat-card-header>
-  <mat-card-content class="mat-card-content">
+  <mat-card-content class="matt-card-content">
     <div class="main-content">
       <div class="left-content">
         <div class="job-card">
@@ -21,9 +21,14 @@
             <div class="job-title">
               <h2>Backend Developer</h2>
               <span class="company">Delhivery</span>
-              <span class="rating">⭐ 3.9 | 5486 Reviews</span>
+              <span class="rating"> 3.9 | 5486 Reviews</span>
             </div>
-            <button class="apply-button">Apply</button>
+            <div>
+              <button class="apply-button">Apply</button>
+              <button class="apply-button"
+              (click)="openEligibleStudentsModel()"
+              >Eligible Student List</button>
+            </div>
           </div>
 
           <div class="job-details">
@@ -33,7 +38,7 @@
             <div class="salary">
               <span>Not Disclosed</span>
             </div>
-            <div class="location">
+            <div class="locations">
               <span>Gurugram, Bengaluru</span>
             </div>
             <div class="posted">
@@ -63,28 +68,28 @@
           </ul>
         </div>
       </div>
-      <!-- <div class="right-content">
+      <div class="right-content">
         <div class="related-jobs">
           <h3>Jobs you might be interested in</h3>
           <ul>
             <li>
               <h4>Backend Software Engineer - Paytm Money</h4>
-              <span>Paytm | ⭐ 3.3 | 6720 reviews</span>
+              <span>Paytm | 3.3 | 6720 reviews</span>
               <span>Noida, Bengaluru | Posted 22 days ago</span>
             </li>
             <li>
               <h4>Backend Software Engineer - Paytm Money</h4>
-              <span>Paytm | ⭐ 3.3 | 6720 reviews</span>
+              <span>Paytm | 3.3 | 6720 reviews</span>
               <span>Noida, Bengaluru | Posted 22 days ago</span>
             </li>
             <li>
               <h4>Backend Software Engineer - Paytm Money</h4>
-              <span>Paytm | ⭐ 3.3 | 6720 reviews</span>
+              <span>Paytm | 3.3 | 6720 reviews</span>
               <span>Noida, Bengaluru | Posted 22 days ago</span>
             </li>
           </ul>
         </div>
-      </div> -->
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

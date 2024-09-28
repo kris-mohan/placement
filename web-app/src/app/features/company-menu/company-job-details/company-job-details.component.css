@@ -66,7 +66,7 @@ mat-grid-tile {
 }
 
 .company-details {
-  width: 100%;
+  width: 70%;
   text-align: left;
   margin-left: 2rem;
 }
@@ -75,4 +75,14 @@ mat-grid-tile {
   width: 100%;
   text-align: right;
   margin-right: 6rem;
+}
+
+.card-container-main {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.job-details {
+  width: 30%;
 }

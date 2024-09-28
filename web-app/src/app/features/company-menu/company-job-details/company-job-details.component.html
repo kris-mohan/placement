@@ -216,34 +216,36 @@
   <mat-grid-list cols="2" rowHeight="4:1" gutterSize="16px">
     <mat-grid-tile *ngFor="let job of jobsCard">
       <div
-        class="company-details"
+        class="card-container-main"
         (click)="openCopmanyJobDescriptionPage(job.Id)"
       >
-        <h3>{{ job.title }}</h3>
-
-        <div class="company-type">{{ job.applicants }}</div>
-      </div>
-      <div class="job-details">
-        <h4>
-          Experience:
-          <span class="rating">{{ job.experience }}</span>
-        </h4>
-        <h4>
-          Salary:
-          <span class="rating">{{ job.salary }}</span>
-        </h4>
-        <h4>
-          Location:
-          <span class="rating">{{ job.location }}</span>
-        </h4>
-        <h4>
-          Shift:
-          <span class="rating">{{ job.shift }}</span>
-        </h4>
-        <h4>
-          Mode of Work:
-          <span class="rating">{{ job.modeOfWork }}</span>
-        </h4>
+        <div class="company-details">
+            <h3>{{ job.title }}</h3>
+  
+          <div class="company-type">{{ job.applicants }}</div>
+        </div>
+        <div class="job-details">
+          <h4>
+            Experience:
+            <span class="rating">{{ job.experience }}</span>
+          </h4>
+          <h4>
+            Salary:
+            <span class="rating">{{ job.salary }}</span>
+          </h4>
+          <h4>
+            Location:
+            <span class="rating">{{ job.location }}</span>
+          </h4>
+          <h4>
+            Shift:
+            <span class="rating">{{ job.shift }}</span>
+          </h4>
+          <h4>
+            Mode of Work:
+            <span class="rating">{{ job.modeOfWork }}</span>
+          </h4>
+        </div>
       </div>
     </mat-grid-tile>
   </mat-grid-list>

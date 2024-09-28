@@ -190,6 +190,7 @@
             <div><mat-label> Campus </mat-label></div>
           </div>
         </a>
+
         <a
           *ngIf="userType === 1"
           mat-list-item
@@ -402,8 +403,19 @@
             <div><mat-label>Interview</mat-label></div>
           </div>
         </a>
-
-        <!-- <a
+        <a
+          *ngIf="userType === 2"
+          mat-list-item
+          [routerLink]="['/indent-requirement']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> corporate_fare </mat-icon></div>
+            <div><mat-label>Indent </mat-label></div>
+          </div>
+        </a>
+        <a
           *ngIf="userType === 3"
           mat-list-item
           routerLinkActive="active"
