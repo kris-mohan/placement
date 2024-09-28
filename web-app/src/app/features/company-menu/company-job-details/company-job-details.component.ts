@@ -488,7 +488,6 @@ export class CompanyJobDetailsComponent {
   goToCompanyJobDetails(companyId: number) {}
 
   openCopmanyJobDescriptionPage(jobId?: number) {
-    console.log(jobId);
     if (jobId !== undefined) {
       this.router.navigate([
         "company-job-details/companyJobDescription",

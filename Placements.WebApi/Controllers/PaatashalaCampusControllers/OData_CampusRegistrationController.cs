@@ -12,7 +12,7 @@ namespace Placements.WebApi.Controllers.PaatashalaCampusControllers
   [Route("odata/Campusregistration")]
   public class OData_CampusRegistrationController :ODataController
   {
-
+    
     private readonly PaatashalacampusContext _context;
     private readonly PaatashalacompanydbContext _paatashalacompanydbContext;
 
