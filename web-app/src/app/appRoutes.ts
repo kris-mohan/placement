@@ -185,7 +185,7 @@ const appRoutes: Routes = [
         component: AddEditRoundsComponent,
       },
       {
-        path: "company-job-details/companyJobDescription/:jobId",
+        path: "company-configuration/company-job-details/companyJobDescription/:jobId",
         component: CompanyJobDescriptionComponent,
       },
       {
@@ -276,7 +276,7 @@ const appRoutes: Routes = [
         path: "indent-requirement",
         component: IndentRequirementsComponent,
       },
-      
+
       {
         path: "**",
         redirectTo: "dashboard",
