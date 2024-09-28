@@ -1,0 +1,64 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Approval Form
+      </mat-card-title>
+    </mat-card-header>
+    <br>
+    <mat-card-content>
+      <button class = "approveall" mat-raised-button color="primary" (click)="approveAll()">Approve All Semesters</button>
+    </mat-card-content>
+    <br>
+    <mat-divider><br></mat-divider>
+
+    <mat-card-content>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let value of sgpaValues; let i = index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              SGPA - Semester {{ i + 1 }}
+            </mat-panel-title>
+            <mat-panel-description>
+              SGPA: {{ value }} | Status: {{ approvalForm.get('sgpa' + (i + 1) + 'Approved')?.value ? 'Approved' : 'Pending' }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          
+          <div class="form-group">
+            <label>SGPA - Semester {{ i + 1 }}: {{ value }}</label>
+          </div>
+          
+          <div class="form-group">
+            <button mat-raised-button
+                    [ngClass]="getButtonStyle('sgpa' + (i + 1) + 'Approved')" 
+                    (click)="onButtonClick('sgpa' + (i + 1) + 'Approved')">
+              {{ approvalForm.get('sgpa' + (i + 1) + 'Approved')?.value ? 'Revoke Approval' : 'Approve' }}
+            </button>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+    
+    <mat-divider></mat-divider>
+    <br>
+    <mat-card-content>
+      
+      <div *ngFor="let control of ['NameApproved', 'father NameApproved', 'father PhoneApproved', 'mother NameApproved', 'mother PhoneApproved', 'sectionApproved', 'branchApproved', 'casteApproved', 'religionApproved']">
+        <div class="form-group">
+          <label>{{ control.replace('Approved', '') | titlecase }}:</label>
+          <button mat-button color="accent" 
+                  [ngClass]="getButtonStyle(control)" 
+                  (click)="onButtonClick(control)">
+            {{ approvalForm.get(control)?.value ? 'Approved' : 'Pending' }}
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="onSubmit()">Submit Approval</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -43,6 +43,7 @@ export class LoginAuthComponent {
 
       this.apiService
         //.loginpost("http://20.219.120.124:92/WeatherForecast/login", loginModel)
+        //.loginpost("http://localhost:5056/WeatherForecast/login", loginModel)
         .loginpost("https://localhost:44304/WeatherForecast/login", loginModel)
         .subscribe({
           next: (response: any) => {

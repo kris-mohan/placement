@@ -1,103 +1,110 @@
-/* Simple styling for the resume builder form */
-div {
-    margin-bottom: 5px;
-    padding: 25px;
-  }
-  
-  label {
-    display: inline-block;
-    width: 150px;
-    font-weight: bold;
-  }
-  
-  input {
-    padding: 5px;
-    width: 300px;
-  }
-  
-  button {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  .buildbutton {
-    width: 120px;
-    height: 40px;
-    font-size: medium;
-  }
-  .example-chip-list {
-    width: 80%;
-    margin-left: 78px;
-    
-  }
-  .crosslang {
-    background-color: transparent;
-  }
-  .email-container {
-    margin-left: 50px;
-  }
-  .phone-container {
-    margin-left: 50px;
-  }
-  .academic-credentials {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Spacing between cards */
-  }
-  
-  mat-card {
-    padding: 16px; /* Inner padding for cards */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for cards */
-  }
-  
-  mat-card-title {
-    font-weight: bold;
-    font-size: 1.2em; /* Increased font size for titles */
-  }
-  mat-label {
-    margin-top: auto;
-  }
-  .address-field {
-    width: 80%;
-    height: fit-content;
-  }
+body {
+  font-family: 'Roboto', sans-serif;
+}
+input, textarea {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+mat-card {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin: 16px auto;
+}
+.personal-details-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Adds a gap between the columns */
+}
+
+.left-column, .right-column {
+  width: 48%;
+}
+
+input, textarea {
+  width: 100%;
+}
+label {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.mat-chip-row {
+  border-radius: 20px;
+  background-color: #e0f7fa;
+  color: #007bff;
+  margin-right: 8px;
+}
+.crosslang {
+  color: red;
+}
+@media (max-width: 768px) {
   .resume-builder-container {
-    margin: 20px auto;
-    max-width: 800px;
+    padding: 15px;
   }
-  
-  .section-card {
-    margin-bottom: 20px;
-    padding: 20px;
+
+  .personal-details-container {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .mat-form-field {
+
+  .left-column, .right-column {
     width: 100%;
   }
+}
+div {
+  margin-bottom: 5px;
+  padding: 25px;
+}
+.side-by-side-container {
+  display: flex;
+  justify-content: space-between; /* Places the two sections on either side */
+  gap: 20px; /* Adds spacing between the two sections */
+}
+
+.hobbies-section, .curricular-section {
+  width: 48%; /* Each section takes up 48% of the width for some spacing */
+}
+
+h3, h4 {
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+button {
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+section {
+  padding: 15 px;
   
-  .buildbutton {
-    margin-top: 20px;
-    display: block;
-    width: 100%;
-    padding: 10px;
-  }
-  
-  h3, h4 {
-    margin-bottom: 10px;
-  }
-  
-  .mat-elevation-z4 {
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
+}

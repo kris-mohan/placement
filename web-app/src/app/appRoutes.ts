@@ -51,6 +51,7 @@ import { ProfilemanagementDashboardComponent } from "./features/student-menu/stu
 import { JobsComponent } from "./features/student-menu/applied/jobs.component";
 import { ResumeBuilderComponent } from "./features/student-menu/student-menu/resume-builder/resume-builder.component";
 import { IndentRequirementsComponent } from "./features/company-menu/indent-requirements/indent-requirements.component";
+import { ApprovalComponent } from "./features/placement-cell/placement-cell/approval/approval.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -277,6 +278,10 @@ const appRoutes: Routes = [
         component: IndentRequirementsComponent,
       },
 
+      {
+        path: "student-details-approval",
+        component: ApprovalComponent,
+      },
       {
         path: "**",
         redirectTo: "dashboard",
