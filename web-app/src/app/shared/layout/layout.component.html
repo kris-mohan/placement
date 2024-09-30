@@ -82,7 +82,7 @@
         <mat-icon>person</mat-icon>
         <span>Account</span>
       </a>
-
+      
       <a mat-menu-item [routerLink]="['login']">
         <mat-icon>exit_to_app</mat-icon>
         <span>Log out</span>
@@ -135,7 +135,7 @@
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> Apartment </mat-icon></div>
+            <div><mat-icon mat-list-icon> business </mat-icon></div>
             <div><mat-label>Company Profiles </mat-label></div>
           </div>
         </a>
@@ -394,7 +394,7 @@
             <div><mat-icon>student_applied</mat-icon></div>
             <div><mat-label>Applied Jobs</mat-label></div>
           </div>
-        </a> --> -->
+        </a>  -->
 
         <a
           *ngIf="userType === 2"
@@ -404,8 +404,8 @@
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <mat-icon>work_outline</mat-icon>
-            <div><mat-label>Company Profile</mat-label></div>
+            <div><mat-icon>Alumni</mat-icon></div>
+            <div><mat-label>Alumni</mat-label></div>
           </div>
         </a>
 
@@ -417,8 +417,8 @@
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <!-- <mat-icon>work_outline</mat-icon> -->
-            <div><mat-label>Schedule Interview</mat-label></div>
+            <mat-icon>work_outline</mat-icon>
+            <div><mat-label>Applied Jobs</mat-label></div>
           </div>
         </a>
 
