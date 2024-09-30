@@ -218,7 +218,6 @@
             </mat-form-field>
           </div>
         </div>
-
         <div fxLayout="row wrap" class="row-wrap">
           <div
             fxFlex="100%"
@@ -509,69 +508,84 @@
           </div>
         </div>
 
-        <div fxLayout="row wrap" class="row-wrap">
+        <div>
           <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
+            fxLayout="row wrap"
+            class="row-wrap"
+            *ngFor="let sem of allSemesters; let i = index"
           >
-            <p class="grid-label">Select Semester</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Select Semester</mat-label>
-              <mat-select (selectionChange)="onSemesterChange($event)">
-                <mat-option *ngFor="let sem of Semesters" [value]="sem.value">
-                  {{ sem.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-md="25%"
+              fxFlex.gt-lg="25%"
+              fxFlex.gt-sm="50%"
+            >
+              <p class="grid-label">Select Semester{{ i + 1 }}</p>
+              <mat-form-field appearance="outline">
+                <mat-label>Select Semester</mat-label>
+                <mat-select (selectionChange)="onSemesterChange($event)">
+                  <mat-option *ngFor="let sem of Semesters" [value]="sem.value">
+                    {{ sem.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <p>Selected Semester: {{ selectedSemester }}</p>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Semester Score*</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Select Type</mat-label>
-              <mat-select (selectionChange)="onSemScoreChange($event)">
-                <mat-option
-                  *ngFor="let SemScore of Scores"
-                  [value]="SemScore.value"
-                >
-                  {{ SemScore.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Score</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Enter Score</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Upload file</p>
-            <input type="file" />
+              <!-- <p>Selected Semester: {{ selectedSemester }}</p> -->
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-md="25%"
+              fxFlex.gt-lg="25%"
+              fxFlex.gt-sm="50%"
+            >
+              <p class="grid-label">Semester Score*</p>
+              <mat-form-field appearance="outline">
+                <mat-label>Select Type</mat-label>
+                <mat-select (selectionChange)="onSemScoreChange($event)">
+                  <mat-option
+                    *ngFor="let SemScore of Scores"
+                    [value]="SemScore.value"
+                  >
+                    {{ SemScore.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-md="25%"
+              fxFlex.gt-lg="25%"
+              fxFlex.gt-sm="50%"
+            >
+              <p class="grid-label">Enter Score</p>
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Score</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+
+            <div
+              fxFlex="100%"
+              fxFlex.gt-md="25%"
+              fxFlex.gt-lg="25%"
+              fxFlex.gt-sm="50%"
+            >
+              <p class="grid-label">Upload file</p>
+              <input type="file" />
+            </div>
+            <div class="example-label">
+              <div fxFlex="100%">
+                <button mat-button color="warn" (click)="removeSemester(i)">
+                  Remove
+                </button>
+              </div>
+            </div>
           </div>
           <section>
-            <div class="example-label"></div>
             <div class="example-button-row">
-              <button mat-button>Add</button>
+              <button mat-button (click)="addDulpicateSemester()">
+                Add semester
+              </button>
             </div>
           </section>
         </div>
@@ -586,7 +600,6 @@
                 <mat-grid-tile>
                   <mat-form-field class="example-form-field">
                     <h4>Technical Skill</h4>
-                    <mat-label>Default Skill</mat-label>
                     <mat-chip-grid
                       #templateChipGrid
                       aria-label="Enter Skill"
@@ -643,7 +656,7 @@
                 <mat-grid-tile>
                   <mat-form-field class="example-form-field">
                     <h4>ExtraCurricular Activities</h4>
-                    <mat-label>Default Skill</mat-label>
+
                     <mat-chip-grid
                       #templateBoxGrid
                       aria-label="Enter Skill"
@@ -676,7 +689,6 @@
                 </mat-grid-tile>
                 <mat-grid-tile>
                   <mat-form-field class="example-form-field">
-                    <mat-label>Default Language</mat-label>
                     <h4>Languages</h4>
                     <mat-chip-grid
                       #LanguageGrid
@@ -703,25 +715,43 @@
                     />
                   </mat-form-field>
                 </mat-grid-tile>
-                <mat-grid-tile>
-                  <mat-form-field appearance="outline">
-                    <p class="grid-label">linkedin profile link</p>
-                    <mat-label>Linkedin Profile Link</mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </mat-grid-tile>
               </mat-grid-list>
             </section>
           </div>
-        </div>
-
-        <div fxLayout="row wrap" class="row-wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          ></div>
+          <section>
+            <mat-grid-list cols="2" rowHeight="2:1">
+              <mat-grid-tile>
+                <h3>
+                  <b><p class="grid-label">Linkedin Profile Link</p></b>
+                </h3>
+                <mat-form-field appearance="outline">
+                  <mat-label>Linkedin Profile Link</mat-label>
+                  <input matInput />
+                </mat-form-field>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <h3><p class="grid-label">Achievement</p></h3>
+                <mat-form-field>
+                  <mat-label>Achievement</mat-label>
+                  <textarea matInput></textarea>
+                </mat-form-field>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <h3><p class="grid-label">Project</p></h3>
+                <mat-form-field>
+                  <mat-label>Project</mat-label>
+                  <textarea matInput></textarea>
+                </mat-form-field>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <h3><p class="grid-label">Internship</p></h3>
+                <mat-form-field>
+                  <mat-label>Internship</mat-label>
+                  <textarea matInput></textarea>
+                </mat-form-field>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </section>
         </div>
       </mat-tab>
     </mat-tab-group>
