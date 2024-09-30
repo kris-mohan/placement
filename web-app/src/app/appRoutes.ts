@@ -54,6 +54,7 @@ import { InterviewScheduleComponent } from './features/company-menu/interview-sc
 import { ResumeBuilderComponent } from "./features/student-menu/student-menu/resume-builder/resume-builder.component";
 import { IndentRequirementsComponent } from "./features/company-menu/indent-requirements/indent-requirements.component";
 import { ApprovalComponent } from "./features/placement-cell/placement-cell/approval/approval.component";
+import { StudentRegistrationComponent } from "./features/authentication/registration/student-registration/student-registration.component";
 // import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
 import { InterviewScheduleComponent } from "./features/company-menu/interview-schedule/interview-schedule.component";
 import { CompanyProfileComponent } from "./features/company-menu/company-profile/company-profile.component";
@@ -78,6 +79,10 @@ const appRoutes: Routes = [
   {
     path: "company-registration",
     component: CompanyRegistrationComponent,
+  },
+  {
+    path: "student-registration",
+    component: StudentRegistrationComponent,
   },
   {
     path: "",
