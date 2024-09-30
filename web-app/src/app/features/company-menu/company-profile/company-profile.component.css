@@ -1,0 +1,91 @@
+.container {
+  padding: 10px;
+  margin: 10px;
+}
+
+.heading {
+  border: 1px solid rgba(191, 189, 189, 0.386);
+  padding: 10px;
+}
+
+.heading h4 {
+  margin: 0 0 0 10px;
+}
+
+.heading ul {
+  display: flex;
+  gap: 15px;
+  /* justify-content: space-between; */
+}
+
+.heading ul li {
+  padding: 8px;
+  border: 1px solid rgba(128, 128, 128, 0.489);
+  border-radius: 8px;
+  list-style: none;
+}
+
+.overview {
+  border: 1px solid rgba(191, 189, 189, 0.231);
+  padding: 10px;
+}
+
+.content {
+  display: flex;
+  margin: 20px 0 0 0;
+}
+.left {
+  width: 70%;
+}
+
+.right {
+  width: 30%;
+}
+
+.feedback {
+  padding: 10px;
+  border: 1px solid rgba(191, 189, 189, 0.231);
+}
+
+.job-type,
+.department {
+  color: grey;
+  font-size: 16px;
+}
+.rating {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.posted-date {
+  color: grey;
+  font-size: 14px;
+}
+.content {
+  margin-bottom: 10px;
+}
+
+.feedback_card {
+  padding: 10px;
+  border: 1px solid rgba(191, 189, 189, 0.55);
+  border-radius: 10px;
+}
+
+.more_info {
+  margin: 10px 0 0 0;
+  padding: 10px;
+  border: 1px solid rgba(191, 189, 189, 0.55);
+  border-radius: 10px;
+}
+.more_info div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.more_info div > * {
+  flex: 0 1 48%;
+  box-sizing: border-box;
+}
