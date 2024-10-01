@@ -184,6 +184,10 @@ const appRoutes: Routes = [
         component: CompanyJobDetailsComponent,
       },
       {
+        path: "company-configuration/company-job-details/:id",
+        component: CompanyJobDetailsComponent,
+      },
+      {
         path: "company-job-details/:id",
         component: AddEditCompanyJobDetailsComponent,
       },
@@ -289,7 +293,7 @@ const appRoutes: Routes = [
       },
 
       {
-        path: "student-details-approval",
+        path: "students/student-details-approval/:id",
         component: ApprovalComponent,
       },
       {

@@ -212,7 +212,7 @@
         >
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon>school</mat-icon></div>
-            <div><mat-label>Traininng </mat-label></div>
+            <div><mat-label>Training </mat-label></div>
           </div>
         </a>
         <a
@@ -227,7 +227,7 @@
             <div><mat-label>Feedback and Survey </mat-label></div>
           </div>
         </a>
-        <a
+        <!-- <a
           *ngIf="userType === 1"
           mat-list-item
           [routerLink]="['/student-details-approval']"
@@ -238,7 +238,7 @@
             <div><mat-icon>assignment_turned_in</mat-icon></div>
             <div><mat-label>Approval Dashboard</mat-label></div>
           </div>
-        </a>
+        </a> -->
         <!-- </mat-expansion-panel> -->
 
         <!-- <mat-expansion-panel style="box-shadow: none" *ngIf="userType === 2"> -->
@@ -427,7 +427,7 @@
             <div><mat-label>Indent </mat-label></div>
           </div>
         </a>
-        <a
+        <!-- <a
           *ngIf="userType === 3"
           mat-list-item
           routerLinkActive="active"
@@ -437,7 +437,8 @@
             <div><mat-icon>notifications</mat-icon></div>
             <div><mat-label>Notifications</mat-label></div>
           </div>
-        </a>
+        </a> -->
+
         <a
           *ngIf="userType === 3"
           mat-list-item
