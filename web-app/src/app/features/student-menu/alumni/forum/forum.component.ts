@@ -26,14 +26,14 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class ForumComponent {
   companiesCard = [
-    { name: 'Google', job_role: 'Software Engineer', studentsPlaced: 12, progress: 'In Progress' },
-    { name: 'Amazon', job_role: 'Data Scientist', studentsPlaced: 8, progress: 'Completed' },
-    { name: 'WarpDrive', job_role: 'Software Engineer', studentsPlaced: 5, progress: 'In Progress' },
-    { name: 'CipherCode', job_role: 'Data Scientist', studentsPlaced: 6, progress: 'In Progress' },
-    { name: 'Microsoft', job_role: 'Cloud Engineer', studentsPlaced: 8, progress: 'Completed' },
-    { name: 'TechOrigen', job_role: 'DevOps Engineer', studentsPlaced: 45, progress: 'In Progress' },
-    { name: 'Facebook', job_role: 'Product Manager', studentsPlaced: 14, progress: 'Completed' },
-    { name: 'Apple', job_role: 'UX Designer', studentsPlaced: 23, progress: 'Completed' },
+    { name: 'Google',  studentsPlaced: 12, progress: 'In Progress' },
+    { name: 'Amazon', studentsPlaced: 8, progress: 'Completed' },
+    { name: 'WarpDrive',  studentsPlaced: 5, progress: 'In Progress' },
+    { name: 'CipherCode', studentsPlaced: 6, progress: 'In Progress' },
+    { name: 'Microsoft', studentsPlaced: 8, progress: 'Completed' },
+    { name: 'TechOrigen',  studentsPlaced: 45, progress: 'In Progress' },
+    { name: 'Facebook',  studentsPlaced: 14, progress: 'Completed' },
+    { name: 'Apple', studentsPlaced: 23, progress: 'Completed' },
   ];
 
   companyControl = new FormControl(''); // Control for search input
