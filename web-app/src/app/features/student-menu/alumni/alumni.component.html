@@ -1,21 +1,28 @@
-<mat-form-field>
-  <mat-label>Start date</mat-label>
-  <input matInput [matDatepicker]="startDatePicker" />
-  <mat-hint>MM/DD/YYYY</mat-hint>
-  <mat-datepicker-toggle
-    matIconSuffix
-    [for]="startDatePicker"
-  ></mat-datepicker-toggle>
-  <mat-datepicker #startDatePicker></mat-datepicker>
-</mat-form-field>
+<div class="container">
+  <h1>Placement Portal</h1>
 
-<mat-form-field>
-  <mat-label>Enddate</mat-label>
-  <input matInput [matDatepicker]="endDatePicker" />
-  <mat-hint>MM/DD/YYYY</mat-hint>
-  <mat-datepicker-toggle
-    matIconSuffix
-    [for]="endDatePicker"
-  ></mat-datepicker-toggle>
-  <mat-datepicker #endDatePicker></mat-datepicker>
-</mat-form-field>
+  <div *ngIf="selectedCompany">
+    <h2>Alumni Network - {{ selectedCompany }}</h2>
+    <ul>
+      <li *ngFor="let alumni of filteredAlumni">
+        <strong>{{ alumni.name }}</strong> ({{ alumni.batch }}) - {{ alumni.position }}
+        <button mat-raised-button color="primary" (click)="chatWithAlumni(alumni)">Chat</button>
+      </li>
+    </ul>
+
+    <div *ngIf="selectedAlumni">
+      <h3>Chat with {{ selectedAlumni.name }}</h3>
+      <div class="chat-box">
+        <div *ngFor="let message of messages">
+          <div [ngClass]="{ 'student-message': message.sender === 'student', 'alumni-message': message.sender === 'alumni' }">
+            {{ message.content }}
+          </div>
+        </div>
+      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Type your message</mat-label>
+        <input matInput [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
+      </mat-form-field>
+    </div>
+  </div>
+</div>

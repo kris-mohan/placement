@@ -52,6 +52,8 @@ import { JobsComponent } from "./features/student-menu/applied/jobs.component";
 import { ResumeBuilderComponent } from "./features/student-menu/student-menu/resume-builder/resume-builder.component";
 import { IndentRequirementsComponent } from "./features/company-menu/indent-requirements/indent-requirements.component";
 import { ApprovalComponent } from "./features/placement-cell/placement-cell/approval/approval.component";
+import { StudentRegistrationComponent } from "./features/authentication/registration/student-registration/student-registration.component";
+import { ForumComponent } from "./features/student-menu/alumni/forum/forum.component";
 // import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
 import { InterviewScheduleComponent } from "./features/company-menu/interview-schedule/interview-schedule.component";
 import { CompanyProfileComponent } from "./features/company-menu/company-profile/company-profile.component";
@@ -76,6 +78,10 @@ const appRoutes: Routes = [
   {
     path: "company-registration",
     component: CompanyRegistrationComponent,
+  },
+  {
+    path: "student-registration",
+    component: StudentRegistrationComponent,
   },
   {
     path: "",
@@ -160,8 +166,17 @@ const appRoutes: Routes = [
         component: AddEditMappingJobPostComponent,
       },
       {
-        path: "student-alumni",
-        component: AlumniComponent,
+        path: "forum",
+        component: ForumComponent,
+      },   
+      { 
+        path: 'alumni/:company',
+        component: AlumniComponent 
+      }, 
+      {
+        path: '',
+        redirectTo: '/forum', 
+        pathMatch: 'full' 
       },
       {
         path: "training-configuration",
