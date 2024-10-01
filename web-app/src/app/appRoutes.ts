@@ -47,32 +47,42 @@ import { AddRoundsModalComponent } from "./features/company-menu/company-job-det
 import { PanelTabComponent } from "./features/company-menu/company-job-details/panel-tab/panel-tab.component";
 import { CompanyJobDescriptionComponent } from "./features/company-menu/company-job-description/company-job-description.component";
 import { JobsComponent } from "./features/student-menu/applied/jobs.component";
+import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
+import { InterviewScheduleComponent } from './features/company-menu/interview-schedule/interview-schedule.component';
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
 const appRoutes: Routes = [
   {
-    path: 'login',
+    path: "login",
     component: LoginAuthComponent,
-    title: 'Placement',
+    title: "Placement",
   },
   {
-    path: '',
+    path: "",
     component: LoginAuthComponent,
-    title: 'Placement',
+    title: "Placement",
   },
   {
-    path: 'campus-registration',
+    path: "campus-registration",
     component: CampusRegistrationComponent,
   },
   {
-    path: 'company-registration',
+    path: "company-registration",
     component: CompanyRegistrationComponent,
   },
   {
-    path: '',
+    path: "",
     component: LayoutComponent,
     children: [
+      {
+        path:"interview-schedule",
+        component: InterviewScheduleComponent,
+      },
+      {
+        path: "company-profile",
+        component: CompanyProfileComponent,
+      },
       {
         path: "student_applied",
         component: JobsComponent,
@@ -80,47 +90,47 @@ const appRoutes: Routes = [
       {
         path: "configuration",
         component: ConfigurationComponent,
-        title: 'Configuration',
+        title: "Configuration",
       },
       {
-        path: 'company-configuration',
+        path: "company-configuration",
         component: CompanyConfigComponent,
-        title: 'Company Configuration',
+        title: "Company Configuration",
       },
 
       {
-        path: 'company-configuration/company/:companyId',
+        path: "company-configuration/company/:companyId",
         component: AddEditCompanyComponent,
       },
       {
-        path: 'company-configuration/technology/:technologyId',
+        path: "company-configuration/technology/:technologyId",
         component: AddEditTechnologyComponent,
       },
       {
-        path: 'company-configuration/role/:roleId',
+        path: "company-configuration/role/:roleId",
         component: AddEditRoleComponent,
       },
       {
-        path: 'company-configuration/industry/:industryId',
+        path: "company-configuration/industry/:industryId",
         component: AddEditIndustryComponent,
       },
       {
-        path: 'company-configuration/companyIndustry/:companyIndustryId',
+        path: "company-configuration/companyIndustry/:companyIndustryId",
         component: AddEditcompanyIndustryComponent,
       },
 
       {
-        path: 'company-configuration/companyTechnology/:id',
+        path: "company-configuration/companyTechnology/:id",
         component: AddEditCompTechComponent,
       },
 
       {
-        path: 'campus-configuration',
+        path: "campus-configuration",
         component: CampusConfigurationComponent,
-        title: 'Campus Configuration',
+        title: "Campus Configuration",
       },
       {
-        path: 'campus-configuration/calendar-events/:id',
+        path: "campus-configuration/calendar-events/:id",
         component: AddEditCalendarEventsComponent,
       },
       {
@@ -132,11 +142,11 @@ const appRoutes: Routes = [
         component: AddEditInvitationsComponent,
       },
       {
-        path: 'campus-configuration/job-postings/:id',
+        path: "campus-configuration/job-postings/:id",
         component: AddEditJobPostingsComponent,
       },
       {
-        path: 'campus-configuration/mapping-jobs/:id',
+        path: "campus-configuration/mapping-jobs/:id",
         component: AddEditMappingJobPostComponent,
       },
       {
@@ -144,36 +154,36 @@ const appRoutes: Routes = [
         component: AlumniComponent,
       },
       {
-        path: 'training-configuration',
+        path: "training-configuration",
         component: TrainingConfigurationComponent,
-        title: 'Training Configuration',
+        title: "Training Configuration",
       },
       {
-        path: 'training-configuration/trainers/:id',
+        path: "training-configuration/trainers/:id",
         component: AddEditTrainersComponent,
       },
       {
-        path: 'training-configuration/schedules/:id',
+        path: "training-configuration/schedules/:id",
         component: AddEditSchedulesComponent,
       },
       {
-        path: 'training-configuration/courses/:id',
+        path: "training-configuration/courses/:id",
         component: AddEditCoursesComponent,
       },
       {
-        path: 'company-job-details',
+        path: "company-job-details",
         component: CompanyJobDetailsComponent,
       },
       {
-        path: 'company-job-details/:id',
+        path: "company-job-details/:id",
         component: AddEditCompanyJobDetailsComponent,
       },
       {
-        path: 'company-job-details/test-rounds/:jobId',
+        path: "company-job-details/test-rounds/:jobId",
         component: TestRoundsComponent,
       },
       {
-        path: 'company-job-details/test-rounds/:jobId/:roundsId',
+        path: "company-job-details/test-rounds/:jobId/:roundsId",
         component: AddEditRoundsComponent,
       },
       {
@@ -185,53 +195,53 @@ const appRoutes: Routes = [
         component: CompanyListDetailsComponent,
       },
       {
-        path: 'company-calendar',
+        path: "company-calendar",
         component: CompanyCalendarComponent,
       },
       {
-        path: 'campus-feedback-survey',
+        path: "campus-feedback-survey",
         component: FeedbackSurveyComponent,
       },
       {
-        path: 'company-lists/:companyId',
+        path: "company-lists/:companyId",
         component: JobsListComponent,
       },
       {
-        path: 'company-lists/:companyId/:jobId',
+        path: "company-lists/:companyId/:jobId",
         component: EligibleStudentsListComponent,
       },
       {
-        path: 'dashboard',
+        path: "dashboard",
         component: DashboardHomeComponent,
-        title: 'Dashboard',
+        title: "Dashboard",
       },
       {
-        path: 'job-list',
+        path: "job-list",
         component: JobListComponent,
       },
       {
-        path: 'job-list/:jobId',
+        path: "job-list/:jobId",
         component: JobDescriptionComponent,
       },
       {
-        path: 'test-interviews',
+        path: "test-interviews",
         component: TestInterviewsComponent,
       },
       {
-        path: 'test-interviews/:collegeId',
+        path: "test-interviews/:collegeId",
         component: ScheduledJobsListComponent,
       },
       {
-        path: 'test-interviews/:collegeId/:jobId',
+        path: "test-interviews/:collegeId/:jobId",
         component: StudentsListComponent,
       },
       {
-        path: 'test-interviews/:collegeId/:jobId/:studentId',
+        path: "test-interviews/:collegeId/:jobId/:studentId",
         component: StudentResultInformation,
       },
 
       {
-        path: 'students',
+        path: "students",
         component: EligibleStudentsListComponent,
       },
       {
