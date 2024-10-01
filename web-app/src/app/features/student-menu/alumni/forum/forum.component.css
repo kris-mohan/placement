@@ -1,0 +1,78 @@
+/* Container for search and company cards */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+  
+  /* Ensure the search bar has consistent styling */
+  mat-form-field {
+    width: 100%;
+    max-width: 600px; /* Limit the maximum width of the search bar */
+  }
+  
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: #f1f3f4; /* Light background for input field */
+  }
+  
+  /* Company cards grid layout */
+  .company-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid with minimum column width */
+    gap: 20px; /* Spacing between cards */
+    padding: 0 20px;
+  }
+  
+  /* Individual company card styling */
+  .company-card {
+    background-color: #ffffff; /* White background */
+    border: 1px solid #e0e0e0; /* Light grey border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Heading and text styles */
+  .company-card h3 {
+    font-size: 1.6rem;
+    color: #333;
+    margin: 0 0 10px 0;
+  }
+  
+  .company-card p {
+    color: #666;
+    font-size: 1rem;
+    margin: 5px 0;
+  }
+  
+  /* Button styling inside the card */
+  .company-card button {
+    background-color: #007bff; /* Primary blue color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  
+  .company-card button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Hover effect for cards */
+  .company-card:hover {
+    transform: translateY(-5px); /* Lift card on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+  }
+  
+
+  
