@@ -54,6 +54,7 @@ import { IndentRequirementsComponent } from "./features/company-menu/indent-requ
 import { ApprovalComponent } from "./features/placement-cell/placement-cell/approval/approval.component";
 // import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
 import { InterviewScheduleComponent } from "./features/company-menu/interview-schedule/interview-schedule.component";
+import { CompanyProfileComponent } from "./features/company-menu/company-profile/company-profile.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -84,10 +85,10 @@ const appRoutes: Routes = [
         path: "interview-schedule",
         component: InterviewScheduleComponent,
       },
-      // {
-      //   path: "company-profile",
-      //   component: CompanyProfileComponent,
-      // },
+      {
+        path: "company-profile",
+        component: CompanyProfileComponent,
+      },
       {
         path: "student_applied",
         component: JobsComponent,

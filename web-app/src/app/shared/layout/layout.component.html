@@ -137,8 +137,8 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
-          [routerLink]="['/company-configuration']"
+          *ngIf="userType === 2"
+          [routerLink]="['/company-profile']"
           mat-list-item
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
@@ -416,7 +416,7 @@
           </div>
         </a>
         <a
-          *ngIf="userType === 2"
+          *ngIf="userType === 1"
           mat-list-item
           [routerLink]="['/indent-requirement']"
           routerLinkActive="active"
@@ -464,7 +464,7 @@
           </div>
         </a>
 
-        <a
+        <!-- <a
           *ngIf="userType === 2"
           mat-list-item
           [routerLink]="['company-profile']"
@@ -475,7 +475,7 @@
             <mat-icon>work_outline</mat-icon>
             <div><mat-label>Company Profile</mat-label></div>
           </div>
-        </a>
+        </a> -->
 
         <a
           *ngIf="userType === 2"
