@@ -1,0 +1,133 @@
+<mat-card>
+  <mat-card-header class="custom-card-header">
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="button-label-container">
+          <div class="example-button-container" (click)="goBack()">
+            <mat-icon>keyboard_backspace</mat-icon>
+          </div>
+          <div class="header-mat-label">
+            <mat-label>Eligible Students</mat-label>
+          </div>
+        </div>
+
+        <div class="example-button-container">
+          <div>
+            <mat-form-field class="full-width" appearance="outline">
+              <input
+                class="full-width"
+                matInput
+                placeholder="Search Student Name"
+                [formControl]="searchControl"
+              />
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" class="mat-form-field">
+              <mat-label>Batch</mat-label>
+              <mat-select [formControl]="batchControl" multiple>
+                @for (batch of batches; track batch) {
+                <mat-option [value]="batch">{{ batch }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" class="mat-form-field">
+              <mat-label>Branch</mat-label>
+              <mat-select [formControl]="branchControl" multiple>
+                @for (branch of branches; track branch) {
+                <mat-option [value]="branch">{{ branch }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" class="mat-form-field">
+              <mat-label>Status</mat-label>
+              <mat-select [formControl]="statusControl" multiple>
+                @for (stats of status; track stats) {
+                <mat-option [value]="stats">{{ stats }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-raised-button class="matbutton">
+              <mat-icon class="maticon">mail</mat-icon>
+              <p class="matButtonText">Invite All</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content">
+    <div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Selection Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="$event ? toggleAllRows() : null"
+              [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [aria-label]="checkboxLabel()"
+            ></mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+              [aria-label]="checkboxLabel(row)"
+            ></mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container
+          *ngFor="let column of columns"
+          [matColumnDef]="column.key"
+        >
+          <th mat-header-cell *matHeaderCellDef>
+            <ng-container [ngSwitch]="column.key">
+              <ng-container *ngSwitchDefault>{{ column.label }}</ng-container>
+            </ng-container>
+          </th>
+
+          <td mat-cell *matCellDef="let element">
+            <ng-container [ngSwitch]="column.key">
+              <ng-container *ngSwitchCase="'Status'">
+                <ng-container
+                  *ngIf="element.Status === 'Invite'; else showChip"
+                >
+                  <button mat-raised-button color="primary">
+                    <mat-icon class="maticon">mail</mat-icon>Invite
+                  </button>
+                </ng-container>
+
+                <ng-template #showChip>
+                  <mat-chip [ngStyle]="getChipStyle(element.Status)">
+                    {{ element.Status }}
+                  </mat-chip>
+                </ng-template>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                {{ element[column.key] }}
+              </ng-container>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="selection.toggle(row)"
+        ></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,16 @@
+<div class="calendar-container">
+  <mat-card class="demo-inline-calendar-card">
+    <mat-calendar [(selected)]="selected"></mat-calendar>
+  </mat-card>
+  <div>
+    <div class="cards-container">
+      <mat-card class="example-card" *ngFor="let event of events">
+        <mat-card-content>
+          <p><strong>Event Date:</strong> {{ event.eventDate }}</p>
+          <p><strong>Event Name:</strong> {{ event.eventName }}</p>
+          <p><strong>Duration:</strong> {{ event.duration }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

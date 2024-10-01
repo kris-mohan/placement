@@ -36,7 +36,24 @@ import { StudentsListComponent } from "./features/company-menu/test-interviews/s
 import { StudentResultInformation } from "./features/company-menu/test-interviews/student-result-information/student-result-information.component";
 import { AddEditIndustryComponent } from "./features/company-configuration/company-config/industry/add-edit-industry/add-edit-industry.component";
 import { AddEditcompanyIndustryComponent } from "./features/company-configuration/company-config/industry-technology/add-edit-industry-technology/add-edit-company-industry.component";
+import { CompanyCalendarComponent } from "./features/placement-cell/placement-cell/company-calendar/company-calendar.component";
+import { FeedbackSurveyComponent } from "./features/placement-cell/placement-cell/feedback-survey/feedback-survey.component";
+import { CalendarComponent } from "./features/company-menu/calendar/calendar.component";
+import { JobPostingsComponent } from "./features/campus-configuration/campus-configuration/job-postings/job-postings.component";
+import { InterviewComponent } from "./features/company-menu/interview/interview.component";
+import { ProfileManagementComponent } from "./features/student-menu/student-menu/profile-management/profile-management.component";
+import { AlumniComponent } from "./features/student-menu/alumni/alumni.component";
+import { InterviewStudentsListComponent } from "./features/company-menu/interview-students-list/interview-students-list.component";
+import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/add-edit-company-job-details/add-rounds-modal/add-rounds-modal.component";
+import { PanelTabComponent } from "./features/company-menu/company-job-details/panel-tab/panel-tab.component";
+import { CompanyJobDescriptionComponent } from "./features/company-menu/company-job-description/company-job-description.component";
+import { ProfilemanagementDashboardComponent } from "./features/student-menu/student-menu/profile-management/profilemanagement-dashboard/profilemanagement-dashboard.component";
+import { JobsComponent } from "./features/student-menu/applied/jobs.component";
 import { ResumeBuilderComponent } from "./features/student-menu/student-menu/resume-builder/resume-builder.component";
+import { IndentRequirementsComponent } from "./features/company-menu/indent-requirements/indent-requirements.component";
+import { ApprovalComponent } from "./features/placement-cell/placement-cell/approval/approval.component";
+import { StudentRegistrationComponent } from "./features/authentication/registration/student-registration/student-registration.component";
+import { ForumComponent } from "./features/student-menu/alumni/forum/forum.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -60,9 +77,17 @@ const appRoutes: Routes = [
     component: CompanyRegistrationComponent,
   },
   {
+    path: "student-registration",
+    component: StudentRegistrationComponent,
+  },
+  {
     path: "",
     component: LayoutComponent,
     children: [
+      {
+        path: "student_applied",
+        component: JobsComponent,
+      },
       {
         path: "configuration",
         component: ConfigurationComponent,
@@ -73,6 +98,7 @@ const appRoutes: Routes = [
         component: CompanyConfigComponent,
         title: "Company Configuration",
       },
+
       {
         path: "company-configuration/company/:companyId",
         component: AddEditCompanyComponent,
@@ -109,6 +135,14 @@ const appRoutes: Routes = [
         component: AddEditCalendarEventsComponent,
       },
       {
+        path: "profile-management-dashboard",
+        component: ProfilemanagementDashboardComponent,
+      },
+      {
+        path: "profile-management-dashboard/profile-management/:id",
+        component: ProfileManagementComponent,
+      },
+      {
         path: "campus-configuration/invitations/:id",
         component: AddEditInvitationsComponent,
       },
@@ -120,7 +154,19 @@ const appRoutes: Routes = [
         path: "campus-configuration/mapping-jobs/:id",
         component: AddEditMappingJobPostComponent,
       },
-
+      {
+        path: "forum",
+        component: ForumComponent,
+      },   
+      { 
+        path: 'alumni/:company',
+        component: AlumniComponent 
+      }, 
+      {
+        path: '',
+        redirectTo: '/forum', 
+        pathMatch: 'full' 
+      },
       {
         path: "training-configuration",
         component: TrainingConfigurationComponent,
@@ -139,7 +185,7 @@ const appRoutes: Routes = [
         component: AddEditCoursesComponent,
       },
       {
-        path: "company-job-details",
+        path: "company-configuration/company-job-details/:id",
         component: CompanyJobDetailsComponent,
       },
       {
@@ -155,8 +201,20 @@ const appRoutes: Routes = [
         component: AddEditRoundsComponent,
       },
       {
+        path: "company-configuration/company-job-details/companyJobDescription/:jobId",
+        component: CompanyJobDescriptionComponent,
+      },
+      {
         path: "company-lists",
         component: CompanyListDetailsComponent,
+      },
+      {
+        path: "company-calendar",
+        component: CompanyCalendarComponent,
+      },
+      {
+        path: "campus-feedback-survey",
+        component: FeedbackSurveyComponent,
       },
       {
         path: "company-lists/:companyId",
@@ -204,6 +262,40 @@ const appRoutes: Routes = [
       {
         path: "students",
         component: EligibleStudentsListComponent,
+      },
+
+      {
+        path: "calendar",
+        component: CalendarComponent,
+      },
+      {
+        path: "job-postings",
+        component: JobPostingsComponent,
+      },
+      {
+        path: "interview",
+        component: InterviewComponent,
+      },
+      {
+        path: "interview/interview-students-list/:id",
+        component: InterviewStudentsListComponent,
+      },
+      {
+        path: "testr",
+        component: AddRoundsModalComponent,
+      },
+      {
+        path: "Panel",
+        component: PanelTabComponent,
+      },
+      {
+        path: "indent-requirement",
+        component: IndentRequirementsComponent,
+      },
+
+      {
+        path: "student-details-approval",
+        component: ApprovalComponent,
       },
       {
         path: "**",

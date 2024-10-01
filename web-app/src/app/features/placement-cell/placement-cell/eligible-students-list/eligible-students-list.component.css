@@ -58,3 +58,13 @@ table {
 /* .mat-form-field {
   width: 75%;
 } */
+
+.custom-dialog-container {
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.full-screen-dialog {
+  padding: 0; /* Remove padding for full screen */
+  margin: 0; /* Remove margin for full screen */
+}

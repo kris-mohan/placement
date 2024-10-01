@@ -1,6 +1,6 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { ThemePalette } from "@angular/material/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -11,6 +11,8 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
 import { SharedModule } from "src/app/shared/shared.module";
 import { employeeDataList } from "./eligible-students-list-model";
 import { FormControl } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { StudentdetailsDialogComponent } from "../studentdetails-dialog/studentdetails-dialog.component";
 
 export const EMPLOYEEDATA: employeeDataList[] = [
   {
@@ -20,6 +22,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     Batch: "2021",
     CGPA: "9.2",
     Status: "Invite",
+    ApplicationApprovalStatus: "Verify",
   },
   {
     StudentID: 2,
@@ -28,6 +31,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     Batch: "2020",
     CGPA: "8.7",
     Status: "Accepted",
+    ApplicationApprovalStatus: "Verify",
   },
   {
     StudentID: 3,
@@ -36,6 +40,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     Batch: "2019",
     CGPA: "8.9",
     Status: "Invited",
+    ApplicationApprovalStatus: "Verify",
   },
   {
     StudentID: 4,
@@ -44,6 +49,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     Batch: "2022",
     CGPA: "9.1",
     Status: "Rejected",
+    ApplicationApprovalStatus: "Verify",
   },
   {
     StudentID: 5,
@@ -52,6 +58,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     Batch: "2021",
     CGPA: "9.4",
     Status: "Pending",
+    ApplicationApprovalStatus: "Verify",
   },
   {
     StudentID: 1,
@@ -60,6 +67,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     Batch: "2021",
     CGPA: "9.2",
     Status: "Invite",
+    ApplicationApprovalStatus: "Verify",
   },
   {
     StudentID: 2,
@@ -68,6 +76,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     Batch: "2020",
     CGPA: "8.7",
     Status: "Accepted",
+    ApplicationApprovalStatus: "Verify",
   },
   {
     StudentID: 3,
@@ -76,6 +85,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     Batch: "2019",
     CGPA: "8.9",
     Status: "Invited",
+    ApplicationApprovalStatus: "Verify",
   },
   {
     StudentID: 4,
@@ -84,6 +94,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     Batch: "2022",
     CGPA: "9.1",
     Status: "Rejected",
+    ApplicationApprovalStatus: "Verify",
   },
   {
     StudentID: 5,
@@ -92,6 +103,7 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     Batch: "2021",
     CGPA: "9.4",
     Status: "Pending",
+    ApplicationApprovalStatus: "Verify",
   },
 ];
 
@@ -106,6 +118,7 @@ export interface ODataResponse<T> {
   styleUrl: "./eligible-students-list.component.css",
 })
 export class EligibleStudentsListComponent {
+  readonly dialog = inject(MatDialog);
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -122,6 +135,7 @@ export class EligibleStudentsListComponent {
     "Batch",
     "CGPA",
     "Status",
+    "ApplicationApprovalStatus",
   ];
   columns = [
     { key: "StudentID", label: "Student ID" },
@@ -130,6 +144,7 @@ export class EligibleStudentsListComponent {
     { key: "Batch", label: "Batch" },
     { key: "CGPA", label: "CGPA" },
     { key: "Status", label: "Status" },
+    { key: "ApplicationApprovalStatus", label: "Application Approval Status" },
   ];
 
   status: string[] = ["Invite", "Accepted", "Invited", "Rejected", "Pending"];
@@ -256,9 +271,24 @@ export class EligibleStudentsListComponent {
     }
   }
 
+  getApplicationApproveChipStyle(action: string): any {
+    switch (action) {
+      case "Verify":
+        return { "background-color": "#bee2e9", color: "white !important" };
+      case "Accepted":
+        return { "background-color": "#9aee9a", color: "white" };
+      case "Rejected":
+        return { "background-color": "#fb6767", color: "white" };
+      default:
+        return { "background-color": "blue", color: "white" };
+    }
+  }
+
   getBadgeColor(action: string): ThemePalette {
     switch (action) {
       case "Invite":
+        return "primary"; // Blue
+      case "Verify":
         return "primary"; // Blue
       case "Accepted":
         return "accent"; // Pink
@@ -274,5 +304,14 @@ export class EligibleStudentsListComponent {
 
   goBack(): void {
     this.location.back();
+  }
+
+  openStudentDetailsDialog() {
+    this.dialog.open(StudentdetailsDialogComponent, {
+      width: "90vw",
+      height: "90vh",
+      maxWidth: "100vw",
+      panelClass: "custom-dialog-container",
+    });
   }
 }

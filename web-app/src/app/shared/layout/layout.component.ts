@@ -16,6 +16,7 @@ import { SharedModule } from "../shared.module";
 import { SpinnerService } from "src/app/core/services/spinner.service";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatExpansionPanel } from "@angular/material/expansion";
+import { NotificationService } from "src/app/services/notification-service/notification-service";
 // import { AuthenticationService } from "src/app/core/services/auth.service";
 // import { AuthGuard } from "src/app/core/guards/auth.guard";
 
@@ -50,6 +51,7 @@ export class LayoutComponent {
     private changeDetectorRef: ChangeDetectorRef,
     private media: MediaMatcher,
     public spinnerService: SpinnerService,
+    private notificationService: NotificationService,
     private router: Router // private authService: AuthenticationService, // private authGuard: AuthGuard
   ) {
     this.mobileQuery = this.media.matchMedia("(max-width: 1000px)");
@@ -63,6 +65,28 @@ export class LayoutComponent {
     this.userType = storedUserType ? parseInt(storedUserType) : 0;
     this.userName = storedUserName!;
   }
+
+  notificationCount = 3;
+
+  notifications = [
+    { message: "View Dashboard", route: "/dashboard" },
+    { message: "Check Job List", route: "/job-list" },
+    { message: "Company Configuration", route: "/company-configuration" },
+  ];
+
+  navigateToComponent(notification: any) {
+    this.router.navigate([notification.route]);
+  }
+
+  // navigateToComponent(notification: Notification) {
+  //   if (notification.data) {
+  //     this.router.navigate([notification.component], {
+  //       queryParams: notification.data,
+  //     });
+  //   } else {
+  //     this.router.navigate([notification.component]);
+  //   }
+  // }
 
   // ngOnInit(): void {
   //   const user = this.authService.getCurrentUser();
@@ -91,5 +115,10 @@ export class LayoutComponent {
 
   toggleConfigurationItems() {
     this.showConfigurationItems = !this.showConfigurationItems;
+  }
+
+  onComponentClick(componentName: string): void {
+    // Add notification
+    this.notificationService.addNotification(componentName);
   }
 }

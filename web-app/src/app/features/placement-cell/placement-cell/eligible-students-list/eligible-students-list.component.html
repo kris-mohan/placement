@@ -146,6 +146,31 @@
                   </mat-chip>
                 </ng-template>
               </ng-container>
+
+              <ng-container [ngSwitch]="column.key">
+                <ng-container *ngSwitchCase="'ApplicationApprovalStatus'">
+                  <ng-container
+                    *ngIf="
+                      element.ApplicationApprovalStatus === 'Verify';
+                      else showChip
+                    "
+                  >
+                    <button mat-raised-button color="primary">Verify</button>
+                  </ng-container>
+
+                  <ng-template #showChip>
+                    <mat-chip
+                      [ngStyle]="
+                        getApplicationApproveChipStyle(
+                          element.ApplicationApprovalStatus
+                        )
+                      "
+                    >
+                      {{ element.ApplicationApprovalStatus }}
+                    </mat-chip>
+                  </ng-template>
+                </ng-container>
+              </ng-container>
               <ng-container *ngSwitchDefault>
                 {{ element[column.key] }}
               </ng-container>
@@ -163,3 +188,6 @@
     </div>
   </mat-card-content>
 </mat-card>
+<!-- <button mat-raised-button (click)="openStudentDetailsDialog()">
+  Open dialog
+</button> -->

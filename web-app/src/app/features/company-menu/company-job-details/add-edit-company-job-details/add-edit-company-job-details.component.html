@@ -84,7 +84,7 @@
             <p class="grid-label">Job Role</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Job Role</mat-label>
-              <input matInput placeholder="Job Role" />
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
 
@@ -97,7 +97,7 @@
             <p class="grid-label">Post</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Post</mat-label>
-              <input matInput placeholder="Post" />
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
 
@@ -110,7 +110,7 @@
             <p class="grid-label">No of Posts</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>No of Posts</mat-label>
-              <input matInput placeholder="No of Posts" />
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
         </div>
@@ -125,7 +125,7 @@
             <p class="grid-label">Min CGPA</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Min CGPA</mat-label>
-              <input matInput placeholder="Min CGPA" />
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
 
@@ -138,7 +138,7 @@
             <p class="grid-label">Number of backlogs allowed</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>No of backlogs</mat-label>
-              <input matInput placeholder="No of backlogs" />
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
 
@@ -151,7 +151,7 @@
             <p class="grid-label">Location</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Location</mat-label>
-              <input matInput placeholder="Location" />
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
         </div>
@@ -165,7 +165,7 @@
             <p class="grid-label">CTC</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>CTC</mat-label>
-              <input matInput placeholder="CTC" />
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
 
@@ -178,7 +178,7 @@
             <p class="grid-label">Technology</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Technology</mat-label>
-              <input matInput placeholder="Technology" />
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
           <div
@@ -190,7 +190,7 @@
             <p class="grid-label">Min PUC % / CGPA</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Technology</mat-label>
-              <input matInput placeholder="Technology" />
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
         </div>
@@ -201,10 +201,10 @@
             fxFlex.gt-lg="25%"
             fxFlex.gt-sm="50%"
           >
-            <p class="grid-label">Job type</p>
+            <p class="grid-label">Job Type</p>
             <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Job type</mat-label>
-              <input matInput placeholder="Job type" />
+              <mat-label>Job Type</mat-label>
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
 
@@ -218,6 +218,18 @@
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Shift</mat-label>
               <input matInput placeholder="Shift" />
+            </mat-form-field>
+          </div>
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">10th Marks</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>10th Marks</mat-label>
+              <input matInput placeholder="" />
             </mat-form-field>
           </div>
 
@@ -272,7 +284,158 @@
             </mat-form-field>
           </div>
         </div> -->
+
+        <div>
+          <mat-card>
+            <mat-tab-group
+              animationDuration="0ms"
+              #tabGroupTrainingConfig
+              (selectedIndexChange)="onTabChange($event)"
+            >
+              <mat-tab label="Rounds"
+                ><app-test-rounds></app-test-rounds
+              ></mat-tab>
+
+              <mat-tab label="Panel"><app-panel-tab></app-panel-tab></mat-tab>
+
+              <!-- <mat-tab label="Schedules"
+                ><app-schedules></app-schedules
+              ></mat-tab> -->
+            </mat-tab-group>
+          </mat-card>
+        </div>
+        <!-- 
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Round Name</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Round Name</mat-label>
+              <input matInput placeholder="Round Name" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Description</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Description</mat-label>
+              <input matInput placeholder="Description" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row wrap">
+          <div
+            class="row-wrap-content"
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Start Date</p>
+            <mat-form-field appearance="fill" class="matFormField">
+              <mat-label>Start Date</mat-label>
+              <input
+                formControlName="StartDate"
+                matInput
+                [matDatepicker]="startDatePicker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+            </mat-form-field>
+            <p>Start Time</p>
+            <mat-form-field appearance="fill" class="matFormField">
+              <mat-label>Start Time</mat-label>
+              <input
+                id="StartTimePicker"
+                matInput
+                [ngxTimepicker]="startTimePicker"
+              />
+              <ngx-material-timepicker
+                #startTimePicker
+              ></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
+          <div
+            class="row-wrap-content"
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>End Date</p>
+            <mat-form-field appearance="fill" class="matFormField">
+              <mat-label>End Date</mat-label>
+              <input
+                formControlName="EndDate"
+                matInput
+                [matDatepicker]="endDatePicker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="endDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #endDatePicker></mat-datepicker>
+            </mat-form-field>
+
+            <p>End Time</p>
+            <mat-form-field appearance="fill" class="matFormField">
+              <mat-label>End Time</mat-label>
+              <input
+                id="EndTimePicker"
+                matInput
+                [ngxTimepicker]="endTimePicker"
+              />
+              <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
+        </div> -->
+
+        <!-- <button mat-raised-button class="matbutton" type="submit">
+          <p class="matName">
+            + Add
+          </p>
+        </button> -->
       </mat-card-content>
+      <div></div>
+      <!-- <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Panel Member Name</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Panel Member Name</mat-label>
+            <input matInput placeholder="panel Member Name" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Role</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Role</mat-label>
+            <input matInput placeholder="Role" />
+          </mat-form-field>
+        </div>
+      </div> -->
 
       <mat-card-actions class="footer-actions">
         <button mat-raised-button class="matbutton">

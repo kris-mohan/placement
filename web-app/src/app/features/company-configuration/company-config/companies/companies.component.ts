@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, ViewChild } from "@angular/core";
 import { Router, withDebugTracing } from "@angular/router";
 import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
@@ -16,6 +16,8 @@ import { map, Observable, of, startWith } from "rxjs";
 import { FormControl } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { CompanyDetailDialogModalComponent } from "./company-detail-dialog-modal/company-detail-dialog-modal.component";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatPaginatorModule } from "@angular/material/paginator";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -24,11 +26,13 @@ export interface ODataResponse<T> {
 @Component({
   selector: "app-companies",
   standalone: true,
-  imports: [AMGModules, CommonModule, SharedModule],
+  imports: [AMGModules, CommonModule, SharedModule, MatPaginatorModule],
   templateUrl: "./companies.component.html",
   styleUrl: "./companies.component.css",
 })
 export class CompaniesComponent {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   companies: companyTableList[] = [];
 
   industries: Industry[] = [];
@@ -94,6 +98,7 @@ export class CompaniesComponent {
     "Email",
     "PhoneNumber",
     "Url",
+    "JD",
     "Actions",
   ];
   columns = [
@@ -105,13 +110,129 @@ export class CompaniesComponent {
     { key: "Email", label: "Email" },
     { key: "PhoneNumber", label: "Phone Number" },
     { key: "Url", label: "URL" },
+    { key: "JD", label: "JD" },
     { key: "Actions", label: "Actions" },
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
 
+  companiesCard = [
+    {
+      Id: 1,
+      logo: "company-logo-1.png",
+      name: "Haier Appliances",
+      rating: 4.1,
+      reviews: "1.3K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 4,
+      registeredStudents: 120,
+      placedStudents: 80,
+    },
+    {
+      Id: 2,
+      logo: "company-logo-2.png",
+      name: "Sony Electronics",
+      rating: 4.5,
+      reviews: "2K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 5,
+      registeredStudents: 100,
+      placedStudents: 60,
+    },
+    {
+      Id: 3,
+      logo: "company-logo-3.png",
+      name: "Samsung Tech",
+      rating: 4.2,
+      reviews: "1.5K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 3,
+      registeredStudents: 200,
+      placedStudents: 150,
+    },
+    {
+      Id: 4,
+      logo: "company-logo-4.png",
+      name: "LG Electronics",
+      rating: 4.3,
+      reviews: "1.8K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 6,
+      registeredStudents: 140,
+      placedStudents: 110,
+    },
+    {
+      Id: 5,
+      logo: "company-logo-5.png",
+      name: "Apple Inc.",
+      rating: 4.8,
+      reviews: "3K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 7,
+      registeredStudents: 250,
+      placedStudents: 200,
+    },
+    {
+      Id: 6,
+      logo: "company-logo-6.png",
+      name: "Microsoft Corp.",
+      rating: 4.7,
+      reviews: "2.7K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 5,
+      registeredStudents: 180,
+      placedStudents: 160,
+    },
+    {
+      Id: 7,
+      logo: "company-logo-7.png",
+      name: "Google LLC",
+      rating: 4.9,
+      reviews: "5K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 8,
+      registeredStudents: 300,
+      placedStudents: 250,
+    },
+    {
+      Id: 8,
+      logo: "company-logo-8.png",
+      name: "Facebook Inc.",
+      rating: 4.6,
+      reviews: "2.2K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 4,
+      registeredStudents: 170,
+      placedStudents: 130,
+    },
+    {
+      Id: 9,
+      logo: "company-logo-9.png",
+      name: "Amazon Web Services",
+      rating: 4.4,
+      reviews: "2.5K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 6,
+      registeredStudents: 220,
+      placedStudents: 180,
+    },
+    {
+      Id: 10,
+      logo: "company-logo-10.png",
+      name: "Tesla Inc.",
+      rating: 4.7,
+      reviews: "2.8K+ reviews",
+      type: "Foreign MNC",
+      numberOfJobs: 5,
+      registeredStudents: 160,
+      placedStudents: 140,
+    },
+  ];
+
   ngOnInit() {
     this.loadCompanies();
     this.loadIndustries();
+
+    this.dataSource.paginator = this.paginator;
 
     this.CityControl.valueChanges.subscribe(() => {
       this.filterCities(this.searchCity);
@@ -227,6 +348,8 @@ export class CompaniesComponent {
       });
     }
   }
+
+  openJdDetails(id: number) {}
 
   goBack(): void {
     this.location.back();
@@ -364,5 +487,9 @@ export class CompaniesComponent {
       });
     });
     return Array.from(industriesSet) as Industry[];
+  }
+
+  goToCompanyJobDetails(id: number) {
+    this.router.navigate(["company-configuration/company-job-details", id]);
   }
 }

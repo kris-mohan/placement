@@ -1,0 +1,135 @@
+<button mat-raised-button class="matbutton" (click)="openAddEditProfile(1)">
+  <mat-icon class="maticon">add</mat-icon>
+  <p class="matName">Add Details</p>
+</button>
+<div class="profile-container">
+  <mat-card class="personal-details-card">
+    <mat-card-header>
+      <mat-card-title class="title">Personal Details</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="details-container">
+        <div class="detail-item">
+          <strong>Name:</strong> {{ profileData.name }}
+        </div>
+        <div class="detail-item">
+          <strong>Date of Birth:</strong> {{ profileData.dob | date }}
+        </div>
+        <div class="detail-item">
+          <strong>Blood Group:</strong> {{ profileData.bloodGroup }}
+        </div>
+        <div class="detail-item">
+          <strong>Email:</strong> {{ profileData.email }}
+        </div>
+        <div class="detail-item">
+          <strong>USN:</strong> {{ profileData.usn }}
+        </div>
+        <div class="detail-item">
+          <strong>Branch:</strong> {{ profileData.branch }}
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="education-details-card">
+    <mat-card-header>
+      <mat-card-title>Education Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="education-section">
+        <h3>10th Grade</h3>
+        <div class="education-row">
+          <div class="left">
+            <strong>Class:</strong> 10th Grade
+            <strong>CGPA/Percentage:</strong>
+            {{ profileData.educationDetails.tenth.cgpa }}
+          </div>
+          <div class="right">
+            <strong>Passout Year:</strong>
+            {{ profileData.educationDetails.tenth.passoutYear }}
+          </div>
+        </div>
+        <p>
+          <strong>School Name:</strong>
+          {{ profileData.educationDetails.tenth.schoolName }}
+        </p>
+        <p>
+          <strong>Syllabus:</strong>
+          {{ profileData.educationDetails.tenth.syllabus }}
+        </p>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="education-section">
+        <h3>12th Grade</h3>
+        <div class="education-row">
+          <div class="left">
+            <strong>Class:</strong> 12th Grade
+            <strong>CGPA/Percentage:</strong>
+            {{ profileData.educationDetails.twelfth.cgpa }}
+          </div>
+          <div class="right">
+            <strong>Passout Year:</strong>
+            {{ profileData.educationDetails.twelfth.passoutYear }}
+          </div>
+        </div>
+        <p>
+          <strong>School Name:</strong>
+          {{ profileData.educationDetails.twelfth.schoolName }}
+        </p>
+        <p>
+          <strong>Syllabus:</strong>
+          {{ profileData.educationDetails.twelfth.syllabus }}
+        </p>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="education-section">
+        <h3>Present College</h3>
+        <div class="education-row">
+          <div class="left">
+            <strong>CGPA/Percentage:</strong>
+            {{ profileData.educationDetails.present.cgpa }}
+          </div>
+          <div class="right">
+            <strong>Passout Year:</strong>
+            {{ profileData.educationDetails.present.passoutYear }}
+          </div>
+        </div>
+        <p>
+          <strong>College Name:</strong>
+          {{ profileData.educationDetails.present.collegeName }}
+        </p>
+        <p>
+          <strong>Syllabus:</strong>
+          {{ profileData.educationDetails.present.syllabus }}
+        </p>
+      </div>
+      <mat-divider></mat-divider>
+      <div
+        class="education-section"
+        *ngFor="let college of profileData.educationDetails.otherColleges"
+      >
+        <h3>Other College</h3>
+        <div class="education-row">
+          <div class="left">
+            <strong>CGPA/Percentage:</strong> {{ college.cgpa }}
+          </div>
+          <div class="right">
+            <strong>Passout Year:</strong> {{ college.passoutYear }}
+          </div>
+        </div>
+        <p><strong>College Name:</strong> {{ college.collegeName }}</p>
+        <p><strong>Syllabus:</strong> {{ college.syllabus }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="skill-details-card">
+    <mat-card-header>
+      <mat-card-title>Skills</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p *ngFor="let skill of profileData.skills">{{ skill }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

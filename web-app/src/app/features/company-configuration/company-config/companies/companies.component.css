@@ -58,3 +58,21 @@ cdk-overlay-pane {
 .custom-dropdown-panel {
   width: auto;
 }
+
+mat-grid-tile {
+  border-radius: 2rem;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+.company-details {
+  width: 100%;
+  text-align: left;
+  margin-left: 2rem;
+}
+
+.company {
+  width: 100%;
+  text-align: right;
+  margin-right: 2rem;
+}

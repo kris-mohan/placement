@@ -1,0 +1,82 @@
+button {
+  margin: 0 8px 8px 0;
+}
+.mat-mdc-card-header {
+  display: unset;
+}
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+/* .example-button-container :hover {
+  background-color: rgb(234, 234, 234);
+} */
+.button-label-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-mat-label {
+  margin-left: 3rem;
+  font-weight: bolder;
+  font-size: larger;
+}
+
+table {
+  width: 100%;
+}
+
+.matbutton {
+  background-color: #3f51b5;
+}
+.maticon {
+  color: white;
+}
+.matName {
+  color: white;
+}
+.mdc-checkbox__native-control {
+  border-color: var(--mdc-checkbox-selected-icon-color);
+  background-color: black;
+}
+.td-mat-button {
+  display: flex;
+}
+cdk-overlay-pane {
+  width: auto;
+}
+.mat-dialog-actions {
+  display: flex;
+}
+.custom-dropdown-panel {
+  width: auto;
+}
+
+.mat-grid-tile {
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
+  background-color: #fefefe;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.company-details {
+  text-align: left;
+  margin-left: 2rem;
+}
+
+.company {
+  text-align: right;
+  margin-right: 2rem;
+}
+.mat-grid-tile {
+  margin-bottom: 16px;
+}

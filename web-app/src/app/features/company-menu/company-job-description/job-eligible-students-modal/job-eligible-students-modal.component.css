@@ -1,0 +1,60 @@
+button {
+  margin: 0 8px 8px 0;
+}
+.mat-mdc-card-header {
+  display: unset;
+}
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.button-label-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-mat-label {
+  margin-left: 3rem;
+  font-weight: bolder;
+  font-size: larger;
+}
+table {
+  width: 100%;
+}
+
+.matbutton {
+  background-color: #3f51b5;
+}
+.maticon {
+  color: white;
+}
+.matButtonText {
+  color: white;
+}
+.mat-card-content {
+  margin-top: 3%;
+}
+.mat-panel-title {
+  display: flow;
+}
+.mat-panel-description {
+  margin-top: 2%;
+}
+.mat-expansion-panel {
+  margin-top: 2%;
+}
+.td-mat-button {
+  display: flex;
+}
+
+/* .mat-form-field {
+  width: 75%;
+} */

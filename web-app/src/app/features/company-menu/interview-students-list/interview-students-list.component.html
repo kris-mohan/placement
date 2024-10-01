@@ -1,0 +1,355 @@
+<mat-card>
+  <mat-card-header class="custom-card-header">
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="button-label-container">
+          <div class="example-button-container" (click)="goBack()">
+            <mat-icon>keyboard_backspace</mat-icon>
+          </div>
+
+          <div class="header-mat-label">
+            <mat-label>Students</mat-label>
+          </div>
+        </div>
+        <!-- <div>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Search Company</mat-label>
+            <input
+              type="text"
+              aria-label="Number"
+              matInput
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let company of filteredCompany | async"
+                [value]="company.Name"
+              >
+                {{ company.Name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Location</mat-label>
+            <mat-select
+              [formControl]="CityControl"
+              multiple
+              (openedChange)="onCityDropdownOpen()"
+              panelClass="custom-dropdown-panel"
+            >
+              <mat-select-trigger>
+                {{ selectedCompanyCities }}
+              </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input
+                  class="full-width"
+                  matInput
+                  [(ngModel)]="searchCity"
+                  (ngModelChange)="filterCities($event)"
+                  placeholder="Search"
+                />
+              </mat-form-field>
+              <mat-option *ngIf="!filteredCompanies.length" disabled
+                >No options</mat-option
+              >
+              <mat-option
+                *ngFor="let company of filteredCompanies"
+                [value]="company.City"
+              >
+                {{ company.City }}
+              </mat-option>
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button
+                  mat-button
+                  mat-dialog-close
+                  (click)="resetLocationSelection()"
+                >
+                  Reset
+                </button>
+                <button
+                  mat-raised-button
+                  class="matbutton"
+                  (click)="showLocationResults()"
+                >
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Industry</mat-label>
+            <mat-select
+              [formControl]="industryControl"
+              multiple
+              (openedChange)="onIndustryDropdownOpen()"
+            >
+              <mat-select-trigger>
+                {{ selectedIndustries }}
+              </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input
+                  class="full-width"
+                  matInput
+                  [(ngModel)]="searchIndustry"
+                  (ngModelChange)="filterIndustries($event)"
+                  placeholder="Search"
+                />
+              </mat-form-field>
+              <mat-option *ngIf="!filteredIndustries.length" disabled
+                >No options</mat-option
+              >
+              <mat-option
+                *ngFor="let industry of filteredIndustries"
+                [value]="industry.Type"
+              >
+                {{ industry.Type }}
+              </mat-option>
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button
+                  mat-button
+                  mat-dialog-close
+                  (click)="resetIndustrySelection()"
+                >
+                  Reset
+                </button>
+                <button
+                  mat-raised-button
+                  class="matbutton"
+                  (click)="showIndustryResults()"
+                >
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Company Size</mat-label>
+            <mat-select [formControl]="companySizeControl" multiple>
+              @for (companySize of companySizes; track companySize) {
+              <mat-option [value]="companySize">{{ companySize }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Experience Level</mat-label>
+            <mat-select [formControl]="experienceLevelControl" multiple>
+              @for (expLevel of experienceLevel; track expLevel) {
+              <mat-option [value]="expLevel">{{ expLevel }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="example-button-container">
+          <button
+            mat-raised-button
+            class="matbutton"
+            (click)="openImportCompanyDialog()"
+          >
+            <p class="matName">Additional Filters</p>
+          </button>
+
+          <button
+            *ngIf="userType !== 3"
+            mat-raised-button
+            class="matbutton"
+            (click)="openAddEditCompanyForm(0)"
+          >
+            <mat-icon class="maticon">add</mat-icon>
+            <p class="matName">Company</p>
+          </button>
+        </div> -->
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select multiple>
+              <mat-select-trigger> </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input class="full-width" matInput placeholder="Search" />
+              </mat-form-field>
+              <mat-option disabled>No options</mat-option>
+              <!-- <mat-option
+              >
+                {{ industry.Type }}
+              </mat-option> -->
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button mat-button mat-dialog-close>Reset</button>
+                <button mat-raised-button class="matbutton">
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Branch</mat-label>
+            <mat-select multiple>
+              <mat-select-trigger> </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input class="full-width" matInput placeholder="Search" />
+              </mat-form-field>
+              <mat-option disabled>No options</mat-option>
+              <!-- <mat-option
+              >
+                {{ industry.Type }}
+              </mat-option> -->
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button mat-button mat-dialog-close>Reset</button>
+                <button mat-raised-button class="matbutton">
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Batch</mat-label>
+            <mat-select multiple>
+              <mat-select-trigger> </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input class="full-width" matInput placeholder="Search" />
+              </mat-form-field>
+              <mat-option disabled>No options</mat-option>
+              <!-- <mat-option
+              >
+                {{ industry.Type }}
+              </mat-option> -->
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button mat-button mat-dialog-close>Reset</button>
+                <button mat-raised-button class="matbutton">
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Students</mat-label>
+            <mat-select multiple>
+              <mat-select-trigger> </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input class="full-width" matInput placeholder="Search" />
+              </mat-form-field>
+              <mat-option disabled>No options</mat-option>
+              <!-- <mat-option
+              >
+                {{ industry.Type }}
+              </mat-option> -->
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button mat-button mat-dialog-close>Reset</button>
+                <button mat-raised-button class="matbutton">
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>USN Number</mat-label>
+            <mat-select multiple>
+              <mat-select-trigger> </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input class="full-width" matInput placeholder="Search" />
+              </mat-form-field>
+              <mat-option disabled>No options</mat-option>
+              <!-- <mat-option
+              >
+                {{ industry.Type }}
+              </mat-option> -->
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button mat-button mat-dialog-close>Reset</button>
+                <button mat-raised-button class="matbutton">
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-header>
+
+  <mat-accordion class="mat-accordion">
+    <mat-expansion-panel
+      (opened)="panelOpenState.set(true)"
+      (closed)="panelOpenState.set(false)"
+      class="mat-expansion-panel"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title
+          >Company:
+          <mat-panel-description>Google</mat-panel-description>
+        </mat-panel-title>
+
+        <mat-panel-title
+          >RoundName:
+          <mat-panel-description>Test Assesment 1</mat-panel-description>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-card-content
+    fxLayout="row wrap"
+    fxLayoutAlign="start stretch"
+    class="mat-card-content"
+  >
+    <div
+      *ngFor="let students of studentsAttending"
+      fxFlex="100%"
+      fxFlex.gt-sm="50%"
+      fxFlex.gt-md="33%"
+      fxFlex.gt-lg="25%"
+      class="grid-item"
+      class="mat-grid-tile"
+    >
+      <div class="company-details">
+        <h3>{{ students.studentId }}</h3>
+        <div class="company-type">{{ students.studentName }}</div>
+        <p>
+          <strong>Batch:</strong>
+          {{ students.batch }}
+        </p>
+        <p>
+          <strong>Branch:</strong>
+          {{ students.branch }}
+        </p>
+      </div>
+
+      <div class="company">
+        <p><strong>Status:</strong> {{ students.status }}</p>
+        <p>
+          <strong>Performance Score:</strong>
+          {{ students.performanceScore }}
+        </p>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
