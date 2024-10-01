@@ -28,16 +28,13 @@ import { CompanyIndustryComponent } from "./industry-technology/company-industry
   templateUrl: "./company-config.component.html",
   styleUrl: "./company-config.component.css",
 })
-export class CompanyConfigComponent implements AfterViewInit {
-  @ViewChild("tabGroup") tabGroup!: MatTabGroup;
-
-  constructor(private tabService: TabService) {}
-
-  ngAfterViewInit(): void {
-    this.tabGroup.selectedIndex = this.tabService.getActiveTab();
-  }
-
-  onTabChange(event: number): void {
-    this.tabService.setActiveTab(event);
-  }
+export class CompanyConfigComponent {
+  // @ViewChild("tabGroup") tabGroup!: MatTabGroup;
+  // constructor(private tabService: TabService) {}
+  // ngAfterViewInit(): void {
+  //   this.tabGroup.selectedIndex = this.tabService.getActiveTab();
+  // }
+  // onTabChange(event: number): void {
+  //   this.tabService.setActiveTab(event);
+  // }
 }

@@ -54,6 +54,9 @@ import { IndentRequirementsComponent } from "./features/company-menu/indent-requ
 import { ApprovalComponent } from "./features/placement-cell/placement-cell/approval/approval.component";
 import { StudentRegistrationComponent } from "./features/authentication/registration/student-registration/student-registration.component";
 import { ForumComponent } from "./features/student-menu/alumni/forum/forum.component";
+// import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
+import { InterviewScheduleComponent } from "./features/company-menu/interview-schedule/interview-schedule.component";
+import { CompanyProfileComponent } from "./features/company-menu/company-profile/company-profile.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -84,6 +87,14 @@ const appRoutes: Routes = [
     path: "",
     component: LayoutComponent,
     children: [
+      {
+        path: "interview-schedule",
+        component: InterviewScheduleComponent,
+      },
+      {
+        path: "company-profile",
+        component: CompanyProfileComponent,
+      },
       {
         path: "student_applied",
         component: JobsComponent,
@@ -183,6 +194,10 @@ const appRoutes: Routes = [
       {
         path: "training-configuration/courses/:id",
         component: AddEditCoursesComponent,
+      },
+      {
+        path: "company-job-details",
+        component: CompanyJobDetailsComponent,
       },
       {
         path: "company-configuration/company-job-details/:id",
@@ -294,7 +309,7 @@ const appRoutes: Routes = [
       },
 
       {
-        path: "student-details-approval",
+        path: "students/student-details-approval/:id",
         component: ApprovalComponent,
       },
       {
