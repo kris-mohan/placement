@@ -13,9 +13,7 @@
   justify-content: center;
   cursor: pointer;
 }
-/* .example-button-container :hover {
-  background-color: rgb(234, 234, 234);
-} */
+
 .button-label-container {
   display: flex;
   align-items: center;
@@ -59,24 +57,6 @@ cdk-overlay-pane {
   width: auto;
 }
 
-mat-grid-tile {
-  border-radius: 2rem;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  background-color: #f9f9f9;
-}
-
-.company-details {
-  width: 100%;
-  text-align: left;
-  margin: 1rem;
-}
-
-.company {
-  width: 100%;
-  text-align: right;
-  margin: 1rem;
-}
-
 .offer-container {
   padding: 10px; /* Adds space around the container */
   background-color: #f5f5f5; /* Optional for a light background */
@@ -98,12 +78,26 @@ mat-grid-tile {
 
 .mat-grid-tile {
   border-radius: 0.5rem;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  background-color: #fefefe;
+  background-color: #ededed;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin: 1em;
+}
+.mat-grid-tile:hover {
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
+  transform: scale(1.3);
+  background-color: white;
+  color: black;
+}
+.company-details {
+  text-align: left;
+  margin: 0.5rem;
+}
+
+.company {
+  text-align: right;
+  margin: 0.5rem;
 }
 
 .mat-card-content {

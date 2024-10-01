@@ -325,7 +325,7 @@
       *ngFor="let students of studentsAttending"
       fxFlex="100%"
       fxFlex.gt-sm="50%"
-      fxFlex.gt-md="33%"
+      fxFlex.gt-md="28%"
       fxFlex.gt-lg="25%"
       class="grid-item"
       class="mat-grid-tile"
@@ -342,7 +342,6 @@
           {{ students.branch }}
         </p>
       </div>
-
       <div class="company">
         <p><strong>Status:</strong> {{ students.status }}</p>
         <p>
@@ -352,4 +351,46 @@
       </div>
     </div>
   </mat-card-content>
+
+  <!-- <mat-card-content
+    fxLayout="row wrap"
+    fxLayoutAlign="start stretch"
+    class="mat-card-content"
+  >
+    <div
+      *ngFor="let students of studentsAttending"
+      (click)="goToCompanyJobDetails(company.Id)"
+      fxFlex="100%"
+      fxFlex.gt-sm="25%"
+      fxFlex.gt-md="25%"
+      fxFlex.gt-lg="25%"
+      class="grid-item"
+      class="mat-grid-tile"
+      style="margin: 1em"
+    >
+      <div class="company-details" fx-Flex="100%">
+        <div>
+          <h3>{{ students.studentId }}</h3>
+        </div>
+      </div>
+      <div fx-Flex="50%">
+        <h6>
+          Number of Jobs:
+          <span class="rating">{{ students.batch }}</span>
+        </h6>
+      </div>
+      <div fx-Flex="50%">
+        <h6>
+          Number of Students Registered:
+          <span class="rating">{{ students.branch }}</span>
+        </h6>
+      </div>
+      <div fx-Flex="50%">
+        <h6>
+          Performance Score:
+          <span class="rating">{{ students.performanceScore }}</span>
+        </h6>
+      </div>
+    </div>
+  </mat-card-content> -->
 </mat-card>

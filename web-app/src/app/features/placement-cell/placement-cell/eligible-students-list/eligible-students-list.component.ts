@@ -314,4 +314,8 @@ export class EligibleStudentsListComponent {
       panelClass: "custom-dialog-container",
     });
   }
+
+  verifyApplicationStatus(id?: number) {
+    this.router.navigate(["/students/student-details-approval", id]);
+  }
 }
