@@ -174,6 +174,7 @@
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon>school</mat-icon></div>
             <div><mat-label>Training </mat-label></div>
+            <div><mat-label>Training </mat-label></div>
           </div>
         </a>
         <a
@@ -188,7 +189,7 @@
             <div><mat-label>Communication </mat-label></div>
           </div>
         </a>
-        <a
+        <!-- <a
           *ngIf="userType === 1"
           mat-list-item
           [routerLink]="['/placement-feedback-survey']"
@@ -199,7 +200,7 @@
             <div><mat-icon mat-list-icon>forum</mat-icon></div>
             <div><mat-label>Communication </mat-label></div>
           </div>
-        </a>
+        </a> -->
 
         <a
           *ngIf="userType === 1"
@@ -368,7 +369,7 @@
           </div>
         </a>
 
-        <a
+        <!-- <a
           *ngIf="userType === 3"
           [routerLink]="['/student-company']"
           mat-list-item
@@ -380,7 +381,8 @@
             <div><mat-icon>student_applied</mat-icon></div>
             <div><mat-label>Applied Jobs</mat-label></div>
           </div>
-        </a>
+        </a> -->
+
         <a
           *ngIf="userType === 2"
           mat-list-item

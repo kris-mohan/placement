@@ -57,8 +57,6 @@ import { CommunicationComponent } from "./features/placement-cell/placement-cell
 import { StudentRegistrationComponent } from "./features/authentication/registration/student-registration/student-registration.component";
 import { ForumComponent } from "./features/student-menu/alumni/forum/forum.component";
 // import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
-import { InterviewScheduleComponent } from "./features/company-menu/interview-schedule/interview-schedule.component";
-import { CompanyProfileComponent } from "./features/company-menu/company-profile/company-profile.component";
 import { PoolCampusComponent } from "./features/company-menu/pool-campus/pool-campus.component";
 import { CompanyCalendarComponent } from "./features/company-menu/company-calendar/company-calendar.component";
 import { CompanyDashboardComponent } from "./features/company-menu/company-dashboard/company-dashboard.component";
@@ -211,6 +209,14 @@ const appRoutes: Routes = [
         component: CompanyJobDetailsComponent,
       },
       {
+        path: "company-job-details",
+        component: CompanyJobDetailsComponent,
+      },
+      {
+        path: "company-configuration/company-job-details/:id",
+        component: CompanyJobDetailsComponent,
+      },
+      {
         path: "company-job-details/:id",
         component: AddEditCompanyJobDetailsComponent,
       },
@@ -324,6 +330,7 @@ const appRoutes: Routes = [
       },
 
       {
+        path: "students/student-details-approval/:id",
         path: "students/student-details-approval/:id",
         component: ApprovalComponent,
       },
