@@ -459,8 +459,34 @@
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon>student_applied</mat-icon></div>
+            <mat-icon>work_outline</mat-icon>
             <div><mat-label>Applied Jobs</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 2"
+          mat-list-item
+          [routerLink]="['company-profile']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <mat-icon>work_outline</mat-icon>
+            <div><mat-label>Company Profile</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 2"
+          mat-list-item
+          [routerLink]="['interview-schedule']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <!-- <mat-icon>work_outline</mat-icon> -->
+            <div><mat-label>Schedule Interview</mat-label></div>
           </div>
         </a>
 

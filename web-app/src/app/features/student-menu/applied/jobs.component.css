@@ -6,6 +6,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  max-width: 95%;
 }
 
 .example-button-container {
@@ -103,7 +104,7 @@ mat-grid-tile {
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin: 3% 0% 0% 4%;
 }
 
 .mat-card-content {
