@@ -54,10 +54,9 @@ import { ResumeBuilderComponent } from "./features/student-menu/student-menu/res
 import { IndentRequirementsComponent } from "./features/company-menu/indent-requirements/indent-requirements.component";
 import { ApprovalComponent } from "./features/placement-cell/placement-cell/approval/approval.component";
 import { StudentRegistrationComponent } from "./features/authentication/registration/student-registration/student-registration.component";
+import { ForumComponent } from "./features/student-menu/alumni/forum/forum.component";
 // import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
 import { CommunicationComponent } from "./features/placement-cell/placement-cell/communication/communication.component";
-import { StudentRegistrationComponent } from "./features/authentication/registration/student-registration/student-registration.component";
-import { ForumComponent } from "./features/student-menu/alumni/forum/forum.component";
 // import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
 import { PoolCampusComponent } from "./features/company-menu/pool-campus/pool-campus.component";
 import { CompanyCalendarComponent } from "./features/company-menu/company-calendar/company-calendar.component";
@@ -183,10 +182,15 @@ const appRoutes: Routes = [
       {
         path: "forum",
         component: ForumComponent,
-      },
+      },   
+      { 
+        path: 'alumni/:company',
+        component: AlumniComponent 
+      }, 
       {
-        path: "alumni/:company",
-        component: AlumniComponent,
+        path: '',
+        redirectTo: '/forum', 
+        pathMatch: 'full' 
       },
       {
         path: "",
