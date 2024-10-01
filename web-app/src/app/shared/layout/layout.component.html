@@ -82,7 +82,7 @@
         <mat-icon>person</mat-icon>
         <span>Account</span>
       </a>
-      
+
       <a mat-menu-item [routerLink]="['login']">
         <mat-icon>exit_to_app</mat-icon>
         <span>Log out</span>
@@ -437,7 +437,7 @@
             <div><mat-icon>notifications</mat-icon></div>
             <div><mat-label>Notifications</mat-label></div>
           </div>
-        </a> 
+        </a> -->
         <a
           *ngIf="userType === 3"
           mat-list-item
@@ -464,7 +464,7 @@
           </div>
         </a>
 
-        <!-- <a
+        <a
           *ngIf="userType === 2"
           mat-list-item
           [routerLink]="['company-profile']"
@@ -475,7 +475,7 @@
             <mat-icon>work_outline</mat-icon>
             <div><mat-label>Company Profile</mat-label></div>
           </div>
-        </a> -->
+        </a>
 
         <a
           *ngIf="userType === 2"
