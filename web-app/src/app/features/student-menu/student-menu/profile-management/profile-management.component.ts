@@ -26,6 +26,25 @@ export class ProfileManagementComponent {
   semesters = [{ score: "", type: "", file: null }];
   showSemester = false;
   fileError: string | null = null;
+
+  allSemesters = [{ semester: "", scoreType: "", score: "", file: null }];
+
+  addDulpicateSemester() {
+    this.allSemesters.push({
+      semester: "",
+      scoreType: "",
+      score: "",
+      file: null,
+    });
+  }
+
+  removeSemester(index: number) {
+    if (this.allSemesters.length > 1) {
+      this.allSemesters.splice(index, 1);
+    } else {
+      alert("At least one semester is required.");
+    }
+  }
   Semesters = [
     { value: "Sem 1", viewValue: "Sem 1" },
     { value: "Sem 2", viewValue: "Sem 2" },
