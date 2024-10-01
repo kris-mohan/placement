@@ -145,7 +145,20 @@
         >
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> business </mat-icon></div>
-            <div><mat-label>Company Profiles </mat-label></div>
+            <div><mat-label>About Company</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 3"
+          [routerLink]="['/company-configuration']"
+          mat-list-item
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> business </mat-icon></div>
+            <div><mat-label>Company</mat-label></div>
           </div>
         </a>
 
@@ -464,7 +477,7 @@
           </div>
         </a>
 
-        <a
+        <!-- <a
           *ngIf="userType === 2"
           mat-list-item
           [routerLink]="['company-profile']"
@@ -475,7 +488,7 @@
             <mat-icon>work_outline</mat-icon>
             <div><mat-label>Company Profile</mat-label></div>
           </div>
-        </a>
+        </a> -->
 
         <a
           *ngIf="userType === 2"
