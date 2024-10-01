@@ -105,10 +105,10 @@ const appRoutes: Routes = [
         path: "interview-schedule",
         component: InterviewScheduleComponent,
       },
-      // {
-      //   path: "company-profile",
-      //   component: CompanyProfileComponent,
-      // },
+      {
+        path: "company-profile",
+        component: CompanyProfileComponent,
+      },
       {
         path: "student_applied",
         component: JobsComponent,

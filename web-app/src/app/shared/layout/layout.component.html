@@ -122,8 +122,21 @@
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> corporate_fare </mat-icon></div>
-            <div><mat-label>Company </mat-label></div>
+            <div><mat-icon mat-list-icon> manage_accounts </mat-icon></div>
+            <div><mat-label>Profile Management</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 2"
+          [routerLink]="['/company-profile']"
+          mat-list-item
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> Apartment </mat-icon></div>
+            <div><mat-label>Company Profiles </mat-label></div>
           </div>
         </a>
         <a
@@ -357,7 +370,7 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="userType === 2"
           mat-list-item
           [routerLink]="['/profile-management-dashboard']"
           routerLinkActive="active"
@@ -409,7 +422,7 @@
           </div>
         </a>
 
-        <a
+        <!-- <a
           *ngIf="userType === 2"
           mat-list-item
           [routerLink]="['company-profile']"
@@ -420,7 +433,7 @@
             <mat-icon>work_outline</mat-icon>
             <div><mat-label>Company Profile</mat-label></div>
           </div>
-        </a>
+        </a> -->
 
         <a
           *ngIf="userType === 2"
