@@ -539,6 +539,7 @@ export class JobsComponent {
     this.router.navigate(["/company-job-details"]);
   }
   downloadOfferLetter() {
-    console.log("hi");
+    console.log("downloadOfferLetter clicked");
+    window.alert("Downloaded successfully");
   }
 }

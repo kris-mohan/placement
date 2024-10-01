@@ -49,6 +49,8 @@ import { PanelTabComponent } from "./features/company-menu/company-job-details/p
 import { CompanyJobDescriptionComponent } from "./features/company-menu/company-job-description/company-job-description.component";
 import { ProfilemanagementDashboardComponent } from "./features/student-menu/student-menu/profile-management/profilemanagement-dashboard/profilemanagement-dashboard.component";
 import { JobsComponent } from "./features/student-menu/applied/jobs.component";
+import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
+import { InterviewScheduleComponent } from './features/company-menu/interview-schedule/interview-schedule.component';
 import { ResumeBuilderComponent } from "./features/student-menu/student-menu/resume-builder/resume-builder.component";
 import { IndentRequirementsComponent } from "./features/company-menu/indent-requirements/indent-requirements.component";
 import { ApprovalComponent } from "./features/placement-cell/placement-cell/approval/approval.component";
@@ -78,6 +80,14 @@ const appRoutes: Routes = [
     path: "",
     component: LayoutComponent,
     children: [
+      {
+        path:"interview-schedule",
+        component: InterviewScheduleComponent,
+      },
+      {
+        path: "company-profile",
+        component: CompanyProfileComponent,
+      },
       {
         path: "student_applied",
         component: JobsComponent,
@@ -170,7 +180,7 @@ const appRoutes: Routes = [
         component: AddEditCoursesComponent,
       },
       {
-        path: "company-configuration/company-job-details/:id",
+        path: "company-job-details",
         component: CompanyJobDetailsComponent,
       },
       {
