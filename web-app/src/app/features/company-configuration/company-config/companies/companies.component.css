@@ -69,7 +69,9 @@ cdk-overlay-pane {
 }
 .mat-grid-tile:hover {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  background-color: #f9f9f9;
+  transform: scale(1.3);
+  background-color: white;
+  color: black;
 }
 .company-details {
   text-align: left;
@@ -78,5 +80,5 @@ cdk-overlay-pane {
 
 .company {
   text-align: right;
-  margin-right: 2rem;
+  margin: 0.5rem;
 }
