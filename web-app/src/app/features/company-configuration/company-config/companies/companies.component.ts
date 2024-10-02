@@ -1,34 +1,34 @@
-import { Component, inject, ViewChild } from "@angular/core";
-import { Router, withDebugTracing } from "@angular/router";
-import { APIService } from "src/app/services/api-services/api-services";
-import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
-import { companyTableList } from "./companies-model";
-import { MatTableDataSource } from "@angular/material/table";
-import { CommonModule, Location } from "@angular/common";
-import { CompanyAPIService } from "./api.companies";
-import { AMGModules } from "src/AMG-Module/AMG-module";
-import { SharedModule } from "src/app/shared/shared.module";
-import { ImportCompanyDialogComponent } from "./import-company-dialog/import-company-dialog.component";
-import { MatDialog } from "@angular/material/dialog";
-import { IndustryAPIService } from "../industry/api.industry";
-import { Industry } from "../industry/industry.module";
-import { map, Observable, of, startWith } from "rxjs";
-import { FormControl } from "@angular/forms";
-import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
-import { CompanyDetailDialogModalComponent } from "./company-detail-dialog-modal/company-detail-dialog-modal.component";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatPaginatorModule } from "@angular/material/paginator";
+import { Component, inject, ViewChild } from '@angular/core';
+import { Router, withDebugTracing } from '@angular/router';
+import { APIService } from 'src/app/services/api-services/api-services';
+import { SweetAlertService } from 'src/app/services/sweet-alert-service/sweet-alert-service';
+import { companyTableList } from './companies-model';
+import { MatTableDataSource } from '@angular/material/table';
+import { CommonModule, Location } from '@angular/common';
+import { CompanyAPIService } from './api.companies';
+import { AMGModules } from 'src/AMG-Module/AMG-module';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { ImportCompanyDialogComponent } from './import-company-dialog/import-company-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { IndustryAPIService } from '../industry/api.industry';
+import { Industry } from '../industry/industry.module';
+import { map, Observable, of, startWith } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { CompanyDetailDialogModalComponent } from './company-detail-dialog-modal/company-detail-dialog-modal.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 export interface ODataResponse<T> {
   value: T[];
 }
 
 @Component({
-  selector: "app-companies",
+  selector: 'app-companies',
   standalone: true,
   imports: [AMGModules, CommonModule, SharedModule, MatPaginatorModule],
-  templateUrl: "./companies.component.html",
-  styleUrl: "./companies.component.css",
+  templateUrl: './companies.component.html',
+  styleUrl: './companies.component.css',
 })
 export class CompaniesComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -38,17 +38,17 @@ export class CompaniesComponent {
   industries: Industry[] = [];
 
   companySizes: string[] = [
-    "1-10 Employees",
-    "11-50 Employees",
-    "51-200 Employees",
-    "201-500 Employees",
-    "501-1000 Employees",
-    "1001-5000 Employees",
-    "5001-10000 Employees",
-    "10001+ Employees",
+    '1-10 Employees',
+    '11-50 Employees',
+    '51-200 Employees',
+    '201-500 Employees',
+    '501-1000 Employees',
+    '1001-5000 Employees',
+    '5001-10000 Employees',
+    '10001+ Employees',
   ];
 
-  experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
+  experienceLevel: string[] = ['Lateral', 'Intern', 'Fresher', 'Contract'];
 
   filteredCompanies: companyTableList[] = [];
   filteredCompany: Observable<any[]> = of([]);
@@ -57,9 +57,9 @@ export class CompaniesComponent {
   filteredIndustries: Industry[] = [];
   filteredIndutry: Observable<any[]> = of([]);
 
-  searchCompany: string = "";
-  searchCity: string = "";
-  searchIndustry: string = "";
+  searchCompany: string = '';
+  searchCity: string = '';
+  searchIndustry: string = '';
   userType: number;
 
   CityControl = new FormControl();
@@ -80,7 +80,7 @@ export class CompaniesComponent {
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService
   ) {
-    const storedUserType = sessionStorage.getItem("userType");
+    const storedUserType = sessionStorage.getItem('userType');
     this.userType = storedUserType ? parseInt(storedUserType) : 0;
   }
   displayedColumns: string[] = [
@@ -90,138 +90,138 @@ export class CompaniesComponent {
     // "City",
     // "ZipCode",
     // "Actions",
-    "Name",
-    "Industries",
-    "OpenPosition",
-    "ContactPerson",
-    "City",
-    "Email",
-    "PhoneNumber",
-    "Url",
-    "JD",
-    "Actions",
+    'Name',
+    'Industries',
+    'OpenPosition',
+    'ContactPerson',
+    'City',
+    'Email',
+    'PhoneNumber',
+    'Url',
+    'JD',
+    'Actions',
   ];
   columns = [
-    { key: "Name", label: "Name" },
-    { key: "Industries", label: "Industries" },
-    { key: "OpenPosition", label: "Open Position" },
-    { key: "ContactPerson", label: "Contact Person" },
-    { key: "City", label: "City" },
-    { key: "Email", label: "Email" },
-    { key: "PhoneNumber", label: "Phone Number" },
-    { key: "Url", label: "URL" },
-    { key: "JD", label: "JD" },
-    { key: "Actions", label: "Actions" },
+    { key: 'Name', label: 'Name' },
+    { key: 'Industries', label: 'Industries' },
+    { key: 'OpenPosition', label: 'Open Position' },
+    { key: 'ContactPerson', label: 'Contact Person' },
+    { key: 'City', label: 'City' },
+    { key: 'Email', label: 'Email' },
+    { key: 'PhoneNumber', label: 'Phone Number' },
+    { key: 'Url', label: 'URL' },
+    { key: 'JD', label: 'JD' },
+    { key: 'Actions', label: 'Actions' },
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
 
   companiesCard = [
     {
       Id: 1,
-      logo: "company-logo-1.png",
-      name: "Haier Appliances",
+      logo: '../../../assets/images/Softserve-logo1white.png',
+      name: 'Haier Appliances',
       rating: 4.1,
-      reviews: "1.3K+ reviews",
-      type: "Foreign MNC",
+      reviews: '1.3K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 4,
       registeredStudents: 120,
       placedStudents: 80,
     },
     {
       Id: 2,
-      logo: "company-logo-2.png",
-      name: "Sony Electronics",
+      logo: 'company-logo-2.png',
+      name: 'Sony Electronics',
       rating: 4.5,
-      reviews: "2K+ reviews",
-      type: "Foreign MNC",
+      reviews: '2K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 5,
       registeredStudents: 100,
       placedStudents: 60,
     },
     {
       Id: 3,
-      logo: "company-logo-3.png",
-      name: "Samsung Tech",
+      logo: 'company-logo-3.png',
+      name: 'Samsung Tech',
       rating: 4.2,
-      reviews: "1.5K+ reviews",
-      type: "Foreign MNC",
+      reviews: '1.5K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 3,
       registeredStudents: 200,
       placedStudents: 150,
     },
     {
       Id: 4,
-      logo: "company-logo-4.png",
-      name: "LG Electronics",
+      logo: 'company-logo-4.png',
+      name: 'LG Electronics',
       rating: 4.3,
-      reviews: "1.8K+ reviews",
-      type: "Foreign MNC",
+      reviews: '1.8K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 6,
       registeredStudents: 140,
       placedStudents: 110,
     },
     {
       Id: 5,
-      logo: "company-logo-5.png",
-      name: "Apple Inc.",
+      logo: 'company-logo-5.png',
+      name: 'Apple Inc.',
       rating: 4.8,
-      reviews: "3K+ reviews",
-      type: "Foreign MNC",
+      reviews: '3K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 7,
       registeredStudents: 250,
       placedStudents: 200,
     },
     {
       Id: 6,
-      logo: "company-logo-6.png",
-      name: "Microsoft Corp.",
+      logo: 'company-logo-6.png',
+      name: 'Microsoft Corp.',
       rating: 4.7,
-      reviews: "2.7K+ reviews",
-      type: "Foreign MNC",
+      reviews: '2.7K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 5,
       registeredStudents: 180,
       placedStudents: 160,
     },
     {
       Id: 7,
-      logo: "company-logo-7.png",
-      name: "Google LLC",
+      logo: 'company-logo-7.png',
+      name: 'Google LLC',
       rating: 4.9,
-      reviews: "5K+ reviews",
-      type: "Foreign MNC",
+      reviews: '5K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 8,
       registeredStudents: 300,
       placedStudents: 250,
     },
     {
       Id: 8,
-      logo: "company-logo-8.png",
-      name: "Facebook Inc.",
+      logo: 'company-logo-8.png',
+      name: 'Facebook Inc.',
       rating: 4.6,
-      reviews: "2.2K+ reviews",
-      type: "Foreign MNC",
+      reviews: '2.2K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 4,
       registeredStudents: 170,
       placedStudents: 130,
     },
     {
       Id: 9,
-      logo: "company-logo-9.png",
-      name: "Amazon Web Services",
+      logo: 'company-logo-9.png',
+      name: 'Amazon Web Services',
       rating: 4.4,
-      reviews: "2.5K+ reviews",
-      type: "Foreign MNC",
+      reviews: '2.5K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 6,
       registeredStudents: 220,
       placedStudents: 180,
     },
     {
       Id: 10,
-      logo: "company-logo-10.png",
-      name: "Tesla Inc.",
+      logo: 'company-logo-10.png',
+      name: 'Tesla Inc.',
       rating: 4.7,
-      reviews: "2.8K+ reviews",
-      type: "Foreign MNC",
+      reviews: '2.8K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 5,
       registeredStudents: 160,
       placedStudents: 140,
@@ -243,16 +243,16 @@ export class CompaniesComponent {
     });
 
     this.filteredCities = this.CityFilterControl.valueChanges.pipe(
-      startWith(""),
+      startWith(''),
       map((value) => this._filterCities(value))
     );
     this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-      startWith(""),
+      startWith(''),
       map((value) => this._filterIndustries(value))
     );
 
     this.filteredCompany = this.companyControl.valueChanges.pipe(
-      startWith(""),
+      startWith(''),
       map((value) => this._filterCompanies(value))
     );
   }
@@ -274,8 +274,8 @@ export class CompaniesComponent {
 
   openCompanyModalPopup(company: any): void {
     this.dialog.open(CompanyDetailDialogModalComponent, {
-      width: "500px",
-      height: "600px",
+      width: '500px',
+      height: '600px',
       data: company,
     });
   }
@@ -293,14 +293,14 @@ export class CompaniesComponent {
   loadCompanies() {
     this.apiCompanyService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
-        console.log("API Response:", response);
+        console.log('API Response:', response);
         this.dataSource.data = response.value;
         this.companies = response.value;
         this.industries = this.extractIndustriesFromCompanies(this.companies);
         this.filteredIndustries = this.industries;
       },
       error: (error) => {
-        console.error("Error loading companies", error);
+        console.error('Error loading companies', error);
       },
     });
   }
@@ -308,25 +308,25 @@ export class CompaniesComponent {
   loadIndustries() {
     this.apiIndustryService.loadIndustryData().subscribe({
       next: (response: ODataResponse<any>) => {
-        console.log("API Response:", response);
+        console.log('API Response:', response);
         this.industries = response.value;
       },
       error: (error) => {
-        console.error("Error loading Industries", error);
+        console.error('Error loading Industries', error);
       },
     });
   }
   openAddEditCompanyForm(id?: number) {
     if (id !== null && id !== undefined) {
-      this.router.navigate(["/company-configuration/company", id]);
+      this.router.navigate(['/company-configuration/company', id]);
     } else {
-      this.router.navigate(["/company-configuration/company", 0]);
+      this.router.navigate(['/company-configuration/company', 0]);
     }
   }
 
   async deleteCompany(id: number) {
     const confirmed = await this.sweetAlertService.confirmDelete(
-      "Do you really want to delete this Company?"
+      'Do you really want to delete this Company?'
     );
 
     if (confirmed) {
@@ -341,9 +341,9 @@ export class CompaniesComponent {
         },
         error: (error) => {
           this.sweetAlertService.error(
-            "An unexpected error occurred while deleting the Company."
+            'An unexpected error occurred while deleting the Company.'
           );
-          console.error("Error deleting Company:", error);
+          console.error('Error deleting Company:', error);
         },
       });
     }
@@ -357,8 +357,8 @@ export class CompaniesComponent {
 
   openImportCompanyDialog() {
     this.dialog.open(ImportCompanyDialogComponent, {
-      width: "500px",
-      height: "600px",
+      width: '500px',
+      height: '600px',
     });
   }
 
@@ -404,16 +404,16 @@ export class CompaniesComponent {
 
   get selectedCompanyCities(): string {
     const selected = this.CityControl.value;
-    return selected ? selected.join(", ") : "";
+    return selected ? selected.join(', ') : '';
   }
 
   get selectedIndustries(): string {
     const selected = this.industryControl.value;
-    return selected ? selected.join(", ") : "";
+    return selected ? selected.join(', ') : '';
   }
   get selectedCompanySize(): string {
     const selected = this.companySizeControl.value;
-    return selected ? selected.join(", ") : "";
+    return selected ? selected.join(', ') : '';
   }
 
   onCityDropdownOpen() {
@@ -440,14 +440,14 @@ export class CompaniesComponent {
 
   resetIndustrySelection() {
     this.industryControl.reset();
-    this.searchIndustry = "";
+    this.searchIndustry = '';
     this.filteredCompanies = this.companies;
     this.dataSource.data = this.filteredCompanies;
   }
 
   resetLocationSelection() {
     this.CityControl.reset();
-    this.searchCity = "";
+    this.searchCity = '';
     this.filteredCompanies = this.companies;
     this.dataSource.data = this.filteredCompanies;
   }
@@ -490,6 +490,6 @@ export class CompaniesComponent {
   }
 
   goToCompanyJobDetails(id: number) {
-    this.router.navigate(["company-configuration/company-job-details", id]);
+    this.router.navigate(['company-configuration/company-job-details', id]);
   }
 }

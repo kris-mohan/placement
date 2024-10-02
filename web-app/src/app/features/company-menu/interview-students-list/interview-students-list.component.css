@@ -1,10 +1,17 @@
 .mat-grid-tile {
   border-radius: 0.5rem;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  background-color: #fefefe;
+  background-color: #d5d5d6;
+  color: black;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
+}
+
+.mat-grid-tile:hover {
+  transform: scale(1.3);
+  background-color: white;
+  color: black;
 }
 
 .company-details {

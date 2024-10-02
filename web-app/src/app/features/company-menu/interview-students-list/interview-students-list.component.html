@@ -300,8 +300,7 @@
     <mat-expansion-panel
       (opened)="panelOpenState.set(true)"
       (closed)="panelOpenState.set(false)"
-      class="mat-expansion-panel"
-    >
+      class="mat-expansion-panel">
       <mat-expansion-panel-header>
         <mat-panel-title
           >Company:
@@ -319,17 +318,16 @@
   <mat-card-content
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"
-    class="mat-card-content"
-  >
+    class="mat-card-content">
     <div
       *ngFor="let students of studentsAttending"
       fxFlex="100%"
-      fxFlex.gt-sm="50%"
-      fxFlex.gt-md="33%"
+      fxFlex.gt-sm="25%"
+      fxFlex.gt-md="25%"
       fxFlex.gt-lg="25%"
       class="grid-item"
       class="mat-grid-tile"
-    >
+      style="margin: 1em">
       <div class="company-details">
         <h3>{{ students.studentId }}</h3>
         <div class="company-type">{{ students.studentName }}</div>

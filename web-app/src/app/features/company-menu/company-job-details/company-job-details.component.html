@@ -18,17 +18,14 @@
               type="text"
               aria-label="Number"
               matInput
-              [matAutocomplete]="auto"
-            />
+              [matAutocomplete]="auto" />
             <mat-autocomplete
               autoActiveFirstOption
               #auto="matAutocomplete"
-              (optionSelected)="onCompanySelected($event)"
-            >
+              (optionSelected)="onCompanySelected($event)">
               <mat-option
                 *ngFor="let company of filteredCompany | async"
-                [value]="company.Name"
-              >
+                [value]="company.Name">
                 {{ company.Name }}
               </mat-option>
             </mat-autocomplete>
@@ -42,8 +39,7 @@
               [formControl]="CityControl"
               multiple
               (openedChange)="onCityDropdownOpen()"
-              panelClass="custom-dropdown-panel"
-            >
+              panelClass="custom-dropdown-panel">
               <mat-select-trigger>
                 {{ selectedCompanyCities }}
               </mat-select-trigger>
@@ -53,31 +49,27 @@
                   matInput
                   [(ngModel)]="searchCity"
                   (ngModelChange)="filterCities($event)"
-                  placeholder="Search"
-                />
+                  placeholder="Search" />
               </mat-form-field>
               <mat-option *ngIf="!filteredCompanies.length" disabled
                 >No options</mat-option
               >
               <mat-option
                 *ngFor="let company of filteredCompanies"
-                [value]="company.City"
-              >
+                [value]="company.City">
                 {{ company.City }}
               </mat-option>
               <mat-dialog-actions class="mat-dialog-actions">
                 <button
                   mat-button
                   mat-dialog-close
-                  (click)="resetLocationSelection()"
-                >
+                  (click)="resetLocationSelection()">
                   Reset
                 </button>
                 <button
                   mat-raised-button
                   class="matbutton"
-                  (click)="showLocationResults()"
-                >
+                  (click)="showLocationResults()">
                   <p class="matName">Show results</p>
                 </button>
               </mat-dialog-actions>
@@ -91,8 +83,7 @@
             <mat-select
               [formControl]="industryControl"
               multiple
-              (openedChange)="onIndustryDropdownOpen()"
-            >
+              (openedChange)="onIndustryDropdownOpen()">
               <mat-select-trigger>
                 {{ selectedIndustries }}
               </mat-select-trigger>
@@ -102,16 +93,14 @@
                   matInput
                   [(ngModel)]="searchIndustry"
                   (ngModelChange)="filterIndustries($event)"
-                  placeholder="Search"
-                />
+                  placeholder="Search" />
               </mat-form-field>
               <mat-option *ngIf="!filteredIndustries.length" disabled
                 >No options</mat-option
               >
               <mat-option
                 *ngFor="let industry of filteredIndustries"
-                [value]="industry.Type"
-              >
+                [value]="industry.Type">
                 {{ industry.Type }}
               </mat-option>
 
@@ -119,15 +108,13 @@
                 <button
                   mat-button
                   mat-dialog-close
-                  (click)="resetIndustrySelection()"
-                >
+                  (click)="resetIndustrySelection()">
                   Reset
                 </button>
                 <button
                   mat-raised-button
                   class="matbutton"
-                  (click)="showIndustryResults()"
-                >
+                  (click)="showIndustryResults()">
                   <p class="matName">Show results</p>
                 </button>
               </mat-dialog-actions>
@@ -161,8 +148,7 @@
             *ngIf="userType !== 3"
             mat-raised-button
             class="matbutton"
-            (click)="openAddEditCompanyForm(0)"
-          >
+            (click)="openAddEditCompanyForm(0)">
             <mat-icon class="maticon">add</mat-icon>
             <p class="matButtonText">Add Job Postings</p>
           </button>
@@ -213,15 +199,26 @@
     </table>
     <router-outlet></router-outlet>
   </mat-card-content> -->
-  <mat-grid-list cols="2" rowHeight="4:1" gutterSize="16px">
-    <mat-grid-tile *ngFor="let job of jobsCard">
+  <!-- <mat-grid-list cols="2" rowHeight="4:1" gutterSize="16px"> -->
+  <mat-card-content
+    fxLayout="row wrap"
+    fxLayoutAlign="start stretch"
+    class="mat-card-content">
+    <div
+      *ngFor="let job of jobsCard"
+      fxFlex="100%"
+      fxFlex.gt-sm="25%"
+      fxFlex.gt-md="25%"
+      fxFlex.gt-lg="25%"
+      class="grid-item"
+      class="mat-grid-tile"
+      style="margin: 1em">
       <div
         class="card-container-main"
-        (click)="openCopmanyJobDescriptionPage(job.Id)"
-      >
+        (click)="openCopmanyJobDescriptionPage(job.Id)">
         <div class="company-details">
-            <h3>{{ job.title }}</h3>
-  
+          <h3>{{ job.title }}</h3>
+
           <div class="company-type">{{ job.applicants }}</div>
         </div>
         <div class="job-details">
@@ -247,6 +244,7 @@
           </h4>
         </div>
       </div>
-    </mat-grid-tile>
-  </mat-grid-list>
+    </div>
+  </mat-card-content>
+  <!-- </mat-grid-list> -->
 </mat-card>
