@@ -5,8 +5,7 @@
     <img
       class="headerLogo"
       src="../../../assets/images/Softserve-logo1white.png"
-      alt="ssgLogo"
-    />
+      alt="ssgLogo" />
     <button mat-icon-button (click)="snav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
@@ -26,14 +25,12 @@
       #notificationMenu="matMenu"
       xPosition="before"
       yPosition="above"
-      [overlapTrigger]="false"
-    >
+      [overlapTrigger]="false">
       <ng-container *ngIf="notifications.length; else noNotifications">
         <a
           mat-menu-item
           *ngFor="let notification of notifications"
-          (click)="navigateToComponent(notification)"
-        >
+          (click)="navigateToComponent(notification)">
           <span>{{ notification.message }}</span>
         </a>
       </ng-container>
@@ -76,8 +73,7 @@
       #userMenu="matMenu"
       xPosition="before"
       yPosition="above"
-      [overlapTrigger]="false"
-    >
+      [overlapTrigger]="false">
       <a mat-menu-item [routerLink]="['/account/profile']">
         <mat-icon>person</mat-icon>
         <span>Account</span>
@@ -98,15 +94,13 @@
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="56"
-      class="sidenav"
-    >
+      class="sidenav">
       <mat-nav-list>
         <a
           mat-list-item
           [routerLink]="['/dashboard']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> dashboard </mat-icon></div>
             <div><mat-label>Dashboard</mat-label></div>
@@ -128,8 +122,7 @@
           mat-list-item
           [routerLink]="['/profile-management-dashboard']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> manage_accounts </mat-icon></div>
             <div><mat-label>Profile Management</mat-label></div>
@@ -154,8 +147,7 @@
           [routerLink]="['/company-configuration']"
           mat-list-item
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> business </mat-icon></div>
             <div><mat-label>Company</mat-label></div>
@@ -183,8 +175,7 @@
           mat-list-item
           [routerLink]="['/company-configuration']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> corporate_fare </mat-icon></div>
             <div><mat-label>Company </mat-label></div>
@@ -196,8 +187,7 @@
           mat-list-item
           [routerLink]="['/campus-configuration']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> business </mat-icon></div>
             <div><mat-label> Campus </mat-label></div>
@@ -209,8 +199,7 @@
           mat-list-item
           [routerLink]="['/students']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon>group</mat-icon></div>
             <div><mat-label>Student</mat-label></div>
@@ -221,8 +210,7 @@
           mat-list-item
           [routerLink]="['/training-configuration']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon>school</mat-icon></div>
             <div><mat-label>Training </mat-label></div>
@@ -231,10 +219,20 @@
         <a
           *ngIf="userType === 1"
           mat-list-item
+          [routerLink]="['/placement-communicaton']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon>forum</mat-icon></div>
+            <div><mat-label>Communication </mat-label></div>
+          </div>
+        </a>
+        <a
+          *ngIf="userType === 1"
+          mat-list-item
           [routerLink]="['/campus-feedback-survey']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon>school</mat-icon></div>
             <div><mat-label>Feedback and Survey </mat-label></div>
@@ -245,8 +243,7 @@
           mat-list-item
           [routerLink]="['/student-details-approval']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon>assignment_turned_in</mat-icon></div>
             <div><mat-label>Approval Dashboard</mat-label></div>
@@ -275,8 +272,7 @@
           mat-list-item
           [routerLink]="['/company-job-details']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> work </mat-icon></div>
             <div><mat-label>Job Posting</mat-label></div>
@@ -329,8 +325,7 @@
           mat-list-item
           [routerLink]="['/company-calendar']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon>calendar_month</mat-icon></div>
             <div><mat-label>Calendar</mat-label></div>
@@ -420,8 +415,7 @@
           [routerLink]="['/interview']"
           mat-list-item
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon>supervised_user_circle</mat-icon></div>
             <div><mat-label>Interview</mat-label></div>
@@ -432,8 +426,7 @@
           mat-list-item
           [routerLink]="['/indent-requirement']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> corporate_fare </mat-icon></div>
             <div><mat-label>Indent </mat-label></div>
@@ -443,20 +436,18 @@
           *ngIf="userType === 3"
           mat-list-item
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon>notifications</mat-icon></div>
             <div><mat-label>Notifications</mat-label></div>
           </div>
-        </a> -->
+        </a>
         <a
           *ngIf="userType === 3"
           mat-list-item
           [routerLink]="['/forum']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon>forum</mat-icon></div>
             <div><mat-label>Forum</mat-label></div>
@@ -468,8 +459,7 @@
           mat-list-item
           [routerLink]="['student_applied']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon>connect_without_contact</mat-icon></div>
             <div><mat-label>Applied Jobs</mat-label></div>
@@ -506,8 +496,7 @@
           *ngIf="userType === 3"
           mat-list-item
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon>feedback</mat-icon></div>
             <div><mat-label>Feedback and Support</mat-label></div>
@@ -519,8 +508,7 @@
           mat-list-item
           [routerLink]="['/resume-builder']"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon>build</mat-icon></div>
             <div><mat-label>Resume Builder</mat-label></div>
@@ -546,15 +534,13 @@
         <mat-progress-bar
           color="accent"
           mode="indeterminate"
-          *ngIf="spinnerService.visibility | async"
-        >
+          *ngIf="spinnerService.visibility | async">
         </mat-progress-bar>
 
         <mat-spinner
           class="spinner"
           [diameter]="50"
-          *ngIf="showSpinner"
-        ></mat-spinner>
+          *ngIf="showSpinner"></mat-spinner>
       </div>
 
       <router-outlet></router-outlet>
