@@ -57,6 +57,7 @@ import { ForumComponent } from "./features/student-menu/alumni/forum/forum.compo
 // import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
 import { InterviewScheduleComponent } from "./features/company-menu/interview-schedule/interview-schedule.component";
 import { CompanyProfileComponent } from "./features/company-menu/company-profile/company-profile.component";
+import { PoolCampusComponent } from "./features/company-menu/pool-campus/pool-campus.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -168,15 +169,15 @@ const appRoutes: Routes = [
       {
         path: "forum",
         component: ForumComponent,
-      },   
-      { 
-        path: 'alumni/:company',
-        component: AlumniComponent 
-      }, 
+      },
       {
-        path: '',
-        redirectTo: '/forum', 
-        pathMatch: 'full' 
+        path: "alumni/:company",
+        component: AlumniComponent,
+      },
+      {
+        path: "",
+        redirectTo: "/forum",
+        pathMatch: "full",
       },
       {
         path: "training-configuration",
@@ -264,10 +265,10 @@ const appRoutes: Routes = [
         path: "test-interviews/:collegeId/:jobId",
         component: StudentsListComponent,
       },
-      {
-        path: "test-interviews/:collegeId/:jobId/:studentId",
-        component: StudentResultInformation,
-      },
+      // {
+      //   path: "test-interviews/:collegeId/:jobId/:studentId",
+      //   component: StudentResultInformation,
+      // },
 
       {
         path: "resume-builder",
@@ -296,6 +297,10 @@ const appRoutes: Routes = [
         component: InterviewStudentsListComponent,
       },
       {
+        path: "interview/interview-students-list/student-result-information/:id",
+        component: StudentResultInformation,
+      },
+      {
         path: "testr",
         component: AddRoundsModalComponent,
       },
@@ -312,6 +317,11 @@ const appRoutes: Routes = [
         path: "students/student-details-approval/:id",
         component: ApprovalComponent,
       },
+      {
+        path: "poolcampus",
+        component: PoolCampusComponent,
+      },
+
       {
         path: "**",
         redirectTo: "dashboard",

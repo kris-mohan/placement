@@ -40,10 +40,10 @@ export class StudentResultInformation {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
-      const jobId = Number(params.get("jobId"));
-      this.hiringRounds = HIRING_ROUNDS_DATA.filter(
-        (round) => round.jobId === jobId
-      );
+      // const jobId = Number(params.get("jobId"));
+      // this.hiringRounds = HIRING_ROUNDS_DATA.filter(
+      //   (round) => round.jobId === jobId
+      // );
     });
   }
 

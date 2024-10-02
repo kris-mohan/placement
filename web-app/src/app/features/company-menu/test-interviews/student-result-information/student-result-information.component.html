@@ -3,31 +3,18 @@
     <mat-icon (click)="goBack()">keyboard_backspace</mat-icon>
   </div>
 
-  <mat-stepper #stepper>
-    <ng-container *ngFor="let round of hiringRounds; let i = index">
-      <mat-step>
-        <ng-template matStepLabel>{{ round.roundName }}</ng-template>
-        <div class="round-content">
-          <ng-container [ngSwitch]="i">
-            <app-first-round
-              *ngSwitchCase="0"
-              [round]="round"
-            ></app-first-round>
-            <app-second-round
-              *ngSwitchCase="1"
-              [round]="round"
-            ></app-second-round>
-            <app-third-round
-              *ngSwitchCase="2"
-              [round]="round"
-            ></app-third-round>
-            <app-fourth-round
-              *ngSwitchCase="3"
-              [round]="round"
-            ></app-fourth-round>
-          </ng-container>
-        </div>
-      </mat-step>
-    </ng-container>
+  <mat-stepper>
+    <mat-step label="First Round">
+      <app-first-round></app-first-round>
+    </mat-step>
+    <mat-step label="Second Round">
+      <app-second-round></app-second-round>
+    </mat-step>
+    <mat-step label="Third Round">
+      <app-third-round></app-third-round>
+    </mat-step>
+    <mat-step label="Fourth Round">
+      <app-fourth-round></app-fourth-round>
+    </mat-step>
   </mat-stepper>
 </mat-card>

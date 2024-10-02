@@ -326,7 +326,6 @@
             </a>
           </mat-expansion-panel-header> -->
         <a
-          *ngIf="userType === 3"
           mat-list-item
           [routerLink]="['/company-calendar']"
           routerLinkActive="active"
@@ -527,6 +526,18 @@
             <div><mat-label>Resume Builder</mat-label></div>
           </div>
         </a>
+
+        <!-- <a
+          mat-list-item
+          [routerLink]="['/poolcampus']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon>build</mat-icon></div>
+            <div><mat-label>Pool Campus</mat-label></div>
+          </div>
+        </a> -->
       </mat-nav-list>
     </mat-sidenav>
 

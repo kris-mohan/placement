@@ -9,5 +9,5 @@ import { HiringRound } from "../../../company-job-details/test-rounds/test-round
   styleUrl: "./second-round.component.css",
 })
 export class SecondRoundComponent {
-  @Input() round!: HiringRound;
+  // @Input() round!: HiringRound;
 }

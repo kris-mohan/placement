@@ -1,6 +1,7 @@
 import { CommonModule, Location } from "@angular/common";
 import { Component, signal } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 
 @Component({
@@ -12,8 +13,8 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 })
 export class InterviewStudentsListComponent {
   readonly panelOpenState = signal(false);
-  
-  constructor(private location: Location) {}
+
+  constructor(private location: Location, private router: Router) {}
 
   studentsAttending = [
     {
@@ -128,5 +129,12 @@ export class InterviewStudentsListComponent {
 
   goBack(): void {
     this.location.back();
+  }
+
+  openInterviewMarksDetails(id?: number) {
+    this.router.navigate([
+      "/interview/interview-students-list/student-result-information",
+      id,
+    ]);
   }
 }
