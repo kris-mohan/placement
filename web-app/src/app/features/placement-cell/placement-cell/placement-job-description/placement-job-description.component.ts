@@ -1,16 +1,16 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule, Location } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
-import { JobEligibleStudentsModalComponent } from "./job-eligible-students-modal/job-eligible-students-modal.component";
 import { MatDialog } from "@angular/material/dialog";
+import { JobEligibleStudentsModalComponent } from "src/app/features/company-menu/company-job-description/job-eligible-students-modal/job-eligible-students-modal.component";
 @Component({
   selector: "app-company-job-description",
   standalone: true,
   imports: [SharedModule, CommonModule],
-  templateUrl: "./company-job-description.component.html",
-  styleUrl: "./company-job-description.component.css",
+  templateUrl: "./placement-job-description.component.html",
+  styleUrl: "./placement-job-description.component.css",
 })
-export class CompanyJobDescriptionComponent {
+export class PlacementJobDescriptionComponent {
   userType: number;
   constructor(private location: Location) {
     const storedUserType = sessionStorage.getItem("userType");

@@ -7,11 +7,13 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
-import { JobPostingList } from "./company-job-details-model";
 import { FormControl } from "@angular/forms";
-import { companyTableList } from "../../company-configuration/company-config/companies/companies-model";
-import { Industry } from "../../company-configuration/company-config/industry/industry.module";
 import { Observable, of } from "rxjs";
+import {
+  companyTableList,
+  Industry,
+} from "src/app/features/company-configuration/company-config/companies/companies-model";
+import { JobPostingList } from "src/app/features/company-menu/company-job-details/company-job-details-model";
 
 export const JOBPOSTING_DATA: JobPostingList[] = [
   {
@@ -68,10 +70,10 @@ export const JOBPOSTING_DATA: JobPostingList[] = [
   selector: "app-company-job-details",
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules],
-  templateUrl: "./company-job-details.component.html",
-  styleUrl: "./company-job-details.component.css",
+  templateUrl: "./student-jobs.component.html",
+  styleUrl: "./student-jobs.component.css",
 })
-export class CompanyJobDetailsComponent {
+export class StudentJobsComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -493,13 +495,9 @@ export class CompanyJobDetailsComponent {
   goToCompanyJobDetails(companyId: number) {}
 
   openCopmanyJobDescriptionPage(jobId?: number) {
-    if (jobId !== undefined) {
-      this.router.navigate([
-        "/company-job-details/companyJobDescription",
-        jobId,
-      ]);
-    } else {
-      this.router.navigate(["company-job-details"]);
-    }
+    this.router.navigate([
+      "/student-company/student-jobs/student-job-description/",
+      jobId,
+    ]);
   }
 }
