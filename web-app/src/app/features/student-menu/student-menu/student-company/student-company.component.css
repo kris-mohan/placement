@@ -79,6 +79,9 @@ cdk-overlay-pane {
 }
 
 .company {
-  text-align: right;
+  text-align: left; /* Align text to the left */
   margin: 0.5rem;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 0.4rem;
 }

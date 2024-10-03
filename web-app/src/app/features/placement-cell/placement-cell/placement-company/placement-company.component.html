@@ -148,7 +148,7 @@
           </mat-form-field>
         </div>
 
-        <div>
+        <!-- <div>
           <mat-form-field appearance="outline">
             <mat-label>Experience Level</mat-label>
             <mat-select [formControl]="experienceLevelControl" multiple>
@@ -157,7 +157,7 @@
               }
             </mat-select>
           </mat-form-field>
-        </div>
+        </div> -->
 
         <div class="example-button-container">
           <button
@@ -189,7 +189,6 @@
   >
     <div
       *ngFor="let company of companiesCard"
-      (click)="goToCompanyJobDetails(company.Id)"
       fxFlex="100%"
       fxFlex.gt-sm="50%"
       fxFlex.gt-md="28%"
@@ -197,24 +196,50 @@
       class="mat-grid-tile"
     >
       <div class="company-details">
-        <img [src]="company.logo" alt="Company Logo" class="company-logo" />
+        <img
+          [src]="company.logo"
+          alt="Company Logo"
+          class="company-logo"
+          height="15%"
+          width="75%"
+          (click)="goToCompanyJobDetails(company.Id)"
+        />
         <h3>{{ company.name }}</h3>
 
         <div class="company-type">{{ company.type }}</div>
+        <div class="company-type">
+          Email:
+          <span class="rating"
+            ><strong>{{ company.Email }}</strong></span
+          >
+        </div>
+        <div class="company-type">
+          URL:
+          <span class="rating"
+            ><strong>{{ company.URL }}</strong></span
+          >
+        </div>
       </div>
       <div class="company">
-        <h4>
-          Number of Jobs:
-          <span class="rating">{{ company.numberOfJobs }}</span>
-        </h4>
-        <h4>
-          Number of Students Registered:
-          <span class="rating">{{ company.registeredStudents }}</span>
-        </h4>
-        <h4>
-          Number of Students Placed:
-          <span class="rating">{{ company.placedStudents }}</span>
-        </h4>
+        Vacancies:
+        <span class="rating"
+          ><strong>{{ company.numberOfJobs }}</strong></span
+        >
+
+        Company Size:
+        <span class="rating"
+          ><strong>{{ company.industrysize }}</strong></span
+        >
+
+        Location :
+        <span class="rating"
+          ><strong>{{ company.Companylocation }}</strong></span
+        >
+
+        Phone No:
+        <span class="rating"
+          ><strong>{{ company.CompanyPhone }}</strong></span
+        >
       </div>
     </div>
   </mat-card-content>
