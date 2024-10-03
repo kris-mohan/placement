@@ -34,6 +34,41 @@ button[disabled] {
 
 .manpower_requirement_table {
   margin: 20px 0 0 0;
+  width: 82%;
+  height: 60%;
+  margin: 20px;
 }
 
+.indent_req {
+  width: 81%;
+  height: 50%;
+  margin: 20px;
+}
 
+.mat-mdc-card-header {
+  display: unset;
+}
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+/* .example-button-container :hover {
+  background-color: rgb(234, 234, 234);
+} */
+.button-label-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-mat-label {
+  margin-left: 3rem;
+  font-weight: bolder;
+  font-size: larger;
+}
