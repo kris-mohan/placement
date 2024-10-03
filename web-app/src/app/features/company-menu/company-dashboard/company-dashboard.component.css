@@ -1,0 +1,42 @@
+.chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; /* Adjusts space between charts */
+}
+
+.chart-container app-basic-line-chart,
+.chart-container app-basic-column-chart,
+.chart-container app-column-chart-datalabels,
+.chart-container app-stacked-column-chart,
+.chart-container app-hp-stacked-columnchart,
+.chart-container app-simple-pie-chart,
+.chart-container app-simple-donut-chart {
+  flex: 0 1 calc(33.33% - 20px); /* Each chart takes up a third of the row */
+  margin: 10px; /* Adds spacing around each chart */
+}
+
+@media (max-width: 768px) {
+  /* Adjust layout for smaller screens */
+  .chart-container app-basic-line-chart,
+  .chart-container app-basic-column-chart,
+  .chart-container app-column-chart-datalabels,
+  .chart-container app-stacked-column-chart,
+  .chart-container app-hp-stacked-columnchart,
+  .chart-container app-simple-pie-chart,
+  .chart-container app-simple-donut-chart {
+    flex: 0 1 calc(50% - 20px); /* Two charts per row on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Adjust layout for mobile screens */
+  .chart-container app-basic-line-chart,
+  .chart-container app-basic-column-chart,
+  .chart-container app-column-chart-datalabels,
+  .chart-container app-stacked-column-chart,
+  .chart-container app-hp-stacked-columnchart,
+  .chart-container app-simple-pie-chart,
+  .chart-container app-simple-donut-chart {
+    flex: 0 1 100%; /* One chart per row on very small screens */
+  }
+}
