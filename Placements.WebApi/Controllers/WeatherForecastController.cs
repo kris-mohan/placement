@@ -22,9 +22,10 @@ namespace Placements.WebApi.Controllers
     private readonly IConfiguration _configuration;
         private readonly  PlacementContext _context;
 
-        public WeatherForecastController( PlacementContext placementContext)
+        public WeatherForecastController(IConfiguration configuration, PlacementContext placementContext)
         {
             _context = placementContext;
+            _configuration = configuration;
         }
     //private readonly PaatashalacampusContext _paatashalacampusContext;
     //private readonly PaatashalacompanydbContext _paatashalacompanydbContext;
