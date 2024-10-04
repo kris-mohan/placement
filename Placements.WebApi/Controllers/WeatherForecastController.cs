@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Placements.DataAccess.PaatashalaCampus.Models;
-using Placements.DataAccess.PaatashalaCompany.Models;
-using Placements.DataAccess.PaatashalaTraining.Models;
+using Placements.DataAccess.placement.Models;
 using Placements.WebApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -22,19 +20,25 @@ namespace Placements.WebApi.Controllers
 
     private readonly ILogger<WeatherForecastController> _logger;
     private readonly IConfiguration _configuration;
-    private readonly PaatashalacampusContext _paatashalacampusContext;
-    private readonly PaatashalacompanydbContext _paatashalacompanydbContext;
-    private readonly PaatashalatrainingContext _paatashalatrainingContext;
+        private readonly  PlacementContext _context;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, IConfiguration configuration, PaatashalacompanydbContext paatashalacompanydbContext,
-      PaatashalacampusContext paatashalacampusContext, PaatashalatrainingContext paatashalatrainingContext)
-    {
-      _logger = logger;
-      _configuration = configuration;
-      _paatashalacampusContext= paatashalacampusContext;
-      _paatashalacompanydbContext=paatashalacompanydbContext;
-      _paatashalatrainingContext = paatashalatrainingContext;
-    }
+        public WeatherForecastController( PlacementContext placementContext)
+        {
+            _context = placementContext;
+        }
+    //private readonly PaatashalacampusContext _paatashalacampusContext;
+    //private readonly PaatashalacompanydbContext _paatashalacompanydbContext;
+    //private readonly PaatashalatrainingContext _paatashalatrainingContext;
+
+    //public WeatherForecastController(ILogger<WeatherForecastController> logger, IConfiguration configuration, PaatashalacompanydbContext paatashalacompanydbContext,
+    //  PaatashalacampusContext paatashalacampusContext, PaatashalatrainingContext paatashalatrainingContext)
+    //{
+    //  _logger = logger;
+    //  _configuration = configuration;
+    //  _paatashalacampusContext= paatashalacampusContext;
+    //  _paatashalacompanydbContext=paatashalacompanydbContext;
+    //  _paatashalatrainingContext = paatashalatrainingContext;
+    //}
 
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
@@ -57,7 +61,7 @@ namespace Placements.WebApi.Controllers
         {
           return BadRequest("Invalid client request");
         }
-        var loginUser = _paatashalacompanydbContext.Logins
+        var loginUser = _context.Logins
            .FirstOrDefault(l => l.UserName == user.UserName && l.Password == user.Password );
 
         if (loginUser == null)
@@ -65,27 +69,7 @@ namespace Placements.WebApi.Controllers
           return Unauthorized(new { success = false, message = "Invalid UserName, Password or UserType" });
         }
 
-        //bool isValidUser = false;
-        //var campusUser = _paatashalacampusContext.Campusregistrations
-        //   .FirstOrDefault(c => c.Email == user.UserName || c.CollegeEmail == user.UserName || c.CollegeName == user.UserName );
-
-
-        //var companyUser = _paatashalacompanydbContext.Logins
-        //   .FirstOrDefault(c => c.UserName == user.UserName);
-        //if (campusUser != null && campusUser.Password == user.Password)
-        //{
-        //  user.UserType = "1";
-        //}
-
-        //else if (companyUser != null && companyUser.Password == user.Password)
-        //{
-        //  user.UserType = "2";
-        //}
-
-        //else
-        //{
-        //  return Unauthorized(new { success = false, message = "Invalid UserName or Password" });
-        //}
+        
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
           var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
           var tokenOptions = new JwtSecurityToken(

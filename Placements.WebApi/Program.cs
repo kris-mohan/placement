@@ -6,11 +6,9 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.NewtonsoftJson;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Placements.DataAccess.PaatashalaCampus.Models;
 using MySql.EntityFrameworkCore.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Placements.DataAccess.PaatashalaCompany.Models;
-using Placements.DataAccess.PaatashalaTraining.Models;
+using Placements.DataAccess.placement.Models;
 
 
 
@@ -61,20 +59,27 @@ builder.Services.AddAuthentication(opt =>
     });
 
 
+//builder.Services.AddEntityFrameworkMySQL()
+//           .AddDbContext<PaatashalacampusContext>(options =>
+//           {
+//             options.UseMySQL(builder.Configuration.GetConnectionString("PaatashalaCampusConnection"));
+//           });
+//builder.Services.AddEntityFrameworkMySQL()
+//           .AddDbContext<PaatashalacompanydbContext>(options =>
+//           {
+//             options.UseMySQL(builder.Configuration.GetConnectionString("PaatashalaCompanyConnection"));
+//           });
+//builder.Services.AddEntityFrameworkMySQL()
+//           .AddDbContext<PaatashalatrainingContext>(options =>
+//           {
+//             options.UseMySQL(builder.Configuration.GetConnectionString("PaatashalaTrainingConnection"));
+//           });
+
+
 builder.Services.AddEntityFrameworkMySQL()
-           .AddDbContext<PaatashalacampusContext>(options =>
+           .AddDbContext<PlacementContext>(options =>
            {
-             options.UseMySQL(builder.Configuration.GetConnectionString("PaatashalaCampusConnection"));
-           });
-builder.Services.AddEntityFrameworkMySQL()
-           .AddDbContext<PaatashalacompanydbContext>(options =>
-           {
-             options.UseMySQL(builder.Configuration.GetConnectionString("PaatashalaCompanyConnection"));
-           });
-builder.Services.AddEntityFrameworkMySQL()
-           .AddDbContext<PaatashalatrainingContext>(options =>
-           {
-             options.UseMySQL(builder.Configuration.GetConnectionString("PaatashalaTrainingConnection"));
+               options.UseMySQL(builder.Configuration.GetConnectionString("PlacementConnectionString"));
            });
 
 var app = builder.Build();
@@ -100,29 +105,60 @@ static IEdmModel GetEdmModel()
 {
   ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
 
-  modelBuilder.EntitySet<Calendarevent>("Calendarevent");
-  modelBuilder.EntitySet<Invitation>("Invitation");
-  modelBuilder.EntitySet<Jobposting>("Jobposting");
-  modelBuilder.EntitySet<Jobpostingdetail>("Jobpostingdetail");
-  modelBuilder.EntitySet<Studentplaced>("Studentplaced");
-  modelBuilder.EntitySet<Tblstudent>("Tblstudent");
-  modelBuilder.EntitySet<Campusregistration>("Campusregistration");
-  modelBuilder.EntitySet<Studentregistartion>("Studentregistartion");
+    //modelBuilder.EntitySet<Calendarevent>("Calendarevent");
+    //modelBuilder.EntitySet<Invitation>("Invitation");
+    //modelBuilder.EntitySet<Jobposting>("Jobposting");
+    //modelBuilder.EntitySet<Jobpostingdetail>("Jobpostingdetail");
+    //modelBuilder.EntitySet<Studentplaced>("Studentplaced");
+    //modelBuilder.EntitySet<Tblstudent>("Tblstudent");
+    //modelBuilder.EntitySet<Campusregistration>("Campusregistration");
+    //modelBuilder.EntitySet<Studentregistartion>("Studentregistartion");
 
-  modelBuilder.EntitySet<Companydatum>("Companydatum");
-  modelBuilder.EntitySet<Companytechonology>("Companytechonology");
-  modelBuilder.EntitySet<Paatashalaregistration>("Paatashalaregistration");
-  modelBuilder.EntitySet<Role>("Role");
-  modelBuilder.EntitySet<Technology>("Technology");
-  modelBuilder.EntitySet<Industry>("Industry");
-  modelBuilder.EntitySet<Companyindustry>("Companyindustry");
-  modelBuilder.EntitySet<Login>("Login");
-  modelBuilder.EntitySet<Companyregistration>("Companyregistration");
+    //modelBuilder.EntitySet<Companydatum>("Companydatum");
+    //modelBuilder.EntitySet<Companytechonology>("Companytechonology");
+    //modelBuilder.EntitySet<Paatashalaregistration>("Paatashalaregistration");
+    //modelBuilder.EntitySet<Role>("Role");
+    //modelBuilder.EntitySet<Technology>("Technology");
+    //modelBuilder.EntitySet<Industry>("Industry");
+    //modelBuilder.EntitySet<Companyindustry>("Companyindustry");
+    //modelBuilder.EntitySet<Login>("Login");
+    //modelBuilder.EntitySet<Companyregistration>("Companyregistration");
 
-  modelBuilder.EntitySet<Trainer>("Trainer");
-  modelBuilder.EntitySet<Trainerschedule>("Trainerschedule");
-  modelBuilder.EntitySet<Trainingcourse>("Trainingcourse");
-  modelBuilder.EntitySet<Trainingmodule>("Trainingmodule");
+    //modelBuilder.EntitySet<Trainer>("Trainer");
+    //modelBuilder.EntitySet<Trainerschedule>("Trainerschedule");
+    //modelBuilder.EntitySet<Trainingcourse>("Trainingcourse");
+    //modelBuilder.EntitySet<Trainingmodule>("Trainingmodule");
 
-  return modelBuilder.GetEdmModel();
+    modelBuilder.EntitySet<Calendarevent>("Calendarevent");
+    modelBuilder.EntitySet<Campusregistration>("Campusregistration");
+    modelBuilder.EntitySet<Collegejobposting>("Collegejobposting");
+    modelBuilder.EntitySet<Collegejobpostingschedule>("Collegejobpostingschedule");
+    modelBuilder.EntitySet<CollegejobpostingScheduledetail>("CollegejobpostingScheduledetail");
+    modelBuilder.EntitySet<Companydesignation>("Companydesignation");
+    modelBuilder.EntitySet<Companyindustry>("Companyindustry");
+    modelBuilder.EntitySet<Companyregistration>("Companyregistration");
+    modelBuilder.EntitySet<Companytechonology>("Companytechonology");
+    modelBuilder.EntitySet<Industry>("Industry");
+    modelBuilder.EntitySet<Invitation>("Invitation");
+    modelBuilder.EntitySet<Jobinterviewround>("Jobinterviewround");
+    modelBuilder.EntitySet<Jobposting>("Jobposting");
+    modelBuilder.EntitySet<Jobpostingdetail>("Jobpostingdetail");
+    modelBuilder.EntitySet<JobpostingSelectedstudent>("JobpostingSelectedstudent");
+    modelBuilder.EntitySet<JobpostingsEligiblestudent>("JobpostingsEligiblestudent");
+    modelBuilder.EntitySet<JobpostStudentround>("JobpostStudentround");
+    modelBuilder.EntitySet<Login>("Login");
+    modelBuilder.EntitySet<Paatashalaregistration>("Paatashalaregistration");
+    modelBuilder.EntitySet<Role>("Role");
+    modelBuilder.EntitySet<Studentacademic>("Studentacademic");
+    modelBuilder.EntitySet<Studentplaced>("Studentplaced");
+    modelBuilder.EntitySet<Studentregistartion>("Studentregistartion");
+    modelBuilder.EntitySet<Tblstudent>("Tblstudent");
+    modelBuilder.EntitySet<Technology>("Technology");
+    modelBuilder.EntitySet<Trainer>("Trainer");
+    modelBuilder.EntitySet<Trainerschedule>("Trainerschedule");
+    modelBuilder.EntitySet<Trainingcourse>("Trainingcourse");
+    modelBuilder.EntitySet<Trainingmodule>("Trainingmodule");
+    modelBuilder.EntitySet<Companydatum>("Companydatum");
+
+    return modelBuilder.GetEdmModel();
 }

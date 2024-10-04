@@ -1,120 +1,120 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Deltas;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.EntityFrameworkCore;
-using Placements.DataAccess.PaatashalaCampus.Models;
+//using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.OData.Deltas;
+//using Microsoft.AspNetCore.OData.Query;
+//using Microsoft.AspNetCore.OData.Routing.Controllers;
+//using Microsoft.EntityFrameworkCore;
+//using Placements.DataAccess.PaatashalaCampus.Models;
 
-namespace Placements.WebApi.Controllers.PaatashalaCampusControllers
-{
-  [ApiController]
-  [Route("odata/Invitation")]
-  public class OData_InvitationsController : ODataController
-  {
-    private readonly PaatashalacampusContext _context;
+//namespace Placements.WebApi.Controllers.PaatashalaCampusControllers
+//{
+//  [ApiController]
+//  [Route("odata/Invitation")]
+//  public class OData_InvitationsController : ODataController
+//  {
+//    private readonly PaatashalacampusContext _context;
 
-    public OData_InvitationsController(PaatashalacampusContext context)
-    {
-      _context = context;
-    }
-
-
-    [HttpGet, EnableQuery]
-    public IActionResult Get()
-    {
-      return Ok(_context.Invitations);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Post(Invitation invitation)
-    {
-      try
-      {
-        _context.Invitations.Add(invitation);
-        await _context.SaveChangesAsync();
-
-        return Ok(new { success = true, message = "Invitation Added Successfully" });
-      }
-      catch (Exception ex)
-      {
-        return Ok(new { success = false, message = "Failed to Add Invitation.", exception = ex });
-      }
-    }
+//    public OData_InvitationsController(PaatashalacampusContext context)
+//    {
+//      _context = context;
+//    }
 
 
-    [HttpPut]
-    public async Task<IActionResult> Put(long key, Invitation invitation)
-    {
-      try
-      {
-        Invitation? original = await _context.Invitations.FirstOrDefaultAsync(x => x.Id == key);
-        if (original == null)
-        {
-          return Ok(new { success = false, message = "Invitation Not Found" });
-        }
+//    [HttpGet, EnableQuery]
+//    public IActionResult Get()
+//    {
+//      return Ok(_context.Invitations);
+//    }
 
-        original.InvitationTemplateId = invitation.InvitationTemplateId;
-        original.Recipients = invitation.Recipients;
-        original.Cc = invitation.Cc;
-        original.Bcc = invitation.Bcc;
-        original.From = invitation.From;
-        original.IsAccepted = invitation.IsAccepted;
+//    [HttpPost]
+//    public async Task<IActionResult> Post(Invitation invitation)
+//    {
+//      try
+//      {
+//        _context.Invitations.Add(invitation);
+//        await _context.SaveChangesAsync();
+
+//        return Ok(new { success = true, message = "Invitation Added Successfully" });
+//      }
+//      catch (Exception ex)
+//      {
+//        return Ok(new { success = false, message = "Failed to Add Invitation.", exception = ex });
+//      }
+//    }
 
 
-        _context.Invitations.Update(invitation);
-        await _context.SaveChangesAsync();
+//    [HttpPut]
+//    public async Task<IActionResult> Put(long key, Invitation invitation)
+//    {
+//      try
+//      {
+//        Invitation? original = await _context.Invitations.FirstOrDefaultAsync(x => x.Id == key);
+//        if (original == null)
+//        {
+//          return Ok(new { success = false, message = "Invitation Not Found" });
+//        }
 
-        return Ok(new { success = true, message = "Invitation Updated Successfully." });
-      }
-      catch (Exception ex)
-      {
-        return Ok(new { success = false, message = "Failed to Update Invitation.", exception = ex });
-      }
-    }
+//        original.InvitationTemplateId = invitation.InvitationTemplateId;
+//        original.Recipients = invitation.Recipients;
+//        original.Cc = invitation.Cc;
+//        original.Bcc = invitation.Bcc;
+//        original.From = invitation.From;
+//        original.IsAccepted = invitation.IsAccepted;
 
-    [HttpPatch]
-    public async Task<IActionResult> Patch(long key, Delta<Invitation>? delta)
-    {
-      try
-      {
-        Invitation? original = await _context.Invitations.FirstOrDefaultAsync(x => x.Id == key);
-        if (original == null)
-        {
-          return Ok(new { success = false, message = "Invitation Not Found" });
-        }
 
-        delta.Patch(original);
+//        _context.Invitations.Update(invitation);
+//        await _context.SaveChangesAsync();
 
-        await _context.SaveChangesAsync();
+//        return Ok(new { success = true, message = "Invitation Updated Successfully." });
+//      }
+//      catch (Exception ex)
+//      {
+//        return Ok(new { success = false, message = "Failed to Update Invitation.", exception = ex });
+//      }
+//    }
 
-        return Ok(new { success = true, message = "Invitation Updated Successfully." });
-      }
-      catch (Exception ex)
-      {
-        return Ok(new { success = false, message = "Failed to Update Invitation.", exception = ex });
-      }
-    }
+//    [HttpPatch]
+//    public async Task<IActionResult> Patch(long key, Delta<Invitation>? delta)
+//    {
+//      try
+//      {
+//        Invitation? original = await _context.Invitations.FirstOrDefaultAsync(x => x.Id == key);
+//        if (original == null)
+//        {
+//          return Ok(new { success = false, message = "Invitation Not Found" });
+//        }
 
-    [HttpDelete]
-    public async Task<IActionResult> Delete(long key)
-    {
-      try
-      {
-        Invitation? invitation = await _context.Invitations.FirstOrDefaultAsync(x => x.Id == key);
-        if (invitation == null)
-        {
-          return Ok(new { success = false, message = "Invitation Not Found" });
-        }
+//        delta.Patch(original);
 
-        _context.Invitations.Remove(invitation);
-        await _context.SaveChangesAsync();
+//        await _context.SaveChangesAsync();
 
-        return Ok(new { success = true, message = "Invitation Deleted Successfully." });
-      }
-      catch (Exception ex)
-      {
-        return Ok(new { success = false, message = "Failed to Delete Invitation.", exception = ex });
-      }
-    }
-  }
-}
+//        return Ok(new { success = true, message = "Invitation Updated Successfully." });
+//      }
+//      catch (Exception ex)
+//      {
+//        return Ok(new { success = false, message = "Failed to Update Invitation.", exception = ex });
+//      }
+//    }
+
+//    [HttpDelete]
+//    public async Task<IActionResult> Delete(long key)
+//    {
+//      try
+//      {
+//        Invitation? invitation = await _context.Invitations.FirstOrDefaultAsync(x => x.Id == key);
+//        if (invitation == null)
+//        {
+//          return Ok(new { success = false, message = "Invitation Not Found" });
+//        }
+
+//        _context.Invitations.Remove(invitation);
+//        await _context.SaveChangesAsync();
+
+//        return Ok(new { success = true, message = "Invitation Deleted Successfully." });
+//      }
+//      catch (Exception ex)
+//      {
+//        return Ok(new { success = false, message = "Failed to Delete Invitation.", exception = ex });
+//      }
+//    }
+//  }
+//}
