@@ -345,7 +345,6 @@ const appRoutes: Routes = [
 
       {
         path: "students/student-details-approval/:id",
-        path: "students/student-details-approval/:id",
         component: ApprovalComponent,
       },
       {
