@@ -495,7 +495,7 @@ export class CompanyJobDetailsComponent {
   openCopmanyJobDescriptionPage(jobId?: number) {
     if (jobId !== undefined) {
       this.router.navigate([
-        "company-configuration/company-job-details/companyJobDescription",
+        "/company-job-details/companyJobDescription",
         jobId,
       ]);
     } else {

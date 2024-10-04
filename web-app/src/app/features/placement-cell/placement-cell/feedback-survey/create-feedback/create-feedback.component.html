@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>Enter Survey Details</h2>
+
+<mat-dialog-content class="dialog-content">
+  <div class="dialog-header">
+    <button mat-button class="close-button" mat-dialog-close>X</button>
+  </div>
+
+  <div class="survey-details">
+    <p><strong>Survey Title</strong></p>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Enter survey title</mat-label>
+      <input  
+        matInput
+        [(ngModel)]="surveyTitle"
+        placeholder="Enter survey title" />
+    </mat-form-field>
+    <p><strong>Survey Description</strong></p>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Enter survey description</mat-label>
+      <input
+        matInput
+        [(ngModel)]="surveyDescription"
+        placeholder="Enter Survey Description" />
+    </mat-form-field>
+  </div>
+
+  <div class="question-list">
+    <div
+      *ngFor="let question of questions; let i = index"
+      class="question-item">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Question {{ i + 1 }}</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="question.text"
+          placeholder="Enter question"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Question Type</mat-label>
+        <mat-select
+          [(ngModel)]="question.type"
+          placeholder="Select question type">
+          <mat-option value="multiple-choice">Multiple Choice</mat-option>
+          <mat-option value="rating">Rating</mat-option>
+          <mat-option value="text">Text</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-button color="warn" (click)="removeQuestion(i)">
+        Remove
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="addQuestion()"
+    style="padding-left: 10px">
+    Add Question
+  </button>
+  <button mat-raised-button color="primary" (click)="saveSurvey()">
+    Save Survey
+  </button>
+</mat-dialog-actions>

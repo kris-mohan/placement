@@ -36,7 +36,6 @@ import { StudentsListComponent } from "./features/company-menu/test-interviews/s
 import { StudentResultInformation } from "./features/company-menu/test-interviews/student-result-information/student-result-information.component";
 import { AddEditIndustryComponent } from "./features/company-configuration/company-config/industry/add-edit-industry/add-edit-industry.component";
 import { AddEditcompanyIndustryComponent } from "./features/company-configuration/company-config/industry-technology/add-edit-industry-technology/add-edit-company-industry.component";
-import { CompanyCalendarComponent } from "./features/placement-cell/placement-cell/company-calendar/company-calendar.component";
 import { FeedbackSurveyComponent } from "./features/placement-cell/placement-cell/feedback-survey/feedback-survey.component";
 import { CalendarComponent } from "./features/company-menu/calendar/calendar.component";
 import { JobPostingsComponent } from "./features/campus-configuration/campus-configuration/job-postings/job-postings.component";
@@ -49,11 +48,29 @@ import { PanelTabComponent } from "./features/company-menu/company-job-details/p
 import { CompanyJobDescriptionComponent } from "./features/company-menu/company-job-description/company-job-description.component";
 import { ProfilemanagementDashboardComponent } from "./features/student-menu/student-menu/profile-management/profilemanagement-dashboard/profilemanagement-dashboard.component";
 import { JobsComponent } from "./features/student-menu/applied/jobs.component";
+import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
+import { InterviewScheduleComponent } from './features/company-menu/interview-schedule/interview-schedule.component';
 import { ResumeBuilderComponent } from "./features/student-menu/student-menu/resume-builder/resume-builder.component";
 import { IndentRequirementsComponent } from "./features/company-menu/indent-requirements/indent-requirements.component";
 import { ApprovalComponent } from "./features/placement-cell/placement-cell/approval/approval.component";
 import { StudentRegistrationComponent } from "./features/authentication/registration/student-registration/student-registration.component";
 import { ForumComponent } from "./features/student-menu/alumni/forum/forum.component";
+// import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
+import { CommunicationComponent } from "./features/placement-cell/placement-cell/communication/communication.component";
+// import { CompanyProfileComponent } from './features/company-menu/company-profile/company-profile.component';
+import { PoolCampusComponent } from "./features/company-menu/pool-campus/pool-campus.component";
+import { CompanyCalendarComponent } from "./features/company-menu/company-calendar/company-calendar.component";
+import { CompanyDashboardComponent } from "./features/company-menu/company-dashboard/company-dashboard.component";
+import { PlacementDashboardComponent } from "./features/placement-cell/placement-cell/placement-dashboard/placement-dashboard.component";
+import { StudentDashboardComponent } from "./features/student-menu/student-menu/student-dashboard/student-dashboard.component";
+import { PlacementCompanyComponent } from "./features/placement-cell/placement-cell/placement-company/placement-company.component";
+import { PlacementCompanyJobDetailsComponent } from "./features/placement-cell/placement-cell/placement-company-job-details/placement-company-job-details.component";
+import { PlacementJobDescriptionComponent } from "./features/placement-cell/placement-cell/placement-job-description/placement-job-description.component";
+import { CompanyCommunicationComponent } from "./features/company-menu/company-communication/company-communication.component";
+import { PlacementInterviewComponent } from "./features/placement-cell/placement-cell/placement-interview/placement-interview.component";
+import { PlacementInterviewStudentsComponent } from "./features/placement-cell/placement-cell/placement-interview-students/placement-interview-students.component";
+import { StudentCompanyComponent } from "./features/student-menu/student-menu/student-company/student-company.component";
+import { StudentJobsComponent } from "./features/student-menu/student-menu/student-jobs/student-jobs.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -84,6 +101,14 @@ const appRoutes: Routes = [
     path: "",
     component: LayoutComponent,
     children: [
+      {
+        path: "interview-schedule",
+        component: InterviewScheduleComponent,
+      },
+      {
+        path: "company-profile",
+        component: CompanyProfileComponent,
+      },
       {
         path: "student_applied",
         component: JobsComponent,
@@ -168,6 +193,11 @@ const appRoutes: Routes = [
         pathMatch: 'full' 
       },
       {
+        path: "",
+        redirectTo: "/forum",
+        pathMatch: "full",
+      },
+      {
         path: "training-configuration",
         component: TrainingConfigurationComponent,
         title: "Training Configuration",
@@ -183,6 +213,18 @@ const appRoutes: Routes = [
       {
         path: "training-configuration/courses/:id",
         component: AddEditCoursesComponent,
+      },
+      {
+        path: "company-job-details",
+        component: CompanyJobDetailsComponent,
+      },
+      {
+        path: "company-job-details",
+        component: CompanyJobDetailsComponent,
+      },
+      {
+        path: "company-job-details",
+        component: CompanyJobDetailsComponent,
       },
       {
         path: "company-configuration/company-job-details/:id",
@@ -201,7 +243,7 @@ const appRoutes: Routes = [
         component: AddEditRoundsComponent,
       },
       {
-        path: "company-configuration/company-job-details/companyJobDescription/:jobId",
+        path: "company-job-details/companyJobDescription/:jobId",
         component: CompanyJobDescriptionComponent,
       },
       {
@@ -213,7 +255,7 @@ const appRoutes: Routes = [
         component: CompanyCalendarComponent,
       },
       {
-        path: "campus-feedback-survey",
+        path: "placement-feedback-survey",
         component: FeedbackSurveyComponent,
       },
       {
@@ -249,10 +291,10 @@ const appRoutes: Routes = [
         path: "test-interviews/:collegeId/:jobId",
         component: StudentsListComponent,
       },
-      {
-        path: "test-interviews/:collegeId/:jobId/:studentId",
-        component: StudentResultInformation,
-      },
+      // {
+      //   path: "test-interviews/:collegeId/:jobId/:studentId",
+      //   component: StudentResultInformation,
+      // },
 
       {
         path: "resume-builder",
@@ -281,6 +323,10 @@ const appRoutes: Routes = [
         component: InterviewStudentsListComponent,
       },
       {
+        path: "interview/interview-students-list/student-result-information/:id",
+        component: StudentResultInformation,
+      },
+      {
         path: "testr",
         component: AddRoundsModalComponent,
       },
@@ -292,11 +338,76 @@ const appRoutes: Routes = [
         path: "indent-requirement",
         component: IndentRequirementsComponent,
       },
+      {
+        path: "placement-communicaton",
+        component: CommunicationComponent,
+      },
 
       {
-        path: "student-details-approval",
+        path: "students/student-details-approval/:id",
+        path: "students/student-details-approval/:id",
         component: ApprovalComponent,
       },
+      {
+        path: "poolcampus",
+        component: PoolCampusComponent,
+      },
+
+      //company
+      {
+        path: "company-dashboard",
+        component: CompanyDashboardComponent,
+      },
+      {
+        path: "company-communication",
+        component: CompanyCommunicationComponent,
+      },
+
+      // placement officer
+      {
+        path: "placement-dashboard",
+        component: PlacementDashboardComponent,
+      },
+      {
+        path: "placement-company",
+        component: PlacementCompanyComponent,
+      },
+      {
+        path: "placement-company/placement-company-job-details/:id",
+        component: PlacementCompanyJobDetailsComponent,
+      },
+      {
+        path: "placement-company/placement-company-job-details/placement-job-description/:id",
+        component: PlacementJobDescriptionComponent,
+      },
+      {
+        path: "placement-interview",
+        component: PlacementInterviewComponent,
+      },
+      {
+        path: "placement-interview/placement-interview-students/:id",
+        component: PlacementInterviewStudentsComponent,
+      },
+
+      //student
+
+      {
+        path: "student-dashboard",
+        component: StudentDashboardComponent,
+      },
+      {
+        path: "student-company",
+        component: StudentCompanyComponent,
+      },
+      {
+        path: "student-company/student-jobs/:id",
+        component: StudentJobsComponent,
+      },
+      {
+        path: "student-company/student-jobs/student-job-description/:id",
+        component: CompanyJobDescriptionComponent,
+      },
+
       {
         path: "**",
         redirectTo: "dashboard",

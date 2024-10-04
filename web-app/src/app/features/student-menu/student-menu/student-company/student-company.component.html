@@ -1,0 +1,219 @@
+<mat-card>
+  <mat-card-header class="custom-card-header">
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="button-label-container">
+          <div class="example-button-container" (click)="goBack()">
+            <mat-icon>keyboard_backspace</mat-icon>
+          </div>
+
+          <div class="header-mat-label">
+            <mat-label>COMPANIES</mat-label>
+          </div>
+        </div>
+
+        <div>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Search Company</mat-label>
+            <input
+              type="text"
+              aria-label="Number"
+              matInput
+              [formControl]="companyControl"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete
+              autoActiveFirstOption
+              #auto="matAutocomplete"
+              (optionSelected)="onCompanySelected($event)"
+            >
+              <mat-option
+                *ngFor="let company of filteredCompany | async"
+                [value]="company.Name"
+              >
+                {{ company.Name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Location</mat-label>
+            <mat-select
+              [formControl]="CityControl"
+              multiple
+              (openedChange)="onCityDropdownOpen()"
+              panelClass="custom-dropdown-panel"
+            >
+              <mat-select-trigger>
+                {{ selectedCompanyCities }}
+              </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input
+                  class="full-width"
+                  matInput
+                  [(ngModel)]="searchCity"
+                  (ngModelChange)="filterCities($event)"
+                  placeholder="Search"
+                />
+              </mat-form-field>
+              <mat-option *ngIf="!filteredCompanies.length" disabled
+                >No options</mat-option
+              >
+              <mat-option
+                *ngFor="let company of filteredCompanies"
+                [value]="company.City"
+              >
+                {{ company.City }}
+              </mat-option>
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button
+                  mat-button
+                  mat-dialog-close
+                  (click)="resetLocationSelection()"
+                >
+                  Reset
+                </button>
+                <button
+                  mat-raised-button
+                  class="matbutton"
+                  (click)="showLocationResults()"
+                >
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Industry</mat-label>
+            <mat-select
+              [formControl]="industryControl"
+              multiple
+              (openedChange)="onIndustryDropdownOpen()"
+            >
+              <mat-select-trigger>
+                {{ selectedIndustries }}
+              </mat-select-trigger>
+              <mat-form-field appearance="outline">
+                <input
+                  class="full-width"
+                  matInput
+                  [(ngModel)]="searchIndustry"
+                  (ngModelChange)="filterIndustries($event)"
+                  placeholder="Search"
+                />
+              </mat-form-field>
+              <mat-option *ngIf="!filteredIndustries.length" disabled
+                >No options</mat-option
+              >
+              <mat-option
+                *ngFor="let industry of filteredIndustries"
+                [value]="industry.Type"
+              >
+                {{ industry.Type }}
+              </mat-option>
+
+              <mat-dialog-actions class="mat-dialog-actions">
+                <button
+                  mat-button
+                  mat-dialog-close
+                  (click)="resetIndustrySelection()"
+                >
+                  Reset
+                </button>
+                <button
+                  mat-raised-button
+                  class="matbutton"
+                  (click)="showIndustryResults()"
+                >
+                  <p class="matName">Show results</p>
+                </button>
+              </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Company Size</mat-label>
+            <mat-select [formControl]="companySizeControl" multiple>
+              @for (companySize of companySizes; track companySize) {
+              <mat-option [value]="companySize">{{ companySize }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="example-button-container">
+          <button
+            mat-raised-button
+            class="matbutton"
+            (click)="openImportCompanyDialog()"
+          >
+            <p class="matName">Additional Filters</p>
+          </button>
+
+          <button
+            *ngIf="userType !== 3"
+            mat-raised-button
+            class="matbutton"
+            (click)="openAddEditCompanyForm(0)"
+          >
+            <mat-icon class="maticon">add</mat-icon>
+            <p class="matName">Company</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content
+    fxLayout="row wrap"
+    fxLayoutAlign="start stretch"
+    class="mat-card-content"
+  >
+    <div
+      *ngFor="let company of companiesCard"
+      (click)="goToCompanyJobDetails(company.Id)"
+      fxFlex="100%"
+      fxFlex.gt-sm="50%"
+      fxFlex.gt-md="28%"
+      fxFlex.gt-lg="25%"
+      class="mat-grid-tile"
+    >
+      <div class="company-details">
+        <img
+          [src]="company.logo"
+          alt="Company Logo"
+          class="company-logo"
+          height="15%"
+          width="75%"
+          (click)="goToCompanyJobDetails(company.Id)"
+        />
+        <h3>{{ company.name }}</h3>
+
+        <div class="company-type">{{ company.type }}</div>
+      </div>
+      <div class="company">
+        Number of Jobs:
+        <span class="rating"
+          ><strong>{{ company.numberOfJobs }}</strong></span
+        >
+        <div class="company"></div>
+        Company Size:
+        <span class="rating"
+          ><strong>{{ company.companySize }}</strong></span
+        >
+
+        Location :
+        <span class="rating"
+          ><strong>{{ company.companylocation }}</strong></span
+        >
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,42 @@
+<div class="dialog-container">
+  <!-- Dialog header with title and close button -->
+  <div class="dialog-header">
+    <h2>Send a message</h2>
+    <button mat-button class="close-button" mat-dialog-close>X</button>
+  </div>
+
+  <!-- Input for selecting recipient -->
+  <p><strong>To</strong></p>
+  <mat-form-field class="input-send-to">
+    <mat-label>Select member</mat-label>
+    <input
+      type="text"
+      matInput
+      placeholder="Search recipient"
+      [(ngModel)]="searchQuery"
+      (input)="filterRecipients()" />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let recipient of filteredRecipients"
+        [value]="recipient">
+        {{ recipient }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <!-- Input for entering the message -->
+  <p><strong>Enter Message</strong></p>
+  <mat-form-field class="input-text">
+    <mat-label>Enter your message</mat-label>
+    <textarea
+      matInput
+      placeholder="Type your message..."
+      [(ngModel)]="messageText"></textarea>
+  </mat-form-field>
+
+  <div class="submit-button-container">
+    <button mat-raised-button color="primary" (click)="sendMessage()">
+      Send
+    </button>
+  </div>
+</div>

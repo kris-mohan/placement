@@ -24,10 +24,14 @@
               <span class="rating"> 3.9 | 5486 Reviews</span>
             </div>
             <div>
-              <button class="apply-button">Apply</button>
-              <button class="apply-button"
-              (click)="openEligibleStudentsModel()"
-              >Eligible Student List</button>
+              <button *ngIf="userType === 3" class="apply-button">Apply</button>
+              <button
+                *ngIf="userType !== 3"
+                class="apply-button"
+                (click)="openEligibleStudentsModel()"
+              >
+                Eligible Student List
+              </button>
             </div>
           </div>
 

@@ -489,7 +489,9 @@ export class InterviewComponent {
   }
 
   goToInterviewStudentsDetails(id: number) {
-    this.router.navigate(["interview/interview-students-list", id]);
+    if (this.userType === 1 || this.userType === 2) {
+      this.router.navigate(["interview/interview-students-list", id]);
+    }
   }
 
   scheduledInterviews = [

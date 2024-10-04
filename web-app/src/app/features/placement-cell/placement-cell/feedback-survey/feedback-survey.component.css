@@ -37,3 +37,64 @@ button {
   width: 100%;
   margin-top: 10px;
 }
+.feedback-categories {
+  padding: 20px;
+}
+
+.mat-radio-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.mat-form-field {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.question-list {
+  margin-top: 20px;
+}
+
+.question-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align items to the left */
+  gap: 10px; /* Reduce the space between elements */
+  margin-bottom: 10px;
+}
+
+.question-item .mat-form-field {
+  flex: 2; /* Give more space to the question input field */
+}
+
+.mat-select {
+  width: 180px; /* Slightly reduce the width of the dropdown */
+}
+
+button.remove-question-button {
+  margin-left: 0; /* Remove extra margin */
+  color: red;
+  font-weight: bold;
+}
+
+.grievance-feedback,
+.survey-management {
+  margin-top: 20px;
+}
+
+.mat-expansion-panel-header {
+  font-weight: bold;
+}
+
+
+
+.survey-questions ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.survey-questions li {
+  margin-bottom: 10px;
+}
+

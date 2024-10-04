@@ -11,7 +11,11 @@ import { MatDialog } from "@angular/material/dialog";
   styleUrl: "./company-job-description.component.css",
 })
 export class CompanyJobDescriptionComponent {
-  constructor(private location: Location) {}
+  userType: number;
+  constructor(private location: Location) {
+    const storedUserType = sessionStorage.getItem("userType");
+    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+  }
   readonly dialog = inject(MatDialog);
 
   goBack(): void {

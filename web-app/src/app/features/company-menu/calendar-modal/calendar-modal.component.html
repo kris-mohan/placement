@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Add New Event</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formDataa">
+    <mat-form-field appearance="fill">
+      <mat-label>Event Name</mat-label>
+      <input matInput placeholder="Insert Event Name" formControlName="title" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Category</mat-label>
+      <input matInput placeholder="Category" formControlName="category" />
+    </mat-form-field>
+    <p>Selected Date: {{ data.date | date : "mediumDate" }}</p>
+    <!-- Display the selected date -->
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onSave()" [disabled]="!formDataa.valid">
+    Save
+  </button>
+</div>

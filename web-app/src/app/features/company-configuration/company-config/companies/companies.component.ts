@@ -118,7 +118,7 @@ export class CompaniesComponent {
   companiesCard = [
     {
       Id: 1,
-      logo: "company-logo-1.png",
+      logo: "company-logo-2.png",
       name: "Haier Appliances",
       rating: 4.1,
       reviews: "1.3K+ reviews",

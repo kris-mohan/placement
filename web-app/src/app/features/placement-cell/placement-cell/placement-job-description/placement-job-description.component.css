@@ -1,0 +1,127 @@
+.button-label-container {
+  display: flex;
+  gap: 20px;
+}
+
+.job-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.job-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.company {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.rating {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.apply-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.apply-button:hover {
+  background-color: #0056b3;
+}
+
+.job-details {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.experience,
+.salary,
+.location,
+.posted {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.job-highlights {
+  margin-top: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.job-highlights h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.job-highlights ul {
+  list-style: none;
+  padding: 0;
+}
+
+.job-highlights li {
+  margin: 5px 0;
+}
+
+.related-jobs h3 {
+  font-size: 1.3rem;
+}
+
+.related-jobs ul {
+  list-style: none;
+  padding: 0;
+}
+
+.related-jobs li {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.related-jobs li h4 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.related-jobs li span {
+  display: block;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.main-content {
+  display: flex;
+  gap: 25px;
+}
+
+.left-content {
+  width: 60%;
+}
+
+.right-content {
+  width: 40%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+}

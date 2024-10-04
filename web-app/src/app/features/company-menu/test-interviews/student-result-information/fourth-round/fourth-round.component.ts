@@ -20,7 +20,7 @@ export class FourthRoundComponent {
     private dialoge: MatDialog,
     private apiHttpService: ApiHttpService
   ) {}
-  @Input() round!: HiringRound;
+  // @Input() round!: HiringRound;
 
   openOfferLetterDialog(): void {
     const url = "/Companydetail/singlePdf";

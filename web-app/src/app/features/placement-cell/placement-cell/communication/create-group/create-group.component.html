@@ -1,0 +1,72 @@
+<div class="dialog-heading">
+  <h2>Add Members</h2>
+  <button mat-button class="close-button" mat-dialog-close>X</button>
+</div>
+
+<div class="dialog-content">
+  <p><strong>Group Name</strong></p>
+  <mat-form-field appearance="outline">
+    <mat-label>Enter group name</mat-label>
+    <input matInput [(ngModel)]="groupName" placeholder="Enter Group Name" />
+  </mat-form-field>
+
+  <p><strong>Group Description</strong></p>
+  <mat-form-field appearance="outline">
+    <mat-label>Enter group description</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="groupDescription"
+      placeholder="Enter Group Description"></textarea>
+  </mat-form-field>
+
+  <div class="filters-container">
+    <div class="filter-section">
+      <p><strong>Select Batch</strong></p>
+      <mat-form-field class="filter-field" appearance="outline">
+        <mat-label>Batch</mat-label>
+        <mat-select
+          [(value)]="selectedBatches"
+          (selectionChange)="filterStudents()"
+          multiple>
+          <mat-option *ngFor="let batch of batches" [value]="batch">{{
+            batch
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="filter-section">
+      <p><strong>Select Branch</strong></p>
+      <mat-form-field class="filter-field" appearance="outline">
+        <mat-label>Branch</mat-label>
+        <mat-select
+          [(value)]="selectedBranches"
+          (selectionChange)="filterStudents()"
+          multiple>
+          <mat-option *ngFor="let branch of branches" [value]="branch">{{
+            branch
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="select-members-header">
+    <p><strong>Select Members</strong></p>
+    <mat-checkbox (change)="selectAllStudents($event.checked)"
+      >Select All</mat-checkbox
+    >
+  </div>
+
+  <mat-list class="members-list">
+    <mat-list-item *ngFor="let student of filteredStudents">
+      <mat-checkbox [(ngModel)]="student.selected">{{
+        student.name
+      }}</mat-checkbox>
+    </mat-list-item>
+  </mat-list>
+
+  <div class="button-container">
+    <button mat-button (click)="createGroup()">Create Group</button>
+  </div>
+</div>

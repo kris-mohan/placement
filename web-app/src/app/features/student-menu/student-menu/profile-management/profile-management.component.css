@@ -4,7 +4,7 @@
 }
 
 .matFormField {
-  width:  100%;
+  width: 100%;
 }
 .example-form-field {
   width: 80%;
@@ -16,3 +16,8 @@
   cursor: pointer;
 }
 
+.grid-label {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}

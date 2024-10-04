@@ -22,7 +22,7 @@ export class FirstRoundComponent {
     private location: Location,
     private apiService: APIService
   ) {}
-  @Input() round!: HiringRound;
+  // @Input() round!: HiringRound;
   async openReject() {
     const feedback = await this.sweetAlertService.feedbackInput(
       "Please provide your reason for rejection",

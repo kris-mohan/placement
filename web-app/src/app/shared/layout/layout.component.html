@@ -82,7 +82,7 @@
         <mat-icon>person</mat-icon>
         <span>Account</span>
       </a>
-      
+
       <a mat-menu-item [routerLink]="['login']">
         <mat-icon>exit_to_app</mat-icon>
         <span>Log out</span>
@@ -101,9 +101,11 @@
       class="sidenav"
     >
       <mat-nav-list>
+        <!-- Placement Officer -->
         <a
+          *ngIf="userType === 1"
           mat-list-item
-          [routerLink]="['/dashboard']"
+          [routerLink]="['/placement-dashboard']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
@@ -112,27 +114,29 @@
             <div><mat-label>Dashboard</mat-label></div>
           </div>
         </a>
-        <!-- <a
-          mat-list-item
-          [routerLink]="['/job-postings']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> </mat-icon></div>
-            <div><mat-label>Job Postings</mat-label></div>
-          </div>
-        </a> -->
         <a
-          *ngIf="userType === 3"
+          *ngIf="userType === 1"
           mat-list-item
-          [routerLink]="['/profile-management-dashboard']"
+          [routerLink]="['/placement-company']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> manage_accounts </mat-icon></div>
             <div><mat-label>Profile Management</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 2"
+          [routerLink]="['/company-profile']"
+          mat-list-item
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> business </mat-icon></div>
+            <div><mat-label>About Company</mat-label></div>
           </div>
         </a>
 
@@ -145,36 +149,19 @@
         >
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> business </mat-icon></div>
-            <div><mat-label>Company Profiles </mat-label></div>
+            <div><mat-label>Company</mat-label></div>
           </div>
         </a>
-
-        <!-- <mat-expansion-panel style="box-shadow: none" *ngIf="userType === 1">
-          <mat-expansion-panel-header class="matExpansionHeader">
-            <a
-              mat-list-item
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              <mat-panel-title>
-                <div class="sidebar-list-items">
-                  <div><mat-icon mat-list-icon> business </mat-icon></div>
-                  <div><mat-label>Configuartion</mat-label></div>
-                </div>
-              </mat-panel-title>
-            </a>
-          </mat-expansion-panel-header> -->
-
         <a
           *ngIf="userType === 1"
+          [routerLink]="['/placement-interview']"
           mat-list-item
-          [routerLink]="['/company-configuration']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> corporate_fare </mat-icon></div>
-            <div><mat-label>Company </mat-label></div>
+            <div><mat-icon>supervised_user_circle</mat-icon></div>
+            <div><mat-label>Interview</mat-label></div>
           </div>
         </a>
 
@@ -212,50 +199,101 @@
         >
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon>school</mat-icon></div>
-            <div><mat-label>Traininng </mat-label></div>
+            <div><mat-label>Training </mat-label></div>
+            <div><mat-label>Training </mat-label></div>
           </div>
         </a>
         <a
           *ngIf="userType === 1"
           mat-list-item
-          [routerLink]="['/campus-feedback-survey']"
+          [routerLink]="['/placement-communicaton']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon>school</mat-icon></div>
-            <div><mat-label>Feedback and Survey </mat-label></div>
+            <div><mat-icon mat-list-icon>forum</mat-icon></div>
+            <div><mat-label>Communication </mat-label></div>
           </div>
         </a>
-        <a
+        <!-- <a
           *ngIf="userType === 1"
           mat-list-item
-          [routerLink]="['/student-details-approval']"
+          [routerLink]="['/placement-feedback-survey']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon>assignment_turned_in</mat-icon></div>
-            <div><mat-label>Approval Dashboard</mat-label></div>
+            <div><mat-icon mat-list-icon>forum</mat-icon></div>
+            <div><mat-label>Communication </mat-label></div>
           </div>
-        </a>
-        <!-- </mat-expansion-panel> -->
+        </a> -->
 
-        <!-- <mat-expansion-panel style="box-shadow: none" *ngIf="userType === 2"> -->
-        <!-- <mat-expansion-panel-header class="matExpansionHeader">
-            <a
-              mat-list-item
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              <mat-panel-title>
-                <div class="sidebar-list-items">
-                  <div><mat-icon mat-list-icon> business </mat-icon></div>
-                  <div><mat-label>Company Menu</mat-label></div>
-                </div>
-              </mat-panel-title>
-            </a>
-          </mat-expansion-panel-header> -->
+        <a
+          *ngIf="userType === 1"
+          mat-list-item
+          [routerLink]="['/indent-requirement']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> corporate_fare </mat-icon></div>
+            <div><mat-label>Indent </mat-label></div>
+          </div>
+        </a>
+
+        <!-- Company / HR -->
+
+        <a
+          *ngIf="userType === 2"
+          mat-list-item
+          [routerLink]="['/company-dashboard']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> dashboard </mat-icon></div>
+            <div><mat-label>Dashboard</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 2"
+          [routerLink]="['/company-profile']"
+          mat-list-item
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> business </mat-icon></div>
+            <div><mat-label>About Company</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 2"
+          mat-list-item
+          [routerLink]="['/company-dashboard']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> work </mat-icon></div>
+            <div><mat-label>Job Posting</mat-label></div>
+          </div>
+        </a> -->
+
+        <a
+          *ngIf="userType === 2"
+          [routerLink]="['/interview']"
+          mat-list-item
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon>supervised_user_circle</mat-icon></div>
+            <div><mat-label>Interview</mat-label></div>
+          </div>
+        </a>
 
         <a
           *ngIf="userType === 2"
@@ -269,64 +307,9 @@
             <div><mat-label>Job Posting</mat-label></div>
           </div>
         </a>
-        <!-- <a
-          *ngIf="userType === 2"
-          mat-list-item
-          [routerLink]="['/company-job-details']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> </mat-icon></div>
-            <div><mat-label>Panel</mat-label></div>
-          </div>
-        </a> -->
 
-        <!-- <a
-          *ngIf="userType === 2"
-          mat-list-item
-          [routerLink]="['/test-interviews']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> assignment </mat-icon></div>
-            <div><mat-label>Test/Interviews</mat-label></div>
-          </div>
-        </a> -->
-
-        <!-- </mat-expansion-panel> -->
-
-        <!-- <mat-expansion-panel style="box-shadow: none" *ngIf="userType === 1">
-          <mat-expansion-panel-header class="matExpansionHeader">
-            <a
-              mat-list-item
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              <mat-panel-title>
-                <div class="sidebar-list-items">
-                  <div><mat-icon mat-list-icon> business </mat-icon></div>
-                  <div><mat-label>Placement Cell</mat-label></div>
-                </div>
-              </mat-panel-title>
-            </a>
-          </mat-expansion-panel-header> -->
         <a
-          *ngIf="userType === 3"
-          mat-list-item
-          [routerLink]="['/company-calendar']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="sidebar-list-items">
-            <div><mat-icon>calendar_month</mat-icon></div>
-            <div><mat-label>Calendar</mat-label></div>
-          </div>
-        </a>
-
-        <!-- <a
-          *ngIf="userType === 1"
+          *ngIf="userType === 2"
           mat-list-item
           [routerLink]="['/calendar']"
           routerLinkActive="active"
@@ -340,50 +323,32 @@
         <!-- <a
           *ngIf="userType === 1"
           mat-list-item
-          [routerLink]="['/company-lists']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon>work_outline</mat-icon></div>
-            <div><mat-label>Company Lists</mat-label></div>
+            <mat-icon>work_outline</mat-icon>
+            <div><mat-label>Schedule Interview</mat-label></div>
           </div>
-        </a> -->
+        </a>
 
-        <!-- <a
-          *ngIf="userType === 1"
+        <a
+          *ngIf="userType === 2"
           mat-list-item
-          [routerLink]="['/calendar']"
+          [routerLink]="['company-communication']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon>work_outline</mat-icon></div>
-            <div><mat-label>calendar</mat-label></div>
+            <mat-icon>work_outline</mat-icon>
+            <div><mat-label>Communication</mat-label></div>
           </div>
-        </a> -->
-        <!-- </mat-expansion-panel> -->
-        <!-- 
-        <mat-expansion-panel style="box-shadow: none" *ngIf="userType === 3">
-          <mat-expansion-panel-header class="matExpansionHeader">
-            <a
-              mat-list-item
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              <mat-panel-title>
-                <div class="sidebar-list-items">
-                  <div><mat-icon mat-list-icon> business </mat-icon></div>
-                  <div><mat-label>Student Menu</mat-label></div>
-                </div>
-              </mat-panel-title>
-            </a>
-          </mat-expansion-panel-header> -->
+        </a>
 
         <!-- <a
           *ngIf="userType === 3"
           mat-list-item
-          [routerLink]="['/job-list']"
+          [routerLink]="['/company-calendar']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
@@ -393,7 +358,7 @@
           </div>
         </a> -->
 
-        <!-- <a
+        <a
           *ngIf="userType === 3"
           mat-list-item
           routerLinkActive="active"
@@ -402,44 +367,49 @@
             <div><mat-icon>calendar_month</mat-icon></div>
             <div><mat-label>Calendar</mat-label></div>
           </div>
-        </a> -->
-
-        <a
-          [routerLink]="['/interview']"
-          mat-list-item
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="sidebar-list-items">
-            <div><mat-icon>supervised_user_circle</mat-icon></div>
-            <div><mat-label>Interview</mat-label></div>
-          </div>
         </a>
+
         <a
           *ngIf="userType === 2"
           mat-list-item
-          [routerLink]="['/indent-requirement']"
+          [routerLink]="['interview-schedule']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> corporate_fare </mat-icon></div>
-            <div><mat-label>Indent </mat-label></div>
+            <div><mat-icon mat-list-icon> dashboard </mat-icon></div>
+            <div><mat-label>Dashboard</mat-label></div>
           </div>
         </a>
+
         <a
-          *ngIf="userType === 3"
+          *ngIf="userType === 2"
           mat-list-item
+          [routerLink]="['/profile-management-dashboard']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon>notifications</mat-icon></div>
-            <div><mat-label>Notifications</mat-label></div>
+            <div><mat-icon mat-list-icon> manage_accounts </mat-icon></div>
+            <div><mat-label>Profile Management</mat-label></div>
           </div>
-        </a> 
-        <a
+        </a>
+
+        <!-- <a
           *ngIf="userType === 3"
+          [routerLink]="['/student-company']"
+          mat-list-item
+          [routerLink]="['/student-dashboard']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon>student_applied</mat-icon></div>
+            <div><mat-label>Applied Jobs</mat-label></div>
+          </div>
+        </a> -->
+        <a
+          *ngIf="userType === 2"
           mat-list-item
           [routerLink]="['/forum']"
           routerLinkActive="active"
@@ -452,15 +422,41 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="userType === 2"
           mat-list-item
-          [routerLink]="['student_applied']"
+          [routerLink]="['interview-schedule']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="sidebar-list-items">
-            <div><mat-icon>connect_without_contact</mat-icon></div>
+            <mat-icon>work_outline</mat-icon>
             <div><mat-label>Applied Jobs</mat-label></div>
+          </div>
+        </a>
+
+        <!-- <a
+          *ngIf="userType === 2"
+          mat-list-item
+          [routerLink]="['company-profile']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <mat-icon>work_outline</mat-icon>
+            <div><mat-label>Company Profile</mat-label></div>
+          </div>
+        </a> -->
+
+        <a
+          *ngIf="userType === 2"
+          mat-list-item
+          [routerLink]="['interview-schedule']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <mat-icon>work_outline</mat-icon>
+            <div><mat-label>Schedule Interview</mat-label></div>
           </div>
         </a>
 
@@ -491,7 +487,6 @@
       </mat-nav-list>
     </mat-sidenav>
 
-    <!-- Main content -->
     <mat-sidenav-content class="sidenav-content">
       <div class="progress-bar-container">
         <mat-progress-bar
