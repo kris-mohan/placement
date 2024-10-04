@@ -70,6 +70,7 @@ import { PlacementInterviewComponent } from "./features/placement-cell/placement
 import { PlacementInterviewStudentsComponent } from "./features/placement-cell/placement-cell/placement-interview-students/placement-interview-students.component";
 import { StudentCompanyComponent } from "./features/student-menu/student-menu/student-company/student-company.component";
 import { StudentJobsComponent } from "./features/student-menu/student-menu/student-jobs/student-jobs.component";
+import { IndentviewComponent } from "./features/company-menu/indent-requirements/indentview/indentview.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -321,7 +322,7 @@ const appRoutes: Routes = [
         component: PanelTabComponent,
       },
       {
-        path: "indent-requirement",
+        path: "indent-requirement/:id",
         component: IndentRequirementsComponent,
       },
       {
@@ -393,6 +394,10 @@ const appRoutes: Routes = [
         component: CompanyJobDescriptionComponent,
       },
 
+      {
+        path: "indent-view",
+        component: IndentviewComponent,
+      },
       {
         path: "**",
         redirectTo: "dashboard",
