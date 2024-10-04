@@ -16,7 +16,7 @@
 <!-- Display the company cards -->
 <div class="company-cards">
   <div *ngFor="let company of companiesCard" class="company-card">
-    <h3>{{ company.name }}</h3>``
+    <h3>{{ company.name }}</h3><br>
     <p>Students Placed: {{ company.studentsPlaced }}</p>
     <p>Status: {{ company.progress }}</p>
     <button (click)="openAlumniForum(company.name)">View Alumni</button>
