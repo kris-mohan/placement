@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Edit Profile Page</h1>
+<div mat-dialog-content>
+  <form>
+    <h4>Company Sectors:</h4>
+    <mat-form-field>
+      <mat-label>Company Sectors</mat-label>
+      <mat-chip-grid aria-label="Enter sectors" [(ngModel)]="sectorChips">
+        <mat-chip-row *ngFor="let sector of sectorChips; let i = index">
+          {{ sector }}
+        </mat-chip-row>
+      </mat-chip-grid>
+      <input matInput formControlName="sector" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>About Company</mat-label>
+      <textarea matInput formControlName="overview"></textarea>
+    </mat-form-field>
+  </form>
+</div>
