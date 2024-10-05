@@ -1,8 +1,8 @@
-export type JobPostingList = {
+export type StudentJobPostingList = {
   jobId: Number;
   jobTitle: string;
   jobType: string;
-  skills: string[];
+  skills: string;
   numberofvacancies: number;
   companyName: string;
   location: string;
