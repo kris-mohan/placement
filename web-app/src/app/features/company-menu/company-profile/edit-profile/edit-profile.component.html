@@ -4,7 +4,17 @@
     <h4>Company Sectors:</h4>
     <mat-form-field>
       <mat-label>Company Sectors</mat-label>
-      <mat-chip-grid aria-label="Enter sectors">
+      <mat-chip-grid #chipGrid aria-label="Enter Sectors">
+        @for (sector of sectorChips(); track sector) {
+        <mat-chip-row (removed)="remove(sector)">
+          {{ sector?.Name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + sector.Name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <!-- <mat-chip-grid aria-label="Enter sectors">
         <mat-chip-row
           *ngFor="let sector of sectorChips"
           (removed)="removeSectorChips(sector)"
@@ -14,7 +24,7 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip-row>
-      </mat-chip-grid>
+      </mat-chip-grid> -->
       <input matInput formControlName="sector" />
     </mat-form-field>
     <mat-form-field>

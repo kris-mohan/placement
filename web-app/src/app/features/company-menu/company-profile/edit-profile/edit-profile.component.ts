@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, inject, Inject, OnInit, signal } from "@angular/core";
 import { FormBuilder, FormGroup, FormsModule } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -9,6 +9,12 @@ import {
   MatChipInputEvent,
   MatChipsModule,
 } from "@angular/material/chips";
+import { LiveAnnouncer } from "@angular/cdk/a11y";
+
+type Sector = {
+  Id: number;
+  Name: string;
+};
 
 @Component({
   selector: "app-edit-profile",
@@ -17,24 +23,18 @@ import {
   templateUrl: "./edit-profile.component.html",
   styleUrl: "./edit-profile.component.css",
 })
-export class EditProfileComponent {
+export class EditProfileComponent implements OnInit {
   formData: FormGroup;
-  sectorChips: string[] = [
-    "Internet",
-    "Saas",
-    "Software Product",
-    "Unicorn",
-    "Private",
-    "Startup",
-  ];
-  constructor(
+  readonly sectorChips = signal<Sector[]>([]);
+  readonly announcer = inject(LiveAnnouncer);
+
+  constructor(  
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<EditProfileComponent>,
-    // @Inject(MAT_DIALOG_DATA) public data: any // Data passed from the company-profile.component
+    public dialogRef: MatDialogRef<EditProfileComponent> // @Inject(MAT_DIALOG_DATA) public data: any // Data passed from the company-profile.component
   ) {
     this.formData = this.fb.group({
-      sector: [''],
-      overview: [''],
+      sector: [""],
+      overview: [""],
     });
   }
   ngOnInit(): void {
@@ -43,26 +43,54 @@ export class EditProfileComponent {
   }
   initializeForm(): void {}
 
-  removeSectorChips(sector: string): void {
-    console.log("hiii");
-    const index = this.sectorChips.indexOf(sector);
-    if (index >= 0) {
-      this.sectorChips.splice(index, 1);
-      console.log(`removed ${sector} from sector chips`);
-      // return [...this.sectorChips];
-    }
-    // return this.sectorChips;
+  // removeSectorChips(sector: string): void {
+  //   console.log("hiii");
+  //   const updatedSectors = this.sectorChips.filter((x) => x !== sector);
+  //   this.sectorChips = updatedSectors;
+  // }
+
+  remove(sector: Sector): void {
+    this.sectorChips.update((sectors) => {
+      const index = sectors.indexOf(sector);
+      if (index < 0) {
+        return sectors;
+      }
+
+      sectors.splice(index, 1);
+      this.announcer.announce(`Removed ${sector.Name}`);
+      return [...sectors];
+    });
   }
 
   loadInitialData(): void {
-    this.sectorChips = [
-      "Internet",
-      "Saas",
-      "Software Product",
-      "Unicorn",
-      "Private",
-      "Startup",
-    ];
+    this.sectorChips.update(() => {
+      return [
+        {
+          Id: 1,
+          Name: "Internet",
+        },
+        {
+          Id: 2,
+          Name: "Saas",
+        },
+        {
+          Id: 3,
+          Name: "Software Product",
+        },
+        {
+          Id: 4,
+          Name: "Unicorn",
+        },
+        {
+          Id: 5,
+          Name: "Private",
+        },
+        {
+          Id: 6,
+          Name: "Startup",
+        },
+      ];
+    });
     // Load the data passed in the dialog from the company profile component.
   }
 }
