@@ -13,6 +13,8 @@ import { employeeDataList } from "./eligible-students-list-model";
 import { FormControl } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { StudentdetailsDialogComponent } from "../studentdetails-dialog/studentdetails-dialog.component";
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+
 
 export const EMPLOYEEDATA: employeeDataList[] = [
   {
@@ -28,51 +30,6 @@ export const EMPLOYEEDATA: employeeDataList[] = [
     StudentID: 2,
     StudentName: "Jane Smith",
     Branch: "Civil Engineering",
-    Batch: "2020",
-    CGPA: "8.7",
-    Status: "Accepted",
-    ApplicationApprovalStatus: "Verify",
-  },
-  {
-    StudentID: 3,
-    StudentName: "Michael Johnson",
-    Branch: "Electrical Engineering",
-    Batch: "2019",
-    CGPA: "8.9",
-    Status: "Invited",
-    ApplicationApprovalStatus: "Verify",
-  },
-  {
-    StudentID: 4,
-    StudentName: "Emily Davis",
-    Branch: "Civil Engineering",
-    Batch: "2022",
-    CGPA: "9.1",
-    Status: "Rejected",
-    ApplicationApprovalStatus: "Verify",
-  },
-  {
-    StudentID: 5,
-    StudentName: "William Brown",
-    Branch: "Information Technology",
-    Batch: "2021",
-    CGPA: "9.4",
-    Status: "Pending",
-    ApplicationApprovalStatus: "Verify",
-  },
-  {
-    StudentID: 1,
-    StudentName: "John Doe",
-    Branch: "Computer Science",
-    Batch: "2021",
-    CGPA: "9.2",
-    Status: "Invite",
-    ApplicationApprovalStatus: "Verify",
-  },
-  {
-    StudentID: 2,
-    StudentName: "Jane Smith",
-    Branch: "Mechanical Engineering",
     Batch: "2020",
     CGPA: "8.7",
     Status: "Accepted",
@@ -122,10 +79,11 @@ export class EligibleStudentsListComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private sweetAlertService: SweetAlertService,
-    private location: Location,
-    private apiService: APIService
-  ) {}
+    private location: Location  ) {}
+
+  isLargeScreen() {
+    return window.innerWidth > 768; // Customize based on your layout
+  }
 
   displayedColumns: string[] = [
     "select",
@@ -143,7 +101,7 @@ export class EligibleStudentsListComponent {
     { key: "Branch", label: "Branch" },
     { key: "Batch", label: "Batch" },
     { key: "CGPA", label: "CGPA" },
-    { key: "Status", label: "Status" },
+    { key: "Status", label: "Registration Status" },
     { key: "ApplicationApprovalStatus", label: "Application Approval Status" },
   ];
 
@@ -156,7 +114,6 @@ export class EligibleStudentsListComponent {
     "Information Technology",
   ];
   batches: number[] = [2019, 2020, 2021, 2022];
-
   statusControl = new FormControl<string[]>(["Accepted"]);
   branchControl = new FormControl<string[] | null>(null);
   batchControl = new FormControl<any[] | null>(null);
@@ -287,16 +244,16 @@ export class EligibleStudentsListComponent {
   getBadgeColor(action: string): ThemePalette {
     switch (action) {
       case "Invite":
-        return "primary"; // Blue
+        return "primary";
       case "Verify":
-        return "primary"; // Blue
+        return "primary"; 
       case "Accepted":
-        return "accent"; // Pink
+        return "accent";
       case "Invited":
-        return "warn"; // Red
+        return "warn"; 
       case "Rejected":
       case "Blocked":
-        return "warn"; // Red (for Rejected and Blocked)
+        return "warn";
       default:
         return "primary";
     }

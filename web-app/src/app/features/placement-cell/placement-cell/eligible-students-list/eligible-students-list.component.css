@@ -1,70 +1,160 @@
-button {
-  margin: 0 8px 8px 0;
-}
-.mat-mdc-card-header {
-  display: unset;
-}
-.example-flex-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f6f8; /* Light grey background for contrast */
 }
 
-.example-button-container {
+.main-card,
+.invite-all-card {
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 1200px;
   display: flex;
-  justify-content: center;
-  cursor: pointer;
+  flex-direction: column; /* Ensure vertical stacking */
 }
 
-.button-label-container {
+.custom-card-header {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header-left {
   display: flex;
   align-items: center;
 }
 
-.header-mat-label {
-  margin-left: 3rem;
-  font-weight: bolder;
-  font-size: larger;
+.header-title {
+  font-size: 27.5px;
+  font-weight: 600;
+  color: #3f51b5;
+  margin-left: 1rem;
 }
-table {
+
+.filters-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+  margin: 2rem 0;
+  gap: 2rem; /* Flexbox gap for consistent spacing */
+}
+
+.filter-column {
+  flex: 0 0 48%; /* Each filter group takes up 48% of the width */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.filter-field {
+  width: 82.5%;
+}
+.search-field {
+  width: 100%; /* Ensures full width on smaller screens */
+}
+
+.search-field {
+  max-width: 400px; /* Limit the width for larger screens */
+}
+
+/* Invite All Button */
+.invite-all-btn {
+  font-weight: 500;
+  text-transform: none;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px; /* Max width for larger screens */
+  padding: 1rem;
+}
+
+.header-right {
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
 
-.matbutton {
-  background-color: #3f51b5;
-}
-.maticon {
-  color: white;
-}
-.matButtonText {
-  color: white;
-}
-.mat-card-content {
-  margin-top: 3%;
-}
-.mat-panel-title {
-  display: flow;
-}
-.mat-panel-description {
-  margin-top: 2%;
-}
-.mat-expansion-panel {
-  margin-top: 2%;
-}
-.td-mat-button {
-  display: flex;
+.table-container {
+  margin-top: 1.5rem;
 }
 
-/* .mat-form-field {
-  width: 75%;
-} */
-
-.custom-dialog-container {
-  padding: 20px;
-  border-radius: 10px;
+.student-table {
+  width: 100%;
+  background: white;
+  border-collapse: collapse;
 }
 
-.full-screen-dialog {
-  padding: 0; /* Remove padding for full screen */
-  margin: 0; /* Remove margin for full screen */
+.student-table th,
+.student-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.student-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.student-link {
+  color: #1e88e5;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.student-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .filters-container {
+    flex-direction: column; /* Stack columns vertically on smaller screens */
+    gap: 1rem;
+  }
+
+  .filter-column {
+    flex: 1; /* Each filter will take up full width */
+  }
+
+  .invite-all-btn {
+    max-width: 100%; /* Full width on smaller screens */
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .invite-all-card {
+    padding: 1rem; /* Reduce padding on mobile */
+  }
+
+  .invite-all-btn {
+    padding: 0.75rem; /* Reduce button padding on mobile */
+  }
+}
+/* Add a scrollable container for small screens */
+.table-container {
+  overflow-x: auto;
+}
+
+/* Hide specific columns on small screens */
+@media screen and (max-width: 768px) {
+  .student-table th:nth-child(3),
+  .student-table td:nth-child(3),
+  .student-table th:nth-child(4),
+  .student-table td:nth-child(4) {
+    display: none; /* Hide Branch and Batch columns */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .student-table th:nth-child(2),
+  .student-table td:nth-child(2),
+  .student-table th:nth-child(5),
+  .student-table td:nth-child(5) {
+    display: none; /* Hide Student Name and CGPA on smaller screens */
+  }
 }
