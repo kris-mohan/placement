@@ -1,11 +1,29 @@
-<!-- <div class="chart-container">
-  <app-basic-line-chart></app-basic-line-chart>
-  <app-basic-column-chart></app-basic-column-chart>
-  <app-column-chart-datalabels></app-column-chart-datalabels>
-  <app-stacked-column-chart></app-stacked-column-chart>
+<div class="chart-container">
+  <app-basic-line-chart
+    [seriesData]="openings"
+    [categoriesData]="jobRoles"
+    [titleText]="chartTitle"
+    [xLabel]="xAxisLabel"
+    [yLabel]="yAxisLabel"></app-basic-line-chart>
+  <app-basic-column-chart
+    [seriesData]="employeeIntakes"
+    [categoriesData]="colleges"
+    [titleText]="inTakeChartTitle"
+    [xLabel]="inTakexAxisLabel"
+    [yLabel]="inTakeyAxisLabel">
+  </app-basic-column-chart>
+
+  <!-- <app-column-chart-datalabels
+    [seriesData]="yearWiseIntake"
+    [categoriesData]="years"
+    [titleText]="yearWiseIntakechartTitle"
+    [xLabel]="yearWiseIntakexAxisLabel"
+    [yLabel]="yearWiseIntakeyAxisLabel">
+  </app-column-chart-datalabels> -->
+  <!-- <app-stacked-column-chart></app-stacked-column-chart>
   <app-hp-stacked-columnchart></app-hp-stacked-columnchart>
   <app-simple-pie-chart></app-simple-pie-chart>
-  <app-simple-donut-chart></app-simple-donut-chart>
-</div> -->
+  <app-simple-donut-chart></app-simple-donut-chart> -->
+</div>
 
-<h2>Company Dashboard</h2>
+<!-- <h2>Company Dashboard</h2> -->
