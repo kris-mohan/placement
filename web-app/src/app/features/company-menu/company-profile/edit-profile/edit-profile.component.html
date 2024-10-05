@@ -1,12 +1,18 @@
 <h1 mat-dialog-title>Edit Profile Page</h1>
 <div mat-dialog-content>
-  <form>
+  <form [formGroup]="formData">
     <h4>Company Sectors:</h4>
     <mat-form-field>
       <mat-label>Company Sectors</mat-label>
-      <mat-chip-grid aria-label="Enter sectors" [(ngModel)]="sectorChips">
-        <mat-chip-row *ngFor="let sector of sectorChips; let i = index">
+      <mat-chip-grid aria-label="Enter sectors">
+        <mat-chip-row
+          *ngFor="let sector of sectorChips"
+          (removed)="removeSectorChips(sector)"
+        >
           {{ sector }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
         </mat-chip-row>
       </mat-chip-grid>
       <input matInput formControlName="sector" />
