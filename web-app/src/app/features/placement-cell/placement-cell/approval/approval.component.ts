@@ -7,7 +7,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { AMGModules } from 'src/AMG-Module/AMG-module';
 
-
 @Component({
   selector: 'app-approval',
   standalone: true,
@@ -16,9 +15,8 @@ import { AMGModules } from 'src/AMG-Module/AMG-module';
     ReactiveFormsModule,
     MatExpansionModule,
     MatButtonModule,
-    MatCardModule ,
+    MatCardModule,
     AMGModules,
-    CommonModule,
     MatDividerModule,
   ],
   templateUrl: './approval.component.html',
@@ -26,7 +24,7 @@ import { AMGModules } from 'src/AMG-Module/AMG-module';
 })
 export class ApprovalComponent {
   approvalForm: FormGroup;
-  sgpaValues = [8.5, 9.0, 7.5, 8.0, 8.25, 7.9,8.55,9.0]; // Example SGPA values for four semesters
+  sgpaValues = [8.5, 9.0, 7.5, 8.0, 8.25, 7.9, 8.55, 9.0]; // Example SGPA values for eight semesters
 
   constructor(private fb: FormBuilder) {
     this.approvalForm = this.fb.group({
@@ -81,6 +79,6 @@ export class ApprovalComponent {
   }
 
   onSubmit(): void {
-    console.log(this.approvalForm.value); // Submit logic here
+    console.log(this.approvalForm.value);
   }
 }
