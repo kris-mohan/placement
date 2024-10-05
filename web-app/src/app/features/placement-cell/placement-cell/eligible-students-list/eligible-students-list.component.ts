@@ -79,7 +79,10 @@ export class EligibleStudentsListComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location  ) {}
+    private sweetAlertService: SweetAlertService,
+    private location: Location,
+    private apiService: APIService
+  ) {}
 
   isLargeScreen() {
     return window.innerWidth > 768; // Customize based on your layout
@@ -114,6 +117,8 @@ export class EligibleStudentsListComponent {
     "Information Technology",
   ];
   batches: number[] = [2019, 2020, 2021, 2022];
+  // Inject BreakpointObserver
+  private breakpointObserver = inject(BreakpointObserver);
   statusControl = new FormControl<string[]>(["Accepted"]);
   branchControl = new FormControl<string[] | null>(null);
   batchControl = new FormControl<any[] | null>(null);

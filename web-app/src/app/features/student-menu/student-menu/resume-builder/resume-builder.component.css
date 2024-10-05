@@ -57,7 +57,9 @@ label {
   margin-right: 8px;
 }
 .crosslang {
-  color: red;
+  background-color: transparent;
+  margin-top: 14px;
+  border-radius: 20px;
 }
 @media (max-width: 768px) {
   .resume-builder-container {
