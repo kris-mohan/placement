@@ -27,7 +27,7 @@ export interface ODataResponse<T> {
 }
 
 @Component({
-  selector: "app-companies",
+  selector: "app-placement-company",
   standalone: true,
   imports: [AMGModules, CommonModule, SharedModule, MatPaginatorModule],
   templateUrl: "./placement-company.component.html",

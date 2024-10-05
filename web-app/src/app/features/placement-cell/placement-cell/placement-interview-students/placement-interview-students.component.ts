@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 
 @Component({
-  selector: "app-interview-students-list",
+  selector: "app-placement-interview-students-list",
   standalone: true,
   imports: [AMGModules, CommonModule, FlexLayoutModule],
   templateUrl: "./placement-interview-students.component.html",

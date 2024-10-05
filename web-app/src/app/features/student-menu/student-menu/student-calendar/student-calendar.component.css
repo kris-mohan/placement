@@ -1,0 +1,42 @@
+/* .demo-inline-calendar-card {
+  width: 35vw;
+  margin-left: 100px;
+  margin-top: 20px;
+} */
+
+.calendar-container {
+  display: flex;
+  margin-left: 20px; /* Applies the margin to the entire container */
+  margin-top: 20px;
+}
+
+.demo-inline-calendar-card {
+  width: 35vw;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.cards-container {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.example-card {
+  margin-top: 20px;
+  width: 40vw;
+  height: 8vw;
+}
+
+/* @media (min-width: 600px) {
+  .example-card {
+    width: 48%;
+  }
+}
+
+@media (min-width: 900px) {
+  .example-card {
+    width: 32%;
+  }
+} */

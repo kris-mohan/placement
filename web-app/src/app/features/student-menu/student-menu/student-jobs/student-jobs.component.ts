@@ -83,7 +83,7 @@ export const JOBPOSTING_DATA: StudentJobPostingList[] = [
 ];
 
 @Component({
-  selector: "app-company-job-details",
+  selector: "app-student-jobs",
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules],
   templateUrl: "./student-jobs.component.html",
