@@ -154,7 +154,7 @@ export class StudentCompanyComponent {
     },
     {
       Id: 4,
-      logo: "company-logo-4.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "LG Electronics",
       rating: 4.3,
       reviews: "1.8K+ reviews",
@@ -165,7 +165,7 @@ export class StudentCompanyComponent {
     },
     {
       Id: 5,
-      logo: "company-logo-5.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
       name: "Apple Inc.",
       rating: 4.8,
       reviews: "3K+ reviews",
@@ -176,7 +176,7 @@ export class StudentCompanyComponent {
     },
     {
       Id: 6,
-      logo: "company-logo-6.png",
+      logo: "../../../../assets/images/Softserve-logo1white.png",
       name: "Microsoft Corp.",
       rating: 4.7,
       reviews: "2.7K+ reviews",
@@ -187,7 +187,7 @@ export class StudentCompanyComponent {
     },
     {
       Id: 7,
-      logo: "company-logo-7.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Google LLC",
       rating: 4.9,
       reviews: "5K+ reviews",
@@ -198,7 +198,7 @@ export class StudentCompanyComponent {
     },
     {
       Id: 8,
-      logo: "company-logo-8.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
       name: "Facebook Inc.",
       rating: 4.6,
       reviews: "2.2K+ reviews",
@@ -209,7 +209,7 @@ export class StudentCompanyComponent {
     },
     {
       Id: 9,
-      logo: "company-logo-9.png",
+      logo: "../../../../assets/images/Softserve-logo1white.png",
       name: "Amazon Web Services",
       rating: 4.4,
       reviews: "2.5K+ reviews",
@@ -220,7 +220,7 @@ export class StudentCompanyComponent {
     },
     {
       Id: 10,
-      logo: "company-logo-10.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Tesla Inc.",
       rating: 4.7,
       reviews: "2.8K+ reviews",
