@@ -26,4 +26,29 @@ import { BasicLineChartComponent } from '../../charts/line chart/basic-line-char
   templateUrl: './company-dashboard.component.html',
   styleUrl: './company-dashboard.component.css',
 })
-export class CompanyDashboardComponent {}
+export class CompanyDashboardComponent {
+  jobRoles: string[] = ['Developer', 'Designer', 'Manager', 'QA'];
+  colleges: string[] = ['College A', 'College B', 'College C', 'College D'];
+  years: string[] = ['2021-22', '2022-23', '2023-24', '2024-25'];
+  openings: any = [
+    {
+      name: 'No. of Openings',
+      data: [30, 20, 10, 40], // Corresponding openings for each job role
+    },
+  ];
+
+  chartTitle: string = 'Openings by Job Role';
+  xAxisLabel: string = 'Job Roles';
+  yAxisLabel: string = 'Number of Openings';
+
+  employeeIntakes: any = [
+    {
+      name: 'Number of Intakes',
+      data: [120, 150, 90, 100],
+    },
+  ];
+
+  inTakeChartTitle: string = 'Employee Intake by College';
+  inTakexAxisLabel: string = 'Colleges';
+  inTakeyAxisLabel: string = 'Number of Employees';
+}
