@@ -5,10 +5,18 @@
   <div>
     <div class="cards-container">
       <mat-card class="example-card" *ngFor="let event of events">
-        <mat-card-content>
-          <p><strong>Event Date:</strong> {{ event.eventDate }}</p>
-          <p><strong>Event Name:</strong> {{ event.eventName }}</p>
-          <p><strong>Duration:</strong> {{ event.duration }}</p>
+        <mat-card-content class="mat-card-content">
+          <div class="company-inf">
+            <p><strong>Company Name:</strong> {{ event.companyName }}</p>
+            <p><strong>Job Title:</strong> {{ event.jobTitle }}</p>
+            <p><strong>Round:</strong> {{ event.Round }}</p>
+            <p><strong>Round Name:</strong> {{ event.RoundName }}</p>
+          </div>
+          <div class="company-timings">
+            <p><strong>Event Date:</strong> {{ event.eventDate }}</p>
+            <p><strong>Timings:</strong> {{ event.timings }}</p>
+            <p><strong>Duration:</strong> {{ event.duration }}</p>
+          </div>
         </mat-card-content>
       </mat-card>
     </div>

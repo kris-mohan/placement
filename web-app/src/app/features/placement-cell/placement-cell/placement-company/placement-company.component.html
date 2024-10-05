@@ -194,6 +194,7 @@
       fxFlex.gt-md="28%"
       fxFlex.gt-lg="25%"
       class="mat-grid-tile"
+      (click)="goToCompanyJobDetails(company.Id)"
     >
       <div class="company-details">
         <img
@@ -202,7 +203,6 @@
           class="company-logo"
           height="15%"
           width="75%"
-          (click)="goToCompanyJobDetails(company.Id)"
         />
         <h3>{{ company.name }}</h3>
 

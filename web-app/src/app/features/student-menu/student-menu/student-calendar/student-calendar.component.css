@@ -25,10 +25,13 @@
 
 .example-card {
   margin-top: 20px;
-  width: 40vw;
-  height: 8vw;
+  width: 35vw;
+  /* height: 8vw; */
 }
-
+.mat-card-content {
+  display: flex;
+  justify-content: space-between;
+}
 /* @media (min-width: 600px) {
   .example-card {
     width: 48%;

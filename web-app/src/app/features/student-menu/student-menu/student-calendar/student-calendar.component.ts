@@ -22,16 +22,32 @@ export class StudentCalendarComponent implements OnInit {
   selected = model<Date | null>(null);
   events = [
     {
-      eventName: "Meeting with Client",
-      eventDate: "2024-09-22",
+      companyName: "Capgemini",
+      jobTitle: "Associate Software Engineer",
+      Round: 3,
+      RoundName: "Technical Round",
+      eventDate: "05-10-2024",
+      timings: "10:00 AM - 12:00 PM",
       duration: "2 hours",
     },
     {
-      eventName: "Project Presentation",
-      eventDate: "2024-09-23",
+      companyName: "Accenture",
+      jobTitle: "Software Developer",
+      Round: 1,
+      RoundName: "Test Assesment",
+      eventDate: "05-10-2024",
+      timings: "2:00 PM - 3:30 PM",
       duration: "1.5 hours",
     },
-    { eventName: "Team Outing", eventDate: "2024-09-24", duration: "4 hours" },
+    {
+      companyName: "Google",
+      jobTitle: "QA",
+      Round: 2,
+      RoundName: "Interview-1",
+      eventDate: "05-10-2024",
+      timings: "9:00 AM - 1:00 PM",
+      duration: "4 hours",
+    },
   ];
 
   ngOnInit() {
