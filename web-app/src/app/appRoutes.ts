@@ -71,6 +71,7 @@ import { PlacementInterviewStudentsComponent } from "./features/placement-cell/p
 import { StudentCompanyComponent } from "./features/student-menu/student-menu/student-company/student-company.component";
 import { StudentJobsComponent } from "./features/student-menu/student-menu/student-jobs/student-jobs.component";
 import { IndentviewComponent } from "./features/company-menu/indent-requirements/indentview/indentview.component";
+import { StudentCalendarComponent } from "./features/student-menu/student-menu/student-calendar/student-calendar.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -384,6 +385,10 @@ const appRoutes: Routes = [
       {
         path: "student-company",
         component: StudentCompanyComponent,
+      },
+      {
+        path: "student-calendar",
+        component: StudentCalendarComponent,
       },
       {
         path: "student-company/student-jobs/:id",

@@ -362,6 +362,19 @@
 
         <a
           *ngIf="userType === 3"
+          [routerLink]="['/student-calendar']"
+          mat-list-item
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> business </mat-icon></div>
+            <div><mat-label>Calendar</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 3"
           [routerLink]="['/student_applied']"
           mat-list-item
           routerLinkActive="active"
