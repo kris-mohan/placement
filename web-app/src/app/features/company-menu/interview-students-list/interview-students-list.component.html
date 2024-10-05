@@ -11,167 +11,6 @@
             <mat-label>Students</mat-label>
           </div>
         </div>
-        <!-- <div>
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Search Company</mat-label>
-            <input
-              type="text"
-              aria-label="Number"
-              matInput
-              [matAutocomplete]="auto"
-            />
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let company of filteredCompany | async"
-                [value]="company.Name"
-              >
-                {{ company.Name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Location</mat-label>
-            <mat-select
-              [formControl]="CityControl"
-              multiple
-              (openedChange)="onCityDropdownOpen()"
-              panelClass="custom-dropdown-panel"
-            >
-              <mat-select-trigger>
-                {{ selectedCompanyCities }}
-              </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input
-                  class="full-width"
-                  matInput
-                  [(ngModel)]="searchCity"
-                  (ngModelChange)="filterCities($event)"
-                  placeholder="Search"
-                />
-              </mat-form-field>
-              <mat-option *ngIf="!filteredCompanies.length" disabled
-                >No options</mat-option
-              >
-              <mat-option
-                *ngFor="let company of filteredCompanies"
-                [value]="company.City"
-              >
-                {{ company.City }}
-              </mat-option>
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button
-                  mat-button
-                  mat-dialog-close
-                  (click)="resetLocationSelection()"
-                >
-                  Reset
-                </button>
-                <button
-                  mat-raised-button
-                  class="matbutton"
-                  (click)="showLocationResults()"
-                >
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Industry</mat-label>
-            <mat-select
-              [formControl]="industryControl"
-              multiple
-              (openedChange)="onIndustryDropdownOpen()"
-            >
-              <mat-select-trigger>
-                {{ selectedIndustries }}
-              </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input
-                  class="full-width"
-                  matInput
-                  [(ngModel)]="searchIndustry"
-                  (ngModelChange)="filterIndustries($event)"
-                  placeholder="Search"
-                />
-              </mat-form-field>
-              <mat-option *ngIf="!filteredIndustries.length" disabled
-                >No options</mat-option
-              >
-              <mat-option
-                *ngFor="let industry of filteredIndustries"
-                [value]="industry.Type"
-              >
-                {{ industry.Type }}
-              </mat-option>
-
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button
-                  mat-button
-                  mat-dialog-close
-                  (click)="resetIndustrySelection()"
-                >
-                  Reset
-                </button>
-                <button
-                  mat-raised-button
-                  class="matbutton"
-                  (click)="showIndustryResults()"
-                >
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Company Size</mat-label>
-            <mat-select [formControl]="companySizeControl" multiple>
-              @for (companySize of companySizes; track companySize) {
-              <mat-option [value]="companySize">{{ companySize }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Experience Level</mat-label>
-            <mat-select [formControl]="experienceLevelControl" multiple>
-              @for (expLevel of experienceLevel; track expLevel) {
-              <mat-option [value]="expLevel">{{ expLevel }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="example-button-container">
-          <button
-            mat-raised-button
-            class="matbutton"
-            (click)="openImportCompanyDialog()"
-          >
-            <p class="matName">Additional Filters</p>
-          </button>
-
-          <button
-            *ngIf="userType !== 3"
-            mat-raised-button
-            class="matbutton"
-            (click)="openAddEditCompanyForm(0)"
-          >
-            <mat-icon class="maticon">add</mat-icon>
-            <p class="matName">Company</p>
-          </button>
-        </div> -->
 
         <div>
           <mat-form-field class="full-width" appearance="outline">
@@ -300,7 +139,8 @@
     <mat-expansion-panel
       (opened)="panelOpenState.set(true)"
       (closed)="panelOpenState.set(false)"
-      class="mat-expansion-panel">
+      class="mat-expansion-panel"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title
           >Company:
@@ -318,7 +158,8 @@
   <mat-card-content
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"
-    class="mat-card-content">
+    class="mat-card-content"
+  >
     <div
       *ngFor="let students of studentsAttending"
       fxFlex="100%"
@@ -330,8 +171,16 @@
       (click)="openInterviewMarksDetails(1)"
     >
       <div class="company-details">
-        <h3>{{ students.studentId }}</h3>
-        <div class="company-type">{{ students.studentName }}</div>
+        <!-- <h3>{{ students.studentId }}</h3>
+        <div class="company-type">{{ students.studentName }}</div> -->
+        <p>
+          <strong>Roll Number:</strong>
+          {{ students.studentId }}
+        </p>
+        <p>
+          <strong>Student Name:</strong>
+          {{ students.studentName }}
+        </p>
         <p>
           <strong>Batch:</strong>
           {{ students.batch }}
@@ -342,6 +191,7 @@
         </p>
       </div>
       <div class="company">
+        <p><strong>College Name:</strong> {{ students.collegeName }}</p>
         <p><strong>Status:</strong> {{ students.status }}</p>
         <p>
           <strong>Performance Score:</strong>
@@ -350,46 +200,4 @@
       </div>
     </div>
   </mat-card-content>
-
-  <!-- <mat-card-content
-    fxLayout="row wrap"
-    fxLayoutAlign="start stretch"
-    class="mat-card-content"
-  >
-    <div
-      *ngFor="let students of studentsAttending"
-      (click)="goToCompanyJobDetails(company.Id)"
-      fxFlex="100%"
-      fxFlex.gt-sm="25%"
-      fxFlex.gt-md="25%"
-      fxFlex.gt-lg="25%"
-      class="grid-item"
-      class="mat-grid-tile"
-      style="margin: 1em"
-    >
-      <div class="company-details" fx-Flex="100%">
-        <div>
-          <h3>{{ students.studentId }}</h3>
-        </div>
-      </div>
-      <div fx-Flex="50%">
-        <h6>
-          Number of Jobs:
-          <span class="rating">{{ students.batch }}</span>
-        </h6>
-      </div>
-      <div fx-Flex="50%">
-        <h6>
-          Number of Students Registered:
-          <span class="rating">{{ students.branch }}</span>
-        </h6>
-      </div>
-      <div fx-Flex="50%">
-        <h6>
-          Performance Score:
-          <span class="rating">{{ students.performanceScore }}</span>
-        </h6>
-      </div>
-    </div>
-  </mat-card-content> -->
 </mat-card>
