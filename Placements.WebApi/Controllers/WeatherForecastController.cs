@@ -26,7 +26,8 @@ namespace Placements.WebApi.Controllers
         {
             _context = placementContext;
             _configuration = configuration;
-        }
+      _configuration = configuration;
+    }
     //private readonly PaatashalacampusContext _paatashalacampusContext;
     //private readonly PaatashalacompanydbContext _paatashalacompanydbContext;
     //private readonly PaatashalatrainingContext _paatashalatrainingContext;
