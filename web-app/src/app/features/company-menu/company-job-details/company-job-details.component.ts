@@ -1,6 +1,6 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -12,55 +12,73 @@ import { FormControl } from "@angular/forms";
 import { companyTableList } from "../../company-configuration/company-config/companies/companies-model";
 import { Industry } from "../../company-configuration/company-config/industry/industry.module";
 import { Observable, of } from "rxjs";
+import { StudentJobAdditionalFilterModalComponent } from "../../student-menu/student-menu/student-job-additional-filter-modal/student-job-additional-filter-modal.component";
+import { MatDialog } from "@angular/material/dialog";
+import { CompanyJobAdditionalfiltersModalComponent } from "./company-job-additionalfilters-modal/company-job-additionalfilters-modal.component";
 
 export const JOBPOSTING_DATA: JobPostingList[] = [
   {
     jobId: 1,
     jobTitle: "Software Engineer",
-    companyName: "Tech Solutions Inc.",
-    location: "San Francisco, CA",
-    jobDescription:
-      "We are looking for a skilled software engineer to join our team.",
-    postedDate: "2024-07-01",
-    applicationDeadline: new Date("2024-08-01"),
-    applicationUrl: "https://techsolutions.com/careers/software-engineer",
+    companyName: "TechCorp",
+    location: "New York, NY",
+    jobDescription: "Responsible for developing web applications...",
+    postedDate: "2023-09-15",
+    applicationDeadline: new Date("2023-12-01"),
+    applicationUrl: "https://techcorp.jobs/apply/4",
     actions: "readmore, delete",
+    // Add the missing properties below
+    jobType: "Full-time", // Example value
+    skills: ["JavaScript", "Angular", "TypeScript"], // Example array of skills
+    numberofvacancies: 3, // Example number of vacancies
   },
+
   {
     jobId: 2,
     jobTitle: "Project Manager",
+    jobType: "Internship",
     companyName: "Innovative Projects Ltd.",
     location: "New York, NY",
     jobDescription:
       "We are seeking an experienced project manager to oversee our projects.",
+    skills: ["Python"], // Corrected to an array of skills
+    numberofvacancies: 30,
     postedDate: "2024-07-05",
     applicationDeadline: new Date("2024-08-15"),
     applicationUrl: "https://innovativeprojects.com/careers/project-manager",
-    actions: "readmore, delete",
+    actions: "delete",
   },
+
   {
     jobId: 3,
     jobTitle: "Marketing Specialist",
+    jobType: "Internship", // Removed the extra comma
     companyName: "Creative Agency",
     location: "Los Angeles, CA",
     jobDescription:
       "We are looking for a creative marketing specialist to join our team.",
+    skills: ["Marketing", "Social Media", "Content Creation"], // Updated to relevant skills for the job and in an array
+    numberofvacancies: 30,
     postedDate: "2024-07-10",
     applicationDeadline: new Date("2024-08-20"),
     applicationUrl: "https://creativeagency.com/careers/marketing-specialist",
-    actions: "readmore, delete",
+    actions: "delete", // Removed the extra space
   },
+
   {
     jobId: 4,
     jobTitle: "Data Analyst",
+    jobType: "Part-time", // Removed the extra space
     companyName: "Data Insights Corp.",
     location: "Chicago, IL",
     jobDescription:
       "We are looking for a data analyst to help us make data-driven decisions.",
+    skills: ["Java", "SQL", "Data Analysis"], // Converted to an array and added relevant skills
+    numberofvacancies: 30,
     postedDate: "2024-07-15",
     applicationDeadline: new Date("2024-08-25"),
     applicationUrl: "https://datainsights.com/careers/data-analyst",
-    actions: "readmore, delete",
+    actions: "delete", // Removed the extra space
   },
 ];
 
@@ -91,6 +109,7 @@ export class CompanyJobDetailsComponent {
   filteredCompany: Observable<any[]> = of([]);
 
   userType: number;
+  readonly dialog = inject(MatDialog);
 
   dataSource1 = new MatTableDataSource<companyTableList>([]);
   companiesCard = [
@@ -218,6 +237,8 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "Hybrid",
       numberOfOpenings: 10,
       applicants: 100,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 2,
@@ -230,6 +251,8 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "Remote",
       numberOfOpenings: 5,
       applicants: 80,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 3,
@@ -242,6 +265,8 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "On-site",
       numberOfOpenings: 3,
       applicants: 50,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 4,
@@ -254,6 +279,8 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "Hybrid",
       numberOfOpenings: 7,
       applicants: 120,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 5,
@@ -266,6 +293,8 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "On-site",
       numberOfOpenings: 5,
       applicants: 60,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 6,
@@ -278,6 +307,8 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "Remote",
       numberOfOpenings: 4,
       applicants: 70,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 7,
@@ -290,6 +321,8 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "On-site",
       numberOfOpenings: 6,
       applicants: 150,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 8,
@@ -302,6 +335,8 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "Hybrid",
       numberOfOpenings: 5,
       applicants: 90,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 9,
@@ -314,6 +349,8 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "Remote",
       numberOfOpenings: 4,
       applicants: 85,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 10,
@@ -326,6 +363,8 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "On-site",
       numberOfOpenings: 2,
       applicants: 40,
+      type: "MNC",
+      Skills: "Node, React",
     },
   ];
 
@@ -340,21 +379,21 @@ export class CompanyJobDetailsComponent {
   //   "actions",
   // ];
 
-  companySizes: string[] = [
-    "1-10 Employees",
-    "11-50 Employees",
-    "51-200 Employees",
-    "201-500 Employees",
-    "501-1000 Employees",
-    "1001-5000 Employees",
-    "5001-10000 Employees",
-    "10001+ Employees",
-  ];
+  // companySizes: string[] = [
+  //   "1-10 Employees",
+  //   "11-50 Employees",
+  //   "51-200 Employees",
+  //   "201-500 Employees",
+  //   "501-1000 Employees",
+  //   "1001-5000 Employees",
+  //   "5001-10000 Employees",
+  //   "10001+ Employees",
+  // ];
   columns = [
     { key: "slNo", label: "Sl No" },
     { key: "jobId", label: "job Id" },
     { key: "jobTitle", label: "job Title" },
-    // { key: "companyName", label: "company Name" },
+    { key: "jobType", label: "jobType" },
     { key: "location", label: "location" },
     { key: "jobDescription", label: "job Description" },
     { key: "postedDate", label: "posted Date" },
@@ -501,5 +540,10 @@ export class CompanyJobDetailsComponent {
     } else {
       this.router.navigate(["company-job-details"]);
     }
+  }
+  openStudentJobAdditionalFiltersModal() {
+    this.dialog.open(CompanyJobAdditionalfiltersModalComponent, {
+      width: "500px",
+    });
   }
 }
