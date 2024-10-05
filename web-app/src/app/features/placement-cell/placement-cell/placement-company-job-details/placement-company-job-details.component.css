@@ -82,3 +82,6 @@ cdk-overlay-pane {
   text-align: right;
   margin: 0.5rem;
 }
+.matButtonText {
+  color: white;
+}

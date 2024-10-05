@@ -78,3 +78,22 @@
   div {
     margin-top: 20px ;
   }
+  /* Company cards grid layout */
+  .company-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Fixed to 3 columns per row */
+    gap: 20px; /* Spacing between cards */
+    padding: 0 20px;
+  }
+  @media (max-width: 900px) {
+    .company-cards {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .company-cards {
+      grid-template-columns: 1fr; /* 1 column for small screens */
+    }
+  }
+  

@@ -27,6 +27,9 @@
   font-weight: bolder;
   font-size: larger;
 }
+.mat-grid-tile:hover {
+  transition: transform 0.5s ease-in-out;
+}
 
 table {
   width: 100%;
@@ -87,9 +90,10 @@ cdk-overlay-pane {
 }
 .mat-grid-tile:hover {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  transform: scale(1.3);
   background-color: white;
   color: black;
+  transform: scale(1.1); /* Scale down to a smaller size */
+  z-index: 10; /* Ensure the card stays on top of other elements */
 }
 .company-details {
   text-align: left;
@@ -104,4 +108,6 @@ cdk-overlay-pane {
 .mat-card-content {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
+  overflow: hidden;
 }
