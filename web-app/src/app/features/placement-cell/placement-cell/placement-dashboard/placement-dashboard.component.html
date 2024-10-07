@@ -1,25 +1,32 @@
+<div class="welcome-card">
+  <h2>Welcome, {{ placementOfficerName }}!</h2>
+  <p></p>
+</div>
 <div class="chart-container">
   <app-basic-line-chart
     [seriesData]="studentYearlySeries"
     [categoriesData]="yearsLabels"
     titleText="Students Placed Yearly Wise Data - 2023"
-    xLabel="students"
-    yLabel="year"></app-basic-line-chart>
+    xLabel="Students"
+    yLabel="Year"></app-basic-line-chart>
+
   <app-basic-column-chart
     [seriesData]="studentPlacementData"
     [categoriesData]="companiesLabels"
     titleText="Student Placement Status"
     xLabel="Companies"
-    yLabel="No. of Students"></app-basic-column-chart>
-  <!-- <app-column-chart-datalabels></app-column-chart-datalabels> -->
+    yLabel="No. of Students">
+  </app-basic-column-chart>
+
   <app-stacked-column-chart
     [seriesData]="studentSalarySeries"
     [categoriesData]="salaryRanges"
-    titleText="Student Salary-Based Status"></app-stacked-column-chart>
-  <!-- <app-hp-stacked-columnchart></app-hp-stacked-columnchart> -->
+    titleText="Student Placement Salary-Based Status"
+    xLabel="Companies"
+    yLabel="No. of Students"></app-stacked-column-chart>
+
   <app-simple-pie-chart
     [branchPlacementSeries]="branchPlacementSeries"
     [branchLabels]="branchLabels"
     titleText="Branch-Wise Student Placement Status"></app-simple-pie-chart>
-  <!-- <app-simple-donut-chart></app-simple-donut-chart> -->
 </div>

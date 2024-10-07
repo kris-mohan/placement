@@ -1,11 +1,98 @@
-<!-- <div class="chart-container">
-  <app-basic-line-chart></app-basic-line-chart>
-  <app-basic-column-chart></app-basic-column-chart>
-  <app-column-chart-datalabels></app-column-chart-datalabels>
-  <app-stacked-column-chart></app-stacked-column-chart>
-  <app-hp-stacked-columnchart></app-hp-stacked-columnchart>
-  <app-simple-pie-chart></app-simple-pie-chart>
-  <app-simple-donut-chart></app-simple-donut-chart>
-</div> -->
+<div class="dashboard-container">
+  <div class="left-column">
+    <div class="welcome-card">
+      <h2>Welcome, {{ studentName }}!</h2>
+      <p>Here’s an overview of your placement journey so far.</p>
+    </div>
 
-<h2>Student Dashboard</h2>
+    <mat-card class="placement-stats-card">
+      <mat-card-title style="color: white">Placement Statistics</mat-card-title>
+      <div class="stats-section">
+        <div style="color: white">
+          <h2 class="stats-header">{{ stats.applicationsSent }}</h2>
+          <p>Applications Sent</p>
+        </div>
+        <div class="divider"></div>
+        <div style="color: white">
+          <h2 class="stats-header">{{ stats.interviewsAttended }}</h2>
+          <p>Interviews Attended</p>
+        </div>
+        <div class="divider"></div>
+        <div style="color: white">
+          <h2 class="stats-header">{{ stats.offersReceived }}</h2>
+          <p>Offers Received</p>
+        </div>
+      </div>
+    </mat-card>
+
+    <div class="job-applications-section">
+      <mat-card *ngFor="let application of jobApplications" class="job-card">
+        <mat-card-header>
+          <mat-card-title>{{ application.company }}</mat-card-title>
+          <mat-card-subtitle>{{ application.jobRole }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p><strong>Salary:</strong> {{ application.salary }}</p>
+          <p>
+            <strong>Interview Date:</strong>
+            {{ application.interviewDate | date : 'mediumDate' }}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Right Column -->
+  <!-- <div class="right-column">
+    <mat-card class="notifications-card">
+      <mat-card-title>Reminder!</mat-card-title>
+      <mat-list>
+        <mat-list-item *ngFor="let notification of notifications">
+          <mat-icon matListIcon>notifications</mat-icon>
+          <h4 matLine>{{ notification.title }}</h4>
+          <p matLine>{{ notification.details }}</p>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+
+    <mat-card class="interview-schedule-card">
+      <mat-card-title>Notifications</mat-card-title>
+      <mat-list>
+        <mat-list-item *ngFor="let interview of interviewSchedule">
+          <mat-icon>event</mat-icon>
+          <h4 matLine>{{ interview.company }}</h4>
+          <p matLine>{{ interview.date | date }} - {{ interview.time }}</p>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </div> -->
+
+  <div class="right-content">
+    <div class="related-jobs">
+      <h3>Notifications</h3>
+      <ul>
+        <li
+          *ngFor="let notification of notifications"
+          [ngClass]="{
+            'reminder-notification': notification.title.includes('Reminder'),
+            'other-notification': !notification.title.includes('Reminder')
+          }">
+          <h4>{{ notification.title }}</h4>
+          <span>{{ notification.details }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="interview-schedule">
+      <h3>Interview Schedule</h3>
+      <ul>
+        <li
+          *ngFor="let interview of interviewSchedule"
+          [ngClass]="'interview-schedule-notification'">
+          <h4>{{ interview.company }}</h4>
+          <span>{{ interview.date | date }} - {{ interview.time }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,7 @@ import {
   ApexNonAxisChartSeries,
   ApexResponsive,
   ApexChart,
+  ApexTitleSubtitle,
 } from 'ng-apexcharts';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -13,10 +14,8 @@ export type ChartOptions = {
   chart: ApexChart;
   responsive: ApexResponsive[];
   labels: any;
-  title: {
-    text: string; // Title for the chart
-    align: string; // Alignment of the title
-  };
+  title: ApexTitleSubtitle;
+  
 };
 
 @Component({
@@ -32,18 +31,18 @@ export class SimplePieChartComponent implements OnChanges {
   // Input properties for dynamic data
   @Input() branchPlacementSeries: number[] = [];
   @Input() branchLabels: string[] = [];
-  @Input() chartTitle: string = 'Branch Wise Placement Status'; // Input for chart title
+  @Input() chartTitle: string = 'Branch Wise Placement Status';
 
   public chartOptions: Partial<ChartOptions> = {};
 
   ngOnChanges(): void {
     this.chartOptions = {
-      series: this.branchPlacementSeries, // Dynamic data for branches
+      series: this.branchPlacementSeries,
       chart: {
         width: 380,
         type: 'pie',
       },
-      labels: this.branchLabels, // Dynamic labels for branches
+      labels: this.branchLabels,
       responsive: [
         {
           breakpoint: 480,
@@ -58,8 +57,8 @@ export class SimplePieChartComponent implements OnChanges {
         },
       ],
       title: {
-        text: this.chartTitle, // Set the title from input
-        align: 'center', // Center the title
+        text: this.chartTitle,
+        align: 'center',
       },
     };
   }
