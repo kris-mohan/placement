@@ -1,30 +1,26 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
-import { AMGModules } from "src/AMG-Module/AMG-module";
-import { SharedModule } from "src/app/shared/shared.module";
-import {
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle,
-} from "@angular/material/dialog";
-import { CompanyAPIService } from "../api.companies";
-import { companyTableList } from "../companies-model";
-import { ODataResponse } from "../companies.component";
-import { Industry } from "../../industry/industry.module";
-import { IndustryAPIService } from "../../industry/api.industry";
-import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
+import { Component } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { map, Observable, of, startWith } from "rxjs";
+import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
+import { Observable, of, startWith, map } from "rxjs";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { CompanyAPIService } from "src/app/features/company-configuration/company-config/companies/api.companies";
+import {
+  companyTableList,
+  Industry,
+} from "src/app/features/company-configuration/company-config/companies/companies-model";
+import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
+import { SharedModule } from "src/app/shared/shared.module";
+import { ODataResponse } from "../placement-interview.component";
 
 @Component({
-  selector: "app-import-company-dialog",
+  selector: "app-placement-interview-additional-filter",
   standalone: true,
-  imports: [AMGModules, CommonModule, SharedModule, NgxMatSelectSearchModule],
-  templateUrl: "./import-company-dialog.component.html",
-  styleUrl: "./import-company-dialog.component.css",
+  imports: [CommonModule, SharedModule, AMGModules, NgxMatSelectSearchModule],
+  templateUrl: "./placement-interview-additional-filter.component.html",
+  styleUrl: "./placement-interview-additional-filter.component.css",
 })
-export class ImportCompanyDialogComponent implements OnInit {
+export class PlacementInterviewAdditionalFilterComponent {
   companies: companyTableList[] = [];
   industries: Industry[] = [];
   companySizes: string[] = [

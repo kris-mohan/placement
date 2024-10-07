@@ -8,37 +8,36 @@
           </div>
 
           <div class="header-mat-label">
-            <mat-label>COMPANIES</mat-label>
+            <mat-label>Upcoming Companies</mat-label>
           </div>
         </div>
 
         <div>
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Search Company</mat-label>
-            <input
-              type="text"
-              aria-label="Number"
-              matInput
-              [formControl]="companyControl"
-              [matAutocomplete]="auto"
-            />
-            <mat-autocomplete
-              autoActiveFirstOption
-              #auto="matAutocomplete"
-              (optionSelected)="onCompanySelected($event)"
+            <mat-label>Select Date Range</mat-label>
+            <mat-date-range-input
+              [formGroup]="campaignOne"
+              [rangePicker]="campaignOnePicker"
+              [comparisonStart]="campaignOne.value.start"
+              [comparisonEnd]="campaignOne.value.end"
             >
-              <mat-option
-                *ngFor="let company of filteredCompany | async"
-                [value]="company.Name"
-              >
-                {{ company.Name }}
-              </mat-option>
-            </mat-autocomplete>
+              <input
+                matStartDate
+                placeholder="Start date"
+                formControlName="start"
+              />
+              <input matEndDate placeholder="End date" formControlName="end" />
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="campaignOnePicker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
           </mat-form-field>
         </div>
-
         <div>
-          <mat-form-field class="full-width" appearance="outline">
+          <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Location</mat-label>
             <mat-select
               [formControl]="CityControl"
@@ -88,7 +87,7 @@
         </div>
 
         <div>
-          <mat-form-field class="full-width" appearance="outline">
+          <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Industry</mat-label>
             <mat-select
               [formControl]="industryControl"
@@ -138,7 +137,7 @@
         </div>
 
         <div>
-          <mat-form-field appearance="outline">
+          <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Company Size</mat-label>
             <mat-select [formControl]="companySizeControl" multiple>
               @for (companySize of companySizes; track companySize) {
@@ -147,37 +146,50 @@
             </mat-select>
           </mat-form-field>
         </div>
-
-        <!-- <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Experience Level</mat-label>
-            <mat-select [formControl]="experienceLevelControl" multiple>
-              @for (expLevel of experienceLevel; track expLevel) {
-              <mat-option [value]="expLevel">{{ expLevel }}</mat-option>
-              }
-            </mat-select>
+      </div>
+      <div class="example-button-container">
+        <div>
+          <mat-form-field class="search-full-width" appearance="outline">
+            <mat-label>Search Company</mat-label>
+            <mat-icon matSuffix>search</mat-icon>
+            <input
+              type="text"
+              aria-label="Number"
+              matInput
+              [formControl]="companyControl"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete
+              autoActiveFirstOption
+              #auto="matAutocomplete"
+              (optionSelected)="onCompanySelected($event)"
+            >
+              <mat-option
+                *ngFor="let company of filteredCompany | async"
+                [value]="company.Name"
+              >
+                {{ company.Name }}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
-        </div> -->
-
-        <div class="example-button-container">
-          <button
-            mat-raised-button
-            class="matbutton"
-            (click)="openImportCompanyDialog()"
-          >
-            <p class="matName">Additional Filters</p>
-          </button>
-
-          <button
-            *ngIf="userType !== 3"
-            mat-raised-button
-            class="matbutton"
-            (click)="openAddEditCompanyForm(0)"
-          >
-            <mat-icon class="maticon">add</mat-icon>
-            <p class="matName">Company</p>
-          </button>
         </div>
+        <button
+          mat-raised-button
+          class="matbutton"
+          (click)="openImportCompanyDialog()"
+        >
+          <p class="matName">Additional Filters</p>
+        </button>
+
+        <button
+          *ngIf="userType !== 3"
+          mat-raised-button
+          class="matbutton"
+          (click)="openAddEditCompanyForm(0)"
+        >
+          <mat-icon class="maticon">add</mat-icon>
+          <p class="matName">Company</p>
+        </button>
       </div>
     </div>
   </mat-card-header>
@@ -220,7 +232,13 @@
           >
         </div>
       </div>
+
       <div class="company">
+        <div>
+          <span class="rating"
+            ><strong class="openings">2 New Openings !</strong></span
+          >
+        </div>
         Vacancies:
         <span class="rating"
           ><strong>{{ company.numberOfJobs }}</strong></span
@@ -240,6 +258,14 @@
         <span class="rating"
           ><strong>{{ company.CompanyPhone }}</strong></span
         >
+        <div class="actions-icons">
+          <div>
+            <mat-icon>delete</mat-icon>
+          </div>
+          <div>
+            <mat-icon>edit</mat-icon>
+          </div>
+        </div>
       </div>
     </div>
   </mat-card-content>

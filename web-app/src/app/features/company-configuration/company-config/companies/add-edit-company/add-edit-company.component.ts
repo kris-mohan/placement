@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -21,7 +21,8 @@ export class AddEditCompanyComponent {
     private router: Router,
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
-    private apiCompanyService: CompanyAPIService
+    private apiCompanyService: CompanyAPIService,
+    private location: Location
   ) {
     this.addEditCompanyForm = this.fb.group({
       Url: "",
@@ -88,5 +89,9 @@ export class AddEditCompanyComponent {
         },
       });
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

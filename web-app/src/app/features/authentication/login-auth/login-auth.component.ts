@@ -24,6 +24,7 @@ export class LoginAuthComponent {
   Password: string = "";
   UserType: string = "";
   errorMessage: string = "";
+  storedUserType: string = "";
   isPasswordVisible: boolean = false;
   constructor(private apiService: ApiHttpService, private router: Router) {}
 
@@ -53,7 +54,17 @@ export class LoginAuthComponent {
               sessionStorage.setItem("userType", response.userType);
               sessionStorage.setItem("userName", response.userName);
               sessionStorage.setItem("collegeName", response.collegeName);
-              this.router.navigate(["/dashboard"]);
+
+              const storedUserType = sessionStorage.getItem("userType");
+              this.storedUserType = storedUserType!;
+
+              if (this.storedUserType === "1") {
+                this.router.navigate(["/placement-dashboard"]);
+              } else if (this.storedUserType === "2") {
+                this.router.navigate(["/company-dashboard"]);
+              } else {
+                this.router.navigate(["/student-dashboard"]);
+              }
             }
           },
           error: (error: HttpErrorResponse) => {

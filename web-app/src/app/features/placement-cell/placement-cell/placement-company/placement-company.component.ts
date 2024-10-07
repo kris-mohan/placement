@@ -1,4 +1,9 @@
-import { Component, inject, ViewChild } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  ViewChild,
+} from "@angular/core";
 import { Router, withDebugTracing } from "@angular/router";
 import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
@@ -8,7 +13,7 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { MatDialog } from "@angular/material/dialog";
 import { map, Observable, of, startWith } from "rxjs";
-import { FormControl } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatPaginatorModule } from "@angular/material/paginator";
@@ -20,7 +25,12 @@ import {
 import { CompanyDetailDialogModalComponent } from "src/app/features/company-configuration/company-config/companies/company-detail-dialog-modal/company-detail-dialog-modal.component";
 import { ImportCompanyDialogComponent } from "src/app/features/company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
 import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
-import { THREE } from "@angular/cdk/keycodes";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { provideNativeDateAdapter } from "@angular/material/core";
+
+const today = new Date();
+const month = today.getMonth();
+const year = today.getFullYear();
 
 export interface ODataResponse<T> {
   value: T[];
@@ -29,9 +39,17 @@ export interface ODataResponse<T> {
 @Component({
   selector: "app-placement-company",
   standalone: true,
-  imports: [AMGModules, CommonModule, SharedModule, MatPaginatorModule],
+  imports: [
+    AMGModules,
+    CommonModule,
+    SharedModule,
+    MatPaginatorModule,
+    MatDatepickerModule,
+  ],
   templateUrl: "./placement-company.component.html",
   styleUrl: "./placement-company.component.css",
+  providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlacementCompanyComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -86,6 +104,11 @@ export class PlacementCompanyComponent {
     const storedUserType = sessionStorage.getItem("userType");
     this.userType = storedUserType ? parseInt(storedUserType) : 0;
   }
+
+  readonly campaignOne = new FormGroup({
+    start: new FormControl(new Date(year, month, 13)),
+    end: new FormControl(new Date(year, month, 16)),
+  });
   displayedColumns: string[] = [
     // "Url",
     // "Name",
@@ -135,7 +158,7 @@ export class PlacementCompanyComponent {
     },
     {
       Id: 2,
-      logo: "../../../../assets/images/Softserve-logo1white.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Sony Electronics",
       rating: 4.5,
       reviews: "2K+ reviews",
@@ -149,7 +172,7 @@ export class PlacementCompanyComponent {
     },
     {
       Id: 3,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       rating: 4.2,
       reviews: "1.5K+ reviews",
@@ -163,7 +186,7 @@ export class PlacementCompanyComponent {
     },
     {
       Id: 4,
-      logo: "company-logo-4.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "LG Electronics",
       rating: 4.3,
       reviews: "1.8K+ reviews",
@@ -177,7 +200,7 @@ export class PlacementCompanyComponent {
     },
     {
       Id: 5,
-      logo: "company-logo-5.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Apple Inc.",
       rating: 4.8,
       reviews: "3K+ reviews",
@@ -191,7 +214,7 @@ export class PlacementCompanyComponent {
     },
     {
       Id: 6,
-      logo: "company-logo-6.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Microsoft Corp.",
       rating: 4.7,
       reviews: "2.7K+ reviews",
@@ -205,7 +228,7 @@ export class PlacementCompanyComponent {
     },
     {
       Id: 7,
-      logo: "company-logo-7.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Google LLC",
       rating: 4.9,
       reviews: "5K+ reviews",
@@ -219,7 +242,7 @@ export class PlacementCompanyComponent {
     },
     {
       Id: 8,
-      logo: "company-logo-8.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Facebook Inc.",
       rating: 4.6,
       reviews: "2.2K+ reviews",
@@ -233,7 +256,7 @@ export class PlacementCompanyComponent {
     },
     {
       Id: 9,
-      logo: "company-logo-9.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Amazon Web Services",
       rating: 4.4,
       reviews: "2.5K+ reviews",
@@ -247,7 +270,7 @@ export class PlacementCompanyComponent {
     },
     {
       Id: 10,
-      logo: "company-logo-10.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Tesla Inc.",
       rating: 4.7,
       reviews: "2.8K+ reviews",
