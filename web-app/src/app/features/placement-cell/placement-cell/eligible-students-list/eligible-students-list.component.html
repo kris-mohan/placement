@@ -4,7 +4,11 @@
       <button mat-icon-button color="primary" (click)="goBack()" class="back-button">
         <mat-icon>keyboard_backspace</mat-icon>
       </button>
-      <span class="header-title">Eligible Students</span>
+      <span class="header-title">Students</span>
+      <button mat-raised-button color="primary" class="invite-all-btn">
+        <mat-icon class="maticon">mail</mat-icon>
+        Invite All
+      </button>
     </div>
 
     <div class="filters-container">
@@ -16,7 +20,7 @@
             <input matInput placeholder="Search by Student Name" [formControl]="searchControl" />
           </mat-form-field>
         </div>
-    
+
         <mat-form-field appearance="outline" class="filter-field">
           <mat-label>Batch</mat-label>
           <mat-select [formControl]="batchControl" multiple>
@@ -24,7 +28,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-    
+
       <!-- Right side: Branch and Registration Status -->
       <div class="filter-column">
         <mat-form-field appearance="outline" class="filter-field">
@@ -33,7 +37,7 @@
             <mat-option *ngFor="let branch of branches" [value]="branch">{{ branch }}</mat-option>
           </mat-select>
         </mat-form-field>
-    
+
         <mat-form-field appearance="outline" class="filter-field">
           <mat-label>Registration Status</mat-label>
           <mat-select [formControl]="statusControl" multiple>
@@ -43,11 +47,7 @@
       </div>
     </div>    
   </mat-card-header>
-  <br>
-  <button mat-raised-button color="primary" class="invite-all-btn">
-    <mat-icon class="maticon">mail</mat-icon>
-    Invite All
-  </button>
+  
   <mat-card-content class="table-container">
     <!-- Standard Table for Larger Screens -->
     <table mat-table [dataSource]="dataSource" class="student-table mat-elevation-z8" *ngIf="isLargeScreen()">
@@ -87,6 +87,24 @@
               </mat-chip>
             </ng-container>
 
+            <ng-container *ngSwitchCase="'ApplicationApprovalStatus'">
+              <ng-container *ngIf="element.ApplicationApprovalStatus === 'Verify'; else showChip">
+                <button
+                  (click)="verifyApplicationStatus(element.StudentID)"
+                  mat-raised-button
+                  color="primary"
+                >
+                  Verify
+                </button>
+
+              </ng-container>
+              <ng-template #showChip>
+                <mat-chip [ngStyle]="getApplicationApproveChipStyle(element.ApplicationApprovalStatus)">
+                  {{ element.ApplicationApprovalStatus }}
+                </mat-chip>
+              </ng-template>
+            </ng-container>
+
             <ng-container *ngSwitchDefault>
               {{ element[column.key] }}
             </ng-container>
@@ -98,7 +116,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <!-- Accordion for Mobile View -->
+    <!-- Inside the Accordion for Mobile View -->
     <mat-accordion *ngIf="!isLargeScreen()">
       <mat-expansion-panel *ngFor="let row of dataSource.filteredData">
         <mat-expansion-panel-header>
@@ -117,6 +135,13 @@
           <p><strong>Application Approval Status:</strong> {{ row.ApplicationApprovalStatus }}</p>
           <button *ngIf="row.Status === 'Invite'" mat-raised-button color="primary">
             <mat-icon>mail</mat-icon>Invite
+          </button>
+          <button
+            (click)="verifyApplicationStatus(row.StudentID)"
+            mat-raised-button
+            color="primary"
+          >
+            Verify
           </button>
         </div>
       </mat-expansion-panel>
