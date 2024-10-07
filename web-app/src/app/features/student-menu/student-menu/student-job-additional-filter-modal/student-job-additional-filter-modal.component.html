@@ -23,6 +23,31 @@
       </mat-autocomplete>
     </mat-form-field>
   </div>
+
+  <div>
+    <mat-form-field class="example-full-width full-width" appearance="outline">
+      <mat-label>Industry</mat-label>
+      <input
+        type="text"
+        aria-label="Number"
+        matInput
+        [matAutocomplete]="auto"
+        class="full-width"
+      />
+      <mat-autocomplete
+        autoActiveFirstOption
+        #auto="matAutocomplete"
+        (optionSelected)="onCompanySelected($event)"
+      >
+        <mat-option
+          *ngFor="let company of filteredCompany | async"
+          [value]="company.Name"
+        >
+          {{ company.Name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
   <div>
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Salary Range</mat-label>

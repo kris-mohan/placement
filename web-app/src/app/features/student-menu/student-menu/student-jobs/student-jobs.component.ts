@@ -1,13 +1,13 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
-import { FormControl } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import {
   companyTableList,
@@ -18,6 +18,11 @@ import { StudentJobPostingList } from "./student-jobs.model";
 import { ImportCompanyDialogComponent } from "src/app/features/company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { StudentJobAdditionalFilterModalComponent } from "../student-job-additional-filter-modal/student-job-additional-filter-modal.component";
+import { provideNativeDateAdapter } from "@angular/material/core";
+
+const today = new Date();
+const month = today.getMonth();
+const year = today.getFullYear();
 
 export const JOBPOSTING_DATA: StudentJobPostingList[] = [
   {
@@ -85,6 +90,8 @@ export const JOBPOSTING_DATA: StudentJobPostingList[] = [
 @Component({
   selector: "app-student-jobs",
   standalone: true,
+  providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, SharedModule, AMGModules],
   templateUrl: "./student-jobs.component.html",
   styleUrl: "./student-jobs.component.css",
@@ -100,6 +107,10 @@ export class StudentJobsComponent {
     const storedUserType = sessionStorage.getItem("userType");
     this.userType = storedUserType ? parseInt(storedUserType) : 0;
   }
+  readonly campaignOne = new FormGroup({
+    start: new FormControl(new Date(year, month, 13)),
+    end: new FormControl(new Date(year, month, 16)),
+  });
 
   searchCity: string = "";
   filteredCompanies: companyTableList[] = [];
@@ -228,7 +239,8 @@ export class StudentJobsComponent {
   jobsCard = [
     {
       Id: 1,
-      logo: "job-logo-1.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
       title: "Software Engineer",
       experience: "0 - 2 years",
       salary: "₹6 - 8 LPA",
@@ -242,7 +254,8 @@ export class StudentJobsComponent {
     },
     {
       Id: 2,
-      logo: "job-logo-2.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
       title: "Data Analyst",
       experience: "1 - 3 years",
       salary: "₹4 - 6 LPA",
@@ -256,7 +269,8 @@ export class StudentJobsComponent {
     },
     {
       Id: 3,
-      logo: "job-logo-3.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
       title: "Product Manager",
       experience: "3 - 5 years",
       salary: "₹12 - 15 LPA",
@@ -270,7 +284,8 @@ export class StudentJobsComponent {
     },
     {
       Id: 4,
-      logo: "job-logo-4.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
       title: "HR Executive",
       experience: "0 - 1 year",
       salary: "₹3 - 5 LPA",
@@ -284,7 +299,8 @@ export class StudentJobsComponent {
     },
     {
       Id: 5,
-      logo: "job-logo-5.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
       title: "Marketing Specialist",
       experience: "2 - 4 years",
       salary: "₹7 - 9 LPA",
@@ -298,7 +314,8 @@ export class StudentJobsComponent {
     },
     {
       Id: 6,
-      logo: "job-logo-6.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
       title: "Sales Manager",
       experience: "4 - 6 years",
       salary: "₹10 - 12 LPA",
@@ -312,7 +329,8 @@ export class StudentJobsComponent {
     },
     {
       Id: 7,
-      logo: "job-logo-7.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
       title: "Cloud Engineer",
       experience: "2 - 4 years",
       salary: "₹8 - 10 LPA",
@@ -326,7 +344,8 @@ export class StudentJobsComponent {
     },
     {
       Id: 8,
-      logo: "job-logo-8.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
       title: "UI/UX Designer",
       experience: "1 - 3 years",
       salary: "₹5 - 7 LPA",
@@ -340,7 +359,8 @@ export class StudentJobsComponent {
     },
     {
       Id: 9,
-      logo: "job-logo-9.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
       title: "DevOps Engineer",
       experience: "3 - 5 years",
       salary: "₹10 - 14 LPA",
@@ -354,7 +374,8 @@ export class StudentJobsComponent {
     },
     {
       Id: 10,
-      logo: "job-logo-10.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
       title: "Cybersecurity Specialist",
       experience: "5+ years",
       salary: "₹15 - 18 LPA",
