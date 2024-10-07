@@ -14,7 +14,9 @@ import {
   ApexLegend,
   ChartComponent,
   NgApexchartsModule,
+  ApexTitleSubtitle,
 } from 'ng-apexcharts';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -27,6 +29,7 @@ export type ChartOptions = {
   tooltip: ApexTooltip;
   stroke: ApexStroke;
   legend: ApexLegend;
+  title: ApexTitleSubtitle;
 };
 
 @Component({
@@ -34,7 +37,7 @@ export type ChartOptions = {
   templateUrl: './basic-column-chart.component.html',
   styleUrls: ['./basic-column-chart.component.css'],
   standalone: true,
-  imports: [CommonModule, NgApexchartsModule],
+  imports: [CommonModule, NgApexchartsModule, SharedModule],
 })
 export class BasicColumnChartComponent implements OnChanges {
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
@@ -43,7 +46,7 @@ export class BasicColumnChartComponent implements OnChanges {
   @Input() categoriesData: string[] = [];
   @Input() xLabel: string = '';
   @Input() yLabel: string = '';
-  @Input() titleText: string = '';
+  @Input() titleText: string = 'Student Placement Based on Salary';
 
   public chartOptions: Partial<ChartOptions> = {};
 
@@ -95,6 +98,24 @@ export class BasicColumnChartComponent implements OnChanges {
         position: 'top',
         horizontalAlign: 'center',
       },
+    };
+  }
+  ngOnInit(): void {
+    this.chartOptions.series = this.seriesData;
+    this.chartOptions.xaxis = {
+      categories: this.categoriesData,
+      title: {
+        text: this.xLabel,
+      },
+    };
+    this.chartOptions.yaxis = {
+      title: {
+        text: this.yLabel,
+      },
+    };
+    this.chartOptions.title = {
+      text: this.titleText,
+      align: 'left',
     };
   }
 }
