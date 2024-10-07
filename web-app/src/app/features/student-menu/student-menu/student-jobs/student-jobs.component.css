@@ -41,6 +41,8 @@ table {
   color: white;
 }
 .matName {
+  display: flex;
+  justify-content: flex-end;
   color: white;
 }
 .mdc-checkbox__native-control {
@@ -202,4 +204,21 @@ cdk-overlay-pane {
 
 .search_jobs {
   margin: 0 0 0 -30px;
+}
+
+.company-designation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.company-designation div {
+  width: 50%;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.company-designation div h3 {
+  margin: 0 0 0 0 !important;
 }

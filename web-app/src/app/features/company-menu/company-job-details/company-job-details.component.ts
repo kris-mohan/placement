@@ -237,7 +237,7 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "Hybrid",
       numberOfOpenings: 10,
       applicants: 100,
-      type: "MNC",
+      type: "IT",
       Skills: "Node, React",
     },
     {
@@ -279,7 +279,7 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "Hybrid",
       numberOfOpenings: 7,
       applicants: 120,
-      type: "MNC",
+      type: "Sales",
       Skills: "Node, React",
     },
     {
@@ -293,7 +293,7 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "On-site",
       numberOfOpenings: 5,
       applicants: 60,
-      type: "MNC",
+      type: "Data Analyst",
       Skills: "Node, React",
     },
     {
@@ -307,7 +307,7 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "Remote",
       numberOfOpenings: 4,
       applicants: 70,
-      type: "MNC",
+      type: "IT",
       Skills: "Node, React",
     },
     {
@@ -321,7 +321,7 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "On-site",
       numberOfOpenings: 6,
       applicants: 150,
-      type: "MNC",
+      type: "Non Techical",
       Skills: "Node, React",
     },
     {
@@ -349,7 +349,7 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "Remote",
       numberOfOpenings: 4,
       applicants: 85,
-      type: "MNC",
+      type: "Automation",
       Skills: "Node, React",
     },
     {
@@ -363,7 +363,7 @@ export class CompanyJobDetailsComponent {
       modeOfWork: "On-site",
       numberOfOpenings: 2,
       applicants: 40,
-      type: "MNC",
+      type: "IT",
       Skills: "Node, React",
     },
   ];

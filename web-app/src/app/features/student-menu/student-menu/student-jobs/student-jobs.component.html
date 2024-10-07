@@ -13,7 +13,7 @@
 
         <div class="filter_items search_jobs">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Search Jobs</mat-label>
+            <mat-label>Search Job Title, Company</mat-label>
             <input
               type="text"
               aria-label="Number"
@@ -85,55 +85,44 @@
           </mat-form-field>
         </div>
 
-        <div class="filter_items">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Industry</mat-label>
-            <mat-select
-              [formControl]="industryControl"
-              multiple
-              (openedChange)="onIndustryDropdownOpen()"
-            >
-              <mat-select-trigger>
-                {{ selectedIndustries }}
-              </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input
-                  class="full-width"
-                  matInput
-                  [(ngModel)]="searchIndustry"
-                  (ngModelChange)="filterIndustries($event)"
-                  placeholder="Search"
-                />
-              </mat-form-field>
-              <mat-option *ngIf="!filteredIndustries.length" disabled
-                >No options</mat-option
-              >
-              <mat-option
-                *ngFor="let industry of filteredIndustries"
-                [value]="industry.Type"
-              >
-                {{ industry.Type }}
-              </mat-option>
+        <mat-form-field appearance="outline">
+          <mat-label>First campaign</mat-label>
+          <mat-date-range-input
+            [formGroup]="campaignOne"
+            [rangePicker]="campaignOnePicker"
+            [comparisonStart]="campaignOne.value.start"
+            [comparisonEnd]="campaignOne.value.end"
+          >
+            <input
+              matStartDate
+              placeholder="Start date"
+              formControlName="start"
+            />
+            <input matEndDate placeholder="End date" formControlName="end" />
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="campaignOnePicker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+        </mat-form-field>
 
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button
-                  mat-button
-                  mat-dialog-close
-                  (click)="resetIndustrySelection()"
-                >
-                  Reset
-                </button>
-                <button
-                  mat-raised-button
-                  class="matbutton"
-                  (click)="showIndustryResults()"
-                >
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <!-- <mat-form-field class="example-form-field">
+  <mat-label>Second campaign</mat-label>
+  <mat-date-range-input
+    [formGroup]="campaignTwo"
+    [rangePicker]="campaignTwoPicker"
+    [comparisonStart]="campaignOne.value.start"
+    [comparisonEnd]="campaignOne.value.end">
+    <input matStartDate placeholder="Start date" formControlName="start">
+    <input matEndDate placeholder="End date" formControlName="end">
+  </mat-date-range-input>
+  <mat-datepicker-toggle matIconSuffix [for]="campaignTwoPicker"></mat-datepicker-toggle>
+  <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+  <mat-date-range-picker #campaignTwoPicker></mat-date-range-picker>
+</mat-form-field> -->
+
         <!-- <div>
           <mat-form-field appearance="outline">
             <mat-label>Skills</mat-label>
@@ -266,21 +255,34 @@
           <h3 class="heading1">{{ job.title }}</h3>
           <!-- 
         <div class="company-type">{{ job.applicants }}</div> -->
+          <div>
+            <img
+              [src]="job.logo"
+              alt="Company Logo"
+              class="company-logo"
+              height="40%"
+            />
+            <h3>{{ job.name }}</h3>
+          </div>
         </div>
         <div class="job-details-container">
           <div class="job-detail">
             <span><strong>Experience:</strong> 0 - 2 years</span>
             <span><strong>Job Type:</strong> MNC</span>
             <span><strong>Skills:</strong> Node, React</span>
-            <span><strong>No. of vacancies:</strong> 10</span>
-            <span><strong>Number of applicants submitted:</strong> 10</span>
-          </div>
-          <div class="job-detail">
             <span><strong>Salary:</strong> ₹6 - 8 LPA</span>
             <span><strong>Location:</strong> Bengaluru</span>
+            <span><strong>No. of vacancies:</strong> 10</span>
+
+            <!-- <span><strong>Number of applicants submitted:</strong> 10</span> -->
+          </div>
+          <div class="job-detail">
             <span><strong>Shift:</strong> Day Shift</span>
             <span><strong>Mode of Work:</strong> Hybrid</span>
-            <span><strong>Number of interview schedule:</strong> 10</span>
+            <span><strong> Drive Date:</strong> 17/11/2024</span>
+            <span><strong>Posted Date:</strong> 14/11/2024</span>
+            <span><strong>Application last date:</strong>13/11/2024</span>
+            <!-- <span><strong>Number of interview schedule:</strong> 10</span> -->
           </div>
         </div>
       </div>
