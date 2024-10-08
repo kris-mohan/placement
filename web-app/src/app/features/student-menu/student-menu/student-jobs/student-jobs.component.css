@@ -8,24 +8,23 @@ button {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 5px;
 }
 
 .example-button-container {
   display: flex;
-  justify-content: center;
+  justify-content: end;
   cursor: pointer;
 }
 
 .button-label-container {
   display: flex;
-  align-items: center;
 }
 
 .header-mat-label {
-  margin-left: 3rem;
+  margin-left: 1rem;
   font-weight: bolder;
-  font-size: larger;
+  font-size: x-large;
+  color: darkblue;
 }
 
 table {
@@ -41,8 +40,6 @@ table {
   color: white;
 }
 .matName {
-  display: flex;
-  justify-content: flex-end;
   color: white;
 }
 .mdc-checkbox__native-control {
@@ -64,16 +61,20 @@ cdk-overlay-pane {
 
 .mat-grid-tile {
   border-radius: 0.5rem;
-  background-color: #ededed;
+  background-color: #cadaf647;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   margin: 1em;
+  border: solid 0.1px #bfbfd4;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
 
 .mat-grid-tile:hover {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  transform: scale(1.3);
+  transform: scale(1.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease, color 0.3s ease;
   background-color: white;
   color: black;
 }
@@ -90,87 +91,14 @@ cdk-overlay-pane {
 button {
   margin: 0 8px 8px 0;
 }
-.mat-mdc-card-header {
-  display: unset;
-}
-.example-flex-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.example-button-container {
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.button-label-container {
-  display: flex;
-  align-items: center;
-}
-
-.header-mat-label {
-  margin-left: 3rem;
-  font-weight: bolder;
-  font-size: larger;
-}
 
 table {
   width: 100%;
 }
 
-.matbutton {
-  background-color: #3f51b5;
+.search-full-width {
+  margin-right: 1rem;
 }
-.maticon {
-  color: white;
-}
-.matName {
-  color: white;
-}
-.mdc-checkbox__native-control {
-  border-color: var(--mdc-checkbox-selected-icon-color);
-  background-color: black;
-}
-.td-mat-button {
-  display: flex;
-}
-cdk-overlay-pane {
-  width: auto;
-}
-.mat-dialog-actions {
-  display: flex;
-}
-.custom-dropdown-panel {
-  width: auto;
-}
-
-.mat-grid-tile {
-  border-radius: 0.5rem;
-  background-color: #ededed;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  margin: 1em;
-}
-
-.mat-grid-tile:hover {
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  transform: scale(1.3);
-  background-color: white;
-  color: black;
-}
-
-/* .company-details {
-  text-align: left;
-  margin: 0.5rem;
-} */
-
-/* .job-details {
-  text-align: right;
-  margin: 0.5rem;
-} */
 .matButtonText {
   color: white;
 }

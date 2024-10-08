@@ -6,29 +6,27 @@ button {
 }
 .example-flex-container {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
-  justify-content: flex-end;
-  /* justify-content: flex-end; */
 }
 
 .example-button-container {
   display: flex;
-  justify-content: center;
+  justify-content: end;
   cursor: pointer;
 }
 
 .button-label-container {
   display: flex;
-  align-items: center;
 }
 
 .header-mat-label {
-  margin-left: 3rem;
+  margin-left: 0.5rem;
   font-weight: bolder;
-  font-size: larger;
+  font-size: x-large;
+  color: darkblue;
+  margin-right: 0.5rem;
 }
-
 table {
   width: 100%;
 }
@@ -71,45 +69,55 @@ cdk-overlay-pane {
 
 .mat-grid-tile:hover {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease,
-    background-color 0.3s ease, color 0.3s ease;
-  transform: scale(1.1);
+  transform: scale(1.3);
   background-color: white;
   color: black;
 }
 
-/* .company-details {
+.company-details {
   text-align: left;
   margin: 0.5rem;
-} */
+}
 
-/* .job-details {
+.company {
   text-align: right;
   margin: 0.5rem;
-} */
-.matButtonText {
+}
+.search-full-width {
+  margin-right: 1rem;
+}
+
+.main-div {
+  padding: 1rem;
+  background-color: white;
+}
+.filters {
+  display: flex;
+  justify-content: end;
+}
+
+.placement-stats-card {
+  background-color: #0042bed9;
+  border-radius: 20px;
+  margin-left: 1rem;
+  margin-right: 5rem;
+}
+.stats-section {
+  display: flex;
+  justify-content: space-evenly;
+  height: 10vh;
+}
+.sendButton {
+  text-align: end;
+}
+.stats-para {
   color: white;
 }
-
-.company-details {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 5px;
+.divider {
+  width: 2px;
+  height: 5rem;
+  background-color: white;
 }
-.heading1 {
-  margin: 0;
-  padding: 5px;
-}
-
-.job-details-container {
-  display: flex;
-  padding: 5px;
-}
-
-.job-detail {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  gap: 5px;
+.stats-header {
+  color: white;
 }

@@ -58,16 +58,18 @@ cdk-overlay-pane {
 
 .mat-grid-tile {
   border-radius: 0.5rem;
-  background-color: #ededed;
+  background-color: #cadaf647;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   margin: 1em;
+  border: solid 0.1px #bfbfd4;
 }
 
 .mat-grid-tile:hover {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  transform: scale(1.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: scale(1.1);
   background-color: white;
   color: black;
 }
@@ -83,4 +85,8 @@ cdk-overlay-pane {
 }
 .search-full-width {
   margin-right: 1rem;
+}
+
+.main-div {
+  padding: 1rem;
 }

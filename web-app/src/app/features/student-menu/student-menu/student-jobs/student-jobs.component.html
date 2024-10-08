@@ -2,40 +2,42 @@
   <mat-card-header class="custom-card-header">
     <div class="example-button-row">
       <div class="example-flex-container">
-        <div class="button-label-container filter_items">
+        <div class="button-label-container">
           <div class="example-button-container" (click)="goBack()">
             <mat-icon>keyboard_backspace</mat-icon>
-          </div>
-          <div class="header-mat-label">
-            <mat-label>Job Postings</mat-label>
+
+            <div class="header-mat-label">
+              <mat-label>Job Postings</mat-label>
+            </div>
           </div>
         </div>
 
-        <div class="filter_items search_jobs">
+        <div>
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Search Job Title, Company</mat-label>
-            <input
-              type="text"
-              aria-label="Number"
-              matInput
-              [matAutocomplete]="auto"
-            />
-            <mat-autocomplete
-              autoActiveFirstOption
-              #auto="matAutocomplete"
-              (optionSelected)="onCompanySelected($event)"
+            <mat-label>First campaign</mat-label>
+            <mat-date-range-input
+              [formGroup]="campaignOne"
+              [rangePicker]="campaignOnePicker"
+              [comparisonStart]="campaignOne.value.start"
+              [comparisonEnd]="campaignOne.value.end"
             >
-              <mat-option
-                *ngFor="let company of filteredCompany | async"
-                [value]="company.Name"
-              >
-                {{ company.Name }}
-              </mat-option>
-            </mat-autocomplete>
+              <input
+                matStartDate
+                placeholder="Start date"
+                formControlName="start"
+              />
+              <input matEndDate placeholder="End date" formControlName="end" />
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="campaignOnePicker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
           </mat-form-field>
         </div>
 
-        <div class="filter_items">
+        <div>
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Location</mat-label>
             <mat-select
@@ -85,56 +87,7 @@
           </mat-form-field>
         </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>First campaign</mat-label>
-          <mat-date-range-input
-            [formGroup]="campaignOne"
-            [rangePicker]="campaignOnePicker"
-            [comparisonStart]="campaignOne.value.start"
-            [comparisonEnd]="campaignOne.value.end"
-          >
-            <input
-              matStartDate
-              placeholder="Start date"
-              formControlName="start"
-            />
-            <input matEndDate placeholder="End date" formControlName="end" />
-          </mat-date-range-input>
-          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="campaignOnePicker"
-          ></mat-datepicker-toggle>
-          <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-        </mat-form-field>
-
-        <!-- <mat-form-field class="example-form-field">
-  <mat-label>Second campaign</mat-label>
-  <mat-date-range-input
-    [formGroup]="campaignTwo"
-    [rangePicker]="campaignTwoPicker"
-    [comparisonStart]="campaignOne.value.start"
-    [comparisonEnd]="campaignOne.value.end">
-    <input matStartDate placeholder="Start date" formControlName="start">
-    <input matEndDate placeholder="End date" formControlName="end">
-  </mat-date-range-input>
-  <mat-datepicker-toggle matIconSuffix [for]="campaignTwoPicker"></mat-datepicker-toggle>
-  <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-  <mat-date-range-picker #campaignTwoPicker></mat-date-range-picker>
-</mat-form-field> -->
-
-        <!-- <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Skills</mat-label>
-            <mat-select [formControl]="companySizeControl" multiple>
-              @for (companySize of companySizes; track companySize) {
-              <mat-option [value]="companySize">{{ companySize }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div> -->
-
-        <div class="filter_items">
+        <div>
           <mat-form-field appearance="outline">
             <mat-label>Experience Level</mat-label>
             <mat-select [formControl]="experienceLevelControl" multiple>
@@ -144,77 +97,33 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <!-- <div>
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Skills</mat-label>
-            <input
-              type="text"
-              aria-label="Number"
-              matInput
-              [matAutocomplete]="auto"
-            />
-            <mat-autocomplete
-              autoActiveFirstOption
-              #auto="matAutocomplete"
-              (optionSelected)="onCompanySelected($event)"
-            >
-              <mat-option
-                *ngFor="let company of filteredCompany | async"
-                [value]="company.Name"
-              >
-                {{ company.Name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Salary range</mat-label>
-            <input
-              type="text"
-              aria-label="Number"
-              matInput
-              [matAutocomplete]="auto"
-            />
-            <mat-autocomplete
-              autoActiveFirstOption
-              #auto="matAutocomplete"
-              (optionSelected)="onCompanySelected($event)"
-            >
-              <mat-option
-                *ngFor="let company of filteredCompany | async"
-                [value]="company.Name"
-              >
-                {{ company.Name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Mode of work</mat-label>
-            <input
-              type="text"
-              aria-label="Number"
-              matInput
-              [matAutocomplete]="auto"
-            />
-            <mat-autocomplete
-              autoActiveFirstOption
-              #auto="matAutocomplete"
-              (optionSelected)="onCompanySelected($event)"
-            >
-              <mat-option
-                *ngFor="let company of filteredCompany | async"
-                [value]="company.Name"
-              >
-                {{ company.Name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div> -->
+      </div>
 
-        <div class="example-button-container filter_items">
+      <div class="example-button-container">
+        <div>
+          <mat-form-field class="search-full-width" appearance="outline">
+            <mat-label>Search Job Title, Company</mat-label>
+            <input
+              type="text"
+              aria-label="Number"
+              matInput
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete
+              autoActiveFirstOption
+              #auto="matAutocomplete"
+              (optionSelected)="onCompanySelected($event)"
+            >
+              <mat-option
+                *ngFor="let company of filteredCompany | async"
+                [value]="company.Name"
+              >
+                {{ company.Name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="example-button-container">
           <button
             mat-raised-button
             class="matbutton"
@@ -252,7 +161,13 @@
     >
       <div class="company-details">
         <div class="company-designation">
-          <h3 class="heading1">{{ job.title }}</h3>
+          <h3 class="heading1">
+            {{ job.title }} <br />
+            <span style="color: slategray; font-size: 0.9rem">
+              {{ job.name }}
+            </span>
+          </h3>
+
           <!-- 
         <div class="company-type">{{ job.applicants }}</div> -->
           <div>
@@ -260,9 +175,10 @@
               [src]="job.logo"
               alt="Company Logo"
               class="company-logo"
-              height="40%"
+              height="70%"
+              width="auto"
+              style="margin-left: 150px"
             />
-            <h3>{{ job.name }}</h3>
           </div>
         </div>
         <div class="job-details-container">

@@ -59,16 +59,18 @@ cdk-overlay-pane {
 
 .mat-grid-tile {
   border-radius: 0.5rem;
-  background-color: #ededed;
+  background-color: #cadaf647;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   margin: 1em;
+  border: solid 0.1px #bfbfd4;
 }
 
 .mat-grid-tile:hover {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  transform: scale(1.3);
+  transition: transform 0.3s ease , box-shadow 0.3s ease , backgroundcolor 0.3s ease , color 0.3s ease ;
+  transform: scale(1.1);
   background-color: white;
   color: black;
 }
@@ -84,4 +86,26 @@ cdk-overlay-pane {
 }
 .matButtonText {
   color: white;
+}
+.company-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 5px;
+}
+.heading1 {
+  margin: 0;
+  padding: 5px;
+}
+
+.job-details-container {
+  display: flex;
+  padding: 5px;
+}
+
+.job-detail {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 5px;
 }

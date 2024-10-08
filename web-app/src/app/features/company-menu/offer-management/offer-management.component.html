@@ -1,0 +1,137 @@
+<div class="main-div">
+  <mat-card-header class="custom-card-header">
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <!-- Go back button -->
+        <div class="button-label-container">
+          <div class="example-button-container" (click)="goBack()">
+            <mat-icon>keyboard_backspace</mat-icon>
+            <div class="header-mat-label">
+              <mat-label>Offer Management</mat-label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status Filter -->
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select multiple>
+              <!-- <mat-select-trigger>
+                {{ selectedStatuses }}
+              </mat-select-trigger>
+              <mat-option *ngFor="let status of statuses" [value]="status">
+                {{ status }}
+              </mat-option> -->
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Job Role</mat-label>
+            <mat-select multiple>
+              <!-- <mat-select-trigger>
+                {{ selectedStatuses }}
+              </mat-select-trigger>
+              <mat-option *ngFor="let status of statuses" [value]="status">
+                {{ status }}
+              </mat-option> -->
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="search-full-width" appearance="outline">
+            <mat-label>Search Students,Job title</mat-label>
+            <mat-icon matSuffix>search</mat-icon>
+            <input type="text" matInput [matAutocomplete]="autoCompany" />
+            <mat-autocomplete #autoCompany="matAutocomplete">
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <!-- <div>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Select Date Range</mat-label>
+            <mat-date-range-input
+              [formGroup]="campaignOne"
+              [rangePicker]="datePicker"
+              [comparisonStart]="campaignOne.value.start"
+              [comparisonEnd]="campaignOne.value.end"
+            >
+              <input matStartDate placeholder="Start date" />
+              <input matEndDate placeholder="End date" />
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="datePicker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #datePicker></mat-date-range-picker>
+          </mat-form-field>
+        </div> -->
+        <div class="sendButton">
+          <button
+            mat-raised-button
+            class="matbutton"
+            (click)="openCreateOfferForm()"
+          >
+            <p class="matName">
+              <mat-icon>mail</mat-icon>Generate Offer Letter
+            </p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card class="placement-stats-card">
+    <!-- <mat-card-title>Placement Statistics</mat-card-title> -->
+    <div class="stats-section">
+      <div>
+        <p class="stats-para">Total Offers Sent</p>
+        <h2 class="stats-header">20</h2>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <p class="stats-para">Offers Accepted</p>
+        <h2 class="stats-header">30</h2>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <p class="stats-para">Offers Rejected</p>
+        <h2 class="stats-header">5</h2>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <p class="stats-para">Pending Offers</p>
+        <h2 class="stats-header">9</h2>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card-content
+    fxLayout="row wrap"
+    fxLayoutAlign="start stretch"
+    class="mat-card-content"
+  >
+    <div
+      *ngFor="let offer of offers"
+      fxFlex="100%"
+      fxFlex.gt-sm="50%"
+      fxFlex.gt-md="28%"
+      fxFlex.gt-lg="25%"
+      class="grid-item mat-grid-tile"
+    >
+      <div class="company-details">
+        <h3>{{ offer.candidateName }}</h3>
+        <div class="company-type">{{ offer.company }}</div>
+        <p><strong>Position:</strong> {{ offer.position }}</p>
+        <p><strong>Date Sent:</strong> {{ offer.sentDate | date }}</p>
+      </div>
+
+      <div class="company">
+        <p><strong>Status:</strong> {{ offer.status }}</p>
+        <p><strong>Offer Expiry:</strong> {{ offer.expiryDate | date }}</p>
+      </div>
+    </div>
+  </mat-card-content>
+</div>
