@@ -11,6 +11,7 @@ import {
   ApexLegend,
   ApexFill,
   NgApexchartsModule,
+  ApexTitleSubtitle,
 } from 'ng-apexcharts';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -21,8 +22,10 @@ export type ChartOptions = {
   plotOptions: ApexPlotOptions;
   responsive: ApexResponsive[];
   xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
   legend: ApexLegend;
   fill: ApexFill;
+  title: ApexTitleSubtitle;
 };
 
 @Component({
@@ -30,13 +33,16 @@ export type ChartOptions = {
   standalone: true,
   imports: [SharedModule, CommonModule, NgApexchartsModule],
   templateUrl: './stacked-column-chart.component.html',
-  styleUrls: ['./stacked-column-chart.component.css'], // Corrected 'styleUrl' to 'styleUrls'
+  styleUrls: ['./stacked-column-chart.component.css'], //
 })
 export class StackedColumnChartComponent implements OnChanges {
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
 
   @Input() seriesData: ApexAxisChartSeries = [];
   @Input() categoriesData: string[] = [];
+  @Input() xLabel: string = '';
+  @Input() yLabel: string = '';
+  @Input() titleText: string = 'Student Placement Based on Salary';
 
   public chartOptions: Partial<ChartOptions> = {};
 
@@ -73,7 +79,12 @@ export class StackedColumnChartComponent implements OnChanges {
       },
       xaxis: {
         type: 'category',
-        categories: this.categoriesData, // Dynamically set categories (salary ranges)
+        categories: this.categoriesData,
+      },
+      yaxis: {
+        title: {
+          text: this.yLabel,
+        },
       },
       legend: {
         position: 'right',
@@ -82,6 +93,25 @@ export class StackedColumnChartComponent implements OnChanges {
       fill: {
         opacity: 1,
       },
+    };
+  }
+
+  ngOnInit(): void {
+    this.chartOptions.series = this.seriesData;
+    this.chartOptions.xaxis = {
+      categories: this.categoriesData,
+      title: {
+        text: this.xLabel,
+      },
+    };
+    this.chartOptions.yaxis = {
+      title: {
+        text: this.yLabel,
+      },
+    };
+    this.chartOptions.title = {
+      text: this.titleText,
+      align: 'left',
     };
   }
 }

@@ -1,6 +1,11 @@
 import { CommonModule, Location } from "@angular/common";
-import { Component, inject, ViewChild } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  ViewChild,
+} from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
@@ -18,18 +23,33 @@ import { ImportCompanyDialogComponent } from "src/app/features/company-configura
 import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
+import { PlacementInterviewAdditionalFilterComponent } from "./placement-interview-additional-filter/placement-interview-additional-filter.component";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { provideNativeDateAdapter } from "@angular/material/core";
 
 export interface ODataResponse<T> {
   value: T[];
 }
+
+const today = new Date();
+const month = today.getMonth();
+const year = today.getFullYear();
+
 @Component({
   selector: "app-placement-interview",
   standalone: true,
-  imports: [CommonModule, SharedModule, AMGModules],
+  imports: [CommonModule, SharedModule, AMGModules, MatDatepickerModule],
   templateUrl: "./placement-interview.component.html",
   styleUrl: "./placement-interview.component.css",
+  providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlacementInterviewComponent {
+  readonly campaignOne = new FormGroup({
+    start: new FormControl(new Date(year, month, 13)),
+    end: new FormControl(new Date(year, month, 16)),
+  });
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   companies: companyTableList[] = [];
@@ -354,8 +374,8 @@ export class PlacementInterviewComponent {
     this.location.back();
   }
 
-  openImportCompanyDialog() {
-    this.dialog.open(ImportCompanyDialogComponent, {
+  openPlacementinterviewAdditionalFilter() {
+    this.dialog.open(PlacementInterviewAdditionalFilterComponent, {
       width: "500px",
       height: "600px",
     });

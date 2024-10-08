@@ -40,7 +40,7 @@ export type ChartOptions = {
 })
 export class BasicLineChartComponent implements OnInit {
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
+  public chartOptions: Partial<ChartOptions> = {};
 
   // Accept dynamic data as inputs
   @Input() seriesData: ApexAxisChartSeries = [];
@@ -49,7 +49,7 @@ export class BasicLineChartComponent implements OnInit {
   @Input() xLabel: string = '';
   @Input() yLabel: string = '';
 
-  constructor() {
+  ngOnChanges(): void {
     this.chartOptions = {
       chart: {
         height: 350,
@@ -96,7 +96,6 @@ export class BasicLineChartComponent implements OnInit {
     };
   }
   ngOnInit(): void {
-    // Update series and categories dynamically when inputs change
     this.chartOptions.series = this.seriesData;
     this.chartOptions.xaxis = {
       categories: this.categoriesData,

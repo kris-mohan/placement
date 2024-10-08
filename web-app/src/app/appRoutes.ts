@@ -395,10 +395,15 @@ const appRoutes: Routes = [
         path: "student-calendar",
         component: StudentCalendarComponent,
       },
+
       {
-        path: "student-company/student-jobs/:id",
+        path: "student-jobs",
         component: StudentJobsComponent,
       },
+      // {
+      //   path: "student-company/student-jobs/:id",
+      //   component: StudentJobsComponent,
+      // },
       {
         path: "student-company/student-jobs/student-job-description/:id",
         component: CompanyJobDescriptionComponent,

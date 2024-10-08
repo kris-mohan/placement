@@ -50,6 +50,7 @@ export class PlacementDashboardComponent implements OnInit {
   salaryRanges: string[] = [];
   branchPlacementSeries: number[] = [];
   branchLabels: string[] = [];
+  placementOfficerName = 'Ramesh Sharma';
 
   ngOnInit(): void {
     const apiCall = async () => {
@@ -117,7 +118,7 @@ export class PlacementDashboardComponent implements OnInit {
     salaryBasedData();
 
     const branchWisePlacementStatus = async () => {
-      this.branchPlacementSeries = [120, 150, 80, 90, 50]; // Example data representing number of students placed in each branch
+      this.branchPlacementSeries = [120, 150, 80, 90, 50];
       this.branchLabels = ['CS', 'IS', 'EC', 'ME', 'CV']; // Branch labels
     };
     branchWisePlacementStatus();

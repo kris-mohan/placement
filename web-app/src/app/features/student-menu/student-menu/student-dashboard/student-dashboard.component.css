@@ -1,42 +1,142 @@
-.chart-container {
+/* General container and layout */
+.dashboard-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around; /* Adjusts space between charts */
+  justify-content: space-between;
+  padding: 20px;
+  gap: 20px;
 }
 
-.chart-container app-basic-line-chart,
-.chart-container app-basic-column-chart,
-.chart-container app-column-chart-datalabels,
-.chart-container app-stacked-column-chart,
-.chart-container app-hp-stacked-columnchart,
-.chart-container app-simple-pie-chart,
-.chart-container app-simple-donut-chart {
-  flex: 0 1 calc(33.33% - 20px); /* Each chart takes up a third of the row */
-  margin: 10px; /* Adds spacing around each chart */
+/* Left Column */
+.left-column {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.welcome-card {
+  padding: 20px;
+  text-align: left;
+  font-family: 'Arial', sans-serif;
+}
+
+.placement-stats-card {
+  padding: 20px;
+  background-color: #0042bed9;
+  border-radius: 20px;
+}
+
+.stats-section {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.stats-header {
+  text-align: center;
+}
+
+.divider {
+  width: 2px;
+  height: 50px;
+  background-color: #cfd8dc;
+}
+
+.job-applications-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.job-card {
+  width: 48%;
+  border-radius: 10px;
+}
+
+/* Right Column */
+/* .right-column {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+} */
+
+.interview-schedule-notification {
+  background-color: rgba(148, 149, 150, 0.121);
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.right-content {
+  width: 35%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.related-jobs h3,
+.interview-schedule h3 {
+  font-size: 1.3rem;
+}
+
+.related-jobs ul,
+.interview-schedule ul {
+  list-style: none;
+  padding: 0;
+}
+
+.related-jobs li,
+.interview-schedule li {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.related-jobs li h4,
+.interview-schedule li h4 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.related-jobs li span,
+.interview-schedule li span {
+  display: block;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.reminder-notification {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid red;
+}
+
+.reminder-notification h4 {
+  color: red;
+}
+
+.other-notification {
+  background-color: #e4f0fc;
+  border: 1px solid rgb(134, 150, 252);
 }
 
 @media (max-width: 768px) {
-  /* Adjust layout for smaller screens */
-  .chart-container app-basic-line-chart,
-  .chart-container app-basic-column-chart,
-  .chart-container app-column-chart-datalabels,
-  .chart-container app-stacked-column-chart,
-  .chart-container app-hp-stacked-columnchart,
-  .chart-container app-simple-pie-chart,
-  .chart-container app-simple-donut-chart {
-    flex: 0 1 calc(50% - 20px); /* Two charts per row on smaller screens */
+  .dashboard-container {
+    flex-direction: column;
   }
-}
 
-@media (max-width: 480px) {
-  /* Adjust layout for mobile screens */
-  .chart-container app-basic-line-chart,
-  .chart-container app-basic-column-chart,
-  .chart-container app-column-chart-datalabels,
-  .chart-container app-stacked-column-chart,
-  .chart-container app-hp-stacked-columnchart,
-  .chart-container app-simple-pie-chart,
-  .chart-container app-simple-donut-chart {
-    flex: 0 1 100%; /* One chart per row on very small screens */
+  .left-column,
+  .right-column {
+    width: 100%;
+  }
+
+  .job-card {
+    width: 100%;
+  }
+  .right-content {
+    width: 100%;
   }
 }

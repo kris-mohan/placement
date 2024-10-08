@@ -1,6 +1,11 @@
 import { CommonModule, Location } from "@angular/common";
-import { Component, inject, ViewChild } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  ViewChild,
+} from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
@@ -18,18 +23,31 @@ import {
 import { CompanyDetailDialogModalComponent } from "../../company-configuration/company-config/companies/company-detail-dialog-modal/company-detail-dialog-modal.component";
 import { ImportCompanyDialogComponent } from "../../company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
 import { IndustryAPIService } from "../../company-configuration/company-config/industry/api.industry";
+import { provideNativeDateAdapter } from "@angular/material/core";
+import { InterviewAdditionalFilterComponent } from "./interview-additional-filter/interview-additional-filter.component";
 
 export interface ODataResponse<T> {
   value: T[];
 }
+
+const today = new Date();
+const month = today.getMonth();
+const year = today.getFullYear();
+
 @Component({
   selector: "app-interview",
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules],
   templateUrl: "./interview.component.html",
   styleUrl: "./interview.component.css",
+  providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InterviewComponent {
+  readonly campaignOne = new FormGroup({
+    start: new FormControl(new Date(year, month, 13)),
+    end: new FormControl(new Date(year, month, 16)),
+  });
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   companies: companyTableList[] = [];
@@ -581,5 +599,12 @@ export class InterviewComponent {
   viewInterviewDetails(id: number) {
     // Navigate to interview details page (to be implemented)
     console.log("View details for interview ID:", id);
+  }
+
+  openInterviewAdditionalFilter() {
+    this.dialog.open(InterviewAdditionalFilterComponent, {
+      width: "500px",
+      height: "600px",
+    });
   }
 }
