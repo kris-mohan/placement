@@ -1,16 +1,32 @@
+<div>
+  <h1 class="header-mat-label">Event Calendar</h1>
+  <!-- <h3 class="header-about-label">"Mark your dates, seize your opportunities!"</h3> -->
+</div>
+
 <div class="calendar-container">
   <mat-card class="demo-inline-calendar-card">
     <mat-calendar [(selected)]="selected"></mat-calendar>
   </mat-card>
+
   <div>
-    <div class="cards-container">
-      <mat-card class="example-card" *ngFor="let event of events">
-        <mat-card-content>
-          <p><strong>Event Date:</strong> {{ event.eventDate }}</p>
-          <p><strong>Event Name:</strong> {{ event.eventName }}</p>
-          <p><strong>Duration:</strong> {{ event.duration }}</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+    <mat-card class="outer-card-container">
+      <div class="inner-cards-container">
+        <mat-card class="example-card" *ngFor="let event of events">
+          <mat-card-content class="mat-card-content">
+            <div class="company-info">
+              <h3>{{ event.companyName }}</h3>
+              <p><strong>Job Title:</strong> {{ event.jobTitle }}</p>
+              <p><strong>Round:</strong> {{ event.Round }}</p>
+              <p><strong>Round Name:</strong> {{ event.RoundName }}</p>
+            </div>
+            <div class="company-timings">
+              <p><strong>Event Date:</strong> {{ event.eventDate | date }}</p>
+              <p><strong>Timings:</strong> {{ event.timings }}</p>
+              <p><strong>Duration:</strong> {{ event.duration }}</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-card>
   </div>
 </div>

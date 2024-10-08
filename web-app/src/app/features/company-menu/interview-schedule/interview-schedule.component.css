@@ -1,0 +1,11 @@
+.header-mat-label {
+  margin-left: 2.5rem;
+  font-weight: bolder;
+  font-size: x-large;
+  color: #004080;
+  margin-bottom: 10px;
+}
+
+.main-div {
+  padding: 2.5rem;
+}

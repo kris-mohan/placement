@@ -1,7 +1,8 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
-input, textarea {
+input,
+textarea {
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -9,7 +10,7 @@ input, textarea {
 button {
   padding: 8px 15px;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #3f51b5;
   color: white;
   border: none;
   cursor: pointer;
@@ -33,11 +34,13 @@ mat-card {
   gap: 20px; /* Adds a gap between the columns */
 }
 
-.left-column, .right-column {
+.left-column,
+.right-column {
   width: 48%;
 }
 
-input, textarea {
+input,
+textarea {
   width: 100%;
 }
 label {
@@ -61,6 +64,15 @@ label {
   margin-top: 14px;
   border-radius: 20px;
 }
+
+.header-mat-label {
+  margin-left: 1rem;
+  font-weight: bolder;
+  font-size: x-large;
+  color: #004080;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 768px) {
   .resume-builder-container {
     padding: 15px;
@@ -71,7 +83,8 @@ label {
     align-items: flex-start;
   }
 
-  .left-column, .right-column {
+  .left-column,
+  .right-column {
     width: 100%;
   }
 }
@@ -85,11 +98,13 @@ div {
   gap: 20px; /* Adds spacing between the two sections */
 }
 
-.hobbies-section, .curricular-section {
+.hobbies-section,
+.curricular-section {
   width: 48%; /* Each section takes up 48% of the width for some spacing */
 }
 
-h3, h4 {
+h3,
+h4 {
   margin-bottom: 10px;
 }
 
@@ -108,5 +123,4 @@ ul {
 }
 section {
   padding: 15 px;
-  
 }
