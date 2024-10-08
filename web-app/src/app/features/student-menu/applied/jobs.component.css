@@ -1,31 +1,29 @@
 .mat-mdc-card-header {
   display: unset;
-  padding-right: 28px;
 }
 .example-flex-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  max-width: 95%;
 }
 
 .example-button-container {
   display: flex;
-  justify-content: center;
+  justify-content: end;
   cursor: pointer;
+  margin-left: 1rem;
 }
 
 .button-label-container {
   display: flex;
-  align-items: center;
 }
 
 .header-mat-label {
-  margin-left: 3rem;
-  margin-top: auto;
-  margin-bottom: auto;
+  margin-left: 1rem;
+  margin-right: 1rem;
   font-weight: bolder;
-  font-size: larger;
+  font-size: x-large;
+  color: darkblue;
 }
 .mat-grid-tile:hover {
   transition: transform 0.5s ease-in-out;
@@ -111,4 +109,7 @@ cdk-overlay-pane {
   justify-content: space-evenly;
   flex-wrap: wrap;
   overflow: hidden;
+}
+.example-button-row {
+  display: flex;
 }
