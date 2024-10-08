@@ -2,11 +2,9 @@
   <div class="example-button-row">
     <div class="example-flex-container">
       <div class="example-button-container">
-        <a [routerLink]="['/company-configuration']">
+        <a (click)="goBack()">
           <mat-icon>keyboard_backspace</mat-icon>
         </a>
-      </div>
-      <div>
         <p class="matHeaderName">
           {{ Id ? "Edit Company" : "Add Company" }}
         </p>

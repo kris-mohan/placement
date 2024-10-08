@@ -12,21 +12,20 @@ button {
 
 .example-button-container {
   display: flex;
-  justify-content: center;
+  justify-content: end;
   cursor: pointer;
 }
 
 .button-label-container {
   display: flex;
-  align-items: center;
 }
 
 .header-mat-label {
-  margin-left: 3rem;
+  margin-left: 1rem;
   font-weight: bolder;
-  font-size: larger;
+  font-size: x-large;
+  color: darkblue;
 }
-
 table {
   width: 100%;
 }
@@ -81,4 +80,7 @@ cdk-overlay-pane {
 .company {
   text-align: right;
   margin: 0.5rem;
+}
+.search-full-width {
+  margin-right: 1rem;
 }

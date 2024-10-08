@@ -27,13 +27,14 @@ import { BasicLineChartComponent } from '../../charts/line chart/basic-line-char
   styleUrl: './company-dashboard.component.css',
 })
 export class CompanyDashboardComponent {
+  HRName = 'Vidyashree';
   jobRoles: string[] = ['Developer', 'Designer', 'Manager', 'QA'];
   colleges: string[] = ['College A', 'College B', 'College C', 'College D'];
   years: string[] = ['2021-22', '2022-23', '2023-24', '2024-25'];
   openings: any = [
     {
       name: 'No. of Openings',
-      data: [30, 20, 10, 40], // Corresponding openings for each job role
+      data: [30, 20, 10, 40],
     },
   ];
 
