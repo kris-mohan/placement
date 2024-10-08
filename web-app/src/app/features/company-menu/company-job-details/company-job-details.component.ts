@@ -8,13 +8,17 @@ import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 import { JobPostingList } from "./company-job-details-model";
-import { FormControl } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { companyTableList } from "../../company-configuration/company-config/companies/companies-model";
 import { Industry } from "../../company-configuration/company-config/industry/industry.module";
 import { Observable, of } from "rxjs";
 import { StudentJobAdditionalFilterModalComponent } from "../../student-menu/student-menu/student-job-additional-filter-modal/student-job-additional-filter-modal.component";
 import { MatDialog } from "@angular/material/dialog";
 import { CompanyJobAdditionalfiltersModalComponent } from "./company-job-additionalfilters-modal/company-job-additionalfilters-modal.component";
+
+const today = new Date();
+const month = today.getMonth();
+const year = today.getFullYear();
 
 export const JOBPOSTING_DATA: JobPostingList[] = [
   {
@@ -100,12 +104,16 @@ export class CompanyJobDetailsComponent {
     const storedUserType = sessionStorage.getItem("userType");
     this.userType = storedUserType ? parseInt(storedUserType) : 0;
   }
+  readonly campaignOne = new FormGroup({
+    start: new FormControl(new Date(year, month, 13)),
+    end: new FormControl(new Date(year, month, 16)),
+  });
 
   searchCity: string = "";
   filteredCompanies: companyTableList[] = [];
   companyId: number | undefined = undefined;
   companies: companyTableList[] = [];
-  experienceLevelControl = new FormControl();
+  experienceLevelControl = new FormControl(); 
   filteredCompany: Observable<any[]> = of([]);
 
   userType: number;

@@ -13,7 +13,7 @@
 
         <div>
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Search Company</mat-label>
+            <mat-label>Search Job Title, Company</mat-label>
             <input
               type="text"
               aria-label="Number"
@@ -85,56 +85,29 @@
           </mat-form-field>
         </div>
 
-        <div>
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Industry</mat-label>
-            <mat-select
-              [formControl]="industryControl"
-              multiple
-              (openedChange)="onIndustryDropdownOpen()"
-            >
-              <mat-select-trigger>
-                {{ selectedIndustries }}
-              </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input
-                  class="full-width"
-                  matInput
-                  [(ngModel)]="searchIndustry"
-                  (ngModelChange)="filterIndustries($event)"
-                  placeholder="Search"
-                />
-              </mat-form-field>
-              <mat-option *ngIf="!filteredIndustries.length" disabled
-                >No options</mat-option
-              >
-              <mat-option
-                *ngFor="let industry of filteredIndustries"
-                [value]="industry.Type"
-              >
-                {{ industry.Type }}
-              </mat-option>
-
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button
-                  mat-button
-                  mat-dialog-close
-                  (click)="resetIndustrySelection()"
-                >
-                  Reset
-                </button>
-                <button
-                  mat-raised-button
-                  class="matbutton"
-                  (click)="showIndustryResults()"
-                >
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div>
+        <mat-form-field appearance="outline">
+          <mat-label>First campaign</mat-label>
+          <mat-date-range-input
+            [formGroup]="campaignOne"
+            [rangePicker]="campaignOnePicker"
+            [comparisonStart]="campaignOne.value.start"
+            [comparisonEnd]="campaignOne.value.end"
+          >
+            <input
+              matStartDate
+              placeholder="Start date"
+              formControlName="start"
+            />
+            <input matEndDate placeholder="End date" formControlName="end" />
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="campaignOnePicker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+        </mat-form-field>
+        <!-- <div>
           <mat-form-field appearance="outline">
             <mat-label>Company Size</mat-label>
             <mat-select [formControl]="companySizeControl" multiple>
@@ -143,7 +116,7 @@
               }
             </mat-select>
           </mat-form-field>
-        </div>
+        </div> -->
 
         <div>
           <mat-form-field appearance="outline">
@@ -155,8 +128,14 @@
             </mat-select>
           </mat-form-field>
         </div>
-
-        <div class="example-button-container">
+        <div class="example-button-container filter_items">
+          <button
+            mat-raised-button
+            class="matbutton"
+            (click)="openStudentJobAdditionalFiltersModal()"
+          >
+            <p class="matName">Additional Filters</p>
+          </button>
           <button
             *ngIf="userType !== 3"
             mat-raised-button
@@ -167,10 +146,21 @@
             <p class="matButtonText">Add Job Postings</p>
           </button>
         </div>
+
+        <!-- <div class="example-button-container">
+          <button
+            *ngIf="userType !== 3"
+            mat-raised-button
+            class="matbutton"
+            (click)="openAddEditCompanyForm(0)"
+          >
+            <mat-icon class="maticon">add</mat-icon>
+            <p class="matButtonText">Add Job Postings</p>
+          </button>
+        </div> -->
       </div>
     </div>
   </mat-card-header>
-
   <mat-card-content
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"
@@ -180,37 +170,37 @@
       *ngFor="let job of jobsCard"
       (click)="openCopmanyJobDescriptionPage(job.Id)"
       fxFlex="100%"
-      fxFlex.gt-sm="50%"
-      fxFlex.gt-md="28%"
-      fxFlex.gt-lg="25%"
+      fxFlex.gt-sm="100%"
+      fxFlex.gt-md="45%"
+      fxFlex.gt-lg="30%"
       class="mat-grid-tile"
     >
       <div class="company-details">
-        <h3>{{ job.title }}</h3>
+        <div class="company-designation">
+          <h3 class="heading1">{{ job.title }}</h3>
+          <!-- 
+        <div class="company-type">{{ job.applicants }}</div> -->
+        </div>
+        <div class="job-details-container">
+          <div class="job-detail">
+            <span><strong>Experience:</strong> 0 - 2 years</span>
+            <span><strong>Job Type:</strong> MNC</span>
+            <span><strong>Skills:</strong> Node, React</span>
+            <span><strong>Salary:</strong> ₹6 - 8 LPA</span>
+            <span><strong>Location:</strong> Bengaluru</span>
+            <span><strong>No. of vacancies:</strong> 10</span>
 
-        <div class="company-type">{{ job.applicants }}</div>
-      </div>
-      <div class="job-details">
-        <h4>
-          Experience:
-          <span class="rating">{{ job.experience }}</span>
-        </h4>
-        <h4>
-          Salary:
-          <span class="rating">{{ job.salary }}</span>
-        </h4>
-        <h4>
-          Location:
-          <span class="rating">{{ job.location }}</span>
-        </h4>
-        <h4>
-          Shift:
-          <span class="rating">{{ job.shift }}</span>
-        </h4>
-        <h4>
-          Mode of Work:
-          <span class="rating">{{ job.modeOfWork }}</span>
-        </h4>
+            <!-- <span><strong>Number of applicants submitted:</strong> 10</span> -->
+          </div>
+          <div class="job-detail">
+            <span><strong>Shift:</strong> Day Shift</span>
+            <span><strong>Mode of Work:</strong> Hybrid</span>
+            <span><strong> Drive Date:</strong> 17/11/2024</span>
+            <span><strong>Posted Date:</strong> 14/11/2024</span>
+            <span><strong>Application last date:</strong>13/11/2024</span>
+            <!-- <span><strong>Number of interview schedule:</strong> 10</span> -->
+          </div>
+        </div>
       </div>
     </div>
   </mat-card-content>
