@@ -161,7 +161,13 @@
     >
       <div class="company-details">
         <div class="company-designation">
-          <h3 class="heading1">{{ job.title }}</h3>
+          <h3 class="heading1">
+            {{ job.title }} <br />
+            <span style="color: slategray; font-size: 0.9rem">
+              {{ job.name }}
+            </span>
+          </h3>
+
           <!-- 
         <div class="company-type">{{ job.applicants }}</div> -->
           <div>
@@ -169,9 +175,10 @@
               [src]="job.logo"
               alt="Company Logo"
               class="company-logo"
-              height="40%"
+              height="70%"
+              width="auto"
+              style="margin-left: 150px"
             />
-            <h3>{{ job.name }}</h3>
           </div>
         </div>
         <div class="job-details-container">
