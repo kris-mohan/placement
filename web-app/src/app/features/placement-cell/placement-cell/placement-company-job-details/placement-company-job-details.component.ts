@@ -1,6 +1,6 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -14,6 +14,9 @@ import {
   Industry,
 } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { JobPostingList } from "../jobs-list/jobs-list-model";
+import { CompanyJobAdditionalfiltersModalComponent } from "src/app/features/company-menu/company-job-details/company-job-additionalfilters-modal/company-job-additionalfilters-modal.component";
+import { ImportCompanyDialogComponent } from "src/app/features/company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
@@ -97,6 +100,7 @@ export class PlacementCompanyJobDetailsComponent {
   companies: companyTableList[] = [];
   experienceLevelControl = new FormControl();
   filteredCompany: Observable<any[]> = of([]);
+  readonly dialog = inject(MatDialog);
 
   userType: number;
 
@@ -379,6 +383,13 @@ export class PlacementCompanyJobDetailsComponent {
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
 
+  openImportCompanyDialog() {
+    this.dialog.open(ImportCompanyDialogComponent, {
+      width: "500px",
+      height: "600px",
+    });
+  }
+
   openAddEditCompanyForm(id?: number) {
     if (id !== undefined) {
       this.router.navigate(["/company-job-details", id]);
@@ -402,7 +413,11 @@ export class PlacementCompanyJobDetailsComponent {
       this.sweetAlertService.success("Job deleted successfully!");
     }
   }
-
+  openStudentJobAdditionalFiltersModal() {
+    this.dialog.open(CompanyJobAdditionalfiltersModalComponent, {
+      width: "500px",
+    });
+  }
   goBack(): void {
     this.location.back();
   }
