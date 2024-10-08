@@ -1,12 +1,7 @@
-/* .demo-inline-calendar-card {
-  width: 35vw;
-  margin-left: 100px;
-  margin-top: 20px;
-} */
-
 .calendar-container {
   display: flex;
-  margin-left: 20px; /* Applies the margin to the entire container */
+  flex-wrap: wrap;
+  margin-left: 20px;
   margin-top: 20px;
 }
 
@@ -16,22 +11,72 @@
   margin-top: 20px;
 }
 
-.cards-container {
+.outer-card-container {
+  margin-top: 20px;
   margin-left: 20px;
+}
+.inner-cards-container {
+  /* margin-left: 20px; */
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  /* gap: 15px; */
 }
 
 .example-card {
-  margin-top: 20px;
-  width: 35vw;
-  /* height: 8vw; */
+  margin: 1rem;
+  width: 40vw;
+  background-color: #c3d2f899;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+.header-mat-label {
+  margin-left: 2.5rem;
+  font-weight: bolder;
+  font-size: 2rem;
+  color: #004080;
+  margin-bottom: 10px;
+}
+
 .mat-card-content {
   display: flex;
   justify-content: space-between;
+  padding: 15px;
 }
+
+.company-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.3rem;
+  color: #1e1e6ee2;
+}
+
+.company-info p,
+.company-timings p {
+  margin: 5px 0;
+}
+
+.company-timings {
+  text-align: right;
+}
+
+.company-timings p {
+  color: #757575;
+  font-size: 0.95rem;
+}
+
+.mat-card-content p strong {
+  color: #1e1e6ee2;
+}
+
+@media (max-width: 768px) {
+  .example-card {
+    width: 100%;
+  }
+  .calendar-container {
+    flex-direction: column;
+  }
+}
+
 /* @media (min-width: 600px) {
   .example-card {
     width: 48%;

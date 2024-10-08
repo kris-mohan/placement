@@ -1,22 +1,31 @@
+<div>
+  <h1 class="header-mat-label">Forum</h1>
+</div>
+
 <div class="search-container">
-  <!-- Search Company Dropdown -->
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="outline" style="align-content: left">
     <mat-label>Search Company</mat-label>
-    <input type="text" matInput [formControl]="companyControl" [matAutocomplete]="auto" />
+    <input
+      type="text"
+      matInput
+      [formControl]="companyControl"
+      [matAutocomplete]="auto" />
 
     <mat-autocomplete #auto="matAutocomplete">
-      <!-- Display each filtered company as an option in the dropdown -->
-      <mat-option *ngFor="let company of filteredCompany | async" [value]="company.name" (onSelectionChange)="openAlumniForum(company.name)">
+      <mat-option
+        *ngFor="let company of filteredCompany | async"
+        [value]="company.name"
+        (onSelectionChange)="openAlumniForum(company.name)">
         {{ company.name }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
 </div>
 
-<!-- Display the company cards -->
 <div class="company-cards">
   <div *ngFor="let company of companiesCard" class="company-card">
-    <h3>{{ company.name }}</h3><br>
+    <h3>{{ company.name }}</h3>
+    <br />
     <p>Students Placed: {{ company.studentsPlaced }}</p>
     <p>Status: {{ company.progress }}</p>
     <button (click)="openAlumniForum(company.name)">View Alumni</button>

@@ -1,6 +1,6 @@
 <div class="dashboard-container">
   <div class="left-column">
-    <div class="welcome-card">
+    <div class="welcome-card welcome-header">
       <h2>Welcome, {{ studentName }}!</h2>
       <p>Here’s an overview of your placement journey so far.</p>
     </div>
@@ -24,21 +24,18 @@
         </div>
       </div>
     </mat-card>
-
-    <div class="job-applications-section">
-      <mat-card *ngFor="let application of jobApplications" class="job-card">
-        <mat-card-header>
-          <mat-card-title>{{ application.company }}</mat-card-title>
-          <mat-card-subtitle>{{ application.jobRole }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p><strong>Salary:</strong> {{ application.salary }}</p>
-          <p>
-            <strong>Interview Date:</strong>
-            {{ application.interviewDate | date : 'mediumDate' }}
-          </p>
-        </mat-card-content>
-      </mat-card>
+    <div class="previous-interviews">
+      <h2>Previously Attended Interviews</h2>
+      <div class="job-applications-section">
+        <div *ngFor="let job of jobApplications" class="job-card mat-card">
+          <div class="status-badge" [ngClass]="getStatusClass(job.status)">
+            {{ job.status }}
+          </div>
+          <mat-card-title>{{ job.company }}</mat-card-title>
+          <mat-card-subtitle>{{ job.jobRole }}</mat-card-subtitle>
+          <p>Interview Date: {{ job.interviewDate | date : 'longDate' }}</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -68,7 +65,7 @@
   </div> -->
 
   <div class="right-content">
-    <div class="related-jobs">
+    <div class="related-jobs" style="overflow-y: auto">
       <h3>Notifications</h3>
       <ul>
         <li

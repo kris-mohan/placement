@@ -11,7 +11,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
   styleUrl: './student-dashboard.component.css',
 })
 export class StudentDashboardComponent {
-  studentName = 'John Doe'; 
+  studentName = 'John Doe';
 
   stats = {
     applicationsSent: 10,
@@ -25,36 +25,37 @@ export class StudentDashboardComponent {
       jobRole: 'Software Engineer',
       salary: '7,00,000 INR PER ANNUM',
       interviewDate: new Date('2024-10-20'),
+      status: 'Selected to next round',
     },
     {
       company: 'Microsoft Corporation',
       jobRole: 'Data Analyst',
-      salary: '8,65,000 INR PER ANNUM',
       interviewDate: new Date('2024-10-22'),
+      status: 'Rejected',
     },
     {
       company: 'Amazon.com, Inc',
       jobRole: 'Data Analyst',
-      salary: '9.00,000 INR PER ANNUM',
       interviewDate: new Date('2024-10-22'),
+      status: 'In-progress',
     },
     {
       company: 'Apple Inc.',
       jobRole: 'Data Analyst',
-      salary: '6,00,000 INR PER ANNUM',
       interviewDate: new Date('2024-10-22'),
+      status: 'Selected to next round',
     },
     {
       company: 'Infosys Limited',
       jobRole: 'Data Analyst',
-      salary: '4,00,000 - 8,50,000 INR PER ANNUM',
       interviewDate: new Date('2024-10-22'),
+      status: 'In-progress',
     },
     {
       company: 'Tata Consultancy Services (TCS)',
       jobRole: 'Data Analyst',
-      salary: '5,00,000 INR PER ANNUM',
       interviewDate: new Date('2024-10-22'),
+      status: 'Rejected',
     },
   ];
 
@@ -65,7 +66,15 @@ export class StudentDashboardComponent {
     },
     {
       title: 'New Job Posting',
-      details: 'ABC Corp is hiring for Software Engineer roles.',
+      details: 'Softserve Global is hiring for Software Engineer roles.',
+    },
+    {
+      title: 'New Job Posting',
+      details: 'Softserve Global posted today!',
+    },
+    {
+      title: 'New Job Posting',
+      details: 'Capgemeni is hiring for Software Engineer roles.',
     },
   ];
 
@@ -83,4 +92,17 @@ export class StudentDashboardComponent {
     },
     { company: 'Capgemini SE', date: new Date('2024-10-22'), time: '1:00 PM' },
   ];
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'In-progress':
+        return 'in-progress';
+      case 'Rejected':
+        return 'rejected';
+      case 'Selected to next round':
+        return 'selected';
+      default:
+        return '';
+    }
+  }
 }

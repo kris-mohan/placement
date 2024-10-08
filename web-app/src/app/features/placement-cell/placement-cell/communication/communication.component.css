@@ -3,6 +3,13 @@
   justify-content: space-between;
   align-items: center;
 }
+.header-mat-label {
+  margin-left: 1rem;
+  font-weight: bolder;
+  font-size: x-large;
+  color: #004080;
+  margin-bottom: 10px;
+}
 
 button {
   margin-left: auto; /* Pushes the button to the right */

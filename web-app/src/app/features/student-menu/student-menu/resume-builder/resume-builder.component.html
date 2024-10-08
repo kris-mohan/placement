@@ -1,24 +1,27 @@
 <div class="resume-builder-container">
-  <h1>Resume Builder</h1>
+  <h1 class="header-mat-label">Resume Builder</h1>
 
-  <!-- Basic Details Section -->
   <mat-card class="mat-elevation-z4 section-card">
     <mat-card-title>Personal Information</mat-card-title>
     <mat-card-content>
       <div class="personal-details-container">
-        <!-- Left Column -->
         <div class="left-column">
           <section class="form-group">
             <label for="name">Full Name:</label>
-            <input matInput type="text" [(ngModel)]="resumeData.name" id="name" placeholder="Enter your name">
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="resumeData.name"
+              id="name"
+              placeholder="Enter your name" />
           </section>
           <section class="form-group">
             <label for="dob">Date of Birth:</label>
-            <input matInput type="date" [(ngModel)]="resumeData.dob" id="dob">
+            <input matInput type="date" [(ngModel)]="resumeData.dob" id="dob" />
           </section>
           <section class="form-group">
-            <label for="gender">Select Gender:</label><br>
-            <mat-form-field appearance="fill">
+            <label for="gender">Select Gender:</label><br />
+            <mat-form-field appearance="outline">
               <mat-select [(ngModel)]="resumeData.gender" id="gender">
                 <mat-option value="Male">Male</mat-option>
                 <mat-option value="Female">Female</mat-option>
@@ -27,17 +30,27 @@
             </mat-form-field>
           </section>
           <section class="form-group">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
               <mat-label>Phone number</mat-label>
               <mat-icon matSuffix>phone</mat-icon>
-              <input matInput type="tel" placeholder="xxxxxxxxxx" [formControl]="phone" required />
+              <input
+                matInput
+                type="tel"
+                placeholder="xxxxxxxxxx"
+                [formControl]="phone"
+                required />
               <mat-error *ngIf="phone.invalid">{{ errorMessage() }}</mat-error>
             </mat-form-field>
           </section>
           <section class="form-group">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
               <mat-label>Email</mat-label>
-              <input matInput placeholder="pat@example.com" [formControl]="email" (blur)="updateErrorMessage()" required />
+              <input
+                matInput
+                placeholder="pat@example.com"
+                [formControl]="email"
+                (blur)="updateErrorMessage()"
+                required />
               <mat-error *ngIf="email.invalid">{{ errorMessage() }}</mat-error>
             </mat-form-field>
           </section>
@@ -46,28 +59,38 @@
         <!-- Right Column -->
         <div class="right-column">
           <section class="form-group">
-            <label for="address">Address:</label><br>
-            <textarea matInput placeholder="Enter full address" [(ngModel)]="resumeData.address" rows="5" style="width: 100%;"></textarea>
+            <label for="address">Address:</label><br />
+            <textarea
+              matInput
+              placeholder="Enter full address"
+              [(ngModel)]="resumeData.address"
+              rows="5"
+              style="width: 100%"></textarea>
           </section>
 
           <section class="form-group">
             <h4>Languages Known</h4>
             <mat-form-field class="example-form-field">
-              <mat-chip-grid #templateChipGrid aria-label="Enter language" [(ngModel)]="templateKeywords">
+              <mat-chip-grid
+                #templateChipGrid
+                aria-label="Enter language"
+                [(ngModel)]="templateKeywords">
                 @for (keyword of templateKeywords(); track keyword) {
-                  <mat-chip-row (removed)="removeTemplateKeyword(keyword)">
-                    {{keyword}}
-                    <button class="crosslang" matChipRemove aria-label="'remove template form' + keyword">
-                      <mat-icon>cancel</mat-icon>
-                    </button>
-                  </mat-chip-row>
+                <mat-chip-row (removed)="removeTemplateKeyword(keyword)">
+                  {{ keyword }}
+                  <button
+                    class="crosslang"
+                    matChipRemove
+                    aria-label="'remove template form' + keyword">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
                 }
               </mat-chip-grid>
               <input
                 placeholder="New language..."
                 [matChipInputFor]="templateChipGrid"
-                (matChipInputTokenEnd)="addTemplateKeyword($event)"
-              />
+                (matChipInputTokenEnd)="addTemplateKeyword($event)" />
             </mat-form-field>
           </section>
         </div>
@@ -85,51 +108,78 @@
         </mat-expansion-panel-header>
         <section class="form-group">
           <label for="tenthSchool">Institution Name:</label>
-          <input matInput [(ngModel)]="resumeData.academicCredentials.tenth.school" placeholder="Enter school name">
+          <input
+            matInput
+            [(ngModel)]="resumeData.academicCredentials.tenth.school"
+            placeholder="Enter school name" />
         </section>
         <section class="form-group">
           <label for="tenthCurriculum">Education Board:</label>
-          <input matInput [(ngModel)]="resumeData.academicCredentials.tenth.curriculum" placeholder="Enter curriculum">
+          <input
+            matInput
+            [(ngModel)]="resumeData.academicCredentials.tenth.curriculum"
+            placeholder="Enter curriculum" />
         </section>
         <section class="form-group">
           <label for="tenthPercentage">Academic Percentage:</label>
-          <input matInput [(ngModel)]="resumeData.academicCredentials.tenth.percentage" placeholder="Enter percentage">
+          <input
+            matInput
+            [(ngModel)]="resumeData.academicCredentials.tenth.percentage"
+            placeholder="Enter percentage" />
         </section>
       </mat-expansion-panel>
-      <br>
+      <br />
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>10+2 Grade</mat-panel-title>
         </mat-expansion-panel-header>
         <section class="form-group">
           <label for="pucCollege">Institution Name:</label>
-          <input matInput [(ngModel)]="resumeData.academicCredentials.puc.college" placeholder="Enter college name">
+          <input
+            matInput
+            [(ngModel)]="resumeData.academicCredentials.puc.college"
+            placeholder="Enter college name" />
         </section>
         <section class="form-group">
           <label for="pucCurriculum">Education Board:</label>
-          <input matInput [(ngModel)]="resumeData.academicCredentials.puc.curriculum" placeholder="Enter curriculum">
+          <input
+            matInput
+            [(ngModel)]="resumeData.academicCredentials.puc.curriculum"
+            placeholder="Enter curriculum" />
         </section>
         <section class="form-group">
           <label for="pucPercentage">Academic Percentage:</label>
-          <input matInput [(ngModel)]="resumeData.academicCredentials.puc.percentage" placeholder="Enter percentage">
+          <input
+            matInput
+            [(ngModel)]="resumeData.academicCredentials.puc.percentage"
+            placeholder="Enter percentage" />
         </section>
       </mat-expansion-panel>
-      <br>
+      <br />
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>Degree</mat-panel-title>
         </mat-expansion-panel-header>
         <section class="form-group">
           <label for="degreeCollege">College:</label>
-          <input matInput [(ngModel)]="resumeData.academicCredentials.degree.college" placeholder="Enter college name">
+          <input
+            matInput
+            [(ngModel)]="resumeData.academicCredentials.degree.college"
+            placeholder="Enter college name" />
         </section>
         <section class="form-group">
           <label for="degreeUniversity">University:</label>
-          <input matInput [(ngModel)]="resumeData.academicCredentials.degree.university" placeholder="Enter university name">
+          <input
+            matInput
+            [(ngModel)]="resumeData.academicCredentials.degree.university"
+            placeholder="Enter university name" />
         </section>
         <section class="form-group">
           <label for="degreeCGPA">CGPA:</label>
-          <input matInput [(ngModel)]="resumeData.academicCredentials.degree.cgpa" placeholder="Enter CGPA">
+          <input
+            matInput
+            [(ngModel)]="resumeData.academicCredentials.degree.cgpa"
+            placeholder="Enter CGPA" />
         </section>
       </mat-expansion-panel>
     </mat-card-content>
@@ -139,8 +189,14 @@
     <!-- Left Side: Soft Skills -->
     <div class="left-column">
       <h3>Soft Skills</h3>
-      <input matInput type="text" [(ngModel)]="newsoftskill" placeholder="Add a new soft skill" />
-      <button mat-stroked-button (click)="addsoftskill()">Add Soft Skill</button>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="newsoftskill"
+        placeholder="Add a new soft skill" />
+      <button mat-stroked-button (click)="addsoftskill()">
+        Add Soft Skill
+      </button>
       <h4>Added Skills:</h4>
       <ul>
         <li *ngFor="let softskill of resumeData.softskills; let i = index">
@@ -155,7 +211,11 @@
     <!-- Right Side: Technical Skills -->
     <div class="right-column">
       <h3>Technical Skills</h3>
-      <input matInput type="text" [(ngModel)]="newTechnical" placeholder="Add a new technical skill" />
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="newTechnical"
+        placeholder="Add a new technical skill" />
       <button mat-stroked-button (click)="addTechnical()">Add Technical</button>
       <h4>Added Skills:</h4>
       <ul>
@@ -168,76 +228,89 @@
       </ul>
     </div>
   </mat-card>
-  
-  <br>
-  
+
+  <br />
+
   <mat-card>
-    <mat-card-title>Intern Experience</mat-card-title>   
-    <br>
-      <mat-form-field>
-        <mat-label>Role</mat-label>
-        <input matInput>
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <mat-label>Select</mat-label>
-        <mat-select>
-          <mat-option value="one">Job Offer Received</mat-option>
-          <mat-option value="two">Internship</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <mat-label>Duration in months</mat-label>
-        <input matInput>
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <mat-label>Project description</mat-label>
-        <textarea matInput></textarea>
-      </mat-form-field>
+    <mat-card-title>Intern Experience</mat-card-title>
+    <br />
+    <mat-form-field appearance="outline">
+      <mat-label>Role</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline">
+      <mat-label>Select</mat-label>
+      <mat-select>
+        <mat-option value="one">Job Offer Received</mat-option>
+        <mat-option value="two">Internship</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline">
+      <mat-label>Duration in months</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline">
+      <mat-label>Project description</mat-label>
+      <textarea matInput></textarea>
+    </mat-form-field>
   </mat-card>
-  <br>
+  <br />
   <mat-card>
     <div class="side-by-side-container">
-      
       <!-- Left Side: Hobbies -->
       <div class="left-column">
         <h3>Personal Interests</h3>
-        <input matInput type="text" [(ngModel)]="newHobby" placeholder="Add a new hobby" />
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="newHobby"
+          placeholder="Add a new hobby" />
         <button mat-stroked-button (click)="addHobby()">Add Hobby</button>
         <h4>Selected Hobbies:</h4>
         <ul>
           <li *ngFor="let hobby of resumeData.hobbies; let i = index">
             {{ hobby }}
             <button mat-icon-button (click)="removeHobby(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
+              <mat-icon>delete</mat-icon>
+            </button>
           </li>
         </ul>
       </div>
-  
+
       <!-- Right Side: Curricular Activities -->
       <div class="right-column">
         <h3>Extra-Curricular Activities</h3>
-        <input matInput type="text" [(ngModel)]="newCurricular" placeholder="Add a new Curricular Activity" />
-        <button mat-stroked-button (click)="addCurricular()">Add Curricular Activity</button>
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="newCurricular"
+          placeholder="Add a new Curricular Activity" />
+        <button mat-stroked-button (click)="addCurricular()">
+          Add Curricular Activity
+        </button>
         <h4>Added Activities:</h4>
         <ul>
-          <li *ngFor="let curricular of resumeData.curricular; let i = index">;
+          <li *ngFor="let curricular of resumeData.curricular; let i = index">
+            ;
             {{ curricular }}
             <button mat-icon-button (click)="removeCurricular(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
+              <mat-icon>delete</mat-icon>
+            </button>
           </li>
         </ul>
       </div>
-  
     </div>
   </mat-card>
-  
 
   <!-- Submit Button -->
-  <button class="buildbutton" mat-raised-button color="primary" (click)="onSubmit()">
-  <mat-icon>build</mat-icon>Generate Resume</button>
+  <button
+    class="buildbutton"
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()">
+    <mat-icon>build</mat-icon>Generate Resume
+  </button>
 </div>
