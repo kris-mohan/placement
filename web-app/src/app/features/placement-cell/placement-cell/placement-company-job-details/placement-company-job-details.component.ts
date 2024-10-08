@@ -7,13 +7,16 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
-import { FormControl } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import {
   companyTableList,
   Industry,
 } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { JobPostingList } from "../jobs-list/jobs-list-model";
+const today = new Date();
+const month = today.getMonth();
+const year = today.getFullYear();
 
 export const JOBPOSTING_DATA: JobPostingList[] = [
   {
@@ -84,7 +87,10 @@ export class PlacementCompanyJobDetailsComponent {
     const storedUserType = sessionStorage.getItem("userType");
     this.userType = storedUserType ? parseInt(storedUserType) : 0;
   }
-
+  readonly campaignOne = new FormGroup({
+    start: new FormControl(new Date(year, month, 13)),
+    end: new FormControl(new Date(year, month, 16)),
+  });
   searchCity: string = "";
   filteredCompanies: companyTableList[] = [];
   companyId: number | undefined = undefined;

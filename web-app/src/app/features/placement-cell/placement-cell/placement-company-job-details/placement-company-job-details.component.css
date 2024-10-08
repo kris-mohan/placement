@@ -85,3 +85,25 @@ cdk-overlay-pane {
 .matButtonText {
   color: white;
 }
+.company-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 5px;
+}
+.heading1 {
+  margin: 0;
+  padding: 5px;
+}
+
+.job-details-container {
+  display: flex;
+  padding: 5px;
+}
+
+.job-detail {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 5px;
+}
