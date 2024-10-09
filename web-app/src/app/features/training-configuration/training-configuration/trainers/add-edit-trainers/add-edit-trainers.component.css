@@ -23,6 +23,9 @@ button {
 }
 .matHeaderName {
   font-weight: bolder;
+  color: darkblue;
+  font-size: x-large;
+  
 }
 .matFormField {
   width: 90%;

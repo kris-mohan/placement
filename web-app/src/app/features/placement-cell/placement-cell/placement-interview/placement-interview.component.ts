@@ -137,7 +137,7 @@ export class PlacementInterviewComponent {
   companiesCard = [
     {
       Id: 1,
-      logo: "company-logo-1.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Haier Appliances",
       rating: 4.1,
       reviews: "1.3K+ reviews",
@@ -531,6 +531,7 @@ export class PlacementInterviewComponent {
       roundName: "Test Assesment 1",
       studentsCleared: 12,
       studentsRejected: 15,
+      logo: "../../../../assets/images/Softserve-logo1.png",
     },
     {
       id: 2,
@@ -545,6 +546,7 @@ export class PlacementInterviewComponent {
       roundName: "Test Assesment 2",
       studentsCleared: 12,
       studentsRejected: 15,
+      logo: "../../../../assets/images/Softserve-logo1.png",
     },
     {
       id: 3,
@@ -560,6 +562,7 @@ export class PlacementInterviewComponent {
       roundName: "Test Assesment 3",
       studentsCleared: 12,
       studentsRejected: 15,
+      logo: "../../../../assets/images/Softserve-logo1.png",
     },
     {
       id: 4,
@@ -575,6 +578,7 @@ export class PlacementInterviewComponent {
       roundName: "Technical Interview",
       studentsCleared: 12,
       studentsRejected: 15,
+      logo: "../../../../assets/images/Softserve-logo1.png",
     },
     {
       id: 5,
@@ -590,6 +594,7 @@ export class PlacementInterviewComponent {
       roundName: "HR Interview",
       studentsCleared: 12,
       studentsRejected: 15,
+      logo: "../../../../assets/images/Softserve-logo1.png",
     },
   ];
 

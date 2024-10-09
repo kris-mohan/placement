@@ -22,7 +22,10 @@ button {
   justify-content: end;
 }
 .matHeaderName {
+  margin-left: 1rem;
   font-weight: bolder;
+  font-size: x-large;
+  color: darkblue;
 }
 .matFormField {
   width: 90%;

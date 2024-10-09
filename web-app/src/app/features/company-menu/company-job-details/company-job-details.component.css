@@ -61,7 +61,7 @@ cdk-overlay-pane {
 
 .mat-grid-tile {
   border-radius: 0.5rem;
-  background-color: #cadaf647;
+  background-color: #c3d2f899;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -74,7 +74,7 @@ cdk-overlay-pane {
   transition: transform 0.3s ease, box-shadow 0.3s ease,
     background-color 0.3s ease, color 0.3s ease;
   transform: scale(1.1);
-  background-color: white;
+  background-color: #c3d2f899;
   color: black;
 }
 
@@ -112,4 +112,12 @@ cdk-overlay-pane {
   flex-direction: column;
   width: 50%;
   gap: 5px;
+}
+.job-detail span strong {
+  color: #1e1e6ee2;
+}
+
+.company-designation h3 {
+  color: #1e1e6ee2;
+  font-size: large;
 }

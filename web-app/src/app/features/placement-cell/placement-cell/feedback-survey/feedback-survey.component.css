@@ -1,6 +1,11 @@
 .feedback-survey {
   padding: 20px;
 }
+.feedback-survey h2 {
+  color: darkblue;
+  font-weight: bolder;
+  font-size: x-large;
+}
 
 .summary-cards {
   display: flex;
@@ -87,8 +92,6 @@ button.remove-question-button {
   font-weight: bold;
 }
 
-
-
 .survey-questions ul {
   list-style-type: none;
   padding: 0;
@@ -97,4 +100,3 @@ button.remove-question-button {
 .survey-questions li {
   margin-bottom: 10px;
 }
-

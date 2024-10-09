@@ -237,6 +237,7 @@ export class CompanyJobDetailsComponent {
     {
       Id: 1,
       logo: "job-logo-1.png",
+      CompanyName :"Google",
       title: "Software Engineer",
       experience: "0 - 2 years",
       salary: "₹6 - 8 LPA",

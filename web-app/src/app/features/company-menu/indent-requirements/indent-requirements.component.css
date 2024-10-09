@@ -70,5 +70,6 @@ button[disabled] {
 .header-mat-label {
   margin-left: 3rem;
   font-weight: bolder;
-  font-size: larger;
+  font-size: x-large;
+  color: darkblue;
 }
