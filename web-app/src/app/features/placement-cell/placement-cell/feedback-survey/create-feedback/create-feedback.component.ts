@@ -8,11 +8,13 @@ import { AMGModules } from 'src/AMG-Module/AMG-module';
   standalone: true,
   imports: [AMGModules, CommonModule, FormsModule],
   templateUrl: './create-feedback.component.html',
-  styleUrl: './create-feedback.component.css',
+  styleUrls: ['./create-feedback.component.css'],
 })
 export class CreateFeedbackComponent {
   surveyTitle = '';
   surveyDescription = '';
+  surveyTo = ''; // New field for Survey To
+  surveyType = ''; // New field for Survey Type
   startDate: Date = new Date();
   endDate: Date = new Date();
   grievanceSubject = '';
@@ -35,6 +37,8 @@ export class CreateFeedbackComponent {
     const previewSurveyData = {
       title: this.surveyTitle,
       description: this.surveyDescription,
+      surveyTo: this.surveyTo, // Include Survey To
+      surveyType: this.surveyType, // Include Survey Type
       questions: this.questions,
       startDate: this.startDate,
       endDate: this.endDate,
@@ -47,15 +51,19 @@ export class CreateFeedbackComponent {
     const newSurvey = {
       title: this.surveyTitle,
       description: this.surveyDescription,
+      surveyTo: this.surveyTo, // Include Survey To
+      surveyType: this.surveyType, // Include Survey Type
       questions: this.questions,
     };
+
+    console.log('Saving Survey:', newSurvey);
+    // Logic to save survey data to the backend or service
   }
 
   addOption(questionIndex: number) {
     this.questions[questionIndex].options.push('');
   }
 
-  // Remove Option for Multiple Choice Question
   removeOption(questionIndex: number, optionIndex: number) {
     this.questions[questionIndex].options.splice(optionIndex, 1);
   }

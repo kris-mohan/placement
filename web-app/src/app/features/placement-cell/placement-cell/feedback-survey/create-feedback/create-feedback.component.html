@@ -8,27 +8,41 @@
   <div class="survey-details">
     <p><strong>Survey Title</strong></p>
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Enter survey title</mat-label>
-      <input  
-        matInput
-        [(ngModel)]="surveyTitle"
-        placeholder="Enter survey title" />
+      <input matInput [(ngModel)]="surveyTitle" placeholder="Enter survey title" />
     </mat-form-field>
+  
     <p><strong>Survey Description</strong></p>
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Enter survey description</mat-label>
-      <input
-        matInput
-        [(ngModel)]="surveyDescription"
-        placeholder="Enter Survey Description" />
+      <input matInput [(ngModel)]="surveyDescription" placeholder="Enter Survey Description" />
     </mat-form-field>
-  </div>
+  
+    <!-- Container for Survey To and Survey Type fields -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Select who the survey is for</mat-label>
+        <mat-select [(ngModel)]="surveyTo" placeholder="Select target audience">
+          <mat-option value="Trainer">Trainer</mat-option>
+          <mat-option value="Portal">Portal</mat-option>
+          <mat-option value="Company">Company</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-select [(ngModel)]="surveyType" placeholder="Select survey type">
+          <mat-option value="Interview">Interview</mat-option>
+          <mat-option value="Training">Training</mat-option>
+          <mat-option value="Selection Process">Selection Process</mat-option>
+          <mat-option value="Other">Other</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>  
 
   <div class="question-list">
     <div
       *ngFor="let question of questions; let i = index"
       class="question-item">
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline" >
         <mat-label>Question {{ i + 1 }}</mat-label>
         <textarea
           matInput
