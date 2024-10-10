@@ -20,18 +20,13 @@ namespace Placements.WebApi.Controllers
 
     private readonly ILogger<WeatherForecastController> _logger;
     private readonly IConfiguration _configuration;
-        private readonly  PlacementContext _context;
+    private readonly PlacementContext _context;
 
-        public WeatherForecastController(IConfiguration configuration, PlacementContext placementContext)
-        {
-            _context = placementContext;
-<<<<<<<<< Temporary merge branch 1
-            _configuration = configuration;
-        }
-=========
+    public WeatherForecastController(IConfiguration configuration, PlacementContext placementContext)
+    {
+      _context = placementContext;
       _configuration = configuration;
     }
->>>>>>>>> Temporary merge branch 2
     //private readonly PaatashalacampusContext _paatashalacampusContext;
     //private readonly PaatashalacompanydbContext _paatashalacompanydbContext;
     //private readonly PaatashalatrainingContext _paatashalatrainingContext;
@@ -62,44 +57,44 @@ namespace Placements.WebApi.Controllers
     public IActionResult Login([FromBody] LoginModel user)
     {
       try
-        {
+      {
         if (user is null)
         {
           return BadRequest("Invalid client request");
         }
         var loginUser = _context.Logins
-           .FirstOrDefault(l => l.UserName == user.UserName && l.Password == user.Password );
+           .FirstOrDefault(l => l.UserName == user.UserName && l.Password == user.Password);
 
         if (loginUser == null)
         {
           return Unauthorized(new { success = false, message = "Invalid UserName, Password or UserType" });
         }
 
-        
+
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
-          var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-          var tokenOptions = new JwtSecurityToken(
-              issuer: _configuration["JwtSettings:ValidIssuer"],
-              audience: _configuration["JwtSettings:ValidAudience"],
-              claims: new List<Claim>(),
-              expires: DateTime.Now.AddMinutes(5),
-              signingCredentials: signinCredentials
-            );
+        var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+        var tokenOptions = new JwtSecurityToken(
+            issuer: _configuration["JwtSettings:ValidIssuer"],
+            audience: _configuration["JwtSettings:ValidAudience"],
+            claims: new List<Claim>(),
+            expires: DateTime.Now.AddMinutes(5),
+            signingCredentials: signinCredentials
+          );
 
-          var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+        var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-          var refreshToken = Guid.NewGuid().ToString(); // Generate refresh token
+        var refreshToken = Guid.NewGuid().ToString(); // Generate refresh token
 
 
-          return Ok(new AuthenticatedResponse
-          {
-            UserName = user.UserName,
-            UserType = loginUser.UserType,
-            AccessToken = accessToken,
-            RefreshToken = refreshToken,
-          });
+        return Ok(new AuthenticatedResponse
+        {
+          UserName = user.UserName,
+          UserType = loginUser.UserType,
+          AccessToken = accessToken,
+          RefreshToken = refreshToken,
+        });
         //}
-       
+
       }
 
       catch (Exception ex)
@@ -132,7 +127,7 @@ namespace Placements.WebApi.Controllers
       );
       var newAccessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-      var newRefreshToken = Guid.NewGuid().ToString(); 
+      var newRefreshToken = Guid.NewGuid().ToString();
 
 
       return Ok(new AuthenticatedResponse
@@ -143,7 +138,7 @@ namespace Placements.WebApi.Controllers
     }
   }
 
- 
+
 
 }
 
