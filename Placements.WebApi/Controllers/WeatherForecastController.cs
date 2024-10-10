@@ -25,9 +25,13 @@ namespace Placements.WebApi.Controllers
         public WeatherForecastController(IConfiguration configuration, PlacementContext placementContext)
         {
             _context = placementContext;
+<<<<<<<<< Temporary merge branch 1
             _configuration = configuration;
+        }
+=========
       _configuration = configuration;
     }
+>>>>>>>>> Temporary merge branch 2
     //private readonly PaatashalacampusContext _paatashalacampusContext;
     //private readonly PaatashalacompanydbContext _paatashalacompanydbContext;
     //private readonly PaatashalatrainingContext _paatashalatrainingContext;
