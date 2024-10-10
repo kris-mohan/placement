@@ -67,7 +67,7 @@ export const JOBPOSTING_DATA: JobPostingList[] = [
 ];
 
 @Component({
-  selector: "app-company-job-details",
+  selector: "app-placement-company-job-details",
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules],
   templateUrl: "./placement-company-job-details.component.html",

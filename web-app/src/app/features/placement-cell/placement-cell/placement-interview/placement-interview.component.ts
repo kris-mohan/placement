@@ -23,7 +23,7 @@ export interface ODataResponse<T> {
   value: T[];
 }
 @Component({
-  selector: "app-interview",
+  selector: "app-placement-interview",
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules],
   templateUrl: "./placement-interview.component.html",

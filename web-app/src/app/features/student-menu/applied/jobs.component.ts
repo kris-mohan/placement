@@ -498,6 +498,10 @@ export class JobsComponent {
     this.dataSource.data = this.filteredCompanies;
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+  
   showIndustryResults() {
     const selectedIndustries = this.industryControl.value;
     if (selectedIndustries && selectedIndustries.length > 0) {

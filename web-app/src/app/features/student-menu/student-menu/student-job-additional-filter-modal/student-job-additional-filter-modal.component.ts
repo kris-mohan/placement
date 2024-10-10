@@ -8,23 +8,22 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from "@angular/material/dialog";
-import { CompanyAPIService } from "../api.companies";
-import { companyTableList } from "../companies-model";
-import { ODataResponse } from "../companies.component";
-import { Industry } from "../../industry/industry.module";
-import { IndustryAPIService } from "../../industry/api.industry";
+import { CompanyAPIService } from "src/app/features/company-configuration/company-config/companies/api.companies";
+import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
+import { ODataResponse } from "../student-company/student-company.component";
+import { Industry } from "src/app/features/company-configuration/company-config/companies/companies-model";
+import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { FormControl } from "@angular/forms";
 import { map, Observable, of, startWith } from "rxjs";
-
 @Component({
-  selector: "app-import-company-dialog",
+  selector: "app-student-job-additional-filter-modal",
   standalone: true,
   imports: [AMGModules, CommonModule, SharedModule, NgxMatSelectSearchModule],
-  templateUrl: "./import-company-dialog.component.html",
-  styleUrl: "./import-company-dialog.component.css",
+  templateUrl: "./student-job-additional-filter-modal.component.html",
+  styleUrl: "./student-job-additional-filter-modal.component.css",
 })
-export class ImportCompanyDialogComponent implements OnInit {
+export class StudentJobAdditionalFilterModalComponent {
   companies: companyTableList[] = [];
   industries: Industry[] = [];
   companySizes: string[] = [
@@ -53,7 +52,7 @@ export class ImportCompanyDialogComponent implements OnInit {
   filteredCities: Observable<any[]> = of([]);
   filteredIndustries: Industry[] = [];
   filteredIndutry: Observable<any[]> = of([]);
-
+  filteredCompany: Observable<any[]> = of([]);
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
@@ -223,32 +222,10 @@ export class ImportCompanyDialogComponent implements OnInit {
       },
       error: (error) => {
         console.error("Error loading Industries", error);
-        
       },
     });
   }
-
-  // filterCompanies() {
-  //   const searchTermLower = this.searchCompany.toLowerCase();
-  //   this.filteredCompanies = this.companies.filter((company) =>
-  //     company.Name.toLowerCase().includes(searchTermLower)
-  //   );
-  // }
-
-  // filterCities() {
-  //   const searchTermLower = this.searchCity.toLowerCase();
-  //   this.filteredCities = this.companies.filter((company) =>
-  //     company.City.toLowerCase().includes(searchTermLower)
-  //   );
-  // }
-
-  // filterIndustry() {
-  //   const searchTermLower = this.searchIndustry.toLowerCase();
-  //   this.filteredIndustries = this.industries.filter((idustry) =>
-  //     idustry.Type.toLowerCase().includes(searchTermLower)
-  //   );
-  // }
+  onCompanySelected(e: any) {}
 
   openAddEditCompanyForm() {}
-
 }

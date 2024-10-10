@@ -1,6 +1,6 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -14,11 +14,18 @@ import {
   Industry,
 } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { JobPostingList } from "src/app/features/company-menu/company-job-details/company-job-details-model";
+import { StudentJobPostingList } from "./student-jobs.model";
+import { ImportCompanyDialogComponent } from "src/app/features/company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
+import { StudentJobAdditionalFilterModalComponent } from "../student-job-additional-filter-modal/student-job-additional-filter-modal.component";
 
-export const JOBPOSTING_DATA: JobPostingList[] = [
+export const JOBPOSTING_DATA: StudentJobPostingList[] = [
   {
     jobId: 1,
     jobTitle: "Software Engineer",
+    jobType: "Full-time",
+    skills: "C++",
+    numberofvacancies: 30,
     companyName: "Tech Solutions Inc.",
     location: "San Francisco, CA",
     jobDescription:
@@ -31,6 +38,9 @@ export const JOBPOSTING_DATA: JobPostingList[] = [
   {
     jobId: 2,
     jobTitle: "Project Manager",
+    jobType: "part-time",
+    skills: " Java",
+    numberofvacancies: 100,
     companyName: "Innovative Projects Ltd.",
     location: "New York, NY",
     jobDescription:
@@ -43,6 +53,9 @@ export const JOBPOSTING_DATA: JobPostingList[] = [
   {
     jobId: 3,
     jobTitle: "Marketing Specialist",
+    jobType: "Intership",
+    skills: "Python",
+    numberofvacancies: 49,
     companyName: "Creative Agency",
     location: "Los Angeles, CA",
     jobDescription:
@@ -55,6 +68,9 @@ export const JOBPOSTING_DATA: JobPostingList[] = [
   {
     jobId: 4,
     jobTitle: "Data Analyst",
+    jobType: "Contract",
+    skills: ".net",
+    numberofvacancies: 7,
     companyName: "Data Insights Corp.",
     location: "Chicago, IL",
     jobDescription:
@@ -67,7 +83,7 @@ export const JOBPOSTING_DATA: JobPostingList[] = [
 ];
 
 @Component({
-  selector: "app-company-job-details",
+  selector: "app-student-jobs",
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules],
   templateUrl: "./student-jobs.component.html",
@@ -93,6 +109,7 @@ export class StudentJobsComponent {
   filteredCompany: Observable<any[]> = of([]);
 
   userType: number;
+  readonly dialog = inject(MatDialog);
 
   dataSource1 = new MatTableDataSource<companyTableList>([]);
   companiesCard = [
@@ -219,7 +236,9 @@ export class StudentJobsComponent {
       shift: "Day Shift",
       modeOfWork: "Hybrid",
       numberOfOpenings: 10,
-      applicants: 100,
+      // applicants: 100,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 2,
@@ -231,7 +250,9 @@ export class StudentJobsComponent {
       shift: "Day Shift",
       modeOfWork: "Remote",
       numberOfOpenings: 5,
-      applicants: 80,
+      // applicants: 80,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 3,
@@ -243,7 +264,9 @@ export class StudentJobsComponent {
       shift: "Day Shift",
       modeOfWork: "On-site",
       numberOfOpenings: 3,
-      applicants: 50,
+      // applicants: 50,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 4,
@@ -255,7 +278,9 @@ export class StudentJobsComponent {
       shift: "Day Shift",
       modeOfWork: "Hybrid",
       numberOfOpenings: 7,
-      applicants: 120,
+      // applicants: 120,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 5,
@@ -267,7 +292,9 @@ export class StudentJobsComponent {
       shift: "Day Shift",
       modeOfWork: "On-site",
       numberOfOpenings: 5,
-      applicants: 60,
+      // applicants: 60,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 6,
@@ -279,7 +306,9 @@ export class StudentJobsComponent {
       shift: "Day Shift",
       modeOfWork: "Remote",
       numberOfOpenings: 4,
-      applicants: 70,
+      // applicants: 70,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 7,
@@ -291,7 +320,9 @@ export class StudentJobsComponent {
       shift: "Night Shift",
       modeOfWork: "On-site",
       numberOfOpenings: 6,
-      applicants: 150,
+      // applicants: 150,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 8,
@@ -303,7 +334,9 @@ export class StudentJobsComponent {
       shift: "Day Shift",
       modeOfWork: "Hybrid",
       numberOfOpenings: 5,
-      applicants: 90,
+      // applicants: 90,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 9,
@@ -315,7 +348,9 @@ export class StudentJobsComponent {
       shift: "Night Shift",
       modeOfWork: "Remote",
       numberOfOpenings: 4,
-      applicants: 85,
+      // applicants: 85,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 10,
@@ -327,7 +362,9 @@ export class StudentJobsComponent {
       shift: "Day Shift",
       modeOfWork: "On-site",
       numberOfOpenings: 2,
-      applicants: 40,
+      // applicants: 40,
+      type: "MNC",
+      Skills: "Node, React",
     },
   ];
 
@@ -363,7 +400,7 @@ export class StudentJobsComponent {
     { key: "actions", label: "Actions" },
   ];
   experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
-  dataSource = new MatTableDataSource<JobPostingList>(JOBPOSTING_DATA);
+  //dataSource = new MatTableDataSource<JobPostingList>(StudentJobPostingList);
   selection = new SelectionModel<JobPostingList>(true, []);
 
   CityControl = new FormControl();
@@ -386,15 +423,15 @@ export class StudentJobsComponent {
   }
 
   async deleteCompany(id: number) {
-    const confirmed = await this.sweetAlertService.confirmDelete(
-      "Do you really want to delete this job?"
-    );
-    if (confirmed) {
-      this.dataSource.data = this.dataSource.data.filter(
-        (jobs) => jobs.jobId !== id
-      );
-      this.sweetAlertService.success("Job deleted successfully!");
-    }
+    // const confirmed = await this.sweetAlertService.confirmDelete(
+    //   "Do you really want to delete this job?"
+    // );
+    // if (confirmed) {
+    //   this.dataSource.data = this.dataSource.data.filter(
+    //     (jobs) => jobs.jobId !== id
+    //   );
+    //   this.sweetAlertService.success("Job deleted successfully!");
+    // }
   }
 
   goBack(): void {
@@ -499,5 +536,11 @@ export class StudentJobsComponent {
       "/student-company/student-jobs/student-job-description/",
       jobId,
     ]);
+  }
+
+  openStudentJobAdditionalFiltersModal() {
+    this.dialog.open(StudentJobAdditionalFilterModalComponent, {
+      width: "500px",
+    });
   }
 }
