@@ -10,11 +10,6 @@
         Invite All
       </button>
     </div>
-  </mat-card-header>
-</mat-card>
-<br>
-<mat-card>
-  <mat-card-header>
     <div class="filters-container">
       <div class="header-center">
         <mat-form-field appearance="outline" class="search-field">
@@ -45,7 +40,9 @@
       </mat-form-field>
     </div>   
   </mat-card-header>
-  
+</mat-card>
+<br>
+<mat-card>
   <mat-card-content class="table-container">
     <!-- Standard Table for Larger Screens -->
     <table mat-table [dataSource]="dataSource" class="student-table mat-elevation-z8" *ngIf="isLargeScreen()">
