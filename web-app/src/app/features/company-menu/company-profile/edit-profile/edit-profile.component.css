@@ -1,0 +1,12 @@
+.show-more-chip {
+  background-color: #f0f0f0; /* Light background */
+  color: #007bff; /* Blue text color */
+  font-weight: bold; /* Bold text */
+  border: 1px solid #007bff; /* Border to match the text color */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.show-more-chip:hover {
+  background-color: #e0e0e0; /* Darker background on hover */
+  cursor: pointer; /* Pointer cursor on hover */
+}

@@ -9,26 +9,36 @@ import {
   MatChipInputEvent,
   MatChipsModule,
 } from "@angular/material/chips";
-import { LiveAnnouncer } from "@angular/cdk/a11y";
+import { FlexLayoutModule } from "@angular/flex-layout";
+// import { LiveAnnouncer } from "@angular/cdk/a11y";
 
 type Sector = {
-  Id: number;
   Name: string;
 };
 
 @Component({
   selector: "app-edit-profile",
   standalone: true,
-  imports: [AMGModules, CommonModule, SharedModule],
+  imports: [
+    AMGModules,
+    CommonModule,
+    SharedModule,
+    MatChipsModule,
+    FlexLayoutModule,
+  ],
   templateUrl: "./edit-profile.component.html",
   styleUrl: "./edit-profile.component.css",
 })
 export class EditProfileComponent implements OnInit {
   formData: FormGroup;
+  addOnBlur: boolean = false;
   readonly sectorChips = signal<Sector[]>([]);
-  readonly announcer = inject(LiveAnnouncer);
 
-  constructor(  
+  showAllSectors = false;
+
+  types: string[] = [];
+
+  constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<EditProfileComponent> // @Inject(MAT_DIALOG_DATA) public data: any // Data passed from the company-profile.component
   ) {
@@ -57,9 +67,16 @@ export class EditProfileComponent implements OnInit {
       }
 
       sectors.splice(index, 1);
-      this.announcer.announce(`Removed ${sector.Name}`);
       return [...sectors];
     });
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || "").trim();
+    if (value) {
+      this.sectorChips.update((sectors) => [...sectors, { Name: value }]);
+    }
+    event.input.value = "";
   }
 
   loadInitialData(): void {
@@ -91,6 +108,8 @@ export class EditProfileComponent implements OnInit {
         },
       ];
     });
+
+    this.types = ["Private", "Public", "Other"];
     // Load the data passed in the dialog from the company profile component.
   }
 }

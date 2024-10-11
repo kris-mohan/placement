@@ -1,16 +1,26 @@
 <h1 mat-dialog-title>Edit Profile Page</h1>
+<h2 mat-dialog-title>Company Name</h2>
 <div mat-dialog-content>
   <form [formGroup]="formData">
-    <h4>Company Sectors:</h4>
+    <h3>Company Sectors:</h3>
     <mat-form-field>
       <mat-label>Company Sectors</mat-label>
       <mat-chip-grid #chipGrid aria-label="Enter Sectors">
-        @for (sector of sectorChips(); track sector) {
+        @for (sector of sectorChips(); track sector) { @if (showAllSectors ||
+        sectorChips().indexOf(sector) < 3) {
         <mat-chip-row (removed)="remove(sector)">
           {{ sector?.Name }}
           <button matChipRemove [attr.aria-label]="'remove ' + sector.Name">
             <mat-icon>cancel</mat-icon>
           </button>
+        </mat-chip-row>
+        } } @if (sectorChips().length > 3) {
+        <mat-chip-row
+          (click)="showAllSectors = !showAllSectors"
+          style="cursor: pointer"
+          class="show-more-chip"
+        >
+          {{ showAllSectors ? 'Show less' : 'Show more' }}
         </mat-chip-row>
         }
       </mat-chip-grid>
@@ -25,11 +35,92 @@
           </button>
         </mat-chip-row>
       </mat-chip-grid> -->
-      <input matInput formControlName="sector" />
+      <input
+        placeholder="Enter Sectors"
+        [matChipInputFor]="chipGrid"
+        (matChipInputTokenEnd)="add($event)"
+        matInput
+        formControlName="sector"
+      />
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>About Company</mat-label>
-      <textarea matInput formControlName="overview"></textarea>
-    </mat-form-field>
+    <div fxLayout="row">
+      <div fxFlex="100%">
+        <h3>About Us</h3>
+        <mat-form-field appearance="outline" style="width: 85%">
+          <mat-label>About Company</mat-label>
+          <textarea matInput formControlName="overview" rows="10"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <h3>More Information</h3>
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-between">
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="33%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%"
+      >
+        <h4>Type:</h4>
+        <mat-form-field>
+          <mat-label>Type</mat-label>
+          <mat-select>
+            <!-- @for (type of types; track type) {
+              <mat-option [value] = "types">{{types}}</mat-option>
+            } -->
+            <mat-option *ngFor="let type of types" [value]="type">{{
+              type
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="33%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%"
+      >
+        <h4>Founded:</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Founding year</mat-label>
+          <input matInput placeholder="Enter year" type="number" />
+        </mat-form-field>
+      </div>
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="33%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%"
+      >
+        <h4>Company Size:</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Company Range</mat-label>
+          <input matInput placeholder="Ex. 1000-5000" />
+        </mat-form-field>
+      </div>
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="33%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%"
+      >
+        <h4>Headquarters:</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Headquarters</mat-label>
+          <input matInput placeholder="Ex. Bangalore" />
+        </mat-form-field>
+      </div>
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="33%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%"
+      >
+        <h4>Website:</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Website</mat-label>
+          <input matInput placeholder="Ex. www.abc.com" type="url" />
+        </mat-form-field>
+      </div>
+    </div>
   </form>
 </div>
