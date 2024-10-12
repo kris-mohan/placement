@@ -61,8 +61,10 @@ label {
 }
 .crosslang {
   background-color: transparent;
-  margin-top: 14px;
+  margin-top: 18px;
   border-radius: 20px;
+  size-adjust: 1rem;
+  box-shadow: none;
 }
 
 .header-mat-label {
