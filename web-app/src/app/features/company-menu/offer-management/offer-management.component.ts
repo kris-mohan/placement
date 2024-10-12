@@ -708,5 +708,7 @@ export class OfferManagementComponent {
     });
   }
 
-  openCreateOfferForm() {}
+  openOfferManagement() {
+    this.router.navigate(["offer-management/offer-management-details"]);
+  }
 }

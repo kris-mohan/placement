@@ -1,0 +1,15 @@
+.card-header-container {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: 0 0 50px 0;
+}
+
+.card-header-container div {
+  width: 100%;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
