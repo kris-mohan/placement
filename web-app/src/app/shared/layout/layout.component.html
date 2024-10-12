@@ -384,6 +384,21 @@
 
         <a
           *ngIf="userType === 3"
+          [routerLink]="['/interview']"
+          mat-list-item
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div>
+              <mat-icon mat-list-icon> supervised_user_circle </mat-icon>
+            </div>
+            <div><mat-label>Interview</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 3"
           [routerLink]="['/forum']"
           mat-list-item
           routerLinkActive="active"

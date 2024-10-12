@@ -253,14 +253,16 @@
 
         <div class="company">
           <p><strong>Status:</strong> {{ scheduledInterview.status }}</p>
-          <p>
-            <strong>Number of students cleared:</strong>
-            {{ scheduledInterview.studentsCleared }}
-          </p>
-          <p>
-            <strong>Number of students rejected:</strong>
-            {{ scheduledInterview.studentsRejected }}
-          </p>
+          <div *ngIf="userType !== 3">
+            <p>
+              <strong>Number of students cleared:</strong>
+              {{ scheduledInterview.studentsCleared }}
+            </p>
+            <p>
+              <strong>Number of students rejected:</strong>
+              {{ scheduledInterview.studentsRejected }}
+            </p>
+          </div>
         </div>
       </div>
     </mat-card-content>

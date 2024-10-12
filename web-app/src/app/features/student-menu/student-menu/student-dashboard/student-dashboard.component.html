@@ -8,12 +8,18 @@
     <mat-card class="placement-stats-card">
       <mat-card-title style="color: white">Placement Statistics</mat-card-title>
       <div class="stats-section">
-        <div style="color: white">
+        <div
+          style="color: white; cursor: pointer"
+          [routerLink]="['/student_applied']"
+        >
           <h2 class="stats-header">{{ stats.applicationsSent }}</h2>
           <p>Applications Sent</p>
         </div>
         <div class="divider"></div>
-        <div style="color: white">
+        <div
+          style="color: white; cursor: pointer"
+          [routerLink]="['/interview']"
+        >
           <h2 class="stats-header">{{ stats.interviewsAttended }}</h2>
           <p>Interviews Attended</p>
         </div>
@@ -27,13 +33,20 @@
     <div class="previous-interviews">
       <h2>Previously Attended Interviews</h2>
       <div class="job-applications-section">
-        <div *ngFor="let job of jobApplications" class="job-card mat-card">
+        <div
+          *ngFor="let job of jobApplications"
+          class="job-card mat-card"
+          [routerLink]="[
+            '/student-company/student-jobs/student-job-description/1'
+          ]"
+          style="cursor: pointer"
+        >
           <div class="status-badge" [ngClass]="getStatusClass(job.status)">
             {{ job.status }}
           </div>
           <mat-card-title>{{ job.company }}</mat-card-title>
           <mat-card-subtitle>{{ job.jobRole }}</mat-card-subtitle>
-          <p>Interview Date: {{ job.interviewDate | date : 'longDate' }}</p>
+          <p>Interview Date: {{ job.interviewDate | date : "longDate" }}</p>
         </div>
       </div>
     </div>
@@ -73,7 +86,12 @@
           [ngClass]="{
             'reminder-notification': notification.title.includes('Reminder'),
             'other-notification': !notification.title.includes('Reminder')
-          }">
+          }"
+          style="cursor: pointer"
+          [routerLink]="[
+            '/student-company/student-jobs/student-job-description/1'
+          ]"
+        >
           <h4>{{ notification.title }}</h4>
           <span>{{ notification.details }}</span>
         </li>
@@ -85,7 +103,10 @@
       <ul>
         <li
           *ngFor="let interview of interviewSchedule"
-          [ngClass]="'interview-schedule-notification'">
+          [ngClass]="'interview-schedule-notification'"
+          [routerLink]="['/interview']"
+          style="cursor: pointer"
+        >
           <h4>{{ interview.company }}</h4>
           <span>{{ interview.date | date }} - {{ interview.time }}</span>
         </li>
