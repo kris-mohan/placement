@@ -49,9 +49,9 @@
           </mat-form-field>
         </div>
 
-        <!-- <div>
+        <div>
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Select Date Range</mat-label>
+            <mat-label>Drive Date</mat-label>
             <mat-date-range-input
               [formGroup]="campaignOne"
               [rangePicker]="datePicker"
@@ -68,8 +68,8 @@
             ></mat-datepicker-toggle>
             <mat-date-range-picker #datePicker></mat-date-range-picker>
           </mat-form-field>
-        </div> -->
-        <div class="sendButton">
+        </div>
+        <!-- <div class="sendButton">
           <button
             mat-raised-button
             class="matbutton"
@@ -79,10 +79,16 @@
               <mat-icon>mail</mat-icon>Generate Offer Letter
             </p>
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </mat-card-header>
+
+  <div class="sendButton">
+    <button mat-raised-button class="matbutton">
+      <p class="matName"><mat-icon>mail</mat-icon>Generate Offer Letter</p>
+    </button>
+  </div>
   <mat-card class="placement-stats-card">
     <!-- <mat-card-title>Placement Statistics</mat-card-title> -->
     <div class="stats-section">
@@ -108,10 +114,22 @@
     </div>
   </mat-card>
 
+  <!-- <div class="example-button-container filter_items">
+    <button mat-raised-button class="matbutton">
+      <p class="matName">Additional Filters</p>
+    </button>
+    <button *ngIf="userType !== 1" mat-raised-button class="matbutton">
+      <mat-icon class="maticon">add</mat-icon>
+      <p class="matButtonText">Add Job Postings</p>
+    </button>
+  </div> -->
+
   <mat-card-content
+    class="offer Management"
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"
     class="mat-card-content"
+    (click)="openOfferManagement()"
   >
     <div
       *ngFor="let offer of offers"
