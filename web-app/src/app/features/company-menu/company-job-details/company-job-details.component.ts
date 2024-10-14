@@ -1,6 +1,6 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -15,6 +15,7 @@ import { Observable, of } from "rxjs";
 import { StudentJobAdditionalFilterModalComponent } from "../../student-menu/student-menu/student-job-additional-filter-modal/student-job-additional-filter-modal.component";
 import { MatDialog } from "@angular/material/dialog";
 import { CompanyJobAdditionalfiltersModalComponent } from "./company-job-additionalfilters-modal/company-job-additionalfilters-modal.component";
+import { provideNativeDateAdapter } from "@angular/material/core";
 
 const today = new Date();
 const month = today.getMonth();
@@ -92,6 +93,8 @@ export const JOBPOSTING_DATA: JobPostingList[] = [
   imports: [CommonModule, SharedModule, AMGModules],
   templateUrl: "./company-job-details.component.html",
   styleUrl: "./company-job-details.component.css",
+  providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompanyJobDetailsComponent {
   constructor(
@@ -113,7 +116,7 @@ export class CompanyJobDetailsComponent {
   filteredCompanies: companyTableList[] = [];
   companyId: number | undefined = undefined;
   companies: companyTableList[] = [];
-  experienceLevelControl = new FormControl(); 
+  experienceLevelControl = new FormControl();
   filteredCompany: Observable<any[]> = of([]);
 
   userType: number;
@@ -237,7 +240,7 @@ export class CompanyJobDetailsComponent {
     {
       Id: 1,
       logo: "job-logo-1.png",
-      CompanyName :"Google",
+      CompanyName: "Google",
       title: "Software Engineer",
       experience: "0 - 2 years",
       salary: "₹6 - 8 LPA",

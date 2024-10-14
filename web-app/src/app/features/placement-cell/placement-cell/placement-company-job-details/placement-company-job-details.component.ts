@@ -1,6 +1,6 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -17,6 +17,7 @@ import { JobPostingList } from "../jobs-list/jobs-list-model";
 import { CompanyJobAdditionalfiltersModalComponent } from "src/app/features/company-menu/company-job-details/company-job-additionalfilters-modal/company-job-additionalfilters-modal.component";
 import { ImportCompanyDialogComponent } from "src/app/features/company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
+import { provideNativeDateAdapter } from "@angular/material/core";
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
@@ -78,6 +79,8 @@ export const JOBPOSTING_DATA: JobPostingList[] = [
   imports: [CommonModule, SharedModule, AMGModules],
   templateUrl: "./placement-company-job-details.component.html",
   styleUrl: "./placement-company-job-details.component.css",
+  providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlacementCompanyJobDetailsComponent {
   constructor(
