@@ -121,3 +121,21 @@ cdk-overlay-pane {
   color: #1e1e6ee2;
   font-size: large;
 }
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.button {
+  display: flex;
+  justify-content: end;
+  cursor: pointer;
+}
+
+.header-mat-label {
+  margin-left: 1rem;
+  font-weight: bolder;
+  font-size: x-large;
+  color: darkblue;
+}
