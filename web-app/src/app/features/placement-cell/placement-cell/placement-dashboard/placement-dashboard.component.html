@@ -1,32 +1,96 @@
-<div class="welcome-card">
-  <h2>Welcome, {{ placementOfficerName }}!</h2>
-  <p></p>
+<div class="left-content">
+  <div class="">
+    <h2>Welcome, {{ placementOfficerName }}!</h2>
+  </div>
+
+  <!-- Offers Count Section -->
+  <div class="offers-count">
+    <h3>Total Offers Received: {{ totalOffers }}</h3>
+  </div>
+
+  <!-- Upcoming Drives Section -->
+  <div class="upcoming-drive-container">
+    <div class="upcoming-drives-header">
+      <h3>Upcoming Drives</h3>
+      <button mat-raised-button class="matbutton" (click)="sendInvite()">
+        <p class="matName">Send Invite to Companies</p>
+      </button>
+    </div>
+    <p>Here is your schedule for this week:</p>
+    <div class="upcoming-drive-row">
+      <div *ngFor="let interview of upcomingDrives" class="upcoming-drive-card">
+        <mat-card>
+          <mat-card-content>
+            <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+            <h3>{{ interview.company }}</h3>
+            <p>
+              <strong>Job Role:</strong> {{ interview.jobRole }} <br />
+              <strong>Venue:</strong> {{ interview.venue }} <br />
+              <strong>Round:</strong> {{ interview.round }}
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart Section -->
+  <div class="chart-container">
+    <h3>Chart Overview</h3>
+    <app-basic-column-chart
+      [seriesData]="studentPlacementData"
+      [categoriesData]="branchLabels"
+      titleText="Student Placement Status"
+      xLabel="Branches"
+      yLabel="No. of Students">
+    </app-basic-column-chart>
+
+    <app-stacked-column-chart
+      [seriesData]="studentSalarySeries"
+      [categoriesData]="salaryRanges"
+      titleText="Student Placement Salary-Based Status"
+      xLabel="Companies"
+      yLabel="No. of Students"></app-stacked-column-chart>
+
+    <app-simple-pie-chart
+      [branchPlacementSeries]="branchPlacementSeries"
+      [branchLabels]="branchLabels"
+      titleText="Branch-Wise Student Placement Status"></app-simple-pie-chart>
+  </div>
 </div>
-<div class="chart-container">
-  <app-basic-line-chart
-    [seriesData]="studentYearlySeries"
-    [categoriesData]="yearsLabels"
-    titleText="Students Placed Yearly Wise Data - 2023"
-    xLabel="Students"
-    yLabel="Year"></app-basic-line-chart>
 
-  <app-basic-column-chart
-    [seriesData]="studentPlacementData"
-    [categoriesData]="companiesLabels"
-    titleText="Student Placement Status"
-    xLabel="Companies"
-    yLabel="No. of Students">
-  </app-basic-column-chart>
+<!-- Right Content for Notifications and Interview Schedule -->
+<div class="right-content">
+  <div class="notification-heading">
+    <h3>Notifications</h3>
+  </div>
+  <div class="related-jobs">
+    <ul>
+      <li
+        *ngFor="let notification of notifications"
+        [ngClass]="{
+          'reminder-notification': notification.title.includes('Reminder'),
+          'other-notification': !notification.title.includes('Reminder')
+        }">
+        <h4>{{ notification.title }}</h4>
+        <span>{{ notification.details }}</span>
+      </li>
+    </ul>
+  </div>
 
-  <app-stacked-column-chart
-    [seriesData]="studentSalarySeries"
-    [categoriesData]="salaryRanges"
-    titleText="Student Placement Salary-Based Status"
-    xLabel="Companies"
-    yLabel="No. of Students"></app-stacked-column-chart>
-
-  <app-simple-pie-chart
-    [branchPlacementSeries]="branchPlacementSeries"
-    [branchLabels]="branchLabels"
-    titleText="Branch-Wise Student Placement Status"></app-simple-pie-chart>
+  <div class="interview-schedule-heading">
+    <h3>Interview Schedule</h3>
+  </div>
+  <div class="interview-schedule">
+    <ul>
+      <li
+        *ngFor="let interview of interviewSchedule"
+        class="interview-schedule-notification">
+        <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+        <span>Name of Candidate: {{ interview.candidate }}</span>
+        <span>Job Role: {{ interview.position }}</span>
+        <span>Time: {{ interview.time }}</span>
+      </li>
+    </ul>
+  </div>
 </div>

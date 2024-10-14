@@ -1,33 +1,82 @@
-<div class="welcome-card">
-  <h2>Welcome, {{ HRName }}!</h2>
-  <p></p>
-</div>
-<div class="chart-container">
-  <app-basic-line-chart
-    [seriesData]="openings"
-    [categoriesData]="jobRoles"
-    [titleText]="chartTitle"
-    [xLabel]="xAxisLabel"
-    [yLabel]="yAxisLabel"></app-basic-line-chart>
-  <app-basic-column-chart
-    [seriesData]="employeeIntakes"
-    [categoriesData]="colleges"
-    [titleText]="inTakeChartTitle"
-    [xLabel]="inTakexAxisLabel"
-    [yLabel]="inTakeyAxisLabel">
-  </app-basic-column-chart>
+<div class="left-content">
+  <div class="welcome-card">
+    <h2>Welcome, {{ HRName }}!</h2>
+  </div>
+  <div class="upcoming-drive-container">
+    <h3>Upcoming Drives</h3>
+    <p>Here is your schedule for this week:</p>
+    <!-- New paragraph added here -->
+    <div class="upcoming-drive-row">
+      <div *ngFor="let interview of upcomingDrives" class="upcoming-drive-card">
+        <mat-card>
+          <mat-card-content>
+            <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+            <p>
+              <strong>Job Role:</strong> {{ interview.jobRole }} <br />
+              <strong>Venue:</strong> {{ interview.venue }} <br />
+              <strong>Round:</strong> {{ interview.round }}
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <!-- <h3>
+    <mat-icon>show_chart</mat-icon>
+    Charts Overview
+  </h3> -->
 
-  <!-- <app-column-chart-datalabels
-    [seriesData]="yearWiseIntake"
-    [categoriesData]="years"
-    [titleText]="yearWiseIntakechartTitle"
-    [xLabel]="yearWiseIntakexAxisLabel"
-    [yLabel]="yearWiseIntakeyAxisLabel">
-  </app-column-chart-datalabels> -->
-  <!-- <app-stacked-column-chart></app-stacked-column-chart>
-  <app-hp-stacked-columnchart></app-hp-stacked-columnchart>
-  <app-simple-pie-chart></app-simple-pie-chart>
-  <app-simple-donut-chart></app-simple-donut-chart> -->
+  <div class="chart-container">
+    <app-funnel-chart></app-funnel-chart>
+    <app-basic-line-chart
+      [seriesData]="openings"
+      [categoriesData]="jobRoles"
+      [titleText]="chartTitle"
+      [xLabel]="xAxisLabel"
+      [yLabel]="yAxisLabel">
+    </app-basic-line-chart>
+
+    <!-- <app-basic-column-chart
+      [seriesData]="employeeIntakes"
+      [categoriesData]="colleges"
+      [titleText]="inTakeChartTitle"
+      [xLabel]="inTakexAxisLabel"
+      [yLabel]="inTakeyAxisLabel">
+    </app-basic-column-chart> -->
+  </div>
 </div>
 
-<!-- <h2>Company Dashboard</h2> -->
+<div class="right-content">
+  <div class="notification-heading">
+    <h3>Notifications</h3>
+  </div>
+  <div class="related-jobs">
+    <ul>
+      <li
+        *ngFor="let notification of notifications"
+        [ngClass]="{
+          'reminder-notification': notification.title.includes('Reminder'),
+          'other-notification': !notification.title.includes('Reminder')
+        }">
+        <h4>{{ notification.title }}</h4>
+        <span>{{ notification.details }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="interview-schedule-heading">
+    <h3>Interview Schedule</h3>
+  </div>
+  <div class="interview-schedule">
+    <ul>
+      <li
+        *ngFor="let interview of interviewSchedule"
+        class="interview-schedule-notification">
+        <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+        <span>Name of Candidate: {{ interview.candidate }}</span>
+        <span>Job Role: {{ interview.position }}</span>
+        <span>Time: {{ interview.time }}</span>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <div>
   <h1 class="header" mat-dialog-title>
-    {{ roundId ? "Edit Rounds" : "Add Rounds" }}
+    {{ roundId ? 'Edit Rounds' : 'Add Rounds' }}
   </h1>
 
   <form class="form-content">
@@ -12,8 +12,7 @@
               <p class="grid-label">Round Name</p>
               <mat-form-field
                 appearance="outline"
-                class="matFormField rounds_input"
-              >
+                class="matFormField rounds_input">
                 <mat-label>Round Name</mat-label>
                 <input matInput placeholder="Round Name" />
               </mat-form-field>
@@ -23,21 +22,19 @@
               <p class="grid-label">Description</p>
               <mat-form-field
                 appearance="outline"
-                class="matFormField rounds_input"
-              >
+                class="matFormField rounds_input">
                 <mat-label>Description</mat-label>
                 <input matInput placeholder="Description" />
               </mat-form-field>
             </div>
 
             <div fxFlex="100%">
-              <p class="grid-label">Duration</p>
+              <p class="grid-label">Priority</p>
               <mat-form-field
                 appearance="outline"
-                class="matFormField rounds_input"
-              >
-                <mat-label>Duration</mat-label>
-                <input matInput placeholder="Duration" />
+                class="matFormField rounds_input">
+                <mat-label>Priority</mat-label>
+                <input matInput placeholder="Priority" />
               </mat-form-field>
             </div>
           </div>
@@ -51,7 +48,7 @@
         </button>
         <button mat-raised-button class="matbutton" type="submit">
           <p class="matName">
-            {{ roundId ? "Update" : "Add" }}
+            {{ roundId ? 'Update' : 'Add' }}
           </p>
         </button>
       </mat-card-actions>

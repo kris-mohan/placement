@@ -8,6 +8,7 @@ import { StackedColumnChartComponent } from '../../charts/column chart/stacked-c
 import { ColumnChartDatalabelsComponent } from '../../charts/column chart/column-chart-datalabels/column-chart-datalabels.component';
 import { BasicColumnChartComponent } from '../../charts/column chart/basic-column-chart/basic-column-chart.component';
 import { BasicLineChartComponent } from '../../charts/line chart/basic-line-chart/basic-line-chart.component';
+import { FunnelChartComponent } from '../../charts/funnel chart/funnel-chart/funnel-chart.component';
 
 @Component({
   selector: 'app-company-dashboard',
@@ -20,6 +21,7 @@ import { BasicLineChartComponent } from '../../charts/line chart/basic-line-char
     HpStackedColumnchartComponent,
     SimplePieChartComponent,
     SimpleDonutChartComponent,
+    FunnelChartComponent,
     CommonModule,
     SharedModule,
   ],
@@ -31,6 +33,77 @@ export class CompanyDashboardComponent {
   jobRoles: string[] = ['Developer', 'Designer', 'Manager', 'QA'];
   colleges: string[] = ['College A', 'College B', 'College C', 'College D'];
   years: string[] = ['2021-22', '2022-23', '2023-24', '2024-25'];
+
+  upcomingDrives = [
+    {
+      date: new Date('2024-10-20'),
+      jobRole: 'Developer',
+      venue: 'On Campus, Main Hall',
+      round: 'Technical Round',
+    },
+    {
+      date: new Date('2024-10-22'),
+      jobRole: 'UI/UX Designer',
+      venue: 'Online, Main Hall',
+      round: 'Technical Round',
+    },
+    {
+      date: new Date('2024-10-22'),
+      jobRole: 'Software Engineer',
+      venue: 'On Campus, Main Hall',
+      round: 'HR Round',
+    },
+  ];
+  notifications = [
+    {
+      title: 'Interview Reminder',
+      details:
+        'Reminder: Your interview with John Doe for the Software Engineer position is scheduled for October 15th at 10:00 AM.',
+    },
+    {
+      title: 'New Candidate Application',
+      details:
+        'You have received a new application for the Data Scientist position. Please review it at your earliest convenience.',
+    },
+    {
+      title: 'Team Meeting Scheduled',
+      details:
+        'Reminder: All hands meeting scheduled for October 18th at 3:00 PM to discuss hiring targets and team updates.',
+    },
+    {
+      title: 'Offer Letter Issued',
+      details:
+        'Offer letter has been sent to Sarah Parker for the UX Designer position. Awaiting her response.',
+    },
+  ];
+
+  interviewSchedule = [
+    {
+      date: new Date('2024-10-20'),
+      time: '10:00 AM',
+      position: 'Software Engineer',
+      candidate: 'Alice Johnson',
+    },
+    {
+      date: new Date('2024-10-22'),
+      time: '1:00 PM',
+      position: 'Product Manager',
+      candidate: 'David Smith',
+    },
+    {
+      date: new Date('2024-10-22'),
+      time: '2:30 PM',
+      position: 'Data Analyst',
+      candidate: 'Jessica Lee',
+    },
+    {
+      date: new Date('2024-10-22'),
+      time: '3:30 PM',
+      position: 'UX Designer',
+      candidate: 'Michael Brown',
+    },
+  ];
+
   openings: any = [
     {
       name: 'No. of Openings',
@@ -49,7 +122,7 @@ export class CompanyDashboardComponent {
     },
   ];
 
-  inTakeChartTitle: string = 'Employee Intake by College';
-  inTakexAxisLabel: string = 'Colleges';
-  inTakeyAxisLabel: string = 'Number of Employees';
+  inTakeChartTitle: string = 'Student Intake by College';
+  inTakexAxisLabel: string = 'College Names';
+  inTakeyAxisLabel: string = 'Number of Students';
 }
