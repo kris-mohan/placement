@@ -1,15 +1,64 @@
 <h1 mat-dialog-title>Add New Event</h1>
 <div mat-dialog-content>
   <form [formGroup]="formDataa">
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-label>Event Name</mat-label>
-      <input matInput placeholder="Insert Event Name" formControlName="title" />
+      <input
+        matInput
+        placeholder="Insert Event Name"
+        formControlName="eventName"
+      />
     </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Category</mat-label>
-      <input matInput placeholder="Category" formControlName="category" />
+
+    <mat-form-field appearance="outline">
+      <mat-label>Job Role</mat-label>
+      <mat-select formControlName="jobRole">
+        <mat-option *ngFor="let role of roles" [value]="role.id">
+          {{ role.name }}
+        </mat-option>
+      </mat-select>
+      <!-- <input matInput placeholder="Job Role" formControlName="jobRole" /> -->
     </mat-form-field>
+
     <p>Selected Date: {{ data.date | date : "mediumDate" }}</p>
+    <!-- <p>Start Time</p>
+          <mat-form-field appearance="fill" class="matFormField">
+            <mat-label>Start Time</mat-label>
+            <input
+              id="StartTimePicker"
+              matInput
+              [ngxTimepicker]="startTimePicker"
+            />
+            <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
+          </mat-form-field>
+        </div>
+
+    <div
+      class="row-wrap-content"
+      fxFlex="100%"
+      fxFlex.gt-md="33%"
+      fxFlex.gt-lg="25%"
+      fxFlex.gt-sm="50%"
+    >
+      <p>End Date</p>
+      <mat-form-field appearance="fill" class="matFormField">
+        <mat-label>End Date</mat-label>
+        <input
+          formControlName="EndDate"
+          matInput
+          [matDatepicker]="endDatePicker"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="endDatePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+      </mat-form-field>
+    </div> -->
+    <!-- <mat-form-field>
+      <p>Selected Date: {{ data.date | date : "mediumDate" }}</p>
+    </mat-form-field> -->
+
     <!-- Display the selected date -->
   </form>
 </div>
