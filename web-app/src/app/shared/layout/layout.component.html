@@ -186,6 +186,20 @@
             <div><mat-label>Student</mat-label></div>
           </div>
         </a>
+
+        <a
+          *ngIf="userType === 1"
+          mat-list-item
+          [routerLink]="['/Placement-offer-Recieved']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon>star</mat-icon></div>
+            <div><mat-label>Offers Recieved</mat-label></div>
+          </div>
+        </a>
+
         <a
           *ngIf="userType === 1"
           mat-list-item
@@ -394,6 +408,19 @@
               <mat-icon mat-list-icon> supervised_user_circle </mat-icon>
             </div>
             <div><mat-label>Interview</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 3"
+          mat-list-item
+          [routerLink]="['/offer-Recieved']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon>star</mat-icon></div>
+            <div><mat-label>Offers Recieved</mat-label></div>
           </div>
         </a>
 

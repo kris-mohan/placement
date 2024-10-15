@@ -75,6 +75,8 @@ import { StudentCalendarComponent } from './features/student-menu/student-menu/s
 import { OfferManagementComponent } from './features/company-menu/offer-management/offer-management.component';
 import { OfferManagementDetailsComponent } from './features/company-menu/offer-management/offer-management-details/offer-management-details.component';
 import { FunnelChartComponent } from './features/charts/funnel chart/funnel-chart/funnel-chart.component';
+import { OfferRecievedComponent } from "./features/student-menu/student-menu/offer-recieved/offer-recieved.component";
+import { PlacementOffersRecievedComponent } from "./features/placement-cell/placement-cell/placement-offers-recieved/placement-offers-recieved.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -423,9 +425,9 @@ const appRoutes: Routes = [
       },
 
       {
-        path: '**',
-        redirectTo: 'dashboard',
-        pathMatch: 'full',
+        path: "**",
+        redirectTo: "dashboard",
+        pathMatch: "full",
       },
     ],
   },
