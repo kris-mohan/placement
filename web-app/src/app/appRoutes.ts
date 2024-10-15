@@ -74,6 +74,8 @@ import { IndentviewComponent } from "./features/company-menu/indent-requirements
 import { StudentCalendarComponent } from "./features/student-menu/student-menu/student-calendar/student-calendar.component";
 import { OfferManagementComponent } from "./features/company-menu/offer-management/offer-management.component";
 import { OfferManagementDetailsComponent } from "./features/company-menu/offer-management/offer-management-details/offer-management-details.component";
+import { OfferRecievedComponent } from "./features/student-menu/student-menu/offer-recieved/offer-recieved.component";
+import { PlacementOffersRecievedComponent } from "./features/placement-cell/placement-cell/placement-offers-recieved/placement-offers-recieved.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -415,6 +417,14 @@ const appRoutes: Routes = [
       {
         path: "offer-management/offer-management-details",
         component: OfferManagementDetailsComponent,
+      },
+      {
+        path: "offer-Recieved",
+        component: OfferRecievedComponent,
+      },
+      {
+        path: "Placement-offer-Recieved",
+        component: PlacementOffersRecievedComponent,
       },
 
       {
