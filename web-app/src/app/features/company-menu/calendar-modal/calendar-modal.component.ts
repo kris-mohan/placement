@@ -1,10 +1,13 @@
 import { CommonModule } from "@angular/common";
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatCheckboxChange } from "@angular/material/checkbox";
+import { provideNativeDateAdapter } from "@angular/material/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
+// import { MatDatepickerModule } from "@angular/material/datepicker";
 
 @Component({
   selector: "app-calendar-modal",
@@ -14,13 +17,16 @@ import { SharedModule } from "src/app/shared/shared.module";
     CommonModule,
     SharedModule,
     NgxMaterialTimepickerModule,
+    // MatDatepickerModule,
   ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: "./calendar-modal.component.html",
   styleUrl: "./calendar-modal.component.css",
 })
 export class CalendarModalComponent implements OnInit {
   formDataa: FormGroup;
   roles: any[] = [];
+  toggle: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<CalendarModalComponent>,
     private formBuilder: FormBuilder,
@@ -33,7 +39,9 @@ export class CalendarModalComponent implements OnInit {
       // panels: ["", Validators.required],
       // venueDetails: ["", Validators.required],
       // startDate: ["", Validators.required],
-      endDate: ["", Validators.required],
+      startTime: ["", Validators.required],
+      endDate: [""],
+      endTime: ["", Validators.required],
     });
   }
 
@@ -58,6 +66,10 @@ export class CalendarModalComponent implements OnInit {
     if (this.formDataa.valid) {
       this.dialogRef.close(this.formDataa.value);
     }
+  }
+
+  onToggleChange(event: MatCheckboxChange){
+    this.toggle = event.checked;
   }
 
   onCancel(): void {
