@@ -13,6 +13,24 @@
           <mat-label>Scheduled Interviews</mat-label>
         </div>
       </div>
+
+      <!-- Search and Additional Filters Section -->
+      <div class="example-button-container">
+        <div>
+          <mat-form-field class="search-full-width" appearance="outline">
+            <mat-label>Search Company</mat-label>
+            <mat-icon matSuffix>search</mat-icon>
+            <input type="text" aria-label="Search Company" matInput [formControl]="companyControl" [matAutocomplete]="auto" />
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let company of filteredCompany | async" [value]="company.Name">{{ company.Name }}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="example-button-container">
+          <button mat-raised-button class="matbutton"><p class= "matName">Additional Filters</p></button>
+        </div>
+      </div>
     </mat-card-header>
     
     <!-- Filters Section (Below the Title) -->
@@ -77,23 +95,7 @@
       </div>
     </div>
 
-    <!-- Search and Additional Filters Section -->
-    <div class="example-button-container">
-      <div>
-        <mat-form-field class="search-full-width" appearance="outline">
-          <mat-label>Search Company</mat-label>
-          <mat-icon matSuffix>search</mat-icon>
-          <input type="text" aria-label="Search Company" matInput [formControl]="companyControl" [matAutocomplete]="auto" />
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let company of filteredCompany | async" [value]="company.Name">{{ company.Name }}</mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-
-      <div class="example-button-container">
-        <button mat-raised-button class="matbutton">Additional Filters</button>
-      </div>
-    </div>
+    
   </mat-card>
   <br>
   <mat-card class = "main-card">
