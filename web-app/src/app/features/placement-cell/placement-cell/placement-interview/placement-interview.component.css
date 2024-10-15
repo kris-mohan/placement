@@ -9,11 +9,12 @@ button {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-
+.BackIcon {
+  cursor: pointer;
+}
 .example-button-container {
   display: flex;
   justify-content: end;
-  cursor: pointer;
 }
 
 .button-label-container {

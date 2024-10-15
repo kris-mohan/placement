@@ -13,11 +13,21 @@ button {
 .example-button-container {
   display: flex;
   justify-content: end;
+
+}
+.BackIcon{
+  display: flex;
+  justify-content: end;
   cursor: pointer;
 }
 
 .button-label-container {
   display: flex;
+}
+.Header-label {
+  font-size: x-large;
+  color: darkblue;
+  font-weight: bolder;
 }
 
 .header-mat-label {
@@ -61,7 +71,7 @@ cdk-overlay-pane {
 
 .mat-grid-tile {
   border-radius: 0.5rem;
-  background-color: #cadaf647;
+  background-color: #c3d2f899;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -72,10 +82,10 @@ cdk-overlay-pane {
 
 .mat-grid-tile:hover {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease,
     background-color 0.3s ease, color 0.3s ease;
-  background-color: white;
+  background-color: #c3d2f899;
   color: black;
 }
 
@@ -113,7 +123,9 @@ table {
   margin: 0;
   padding: 5px;
 }
-
+.heading1 span {
+  font-size: large;
+}
 .job-details-container {
   display: flex;
   padding: 5px;

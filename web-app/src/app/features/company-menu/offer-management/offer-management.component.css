@@ -13,9 +13,11 @@ button {
 .example-button-container {
   display: flex;
   justify-content: end;
+ 
+}
+.BackIcon{
   cursor: pointer;
 }
-
 .button-label-container {
   display: flex;
 }

@@ -13,3 +13,12 @@
   display: flex;
   justify-content: space-between;
 }
+.BackIcon {
+  cursor: pointer;
+}
+.header {
+  font-size: x-large;
+  font-weight: bolder;
+  color: darkblue;
+  margin-left: 30px;
+}

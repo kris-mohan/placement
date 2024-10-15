@@ -3,8 +3,8 @@
     <div class="example-button-row">
       <div class="example-flex-container">
         <div class="button-label-container">
-          <div class="example-button-container" (click)="goBack()">
-            <mat-icon>keyboard_backspace</mat-icon>
+          <div class="example-button-container" >
+            <mat-icon (click)="goBack()" class="BackIcon">keyboard_backspace</mat-icon>
           </div>
 
           <div class="header-mat-label">
@@ -216,7 +216,7 @@
           height="15%"
           width="75%"
         />
-        <h3>{{ company.name }}</h3>
+        <h2>{{ company.name }}</h2>
 
         <div class="company-type">{{ company.type }}</div>
         <div class="company-type">
