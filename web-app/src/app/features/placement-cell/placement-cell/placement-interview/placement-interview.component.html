@@ -1,263 +1,123 @@
-<mat-card>
-  <mat-card-header class="custom-card-header">
-    <div class="example-button-row">
-      <div class="example-flex-container">
-        <div class="button-label-container">
-          <div class="example-button-container" (click)="goBack()">
-            <mat-icon>keyboard_backspace</mat-icon>
-            <div class="header-mat-label">
-              <mat-label>Scheduled Interviews</mat-label>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Select Date Range</mat-label>
-            <mat-date-range-input
-              [formGroup]="campaignOne"
-              [rangePicker]="campaignOnePicker"
-              [comparisonStart]="campaignOne.value.start"
-              [comparisonEnd]="campaignOne.value.end"
-            >
-              <input
-                matStartDate
-                placeholder="Start date"
-                formControlName="start"
-              />
-              <input matEndDate placeholder="End date" formControlName="end" />
-            </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle
-              matIconSuffix
-              [for]="campaignOnePicker"
-            ></mat-datepicker-toggle>
-            <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select
-              [formControl]="CityControl"
-              multiple
-              (openedChange)="onCityDropdownOpen()"
-              panelClass="custom-dropdown-panel"
-            >
-              <mat-select-trigger>
-                {{ selectedCompanyCities }}
-              </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input
-                  class="full-width"
-                  matInput
-                  [(ngModel)]="searchCity"
-                  (ngModelChange)="filterCities($event)"
-                  placeholder="Search"
-                />
-              </mat-form-field>
-              <mat-option *ngIf="!filteredCompanies.length" disabled
-                >No options</mat-option
-              >
-              <mat-option
-                *ngFor="let company of filteredCompanies"
-                [value]="company.City"
-              >
-                {{ company.City }}
-              </mat-option>
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button
-                  mat-button
-                  mat-dialog-close
-                  (click)="resetLocationSelection()"
-                >
-                  Reset
-                </button>
-                <button
-                  mat-raised-button
-                  class="matbutton"
-                  (click)="showLocationResults()"
-                >
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Batch</mat-label>
-            <mat-select
-              [formControl]="industryControl"
-              multiple
-              (openedChange)="onIndustryDropdownOpen()"
-            >
-              <mat-select-trigger>
-                {{ selectedIndustries }}
-              </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input
-                  class="full-width"
-                  matInput
-                  [(ngModel)]="searchIndustry"
-                  (ngModelChange)="filterIndustries($event)"
-                  placeholder="Search"
-                />
-              </mat-form-field>
-              <mat-option *ngIf="!filteredIndustries.length" disabled
-                >No options</mat-option
-              >
-              <mat-option
-                *ngFor="let industry of filteredIndustries"
-                [value]="industry.Type"
-              >
-                {{ industry.Type }}
-              </mat-option>
-
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button
-                  mat-button
-                  mat-dialog-close
-                  (click)="resetIndustrySelection()"
-                >
-                  Reset
-                </button>
-                <button
-                  mat-raised-button
-                  class="matbutton"
-                  (click)="showIndustryResults()"
-                >
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Branch</mat-label>
-            <mat-select
-              [formControl]="industryControl"
-              multiple
-              (openedChange)="onIndustryDropdownOpen()"
-            >
-              <mat-select-trigger>
-                {{ selectedIndustries }}
-              </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input
-                  class="full-width"
-                  matInput
-                  [(ngModel)]="searchIndustry"
-                  (ngModelChange)="filterIndustries($event)"
-                  placeholder="Search"
-                />
-              </mat-form-field>
-              <mat-option *ngIf="!filteredIndustries.length" disabled
-                >No options</mat-option
-              >
-              <mat-option
-                *ngFor="let industry of filteredIndustries"
-                [value]="industry.Type"
-              >
-                {{ industry.Type }}
-              </mat-option>
-
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button
-                  mat-button
-                  mat-dialog-close
-                  (click)="resetIndustrySelection()"
-                >
-                  Reset
-                </button>
-                <button
-                  mat-raised-button
-                  class="matbutton"
-                  (click)="showIndustryResults()"
-                >
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
-            </mat-select>
-          </mat-form-field>
+<div>
+  <mat-card class = "main-card">
+    <!-- Card Header with Title and Back Button -->
+    <mat-card-header class="custom-card-header">
+      <div class="header-content">
+        <!-- Back Button Section -->
+        <button mat-icon-button (click)="goBack()" aria-label="Go Back">
+          <mat-icon>keyboard_backspace</mat-icon>
+        </button>
+    
+        <!-- Title Section -->
+        <div class="header-mat-label">
+          <mat-label>Scheduled Interviews</mat-label>
         </div>
       </div>
+    </mat-card-header>
+    
+    <!-- Filters Section (Below the Title) -->
+    <div class="filters-container">
+      <!-- Date Range Filter -->
+      <div class="filter-item">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Select Date Range</mat-label>
+          <mat-date-range-input [formGroup]="campaignOne" [rangePicker]="campaignOnePicker">
+            <input matStartDate placeholder="Start date" formControlName="start" />
+            <input matEndDate placeholder="End date" formControlName="end" />
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+    
+      <!-- Status Filter -->
+      <div class="filter-item">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select [formControl]="CityControl" multiple>
+            <mat-select-trigger>{{ selectedCompanyCities }}</mat-select-trigger>
+            <mat-form-field appearance="outline">
+              <input matInput [(ngModel)]="searchCity" placeholder="Search" />
+            </mat-form-field>
+            <mat-option *ngIf="!filteredCompanies.length" disabled>No options</mat-option>
+            <mat-option *ngFor="let company of filteredCompanies" [value]="company.City">{{ company.City }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    
+      <!-- Batch Filter -->
+      <div class="filter-item">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Batch</mat-label>
+          <mat-select [formControl]="industryControl" multiple>
+            <mat-select-trigger>{{ selectedIndustries }}</mat-select-trigger>
+            <mat-form-field appearance="outline">
+              <input matInput [(ngModel)]="searchIndustry" placeholder="Search" />
+            </mat-form-field>
+            <mat-option *ngIf="!filteredIndustries.length" disabled>No options</mat-option>
+            <mat-option *ngFor="let industry of filteredIndustries" [value]="industry.Type">{{ industry.Type }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    
+      <!-- Branch Filter -->
+      <div class="filter-item">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Branch</mat-label>
+          <mat-select [formControl]="industryControl" multiple>
+            <mat-select-trigger>{{ selectedIndustries }}</mat-select-trigger>
+            <mat-form-field appearance="outline">
+              <input matInput [(ngModel)]="searchIndustry" placeholder="Search" />
+            </mat-form-field>
+            <mat-option *ngIf="!filteredIndustries.length" disabled>No options</mat-option>
+            <mat-option *ngFor="let industry of filteredIndustries" [value]="industry.Type">{{ industry.Type }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Search and Additional Filters Section -->
+    <div class="example-button-container">
+      <div>
+        <mat-form-field class="search-full-width" appearance="outline">
+          <mat-label>Search Company</mat-label>
+          <mat-icon matSuffix>search</mat-icon>
+          <input type="text" aria-label="Search Company" matInput [formControl]="companyControl" [matAutocomplete]="auto" />
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let company of filteredCompany | async" [value]="company.Name">{{ company.Name }}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
       <div class="example-button-container">
-        <div>
-          <mat-form-field class="search-full-width" appearance="outline">
-            <mat-label>Search Company</mat-label>
-            <mat-icon matSuffix>search</mat-icon>
-            <input
-              type="text"
-              aria-label="Number"
-              matInput
-              [formControl]="companyControl"
-              [matAutocomplete]="auto"
-            />
-            <mat-autocomplete
-              autoActiveFirstOption
-              #auto="matAutocomplete"
-              (optionSelected)="onCompanySelected($event)"
-            >
-              <mat-option
-                *ngFor="let company of filteredCompany | async"
-                [value]="company.Name"
-              >
-                {{ company.Name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div class="example-button-container">
-          <button
-            mat-raised-button
-            class="matbutton"
-            (click)="openPlacementinterviewAdditionalFilter()"
-          >
-            <p class="matName">Additional Filters</p>
-          </button>
-        </div>
+        <button mat-raised-button class="matbutton">Additional Filters</button>
       </div>
     </div>
-  </mat-card-header>
-
-  <mat-card-content
-    fxLayout="row wrap"
-    fxLayoutAlign="start stretch"
-    class="mat-card-content"
-  >
-    <div
-      *ngFor="let scheduledInterview of scheduledInterviews"
-      fxFlex="100%"
-      fxFlex.gt-sm="50%"
-      fxFlex.gt-md="28%"
-      fxFlex.gt-lg="25%"
-      class="grid-item"
-      class="mat-grid-tile"
-      (click)="goToInterviewStudentsDetails(scheduledInterview.id)"
-    >
-      <div class="company-details">
-        <h3>{{ scheduledInterview.roundName }}</h3>
-        <div class="company-type">{{ scheduledInterview.company }}</div>
-        <p><strong>Date:</strong> {{ scheduledInterview.postedDate }}</p>
+  </mat-card>
+  <br>
+  <mat-card class = "main-card">
+    <!-- Card Content Section -->
+    <mat-card-content class="mat-card-content">
+      <div *ngFor="let scheduledInterview of scheduledInterviews" class="grid-item mat-grid-tile">
+        <mat-card class="interview-card" (click)="goToInterviewStudentsDetails(scheduledInterview.id)">
+          <mat-card-header>
+            <mat-card-title>{{ scheduledInterview.roundName }}</mat-card-title>
+            <mat-card-subtitle>{{ scheduledInterview.company }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <img alt="Company Logo" class="Logo"/>
+          </mat-card-content>
+          <mat-card-content>
+            <div class="interview-details">
+              <p><strong>Date:</strong> {{ scheduledInterview.postedDate }}</p>
+              <p><strong>Status:</strong> {{ scheduledInterview.status }}</p>
+              <p><strong>Students cleared:</strong> {{ scheduledInterview.studentsCleared }}</p>
+              <p><strong>Students rejected:</strong> {{ scheduledInterview.studentsRejected }}</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
-
-      <div class="company">
-        <img alt="Company Logo" class="Logo" height="70%" width="auto" />
-        <p><strong>Status:</strong> {{ scheduledInterview.status }}</p>
-        <p>
-          <strong>Number of students cleared:</strong>
-          {{ scheduledInterview.studentsCleared }}
-        </p>
-        <p>
-          <strong>Number of students rejected:</strong>
-          {{ scheduledInterview.studentsRejected }}
-        </p>
-      </div>
-    </div>
-  </mat-card-content>
-</mat-card>
+    </mat-card-content>
+  </mat-card>
+</div>
