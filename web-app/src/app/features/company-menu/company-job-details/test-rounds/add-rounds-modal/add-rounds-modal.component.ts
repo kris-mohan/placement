@@ -10,6 +10,7 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { SharedModule } from "src/app/shared/shared.module";
 import { HIRING_ROUNDS_DATA } from "../test-rounds.component";
+import { InterviewRoundsAPIService } from "./api-add-rounds-modal";
 
 @Component({
   selector: "app-add-rounds-modal",
@@ -23,6 +24,7 @@ export class AddRoundsModalComponent {
   roundId: number | null = null;
   selectedPriority: string = "";
   constructor(
+    private apiInterviewRounds: InterviewRoundsAPIService,
     public dialogRef: MatDialogRef<AddRoundsModalComponent>,
     private route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public data: companyTableList
@@ -65,5 +67,14 @@ export class AddRoundsModalComponent {
   onPriorityChange(event: any) {
     this.selectedPriority = event.value;
     console.log("Selected Priority:", this.selectedPriority);
+  }
+
+  async getInterviewRounds() {
+    this.apiInterviewRounds.getInterviewRounds().subscribe({
+      next: () => {},
+      error: () => {
+        console.error("error 404");
+      },
+    });
   }
 }

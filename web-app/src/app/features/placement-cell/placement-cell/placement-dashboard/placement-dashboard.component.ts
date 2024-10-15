@@ -29,19 +29,6 @@ import { BasicLineChartComponent } from 'src/app/features/charts/line chart/basi
   styleUrl: './placement-dashboard.component.css',
 })
 export class PlacementDashboardComponent implements OnInit {
-  // chartSeries = [
-  //   {
-  //     name: 'High - 2023',
-  //     data: [30, 32, 35, 38, 36, 34, 32],
-  //   },
-  //   {
-  //     name: 'Low - 2023',
-  //     data: [25, 16, 18, 20, 19, 17, 16],
-  //   },
-  // ];
-
-  // chartCategories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-
   studentYearlySeries: any[] = [];
   yearsLabels: string[] = [];
   studentPlacementData: any[] = [];
@@ -51,7 +38,88 @@ export class PlacementDashboardComponent implements OnInit {
   branchPlacementSeries: number[] = [];
   branchLabels: string[] = [];
   placementOfficerName = 'Ramesh Sharma';
+  genderWiseStudentData: any[] = [];
+  availableYears: string[] = ['2022', '2023', '2024'];
+  selectedYears: string[] = [];
+  totalOffers = 50;
 
+  notifications = [
+    {
+      title: 'Interview Reminder',
+      details:
+        'Reminder: Your interview with John Doe for the Software Engineer position is scheduled for October 15th at 10:00 AM.',
+    },
+    {
+      title: 'New Candidate Application',
+      details:
+        'You have received a new application for the Data Scientist position. Please review it at your earliest convenience.',
+    },
+    {
+      title: 'Team Meeting Scheduled',
+      details:
+        'Reminder: All hands meeting scheduled for October 18th at 3:00 PM to discuss hiring targets and team updates.',
+    },
+    {
+      title: 'Offer Letter Issued',
+      details:
+        'Offer letter has been sent to Sarah Parker for the UX Designer position. Awaiting her response.',
+    },
+  ];
+
+  interviewSchedule = [
+    {
+      date: new Date('2024-10-20'),
+      time: '10:00 AM',
+      position: 'Software Engineer',
+      candidate: 'Alice Johnson',
+    },
+    {
+      date: new Date('2024-10-22'),
+      time: '1:00 PM',
+      position: 'Product Manager',
+      candidate: 'David Smith',
+    },
+    {
+      date: new Date('2024-10-22'),
+      time: '2:30 PM',
+      position: 'Data Analyst',
+      candidate: 'Jessica Lee',
+    },
+    {
+      date: new Date('2024-10-22'),
+      time: '3:30 PM',
+      position: 'UX Designer',
+      candidate: 'Michael Brown',
+    },
+  ];
+
+  upcomingDrives = [
+    {
+      company: 'Tata Consultancy Services (TCS)',
+      date: new Date('2024-10-20'),
+      jobRole: 'Developer',
+      venue: 'On Campus, Main Hall',
+      round: 'Technical Round',
+    },
+    {
+      company: 'Wipro',
+      date: new Date('2024-10-22'),
+      jobRole: 'UI/UX Designer',
+      venue: 'Online, Main Hall',
+      round: 'Technical Round',
+    },
+    {
+      company: 'IBM',
+      date: new Date('2024-10-22'),
+      jobRole: 'Software Engineer',
+      venue: 'On Campus, Main Hall',
+      round: 'HR Round',
+    },
+  ];
+
+  sendInvite() {
+    console.log('Invite sent to companies');
+  }
   ngOnInit(): void {
     const apiCall = async () => {
       this.studentYearlySeries = [
@@ -68,27 +136,20 @@ export class PlacementDashboardComponent implements OnInit {
     };
     apiCall();
 
-    const placedStudents = async () => {
+    const genderWisePlacedStudents = async () => {
       this.studentPlacementData = [
         {
-          name: 'Placed Students',
-          data: [120, 80, 100, 90, 75, 35],
+          name: 'Male',
+          data: [120, 80, 100, 90, 75],
         },
         {
-          name: 'Unplaced Students',
-          data: [30, 50, 40, 60, 55, 45],
+          name: 'Female',
+          data: [30, 50, 40, 60, 55],
         },
       ];
-      this.companiesLabels = [
-        'Company A',
-        'Company B',
-        'Company C',
-        'Company D',
-        'Company E',
-        'Company F',
-      ];
+      this.branchLabels = ['CS', 'IS', 'EC', 'ME', 'CV'];
     };
-    placedStudents();
+    genderWisePlacedStudents();
 
     const salaryBasedData = async () => {
       this.studentSalarySeries = [

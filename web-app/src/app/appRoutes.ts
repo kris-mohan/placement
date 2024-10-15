@@ -74,7 +74,7 @@ import { IndentviewComponent } from "./features/company-menu/indent-requirements
 import { StudentCalendarComponent } from "./features/student-menu/student-menu/student-calendar/student-calendar.component";
 import { OfferManagementComponent } from "./features/company-menu/offer-management/offer-management.component";
 import { OfferManagementDetailsComponent } from "./features/company-menu/offer-management/offer-management-details/offer-management-details.component";
-
+import { FunnelChartComponent } from "./features/charts/funnel chart/funnel-chart/funnel-chart.component";
 // import { AuthGuard } from "./core/guards/auth.guard";
 
 const appRoutes: Routes = [
@@ -289,6 +289,10 @@ const appRoutes: Routes = [
       {
         path: "resume-builder",
         component: ResumeBuilderComponent,
+      },
+      {
+        path: "hr-funnel-chart",
+        component: FunnelChartComponent,
       },
 
       {

@@ -87,7 +87,7 @@
 
         <div>
           <mat-form-field appearance="outline">
-            <mat-label>First campaign</mat-label>
+            <mat-label></mat-label>
             <mat-date-range-input
               [formGroup]="campaignOne"
               [rangePicker]="campaignOnePicker"
@@ -199,27 +199,8 @@
             </mat-autocomplete>
           </mat-form-field>
         </div> -->
-
-        <div class="example-button-container filter_items">
-          <button
-            mat-raised-button
-            class="matbutton"
-            (click)="openStudentJobAdditionalFiltersModal()"
-          >
-            <p class="matName">Additional Filters</p>
-          </button>
-          <button
-            *ngIf="userType !== 3"
-            mat-raised-button
-            class="matbutton"
-            (click)="openAddEditCompanyForm(0)"
-          >
-            <mat-icon class="maticon">add</mat-icon>
-            <p class="matButtonText">Add Job Postings</p>
-          </button>
-        </div>
-
-        <!-- <div class="example-button-container">
+      </div>
+      <!-- <div class="example-button-container">
           <button
             *ngIf="userType !== 3"
             mat-raised-button
@@ -230,6 +211,25 @@
             <p class="matButtonText">Add Job Postings</p>
           </button>
         </div> -->
+    </div>
+    <div class="button">
+      <div class="example-button-container filter_items">
+        <button
+          mat-raised-button
+          class="matbutton"
+          (click)="openStudentJobAdditionalFiltersModal()"
+        >
+          <p class="matName">Additional Filters</p>
+        </button>
+        <button
+          *ngIf="userType !== 3"
+          mat-raised-button
+          class="matbutton"
+          (click)="openAddEditCompanyForm(0)"
+        >
+          <mat-icon class="maticon">add</mat-icon>
+          <p class="matButtonText">Add Job Postings</p>
+        </button>
       </div>
     </div>
   </mat-card-header>
