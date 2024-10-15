@@ -69,11 +69,12 @@ button.mat-icon-button {
   flex-wrap: wrap;
   gap: 16px; /* Added gap for consistent spacing */
 }
-
+.BackIcon {
+  cursor: pointer;
+}
 .example-button-container {
   display: flex;
   justify-content: end;
-  cursor: pointer;
 }
 
 .button-label-container {

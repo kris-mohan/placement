@@ -10,13 +10,19 @@
   padding: 20px;
   margin: 20px 0;
 }
-
+.BackIcon {
+  cursor: pointer;
+}
 .job-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
+.header-mat-label {
+  font-weight: bolder;
+  font-size: x-large;
+  color: darkblue;
+}
 .job-title {
   display: flex;
   flex-direction: column;

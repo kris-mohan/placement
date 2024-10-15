@@ -3,11 +3,13 @@
     <div class="example-button-row">
       <div class="example-flex-container">
         <div class="button-label-container">
-          <div class="example-button-container" (click)="goBack()">
-            <mat-icon>keyboard_backspace</mat-icon>
+          <div class="example-button-container">
+            <mat-icon (click)="goBack()" class="BackIcon"
+              >keyboard_backspace</mat-icon
+            >
           </div>
 
-          <div class="header-mat-label">
+          <div class="pageHeader">
             <mat-label>Students</mat-label>
           </div>
         </div>

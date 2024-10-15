@@ -24,17 +24,16 @@ button {
   align-items: center;
 }
 
-.header-mat-label {
-  margin-left: 3rem;
-  font-weight: bolder;
-  font-size: x-large;
-  color: darkblue;
-}
 .button-label-container {
   display: flex;
   align-items: center;
 }
-
+.PageHeader {
+  font-size: x-large;
+  font-weight: bolder;
+  color: darkblue;
+  margin-left: 7px;
+}
 .header-mat-label {
   margin-left: 3rem;
   font-weight: bolder;

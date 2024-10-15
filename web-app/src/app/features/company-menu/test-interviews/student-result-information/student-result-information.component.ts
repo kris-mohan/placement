@@ -27,6 +27,7 @@ import { HiringRound } from "../../company-job-details/test-rounds/test-rounds-m
   templateUrl: "./student-result-information.component.html",
   styleUrl: "./student-result-information.component.css",
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class StudentResultInformation {
   hiringRounds: HiringRound[] = [];
 
