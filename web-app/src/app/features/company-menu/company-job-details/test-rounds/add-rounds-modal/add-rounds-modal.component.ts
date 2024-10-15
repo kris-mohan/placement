@@ -9,7 +9,7 @@ import { ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { SharedModule } from "src/app/shared/shared.module";
-import { HIRING_ROUNDS_DATA } from "../../test-rounds/test-rounds.component";
+import { HIRING_ROUNDS_DATA } from "../test-rounds.component";
 
 @Component({
   selector: "app-add-rounds-modal",
@@ -21,6 +21,7 @@ import { HIRING_ROUNDS_DATA } from "../../test-rounds/test-rounds.component";
 export class AddRoundsModalComponent {
   userType: number;
   roundId: number | null = null;
+  selectedPriority: string = "";
   constructor(
     public dialogRef: MatDialogRef<AddRoundsModalComponent>,
     private route: ActivatedRoute,
@@ -47,5 +48,22 @@ export class AddRoundsModalComponent {
 
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  Priority = [
+    { value: "1", viewValue: "1" },
+    { value: "2", viewValue: "2" },
+    { value: "3", viewValue: "3" },
+    { value: "4", viewValue: "4" },
+    { value: "5", viewValue: "5" },
+    { value: "6", viewValue: "6" },
+    { value: "7", viewValue: "7" },
+    { value: "8", viewValue: "8" },
+    { value: "9", viewValue: "9" },
+  ];
+
+  onPriorityChange(event: any) {
+    this.selectedPriority = event.value;
+    console.log("Selected Priority:", this.selectedPriority);
   }
 }

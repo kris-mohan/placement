@@ -8,7 +8,7 @@ import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 import { HiringRound } from "./test-rounds-model";
-import { AddRoundsModalComponent } from "../add-edit-company-job-details/add-rounds-modal/add-rounds-modal.component";
+import { AddRoundsModalComponent } from "./add-rounds-modal/add-rounds-modal.component";
 import { MatDialog } from "@angular/material/dialog";
 
 export const HIRING_ROUNDS_DATA: HiringRound[] = [
@@ -117,6 +117,7 @@ export class TestRoundsComponent {
     // "status",
     // "candidateId",
     // "feedback",
+    // "priority",
     "actions",
   ];
 
@@ -129,7 +130,10 @@ export class TestRoundsComponent {
     // { key: "candidateId", label: "Candidate ID" },
     // { key: "feedback", label: "Feedback" },
     { key: "actions", label: "Actions" },
+    // { key: "priority", label: "Priority" },
   ];
+
+  priorityOptions = ["1", "2", "3", "4", "5", "6"];
 
   dataSource = new MatTableDataSource<HiringRound>(HIRING_ROUNDS_DATA);
   selection = new SelectionModel<HiringRound>(true, []);

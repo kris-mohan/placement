@@ -40,6 +40,20 @@
                 <input matInput placeholder="Duration" />
               </mat-form-field>
             </div>
+            <div fxFlex="100%">
+              <p class="grid-label">Priority</p>
+              <mat-form-field appearance="outline">
+                <mat-label>Priority</mat-label>
+                <mat-select (selectionChange)="onPriorityChange($event)">
+                  <mat-option
+                    *ngFor="let priority of Priority"
+                    [value]="priority.value"
+                  >
+                    {{ priority.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </mat-card-content>
       </div>

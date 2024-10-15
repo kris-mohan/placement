@@ -3,7 +3,7 @@ import { Component, inject } from "@angular/core";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
-import { AddRoundsModalComponent } from "./add-rounds-modal/add-rounds-modal.component";
+import { AddRoundsModalComponent } from "../test-rounds/add-rounds-modal/add-rounds-modal.component";
 import { MatDialog } from "@angular/material/dialog";
 
 import { ActivatedRoute, Router } from "@angular/router";
