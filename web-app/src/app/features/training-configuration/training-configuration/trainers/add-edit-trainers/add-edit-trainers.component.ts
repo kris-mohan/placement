@@ -20,6 +20,7 @@ export class AddEditTrainersComponent {
   addEditTrainerForm: FormGroup;
   Id: number | null = null;
   initialFormValues: any;
+   Training: string[] = ["Paid Training", "College Traning", "Free Training"];
 
   constructor(
     private fb: FormBuilder,
