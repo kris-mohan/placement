@@ -1,4 +1,3 @@
-/* General Button Styles */
 button {
   margin: 0 8px 8px 0;
 }
@@ -13,107 +12,96 @@ button {
   color: white;
 }
 
-/* Custom Card Header */
 .custom-card-header {
   display: flex;
-  align-items: center; /* Vertically center the items */
-  justify-content: flex-start; /* Align items to the left */
-  padding: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px;
 }
 
-/* Header Content Container */
 .header-content {
   display: flex;
-  align-items: center; /* Vertically center the content */
-  width: 100%; /* Ensure it takes full width */
-  justify-content: space-between; /* Spread the back button and title apart */
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 
-/* Back Button Styling */
 button.mat-icon-button {
-  margin-right: 16px; /* Space between back button and title */
+  margin-right: 16px;
 }
 
 .matName {
   color: white;
 }
 
-/* Filters Container */
 .filters-container {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping */
-  justify-content: flex-start; /* Align items to the start */
-  gap: 16px; /* Adds space between filter items */
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 16px;
   margin-left: 10px;
   margin-right: 10px;
 }
 
-/* Filter Item Styling */
 .filter-item {
-  flex: 1 1 200px; /* Allow items to grow and shrink, and set a min width */
-  min-width: 200px; /* Ensure items are not too narrow */
-  margin-bottom: 16px; /* Space between items */
+  flex: 1 1 200px;
+  min-width: 200px;
+  margin-bottom: 16px;
 }
 
-/* Responsive Adjustments */
 @media (max-width: 768px) {
   .filters-container {
-    flex-direction: column; /* Stack filters vertically on smaller screens */
+    flex-direction: column;
+  }
+
+  .mat-grid-tile {
+    flex: 1 1 100%;
   }
 }
 
-/* Flex Layout and Spacing */
 .example-flex-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 16px; /* Added gap for consistent spacing */
+  gap: 16px;
 }
-.BackIcon {
-  cursor: pointer;
-}
+
 .example-button-container {
   display: flex;
   justify-content: end;
+  cursor: pointer;
 }
 
 .button-label-container {
   display: flex;
-  align-items: center; /* Center align items vertically */
+  align-items: center;
 }
 
-/* Header Label Styling */
 .header-mat-label {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 100px;
+  margin-right: 180px;
   font-weight: bolder;
   font-size: x-large;
   color: darkblue;
 }
 
-/* Table Styling */
 table {
   width: 100%;
 }
 
-/* Checkbox Styling */
 .mdc-checkbox__native-control {
   border-color: var(--mdc-checkbox-selected-icon-color);
   background-color: black;
 }
 
-/* Dialog Styling */
 .mat-dialog-actions {
-
-  gap: 16px; /* Added gap for better alignment of dialog buttons */
+  gap: 16px;
 }
 
-/* Dropdown Panel */
 .custom-dropdown-panel {
-  width: 100%; /* Ensure full-width dropdown panel */
+  width: 100%;
 }
 
-/* Grid Item Styling */
 .mat-grid-tile {
   border-radius: 0.5rem;
   background-color: #c3d2f899;
@@ -127,12 +115,11 @@ table {
 
 .mat-grid-tile:hover {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05); /* Slightly less aggressive scale effect */
+  transform: scale(1.05);
   background-color: #c3d2f899;
   color: black;
 }
 
-/* Company Details Styling */
 .company-details {
   text-align: left;
   margin: 0.5rem;
@@ -150,18 +137,15 @@ table {
   align-items: center;
 }
 
-/* Search Field */
 .search-full-width {
   margin-right: 1rem;
 }
 
-/* Logo and Image Styling */
 .logo {
   width: 10%;
   height: auto;
 }
 
-/* Text Colors */
 .company-type,
 .company-details h3,
 .company-details p strong,
@@ -174,26 +158,23 @@ table {
   color: #1e1e6ee2;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .mat-grid-tile {
-    flex: 1 1 100%; /* Ensure full width for smaller screens */
+    flex: 1 1 100%;
   }
 
   .search-full-width {
-    margin-right: 0; /* Reset margin for small screens */
+    margin-right: 0;
   }
 }
 
-/* Mat Card Content Grid Layout */
 .mat-card-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* This ensures the cards fill available space */
-  gap: 16px; /* Adjust gap to a reasonable value */
-  justify-content: center; /* Ensures the grid centers within the container */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  justify-content: center;
 }
 
-/* Interview Card Styling */
 .interview-card {
   display: flex;
   flex-direction: column;
@@ -202,7 +183,7 @@ table {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   transition: transform 0.2s;
-  background-color: #d2daff;
+  background-color: #cadaf647;
 }
 
 .interview-card:hover {
@@ -211,22 +192,14 @@ table {
 
 @media (max-width: 768px) {
   .grid-item {
-    flex: 1 1 100%; /* Full width on smaller screens */
+    flex: 1 1 100%;
   }
 }
-/* Mat Card Header */
 .mat-card-header {
   background-color: #f5f5f5;
-  padding: 1rem;
   border-bottom: 1px solid #e0e0e0;
 }
 
-/* Interview Details */
-.interview-details {
-  padding: 1rem;
-}
-
-/* Logo Styling */
 .Logo {
   max-height: 50px;
   width: auto;
@@ -234,8 +207,15 @@ table {
   display: block;
 }
 
-/* Mat Card Footer */
 .mat-card-footer {
   text-align: center;
-  padding: 1rem;
+}
+.download-options {
+  margin-right: 10px;
+  margin-left: auto;
+  display: flex;
+}
+
+.download-options button {
+  margin-right: 10px;
 }
