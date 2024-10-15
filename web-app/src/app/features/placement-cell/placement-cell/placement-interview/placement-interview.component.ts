@@ -5,7 +5,7 @@ import {
   inject,
   ViewChild,
 } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup} from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
@@ -596,6 +596,22 @@ export class PlacementInterviewComponent {
       studentsRejected: 15,
       logo: "../../../../assets/images/Softserve-logo1.png",
     },
+    {
+      id: 6,
+      jobTitle: "DevOps Engineer",
+      company: "ABB",
+      date: "2024-09-26",
+      status: "Completed",
+      postedDate: "2024-07-01",
+      applicationDeadline: new Date("2024-08-01"),
+      jobDescription:
+        "Use of Agile Technology to streamline operations",
+
+      roundName: "Aptitude Test",
+      studentsCleared: 45,
+      studentsRejected: 5,
+      logo:"company.logo",
+    }
   ];
 
   jobSummary = [
