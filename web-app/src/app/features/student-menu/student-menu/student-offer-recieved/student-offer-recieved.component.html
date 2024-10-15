@@ -1,0 +1,171 @@
+<mat-card>
+  <mat-card-header class="custom-card-header">
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="button-label-container">
+          <div class="example-button-container" (click)="goBack()">
+            <mat-icon>keyboard_backspace</mat-icon>
+            <div class="header-mat-label">
+              <mat-label>Offers Recieved</mat-label>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex">
+          <div>
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Salary Range</mat-label>
+              <mat-select
+                [formControl]="industryControl"
+                multiple
+                (openedChange)="onIndustryDropdownOpen()"
+              >
+                <mat-select-trigger>
+                  {{ selectedIndustries }}
+                </mat-select-trigger>
+                <mat-form-field appearance="outline">
+                  <input
+                    class="full-width"
+                    matInput
+                    [(ngModel)]="searchIndustry"
+                    (ngModelChange)="filterIndustries($event)"
+                    placeholder="Search"
+                  />
+                </mat-form-field>
+                <mat-option *ngIf="!filteredIndustries.length" disabled
+                  >No options</mat-option
+                >
+                <mat-option
+                  *ngFor="let industry of filteredIndustries"
+                  [value]="industry.Type"
+                >
+                  {{ industry.Type }}
+                </mat-option>
+
+                <mat-dialog-actions class="mat-dialog-actions">
+                  <button
+                    mat-button
+                    mat-dialog-close
+                    (click)="resetIndustrySelection()"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    mat-raised-button
+                    class="matbutton"
+                    (click)="showIndustryResults()"
+                  >
+                    <p class="matName">Show results</p>
+                  </button>
+                </mat-dialog-actions>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Industries</mat-label>
+              <mat-select
+                [formControl]="industryControl"
+                multiple
+                (openedChange)="onIndustryDropdownOpen()"
+              >
+                <mat-select-trigger>
+                  {{ selectedIndustries }}
+                </mat-select-trigger>
+                <mat-form-field appearance="outline">
+                  <input
+                    class="full-width"
+                    matInput
+                    [(ngModel)]="searchIndustry"
+                    (ngModelChange)="filterIndustries($event)"
+                    placeholder="Search"
+                  />
+                </mat-form-field>
+                <mat-option *ngIf="!filteredIndustries.length" disabled
+                  >No options</mat-option
+                >
+                <mat-option
+                  *ngFor="let industry of filteredIndustries"
+                  [value]="industry.Type"
+                >
+                  {{ industry.Type }}
+                </mat-option>
+
+                <mat-dialog-actions class="mat-dialog-actions">
+                  <button
+                    mat-button
+                    mat-dialog-close
+                    (click)="resetIndustrySelection()"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    mat-raised-button
+                    class="matbutton"
+                    (click)="showIndustryResults()"
+                  >
+                    <p class="matName">Show results</p>
+                  </button>
+                </mat-dialog-actions>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content
+    fxLayout="row wrap"
+    fxLayoutAlign="start stretch"
+    class="mat-card-content"
+  >
+    <div
+      *ngFor="let job of jobsCard"
+      fxFlex="100%"
+      fxFlex.gt-sm="100%"
+      fxFlex.gt-md="45%"
+      fxFlex.gt-lg="30%"
+      class="mat-grid-tile"
+    >
+      <div class="company-details">
+        <div class="company-designation">
+          <h3 class="heading1">
+            {{ job.name }} <br />
+            <span style="color: slategray; font-size: 0.9rem">
+              {{ job.title }}
+            </span>
+          </h3>
+
+          <div>
+            <img
+              [src]="job.logo"
+              alt="Company Logo"
+              class="company-logo"
+              height="70%"
+              width="auto"
+              style="margin-left: 150px"
+            />
+          </div>
+        </div>
+        <div class="job-details-container">
+          <div class="job-detail">
+            <span><strong>Shift :</strong> {{ job.shift }}</span>
+            <!-- <span><strong>Job Type:</strong> {{ job.type }}</span> -->
+            <span><strong>Skills :</strong> {{ job.Skills }}</span>
+            <span><strong>Salary :</strong> {{ job.salary }}</span>
+            <span><strong>Location :</strong> {{ job.location }}</span>
+          </div>
+          <div class="job-detail">
+            <span><strong>Mode of Work :</strong> {{ job.modeOfWork }}</span>
+
+            <span><strong>Joining Date :</strong> 14/11/2024</span>
+            <span><strong>Induction Program Date :</strong> 17/11/2024</span>
+            <span
+              ><strong>Training Period :</strong> 30/11/2024 - 30/1/2025</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
