@@ -1,6 +1,6 @@
 <div>
   <h1 class="header" mat-dialog-title>
-    {{ roundId ? 'Edit Rounds' : 'Add Rounds' }}
+    {{ roundId ? "Edit Rounds" : "Add Rounds" }}
   </h1>
 
   <form class="form-content">
@@ -12,9 +12,10 @@
               <p class="grid-label">Round Name</p>
               <mat-form-field
                 appearance="outline"
-                class="matFormField rounds_input">
+                class="matFormField rounds_input"
+              >
                 <mat-label>Round Name</mat-label>
-                <input matInput placeholder="Round Name" />
+                <input matInput />
               </mat-form-field>
             </div>
 
@@ -22,21 +23,33 @@
               <p class="grid-label">Description</p>
               <mat-form-field
                 appearance="outline"
-                class="matFormField rounds_input">
+                class="matFormField rounds_input"
+              >
                 <mat-label>Description</mat-label>
-                <input matInput placeholder="Description" />
+                <input matInput />
               </mat-form-field>
             </div>
 
-            <div fxFlex="100%">
-              <p class="grid-label">Priority</p>
-              <mat-form-field
-                appearance="outline"
-                class="matFormField rounds_input">
-                <mat-label>Priority</mat-label>
-                <input matInput placeholder="Priority" />
-              </mat-form-field>
-            </div>
+            <p>Mention Start and End Date</p>
+            <mat-form-field appearance="outline">
+              <mat-label>Start Date</mat-label>
+              <input matInput [matDatepicker]="startDatePicker" />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>End Date</mat-label>
+              <input matInput [matDatepicker]="endDatePicker" />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="endDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #endDatePicker></mat-datepicker>
+            </mat-form-field>
+
             <div fxFlex="100%">
               <p class="grid-label">Priority</p>
               <mat-form-field appearance="outline">
@@ -55,14 +68,15 @@
         </mat-card-content>
       </div>
     </mat-dialog-content>
-    <mat-dialog-actions>
-      <mat-card-actions class="footer-actions">
+
+    <mat-dialog-actions class="mat-dialog-actions">
+      <mat-card-actions>
         <button mat-raised-button class="matbutton">
           <p class="matName">Reset</p>
         </button>
         <button mat-raised-button class="matbutton" type="submit">
           <p class="matName">
-            {{ roundId ? 'Update' : 'Add' }}
+            {{ roundId ? "Update" : "Add" }}
           </p>
         </button>
       </mat-card-actions>

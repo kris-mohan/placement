@@ -5,3 +5,17 @@
 .panels_input {
   width: 100%;
 }
+.matbutton {
+  background-color: #3f51b5;
+}
+
+.matName {
+  color: white;
+}
+
+.button-container {
+  align-items: flex-end;
+}
+.mat-dialog-actions {
+  justify-content: end;
+}
