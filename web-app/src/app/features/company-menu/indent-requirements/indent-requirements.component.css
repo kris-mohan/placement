@@ -73,3 +73,24 @@ button[disabled] {
   font-size: x-large;
   color: darkblue;
 }
+
+.mat-mdc-card-content {
+  width: 90%;
+}
+.mat-form-field {
+  width: 90%;
+}
+.mat-mdc-form-field {
+  --mat-mdc-form-field-floating-label-scale: 0.75;
+  display: inline-flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 90%;
+  text-align: left;
+}
+
+.element.style {
+    flex: 1 1 33%;
+    box-sizing: border-box;
+    max-width: 33%;
+}
