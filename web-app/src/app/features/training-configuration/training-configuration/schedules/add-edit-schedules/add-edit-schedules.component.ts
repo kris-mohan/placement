@@ -37,7 +37,7 @@ export class AddEditSchedulesComponent {
   Id: number | null = null;
   initialFormValues: any;
   scheduleTypes: string[] = ["Online", "Offline", "Remote", "In-Person"];
-
+  schedule: string[] = ["1st half", "2nd half", "3rd half", "4th half"];
   constructor(
     private fb: FormBuilder,
     private router: Router,

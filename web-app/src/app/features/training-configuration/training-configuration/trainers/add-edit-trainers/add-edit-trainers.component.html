@@ -57,6 +57,34 @@
             <input matInput formControlName="PhoneNumber" />
           </mat-form-field>
         </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Company name</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Company name</mat-label>
+            <input matInput formControlName="PhoneNumber" />
+          </mat-form-field>
+        </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Training</p>
+          <mat-form-field class="matFormField">
+            <mat-label>Training </mat-label>
+            <mat-select formControlName="Schedule">
+              <mat-option *ngFor="let type of Training" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>

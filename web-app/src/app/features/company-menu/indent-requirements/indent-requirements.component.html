@@ -13,77 +13,79 @@
       </div>
     </div>
   </mat-card-header>
-  <mat-card-content>
-    <div fxLayout="row wrap">
-      <div
-        fxFlex="100%"
-        fxFlex.gt-md="33%"
-        fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
-        <p class="grid-label">Company Name</p>
-        <mat-form-field appearance="outline" class="matFormField">
-          <mat-label>Company Name</mat-label>
-          <input matInput formControlName="Name" />
-        </mat-form-field>
-      </div>
+  <form class="form-content">
+    <div class="form-container">
+      <mat-card-content>
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Company Name</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Company Name</mat-label>
+              <input matInput formControlName="Name" />
+            </mat-form-field>
+          </div>
 
-      <div
-        fxFlex="100%"
-        fxFlex.gt-md="33%"
-        fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
-        <p class="grid-label">URL</p>
-        <mat-form-field appearance="outline" class="matFormField">
-          <mat-label>URL</mat-label>
-          <input matInput formControlName="Url" />
-        </mat-form-field>
-      </div>
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">URL</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>URL</mat-label>
+              <input matInput formControlName="Url" />
+            </mat-form-field>
+          </div>
 
-      <div
-        fxFlex="100%"
-        fxFlex.gt-md="33%"
-        fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
-        <p class="grid-label">Contact Person</p>
-        <mat-form-field appearance="outline" class="matFormField">
-          <mat-label>Contact Person</mat-label>
-          <input matInput formControlName="ContactPerson" />
-        </mat-form-field>
-      </div>
-    </div>
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Contact Person</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Contact Person</mat-label>
+              <input matInput formControlName="ContactPerson" />
+            </mat-form-field>
+          </div>
+        </div>
 
-    <div fxLayout="row wrap">
-      <div
-        fxFlex="100%"
-        fxFlex.gt-md="33%"
-        fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
-        <p class="grid-label">City</p>
-        <mat-form-field appearance="outline" class="matFormField">
-          <mat-label>City</mat-label>
-          <input matInput formControlName="City" />
-        </mat-form-field>
-      </div>
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">City</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>City</mat-label>
+              <input matInput formControlName="City" />
+            </mat-form-field>
+          </div>
 
-      <div
-        fxFlex="100%"
-        fxFlex.gt-md="33%"
-        fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
-        <p class="grid-label">Zip Code</p>
-        <mat-form-field appearance="outline" class="matFormField">
-          <mat-label>Zip Code</mat-label>
-          <input matInput formControlName="ZipCode" />
-        </mat-form-field>
-      </div>
-    </div>
-  </mat-card-content>
-  <!-- <form [formGroup]="indentForm" (ngSubmit)="onSubmit()">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Zip Code</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Zip Code</mat-label>
+              <input matInput formControlName="ZipCode" />
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <!-- <form [formGroup]="indentForm" (ngSubmit)="onSubmit()">
       <table
         class="indent_req"
         border="1"
@@ -129,6 +131,8 @@
       </table>
       <button type="submit" [disabled]="indentForm.invalid">Submit</button>
     </form> -->
+    </div>
+  </form>
 </mat-card>
 
 <!-- <div>
