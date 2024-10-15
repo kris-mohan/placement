@@ -4,7 +4,7 @@
   </div>
 
   <!-- Offers Count Section -->
-  <div class="offers-count">
+  <div class="offers-count" [routerLink]="['/Placement-offer-Recieved']">
     <h3>Total Offers Received: {{ totalOffers }}</h3>
   </div>
 
@@ -21,7 +21,7 @@
       <div *ngFor="let interview of upcomingDrives" class="upcoming-drive-card">
         <mat-card>
           <mat-card-content>
-            <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+            <h4>{{ interview.date | date : "MMM d, y, EEEE" }}</h4>
             <h3>{{ interview.company }}</h3>
             <p>
               <strong>Job Role:</strong> {{ interview.jobRole }} <br />
@@ -42,7 +42,8 @@
       [categoriesData]="branchLabels"
       titleText="Student Placement Status"
       xLabel="Branches"
-      yLabel="No. of Students">
+      yLabel="No. of Students"
+    >
     </app-basic-column-chart>
 
     <app-stacked-column-chart
@@ -50,12 +51,14 @@
       [categoriesData]="salaryRanges"
       titleText="Student Placement Salary-Based Status"
       xLabel="Companies"
-      yLabel="No. of Students"></app-stacked-column-chart>
+      yLabel="No. of Students"
+    ></app-stacked-column-chart>
 
     <app-simple-pie-chart
       [branchPlacementSeries]="branchPlacementSeries"
       [branchLabels]="branchLabels"
-      titleText="Branch-Wise Student Placement Status"></app-simple-pie-chart>
+      titleText="Branch-Wise Student Placement Status"
+    ></app-simple-pie-chart>
   </div>
 </div>
 
@@ -71,7 +74,8 @@
         [ngClass]="{
           'reminder-notification': notification.title.includes('Reminder'),
           'other-notification': !notification.title.includes('Reminder')
-        }">
+        }"
+      >
         <h4>{{ notification.title }}</h4>
         <span>{{ notification.details }}</span>
       </li>
@@ -85,8 +89,9 @@
     <ul>
       <li
         *ngFor="let interview of interviewSchedule"
-        class="interview-schedule-notification">
-        <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+        class="interview-schedule-notification"
+      >
+        <h4>{{ interview.date | date : "MMM d, y, EEEE" }}</h4>
         <span>Name of Candidate: {{ interview.candidate }}</span>
         <span>Job Role: {{ interview.position }}</span>
         <span>Time: {{ interview.time }}</span>
