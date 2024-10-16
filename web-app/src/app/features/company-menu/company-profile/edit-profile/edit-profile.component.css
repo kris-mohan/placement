@@ -73,3 +73,8 @@ mat-form-field {
   color: white;
   margin-top: 15px;
 }
+.mat-label {
+  margin: 10px;
+  font-size: x-large;
+  font-weight: bold;
+}
