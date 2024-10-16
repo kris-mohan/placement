@@ -4,21 +4,15 @@ button {
 .mat-mdc-card-header {
   display: unset;
 }
-.example-flex-container {
+
+.buttons {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
 }
-
 .example-button-container {
   display: flex;
   justify-content: center;
   cursor: pointer;
-}
-
-.button-label-container {
-  display: flex;
-  align-items: center;
 }
 
 .header-mat-label {
@@ -62,4 +56,8 @@ table {
   font-size: x-large;
   font-weight: bolder;
   color: darkblue;
+}
+.mat-label {
+  font-size: x-large;
+  font-weight: bold;
 }
