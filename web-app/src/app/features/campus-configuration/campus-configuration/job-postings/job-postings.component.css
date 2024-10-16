@@ -18,7 +18,12 @@ button {
 /* .example-button-container :hover {
   background-color: rgb(234, 234, 234);
 } */
-
+.matbutton-download {
+  background-color: #3f51b5;
+  color: white;
+  border-radius: 4px;
+  height: 35px;
+}
 .button-label-container {
   display: flex;
   align-items: center;

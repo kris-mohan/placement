@@ -5,6 +5,13 @@ button {
 
 .matbutton {
   background-color: #3f51b5;
+  color: white;
+}
+.matbutton-download {
+  background-color: #3f51b5;
+  color: white;
+  border-radius: 4px;
+  height: 35px;
 }
 .main-card {
   margin-left: 10px;
@@ -16,15 +23,12 @@ button {
 /* Custom Card Header */
 .custom-card-header {
   display: flex;
-  align-items: center; /* Vertically center the items */
   justify-content: flex-start; /* Align items to the left */
-  padding: 4px;
 }
 
 /* Header Content Container */
 .header-content {
   display: flex;
-  align-items: center; /* Vertically center the content */
   width: 100%; /* Ensure it takes full width */
   justify-content: space-between; /* Spread the back button and title apart */
 }
