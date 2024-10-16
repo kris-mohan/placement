@@ -28,4 +28,8 @@ export class PlacementJobDescriptionComponent {
       height: "80vh",
     });
   }
+
+  openStudentJobAdditionalFiltersModal() {}
+
+  openAddEditCompanyForm(id: number) {}
 }

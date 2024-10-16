@@ -185,3 +185,14 @@ mat-icon {
     max-width: 100%;
   }
 }
+.matbutton {
+  background-color: #3f51b5;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+.maticon {
+  color: white;
+}
+.matName {
+  color: white;
+}

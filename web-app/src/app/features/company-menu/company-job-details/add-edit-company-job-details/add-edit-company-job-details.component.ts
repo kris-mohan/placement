@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -31,7 +31,8 @@ export class AddEditCompanyJobDetailsComponent {
   constructor(
     private tabService: TabsCompanyJobDetailsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   openAddRoundsModalPopup(company: any): void {
@@ -43,5 +44,9 @@ export class AddEditCompanyJobDetailsComponent {
   }
   onTabChange(event: number): void {
     this.tabService.setActiveTab(event);
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

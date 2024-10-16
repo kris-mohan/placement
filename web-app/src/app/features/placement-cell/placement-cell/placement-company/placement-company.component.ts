@@ -374,9 +374,9 @@ export class PlacementCompanyComponent {
   }
   openAddEditCompanyForm(id?: number) {
     if (id !== null && id !== undefined) {
-      this.router.navigate(["/company-configuration/company", id]);
+      this.router.navigate(["/placement-company/add-edit-company/", id]);
     } else {
-      this.router.navigate(["/company-configuration/company", 0]);
+      this.router.navigate(["/placement-company/add-edit-company/", 0]);
     }
   }
 
@@ -550,5 +550,14 @@ export class PlacementCompanyComponent {
       "placement-company/placement-company-job-details/",
       id,
     ]);
+  }
+
+  onDelete(companyId: number, event: MouseEvent) {
+    event.stopPropagation();
+  }
+
+  onEdit(id: number, event: MouseEvent) {
+    event.stopPropagation();
+    this.router.navigate(["placement-company/add-edit-company/", id]);
   }
 }
