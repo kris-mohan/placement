@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Placements.DataAccess.placement.Models;
+namespace Placements.DataAccess.Placement.Models;
 
 public partial class PlacementContext : DbContext
 {
@@ -14,6 +12,8 @@ public partial class PlacementContext : DbContext
         : base(options)
     {
     }
+
+    public virtual DbSet<Batch> Batches { get; set; }
 
     public virtual DbSet<Calendarevent> Calendarevents { get; set; }
 
@@ -34,6 +34,12 @@ public partial class PlacementContext : DbContext
     public virtual DbSet<Companyregistration> Companyregistrations { get; set; }
 
     public virtual DbSet<Companytechonology> Companytechonologies { get; set; }
+
+    public virtual DbSet<Course> Courses { get; set; }
+
+    public virtual DbSet<IndentForm> IndentForms { get; set; }
+
+    public virtual DbSet<IndentFormDynamicField> IndentFormDynamicFields { get; set; }
 
     public virtual DbSet<Industry> Industries { get; set; }
 
@@ -57,6 +63,8 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<Stream> Streams { get; set; }
+
     public virtual DbSet<Studentacademic> Studentacademics { get; set; }
 
     public virtual DbSet<Studentplaced> Studentplaceds { get; set; }
@@ -75,12 +83,21 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Trainingmodule> Trainingmodules { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+    //        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Akram@123;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Batch>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("batch");
+
+            entity.Property(e => e.Name).HasMaxLength(45);
+        });
+
         modelBuilder.Entity<Calendarevent>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -275,6 +292,47 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.Technology).WithMany(p => p.Companytechonologies)
                 .HasForeignKey(d => d.TechnologyId)
                 .HasConstraintName("FK_CompanyTechonologies_Technologies");
+        });
+
+        modelBuilder.Entity<Course>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("course");
+
+            entity.Property(e => e.Name).HasMaxLength(45);
+        });
+
+        modelBuilder.Entity<IndentForm>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("indent_form");
+
+            entity.Property(e => e.CompanyName).HasMaxLength(255);
+            entity.Property(e => e.ContactPersonDesignation).HasMaxLength(255);
+            entity.Property(e => e.ContactPersonName).HasMaxLength(255);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp");
+            entity.Property(e => e.Email).HasMaxLength(55);
+            entity.Property(e => e.PhoneNumber).HasMaxLength(45);
+        });
+
+        modelBuilder.Entity<IndentFormDynamicField>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("indent_form_dynamic_field");
+
+            entity.HasIndex(e => e.IndentFormId, "FK_IndentField_IndentForm_idx");
+
+            entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.Value).HasMaxLength(255);
+
+            entity.HasOne(d => d.IndentForm).WithMany(p => p.IndentFormDynamicFields)
+                .HasForeignKey(d => d.IndentFormId)
+                .HasConstraintName("FK_IndentField_IndentForm");
         });
 
         modelBuilder.Entity<Industry>(entity =>
@@ -486,6 +544,15 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.RoleName).HasMaxLength(50);
         });
 
+        modelBuilder.Entity<Stream>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("stream");
+
+            entity.Property(e => e.Name).HasMaxLength(45);
+        });
+
         modelBuilder.Entity<Studentacademic>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -494,9 +561,21 @@ public partial class PlacementContext : DbContext
 
             entity.HasIndex(e => e.StudentId, "FK_StudentAcademy_Student_idx");
 
+            entity.HasIndex(e => e.CourseId, "FK_Student_Course_idx");
+
+            entity.HasIndex(e => e.StreamId, "FK_Student_Stream_idx");
+
             entity.Property(e => e.Cgpa)
                 .HasPrecision(10)
                 .HasColumnName("CGPA");
+
+            entity.HasOne(d => d.Course).WithMany(p => p.Studentacademics)
+                .HasForeignKey(d => d.CourseId)
+                .HasConstraintName("FK_Student_Course");
+
+            entity.HasOne(d => d.Stream).WithMany(p => p.Studentacademics)
+                .HasForeignKey(d => d.StreamId)
+                .HasConstraintName("FK_Student_Stream");
 
             entity.HasOne(d => d.Student).WithMany(p => p.Studentacademics)
                 .HasForeignKey(d => d.StudentId)
@@ -538,6 +617,10 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("tblstudent");
 
+            entity.HasIndex(e => e.BatchId, "FK_Student_Batch_idx");
+
+            entity.HasIndex(e => e.OrgId, "FK_Student_Campus_idx");
+
             entity.Property(e => e.AadharCardNumber).HasMaxLength(45);
             entity.Property(e => e.CurrentAddress).HasMaxLength(500);
             entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
@@ -549,6 +632,14 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.PermanentAddress).HasMaxLength(500);
             entity.Property(e => e.PhoneNumber).HasMaxLength(45);
             entity.Property(e => e.RollNo).HasMaxLength(45);
+
+            entity.HasOne(d => d.Batch).WithMany(p => p.Tblstudents)
+                .HasForeignKey(d => d.BatchId)
+                .HasConstraintName("FK_Student_Batch");
+
+            entity.HasOne(d => d.Org).WithMany(p => p.Tblstudents)
+                .HasForeignKey(d => d.OrgId)
+                .HasConstraintName("FK_Student_Campus");
         });
 
         modelBuilder.Entity<Technology>(entity =>

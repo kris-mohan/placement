@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="7.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.OData.NewtonsoftJson" Version="8.0.1" />

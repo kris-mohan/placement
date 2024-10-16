@@ -3,10 +3,7 @@
     <div class="example-button-row">
       <div class="example-flex-container">
         <div class="button-label-container">
-          <div class="example-button-container" (click)="goBack()">
-            <mat-icon>keyboard_backspace</mat-icon>
-          </div>
-          <div class="header-mat-label">
+          <div class="Header">
             <mat-label>Applied Students</mat-label>
           </div>
         </div>
@@ -55,11 +52,22 @@
             </mat-form-field>
           </div>
           <div>
+            <mat-form-field appearance="outline" class="mat-form-field">
+              <mat-label>Job Role</mat-label>
+              <mat-select [formControl]="statusControl" multiple>
+                @for (stats of status; track stats) {
+                <mat-option [value]="stats">{{ stats }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- <div>
             <button mat-raised-button class="matbutton">
               <mat-icon class="maticon">mail</mat-icon>
               <p class="matButtonText">Invite All</p>
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
