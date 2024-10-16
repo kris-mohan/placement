@@ -149,11 +149,12 @@
         </div>
       </div>
       <div class="example-button-container">
-        <button mat-fab extended class = "matbutton-download">
+        <button mat-fab extended class="matbutton-download">
           <mat-icon>file_download</mat-icon>Excel
         </button>
-        <button mat-fab extended class = "matbutton-download">
-          <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
+        <button mat-fab extended class="matbutton-download">
+          <mat-icon>picture_as_pdf</mat-icon>
+          <h5>PDF</h5>
         </button>
         <div>
           <mat-form-field class="search-full-width" appearance="outline">
@@ -224,25 +225,21 @@
           width="75%"
         />
         <h2>{{ company.name }}</h2>
+        <div class="companyType">{{ company.type }}</div>
+        <div class="company-type">
+          <strong> Email:</strong>
 
-        <div class="company-type">{{ company.type }}</div>
-        <div class="company-type">
-          Email:
-          <span class="rating"
-            ><strong>{{ company.Email }}</strong></span
-          >
+          <span class="rating">{{ company.Email }}</span>
         </div>
         <div class="company-type">
-          URL:
-          <span class="rating"
-            ><strong>{{ company.URL }}</strong></span
-          >
+          <strong> URL:</strong>
+
+          <span class="rating">{{ company.URL }}</span>
         </div>
         <div class="company-type">
-          Phone No:
-          <span class="rating"
-            ><strong>{{ company.CompanyPhone }}</strong></span
-          >
+          <strong>Phone No:</strong>
+
+          <span class="rating">{{ company.CompanyPhone }}</span>
         </div>
       </div>
 
@@ -266,9 +263,7 @@
         <span class="rating"
           ><strong>{{ company.Companylocation }}</strong></span
         >
-
       </div>
     </div>
   </mat-card-content>
-  
 </mat-card>

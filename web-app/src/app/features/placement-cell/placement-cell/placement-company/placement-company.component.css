@@ -17,7 +17,11 @@ button {
 .BackIcon {
   cursor: pointer;
 }
-
+.companyType {
+  font-weight: bold;
+  font-size: medium;
+  color: slategray;
+}
 .button-label-container {
   display: flex;
 }
