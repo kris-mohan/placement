@@ -9,3 +9,7 @@ Scaffold-DbContext "server=localhost;port=3306;user=root;password=root;database=
 Paatashala Campus Db Scaffold Command
 
 Scaffold-DbContext "server=localhost;port=3306;user=root;password=root;database=paatashalacampus" MySql.EntityFrameworkCore -OutputDir PaatashalaCampus/Models -f
+
+Placement Db Scaffold Command
+
+Scaffold-DbContext "server=localhost;port=3306;user=root;password=root;database=placement" MySql.EntityFrameworkCore -OutputDir Placement/Models -f

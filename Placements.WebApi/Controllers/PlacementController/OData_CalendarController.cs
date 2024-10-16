@@ -3,116 +3,116 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using Placements.DataAccess.placement.Models;
+using Placements.DataAccess.Placement.Models;
 
 namespace Placements.WebApi.Controllers.PlacementController
 {
-  [ApiController]
-  [Route("odata/Calendarevent")]
-  public class OData_CalendarController : ODataController
-  {
-    private readonly PlacementContext _context;
-    public OData_CalendarController(PlacementContext context)
+    [ApiController]
+    [Route("odata/Calendarevent")]
+    public class OData_CalendarController : ODataController
     {
-      _context = context;
-    }
-
-
-    [HttpGet, EnableQuery]
-    public IActionResult Get()
-    {
-      return Ok(_context.Calendarevents);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Post(Calendarevent calendarevent)
-    {
-      try
-      {
-        _context.Calendarevents.Add(calendarevent);
-        await _context.SaveChangesAsync();
-
-        return Ok(new { success = true, message = "Calendar Event Added Successfully" });
-      }
-      catch (Exception ex)
-      {
-        return Ok(new { success = false, message = "Failed to Add Calendar Event.", exception = ex });
-      }
-    }
-
-    [HttpPut]
-    public async Task<IActionResult> Put(long key, Calendarevent calendarevent)
-    {
-      try
-      {
-        Calendarevent? original = await _context.Calendarevents.FirstOrDefaultAsync(x => x.Id == key);
-        if (original == null)
+        private readonly PlacementContext _context;
+        public OData_CalendarController(PlacementContext context)
         {
-          return Ok(new { success = false, message = "Calendar Event Not Found" });
+            _context = context;
         }
 
-        original.EventStartDateTime = calendarevent.EventStartDateTime;
-        original.EventEndDateTime = calendarevent.EventEndDateTime;
-        original.EventType = calendarevent.EventType;
-        original.EventDescription = calendarevent.EventDescription;
 
-
-        _context.Calendarevents.Update(original);
-        await _context.SaveChangesAsync();
-
-        return Ok(new { success = true, message = "Calendar Event Updated Successfully." });
-      }
-      catch (Exception ex)
-      {
-        return Ok(new { success = false, message = "Failed to Update Calendar Event.", exception = ex });
-      }
-    }
-
-    [HttpPatch]
-    public async Task<IActionResult> Patch(long key, Delta<Calendarevent> delta)
-    {
-      try
-      {
-        Calendarevent? original = await _context.Calendarevents.FirstOrDefaultAsync(x => x.Id == key);
-        if (original == null)
+        [HttpGet, EnableQuery]
+        public IActionResult Get()
         {
-          return Ok(new { success = false, message = "Calendar Event Not Found" });
+            return Ok(_context.Calendarevents);
         }
 
-        delta.Patch(original);
-
-        await _context.SaveChangesAsync();
-
-        return Ok(new { success = true, message = "Calendar Event Updated Successfully." });
-      }
-      catch (Exception ex)
-      {
-        return Ok(new { success = false, message = "Failed to Update Calendar Event.", exception = ex });
-      }
-    }
-
-    [HttpDelete]
-    public async Task<IActionResult> Delete(long key)
-    {
-      try
-      {
-        Calendarevent calendarevent = await _context.Calendarevents.FirstOrDefaultAsync(x => x.Id == key);
-        if (calendarevent == null)
+        [HttpPost]
+        public async Task<IActionResult> Post(Calendarevent calendarevent)
         {
-          return Ok(new { success = false, message = "Calendar Event Not Found" });
+            try
+            {
+                _context.Calendarevents.Add(calendarevent);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Calendar Event Added Successfully" });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Failed to Add Calendar Event.", exception = ex });
+            }
         }
 
-        _context.Calendarevents.Remove(calendarevent);
-        await _context.SaveChangesAsync();
+        [HttpPut]
+        public async Task<IActionResult> Put(long key, Calendarevent calendarevent)
+        {
+            try
+            {
+                Calendarevent? original = await _context.Calendarevents.FirstOrDefaultAsync(x => x.Id == key);
+                if (original == null)
+                {
+                    return Ok(new { success = false, message = "Calendar Event Not Found" });
+                }
 
-        return Ok(new { success = true, message = "Calendar Event Deleted Successfully." });
-      }
-      catch (Exception ex)
-      {
-        return Ok(new { success = false, message = "Failed to Delete Calendar Event.", exception = ex });
-      }
+                original.EventStartDateTime = calendarevent.EventStartDateTime;
+                original.EventEndDateTime = calendarevent.EventEndDateTime;
+                original.EventType = calendarevent.EventType;
+                original.EventDescription = calendarevent.EventDescription;
+
+
+                _context.Calendarevents.Update(original);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Calendar Event Updated Successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Failed to Update Calendar Event.", exception = ex });
+            }
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> Patch(long key, Delta<Calendarevent> delta)
+        {
+            try
+            {
+                Calendarevent? original = await _context.Calendarevents.FirstOrDefaultAsync(x => x.Id == key);
+                if (original == null)
+                {
+                    return Ok(new { success = false, message = "Calendar Event Not Found" });
+                }
+
+                delta.Patch(original);
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Calendar Event Updated Successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Failed to Update Calendar Event.", exception = ex });
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(long key)
+        {
+            try
+            {
+                Calendarevent calendarevent = await _context.Calendarevents.FirstOrDefaultAsync(x => x.Id == key);
+                if (calendarevent == null)
+                {
+                    return Ok(new { success = false, message = "Calendar Event Not Found" });
+                }
+
+                _context.Calendarevents.Remove(calendarevent);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Calendar Event Deleted Successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Failed to Delete Calendar Event.", exception = ex });
+            }
+        }
+
+
     }
-
-
-  }
 }

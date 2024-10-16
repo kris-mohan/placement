@@ -1,16 +1,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Batch;
+using Microsoft.AspNetCore.OData.NewtonsoftJson;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using Microsoft.AspNetCore.OData.NewtonsoftJson;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using MySql.EntityFrameworkCore.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Placements.DataAccess.placement.Models;
-
-
+using Placements.DataAccess.Placement.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var handler = new DefaultODataBatchHandler();
@@ -41,21 +39,21 @@ var secretKey = jwtSettings["SecretKey"];
 
 builder.Services.AddAuthentication(opt =>
 {
-  opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-  opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
     .AddJwtBearer(options =>
     {
-      options.TokenValidationParameters = new TokenValidationParameters
-      {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = validIssuer,
-        ValidAudience = validAudience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
-      };
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = validIssuer,
+            ValidAudience = validAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
+        };
     });
 
 
@@ -103,7 +101,7 @@ app.Run();
 
 static IEdmModel GetEdmModel()
 {
-  ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
+    ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
 
     //modelBuilder.EntitySet<Calendarevent>("Calendarevent");
     //modelBuilder.EntitySet<Invitation>("Invitation");
@@ -159,6 +157,9 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Trainingcourse>("Trainingcourse");
     modelBuilder.EntitySet<Trainingmodule>("Trainingmodule");
     modelBuilder.EntitySet<Companydatum>("Companydatum");
+    modelBuilder.EntitySet<Course>("Course");
+    modelBuilder.EntitySet<Batch>("Batch");
+    modelBuilder.EntitySet<Placements.DataAccess.Placement.Models.Stream>("Stream");
 
     return modelBuilder.GetEdmModel();
 }

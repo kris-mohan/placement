@@ -58,3 +58,8 @@ table {
 /* .mat-form-field {
   width: 75%;
 } */
+.Header {
+  font-size: x-large;
+  font-weight: bolder;
+  color: darkblue;
+}

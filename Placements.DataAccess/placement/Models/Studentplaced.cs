@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Placements.DataAccess.placement.Models;
+namespace Placements.DataAccess.Placement.Models;
 
 public partial class Studentplaced
 {

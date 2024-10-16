@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Placements.DataAccess.placement.Models;
+namespace Placements.DataAccess.Placement.Models;
 
 public partial class Tblstudent
 {
@@ -13,7 +13,7 @@ public partial class Tblstudent
 
     public string? LastName { get; set; }
 
-    public int? BatchId { get; set; }
+    public long? BatchId { get; set; }
 
     public string? AadharCardNumber { get; set; }
 
@@ -33,11 +33,15 @@ public partial class Tblstudent
 
     public string? RollNo { get; set; }
 
+    public virtual Batch? Batch { get; set; }
+
     public virtual ICollection<JobpostStudentround> JobpostStudentrounds { get; set; } = new List<JobpostStudentround>();
 
     public virtual ICollection<JobpostingSelectedstudent> JobpostingSelectedstudents { get; set; } = new List<JobpostingSelectedstudent>();
 
     public virtual ICollection<JobpostingsEligiblestudent> JobpostingsEligiblestudents { get; set; } = new List<JobpostingsEligiblestudent>();
+
+    public virtual Campusregistration? Org { get; set; }
 
     public virtual ICollection<Studentacademic> Studentacademics { get; set; } = new List<Studentacademic>();
 }

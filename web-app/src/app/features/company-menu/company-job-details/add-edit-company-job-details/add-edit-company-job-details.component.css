@@ -23,8 +23,14 @@ button {
 }
 .matHeaderName {
   font-weight: bolder;
+  font-size: x-large;
+  color: darkblue;
+  margin-top: -30px;
+  margin-left: 35px;
 }
-
+.BackIcon {
+  cursor: pointer;
+}
 .matFormField {
   width: 90%;
 }
