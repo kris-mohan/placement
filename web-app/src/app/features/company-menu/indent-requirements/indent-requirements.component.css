@@ -1,5 +1,5 @@
 /* table-form.component.css */
-
+/*
 table {
   width: 100%;
   border-collapse: collapse;
@@ -59,9 +59,9 @@ button[disabled] {
   justify-content: center;
   cursor: pointer;
 }
-/* .example-button-container :hover {
+.example-button-container :hover {
   background-color: rgb(234, 234, 234);
-} */
+}
 .button-label-container {
   display: flex;
   align-items: center;
@@ -93,4 +93,123 @@ button[disabled] {
     flex: 1 1 33%;
     box-sizing: border-box;
     max-width: 33%;
+}
+
+
+.matbutton {
+  background-color: #3f51b5;
+}
+.maticon {
+  color: white;
+}
+.matName {
+  color: white;
+}
+
+.formGrid {
+  display: flex;
+  align-items: start;
+  justify-content: end;
+}
+.matHeaderName {
+  font-weight: bolder;
+}
+.matFormField {
+  width: 90%;
+}
+
+.footer-actions {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.footer-actions button {
+  margin-left: 10px;
+}
+
+.mat-card {
+  height: 100vh;
+}
+.row-wrap {
+  display: unset;
+}
+
+.example-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 1rem;
+}
+.matHeaderName {
+  font-size: x-large;
+  color: darkblue;
+} */
+
+button {
+  margin: 0 8px 8px 0;
+}
+
+.matbutton {
+  background-color: #3f51b5;
+}
+.maticon {
+  color: white;
+}
+.matName {
+  color: white;
+}
+
+.formGrid {
+  display: flex;
+  align-items: start;
+  justify-content: end;
+}
+.matHeaderName {
+  font-weight: bolder;
+}
+.matFormField {
+  width: 90%;
+}
+
+.footer-actions {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.footer-actions button {
+  margin-left: 10px;
+}
+
+.mat-card {
+  height: 100vh;
+}
+.row-wrap {
+  display: unset;
+}
+
+.example-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 1rem;
+}
+.matHeaderName {
+  font-size: x-large;
+  color: darkblue;
 }

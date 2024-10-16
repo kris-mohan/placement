@@ -15,27 +15,6 @@ export interface ODataResponse<T> {
   value: T[];
 }
 
-export const INDENT_DATA: IndentData[] = [
-  {
-    jobId: 1,
-    indentId: 1,
-    Department: "Assessment",
-    Address:
-      "An assessment to evaluate specific skills related to the job role.",
-    Designation: new Date("2024-09-01"),
-    EmailAddress: "Cancelled",
-  },
-  {
-    jobId: 1,
-    indentId: 2,
-    Department: "Technical Interview",
-    Address:
-      "A round focused on assessing technical skills and problem-solving abilities.",
-    Designation: new Date("2024-08-15"),
-    EmailAddress: "Scheduled",
-  },
-];
-
 @Component({
   selector: "app-indentview",
   standalone: true,
@@ -44,6 +23,7 @@ export const INDENT_DATA: IndentData[] = [
   styleUrl: "./indentview.component.css",
 })
 export class IndentviewComponent {
+  userType: number;
   constructor(
     private router: Router,
     private dialogService: DialogMessageService,
@@ -52,8 +32,108 @@ export class IndentviewComponent {
     private APICalendarEventsService: CalendarEventAPIService
   ) {
     this.generateColumns();
+    const storedUserType = sessionStorage.getItem("userType");
+    this.userType = storedUserType ? parseInt(storedUserType) : 0;
   }
+  IndentData = [
+    {
+      CompanyDesignation: "",
+      studentsCleared: 12,
+      studentsRejected: 15,
+      PhoneNo: 2345678,
+      RequiredItem: "Sheets",
+      Quatity: 34,
+      CompanyName: "google",
 
+      EmailAddress: "abcgmailcom",
+    },
+    {
+      id: 2,
+      jobTitle: "Data Scientist",
+      company: "Facebook",
+      date: "2024-09-28",
+      status: "Upcoming",
+      postedDate: "2024-07-01",
+      applicationDeadline: new Date("2024-08-01"),
+      jobDescription:
+        "This is the first assessment to test the candidate's programming and problem-solving skills.",
+      roundName: "Test Assesment 2",
+      studentsCleared: 12,
+      studentsRejected: 15,
+      PhoneNo: 2345678,
+      RequiredItem: "Stationary",
+      Quatity: 4,
+      CompanyName: "google",
+      CompanyDesignation: "",
+      EmailAddress: "abcgmailcom",
+    },
+    {
+      id: 3,
+      jobTitle: "Product Manager",
+      company: "Amazon",
+      date: "2024-09-27",
+      status: "Completed",
+      postedDate: "2024-07-01",
+      applicationDeadline: new Date("2024-08-01"),
+      jobDescription:
+        "The second assessment focuses on data science challenges and machine learning algorithms.",
+
+      roundName: "Test Assesment 3",
+      studentsCleared: 12,
+      studentsRejected: 15,
+      PhoneNo: 2345678,
+      RequiredItem: "Sheets",
+      Quatity: 3,
+      CompanyName: "google",
+      CompanyDesignation: "",
+      EmailAddress: "abcgmailcom",
+    },
+    {
+      id: 4,
+      jobTitle: "Web Developer",
+      company: "Microsoft",
+      date: "2024-09-29",
+      status: "",
+      postedDate: "2024-07-01",
+      applicationDeadline: new Date("2024-08-01"),
+      jobDescription:
+        "This assessment evaluates the candidate's ability to manage products and handle business cases.",
+
+      roundName: "Technical Interview",
+      studentsCleared: 12,
+      studentsRejected: 15,
+      EmailAddress: "abcgmailcom",
+    },
+    {
+      id: 5,
+      jobTitle: "UI/UX Designer",
+      company: "Apple",
+      date: "2024-09-26",
+      status: "Ongoing",
+      postedDate: "2024-07-01",
+      applicationDeadline: new Date("2024-08-01"),
+      jobDescription:
+        "A technical interview to assess coding skills, system design, and problem-solving ability.",
+
+      roundName: "HR Interview",
+      studentsCleared: 12,
+      studentsRejected: 15,
+      PhoneNo: 2345678989,
+      RequiredItem: "pens",
+      Quatity: 10,
+      CompanyName: "google",
+      CompanyDesignation: "",
+      EmailAddress: "abc@gmailcom",
+    },
+  ];
+
+  jobSummary = [
+    { jobTitle: "Software Engineer", studentsCount: 1 },
+    { jobTitle: "Data Scientist", studentsCount: 1 },
+    { jobTitle: "Product Manager", studentsCount: 1 },
+    { jobTitle: "Web Developer", studentsCount: 1 },
+    { jobTitle: "UI/UX Designer", studentsCount: 1 },
+  ];
   displayedColumns: string[] = [
     "Department",
     "Address",
@@ -61,6 +141,12 @@ export class IndentviewComponent {
     "EmailAddress",
     "Actions",
   ];
+
+  goToInterviewStudentsDetails(id: number) {
+    if (this.userType === 1 || this.userType === 2) {
+      this.router.navigate(["interview/interview-students-list", id]);
+    }
+  }
   // columns = [
   // { key: "indentId", label: "Round ID" },
   // { key: "Department", label: "Department" },

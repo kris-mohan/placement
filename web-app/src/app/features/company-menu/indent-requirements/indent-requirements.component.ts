@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
+import { FormGroup, FormControl, FormBuilder } from "@angular/forms";
 import { ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { CommonModule, Location } from "@angular/common";
@@ -9,16 +9,32 @@ import { SharedModule } from "src/app/shared/shared.module";
 @Component({
   selector: "app-indent-requirements",
   standalone: true,
-  imports: [ReactiveFormsModule, AMGModules, CommonModule, SharedModule],
+  imports: [AMGModules, CommonModule, SharedModule],
   templateUrl: "./indent-requirements.component.html",
   styleUrl: "./indent-requirements.component.css",
 })
 export class IndentRequirementsComponent {
-  constructor(private router: Router, private location: Location) {}
-  indentForm = new FormGroup({
-    invalid: new FormControl(false),
-  });
+  constructor(
+    private router: Router,
+    private location: Location,
+    private fb: FormBuilder
+  ) {
+    this.addIndentForm = this.fb.group({
+      TrainerName: "",
+      Email: "",
+      ContactNumber: null,
+      Extra: "",
+      Extra1: "",
+    });
+  }
+  // indentForm = new FormGroup({
+  //   invalid: new FormControl(false),
+  // });
+  addIndentForm: FormGroup;
   onSubmit() {
+    this.location.back();
+  }
+  onReset() {
     this.location.back();
   }
 
