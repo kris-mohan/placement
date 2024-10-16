@@ -43,7 +43,6 @@ import { InterviewComponent } from "./features/company-menu/interview/interview.
 import { ProfileManagementComponent } from "./features/student-menu/student-menu/profile-management/profile-management.component";
 import { AlumniComponent } from "./features/student-menu/alumni/alumni.component";
 import { InterviewStudentsListComponent } from "./features/company-menu/interview-students-list/interview-students-list.component";
-import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/add-edit-company-job-details/add-rounds-modal/add-rounds-modal.component";
 import { PanelTabComponent } from "./features/company-menu/company-job-details/panel-tab/panel-tab.component";
 import { CompanyJobDescriptionComponent } from "./features/company-menu/company-job-description/company-job-description.component";
 import { ProfilemanagementDashboardComponent } from "./features/student-menu/student-menu/profile-management/profilemanagement-dashboard/profilemanagement-dashboard.component";
@@ -79,6 +78,7 @@ import { OfferRecievedComponent } from "./features/student-menu/student-menu/off
 import { PlacementOffersRecievedComponent } from "./features/placement-cell/placement-cell/placement-offers-recieved/placement-offers-recieved.component";
 import { StudentOfferRecievedComponent } from "./features/student-menu/student-menu/student-offer-recieved/student-offer-recieved.component";
 import { PlacementOfferRecievedComponent } from "./features/placement-cell/placement-cell/placement-offer-recieved/placement-offer-recieved.component";
+import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/test-rounds/add-rounds-modal/add-rounds-modal.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -220,6 +220,10 @@ const appRoutes: Routes = [
       {
         path: "company-job-details",
         component: CompanyJobDetailsComponent,
+      },
+      {
+        path: "company-job-details/add-edit-jobPosting/:id",
+        component: AddEditCompanyJobDetailsComponent,
       },
       {
         path: "company-configuration/company-job-details/:id",

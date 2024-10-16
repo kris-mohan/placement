@@ -424,9 +424,9 @@ export class CompanyJobDetailsComponent {
 
   openAddEditCompanyForm(id?: number) {
     if (id !== undefined) {
-      this.router.navigate(["/company-job-details", id]);
+      this.router.navigate(["/company-job-details/add-edit-jobPosting/", id]);
     } else {
-      this.router.navigate(["/company-job-details", 0]);
+      this.router.navigate(["/company-job-details/add-edit-jobPosting/", 0]);
     }
   }
 
