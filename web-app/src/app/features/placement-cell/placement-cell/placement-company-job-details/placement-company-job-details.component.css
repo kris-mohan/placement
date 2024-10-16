@@ -18,7 +18,6 @@ button {
 
 .button-label-container {
   display: flex;
-  align-items: center;
 }
 
 .header-mat-label {
@@ -99,7 +98,12 @@ cdk-overlay-pane {
   margin: 0;
   padding: 5px;
 }
-
+.matbutton-download {
+  background-color: #3f51b5;
+  color: white;
+  border-radius: 4px;
+  height: 35px;
+}
 .job-details-container {
   display: flex;
   padding: 5px;
