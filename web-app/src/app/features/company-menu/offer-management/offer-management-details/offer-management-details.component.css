@@ -7,9 +7,16 @@
 
 .card-header-container div {
   width: 100%;
+  cursor: pointer;
 }
 
 .flex-container {
   display: flex;
   justify-content: space-between;
+}
+.mat-mdc-card-title {
+  color: darkblue;
+}
+.example-button-container {
+  cursor: pointer;
 }
