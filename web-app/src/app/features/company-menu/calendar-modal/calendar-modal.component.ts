@@ -27,11 +27,16 @@ export class CalendarModalComponent implements OnInit {
   formDataa: FormGroup;
   roles: any[] = [];
   toggle: boolean = false;
+  weekdays: boolean = false;
+  isEdited: boolean;
+
   constructor(
     public dialogRef: MatDialogRef<CalendarModalComponent>,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.isEdited = this.data.isEdited;
+
     this.formDataa = this.formBuilder.group({
       eventName: ["", Validators.required],
       jobRole: ["", Validators.required],
@@ -64,12 +69,22 @@ export class CalendarModalComponent implements OnInit {
 
   onSave(): void {
     if (this.formDataa.valid) {
-      this.dialogRef.close(this.formDataa.value);
+      const returnData = {
+        ...this.formDataa.value, // Spread the form values
+        // toggle: this.toggle,
+        weekdays: this.weekdays, // Add the weekdays state
+        // Add any other specific data you want to send back
+      };
+      this.dialogRef.close(returnData);
     }
   }
 
-  onToggleChange(event: MatCheckboxChange){
+  onToggleChange(event: MatCheckboxChange) {
     this.toggle = event.checked;
+  }
+
+  onWeekdaysChange(event: MatCheckboxChange) {
+    this.weekdays = event.checked;
   }
 
   onCancel(): void {
@@ -78,5 +93,55 @@ export class CalendarModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRoles();
+    // Check if the dialog is opened in edit mode
+    if (this.data.isEdited && this.data.eventData) {
+      // Convert start and end times to 'HH:mm' format
+      // const formattedStartTime = this.formatTime(this.data.eventData.start);
+      // const formattedEndTime = this.formatTime(this.data.eventData.end);
+      console.log(this.data.eventData.title);
+
+      console.log(this.data.eventData.start);
+      const formattedStartTime = this.formatTime(this.data.eventData.start);
+      const formattedEndTime = this.formatTime(this.data.eventData.end);
+      console.log(this.data);
+      console.log("Formatted Start Time:", formattedStartTime);
+      console.log("Formatted End Time:", formattedEndTime);
+      // Prefill the form with event data if isEdited is true
+      this.formDataa.patchValue({
+        eventName: this.data.eventData.title,
+        jobRole: this.data.eventData.jobRole || "", // Assuming jobRole is part of eventData
+        startTime: formattedStartTime,
+        endTime: formattedEndTime,
+        endDate: this.data.eventData.endDate,
+      });
+
+      // this.toggle = !!this.data.eventData.endDate;
+    }
+  }
+
+  // formatTime(date: Date | string): string {
+  //   const time = new Date(date);
+  //   const hours = time.getHours().toString().padStart(2, "0");
+  //   const minutes = time.getMinutes().toString().padStart(2, "0");
+  //   return `${hours}:${minutes}`;
+  // }
+
+  // formatTime(time: string): string {
+  //   const date = new Date(time);
+  //   const hours = date.getHours().toString().padStart(2, "0");
+  //   const minutes = date.getMinutes().toString().padStart(2, "0");
+  //   return `${hours}:${minutes}`;
+  // }
+
+  formatTime(time: string): string {
+    const date = new Date(time);
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert to 12-hour format
+    hours = hours % 12 || 12; // The hour '0' should be '12'
+
+    return `${hours}:${minutes} ${period}`;
   }
 }

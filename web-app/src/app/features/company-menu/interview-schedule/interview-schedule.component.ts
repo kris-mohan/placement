@@ -24,6 +24,8 @@ import { CalendarModalComponent } from "../calendar-modal/calendar-modal.compone
 export class InterviewScheduleComponent implements OnInit {
   newEventDate: any;
 
+  isEdited: boolean = false;
+
   private eventIDCounter = 0;
   currentEvents: EventApi[] = [];
 
@@ -71,7 +73,13 @@ export class InterviewScheduleComponent implements OnInit {
       center: "title",
       right: "prevYear,prev,next,nextYear",
     },
-    events: this.calendarEvents,
+    // events: this.calendarEvents,
+    events: this.calendarEvents.map((event) => ({
+      ...event,
+      extendedProps: {
+        jobRoles: event.jobRole, // Assuming event.jobRole is defined
+      },
+    })),
     editable: true,
     selectable: true,
     selectMirror: true,
@@ -98,9 +106,12 @@ export class InterviewScheduleComponent implements OnInit {
 
   handleDateClick(event?: any) {
     this.newEventDate = event;
+    this.isEdited = false;
+    console.log(event);
+    console.log(this.newEventDate.date);
     const dialogRef = this.dialog.open(CalendarModalComponent, {
-      width: "400px",
-      data: { date: this.newEventDate.date }, // Pass the clicked date to the modal
+      width: "70vw",
+      data: { date: this.newEventDate.date, isEdited: this.isEdited }, // Pass the clicked date to the modal
       panelClass: "custom-dialog-container",
     });
 
@@ -117,6 +128,7 @@ export class InterviewScheduleComponent implements OnInit {
 
     if (result) {
       const title = result.eventName;
+      const jobRole = result.jobRole;
       const className = "bg-primary text-white";
       let startTime: Date | null = null;
       if (typeof result.startTime === "string") {
@@ -141,6 +153,8 @@ export class InterviewScheduleComponent implements OnInit {
         startTime = result.startTime;
       }
 
+      console.log(startTime);
+
       let endTime: Date | null = null;
       if (typeof result.endTime === "string") {
         const timeParts = result.endTime.match(/(\d+):(\d+)\s*(AM|PM)/);
@@ -164,6 +178,8 @@ export class InterviewScheduleComponent implements OnInit {
         endTime = result.endTime;
       }
 
+      console.log(endTime);
+
       // console.log(typeof(startTime));
       // const startDateTime = new Date(this.newEventDate.date);
       // startDateTime.setHours(startTime.getHours(), startTime.getMinutes());
@@ -179,27 +195,88 @@ export class InterviewScheduleComponent implements OnInit {
       // }
 
       const endDate = result.endDate ? new Date(result.endDate) : startTime;
+      if (endDate && endTime) {
+        endDate?.setHours(endTime?.getHours(), endTime?.getMinutes());
+      }
+
+      console.log(endDate);
 
       if (startTime && endDate && startTime < endDate) {
         const calendarApi = this.newEventDate.view.calendar;
-        let currentDate = new Date(startTime);  
+        let currentDate = new Date(startTime);
 
         while (currentDate <= endDate) {
           // const nextDay = new Date(currentDate);
           // nextDay.setDate(currentDate.getDate() + 1);
           // console.log(nextDay);
+          const dayOfWeek = currentDate.getDay();
           const startOfDay = new Date(currentDate);
           const endOfDay = new Date(currentDate);
-          endOfDay.setHours(endDate.getHours(),endDate.getMinutes());
 
-          calendarApi.addEvent({
-            id: this.eventIDCounter++,
-            title: title,
-            start: new Date(currentDate),
-            end: endOfDay,
-            className: className,
-          });
+          if (result.weekdays) {
+            if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+              if (endTime) {
+                endOfDay.setHours(endTime.getHours(), endTime.getMinutes());
+              } else {
+                // If endTime is null, set a default end time (e.g., 11:59 PM)
+                endOfDay.setHours(23, 59);
+              }
 
+              // endOfDay.setHours(endTime.getHours(), endTime.getMinutes());
+
+              calendarApi.addEvent({
+                id: this.eventIDCounter++,
+                title: title,
+                start: startTime,
+                end: endTime,
+                className: className,
+                jobRoles: jobRole,
+              });
+
+              console.log(
+                "id:",
+                this.eventIDCounter++,
+                "title:",
+                title,
+                "start:",
+                new Date(currentDate),
+                "end:",
+                endOfDay,
+                "className:",
+                className
+              );
+            }
+          } else {
+            if (endTime) {
+              endOfDay.setHours(endTime.getHours(), endTime.getMinutes());
+            } else {
+              // If endTime is null, set a default end time (e.g., 11:59 PM)
+              endOfDay.setHours(23, 59);
+            }
+
+            // endOfDay.setHours(endTime.getHours(), endTime.getMinutes());
+
+            calendarApi.addEvent({
+              id: this.eventIDCounter++,
+              title: title,
+              start: new Date(currentDate),
+              end: endOfDay,
+              className: className,
+            });
+
+            console.log(
+              "id:",
+              this.eventIDCounter++,
+              "title:",
+              title,
+              "start:",
+              new Date(currentDate),
+              "end:",
+              endOfDay,
+              "className:",
+              className
+            );
+          }
           currentDate.setDate(currentDate.getDate() + 1);
         }
       } else {
@@ -211,6 +288,7 @@ export class InterviewScheduleComponent implements OnInit {
           start: startTime,
           end: endTime,
           className: className,
+          jobRoles: jobRole,
         });
       }
 
@@ -225,7 +303,35 @@ export class InterviewScheduleComponent implements OnInit {
     }
   }
 
-  handleEventClick(event?: any) {}
+  handleEventClick(event?: any) {
+    this.isEdited = true;
+    this.newEventDate = event;
+    console.log(event);
+    console.log(this.newEventDate);
+    // console.log(event.event.extendedProps.jobRole);
+    console.log(event.event.start);
+    // console.log(event.event.end);
+    const dialogRef = this.dialog.open(CalendarModalComponent, {
+      width: "70vw",
+      data: {
+        eventData: {
+          title: event.event.title,
+          start: event.event.start,
+          end: event.event.end ? event.event.end : null,
+          jobRole: event.event.extendedProps.jobRoles || "",
+        },
+        isEdited: this.isEdited,
+        date: event.event.start,
+      }, // Pass the clicked date to the modal
+      panelClass: "custom-dialog-container",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      if (result) {
+        this.addNewEvent(result);
+      }
+    });
+  }
   // events: any;
 
   loadInitialData(): void {
