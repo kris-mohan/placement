@@ -26,6 +26,8 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { PlacementInterviewAdditionalFilterComponent } from "./placement-interview-additional-filter/placement-interview-additional-filter.component";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { provideNativeDateAdapter } from "@angular/material/core";
+import * as XLSX from "xlsx";
+import { jsPDF } from "jspdf";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -596,6 +598,21 @@ export class PlacementInterviewComponent {
       studentsRejected: 15,
       logo: "../../../../assets/images/Softserve-logo1.png",
     },
+    {
+      id: 6,
+      jobTitle: "DevOps Engineer",
+      company: "ABB",
+      date: "2024-09-26",
+      status: "Completed",
+      postedDate: "2024-07-01",
+      applicationDeadline: new Date("2024-08-01"),
+      jobDescription: "Use of Agile Technology to streamline operations",
+
+      roundName: "Aptitude Test",
+      studentsCleared: 45,
+      studentsRejected: 5,
+      logo: "company.logo",
+    },
   ];
 
   jobSummary = [
@@ -609,5 +626,45 @@ export class PlacementInterviewComponent {
   viewInterviewDetails(id: number) {
     // Navigate to interview details page (to be implemented)
     console.log("View details for interview ID:", id);
+  }
+  downloadExcel(): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+      this.scheduledInterviews
+    );
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Scheduled Interviews");
+    XLSX.writeFile(wb, "Scheduled_Interviews.xlsx");
+  }
+
+  // PDF Download
+  downloadPDF(): void {
+    const doc = new jsPDF();
+
+    let yPosition = 20;
+    doc.setFontSize(16);
+    doc.text("Scheduled Interviews", 20, yPosition);
+    yPosition += 10;
+
+    this.scheduledInterviews.forEach((interview) => {
+      doc.setFontSize(12);
+      doc.text(`Round: ${interview.roundName}`, 20, yPosition);
+      yPosition += 8;
+      doc.text(`Company: ${interview.company}`, 20, yPosition);
+      yPosition += 8;
+      doc.text(`Date: ${interview.postedDate}`, 20, yPosition);
+      yPosition += 8;
+      doc.text(`Status: ${interview.status}`, 20, yPosition);
+      yPosition += 8;
+      doc.text(`Students Cleared: ${interview.studentsCleared}`, 20, yPosition);
+      yPosition += 8;
+      doc.text(
+        `Students Rejected: ${interview.studentsRejected}`,
+        20,
+        yPosition
+      );
+      yPosition += 10;
+    });
+
+    doc.save("Scheduled_Interviews.pdf");
   }
 }

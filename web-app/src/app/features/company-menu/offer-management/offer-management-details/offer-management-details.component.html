@@ -1,13 +1,11 @@
 <mat-card>
   <mat-card-header>
     <div mat-card-avatar class="card-header-container">
-      <div class="button-label-container">
-        <div class="example-button-container">
-          <mat-icon (click)="goBack()">keyboard_backspace</mat-icon>
-          <div>
-            <mat-card-title><h2>Offer Details</h2> </mat-card-title>
-          </div>
-        </div>
+      <div>
+        <mat-icon click="goBack()" class="BackIcon"
+          >keyboard_backspace</mat-icon
+        >
+        <mat-card-title class="header">Offer Details </mat-card-title>
       </div>
       <div>
         <mat-card-subtitle class="flex-container">

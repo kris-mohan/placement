@@ -66,16 +66,17 @@
   flex-direction: column;
   gap: 20px;
 }
-.related-jobs,
+
+/* .related-jobs,
 .interview-schedule {
   max-height: 400px;
   overflow-y: auto;
   padding-right: 10px;
   position: relative;
-}
+} */
 
-.related-jobs h3,
-.interview-schedule h3 {
+.notification-heading h3,
+.interview-schedule-heading h3 {
   font-size: 1.3rem;
   background-color: white;
   position: sticky;
@@ -128,6 +129,7 @@
   background-color: #e4f0fc;
   border: 1px solid rgb(134, 150, 252);
 }
+
 .job-card {
   position: relative;
   padding: 20px;

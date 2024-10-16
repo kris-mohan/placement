@@ -1,7 +1,44 @@
-.chart-container {
+/* .chart-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around; /* Adjusts space between charts */
+  justify-content: space-around; 
+} */
+
+.left-content {
+  margin-right: 40%;
+  padding: 20px;
+}
+
+.upcoming-drive-container {
+  display: flex;
+  flex-direction: column;
+  /* gap: 16px;  */
+  margin-bottom: 20px;
+}
+
+.upcoming-drive-row {
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 16px; 
+}
+
+.chart-container {
+  /* display: flex; */
+  flex-wrap: wrap;
+  gap: 20px;
+  /* justify-content: space-between; */
+}
+.upcoming-drive-card mat-card {
+  flex: 1 1 30%;
+  min-width: 250px;
+  background-color: #9cbdf9ce;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.upcoming-drive-card mat-card:hover {
+  transform: scale(1.05);
 }
 
 .chart-container app-basic-line-chart,
@@ -11,12 +48,10 @@
 .chart-container app-hp-stacked-columnchart,
 .chart-container app-simple-pie-chart,
 .chart-container app-simple-donut-chart {
-  flex: 0 1 calc(33.33% - 20px); /* Each chart takes up a third of the row */
-  margin: 10px; /* Adds spacing around each chart */
+  flex: 0 1 calc(33.33% - 20px);
 }
 
 @media (max-width: 768px) {
-  /* Adjust layout for smaller screens */
   .chart-container app-basic-line-chart,
   .chart-container app-basic-column-chart,
   .chart-container app-column-chart-datalabels,
@@ -24,12 +59,11 @@
   .chart-container app-hp-stacked-columnchart,
   .chart-container app-simple-pie-chart,
   .chart-container app-simple-donut-chart {
-    flex: 0 1 calc(50% - 20px); /* Two charts per row on smaller screens */
+    flex: 0 1 calc(50% - 20px);
   }
 }
 
 @media (max-width: 480px) {
-  /* Adjust layout for mobile screens */
   .chart-container app-basic-line-chart,
   .chart-container app-basic-column-chart,
   .chart-container app-column-chart-datalabels,
@@ -37,14 +71,121 @@
   .chart-container app-hp-stacked-columnchart,
   .chart-container app-simple-pie-chart,
   .chart-container app-simple-donut-chart {
-    flex: 0 1 100%; /* One chart per row on very small screens */
+    flex: 0 1 100%;
   }
 }
+
 .welcome-card {
   padding: 20px;
   text-align: left;
   font-family: 'Arial', sans-serif;
+  /* border-radius: 8px; */
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
+  /* margin-bottom: 20px; */
+}
+
+.interview-schedule-notification {
+  background-color: rgba(148, 149, 150, 0.121);
+  padding: 15px;
+  margin: 10px 0;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
+}
+
+.right-content {
+  width: 35%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  border-left: 1px solid #ddd;
+}
+
+/* .related-jobs,
+.interview-schedule {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
+  position: relative;
+} */
+
+.notification-heading h3,
+.interview-schedule-heading h3 {
+  font-size: 1.3rem;
+  background-color: white;
+  position: sticky;
+}
+
+.related-jobs,
+.interview-schedule,
+.other-notification {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.related-jobs ul,
+.interview-schedule ul {
+  list-style: none;
+  padding: 0;
+}
+
+.related-jobs li,
+.interview-schedule li {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.related-jobs li h4,
+.interview-schedule li h4 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.related-jobs li span,
+.interview-schedule li span {
+  display: block;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.reminder-notification {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid red;
+}
+
+.reminder-notification h4 {
+  color: red;
+}
+
+.other-notification {
+  background-color: #e4f0fc;
+  border: 1px solid rgb(134, 150, 252);
+}
+
+@media (max-width: 1200px) {
+  .left-content {
+    margin-right: 35%;
+  }
+}
+
+@media (max-width: 768px) {
+  .left-content {
+    margin-right: 100%;
+  }
+
+  .right-content {
+    width: 100%;
+    position: static;
+    height: auto;
+    box-shadow: none;
+  }
+
+  .chart-container {
+    flex-direction: column;
+  }
 }

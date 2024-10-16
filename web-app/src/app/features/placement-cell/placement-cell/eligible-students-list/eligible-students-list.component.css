@@ -1,9 +1,9 @@
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   background-color: #f4f6f8; /* Light grey background for contrast */
 }
 
-mat-card{
+mat-card {
   padding: 1rem;
   background-color: white;
   border-radius: 12px;
@@ -30,7 +30,7 @@ mat-card{
   font-size: 27.5px;
   font-weight: 600;
   color: #3f51b5;
-  margin-left: auto;
+
   margin-right: auto;
 }
 

@@ -20,7 +20,7 @@
           style="cursor: pointer"
           class="show-more-chip"
         >
-          {{ showAllSectors ? 'Show less' : 'Show more' }}
+          {{ showAllSectors ? "Show less" : "Show more" }}
         </mat-chip-row>
         }
       </mat-chip-grid>
@@ -53,73 +53,103 @@
       </div>
     </div>
     <h3>More Information</h3>
-    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-between">
-      <div
-        fxFlex="100%"
-        fxFlex.gt-md="33%"
-        fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+
+    <div
+      fxLayout="row wrap"
+      fxLayoutAlign="space-around start"
+      fxLayoutGap="20px"
+    >
+      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
         <h4>Type:</h4>
-        <mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Type</mat-label>
           <mat-select>
-            <!-- @for (type of types; track type) {
-              <mat-option [value] = "types">{{types}}</mat-option>
-            } -->
             <mat-option *ngFor="let type of types" [value]="type">{{
               type
             }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      <div
-        fxFlex="100%"
-        fxFlex.gt-md="33%"
-        fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+
+      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
         <h4>Founded:</h4>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Founding year</mat-label>
           <input matInput placeholder="Enter year" type="number" />
         </mat-form-field>
       </div>
-      <div
-        fxFlex="100%"
-        fxFlex.gt-md="33%"
-        fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+
+      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
         <h4>Company Size:</h4>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Company Range</mat-label>
           <input matInput placeholder="Ex. 1000-5000" />
         </mat-form-field>
       </div>
+
       <div
         fxFlex="100%"
-        fxFlex.gt-md="33%"
-        fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
+        fxFlex.gt-sm="48%"
+        fxFlex.gt-md="24%"
+        class="moreInfoFields"
       >
         <h4>Headquarters:</h4>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Headquarters</mat-label>
           <input matInput placeholder="Ex. Bangalore" />
         </mat-form-field>
       </div>
-      <div
-        fxFlex="100%"
-        fxFlex.gt-md="33%"
-        fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%"
-      >
+
+      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
         <h4>Website:</h4>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Website</mat-label>
           <input matInput placeholder="Ex. www.abc.com" type="url" />
         </mat-form-field>
+      </div>
+    </div>
+
+    <h3>Upload Media and Documents</h3>
+    <div class="button-row">
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%"
+      >
+        <p class="grid-label">Upload Video</p>
+        <input type="file" accept="video" />
+        <button class="UploadButton">Upload</button>
+      </div>
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%"
+      >
+        <p class="grid-label">Upload PPT</p>
+        <input type="file" accept=".ppt , .pptx" />
+        <button class="UploadButton">Upload</button>
+      </div>
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%"
+      >
+        <p class="grid-label">Upload Audio</p>
+        <input type="file" accept="audio" />
+        <button class="UploadButton">Upload</button>
+      </div>
+      <div
+        fxFlex="100%"
+        fxFlex.gt-md="25%"
+        fxFlex.gt-lg="25%"
+        fxFlex.gt-sm="50%"
+      >
+        <p class="grid-label">Upload Document</p>
+        <input type="file" accept=".pdf,.doc,.docx" />
+        <button class="UploadButton">Upload</button>
       </div>
     </div>
   </form>

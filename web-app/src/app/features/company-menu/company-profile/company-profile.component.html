@@ -1,8 +1,15 @@
 <div class="container">
-  <button mat-raised-button class="matbutton" (click)="openEditCompanyProfile()">
-    <mat-icon class="maticon">add</mat-icon>
-    <p class="matName">Add Details</p>
-  </button>
+  <div class="AddDetails">
+    <button
+      mat-raised-button
+      class="matbutton"
+      (click)="openEditCompanyProfile()"
+    >
+      <mat-icon class="maticon">add</mat-icon>
+      <p class="matName">Add Details</p>
+    </button>
+  </div>
+
   <div class="heading">
     <h2>Company Name</h2>
     <h4>Company Sector</h4>
@@ -64,6 +71,57 @@
           </div>
           <div class="more_info_item">
             <strong>Website : </strong> <span>http://qwertyiop</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resources">
+        <h2>Uploaded Resources</h2>
+        <div class="resources-container">
+          <div class="video-column">
+            <h4>Video:</h4>
+            <iframe
+              width="100%"
+              height="200"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Dummy YouTube Video"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <div class="resources-column">
+            <div>
+              <h4>PPT:</h4>
+              <a
+                href="../../../../assets/PaataashalaBrochure.pdf"
+                target="_blank"
+                class="resource-link"
+              >
+                <mat-icon>picture_as_pdf</mat-icon> View PPT
+              </a>
+            </div>
+            <div>
+              <h4>Document:</h4>
+              <a
+                href="../../../../assets/PaataashalaBrochure.pdf"
+                target="_blank"
+                class="resource-link"
+              >
+                <mat-icon>description</mat-icon> View Document
+              </a>
+            </div>
+            <div>
+              <h4>Audio:</h4>
+              <a
+                href="../../../../assets/Shiva_Tandava_Stotram_Original_Powerful_Best_Trance_(youconvert.net).mp3"
+                target="_blank"
+                class="resource-link"
+              >
+                <mat-icon>volume_up</mat-icon> Listen to Audio
+              </a>
+            </div>
           </div>
         </div>
       </div>

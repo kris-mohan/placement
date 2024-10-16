@@ -26,12 +26,18 @@
   font-size: 1.2rem;
   color: #333;
 }
-
+.Header {
+  font-size: x-large;
+  font-weight: bolder;
+  color: darkblue;
+}
 .rating {
   font-size: 0.9rem;
   color: #888;
 }
-
+.BackIcon {
+  cursor: pointer;
+}
 .apply-button {
   background-color: #007bff;
   color: white;
@@ -124,4 +130,58 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-top: 20px;
+}
+.resources {
+  margin-top: 20px;
+  background: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+.more_info {
+  padding: 20px;
+}
+
+.resources-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.video-column {
+  flex: 1 1 100%;
+  max-width: 48%;
+}
+
+.resources-column {
+  flex: 1 1 100%;
+  max-width: 48%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+h4 {
+  margin-bottom: 5px;
+}
+
+.resource-link {
+  display: flex;
+  margin-top: 10px;
+  gap: 5px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+}
+
+mat-icon {
+  font-size: 24px;
+}
+
+@media (max-width: 768px) {
+  .video-column,
+  .resources-column {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
 }

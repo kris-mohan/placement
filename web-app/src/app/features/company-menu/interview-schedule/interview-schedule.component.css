@@ -9,3 +9,13 @@
 .main-div {
   padding: 2.5rem;
 }
+
+.calendar {
+  width: 70%;
+  overflow: visible; 
+}
+
+.custom-dialog-container {
+  z-index: 1050; /* Ensure this is higher than any other elements */
+  position: relative; /* This helps in establishing a stacking context */
+}

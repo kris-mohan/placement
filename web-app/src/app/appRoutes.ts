@@ -74,6 +74,11 @@ import { IndentviewComponent } from "./features/company-menu/indent-requirements
 import { StudentCalendarComponent } from "./features/student-menu/student-menu/student-calendar/student-calendar.component";
 import { OfferManagementComponent } from "./features/company-menu/offer-management/offer-management.component";
 import { OfferManagementDetailsComponent } from "./features/company-menu/offer-management/offer-management-details/offer-management-details.component";
+import { FunnelChartComponent } from "./features/charts/funnel chart/funnel-chart/funnel-chart.component";
+import { OfferRecievedComponent } from "./features/student-menu/student-menu/offer-recieved/offer-recieved.component";
+import { PlacementOffersRecievedComponent } from "./features/placement-cell/placement-cell/placement-offers-recieved/placement-offers-recieved.component";
+import { StudentOfferRecievedComponent } from "./features/student-menu/student-menu/student-offer-recieved/student-offer-recieved.component";
+import { PlacementOfferRecievedComponent } from "./features/placement-cell/placement-cell/placement-offer-recieved/placement-offer-recieved.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -290,6 +295,10 @@ const appRoutes: Routes = [
         path: "resume-builder",
         component: ResumeBuilderComponent,
       },
+      {
+        path: "hr-funnel-chart",
+        component: FunnelChartComponent,
+      },
 
       {
         path: "students",
@@ -415,6 +424,14 @@ const appRoutes: Routes = [
       {
         path: "offer-management/offer-management-details",
         component: OfferManagementDetailsComponent,
+      },
+      {
+        path: "student-offer-Recieved",
+        component: StudentOfferRecievedComponent,
+      },
+      {
+        path: "Placement-offer-Recieved",
+        component: PlacementOfferRecievedComponent,
       },
 
       {
