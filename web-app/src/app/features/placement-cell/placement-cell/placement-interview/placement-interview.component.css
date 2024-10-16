@@ -1,6 +1,4 @@
-css
-
-button {
+css button {
   margin: 0 8px 8px 0;
 }
 .mat-mdc-card-header {
@@ -15,7 +13,6 @@ button {
 .example-button-container {
   display: flex;
   justify-content: end;
-  cursor: pointer;
 }
 
 .button-label-container {
