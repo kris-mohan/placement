@@ -8,9 +8,9 @@
     <!-- New paragraph added here -->
     <div class="upcoming-drive-row">
       <div *ngFor="let interview of upcomingDrives" class="upcoming-drive-card">
-        <mat-card>
+        <mat-card [routerLink]="['/interview']" style="cursor: pointer">
           <mat-card-content>
-            <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+            <h4>{{ interview.date | date : "MMM d, y, EEEE" }}</h4>
             <p>
               <strong>Job Role:</strong> {{ interview.jobRole }} <br />
               <strong>Venue:</strong> {{ interview.venue }} <br />
@@ -33,7 +33,8 @@
       [categoriesData]="jobRoles"
       [titleText]="chartTitle"
       [xLabel]="xAxisLabel"
-      [yLabel]="yAxisLabel">
+      [yLabel]="yAxisLabel"
+    >
     </app-basic-line-chart>
 
     <!-- <app-basic-column-chart
@@ -57,7 +58,14 @@
         [ngClass]="{
           'reminder-notification': notification.title.includes('Reminder'),
           'other-notification': !notification.title.includes('Reminder')
-        }">
+        }"
+        style="cursor: pointer"
+        [routerLink]="
+          notification.title.includes('Reminder')
+            ? ['/interview']
+            : ['/company-job-details/companyJobDescription/1']
+        "
+      >
         <h4>{{ notification.title }}</h4>
         <span>{{ notification.details }}</span>
       </li>
@@ -71,8 +79,9 @@
     <ul>
       <li
         *ngFor="let interview of interviewSchedule"
-        class="interview-schedule-notification">
-        <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+        class="interview-schedule-notification"
+      >
+        <h4>{{ interview.date | date : "MMM d, y, EEEE" }}</h4>
         <span>Name of Candidate: {{ interview.candidate }}</span>
         <span>Job Role: {{ interview.position }}</span>
         <span>Time: {{ interview.time }}</span>
