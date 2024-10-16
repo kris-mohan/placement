@@ -55,3 +55,7 @@ button {
   /* overflow: auto; */
   margin-bottom: 6%;
 }
+
+.mat-dialog-actions {
+  justify-content: end;
+}

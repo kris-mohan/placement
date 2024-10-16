@@ -20,6 +20,17 @@
             </div>
 
             <div fxFlex="100%">
+              <p class="grid-label">Incharge for Round</p>
+              <mat-form-field
+                appearance="outline"
+                class="matFormField panels_input"
+              >
+                <mat-label>Incharge for Round</mat-label>
+                <input matInput placeholder="Role" />
+              </mat-form-field>
+            </div>
+
+            <div fxFlex="100%">
               <p class="grid-label">Role</p>
               <mat-form-field
                 appearance="outline"
@@ -52,17 +63,19 @@
         </mat-card-content>
       </div>
     </mat-dialog-content>
-    <mat-dialog-actions>
-      <mat-card-actions class="footer-actions">
-        <button mat-raised-button class="matbutton">
-          <p class="matName">Reset</p>
-        </button>
-        <button mat-raised-button class="matbutton" type="submit">
-          <p class="matName">
-            {{ panelId ? "Update" : "Add" }}
-          </p>
-        </button>
-      </mat-card-actions>
-    </mat-dialog-actions>
+    <div>
+      <mat-dialog-actions class="mat-dialog-actions">
+        <mat-card-actions class="footer-actions">
+          <button mat-raised-button class="matbutton">
+            <p class="matName">Reset</p>
+          </button>
+          <button mat-raised-button class="matbutton" type="submit">
+            <p class="matName">
+              {{ panelId ? "Update" : "Add" }}
+            </p>
+          </button>
+        </mat-card-actions>
+      </mat-dialog-actions>
+    </div>
   </form>
 </div>

@@ -14,7 +14,10 @@
 }
 
 .button-container {
-  align-items: flex-end;
+  display: flex;
+  justify-content: flex-end; /* Aligns the buttons to the right */
+  gap: 10px; /* Adds space between buttons */
+  margin-top: 10px;
 }
 .mat-dialog-actions {
   justify-content: end;
