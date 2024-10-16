@@ -18,10 +18,14 @@ button {
   display: flex;
   justify-content: center;
 }
-
+.matbutton-download {
+  background-color: #3f51b5;
+  color: white;
+  border-radius: 4px;
+  height: 35px;
+}
 .button-label-container {
   display: flex;
-  align-items: center;
 }
 
 .header-mat-label {
@@ -74,7 +78,7 @@ cdk-overlay-pane {
 .mat-grid-tile:hover {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease,
-    background-color 0.3s ease, color 0.3s ease;
+  background-color 0.3s ease, color 0.3s ease;
   transform: scale(1.05);
   background-color: #c3d2f899;
   color: black;
