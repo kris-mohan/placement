@@ -395,9 +395,15 @@ export class PlacementCompanyJobDetailsComponent {
 
   openAddEditCompanyForm(id?: number) {
     if (id !== undefined) {
-      this.router.navigate(["/company-job-details", id]);
+      this.router.navigate([
+        "/placement-company/placement-company-job-details/add-edit-jobPosting/",
+        id,
+      ]);
     } else {
-      this.router.navigate(["/company-job-details", 0]);
+      this.router.navigate([
+        "/placement-company/placement-company-job-details/add-edit-jobPosting/",
+        0,
+      ]);
     }
   }
 

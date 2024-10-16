@@ -98,3 +98,15 @@ cdk-overlay-pane {
 .actions-icons {
   display: flex;
 }
+.delete-icon :hover {
+  background-color: #a4a4a4;
+  border-radius: 0.5rem;
+  transform: scale(1.3);
+  transition: 0.3s ease;
+}
+.edit-icon:hover {
+  background-color: #a4a4a4;
+  border-radius: 0.5rem;
+  transform: scale(1.3);
+  transition: 0.3s ease;
+}

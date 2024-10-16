@@ -133,7 +133,7 @@ const appRoutes: Routes = [
       },
 
       {
-        path: "company-configuration/company/:companyId",
+        path: "placement-company/add-edit-company/:id",
         component: AddEditCompanyComponent,
       },
       {
@@ -226,7 +226,7 @@ const appRoutes: Routes = [
         component: CompanyJobDetailsComponent,
       },
       {
-        path: "company-job-details/:id",
+        path: "placement-company/placement-company-job-details/add-edit-jobPosting/:id",
         component: AddEditCompanyJobDetailsComponent,
       },
       {
