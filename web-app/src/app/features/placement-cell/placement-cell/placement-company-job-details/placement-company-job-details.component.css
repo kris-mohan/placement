@@ -119,3 +119,7 @@ cdk-overlay-pane {
   display: flex;
   text-align: end;
 }
+.heading {
+  display: flex;
+  justify-content: space-between;
+}
