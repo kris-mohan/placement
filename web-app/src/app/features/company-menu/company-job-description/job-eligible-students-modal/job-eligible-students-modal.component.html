@@ -64,6 +64,7 @@
       </div>
     </div>
   </mat-card-header>
+
   <mat-card-content class="mat-card-content">
     <div>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -114,6 +115,22 @@
                   </mat-chip>
                 </ng-template>
               </ng-container>
+
+              <ng-container *ngSwitchCase="'resume'">
+                <ng-container *ngIf="element.resume?.trim(); else noResume">
+                  <a
+                    [href]="element.resume"
+                    target="_blank"
+                    class="resource-link"
+                  >
+                    <mat-icon>visibility</mat-icon>
+                  </a>
+                </ng-container>
+                <ng-template #noResume>
+                  <span>No Resume Available</span>
+                </ng-template>
+              </ng-container>
+
               <ng-container *ngSwitchDefault>
                 {{ element[column.key] }}
               </ng-container>

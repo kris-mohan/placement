@@ -130,24 +130,6 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="example-button-container filter_items">
-          <button
-            mat-raised-button
-            class="matbutton"
-            (click)="openStudentJobAdditionalFiltersModal()"
-          >
-            <p class="matName">Additional Filters</p>
-          </button>
-          <button
-            *ngIf="userType !== 3"
-            mat-raised-button
-            class="matbutton"
-            (click)="openAddEditCompanyForm(0)"
-          >
-            <mat-icon class="maticon">add</mat-icon>
-            <p class="matButtonText">Add Job Postings</p>
-          </button>
-        </div>
 
         <!-- <div class="example-button-container">
           <button
@@ -161,6 +143,27 @@
           </button>
         </div> -->
       </div>
+    </div>
+    <div
+      class="example-button-container filter_items"
+      style="display: flex; justify-content: end"
+    >
+      <button
+        mat-raised-button
+        class="matbutton"
+        (click)="openStudentJobAdditionalFiltersModal()"
+      >
+        <p class="matName">Additional Filters</p>
+      </button>
+      <button
+        *ngIf="userType !== 3"
+        mat-raised-button
+        class="matbutton"
+        (click)="openAddEditCompanyForm(0)"
+      >
+        <mat-icon class="maticon">add</mat-icon>
+        <p class="matButtonText">Add Job Postings</p>
+      </button>
     </div>
   </mat-card-header>
   <mat-card-content

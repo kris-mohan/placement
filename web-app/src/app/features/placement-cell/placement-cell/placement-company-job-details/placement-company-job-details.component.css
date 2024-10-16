@@ -111,3 +111,7 @@ cdk-overlay-pane {
   width: 50%;
   gap: 5px;
 }
+.AddFilterAndAddJobButton {
+  display: flex;
+  text-align: end;
+}
