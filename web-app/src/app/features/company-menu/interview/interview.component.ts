@@ -526,6 +526,7 @@ export class InterviewComponent {
       roundName: "Test Assesment 1",
       studentsCleared: 12,
       studentsRejected: 15,
+      logo: "../../../../assets/images/Softserve-logo1.png..",
     },
     {
       id: 2,
@@ -540,6 +541,7 @@ export class InterviewComponent {
       roundName: "Test Assesment 2",
       studentsCleared: 12,
       studentsRejected: 15,
+      logo: "../../../../assets/images/Softserve-logo1.png..",
     },
     {
       id: 3,
@@ -555,6 +557,7 @@ export class InterviewComponent {
       roundName: "Test Assesment 3",
       studentsCleared: 12,
       studentsRejected: 15,
+      logo: "../../../../assets/images/Softserve-logo1.png..",
     },
     {
       id: 4,
@@ -570,6 +573,7 @@ export class InterviewComponent {
       roundName: "Technical Interview",
       studentsCleared: 12,
       studentsRejected: 15,
+      logo: "../../../../assets/images/Softserve-logo1.png..",
     },
     {
       id: 5,
@@ -585,6 +589,7 @@ export class InterviewComponent {
       roundName: "HR Interview",
       studentsCleared: 12,
       studentsRejected: 15,
+      logo: "../../../../assets/images/Softserve-logo1.png..",
     },
   ];
 
