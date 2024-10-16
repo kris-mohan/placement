@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Placements.DataAccess.placement.Models;
+namespace Placements.DataAccess.Placement.Models;
 
 public partial class Campusregistration
 {
@@ -38,4 +38,6 @@ public partial class Campusregistration
     public virtual ICollection<Collegejobposting> Collegejobpostings { get; set; } = new List<Collegejobposting>();
 
     public virtual ICollection<Collegejobpostingschedule> Collegejobpostingschedules { get; set; } = new List<Collegejobpostingschedule>();
+
+    public virtual ICollection<Tblstudent> Tblstudents { get; set; } = new List<Tblstudent>();
 }
