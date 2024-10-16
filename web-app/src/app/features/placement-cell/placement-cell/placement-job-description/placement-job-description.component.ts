@@ -3,6 +3,7 @@ import { CommonModule, Location } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
 import { MatDialog } from "@angular/material/dialog";
 import { JobEligibleStudentsModalComponent } from "src/app/features/company-menu/company-job-description/job-eligible-students-modal/job-eligible-students-modal.component";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-placement-job-description",
   standalone: true,
@@ -12,7 +13,7 @@ import { JobEligibleStudentsModalComponent } from "src/app/features/company-menu
 })
 export class PlacementJobDescriptionComponent {
   userType: number;
-  constructor(private location: Location) {
+  constructor(private location: Location, private router: Router) {
     const storedUserType = sessionStorage.getItem("userType");
     this.userType = storedUserType ? parseInt(storedUserType) : 0;
   }
@@ -31,5 +32,17 @@ export class PlacementJobDescriptionComponent {
 
   openStudentJobAdditionalFiltersModal() {}
 
-  openAddEditCompanyForm(id: number) {}
+  openAddEditJobPosting(id: number) {
+    if (id !== undefined) {
+      this.router.navigate([
+        "/placement-company/placement-company-job-details/add-edit-jobPosting/",
+        id,
+      ]);
+    } else {
+      this.router.navigate([
+        "/placement-company/placement-company-job-details/add-edit-jobPosting/",
+        0,
+      ]);
+    }
+  }
 }

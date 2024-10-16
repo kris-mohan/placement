@@ -94,9 +94,11 @@
             'other-notification': !notification.title.includes('Reminder')
           }"
           style="cursor: pointer"
-          [routerLink]="[
-            '/student-company/student-jobs/student-job-description/1'
-          ]"
+          [routerLink]="
+            notification.title.includes('Reminder')
+              ? ['/interview']
+              : ['/student-company/student-jobs/student-job-description/1']
+          "
         >
           <h4>{{ notification.title }}</h4>
           <span>{{ notification.details }}</span>

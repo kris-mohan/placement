@@ -19,7 +19,10 @@
     <p>Here is your schedule for this week:</p>
     <div class="upcoming-drive-row">
       <div *ngFor="let interview of upcomingDrives" class="upcoming-drive-card">
-        <mat-card>
+        <mat-card
+          [routerLink]="['/placement-interview']"
+          style="cursor: pointer"
+        >
           <mat-card-content>
             <h4>{{ interview.date | date : "MMM d, y, EEEE" }}</h4>
             <h3>{{ interview.company }}</h3>
@@ -75,6 +78,12 @@
           'reminder-notification': notification.title.includes('Reminder'),
           'other-notification': !notification.title.includes('Reminder')
         }"
+        style="cursor: pointer"
+        [routerLink]="
+          notification.title.includes('Reminder')
+            ? ['/placement-interview']
+            : ['/Placement-offer-Recieved']
+        "
       >
         <h4>{{ notification.title }}</h4>
         <span>{{ notification.details }}</span>
@@ -85,7 +94,11 @@
   <div class="interview-schedule-heading">
     <h3>Interview Schedule</h3>
   </div>
-  <div class="interview-schedule">
+  <div
+    class="interview-schedule"
+    [routerLink]="['/placement-interview']"
+    style="cursor: pointer"
+  >
     <ul>
       <li
         *ngFor="let interview of interviewSchedule"

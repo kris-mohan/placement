@@ -3,8 +3,10 @@
     <div class="example-button-row">
       <div class="example-flex-container">
         <div class="button-label-container">
-          <div class="example-button-containe" >
-            <mat-icon (click)="goBack()" class="BackIcon">keyboard_backspace</mat-icon>
+          <div class="example-button-containe">
+            <mat-icon (click)="goBack()" class="BackIcon"
+              >keyboard_backspace</mat-icon
+            >
             <div class="header-mat-label">
               <mat-label>Scheduled Interviews</mat-label>
             </div>
@@ -249,14 +251,16 @@
       <div class="company">
         <img alt="Company Logo" class="Logo" height="70%" width="auto" />
         <p><strong>Status:</strong> {{ scheduledInterview.status }}</p>
-        <p>
-          <strong>Number of students cleared:</strong>
-          {{ scheduledInterview.studentsCleared }}
-        </p>
-        <p>
-          <strong>Number of students rejected:</strong>
-          {{ scheduledInterview.studentsRejected }}
-        </p>
+        <div *ngIf="userType !== 3">
+          <p>
+            <strong>Number of students cleared:</strong>
+            {{ scheduledInterview.studentsCleared }}
+          </p>
+          <p>
+            <strong>Number of students rejected:</strong>
+            {{ scheduledInterview.studentsRejected }}
+          </p>
+        </div>
       </div>
     </div>
   </mat-card-content>
