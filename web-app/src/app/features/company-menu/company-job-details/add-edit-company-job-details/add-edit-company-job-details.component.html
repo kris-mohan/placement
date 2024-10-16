@@ -3,13 +3,13 @@
     <div class="example-button-row">
       <div class="example-flex-container">
         <div class="example-button-container">
-          <a (click)="goBack()">
-            <mat-icon>keyboard_backspace</mat-icon>
-          </a>
+          <mat-icon (click)="goBack()" class="BackIcon"
+            >keyboard_backspace</mat-icon
+          >
         </div>
         <div>
           <p class="matHeaderName">
-            Add
+            Add Job Posting
             <!-- {{ TrainerId ? "Edit Trainer" : "Add Trainer" }} -->
           </p>
         </div>
