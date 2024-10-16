@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { Component } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -56,6 +56,7 @@ export const RoundsData: roundsDetails[] = [
   styleUrl: "./offer-management-details.component.css",
 })
 export class OfferManagementDetailsComponent {
+  constructor(private location: Location) {}
   isLargeScreen() {
     return window.innerWidth > 768; // Customize based on your layout
   }
@@ -77,4 +78,7 @@ export class OfferManagementDetailsComponent {
     { key: "Marks", label: "Marks" },
     { key: "Feedback", label: "Feedback" },
   ];
+  goBack(): void {
+    this.location.back();
+  }
 }

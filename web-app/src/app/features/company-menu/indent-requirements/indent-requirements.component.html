@@ -1,4 +1,120 @@
-<mat-card>
+<mat-card-header class="custom-card-header">
+  <div class="example-button-row">
+    <div class="example-flex-container">
+      <div class="example-button-container">
+        <a (click)="goBack()">
+          <mat-icon>keyboard_backspace</mat-icon>
+        </a>
+        <p class="matHeaderName">Indenting Organisation Details</p>
+      </div>
+    </div>
+  </div>
+</mat-card-header>
+<mat-divider></mat-divider>
+
+<form [formGroup]="addIndentForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-content>
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Company Name</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Company Name</mat-label>
+            <input matInput formControlName="Company Name" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Company designation</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Company designation</mat-label>
+            <input
+              matInput
+              formControlName="Email"
+              type="Company designation"
+            />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Email</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="Email" type="Email" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Phone Number</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="Extra" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Required Item</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Required Item</mat-label>
+            <input matInput formControlName="Extra1" />
+          </mat-form-field>
+        </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Quantity</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Quantity</mat-label>
+            <input matInput formControlName="Extra1" />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card-actions class="footer-actions">
+    <button
+      mat-raised-button
+      class="matbutton"
+      (click)="onReset()"
+      type="button"
+    >
+      <p class="matName">Reset</p>
+    </button>
+    <button mat-raised-button class="matbutton" type="submit">
+      <p class="matName">Add</p>
+    </button>
+  </mat-card-actions>
+</form>
+
+<!-- <mat-card>
   <mat-card-header class="custom-card-header">
     <div class="example-button-row">
       <div class="example-flex-container">
@@ -131,9 +247,6 @@
       </table>
       <button type="submit" [disabled]="indentForm.invalid">Submit</button>
     </form> -->
-    </div>
-  </form>
-</mat-card>
 
 <!-- <div>
   <table
