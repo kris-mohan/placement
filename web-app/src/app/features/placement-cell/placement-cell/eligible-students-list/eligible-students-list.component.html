@@ -1,10 +1,16 @@
 <mat-card>
   <mat-card-header class="custom-card-header">
     <div class="header-left">
-      <button mat-icon-button color="primary" (click)="goBack()" class="back-button">
-        <mat-icon>keyboard_backspace</mat-icon>
+      <button mat-icon-button color="primary"  class="back-button">
+        <mat-icon (click)="goBack()">keyboard_backspace</mat-icon>
       </button>
       <span class="header-title">Students</span>
+      <button mat-fab extended class = "matbutton-download">
+        <mat-icon>file_download</mat-icon>Excel
+      </button>
+      <button mat-fab extended class = "matbutton-download">
+        <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
+      </button>
       <button mat-raised-button color="primary" class="invite-all-btn">
         <mat-icon class="maticon">mail</mat-icon>
         Invite All

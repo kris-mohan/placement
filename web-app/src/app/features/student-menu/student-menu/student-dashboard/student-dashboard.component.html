@@ -24,7 +24,10 @@
           <p>Interviews Attended</p>
         </div>
         <div class="divider"></div>
-        <div style="color: white">
+        <div
+          style="color: white; cursor: pointer"
+          [routerLink]="['/student-offer-Recieved']"
+        >
           <h2 class="stats-header">{{ stats.offersReceived }}</h2>
           <p>Offers Received</p>
         </div>

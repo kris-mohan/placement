@@ -20,31 +20,46 @@
       <!-- <input matInput placeholder="Job Role" formControlName="jobRole" /> -->
     </mat-form-field>
 
-    <p>Selected Date: {{ data.date | date : "mediumDate" }}</p>
-    <!-- <p>Start Time</p>
-          <mat-form-field appearance="fill" class="matFormField">
-            <mat-label>Start Time</mat-label>
-            <input
-              id="StartTimePicker"
-              matInput
-              [ngxTimepicker]="startTimePicker"
-            />
-            <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
-          </mat-form-field>
-        </div>
+    <p>Start Date: {{ data.date | date : "mediumDate" }}</p>
+    <div>
+      <p>Start Time</p>
+      <mat-form-field appearance="outline" class="matFormField">
+        <mat-label>Start Time</mat-label>
+        <input
+          formControlName="startTime"
+          id="StartTimePicker"
+          matInput
+          [ngxTimepicker]="startTimePicker"
+        />
+        <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
+      </mat-form-field>
+      <p>End Time</p>
+      <mat-form-field appearance="outline" class="matFormField">
+        <mat-label>End Time</mat-label>
+        <input
+          formControlName="endTime"
+          id="EndTimePicker"
+          matInput
+          [ngxTimepicker]="endTimePicker"
+        />
+        <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
+      </mat-form-field>
+    </div>
 
-    <div
-      class="row-wrap-content"
-      fxFlex="100%"
-      fxFlex.gt-md="33%"
-      fxFlex.gt-lg="25%"
-      fxFlex.gt-sm="50%"
-    >
-      <p>End Date</p>
-      <mat-form-field appearance="fill" class="matFormField">
+    <div>
+      <p>
+        <mat-checkbox [checked]="toggle" (change)="onToggleChange($event)"
+          >Multiple Days</mat-checkbox
+        >
+      </p>
+    </div>
+
+    <div *ngIf="toggle === true">
+      <!-- <p>End Date</p> -->
+      <!-- <mat-form-field appearance="fill" class="matFormField">
         <mat-label>End Date</mat-label>
         <input
-          formControlName="EndDate"
+          formControlName="endDate"
           matInput
           [matDatepicker]="endDatePicker"
         />
@@ -53,11 +68,22 @@
           [for]="endDatePicker"
         ></mat-datepicker-toggle>
         <mat-datepicker #endDatePicker></mat-datepicker>
+      </mat-form-field> -->
+      <p>End Date</p>
+      <mat-form-field appearance="outline">
+        <mat-label>Choose a date</mat-label>
+        <input formControlName="endDate" matInput [matDatepicker]="picker" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-    </div> -->
-    <!-- <mat-form-field>
-      <p>Selected Date: {{ data.date | date : "mediumDate" }}</p>
-    </mat-form-field> -->
+    </div>
+    <!-- <mat-form-field> -->
+    <!-- <p>Selected Date: {{ data.date | date : "mediumDate" }}</p> -->
+    <!-- </mat-form-field> -->
 
     <!-- Display the selected date -->
   </form>

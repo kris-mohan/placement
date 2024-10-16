@@ -1,9 +1,9 @@
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   background-color: #f4f6f8; /* Light grey background for contrast */
 }
 
-mat-card{
+mat-card {
   padding: 1rem;
   background-color: white;
   border-radius: 12px;
@@ -23,14 +23,14 @@ mat-card{
 
 .header-left {
   display: flex;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
 }
 
 .header-title {
   font-size: 27.5px;
   font-weight: 600;
   color: #3f51b5;
-  margin-left: auto;
+
   margin-right: auto;
 }
 
@@ -70,7 +70,13 @@ mat-card{
   justify-content: center;
   width: 100%;
 }
-
+.matbutton-download {
+  background-color: #3f51b5;
+  color: white;
+  border-radius: 4px;
+  height: 35px;
+  margin-right: 10px;
+}
 .table-container {
   margin-top: 1.5rem;
 }

@@ -2,9 +2,12 @@
   height: 100%;
 }
 .example-button-container {
-  cursor: pointer;
+
   margin-left: 2%;
   margin-top: 2%;
+}
+.BackIcon{
+  cursor: pointer;
 }
 .mat-mdc-form-field {
   margin-top: 16px;

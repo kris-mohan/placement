@@ -3,8 +3,8 @@
     <div class="example-button-row">
       <div class="example-flex-container">
         <div class="button-label-container">
-          <div class="example-button-container" (click)="goBack()">
-            <mat-icon>keyboard_backspace</mat-icon>
+          <div class="example-button-container" >
+            <mat-icon (click)="goBack()" class="BackIcon">keyboard_backspace</mat-icon>
           </div>
 
           <div class="header-mat-label">
@@ -148,6 +148,12 @@
         </div>
       </div>
       <div class="example-button-container">
+        <button mat-fab extended class = "matbutton-download">
+          <mat-icon>file_download</mat-icon>Excel
+        </button>
+        <button mat-fab extended class = "matbutton-download">
+          <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
+        </button>
         <div>
           <mat-form-field class="search-full-width" appearance="outline">
             <mat-label>Search Company</mat-label>
@@ -216,7 +222,7 @@
           height="15%"
           width="75%"
         />
-        <h3>{{ company.name }}</h3>
+        <h2>{{ company.name }}</h2>
 
         <div class="company-type">{{ company.type }}</div>
         <div class="company-type">

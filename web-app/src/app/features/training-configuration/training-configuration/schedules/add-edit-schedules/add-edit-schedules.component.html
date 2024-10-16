@@ -117,6 +117,22 @@
             </mat-select>
           </mat-form-field>
         </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Schedule</p>
+          <mat-form-field class="matFormField">
+            <mat-label>Schedule </mat-label>
+            <mat-select formControlName="Schedule">
+              <mat-option *ngFor="let type of schedule" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
       <div fxLayout="row wrap">
         <div

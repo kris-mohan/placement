@@ -3,8 +3,8 @@
     <div class="example-button-row">
       <div class="example-flex-container">
         <div class="button-label-container">
-          <div class="example-button-container" (click)="goBack()">
-            <mat-icon>keyboard_backspace</mat-icon>
+          <div class="example-button-container" >
+            <mat-icon (click)="goBack()" class="BackIcon">keyboard_backspace</mat-icon>
 
             <div class="header-mat-label">
               <mat-label>Job Postings</mat-label>
@@ -161,12 +161,12 @@
     >
       <div class="company-details">
         <div class="company-designation">
-          <h3 class="heading1">
+          <h2 class="heading1">
             {{ job.title }} <br />
             <span style="color: slategray; font-size: 0.9rem">
               {{ job.name }}
             </span>
-          </h3>
+          </h2>
 
           <!-- 
         <div class="company-type">{{ job.applicants }}</div> -->

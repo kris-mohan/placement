@@ -101,6 +101,7 @@ export class InterviewScheduleComponent implements OnInit {
     const dialogRef = this.dialog.open(CalendarModalComponent, {
       width: "400px",
       data: { date: this.newEventDate.date }, // Pass the clicked date to the modal
+      panelClass: "custom-dialog-container",
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -113,18 +114,114 @@ export class InterviewScheduleComponent implements OnInit {
 
   addNewEvent(result: any) {
     // const title = prompt("Enter event title:");
-    
+
     if (result) {
       const title = result.eventName;
-      const className = result.round;
-      const calendarApi = this.newEventDate.view.calendar;
-      calendarApi.addEvent({
-        id: this.eventIDCounter++,
-        title: title,
-        start: this.newEventDate.date,
-        end: this.newEventDate.date,
-        className: className + ' ' + 'text-white'
-      });
+      const className = "bg-primary text-white";
+      let startTime: Date | null = null;
+      if (typeof result.startTime === "string") {
+        const timeParts = result.startTime.match(/(\d+):(\d+)\s*(AM|PM)/);
+        if (timeParts) {
+          let hours = parseInt(timeParts[1], 10);
+          const minutes = parseInt(timeParts[2], 10);
+          const period = timeParts[3];
+
+          // Convert hours to 24-hour format if PM
+          if (period === "PM" && hours < 12) {
+            hours += 12;
+          } else if (period === "AM" && hours === 12) {
+            hours = 0;
+          }
+
+          startTime = new Date(this.newEventDate.date); // Create a new Date object from the selected date
+          startTime.setHours(hours, minutes); // Set hours and minutes
+        }
+      } else {
+        // If it's already a Date object
+        startTime = result.startTime;
+      }
+
+      let endTime: Date | null = null;
+      if (typeof result.endTime === "string") {
+        const timeParts = result.endTime.match(/(\d+):(\d+)\s*(AM|PM)/);
+        if (timeParts) {
+          let hours = parseInt(timeParts[1], 10);
+          const minutes = parseInt(timeParts[2], 10);
+          const period = timeParts[3];
+
+          // Convert hours to 24-hour format if PM
+          if (period === "PM" && hours < 12) {
+            hours += 12;
+          } else if (period === "AM" && hours === 12) {
+            hours = 0;
+          }
+
+          endTime = new Date(this.newEventDate.date); // Create a new Date object from the selected date
+          endTime.setHours(hours, minutes); // Set hours and minutes
+        }
+      } else {
+        // If it's already a Date object
+        endTime = result.endTime;
+      }
+
+      // console.log(typeof(startTime));
+      // const startDateTime = new Date(this.newEventDate.date);
+      // startDateTime.setHours(startTime.getHours(), startTime.getMinutes());
+
+      // let endDateTime;
+      // if (result.endDate) {
+      //   const endDate = result.endDate;
+      //   endDateTime = new Date(endDate);
+      //   endDateTime.setHours(23, 59);
+      // }
+      // else{
+      //   endDateTime = startTime;
+      // }
+
+      const endDate = result.endDate ? new Date(result.endDate) : startTime;
+
+      if (startTime && endDate && startTime < endDate) {
+        const calendarApi = this.newEventDate.view.calendar;
+        let currentDate = new Date(startTime);  
+
+        while (currentDate <= endDate) {
+          // const nextDay = new Date(currentDate);
+          // nextDay.setDate(currentDate.getDate() + 1);
+          // console.log(nextDay);
+          const startOfDay = new Date(currentDate);
+          const endOfDay = new Date(currentDate);
+          endOfDay.setHours(endDate.getHours(),endDate.getMinutes());
+
+          calendarApi.addEvent({
+            id: this.eventIDCounter++,
+            title: title,
+            start: new Date(currentDate),
+            end: endOfDay,
+            className: className,
+          });
+
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      } else {
+        // Add a single-day event if it doesn't span multiple days
+        const calendarApi = this.newEventDate.view.calendar;
+        calendarApi.addEvent({
+          id: this.eventIDCounter++,
+          title: title,
+          start: startTime,
+          end: endTime,
+          className: className,
+        });
+      }
+
+      // const calendarApi = this.newEventDate.view.calendar;
+      // calendarApi.addEvent({
+      //   id: this.eventIDCounter++,
+      //   title: title,
+      //   start: startTime,
+      //   end: endTime,
+      //   className: className,
+      // });
     }
   }
 

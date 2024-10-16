@@ -18,23 +18,27 @@ button {
 /* .example-button-container :hover {
   background-color: rgb(234, 234, 234);
 } */
-
+.matbutton-download {
+  background-color: #3f51b5;
+  color: white;
+  border-radius: 4px;
+  height: 35px;
+}
 .button-label-container {
   display: flex;
   align-items: center;
 }
 
-.header-mat-label {
-  margin-left: 3rem;
-  font-weight: bolder;
+.button-label-container {
+  display: flex;
+  align-items: center;
+}
+.PageHeader {
   font-size: x-large;
+  font-weight: bolder;
   color: darkblue;
+  margin-left: 7px;
 }
-.button-label-container {
-  display: flex;
-  align-items: center;
-}
-
 .header-mat-label {
   margin-left: 3rem;
   font-weight: bolder;

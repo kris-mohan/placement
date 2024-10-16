@@ -1,17 +1,11 @@
 import { CommonModule, Location } from "@angular/common";
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  ViewChild,
-} from "@angular/core";
+import { Component, inject, ViewChild } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
-import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
-import { Observable, of, startWith, map } from "rxjs";
+import { map, Observable, of, startWith } from "rxjs";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { CompanyAPIService } from "src/app/features/company-configuration/company-config/companies/api.companies";
 import {
@@ -19,34 +13,35 @@ import {
   Industry,
 } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { CompanyDetailDialogModalComponent } from "src/app/features/company-configuration/company-config/companies/company-detail-dialog-modal/company-detail-dialog-modal.component";
-import { ImportCompanyDialogComponent } from "src/app/features/company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
 import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
-import { PlacementInterviewAdditionalFilterComponent } from "./placement-interview-additional-filter/placement-interview-additional-filter.component";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { provideNativeDateAdapter } from "@angular/material/core";
-import * as XLSX from 'xlsx';
-import { jsPDF } from 'jspdf';
-
-export interface ODataResponse<T> {
-  value: T[];
-}
+import { ODataResponse } from "../eligible-students-list/eligible-students-list.component";
+import { PlacementInterviewAdditionalFilterComponent } from "../placement-interview/placement-interview-additional-filter/placement-interview-additional-filter.component";
+import { MatTableDataSource } from "@angular/material/table";
 
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
 
 @Component({
-  selector: "app-placement-interview",
+  selector: "app-placement-offer-recieved",
   standalone: true,
-  imports: [CommonModule, SharedModule, AMGModules, MatDatepickerModule],
-  templateUrl: "./placement-interview.component.html",
-  styleUrl: "./placement-interview.component.css",
-  providers: [provideNativeDateAdapter()],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SharedModule, AMGModules],
+  templateUrl: "./placement-offer-recieved.component.html",
+  styleUrl: "./placement-offer-recieved.component.css",
 })
-export class PlacementInterviewComponent {
+export class PlacementOfferRecievedComponent {
+  constructor(
+    private router: Router,
+    private sweetAlertService: SweetAlertService,
+    private location: Location,
+    private apiCompanyService: CompanyAPIService,
+    private apiIndustryService: IndustryAPIService
+  ) {
+    const storedUserType = sessionStorage.getItem("userType");
+    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+  }
   readonly campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
@@ -94,160 +89,160 @@ export class PlacementInterviewComponent {
   companySizeFilterControl = new FormControl();
 
   readonly dialog = inject(MatDialog);
-  constructor(
-    private router: Router,
-    private sweetAlertService: SweetAlertService,
-    private location: Location,
-    private apiCompanyService: CompanyAPIService,
-    private apiIndustryService: IndustryAPIService
-  ) {
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
-  }
-  displayedColumns: string[] = [
-    // "Url",
-    // "Name",
-    // "ContactPerson",
-    // "City",
-    // "ZipCode",
-    // "Actions",
-    "Name",
-    "Industries",
-    "OpenPosition",
-    "ContactPerson",
-    "City",
-    "Email",
-    "PhoneNumber",
-    "Url",
-    "JD",
-    "Actions",
-  ];
-  columns = [
-    { key: "Name", label: "Name" },
-    { key: "Industries", label: "Industries" },
-    { key: "OpenPosition", label: "Open Position" },
-    { key: "ContactPerson", label: "Contact Person" },
-    { key: "City", label: "City" },
-    { key: "Email", label: "Email" },
-    { key: "PhoneNumber", label: "Phone Number" },
-    { key: "Url", label: "URL" },
-    { key: "JD", label: "JD" },
-    { key: "Actions", label: "Actions" },
-  ];
-  dataSource = new MatTableDataSource<companyTableList>([]);
-
-  companiesCard = [
+  jobsCard = [
     {
       Id: 1,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Haier Appliances",
-      rating: 4.1,
-      reviews: "1.3K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 4,
-      registeredStudents: 120,
-      placedStudents: 80,
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
+      title: "Software Engineer",
+      experience: "0 - 2 years",
+      salary: "₹6 - 8 LPA",
+      location: "Bengaluru",
+      shift: "Day Shift",
+      modeOfWork: "Hybrid",
+      numberOfOpenings: 10,
+      // applicants: 100,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 2,
-      logo: "company-logo-2.png",
-      name: "Sony Electronics",
-      rating: 4.5,
-      reviews: "2K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 5,
-      registeredStudents: 100,
-      placedStudents: 60,
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
+      title: "Data Analyst",
+      experience: "1 - 3 years",
+      salary: "₹4 - 6 LPA",
+      location: "Hyderabad",
+      shift: "Day Shift",
+      modeOfWork: "Remote",
+      numberOfOpenings: 5,
+      // applicants: 80,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 3,
-      logo: "company-logo-3.png",
+      logo: "../../../../assets/images/Softserve-logo1black.png",
       name: "Samsung Tech",
-      rating: 4.2,
-      reviews: "1.5K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 3,
-      registeredStudents: 200,
-      placedStudents: 150,
+      title: "Product Manager",
+      experience: "3 - 5 years",
+      salary: "₹12 - 15 LPA",
+      location: "Mumbai",
+      shift: "Day Shift",
+      modeOfWork: "On-site",
+      numberOfOpenings: 3,
+      // applicants: 50,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 4,
-      logo: "company-logo-4.png",
-      name: "LG Electronics",
-      rating: 4.3,
-      reviews: "1.8K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 6,
-      registeredStudents: 140,
-      placedStudents: 110,
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
+      title: "HR Executive",
+      experience: "0 - 1 year",
+      salary: "₹3 - 5 LPA",
+      location: "Delhi",
+      shift: "Day Shift",
+      modeOfWork: "Hybrid",
+      numberOfOpenings: 7,
+      // applicants: 120,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 5,
-      logo: "company-logo-5.png",
-      name: "Apple Inc.",
-      rating: 4.8,
-      reviews: "3K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 7,
-      registeredStudents: 250,
-      placedStudents: 200,
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
+      title: "Marketing Specialist",
+      experience: "2 - 4 years",
+      salary: "₹7 - 9 LPA",
+      location: "Pune",
+      shift: "Day Shift",
+      modeOfWork: "On-site",
+      numberOfOpenings: 5,
+      // applicants: 60,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 6,
-      logo: "company-logo-6.png",
-      name: "Microsoft Corp.",
-      rating: 4.7,
-      reviews: "2.7K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 5,
-      registeredStudents: 180,
-      placedStudents: 160,
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
+      title: "Sales Manager",
+      experience: "4 - 6 years",
+      salary: "₹10 - 12 LPA",
+      location: "Chennai",
+      shift: "Day Shift",
+      modeOfWork: "Remote",
+      numberOfOpenings: 4,
+      // applicants: 70,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 7,
-      logo: "company-logo-7.png",
-      name: "Google LLC",
-      rating: 4.9,
-      reviews: "5K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 8,
-      registeredStudents: 300,
-      placedStudents: 250,
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
+      title: "Cloud Engineer",
+      experience: "2 - 4 years",
+      salary: "₹8 - 10 LPA",
+      location: "Bengaluru",
+      shift: "Night Shift",
+      modeOfWork: "On-site",
+      numberOfOpenings: 6,
+      // applicants: 150,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 8,
-      logo: "company-logo-8.png",
-      name: "Facebook Inc.",
-      rating: 4.6,
-      reviews: "2.2K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 4,
-      registeredStudents: 170,
-      placedStudents: 130,
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
+      title: "UI/UX Designer",
+      experience: "1 - 3 years",
+      salary: "₹5 - 7 LPA",
+      location: "Gurugram",
+      shift: "Day Shift",
+      modeOfWork: "Hybrid",
+      numberOfOpenings: 5,
+      // applicants: 90,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 9,
-      logo: "company-logo-9.png",
-      name: "Amazon Web Services",
-      rating: 4.4,
-      reviews: "2.5K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 6,
-      registeredStudents: 220,
-      placedStudents: 180,
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
+      title: "DevOps Engineer",
+      experience: "3 - 5 years",
+      salary: "₹10 - 14 LPA",
+      location: "Noida",
+      shift: "Night Shift",
+      modeOfWork: "Remote",
+      numberOfOpenings: 4,
+      // applicants: 85,
+      type: "MNC",
+      Skills: "Node, React",
     },
     {
       Id: 10,
-      logo: "company-logo-10.png",
-      name: "Tesla Inc.",
-      rating: 4.7,
-      reviews: "2.8K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 5,
-      registeredStudents: 160,
-      placedStudents: 140,
+      logo: "../../../../assets/images/Softserve-logo1black.png",
+      name: "Samsung Tech",
+      title: "Cybersecurity Specialist",
+      experience: "5+ years",
+      salary: "₹15 - 18 LPA",
+      location: "Bengaluru",
+      shift: "Day Shift",
+      modeOfWork: "On-site",
+      numberOfOpenings: 2,
+      // applicants: 40,
+      type: "MNC",
+      Skills: "Node, React",
     },
   ];
+
+  dataSource = new MatTableDataSource<companyTableList>([]);
 
   ngOnInit() {
     this.loadCompanies();
@@ -598,21 +593,6 @@ export class PlacementInterviewComponent {
       studentsRejected: 15,
       logo: "../../../../assets/images/Softserve-logo1.png",
     },
-    {
-      id: 6,
-      jobTitle: "DevOps Engineer",
-      company: "ABB",
-      date: "2024-09-26",
-      status: "Completed",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription: "Use of Agile Technology to streamline operations",
-
-      roundName: "Aptitude Test",
-      studentsCleared: 45,
-      studentsRejected: 5,
-      logo: "company.logo",
-    },
   ];
 
   jobSummary = [
@@ -628,4 +608,3 @@ export class PlacementInterviewComponent {
     console.log("View details for interview ID:", id);
   }
 }
-

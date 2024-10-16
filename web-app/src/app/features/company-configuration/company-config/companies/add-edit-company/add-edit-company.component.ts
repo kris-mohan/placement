@@ -1,6 +1,6 @@
 import { CommonModule, Location } from "@angular/common";
 import { Component } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { CompanyAPIService } from "../api.companies";

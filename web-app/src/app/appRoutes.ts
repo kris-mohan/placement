@@ -43,7 +43,7 @@ import { InterviewComponent } from "./features/company-menu/interview/interview.
 import { ProfileManagementComponent } from "./features/student-menu/student-menu/profile-management/profile-management.component";
 import { AlumniComponent } from "./features/student-menu/alumni/alumni.component";
 import { InterviewStudentsListComponent } from "./features/company-menu/interview-students-list/interview-students-list.component";
-import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/test-rounds/add-rounds-modal/add-rounds-modal.component";
+import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/add-edit-company-job-details/add-rounds-modal/add-rounds-modal.component";
 import { PanelTabComponent } from "./features/company-menu/company-job-details/panel-tab/panel-tab.component";
 import { CompanyJobDescriptionComponent } from "./features/company-menu/company-job-description/company-job-description.component";
 import { ProfilemanagementDashboardComponent } from "./features/student-menu/student-menu/profile-management/profilemanagement-dashboard/profilemanagement-dashboard.component";
@@ -75,6 +75,11 @@ import { StudentCalendarComponent } from "./features/student-menu/student-menu/s
 import { OfferManagementComponent } from "./features/company-menu/offer-management/offer-management.component";
 import { OfferManagementDetailsComponent } from "./features/company-menu/offer-management/offer-management-details/offer-management-details.component";
 import { FunnelChartComponent } from "./features/charts/funnel chart/funnel-chart/funnel-chart.component";
+import { OfferRecievedComponent } from "./features/student-menu/student-menu/offer-recieved/offer-recieved.component";
+import { PlacementOffersRecievedComponent } from "./features/placement-cell/placement-cell/placement-offers-recieved/placement-offers-recieved.component";
+import { StudentOfferRecievedComponent } from "./features/student-menu/student-menu/student-offer-recieved/student-offer-recieved.component";
+import { PlacementOfferRecievedComponent } from "./features/placement-cell/placement-cell/placement-offer-recieved/placement-offer-recieved.component";
+
 // import { AuthGuard } from "./core/guards/auth.guard";
 
 const appRoutes: Routes = [
@@ -419,6 +424,14 @@ const appRoutes: Routes = [
       {
         path: "offer-management/offer-management-details",
         component: OfferManagementDetailsComponent,
+      },
+      {
+        path: "student-offer-Recieved",
+        component: StudentOfferRecievedComponent,
+      },
+      {
+        path: "Placement-offer-Recieved",
+        component: PlacementOfferRecievedComponent,
       },
 
       {

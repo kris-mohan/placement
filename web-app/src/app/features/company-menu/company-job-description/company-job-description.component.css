@@ -26,12 +26,18 @@
   font-size: 1.2rem;
   color: #333;
 }
-
+.Header {
+  font-size: x-large;
+  font-weight: bolder;
+  color: darkblue;
+}
 .rating {
   font-size: 0.9rem;
   color: #888;
 }
-
+.BackIcon {
+  cursor: pointer;
+}
 .apply-button {
   background-color: #007bff;
   color: white;

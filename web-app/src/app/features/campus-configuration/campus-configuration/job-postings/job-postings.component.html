@@ -4,13 +4,19 @@
       <div class="example-flex-container">
         <div class="button-label-container">
           <div class="example-button-container">
-            <mat-icon>keyboard_backspace</mat-icon>
+            <mat-icon (click)="goBack()">keyboard_backspace</mat-icon>
           </div>
-          <div class="header-mat-label">
+          <div class="PageHeader">
             <mat-label>JOB POSTS</mat-label>
           </div>
         </div>
         <div class="example-button-container">
+          <button mat-fab extended class = "matbutton-download">
+            <mat-icon>file_download</mat-icon>Excel
+          </button>
+          <button mat-fab extended class = "matbutton-download">
+            <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
+          </button>
           <button
             mat-raised-button
             class="matbutton"

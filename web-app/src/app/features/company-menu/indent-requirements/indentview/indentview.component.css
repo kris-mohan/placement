@@ -22,7 +22,13 @@ button {
   display: flex;
   align-items: center;
 }
-
+.matbutton-download {
+  background-color: #3f51b5;
+  color: white;
+  border-radius: 4px;
+  height: 35px;
+  margin-right: 10px;
+}
 .header-mat-label {
   /* margin-left: 3rem; */
   font-weight: bolder;
