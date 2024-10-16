@@ -84,7 +84,7 @@ namespace Placements.WebApi.Controllers
 
         private void SetDropdown(ExcelWorksheet worksheet, int column, string[] options)
         {
-            var range = worksheet.Cells[2, column, 100, column];  // Apply dropdown for 100 rows
+            var range = worksheet.Cells[2, column, 1000, column];  // Apply dropdown for 1000 rows
             var validation = worksheet.DataValidations.AddListValidation(range.Address);
             foreach (var option in options)
             {
@@ -101,8 +101,8 @@ namespace Placements.WebApi.Controllers
                 cell.AddComment("Please enter the date in dd-mm-yyyy format", "System");
             }
 
-            // Apply custom validation for dates (100 rows)
-            var range = worksheet.Cells[2, column, 100, column];
+            // Apply custom validation for dates (1000 rows)
+            var range = worksheet.Cells[2, column, 1000, column];
             var validation = worksheet.DataValidations.AddCustomValidation(range.Address);
             validation.Formula.ExcelFormula = "AND(ISNUMBER(" + range.Start.Address + "))";
             validation.ShowErrorMessage = true;
