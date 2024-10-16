@@ -92,7 +92,7 @@ export class StudentOfferRecievedComponent {
   jobsCard = [
     {
       Id: 1,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "Software Engineer",
       experience: "0 - 2 years",
@@ -107,7 +107,7 @@ export class StudentOfferRecievedComponent {
     },
     {
       Id: 2,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "Data Analyst",
       experience: "1 - 3 years",
@@ -122,7 +122,7 @@ export class StudentOfferRecievedComponent {
     },
     {
       Id: 3,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "Product Manager",
       experience: "3 - 5 years",

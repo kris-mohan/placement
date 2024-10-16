@@ -239,7 +239,7 @@ export class StudentJobsComponent {
   jobsCard = [
     {
       Id: 1,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "Software Engineer",
       experience: "0 - 2 years",
@@ -254,7 +254,7 @@ export class StudentJobsComponent {
     },
     {
       Id: 2,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "Data Analyst",
       experience: "1 - 3 years",
@@ -269,7 +269,7 @@ export class StudentJobsComponent {
     },
     {
       Id: 3,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "Product Manager",
       experience: "3 - 5 years",
@@ -284,7 +284,7 @@ export class StudentJobsComponent {
     },
     {
       Id: 4,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "HR Executive",
       experience: "0 - 1 year",
@@ -299,7 +299,7 @@ export class StudentJobsComponent {
     },
     {
       Id: 5,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "Marketing Specialist",
       experience: "2 - 4 years",
@@ -314,7 +314,7 @@ export class StudentJobsComponent {
     },
     {
       Id: 6,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "Sales Manager",
       experience: "4 - 6 years",
@@ -329,7 +329,7 @@ export class StudentJobsComponent {
     },
     {
       Id: 7,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "Cloud Engineer",
       experience: "2 - 4 years",
@@ -344,7 +344,7 @@ export class StudentJobsComponent {
     },
     {
       Id: 8,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "UI/UX Designer",
       experience: "1 - 3 years",
@@ -359,7 +359,7 @@ export class StudentJobsComponent {
     },
     {
       Id: 9,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "DevOps Engineer",
       experience: "3 - 5 years",
@@ -374,7 +374,7 @@ export class StudentJobsComponent {
     },
     {
       Id: 10,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
+      logo: "../../../../assets/images/Softserve-logo1.png",
       name: "Samsung Tech",
       title: "Cybersecurity Specialist",
       experience: "5+ years",

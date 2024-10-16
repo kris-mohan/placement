@@ -286,11 +286,12 @@
         </div> -->
       </div>
       <div class="example-button-container">
-        <button mat-fab extended class = "matbutton-download">
+        <button mat-fab extended class="matbutton-download">
           <mat-icon>file_download</mat-icon>Excel
         </button>
-        <button mat-fab extended class = "matbutton-download">
-          <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
+        <button mat-fab extended class="matbutton-download">
+          <mat-icon>picture_as_pdf</mat-icon>
+          <h5>PDF</h5>
         </button>
         <div>
           <mat-form-field class="search-full-width" appearance="outline">
@@ -358,8 +359,6 @@
             </span>
           </h3>
 
-          <!-- 
-        <div class="company-type">{{ job.applicants }}</div> -->
           <div>
             <img
               [src]="job.logo"
@@ -375,17 +374,21 @@
           <div class="job-detail">
             <span><strong>Batch:</strong> 2019</span>
             <span><strong>Branch:</strong>Computer Science</span>
-            <br />
             <span><strong>Company Name:</strong> {{ job.name }}</span>
             <span><strong>Job Role:</strong>{{ job.title }}</span>
           </div>
           <div class="job-detail">
-            <span><strong>Shift:</strong> {{ job.shift }}</span>
+            <!-- <span><strong>Shift:</strong> {{ job.shift }}</span>
             <span><strong>Mode of Work:</strong> {{ job.modeOfWork }}</span>
-            <span><strong>Job Type:</strong> {{ job.type }}</span>
+            <span><strong>Job Type:</strong> {{ job.type }}</span> -->
             <span><strong>Skills:</strong> {{ job.Skills }}</span>
             <span><strong>Salary:</strong> {{ job.salary }}</span>
             <span><strong>Location:</strong> {{ job.location }}</span>
+            <span><strong>Joining Date :</strong> 14/11/2024</span>
+            <span><strong>Induction Program Date :</strong> 17/11/2024</span>
+            <span
+              ><strong>Training Period :</strong> 30/11/2024 - 30/1/2025</span
+            >
           </div>
         </div>
       </div>

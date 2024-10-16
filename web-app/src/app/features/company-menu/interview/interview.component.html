@@ -4,8 +4,10 @@
       <div class="example-button-row">
         <div class="example-flex-container">
           <div class="button-label-container">
-            <div class="example-button-container" >
-              <mat-icon (click)="goBack()" class="BackIcon">keyboard_backspace</mat-icon>
+            <div class="example-button-container">
+              <mat-icon (click)="goBack()" class="BackIcon"
+                >keyboard_backspace</mat-icon
+              >
               <div class="header-mat-label">
                 <mat-label>Scheduled Interviews</mat-label>
               </div>
@@ -246,13 +248,24 @@
         (click)="goToInterviewStudentsDetails(scheduledInterview.id)"
       >
         <div class="company-details">
+          <div style="color: slategray; font-size: 0.9rem">
+            Associcate Software Engineer
+          </div>
           <h3>{{ scheduledInterview.roundName }}</h3>
-          <div class="company-type">{{ scheduledInterview.company }}</div>
+
+          <p><strong>Status:</strong> {{ scheduledInterview.status }}</p>
           <p><strong>Date:</strong> {{ scheduledInterview.postedDate }}</p>
         </div>
 
         <div class="company">
-          <p><strong>Status:</strong> {{ scheduledInterview.status }}</p>
+          <div class="company-type">{{ scheduledInterview.company }}</div>
+          <img
+            [src]="scheduledInterview.logo"
+            alt="Company Logo"
+            class="company-logo"
+            height="15%"
+            width="75%"
+          />
           <div *ngIf="userType !== 3">
             <p>
               <strong>Number of students cleared:</strong>
