@@ -9,5 +9,7 @@ public partial class Course
 
     public string? Name { get; set; }
 
+    public string? FullForm { get; set; }
+
     public virtual ICollection<Studentacademic> Studentacademics { get; set; } = new List<Studentacademic>();
 }

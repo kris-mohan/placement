@@ -15,7 +15,7 @@ public partial class Login
 
     public DateTime? DateOfRegistration { get; set; }
 
-    public string? EmployeeId { get; set; }
+    public long? CampusId { get; set; }
 
     public long? RoleId { get; set; }
 
@@ -25,7 +25,15 @@ public partial class Login
 
     public ulong IsActive { get; set; }
 
+    public long? StudentId { get; set; }
+
+    public virtual Campusregistration? Campus { get; set; }
+
     public virtual Companydatum? Company { get; set; }
 
     public virtual Role? Role { get; set; }
+
+    public virtual Userrole? RoleNavigation { get; set; }
+
+    public virtual Tblstudent? Student { get; set; }
 }

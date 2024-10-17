@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Placements.DataAccess.Placement.Models;
 
@@ -83,9 +85,11 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Trainingmodule> Trainingmodules { get; set; }
 
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Akram@123;database=placement");
+    public virtual DbSet<Userrole> Userroles { get; set; }
+
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -300,6 +304,7 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("course");
 
+            entity.Property(e => e.FullForm).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(45);
         });
 
@@ -434,6 +439,22 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.Technology).WithMany(p => p.Jobpostings)
                 .HasForeignKey(d => d.TechnologyId)
                 .HasConstraintName("FK_JobPosting_Technology");
+
+            entity.HasMany(d => d.Technologies).WithMany(p => p.JobpostingsNavigation)
+                .UsingEntity<Dictionary<string, object>>(
+                    "Jobpostingtechnology",
+                    r => r.HasOne<Technology>().WithMany()
+                        .HasForeignKey("TechnologyId")
+                        .HasConstraintName("jobpostingtechnology_ibfk_2"),
+                    l => l.HasOne<Jobposting>().WithMany()
+                        .HasForeignKey("JobpostingId")
+                        .HasConstraintName("jobpostingtechnology_ibfk_1"),
+                    j =>
+                    {
+                        j.HasKey("JobpostingId", "TechnologyId").HasName("PRIMARY");
+                        j.ToTable("jobpostingtechnology");
+                        j.HasIndex(new[] { "TechnologyId" }, "TechnologyId");
+                    });
         });
 
         modelBuilder.Entity<JobpostingSelectedstudent>(entity =>
@@ -494,12 +515,15 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("login");
 
+            entity.HasIndex(e => e.CampusId, "FK_Login_Campus_idx");
+
             entity.HasIndex(e => e.CompanyId, "FK_Login_CompanyData");
 
             entity.HasIndex(e => e.RoleId, "FK_Login_Role");
 
+            entity.HasIndex(e => e.StudentId, "FK_Login_Student_idx");
+
             entity.Property(e => e.DateOfRegistration).HasColumnType("datetime");
-            entity.Property(e => e.EmployeeId).HasMaxLength(50);
             entity.Property(e => e.IsActive)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
@@ -509,6 +533,10 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.UserName).HasMaxLength(50);
 
+            entity.HasOne(d => d.Campus).WithMany(p => p.Logins)
+                .HasForeignKey(d => d.CampusId)
+                .HasConstraintName("FK_Login_Campus");
+
             entity.HasOne(d => d.Company).WithMany(p => p.Logins)
                 .HasForeignKey(d => d.CompanyId)
                 .HasConstraintName("FK_Login_CompanyData");
@@ -516,6 +544,14 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.Logins)
                 .HasForeignKey(d => d.RoleId)
                 .HasConstraintName("FK_Login_Role");
+
+            entity.HasOne(d => d.RoleNavigation).WithMany(p => p.Logins)
+                .HasForeignKey(d => d.RoleId)
+                .HasConstraintName("FK_Login_UserRole");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.Logins)
+                .HasForeignKey(d => d.StudentId)
+                .HasConstraintName("FK_Login_Student");
         });
 
         modelBuilder.Entity<Paatashalaregistration>(entity =>
@@ -729,6 +765,15 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.TrainingCourse).WithMany(p => p.Trainingmodules)
                 .HasForeignKey(d => d.TrainingCourseId)
                 .HasConstraintName("FK_TrainingModule_TrainingCourse");
+        });
+
+        modelBuilder.Entity<Userrole>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("userrole");
+
+            entity.Property(e => e.Name).HasMaxLength(45);
         });
 
         OnModelCreatingPartial(modelBuilder);

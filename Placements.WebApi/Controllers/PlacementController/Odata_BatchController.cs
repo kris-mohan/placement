@@ -17,7 +17,7 @@ namespace Placements.WebApi.Controllers.PlacementController
             _context = context;
         }
 
-        [HttpGet, EnableQuery]
+        [HttpGet, EnableQuery(MaxExpansionDepth = 10)]
         public IActionResult Get()
         {
             return Ok(_context.Batches);

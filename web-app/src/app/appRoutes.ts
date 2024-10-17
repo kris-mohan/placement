@@ -69,6 +69,7 @@ import { PlacementInterviewComponent } from "./features/placement-cell/placement
 import { PlacementInterviewStudentsComponent } from "./features/placement-cell/placement-cell/placement-interview-students/placement-interview-students.component";
 import { StudentCompanyComponent } from "./features/student-menu/student-menu/student-company/student-company.component";
 import { StudentJobsComponent } from "./features/student-menu/student-menu/student-jobs/student-jobs.component";
+
 import { IndentviewComponent } from "./features/company-menu/indent-requirements/indentview/indentview.component";
 import { StudentCalendarComponent } from "./features/student-menu/student-menu/student-calendar/student-calendar.component";
 import { OfferManagementComponent } from "./features/company-menu/offer-management/offer-management.component";
@@ -79,6 +80,9 @@ import { PlacementOffersRecievedComponent } from "./features/placement-cell/plac
 import { StudentOfferRecievedComponent } from "./features/student-menu/student-menu/student-offer-recieved/student-offer-recieved.component";
 import { PlacementOfferRecievedComponent } from "./features/placement-cell/placement-cell/placement-offer-recieved/placement-offer-recieved.component";
 import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/test-rounds/add-rounds-modal/add-rounds-modal.component";
+import { TemplateGeneratorComponent } from "./features/template-generator/template-generator.component";
+
+import { IndentplacementComponent } from "./features/indentplacement/indentplacement.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -437,7 +441,14 @@ const appRoutes: Routes = [
         path: "Placement-offer-Recieved",
         component: PlacementOfferRecievedComponent,
       },
-
+      {
+        path: "template-generator",
+        component: TemplateGeneratorComponent,
+      },
+      {
+        path: "Indent-view",
+        component: IndentplacementComponent,
+      },
       {
         path: "**",
         redirectTo: "dashboard",

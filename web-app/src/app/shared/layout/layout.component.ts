@@ -78,6 +78,16 @@ export class LayoutComponent {
     this.router.navigate([notification.route]);
   }
 
+  onClickSoftwareLogo() {
+    if (this.userType === 1) {
+      this.router.navigate(["/placement-dashboard"]);
+    } else if (this.userType === 2) {
+      this.router.navigate(["/company-dashboard"]);
+    } else {
+      this.router.navigate(["/student-dashboard"]);
+    }
+  }
+
   // navigateToComponent(notification: Notification) {
   //   if (notification.data) {
   //     this.router.navigate([notification.component], {

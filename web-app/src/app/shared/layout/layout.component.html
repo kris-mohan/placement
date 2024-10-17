@@ -7,7 +7,12 @@
       src="../../../assets/images/Softserve-logo1white.png"
       alt="ssgLogo"
     /> -->
-    <a class="navbar-brand" [routerLink]="['/']" matTooltip="Home">
+    <a
+      class="navbar-brand"
+      (click)="onClickSoftwareLogo()"
+      matTooltip="Home"
+      style="cursor: pointer"
+    >
       <h1>TPC-54</h1>
       <div>
         <span style="font-size: small">Training And Placement Software</span>
@@ -189,24 +194,10 @@
             <div><mat-label>Student</mat-label></div>
           </div>
         </a>
-
         <a
           *ngIf="userType === 1"
           mat-list-item
           [routerLink]="['/Placement-offer-Recieved']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon>star</mat-icon></div>
-            <div><mat-label>Offers Recieved</mat-label></div>
-          </div>
-        </a>
-
-        <a
-          *ngIf="userType === 1"
-          mat-list-item
-          [routerLink]="['/training-configuration']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
@@ -252,6 +243,31 @@
             <div><mat-label>Indent </mat-label></div>
           </div>
         </a>
+        <a
+          *ngIf="userType === 1"
+          mat-list-item
+          [routerLink]="['/placement-gbsetting']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> email </mat-icon></div>
+            <div><mat-label>Global Setting</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 1"
+          mat-list-item
+          [routerLink]="['/template-generator']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> description </mat-icon></div>
+            <div><mat-label>Template Builder </mat-label></div>
+          </div>
+        </a>
 
         <!-- Company / HR -->
 
@@ -265,6 +281,19 @@
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> dashboard </mat-icon></div>
             <div><mat-label>Dashboard</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 2"
+          mat-list-item
+          [routerLink]="['/Indent-view']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> more </mat-icon></div>
+            <div><mat-label>Indentview </mat-label></div>
           </div>
         </a>
 
@@ -429,8 +458,8 @@
 
         <a
           *ngIf="userType === 3"
-          [routerLink]="['/forum']"
           mat-list-item
+          [routerLink]="['/student-offer-Recieved']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
@@ -472,8 +501,7 @@
           *ngIf="userType === 3"
           mat-list-item
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           <div class="sidebar-list-items">
             <div><mat-icon>feedback</mat-icon></div>
             <div><mat-label>Feedback and Support</mat-label></div>
