@@ -3,7 +3,7 @@
     <h2>Welcome, {{ HRName }}!</h2>
   </div>
   <div class="upcoming-drive-container">
-    <h3>Upcoming Drives</h3>
+    <h3>Upcoming Campus Drives</h3>
     <p>Here is your schedule for this week:</p>
     <!-- New paragraph added here -->
     <div class="upcoming-drive-row">
@@ -25,7 +25,14 @@
     <mat-icon>show_chart</mat-icon>
     Charts Overview
   </h3> -->
-
+  <div class="chart-container">
+    <mat-card class="simple-pie-chart">
+      <app-simple-pie-chart
+        [branchPlacementSeries]="noOfJobRolesOpenings"
+        [branchLabels]="jobRoleNames"
+        titleText="Job Openings based on Job-Roles"></app-simple-pie-chart
+    ></mat-card>
+  </div>
   <div class="chart-container">
     <app-funnel-chart></app-funnel-chart>
     <app-basic-line-chart

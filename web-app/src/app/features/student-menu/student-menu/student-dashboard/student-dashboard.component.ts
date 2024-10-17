@@ -61,8 +61,12 @@ export class StudentDashboardComponent {
 
   notifications = [
     {
-      title: "Reminder",
-      details: "Your interview with Microsoft Corporation is on October 12nd.",
+      title: 'Congratulations',
+      details: 'You have an offer from Flipkart Online Services Pvt. Ltd.',
+    },
+    {
+      title: 'Reminder',
+      details: 'Your interview with Microsoft Corporation is on October 12nd.',
     },
     {
       title: "New Job Posting",

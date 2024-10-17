@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, Input, OnChanges } from '@angular/core';
-import { ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import {
+  ChartComponent,
+  NgApexchartsModule,
   ApexNonAxisChartSeries,
   ApexResponsive,
   ApexChart,
   ApexTitleSubtitle,
 } from 'ng-apexcharts';
+
 import { SharedModule } from 'src/app/shared/shared.module';
 
 export type ChartOptions = {
@@ -15,7 +17,6 @@ export type ChartOptions = {
   responsive: ApexResponsive[];
   labels: any;
   title: ApexTitleSubtitle;
-  
 };
 
 @Component({
@@ -28,7 +29,6 @@ export type ChartOptions = {
 export class SimplePieChartComponent implements OnChanges {
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
 
-  // Input properties for dynamic data
   @Input() branchPlacementSeries: number[] = [];
   @Input() branchLabels: string[] = [];
   @Input() chartTitle: string = 'Branch Wise Placement Status';

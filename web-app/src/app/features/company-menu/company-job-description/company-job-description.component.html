@@ -49,8 +49,7 @@
               <button
                 *ngIf="userType !== 3"
                 class="apply-button"
-                (click)="openEligibleStudentsModel()"
-              >
+                (click)="openEligibleStudentsModel()">
                 Applied Student List
               </button>
             </div>
@@ -109,6 +108,19 @@
             </li>
           </ul>
         </div>
+
+        <div class="chart-highlights">
+          <h3>Name of College</h3>
+          <mat-form-field class="mat-form-field" appearance="outline">
+            <mat-label>Select College</mat-label>
+            <mat-select [formControl]="selectCollegeControl">
+              @for (collegeName of collegesNames; track collegeName) {
+              <mat-option [value]="collegeName">{{ collegeName }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <app-funnel-chart></app-funnel-chart>
+        </div>
       </div>
       <div class="right-content">
         <div class="related-jobs">
@@ -158,8 +170,7 @@
                 src="https://www.youtube.com/embed/dQw4w9WgXcQ"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
+                allowfullscreen></iframe>
             </div>
 
             <div class="resources-column">
@@ -168,8 +179,7 @@
                 <a
                   href="../../../../assets/PaataashalaBrochure.pdf"
                   target="_blank"
-                  class="resource-link"
-                >
+                  class="resource-link">
                   <mat-icon>picture_as_pdf</mat-icon> View PPT
                 </a>
               </div>
@@ -178,8 +188,7 @@
                 <a
                   href="../../../../assets/PaataashalaBrochure.pdf"
                   target="_blank"
-                  class="resource-link"
-                >
+                  class="resource-link">
                   <mat-icon>description</mat-icon> View Document
                 </a>
               </div>
@@ -188,8 +197,7 @@
                 <a
                   href="assets/sample-audio.mp3"
                   target="_blank"
-                  class="resource-link"
-                >
+                  class="resource-link">
                   <mat-icon>volume_up</mat-icon> Listen to Audio
                 </a>
               </div>
@@ -200,3 +208,5 @@
     </div>
   </mat-card-content>
 </mat-card>
+
+ 

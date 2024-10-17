@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SimpleDonutChartComponent } from '../../charts/pie chart/simple-donut-chart/simple-donut-chart.component';
 import { SimplePieChartComponent } from '../../charts/pie chart/simple-pie-chart/simple-pie-chart.component';
@@ -28,11 +28,13 @@ import { FunnelChartComponent } from '../../charts/funnel chart/funnel-chart/fun
   templateUrl: './company-dashboard.component.html',
   styleUrl: './company-dashboard.component.css',
 })
-export class CompanyDashboardComponent {
+export class CompanyDashboardComponent implements OnInit {
   HRName = 'Vidyashree';
   jobRoles: string[] = ['Developer', 'Designer', 'Manager', 'QA'];
   colleges: string[] = ['College A', 'College B', 'College C', 'College D'];
   years: string[] = ['2021-22', '2022-23', '2023-24', '2024-25'];
+  noOfJobRolesOpenings: number[] = [];
+  jobRoleNames: string[] = [];
 
   upcomingDrives = [
     {
@@ -125,4 +127,21 @@ export class CompanyDashboardComponent {
   inTakeChartTitle: string = 'Student Intake by College';
   inTakexAxisLabel: string = 'College Names';
   inTakeyAxisLabel: string = 'Number of Students';
+
+  ngOnInit(): void {
+    this.jobRoleWiseOpenings();
+  }
+
+  jobRoleWiseOpenings(): void {
+    this.noOfJobRolesOpenings = [120, 50, 80, 90, 50, 10, 40];
+    this.jobRoleNames = [
+      'Software Developer',
+      'Project Manager',
+      'Data Scientist',
+      'Full Stack Developer',
+      'Mobile Application Developer',
+      'Cloud Engineer',
+      'Technical Support Engineer',
+    ];
+  }
 }

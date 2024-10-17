@@ -17,9 +17,9 @@
 }
 
 .upcoming-drive-row {
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 16px; 
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .chart-container {
@@ -27,6 +27,11 @@
   flex-wrap: wrap;
   gap: 20px;
   /* justify-content: space-between; */
+}
+
+.simple-pie-chart {
+  width: 100%;
+  height: 60%;
 }
 .upcoming-drive-card mat-card {
   flex: 1 1 30%;
