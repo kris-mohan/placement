@@ -54,7 +54,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 original.CompanyId = login.CompanyId;
                 original.UserName = login.UserName;
                 original.Password = login.Password;
-                original.EmployeeId = login.EmployeeId;
+                //original.Us = login.EmployeeId;
                 original.RoleId = login.RoleId;
                 original.DateOfRegistration = login.DateOfRegistration;
                 original.IsDeleted = login.IsDeleted;

@@ -16,4 +16,6 @@ public partial class Technology
     public virtual ICollection<Companytechonology> Companytechonologies { get; set; } = new List<Companytechonology>();
 
     public virtual ICollection<Jobposting> Jobpostings { get; set; } = new List<Jobposting>();
+
+    public virtual ICollection<Jobposting> JobpostingsNavigation { get; set; } = new List<Jobposting>();
 }

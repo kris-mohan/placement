@@ -39,5 +39,7 @@ public partial class Campusregistration
 
     public virtual ICollection<Collegejobpostingschedule> Collegejobpostingschedules { get; set; } = new List<Collegejobpostingschedule>();
 
+    public virtual ICollection<Login> Logins { get; set; } = new List<Login>();
+
     public virtual ICollection<Tblstudent> Tblstudents { get; set; } = new List<Tblstudent>();
 }
