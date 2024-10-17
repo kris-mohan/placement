@@ -1,4 +1,7 @@
-﻿namespace Placements.DataAccess.Placement.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Placements.DataAccess.Placement.Models;
 
 public partial class Studentacademic
 {

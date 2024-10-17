@@ -41,6 +41,8 @@ public partial class Tblstudent
 
     public virtual ICollection<JobpostingsEligiblestudent> JobpostingsEligiblestudents { get; set; } = new List<JobpostingsEligiblestudent>();
 
+    public virtual ICollection<Login> Logins { get; set; } = new List<Login>();
+
     public virtual Campusregistration? Org { get; set; }
 
     public virtual ICollection<Studentacademic> Studentacademics { get; set; } = new List<Studentacademic>();
