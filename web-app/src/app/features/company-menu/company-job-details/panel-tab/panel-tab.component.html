@@ -36,10 +36,7 @@
           <ng-container [ngSwitch]="column.key">
             <ng-container *ngSwitchCase="'actions'">
               <div class="td-mat-button">
-                <button
-                  mat-icon-button
-                  (click)="openAddEditPanelForm(element.panelId)"
-                >
+                <button mat-icon-button (click)="handleAddPanelClick()">
                   <mat-icon> edit </mat-icon>
                 </button>
                 <button mat-icon-button (click)="deletePanel(element.panelId)">

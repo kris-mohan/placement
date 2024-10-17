@@ -123,10 +123,7 @@
             <!-- Actions Column with edit/delete buttons -->
             <ng-container *ngSwitchCase="'actions'">
               <div class="td-mat-button">
-                <button
-                  mat-icon-button
-                  (click)="openAddEditRoundsForm(element.roundId)"
-                >
+                <button mat-icon-button (click)="handleAddRoundsClick()">
                   <mat-icon> edit </mat-icon>
                 </button>
                 <button mat-icon-button (click)="deleteRounds(element.roundId)">
