@@ -1,57 +1,76 @@
 <mat-card>
   <mat-card-header class="custom-card-header">
     <div class="header-left">
-      <button mat-icon-button color="primary"  class="back-button">
-        <mat-icon (click)="goBack()">keyboard_backspace</mat-icon>
+      <button mat-icon-button>
+        <mat-icon (click)="goBack()" class="BackIcon"
+          >keyboard_backspace</mat-icon
+        >
       </button>
       <span class="header-title">Students</span>
-      <button mat-fab extended class = "matbutton-download">
+      <button mat-fab extended class="matbutton-download">
         <mat-icon>file_download</mat-icon>Excel
       </button>
-      <button mat-fab extended class = "matbutton-download">
-        <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
+      <button mat-fab extended class="matbutton-download">
+        <mat-icon>picture_as_pdf</mat-icon>
+        <h5>PDF</h5>
       </button>
       <button mat-raised-button color="primary" class="invite-all-btn">
         <mat-icon class="maticon">mail</mat-icon>
         Invite All
       </button>
     </div>
+
     <div class="filters-container">
       <div class="header-center">
         <mat-form-field appearance="outline" class="search-field">
           <mat-icon matSuffix>search</mat-icon>
-          <input matInput placeholder="Search by Student Name" [formControl]="searchControl" />
+          <input
+            matInput
+            placeholder="Search by Student Name"
+            [formControl]="searchControl"
+          />
         </mat-form-field>
       </div>
 
       <mat-form-field appearance="outline" class="filter-field">
         <mat-label>Batch</mat-label>
         <mat-select [formControl]="batchControl" multiple>
-          <mat-option *ngFor="let batch of batches" [value]="batch">{{ batch }}</mat-option>
+          <mat-option *ngFor="let batch of batches" [value]="batch">{{
+            batch
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="filter-field">
         <mat-label>Branch</mat-label>
         <mat-select [formControl]="branchControl" multiple>
-          <mat-option *ngFor="let branch of branches" [value]="branch">{{ branch }}</mat-option>
+          <mat-option *ngFor="let branch of branches" [value]="branch">{{
+            branch
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="filter-field">
         <mat-label>Registration Status</mat-label>
         <mat-select [formControl]="statusControl" multiple>
-          <mat-option *ngFor="let stats of status" [value]="stats">{{ stats }}</mat-option>
+          <mat-option *ngFor="let stats of status" [value]="stats">{{
+            stats
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
-    </div>   
+    </div>
   </mat-card-header>
 </mat-card>
-<br>
+<br />
 <mat-card>
   <mat-card-content class="table-container">
     <!-- Standard Table for Larger Screens -->
-    <table mat-table [dataSource]="dataSource" class="student-table mat-elevation-z8" *ngIf="isLargeScreen()">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="student-table mat-elevation-z8"
+      *ngIf="isLargeScreen()"
+    >
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox
@@ -76,22 +95,37 @@
         <td mat-cell *matCellDef="let element">
           <ng-container [ngSwitch]="column.key">
             <ng-container *ngSwitchCase="'StudentName'">
-              <a href="javascript:void(0)" (click)="openStudentDetailsDialog()" class="student-link">{{ element.StudentName }}</a>
+              <a
+                href="javascript:void(0)"
+                (click)="openStudentDetailsDialog()"
+                class="student-link"
+                >{{ element.StudentName }}</a
+              >
             </ng-container>
 
             <ng-container *ngSwitchCase="'Status'">
-              <button *ngIf="element.Status === 'Invite'" mat-raised-button color="primary">
+              <button
+                *ngIf="element.Status === 'Invite'"
+                mat-raised-button
+                color="primary"
+              >
                 <mat-icon>mail</mat-icon>Invite
               </button>
-              <mat-chip *ngIf="element.Status !== 'Invite'" [ngStyle]="getChipStyle(element.Status)">
+              <mat-chip
+                *ngIf="element.Status !== 'Invite'"
+                [ngStyle]="getChipStyle(element.Status)"
+              >
                 {{ element.Status }}
               </mat-chip>
             </ng-container>
 
-            
-
             <ng-container *ngSwitchCase="'ApplicationApprovalStatus'">
-              <ng-container *ngIf="element.ApplicationApprovalStatus === 'Verify'; else showChip">
+              <ng-container
+                *ngIf="
+                  element.ApplicationApprovalStatus === 'Verify';
+                  else showChip
+                "
+              >
                 <button
                   (click)="verifyApplicationStatus(element.StudentID)"
                   mat-raised-button
@@ -99,10 +133,15 @@
                 >
                   Verify
                 </button>
-
               </ng-container>
               <ng-template #showChip>
-                <mat-chip [ngStyle]="getApplicationApproveChipStyle(element.ApplicationApprovalStatus)">
+                <mat-chip
+                  [ngStyle]="
+                    getApplicationApproveChipStyle(
+                      element.ApplicationApprovalStatus
+                    )
+                  "
+                >
                   {{ element.ApplicationApprovalStatus }}
                 </mat-chip>
               </ng-template>
@@ -124,8 +163,11 @@
       <mat-expansion-panel *ngFor="let row of dataSource.filteredData">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ row.StudentName }} 
-            <mat-checkbox (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+            {{ row.StudentName }}
+            <mat-checkbox
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+            >
             </mat-checkbox>
           </mat-panel-title>
           <mat-panel-description>
@@ -135,8 +177,15 @@
         <div class="accordion-details">
           <p><strong>Batch:</strong> {{ row.Batch }}</p>
           <p><strong>CGPA:</strong> {{ row.CGPA }}</p>
-          <p><strong>Application Approval Status:</strong> {{ row.ApplicationApprovalStatus }}</p>
-          <button *ngIf="row.Status === 'Invite'" mat-raised-button color="primary">
+          <p>
+            <strong>Application Approval Status:</strong>
+            {{ row.ApplicationApprovalStatus }}
+          </p>
+          <button
+            *ngIf="row.Status === 'Invite'"
+            mat-raised-button
+            color="primary"
+          >
             <mat-icon>mail</mat-icon>Invite
           </button>
           <button
