@@ -1,7 +1,7 @@
 .welcome-card {
   padding: 20px;
   text-align: left;
-  font-family: "Arial", sans-serif;
+  font-family: 'Arial', sans-serif;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
@@ -79,7 +79,7 @@
 .welcome-card {
   padding: 20px;
   text-align: left;
-  font-family: "Arial", sans-serif;
+  font-family: 'Arial', sans-serif;
 }
 
 .interview-schedule-notification {
@@ -205,4 +205,8 @@
   .welcome-card {
     padding: 10px;
   }
+}
+
+.yearly-chart {
+  width: 100%;
 }
