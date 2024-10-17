@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Placements.DataAccess.Placement.Models;
+using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Placements.WebApi.Controllers
 {
@@ -19,7 +21,7 @@ namespace Placements.WebApi.Controllers
         #region download student template
 
         [HttpGet("download-students-template")]
-        public async Task<IActionResult> DownloadTemplate()
+        public async Task<IActionResult> DownloadStudentTemplate()
         {
             return await GenerateStudentTemplate();
         }
@@ -275,5 +277,223 @@ namespace Placements.WebApi.Controllers
         }
 
         #endregion
+
+
+        [HttpGet("download-company-template")]
+        public async Task<IActionResult> DownloadCompanyTemplate()
+        {
+            return await GenerateCompanyTemplate();
+        }
+
+        private async Task<FileContentResult> GenerateCompanyTemplate()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            // Fetch Batch, Stream, and Course data
+            var industries = await _context.Industries.Select(b => new { b.Id, b.Type }).ToListAsync();
+            var designations = await _context.Companydesignations.Select(s => new { s.Id, s.Name }).ToListAsync();
+            var technologies = await _context.Technologies.Select(c => new { c.Id, c.Name }).ToListAsync();
+
+            // Initialize the Excel package
+            using (var package = new ExcelPackage())
+            {
+                // Add a worksheet
+                var worksheet = package.Workbook.Worksheets.Add("Student Template");
+
+                // Define column headers
+                worksheet.Cells[1, 1].Value = "Company Name";
+                worksheet.Cells[1, 2].Value = "Address";
+                worksheet.Cells[1, 3].Value = "Phone Number";
+                worksheet.Cells[1, 4].Value = "Url";
+                worksheet.Cells[1, 5].Value = "Gst Number";
+                worksheet.Cells[1, 6].Value = "Contact Person";
+                worksheet.Cells[1, 7].Value = "Address Line1";
+                worksheet.Cells[1, 8].Value = "City";
+                worksheet.Cells[1, 9].Value = "State";
+                worksheet.Cells[1, 10].Value = "Zip Code";
+                worksheet.Cells[1, 11].Value = "Country";
+                //worksheet.Cells[1, 12].Value = "Industries";
+                //worksheet.Cells[1, 13].Value = "Designation";
+                //worksheet.Cells[1, 14].Value = "Technologies";
+            
+
+                // Apply word wrapping to the entire sheet
+                worksheet.Cells.Style.WrapText = true;
+
+                // AutoFit columns to fit the content
+                // Apply the max column width to all columns
+                for (int col = 1; col <= 14; col++)
+                {
+                    worksheet.Column(col).Width = 30;
+                }
+
+                // Set dropdown lists for Batch, Stream, and Course columns
+                SetDropdown(worksheet, 3, industries.Select(b => b.Type).ToArray());
+                SetDropdown(worksheet, 4, designations.Select(s => s.Name).ToArray());
+                SetDropdown(worksheet, 5, technologies.Select(c => c.Name).ToArray());
+
+                // Add custom date validation for Date Of Birth column (Column 13)
+                SetDateValidation(worksheet, 15);
+
+                // Prepare the Excel file
+                var fileName = "CompanyTemplate.xlsx";
+                var fileContents = package.GetAsByteArray();
+
+                // Return the file as a response
+                return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+        private long? GetIndustryId (string industryName)
+        {
+            var industry = _context.Industries.FirstOrDefault(c => c.Type == industryName);
+            return industry?.Id;
+
+        }
+
+        private long? GetTechnologyId(string technologyName)
+        {
+            var technology = _context.Technologies.FirstOrDefault(c => c.Name == technologyName);
+            return technology?.Id;
+
+        }
+
+        private long? GetDesignationId(string designationName)
+        {
+            var designation = _context.Companydesignations.FirstOrDefault(c => c.Name == designationName);
+            return designation?.Id;
+
+        }
+
+
+        [HttpPost("upload-companies")]
+        public async Task<IActionResult> UploadCompany(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            try
+            {
+                var companies = new List<Companydatum>();
+                var errors = new List<string>(); // List to capture errors
+
+                using (var stream = new MemoryStream())
+                {
+                    await file.CopyToAsync(stream);
+
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        var worksheet = package.Workbook.Worksheets[0]; // Assuming data is in the first worksheet
+
+                        // Start reading from the second row (first row is header)
+                        for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                        {
+                            // Read data from the Excel row
+                            var companyName = worksheet.Cells[row, 1].Text;
+                            var address = worksheet.Cells[row, 2].Text;
+                            var phoneNumber = worksheet.Cells[row, 3].Text;
+                            var Url = worksheet.Cells[row, 4].Text;
+                            var gstNumber = worksheet.Cells[row, 5].Text;
+                            var contactPerson = worksheet.Cells[row, 6].Text;
+                            var addressLine1 = worksheet.Cells[row, 7].Text;
+                            var City = worksheet.Cells[row, 8].Text;
+                            var State = worksheet.Cells[row, 9].Text;
+                            var zipCode = worksheet.Cells[row, 10].Text;
+                            var Country = worksheet.Cells[row, 11].Text;
+                           
+
+                            // Check if the entire row is empty
+                            if (string.IsNullOrWhiteSpace(companyName) &&
+                                string.IsNullOrWhiteSpace(address) &&
+                                string.IsNullOrWhiteSpace(phoneNumber) &&
+                                string.IsNullOrWhiteSpace(Url) &&
+                                string.IsNullOrWhiteSpace(gstNumber) &&
+                                string.IsNullOrWhiteSpace(contactPerson) &&
+                                string.IsNullOrWhiteSpace(addressLine1) &&
+                                string.IsNullOrWhiteSpace(City)&&
+                                string.IsNullOrWhiteSpace(State) &&
+                                string.IsNullOrWhiteSpace(zipCode) &&
+                                string.IsNullOrWhiteSpace(Country) 
+                               
+                                )
+                            {
+                                continue; // Skip this row if it's completely empty
+                            }
+
+                            // Validate required fields
+                            var missingFields = new List<string>();
+
+                            if (string.IsNullOrWhiteSpace(companyName))
+                                missingFields.Add("Company Name");
+                            if (string.IsNullOrWhiteSpace(address))
+                                missingFields.Add("Address");
+                            if (string.IsNullOrWhiteSpace(phoneNumber))
+                                missingFields.Add("Phone Number");
+                            if (string.IsNullOrWhiteSpace(Url))
+                                missingFields.Add("Url");
+                            if (string.IsNullOrWhiteSpace(gstNumber))
+                                missingFields.Add("Gst Number");
+                            if (string.IsNullOrWhiteSpace(contactPerson))
+                                missingFields.Add("contact Person");
+                            if (string.IsNullOrWhiteSpace(addressLine1))
+                                missingFields.Add("Address Line1");
+                            if (string.IsNullOrWhiteSpace(City))
+                                missingFields.Add("City");
+                            if (string.IsNullOrWhiteSpace(State))
+                                missingFields.Add("State");
+                            if (string.IsNullOrWhiteSpace(zipCode))
+                                missingFields.Add("Zip Code");
+                            if (string.IsNullOrWhiteSpace(Country))
+                                missingFields.Add("Country");
+                           
+
+                            // If there are any missing fields, add an error message
+                            if (missingFields.Any())
+                            {
+                                errors.Add($"Row {row}: Missing details - {string.Join(", ", missingFields)}.");
+                                continue; // Skip this row
+                            }
+
+                            // Create new company object
+                            var company = new Companydatum
+                            {
+                                Url = Url,
+                                Name = companyName,
+                                Address = address,
+                                PhoneNumber = phoneNumber,
+                                Gstnumber = gstNumber,
+                                ContactPerson = contactPerson,
+                                AddressLine1 = addressLine1,
+                                City = City,
+                                State = State,
+                                ZipCode = zipCode,
+                                Country = Country,
+                                
+                            };
+                            companies.Add(company);
+                        }
+                    }
+                }
+                // Check if there are errors
+                if (errors.Any())
+                {
+                    return BadRequest(new { message = "Some rows have errors.", errors });
+                }
+
+                // Add companies to the context and save changes
+                await _context.Companydata.AddRangeAsync(companies);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = $"{companies.Count} companies uploaded successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

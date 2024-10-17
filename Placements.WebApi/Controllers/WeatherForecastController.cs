@@ -26,19 +26,7 @@ namespace Placements.WebApi.Controllers
             _context = placementContext;
             _configuration = configuration;
         }
-        //private readonly PaatashalacampusContext _paatashalacampusContext;
-        //private readonly PaatashalacompanydbContext _paatashalacompanydbContext;
-        //private readonly PaatashalatrainingContext _paatashalatrainingContext;
-
-        //public WeatherForecastController(ILogger<WeatherForecastController> logger, IConfiguration configuration, PaatashalacompanydbContext paatashalacompanydbContext,
-        //  PaatashalacampusContext paatashalacampusContext, PaatashalatrainingContext paatashalatrainingContext)
-        //{
-        //  _logger = logger;
-        //  _configuration = configuration;
-        //  _paatashalacampusContext= paatashalacampusContext;
-        //  _paatashalacompanydbContext=paatashalacompanydbContext;
-        //  _paatashalatrainingContext = paatashalatrainingContext;
-        //}
+       
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
@@ -112,8 +100,6 @@ namespace Placements.WebApi.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            // Validate the refresh token (e.g., by checking it in the database)
-            // If valid, generate a new access token
 
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -121,7 +107,7 @@ namespace Placements.WebApi.Controllers
                 issuer: _configuration["JwtSettings:ValidIssuer"],
                 audience: _configuration["JwtSettings:ValidAudience"],
                 claims: new List<Claim>(),
-                expires: DateTime.Now.AddMinutes(5), // New access token expiration time
+                expires: DateTime.Now.AddMinutes(5), 
                 signingCredentials: signinCredentials
             );
             var newAccessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
