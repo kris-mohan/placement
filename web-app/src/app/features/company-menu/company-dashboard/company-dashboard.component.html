@@ -75,7 +75,11 @@
   <div class="interview-schedule-heading">
     <h3>Interview Schedule</h3>
   </div>
-  <div class="interview-schedule">
+  <div
+    class="interview-schedule"
+    [routerLink]="['/interview']"
+    style="cursor: pointer"
+  >
     <ul>
       <li
         *ngFor="let interview of interviewSchedule"
