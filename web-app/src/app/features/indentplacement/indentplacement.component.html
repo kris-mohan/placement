@@ -3,9 +3,9 @@
     <div class="example-button-row">
       <div class="example-flex-container">
         <div class="button-label-container">
-          <!-- <div class="example-button-container" (click)="goBack()">
+          <div class="example-button-container">
             <mat-icon>keyboard_backspace</mat-icon>
-          </div> -->
+          </div>
           <div class="header-mat-label">
             <mat-label>INDENT VIEW</mat-label>
           </div>
@@ -23,7 +23,7 @@
       </div>
     </div>
   </mat-card-header>
-  <!-- <mat-card-content>
+  <mat-card-content>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
         <th mat-header-cell *matHeaderCellDef>
@@ -60,7 +60,8 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-  </mat-card-content> -->
+  </mat-card-content>
+
   <mat-card-content
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"
@@ -101,3 +102,5 @@
     </div>
   </mat-card-content>
 </mat-card>
+
+<!-- <p>indent</p> -->

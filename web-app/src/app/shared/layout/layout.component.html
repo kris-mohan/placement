@@ -13,7 +13,6 @@
     <button mat-icon-button (click)="snav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
-    
 
     <span class="navbar-spacer"></span>
 
@@ -263,6 +262,19 @@
           <div class="sidebar-list-items">
             <div><mat-icon mat-list-icon> dashboard </mat-icon></div>
             <div><mat-label>Dashboard</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="userType === 2"
+          mat-list-item
+          [routerLink]="['/Indent-view']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> more </mat-icon></div>
+            <div><mat-label>Indentview </mat-label></div>
           </div>
         </a>
 
