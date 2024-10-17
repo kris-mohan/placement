@@ -80,7 +80,6 @@ import { PlacementOffersRecievedComponent } from "./features/placement-cell/plac
 import { StudentOfferRecievedComponent } from "./features/student-menu/student-menu/student-offer-recieved/student-offer-recieved.component";
 import { PlacementOfferRecievedComponent } from "./features/placement-cell/placement-cell/placement-offer-recieved/placement-offer-recieved.component";
 import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/test-rounds/add-rounds-modal/add-rounds-modal.component";
-import { PlacementGlobalsettingComponent } from './features/placement-cell/placement-cell/placement-globalsetting/placement-globalsetting.component';
 
 import { IndentplacementComponent } from "./features/indentplacement/indentplacement.component";
 
@@ -372,10 +371,6 @@ const appRoutes: Routes = [
       {
         path: "placement-dashboard",
         component: PlacementDashboardComponent,
-      },
-      {
-        path: 'placement-gbsetting',
-        component: PlacementGlobalsettingComponent,
       },
       {
         path: "placement-company",
