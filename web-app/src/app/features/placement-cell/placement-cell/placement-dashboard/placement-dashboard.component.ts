@@ -33,8 +33,8 @@ export class PlacementDashboardComponent implements OnInit {
   yearsLabels: string[] = [];
   studentPlacementData: any[] = [];
   companiesLabels: string[] = [];
-  studentSalarySeries: any[] = [];
-  salaryRanges: string[] = [];
+  studentPlacementSeries: any[] = [];
+  placementCategories: string[] = [];
   branchPlacementSeries: number[] = [];
   branchLabels: string[] = [];
   placementOfficerName = 'Ramesh Sharma';
@@ -42,6 +42,10 @@ export class PlacementDashboardComponent implements OnInit {
   availableYears: string[] = ['2022', '2023', '2024'];
   selectedYears: string[] = [];
   totalOffers = 50;
+  interviewData: any[] = [];
+  companyLabels: string[] = [];
+  yearlyComparisonData: any[] = [];
+  yearLabels: string[] = [];
 
   notifications = [
     {
@@ -151,8 +155,41 @@ export class PlacementDashboardComponent implements OnInit {
     };
     genderWisePlacedStudents();
 
-    const salaryBasedData = async () => {
-      this.studentSalarySeries = [
+    const interviewDataByCompanies = async () => {
+      this.interviewData = [
+        {
+          name: 'Aptitude Round',
+          data: [50, 30, 45, 55, 40],
+        },
+        {
+          name: 'Group Discussion',
+          data: [20, 30, 25, 35, 40],
+        },
+        {
+          name: 'Technical Round 1',
+          data: [40, 50, 30, 60, 45],
+        },
+        {
+          name: 'Technical Round 2',
+          data: [10, 35, 12, 16, 15],
+        },
+        {
+          name: 'HR Interview',
+          data: [20, 30, 25, 35, 40],
+        },
+      ];
+      this.companyLabels = [
+        'Softserve Global',
+        'TCS',
+        'Wipro',
+        'Capgemini',
+        'Accenture',
+      ];
+    };
+    interviewDataByCompanies();
+
+    const companyWisePlacementData = async () => {
+      this.studentPlacementSeries = [
         {
           name: 'Company A',
           data: [10, 20, 30, 40, 50, 60],
@@ -165,22 +202,54 @@ export class PlacementDashboardComponent implements OnInit {
           name: 'Company C',
           data: [20, 30, 40, 50, 60, 70],
         },
+        {
+          name: 'Company D',
+          data: [20, 30, 10, 15, 15, 10],
+        },
       ];
 
-      this.salaryRanges = [
-        '0-2 LPA',
-        '2-4 LPA',
-        '4-6 LPA',
-        '6-8 LPA',
-        '8-10 LPA',
-        '10+ LPA',
+      this.placementCategories = [
+        'IT',
+        'EC-core',
+        'Mech-core',
+        'Tech',
+        'Non-Tech',
+        'Sales',
       ];
     };
-    salaryBasedData();
+    companyWisePlacementData();
+
+    const yearlyComparisonDataSetup = async () => {
+      this.yearlyComparisonData = [
+        {
+          name: '2020-21',
+          data: [100, 90, 80, 120, 110, 66],
+        },
+        {
+          name: '2021-22',
+          data: [110, 85, 90, 115, 120, 51],
+        },
+        {
+          name: '2022-23',
+          data: [130, 55, 50, 15, 20, 20],
+        },
+        {
+          name: '2023-24',
+          data: [70, 95, 60, 45, 30, 79],
+        },
+        {
+          name: '2024-25',
+          data: [60, 65, 67, 35, 105, 19],
+        },
+      ];
+
+      this.yearLabels = ['CS', 'IS', 'EC', 'ME', 'CV', 'MBA'];
+    };
+    yearlyComparisonDataSetup();
 
     const branchWisePlacementStatus = async () => {
       this.branchPlacementSeries = [120, 150, 80, 90, 50];
-      this.branchLabels = ['CS', 'IS', 'EC', 'ME', 'CV']; // Branch labels
+      this.branchLabels = ['CS', 'IS', 'EC', 'ME', 'CV'];
     };
     branchWisePlacementStatus();
   }
