@@ -25,6 +25,7 @@ import { BasicLineChartComponent } from 'src/app/features/charts/line chart/basi
     SharedModule,
     AMGModules,
   ],
+  
   templateUrl: './placement-dashboard.component.html',
   styleUrl: './placement-dashboard.component.css',
 })
@@ -47,7 +48,7 @@ export class PlacementDashboardComponent implements OnInit {
   yearlyComparisonData: any[] = [];
   yearLabels: string[] = [];
   topHiringCompaniesData: any[] = [];
-  topCompanyLabels: string[] = [];
+  topCompanyYearLabels: string[] = [];
 
   notifications = [
     {
@@ -252,34 +253,28 @@ export class PlacementDashboardComponent implements OnInit {
     const setupTopHiringCompaniesData = async () => {
       this.topHiringCompaniesData = [
         {
-          name: 'Company A',
+          name: 'Microsoft',
           data: [120, 110, 90, 95, 85],
         },
         {
-          name: 'Company B',
+          name: 'TCS',
           data: [150, 50, 60, 120, 40],
         },
         {
-          name: 'Company C',
+          name: 'Accenture',
           data: [90, 10, 90, 95, 85],
         },
         {
-          name: 'Company D',
+          name: 'Google',
           data: [200, 100, 110, 35, 50],
         },
         {
-          name: 'Company E',
+          name: 'Wipro',
           data: [180, 30, 87, 54, 43],
         },
       ];
 
-      this.topCompanyLabels = [
-        'JP Morgan',
-        'EY',
-        'Google',
-        'Amazon',
-        'Flipkart',
-      ];
+      this.topCompanyYearLabels = ['2020', '2021', '2022', '2023', '2024'];
     };
     setupTopHiringCompaniesData();
 
