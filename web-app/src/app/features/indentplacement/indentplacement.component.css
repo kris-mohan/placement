@@ -1,0 +1,59 @@
+button {
+  margin: 0 8px 8px 0;
+}
+.mat-mdc-card-header {
+  display: unset;
+}
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+/* .example-button-container :hover {
+  background-color: rgb(234, 234, 234);
+} */
+.button-label-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-mat-label {
+  /* margin-left: 3rem; */
+  font-weight: bolder;
+  font-size: x-large;
+  color: darkblue;
+}
+table {
+  width: 100%;
+}
+
+.matbutton {
+  background-color: #3f51b5;
+}
+.maticon {
+  color: white;
+}
+.matButtonText {
+  color: white;
+}
+.td-mat-button {
+  display: flex;
+}
+
+.mat-grid-tile {
+  padding: 1%;
+  border-radius: 0.5rem;
+  background-color: #c3d2f899;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  margin: 1em;
+  border: solid 0.1px #bfbfd4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
