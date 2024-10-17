@@ -124,6 +124,20 @@
 .reminder-notification h4 {
   color: red;
 }
+.reminder-notification {
+  display: block;
+  font-size: 0.9rem;
+  color: #008410;
+}
+
+.success-notification {
+  background-color: rgba(0, 255, 60, 0.1);
+  border: 1px solid rgb(1, 113, 26);
+}
+
+.success-notification h4 {
+  color: rgb(2, 108, 9);
+}
 
 .other-notification {
   background-color: #e4f0fc;

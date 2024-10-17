@@ -61,13 +61,14 @@ export class StudentDashboardComponent {
 
   notifications = [
     {
+      title: 'Congratulations',
+      details: 'You have an offer from Flipkart Online Services Pvt. Ltd.',
+    },
+    {
       title: 'Reminder',
       details: 'Your interview with Microsoft Corporation is on October 12nd.',
     },
-    {
-      title: 'New Job Posting',
-      details: 'Softserve Global is hiring for Software Engineer roles.',
-    },
+
     {
       title: 'New Job Posting',
       details: 'Softserve Global posted today!',

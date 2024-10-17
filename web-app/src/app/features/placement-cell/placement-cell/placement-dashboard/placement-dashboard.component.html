@@ -11,10 +11,10 @@
   <!-- Upcoming Drives Section -->
   <div class="upcoming-drive-container">
     <div class="upcoming-drives-header">
-      <h3>Upcoming Drives</h3>
-      <button mat-raised-button class="matbutton" (click)="sendInvite()">
+      <h3>Upcoming Campus Drives</h3>
+      <!-- <button mat-raised-button class="matbutton" (click)="sendInvite()">
         <p class="matName">Send Invite to Companies</p>
-      </button>
+      </button> -->
     </div>
     <p>Here is your schedule for this week:</p>
     <div class="upcoming-drive-row">
@@ -40,7 +40,7 @@
     <app-basic-column-chart
       [seriesData]="studentPlacementData"
       [categoriesData]="branchLabels"
-      titleText="Student Placement Status"
+      titleText="Student Placement Gender-wise Chart"
       xLabel="Branches"
       yLabel="No. of Students">
     </app-basic-column-chart>
