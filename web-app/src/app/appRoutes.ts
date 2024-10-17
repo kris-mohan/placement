@@ -80,6 +80,7 @@ import { PlacementOffersRecievedComponent } from "./features/placement-cell/plac
 import { StudentOfferRecievedComponent } from "./features/student-menu/student-menu/student-offer-recieved/student-offer-recieved.component";
 import { PlacementOfferRecievedComponent } from "./features/placement-cell/placement-cell/placement-offer-recieved/placement-offer-recieved.component";
 import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/test-rounds/add-rounds-modal/add-rounds-modal.component";
+import { TemplateGeneratorComponent } from "./features/template-generator/template-generator.component";
 
 import { IndentplacementComponent } from "./features/indentplacement/indentplacement.component";
 
@@ -439,6 +440,10 @@ const appRoutes: Routes = [
       {
         path: "Placement-offer-Recieved",
         component: PlacementOfferRecievedComponent,
+      },
+      {
+        path: "template-generator",
+        component: TemplateGeneratorComponent,
       },
       {
         path: "Indent-view",

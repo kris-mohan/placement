@@ -256,6 +256,19 @@
           </div>
         </a>
 
+        <a
+          *ngIf="userType === 1"
+          mat-list-item
+          [routerLink]="['/template-generator']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> description </mat-icon></div>
+            <div><mat-label>Template Builder </mat-label></div>
+          </div>
+        </a>
+
         <!-- Company / HR -->
 
         <a
