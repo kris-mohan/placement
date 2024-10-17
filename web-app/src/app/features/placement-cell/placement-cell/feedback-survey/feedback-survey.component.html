@@ -1,20 +1,21 @@
 <div class="feedback-survey">
-  <div>
+  <!-- <div>
     <h2>{{ selectedTabHeading }}</h2>
-  </div>
-  <div class="download-buttons">
-    <button mat-fab extended class="matbutton-download">
-      <mat-icon>file_download</mat-icon>Excel
-    </button>
-    <button mat-fab extended class="matbutton-download">
-      <mat-icon>picture_as_pdf</mat-icon>
-      <h5>PDF</h5>
-    </button>
-  </div>
+  </div> -->
+
   <mat-tab-group (selectedTabChange)="onTabChange($event)">
     <mat-tab label="Feedback Dashboard">
       <div class="feedback-dashboard">
-        <h3>Feedback Overview</h3>
+        <h2>Feedback Overview</h2>
+        <div class="download-buttons">
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>file_download</mat-icon>Excel
+          </button>
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <h5>PDF</h5>
+          </button>
+        </div>
 
         <div class="summary-cards">
           <mat-card class="summary-card">
@@ -75,7 +76,18 @@
     <!-- Tab 2: Detailed Feedback View (Student & Company Reviews) -->
     <mat-tab label="Detailed View">
       <div class="detailed-view">
-        <h3>Detailed Feedback Reviews</h3>
+        <span> <h2>Detailed Feedback Reviews</h2></span>
+
+        <div class="download-buttons">
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>file_download</mat-icon>Excel
+          </button>
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <h5>PDF</h5>
+          </button>
+        </div>
+
         <h4>Student Reviews</h4>
         <table
           mat-table
@@ -165,6 +177,15 @@
 
     <mat-tab label="Feedback & Surveys">
       <mat-card style="margin-bottom: 10px">
+        <div class="download-buttons">
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>file_download</mat-icon>Excel
+          </button>
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <h5>PDF</h5>
+          </button>
+        </div>
         <mat-card-content>
           <div>
             <h3>Select Feedback Type</h3>
