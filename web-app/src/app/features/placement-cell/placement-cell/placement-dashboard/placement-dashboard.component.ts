@@ -46,6 +46,8 @@ export class PlacementDashboardComponent implements OnInit {
   companyLabels: string[] = [];
   yearlyComparisonData: any[] = [];
   yearLabels: string[] = [];
+  topHiringCompaniesData: any[] = [];
+  topCompanyLabels: string[] = [];
 
   notifications = [
     {
@@ -246,6 +248,40 @@ export class PlacementDashboardComponent implements OnInit {
       this.yearLabels = ['CS', 'IS', 'EC', 'ME', 'CV', 'MBA'];
     };
     yearlyComparisonDataSetup();
+
+    const setupTopHiringCompaniesData = async () => {
+      this.topHiringCompaniesData = [
+        {
+          name: 'Company A',
+          data: [120, 110, 90, 95, 85],
+        },
+        {
+          name: 'Company B',
+          data: [150, 50, 60, 120, 40],
+        },
+        {
+          name: 'Company C',
+          data: [90, 10, 90, 95, 85],
+        },
+        {
+          name: 'Company D',
+          data: [200, 100, 110, 35, 50],
+        },
+        {
+          name: 'Company E',
+          data: [180, 30, 87, 54, 43],
+        },
+      ];
+
+      this.topCompanyLabels = [
+        'JP Morgan',
+        'EY',
+        'Google',
+        'Amazon',
+        'Flipkart',
+      ];
+    };
+    setupTopHiringCompaniesData();
 
     const branchWisePlacementStatus = async () => {
       this.branchPlacementSeries = [120, 150, 80, 90, 50];
