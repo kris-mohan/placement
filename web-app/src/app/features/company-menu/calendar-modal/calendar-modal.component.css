@@ -1,3 +1,16 @@
 ngx-material-timepicker {
   z-index: 1000 !important; /* Adjust the value as necessary */
 }
+
+mat-dialog-title,
+mat-dialog-content,
+mat-dialog-actions {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #ccc; /* Change to desired color */
+  margin: 16px 0; /* Adjust margins as needed */
+}

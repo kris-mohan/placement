@@ -7,15 +7,82 @@
 }
 
 .main-div {
-  padding: 2.5rem;
+  /* padding: 2.5rem; */
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
 .calendar {
-  width: 70%;
-  overflow: visible; 
+  width: 53vw;
+  overflow: visible;
+  margin-right: 10px;
 }
 
 .custom-dialog-container {
   z-index: 1050; /* Ensure this is higher than any other elements */
   position: relative; /* This helps in establishing a stacking context */
+}
+
+.outer-card-container {
+  margin-top: 20px;
+  /* margin-left: 20px; */
+  width: 30vw;
+}
+
+.inner-cards-container {
+  display: flex;
+  flex-direction: column;
+  /* width: 100%; */
+  width: 30vw;
+  /* margin-left: 20px; */
+  /* gap: 15px; */
+}
+
+.example-card {
+  margin: 1rem;
+  width: 93%;
+  background-color: #c3d2f899;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.mat-card-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.company-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.3rem;
+  color: #1e1e6ee2;
+}
+
+.company-info p,
+.company-timings p {
+  margin: 5px 0;
+}
+
+.company-timings {
+  text-align: right;
+}
+
+.company-timings p {
+  color: #757575;
+  font-size: 0.95rem;
+}
+
+.mat-card-content p strong {
+  color: #1e1e6ee2;
+}
+
+@media (max-width: 768px) {
+  .example-card {
+    width: 90%;
+  }
+  .main-div {
+    flex-direction: column;
+  }
 }
