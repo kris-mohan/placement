@@ -1,8 +1,15 @@
-<h1 mat-dialog-title fxLayout="row" fxLayoutAlign="center center">
+<h1
+  mat-dialog-title
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  style="padding-top: 0.5rem"
+>
   <strong>
     {{ isEdited ? "Edit Event" : "Add New Event" }}
   </strong>
 </h1>
+<mat-divider></mat-divider>
+<!-- <hr /> -->
 <div mat-dialog-content>
   <form [formGroup]="formDataa">
     <div
@@ -128,7 +135,10 @@
     <!-- Display the selected date -->
   </form>
 </div>
-<div mat-dialog-actions>
+<!-- <hr /> -->
+<mat-divider></mat-divider>
+
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
   <button mat-button (click)="onCancel()">Cancel</button>
   <button mat-button (click)="onSave()" [disabled]="!formDataa.valid">
     Save
