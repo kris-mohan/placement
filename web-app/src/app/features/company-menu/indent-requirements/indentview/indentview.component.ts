@@ -32,7 +32,7 @@ export class IndentviewComponent {
     private APICalendarEventsService: CalendarEventAPIService
   ) {
     this.generateColumns();
-    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   IndentData = [

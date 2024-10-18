@@ -104,7 +104,7 @@ export class StudentJobsComponent {
     private location: Location,
     private apiService: APIService
   ) {
-    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   readonly campaignOne = new FormGroup({

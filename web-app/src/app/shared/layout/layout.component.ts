@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
-import { AppComponent } from "src/app/app.component";
-import { CommonModule } from "@angular/common";
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { AppComponent } from 'src/app/app.component';
+import { CommonModule } from '@angular/common';
 import {
   Router,
   RouterEvent,
@@ -8,20 +8,20 @@ import {
   RouterLinkActive,
   RouterLinkWithHref,
   RouterModule,
-} from "@angular/router";
-import { Subscription, timer } from "rxjs";
-import { MediaMatcher } from "@angular/cdk/layout";
-import { AMGModules } from "src/AMG-Module/AMG-module";
-import { SharedModule } from "../shared.module";
-import { SpinnerService } from "src/app/core/services/spinner.service";
-import { FlexLayoutModule } from "@angular/flex-layout";
-import { MatExpansionPanel } from "@angular/material/expansion";
-import { NotificationService } from "src/app/services/notification-service/notification-service";
+} from '@angular/router';
+import { Subscription, timer } from 'rxjs';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { AMGModules } from 'src/AMG-Module/AMG-module';
+import { SharedModule } from '../shared.module';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatExpansionPanel } from '@angular/material/expansion';
+import { NotificationService } from 'src/app/services/notification-service/notification-service';
 // import { AuthenticationService } from "src/app/core/services/auth.service";
 // import { AuthGuard } from "src/app/core/guards/auth.guard";
 
 @Component({
-  selector: "app-layout",
+  selector: 'app-layout',
   standalone: true,
   imports: [
     AppComponent,
@@ -34,14 +34,14 @@ import { NotificationService } from "src/app/services/notification-service/notif
     RouterLink,
     RouterLinkWithHref,
   ],
-  templateUrl: "./layout.component.html",
-  styleUrl: "./layout.component.css",
+  templateUrl: './layout.component.html',
+  styleUrl: './layout.component.css',
 })
 export class LayoutComponent {
   private _mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
   showSpinner: boolean = false;
-  userName: string = "";
+  userName: string = '';
   isAdmin: boolean = false;
   UserRoleId: number;
 
@@ -54,13 +54,13 @@ export class LayoutComponent {
     private notificationService: NotificationService,
     private router: Router // private authService: AuthenticationService, // private authGuard: AuthGuard
   ) {
-    this.mobileQuery = this.media.matchMedia("(max-width: 1000px)");
+    this.mobileQuery = this.media.matchMedia('(max-width: 1000px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addEventListener("change", this._mobileQueryListener);
-    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
-    const storedCollegeName = sessionStorage.getItem("collegeName");
+    this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    const storedUserRoleId = sessionStorage.getItem('userRoleId');
+    const storedCollegeName = sessionStorage.getItem('collegeName');
 
-    const storedUserName = sessionStorage.getItem("userName");
+    const storedUserName = sessionStorage.getItem('userName');
     console.log(storedUserRoleId);
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
     this.userName = storedUserName!;
@@ -69,9 +69,9 @@ export class LayoutComponent {
   notificationCount = 3;
 
   notifications = [
-    { message: "View Dashboard", route: "/dashboard" },
-    { message: "Check Job List", route: "/job-list" },
-    { message: "Company Configuration", route: "/company-configuration" },
+    { message: 'View Dashboard', route: '/dashboard' },
+    { message: 'Check Job List', route: '/job-list' },
+    { message: 'Company Configuration', route: '/company-configuration' },
   ];
 
   navigateToComponent(notification: any) {
@@ -80,11 +80,11 @@ export class LayoutComponent {
 
   onClickSoftwareLogo() {
     if (this.UserRoleId === 1) {
-      this.router.navigate(["/placement-dashboard"]);
+      this.router.navigate(['/placement-dashboard']);
     } else if (this.UserRoleId === 2) {
-      this.router.navigate(["/company-dashboard"]);
+      this.router.navigate(['/company-dashboard']);
     } else {
-      this.router.navigate(["/student-dashboard"]);
+      this.router.navigate(['/student-dashboard']);
     }
   }
 
@@ -113,7 +113,7 @@ export class LayoutComponent {
 
   ngOnDestroy(): void {
     // tslint:disable-next-line: deprecation
-    this.mobileQuery.removeEventListener("change", this._mobileQueryListener);
+    this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
     this.autoLogoutSubscription.unsubscribe();
   }
 

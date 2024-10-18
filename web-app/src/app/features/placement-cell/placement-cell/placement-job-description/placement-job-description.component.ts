@@ -14,7 +14,7 @@ import { Router } from "@angular/router";
 export class PlacementJobDescriptionComponent {
   UserRoleId: number;
   constructor(private location: Location, private router: Router) {
-    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   readonly dialog = inject(MatDialog);

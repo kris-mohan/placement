@@ -103,7 +103,7 @@ export class JobsComponent {
   ) // private apiCompanyService: CompanyAPIService,
   // private apiIndustryService: IndustryAPIService
   {
-    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   displayedColumns: string[] = [

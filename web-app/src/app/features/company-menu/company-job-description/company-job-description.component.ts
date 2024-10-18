@@ -29,7 +29,7 @@ export class CompanyJobDescriptionComponent {
   ];
   selectedCollegeData: number[] = [];
   constructor(private location: Location) {
-    const storedUserType = sessionStorage.getItem("UserRoleId");
+    const storedUserType = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserType ? parseInt(storedUserType) : 0;
   }
   readonly dialog = inject(MatDialog);
