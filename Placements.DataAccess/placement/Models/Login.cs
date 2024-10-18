@@ -21,8 +21,6 @@ public partial class Login
 
     public ulong IsDeleted { get; set; }
 
-    public int? UserType { get; set; }
-
     public ulong IsActive { get; set; }
 
     public long? StudentId { get; set; }
@@ -31,9 +29,7 @@ public partial class Login
 
     public virtual Companydatum? Company { get; set; }
 
-    public virtual Role? Role { get; set; }
-
-    public virtual Userrole? RoleNavigation { get; set; }
+    public virtual Userrole? Role { get; set; }
 
     public virtual Tblstudent? Student { get; set; }
 }

@@ -70,6 +70,26 @@
       xLabel="Years"
       yLabel="No. of Students Placed">
     </app-basic-column-chart>
+    <app-basic-column-chart
+      [seriesData]="topHiringCompaniesData"
+      [categoriesData]="topCompanyYearLabels"
+      titleText="Top Hiring Companies"
+      xLabel="Years"
+      yLabel="No. of Students Placed">
+    </app-basic-column-chart>
+    <app-basic-column-chart
+      [seriesData]="skillDemandData"
+      [categoriesData]="skillLabels"
+      titleText="Skill-wise Demand Across Companies"
+      xLabel="Skills"
+      yLabel="Demand Level">
+    </app-basic-column-chart>
+    <!-- <app-basic-line-chart
+      [seriesData]="placementTrendData"
+      [categoriesData]="timeLabels"
+      [titleText]="Placement Trends Over Time"
+      [xLabel]="Time(Months)"
+      [yLabel]="Number of Events/Students"></app-basic-line-chart> -->
   </div>
 </div>
 

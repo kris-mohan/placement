@@ -104,8 +104,8 @@ export class CompanyJobDetailsComponent {
     private location: Location,
     private apiService: APIService
   ) {
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   readonly campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
@@ -119,7 +119,7 @@ export class CompanyJobDetailsComponent {
   experienceLevelControl = new FormControl();
   filteredCompany: Observable<any[]> = of([]);
 
-  userType: number;
+  UserRoleId: number;
   readonly dialog = inject(MatDialog);
 
   dataSource1 = new MatTableDataSource<companyTableList>([]);

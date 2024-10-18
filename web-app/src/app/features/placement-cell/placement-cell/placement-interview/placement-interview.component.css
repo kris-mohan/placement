@@ -18,6 +18,9 @@ css button {
 .button-label-container {
   display: flex;
 }
+.BackIcon {
+  cursor: pointer;
+}
 
 .header-mat-label {
   margin-left: 1rem;

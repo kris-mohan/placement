@@ -58,7 +58,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 original.RoleId = login.RoleId;
                 original.DateOfRegistration = login.DateOfRegistration;
                 original.IsDeleted = login.IsDeleted;
-                original.UserType = login.UserType;
+                original.RoleId = login.RoleId;
                 original.IsActive = login.IsActive;
 
 

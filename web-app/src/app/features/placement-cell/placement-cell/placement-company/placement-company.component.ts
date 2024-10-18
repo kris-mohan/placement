@@ -81,7 +81,7 @@ export class PlacementCompanyComponent {
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
-  userType: number;
+  UserRoleId: number;
 
   CityControl = new FormControl();
   industryControl = new FormControl();
@@ -101,8 +101,8 @@ export class PlacementCompanyComponent {
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService
   ) {
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
 
   readonly campaignOne = new FormGroup({

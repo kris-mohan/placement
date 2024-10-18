@@ -6,7 +6,7 @@ export type StudentRegistartion = {
   Password: string;
   DateOfRegistration: Date;
   IsActive: boolean;
-  UserType: number;
+  UserRoleId: number;
   Batch: string;
   Branch: string;
   SchoolId: number;

@@ -39,8 +39,8 @@ export class PlacementOfferRecievedComponent {
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService
   ) {
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   readonly campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
@@ -76,7 +76,7 @@ export class PlacementOfferRecievedComponent {
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
-  userType: number;
+  UserRoleId: number;
 
   CityControl = new FormControl();
   industryControl = new FormControl();
@@ -506,7 +506,7 @@ export class PlacementOfferRecievedComponent {
   }
 
   goToInterviewStudentsDetails(id: number) {
-    if (this.userType === 1 || this.userType === 2) {
+    if (this.UserRoleId === 1 || this.UserRoleId === 2) {
       this.router.navigate([
         "placement-interview/placement-interview-students/",
         id,

@@ -25,7 +25,7 @@ public partial class Studentregistartion
 
     public ulong IsActive { get; set; }
 
-    public int? UserType { get; set; }
+    public long? UserRoleId { get; set; }
 
     public string? Password { get; set; }
 

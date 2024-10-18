@@ -34,9 +34,9 @@ export class CompanyRegistrationComponent {
     private apiCompanyRegistration: CompanyRegistrationAPIService
   ) {
     this.addcompanyRegistrationForm = this.fb.group({
-      CompanyName: "",
+      Name: "",
       Email: "",
-      Location: "",
+      City: "",
       Password: "",
       PhoneNumber: "",
       ContactPerson: "",
@@ -62,7 +62,7 @@ export class CompanyRegistrationComponent {
   async onSubmit(): Promise<void> {
     const companyData: Partial<CompanyRegistration> =
       this.addcompanyRegistrationForm.value;
-    companyData.UserType = 2;
+    companyData.UserRoleId = 2;
     const isUpdate = !!this.Id;
     const actionText = isUpdate ? "update" : "add";
     const confirmed = await this.sweetAlertService.confirm(

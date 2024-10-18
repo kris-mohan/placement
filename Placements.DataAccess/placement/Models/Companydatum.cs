@@ -33,6 +33,16 @@ public partial class Companydatum
 
     public ulong IsDeleted { get; set; }
 
+    public ulong IsActive { get; set; }
+
+    public DateTime? DateOfRegistration { get; set; }
+
+    public int UserRoleId { get; set; }
+
+    public string? Password { get; set; }
+
+    public string? Email { get; set; }
+
     public virtual ICollection<Companydesignation> Companydesignations { get; set; } = new List<Companydesignation>();
 
     public virtual ICollection<Companyindustry> Companyindustries { get; set; } = new List<Companyindustry>();

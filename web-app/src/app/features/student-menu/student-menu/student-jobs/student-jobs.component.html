@@ -145,7 +145,7 @@
             <p class="matName">Additional Filters</p>
           </button>
           <button
-            *ngIf="userType !== 3"
+            *ngIf="UserRoleId !== 3"
             mat-raised-button
             class="matbutton"
             (click)="openAddEditCompanyForm(0)"
@@ -183,14 +183,12 @@
 
           <!-- 
         <div class="company-type">{{ job.applicants }}</div> -->
-          <div>
+          <div class="logo-container">
             <img
               [src]="job.logo"
               alt="Company Logo"
               class="company-logo"
-              height="70%"
-              width="auto"
-              style="margin-left: 150px"
+            
             />
           </div>
         </div>

@@ -74,7 +74,7 @@ export class StudentRegistrationComponent {
 
   async onSubmit(): Promise<void> {
     const studentData = this.studentRegistrationForm.value;
-    studentData.UserType = 3;
+    studentData.UserRoleId = 3;
     const isUpdate = !!this.Id;
     const actionText = isUpdate ? 'update' : 'add';
     const confirmed = await this.sweetAlertService.confirm(

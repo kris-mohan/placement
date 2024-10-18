@@ -13,11 +13,12 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { CalendarOptions, EventApi } from "@fullcalendar/core";
 import { FormBuilder } from "@angular/forms";
 import { CalendarModalComponent } from "../calendar-modal/calendar-modal.component";
+import { AMGModules } from "src/AMG-Module/AMG-module";
 
 @Component({
   selector: "app-interview-schedule",
   standalone: true,
-  imports: [CommonModule, FullCalendarModule],
+  imports: [AMGModules, CommonModule, FullCalendarModule],
   templateUrl: "./interview-schedule.component.html",
   styleUrl: "./interview-schedule.component.css",
 })
@@ -28,6 +29,36 @@ export class InterviewScheduleComponent implements OnInit {
 
   private eventIDCounter = 0;
   currentEvents: EventApi[] = [];
+
+  events = [
+    {
+      companyName: "Capgemini",
+      jobTitle: "Associate Software Engineer",
+      Round: 3,
+      RoundName: "Technical Round",
+      eventDate: "05-10-2024",
+      timings: "10:00 AM - 12:00 PM",
+      duration: "2 hours",
+    },
+    {
+      companyName: "Accenture",
+      jobTitle: "Software Developer",
+      Round: 1,
+      RoundName: "Test Assesment",
+      eventDate: "05-10-2024",
+      timings: "2:00 PM - 3:30 PM",
+      duration: "1.5 hours",
+    },
+    {
+      companyName: "Google",
+      jobTitle: "QA",
+      Round: 2,
+      RoundName: "Interview-1",
+      eventDate: "05-10-2024",
+      timings: "9:00 AM - 1:00 PM",
+      duration: "4 hours",
+    },
+  ];
 
   calendarEvents: any[] = [
     {
@@ -84,6 +115,7 @@ export class InterviewScheduleComponent implements OnInit {
     selectable: true,
     selectMirror: true,
     initialView: "dayGridMonth", // Default view
+    weekends: true,
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin], // Register the plugins
     dateClick: this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this),
@@ -336,33 +368,33 @@ export class InterviewScheduleComponent implements OnInit {
 
   loadInitialData(): void {
     this.calendarEvents = [
-      {
-        id: 0,
-        title: "Meeting",
-        start: new Date().setDate(new Date().getDate() + 1),
-        end: new Date().setDate(new Date().getDate() + 2),
-        className: "bg-warning text-white",
-      },
-      {
-        id: 1,
-        title: "Lunch",
-        start: new Date(),
-        end: new Date(),
-        className: "bg-success text-white",
-      },
-      {
-        id: 2,
-        title: "Birthday - party",
-        start: new Date().setDate(new Date().getDate() + 8),
-        className: "bg-info text-white",
-      },
-      {
-        id: 3,
-        title: "Long Event",
-        start: new Date().setDate(new Date().getDate() + 7),
-        end: new Date().setDate(new Date().getDate() + 8),
-        className: "bg-primary text-white",
-      },
+      // {
+      //   id: 0,
+      //   title: "Meeting",
+      //   start: new Date().setDate(new Date().getDate() + 1),
+      //   end: new Date().setDate(new Date().getDate() + 2),
+      //   className: "bg-warning text-white",
+      // },
+      // {
+      //   id: 1,
+      //   title: "Lunch",
+      //   start: new Date(),
+      //   end: new Date(),
+      //   className: "bg-success text-white",
+      // },
+      // {
+      //   id: 2,
+      //   title: "Birthday - party",
+      //   start: new Date().setDate(new Date().getDate() + 8),
+      //   className: "bg-info text-white",
+      // },
+      // {
+      //   id: 3,
+      //   title: "Long Event",
+      //   start: new Date().setDate(new Date().getDate() + 7),
+      //   end: new Date().setDate(new Date().getDate() + 8),
+      //   className: "bg-primary text-white",
+      // },
     ];
   }
 }

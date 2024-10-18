@@ -1,4 +1,25 @@
 <h2 class="header-mat-label">Interview Schedule</h2>
 <div class="main-div">
   <full-calendar class="calendar" [options]="calendarOptions"></full-calendar>
+  <div style="margin-left: 0px">
+    <mat-card class="outer-card-container">
+      <div class="inner-cards-container">
+        <mat-card class="example-card" *ngFor="let event of events">
+          <mat-card-content class="mat-card-content">
+            <div class="company-info">
+              <h3>{{ event.companyName }}</h3>
+              <p><strong>Job Title:</strong> {{ event.jobTitle }}</p>
+              <p><strong>Round:</strong> {{ event.Round }}</p>
+              <p><strong>Round Name:</strong> {{ event.RoundName }}</p>
+            </div>
+            <div class="company-timings">
+              <p><strong>Event Date:</strong> {{ event.eventDate | date }}</p>
+              <p><strong>Timings:</strong> {{ event.timings }}</p>
+              <p><strong>Duration:</strong> {{ event.duration }}</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-card>
+  </div>
 </div>

@@ -57,12 +57,14 @@ button {
   border-radius: 4px;
   height: 35px;
   margin-right: 10px;
+  size: small;
 }
+
 .mat-form-field {
   width: 100%;
   margin-top: 10px;
 }
-.download-buttons{
+.download-buttons {
   text-align: end;
 }
 .question-list {

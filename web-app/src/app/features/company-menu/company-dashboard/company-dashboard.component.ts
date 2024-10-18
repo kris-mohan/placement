@@ -31,7 +31,7 @@ import { FunnelChartComponent } from '../../charts/funnel chart/funnel-chart/fun
 export class CompanyDashboardComponent implements OnInit {
   HRName = 'Vidyashree';
   jobRoles: string[] = ['Developer', 'Designer', 'Manager', 'QA'];
-  colleges: string[] = ['College A', 'College B', 'College C', 'College D'];
+
   years: string[] = ['2021-22', '2022-23', '2023-24', '2024-25'];
   noOfJobRolesOpenings: number[] = [];
   jobRoleNames: string[] = [];
@@ -117,11 +117,22 @@ export class CompanyDashboardComponent implements OnInit {
   xAxisLabel: string = 'Job Roles';
   yAxisLabel: string = 'Number of Openings';
 
+  studentIntakeByCollege(): void {}
   employeeIntakes: any = [
     {
-      name: 'Number of Intakes',
+      name: 'Male',
       data: [120, 150, 90, 100],
     },
+    {
+      name: 'Female',
+      data: [120, 150, 90, 100],
+    },
+  ];
+  colleges: string[] = [
+    'E-W Col of Tech.',
+    'E-W Col of Engg.',
+    'E-W Col of Management',
+    'E-W Col of Architecture',
   ];
 
   inTakeChartTitle: string = 'Student Intake by College';
@@ -133,15 +144,13 @@ export class CompanyDashboardComponent implements OnInit {
   }
 
   jobRoleWiseOpenings(): void {
-    this.noOfJobRolesOpenings = [120, 50, 80, 90, 50, 10, 40];
+    this.noOfJobRolesOpenings = [120, 50, 80, 90, 50];
     this.jobRoleNames = [
       'Software Developer',
-      'Project Manager',
       'Data Scientist',
       'Full Stack Developer',
       'Mobile Application Developer',
       'Cloud Engineer',
-      'Technical Support Engineer',
     ];
   }
 }

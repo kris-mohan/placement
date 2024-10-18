@@ -23,7 +23,7 @@ export interface ODataResponse<T> {
   styleUrl: "./indentview.component.css",
 })
 export class IndentviewComponent {
-  userType: number;
+  UserRoleId: number;
   constructor(
     private router: Router,
     private dialogService: DialogMessageService,
@@ -32,8 +32,8 @@ export class IndentviewComponent {
     private APICalendarEventsService: CalendarEventAPIService
   ) {
     this.generateColumns();
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   IndentData = [
     {
@@ -143,7 +143,7 @@ export class IndentviewComponent {
   ];
 
   goToInterviewStudentsDetails(id: number) {
-    if (this.userType === 1 || this.userType === 2) {
+    if (this.UserRoleId === 1 || this.UserRoleId === 2) {
       this.router.navigate(["interview/interview-students-list", id]);
     }
   }

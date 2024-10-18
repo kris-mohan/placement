@@ -13,9 +13,8 @@ button {
 .example-button-container {
   display: flex;
   justify-content: end;
-
 }
-.BackIcon{
+.BackIcon {
   display: flex;
   justify-content: end;
   cursor: pointer;
@@ -161,4 +160,38 @@ table {
 
 .company-designation div h3 {
   margin: 0 0 0 0 !important;
+}
+.logo-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  width: 100%;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.company-logo {
+  max-width: 55%;
+  height: auto; 
+  max-height: 150px; 
+  transition: transform 0.3s ease-in-out; 
+  margin-left: 170px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .company-logo {
+    max-height: 40px; 
+  }
+}
+
+@media (max-width: 480px) {
+  .company-logo {
+    max-height: 40px; 
+  }
+}
+
+
+body {
+  overflow-x: hidden; 
 }

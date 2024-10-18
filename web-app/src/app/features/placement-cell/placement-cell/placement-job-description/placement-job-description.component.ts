@@ -12,10 +12,10 @@ import { Router } from "@angular/router";
   styleUrl: "./placement-job-description.component.css",
 })
 export class PlacementJobDescriptionComponent {
-  userType: number;
+  UserRoleId: number;
   constructor(private location: Location, private router: Router) {
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   readonly dialog = inject(MatDialog);
 
