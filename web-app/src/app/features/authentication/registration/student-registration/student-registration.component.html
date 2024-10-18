@@ -1,7 +1,11 @@
 <mat-card class="mat-card">
   <mat-card-title>
     <div class="header-wrapper">
-      <img src="../../../../assets/images/sslogoglobal.png" alt="logo" class="TitleLogo" />
+      <img
+        src="../../../../assets/images/sslogoglobal.png"
+        alt="logo"
+        class="TitleLogo"
+      />
       <p class="header-title">Student Registration Form</p>
       <div class="anchorTags" [routerLink]="['./login']">
         <a> Login </a>
@@ -19,10 +23,14 @@
   <form [formGroup]="studentRegistrationForm" (ngSubmit)="onSubmit()">
     <mat-card>
       <mat-card-content>
-
         <!-- First Row: Name, Roll Number, Email -->
-        <div fxLayout="row wrap" fxLayoutGap="16px">
-          <div fxFlex="33.33%">
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
             <p class="grid-label">Name</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Name</mat-label>
@@ -30,7 +38,12 @@
             </mat-form-field>
           </div>
 
-          <div fxFlex="33.33%">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
             <p class="grid-label">Roll Number</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Roll Number</mat-label>
@@ -38,7 +51,12 @@
             </mat-form-field>
           </div>
 
-          <div fxFlex="33.33%">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
             <p class="grid-label">Email</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Email</mat-label>
@@ -48,52 +66,91 @@
         </div>
 
         <!-- Second Row: School, Batch, Branch -->
-        <div fxLayout="row wrap" fxLayoutGap="16px">
-          <div fxFlex="33.33%">
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
             <p class="grid-label">School</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>School</mat-label>
               <mat-select formControlName="SchoolId">
-                <mat-option *ngFor="let school of schoolList" [value]="school.id">{{ school.name }}</mat-option>
+                <mat-option
+                  *ngFor="let school of schoolList"
+                  [value]="school.id"
+                  >{{ school.name }}</mat-option
+                >
               </mat-select>
             </mat-form-field>
           </div>
 
-          <div fxFlex="33.33%">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
             <p class="grid-label">Batch</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Batch</mat-label>
               <mat-select formControlName="Batch">
-                <mat-option *ngFor="let batch of batchList" [value]="batch">{{ batch }}</mat-option>
+                <mat-option *ngFor="let batch of batchList" [value]="batch">{{
+                  batch
+                }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
 
-          <div fxFlex="66.66%">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
             <p class="grid-label">Branch</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Branch</mat-label>
               <mat-select formControlName="Branch">
-                <mat-option *ngFor="let branch of branchList" [value]="branch">{{ branch }}</mat-option>
+                <mat-option
+                  *ngFor="let branch of branchList"
+                  [value]="branch"
+                  >{{ branch }}</mat-option
+                >
               </mat-select>
             </mat-form-field>
           </div>
         </div>
 
         <!-- Third Row: Password and Phone Number -->
-        <div fxLayout="row wrap" fxLayoutGap="16px">
-          <div fxFlex="50%">
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
             <p class="grid-label">Password</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Password</mat-label>
-              <input matInput [type]="isPasswordVisible ? 'text' : 'password'" formControlName="Password" />
+              <input
+                matInput
+                [type]="isPasswordVisible ? 'text' : 'password'"
+                formControlName="Password"
+              />
               <mat-icon matSuffix (click)="togglePasswordVisibility()">
-                {{ isPasswordVisible ? 'visibility' : 'visibility_off' }}
+                {{ isPasswordVisible ? "visibility" : "visibility_off" }}
               </mat-icon>
             </mat-form-field>
           </div>
 
-          <div fxFlex="50%">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
             <p class="grid-label">Phone Number</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Phone Number</mat-label>
@@ -101,17 +158,29 @@
             </mat-form-field>
           </div>
         </div>
-
       </mat-card-content>
     </mat-card>
-<br>
+    <br />
 
-    <!-- Submit and Reset buttons -->
-    <button mat-raised-button class="reset-button" type="button" (click)="onReset()">
+    <mat-card-actions class="footer-actions">
+      <!-- Submit and Reset buttons -->
+      <button
+        mat-raised-button
+        class="reset-button"
+        type="button"
+        (click)="onReset()"
+        style="background-color: darkblue"
+      >
         <p class="matName">Reset</p>
       </button>
-      <button mat-raised-button class="submit-button" type="submit">
+      <button
+        mat-raised-button
+        class="submit-button"
+        type="submit"
+        style="background-color: darkblue"
+      >
         <p class="matName">Submit</p>
       </button>
+    </mat-card-actions>
   </form>
 </mat-card>
