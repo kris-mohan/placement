@@ -83,6 +83,7 @@ import { AddRoundsModalComponent } from "./features/company-menu/company-job-det
 import { TemplateGeneratorComponent } from "./features/template-generator/template-generator.component";
 
 import { IndentplacementComponent } from "./features/indentplacement/indentplacement.component";
+import { IndentrequirementplacementComponent } from "./features/indentrequirementplacement/indentrequirementplacement.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -446,8 +447,16 @@ const appRoutes: Routes = [
         component: TemplateGeneratorComponent,
       },
       {
-        path: "Indent-view",
+        path: "template-generator",
+        component: TemplateGeneratorComponent,
+      },
+      {
+        path: "Indent-view-placement",
         component: IndentplacementComponent,
+      },
+      {
+        path: "Indent-view-placement/Indent-requirement/:id",
+        component: IndentrequirementplacementComponent,
       },
       {
         path: "**",

@@ -53,6 +53,7 @@ table {
 }
 
 .mat-grid-tile {
+  padding: 1%;
   border-radius: 0.5rem;
   background-color: #c3d2f899;
   cursor: pointer;
@@ -61,4 +62,8 @@ table {
   margin: 1em;
   border: solid 0.1px #bfbfd4;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+mat-grid-list th {
+  display: none;
 }
