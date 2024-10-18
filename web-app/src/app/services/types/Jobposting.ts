@@ -1,0 +1,31 @@
+import { Collegejobposting } from "./Collegejobposting";
+import { Collegejobpostingschedule } from "./Collegejobpostingschedule";
+import { Companydatum } from "./Companydatum";
+import { Jobinterviewround } from "./Jobinterviewround";
+import { JobpostingsEligiblestudent } from "./JobpostingsEligibleStudent";
+import { JobpostingSelectedstudent } from "./JobpostingSelectedstudent";
+import { Technology } from "./Technology";
+
+export type Jobposting = {
+    Id: number;
+    CompanyId?: number;
+    JobRole?: string;
+    JobDescription?: string;
+    ValidFrom?: Date;
+    ValidTill?: Date;
+    Positions?: number;
+    QuantityFilled?: number;
+    IsClosed?: boolean;
+    IsDeleted: boolean;
+    TechnologyId?: number;
+    Salary?: number;
+    Location?: string;
+    Collegejobpostings:Collegejobposting[];
+    Collegejobpostingschedules: Collegejobpostingschedule[];
+    Company: Companydatum[];
+    Jobinterviewrounds: Jobinterviewround[];
+    JobpostingSelectedstudents: JobpostingSelectedstudent[];
+    JobpostingsEligiblestudents: JobpostingsEligiblestudent[];
+    Technology: Technology[];
+    Technologies: Technology[];
+};
