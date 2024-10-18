@@ -1,6 +1,31 @@
+import { Batch } from "./Batch";
+import { Campusregistration } from "./Campusregistration";
+import { JobpostingSelectedstudent } from "./JobpostingSelectedstudent";
+import { JobpostingsEligiblestudent } from "./JobpostingsEligibleStudent";
+import { JobpostStudentround } from "./JobpostStudentround";
+import { Login } from "./Login";
+import { Studentacademic } from "./Studentacademic";
+
 export type Tblstudent = {
   Id: number;
   OrgId?: number;
   FirstName?: string;
   LastName?: string;
+  BatchId?: number;
+  AadharCardNumber?: string;
+  PermanentAddress?: string;
+  CurrentAddress?: string;
+  Email?: string;
+  PhoneNumber?: string;
+  ParentName?: string;
+  ParentPhoneNumber?: string;
+  DateOfBirth?: Date;
+  RollNo?: string;
+  Batch?: Batch[];
+  JobpostStudentrounds?: JobpostStudentround[];
+  JobpostingSelectedstudents?: JobpostingSelectedstudent[];
+  JobpostingsEligiblestudents?: JobpostingsEligiblestudent[];
+  Logins?: Login[];
+  Org?: Campusregistration;
+  Studentacademics?: Studentacademic[];
 };
