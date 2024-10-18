@@ -1,19 +1,21 @@
 <div class="feedback-survey">
-  <div>
-    <h2>Feedback & Surveys</h2>
-  </div>
-  <div class = "download-buttons">
-    <button mat-fab extended class = "matbutton-download">
-      <mat-icon>file_download</mat-icon>Excel
-    </button>
-    <button mat-fab extended class = "matbutton-download">
-      <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
-    </button>
-  </div>
-  <mat-tab-group>
+  <!-- <div>
+    <h2>{{ selectedTabHeading }}</h2>
+  </div> -->
+
+  <mat-tab-group (selectedTabChange)="onTabChange($event)">
     <mat-tab label="Feedback Dashboard">
       <div class="feedback-dashboard">
-        <h3>Feedback Overview</h3>
+        <h2>Feedback Overview</h2>
+        <div class="download-buttons">
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>file_download</mat-icon>Excel
+          </button>
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <h5>PDF</h5>
+          </button>
+        </div>
 
         <div class="summary-cards">
           <mat-card class="summary-card">
@@ -74,12 +76,24 @@
     <!-- Tab 2: Detailed Feedback View (Student & Company Reviews) -->
     <mat-tab label="Detailed View">
       <div class="detailed-view">
-        <h3>Detailed Feedback Reviews</h3>
+        <span> <h2>Detailed Feedback Reviews</h2></span>
+
+        <div class="download-buttons">
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>file_download</mat-icon>Excel
+          </button>
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <h5>PDF</h5>
+          </button>
+        </div>
+
         <h4>Student Reviews</h4>
         <table
           mat-table
           [dataSource]="studentFeedbackList"
-          class="mat-elevation-z8">
+          class="mat-elevation-z8"
+        >
           <ng-container matColumnDef="studentName">
             <th mat-header-cell *matHeaderCellDef>Student Name</th>
 
@@ -105,13 +119,15 @@
               'reviewDate',
               'rating',
               'comments'
-            ]"></tr>
+            ]"
+          ></tr>
           <tr
             mat-row
             *matRowDef="
               let row;
               columns: ['studentName', 'reviewDate', 'rating', 'comments']
-            "></tr>
+            "
+          ></tr>
         </table>
 
         <!-- Company Feedback List -->
@@ -119,7 +135,8 @@
         <table
           mat-table
           [dataSource]="companyFeedbackList"
-          class="mat-elevation-z8">
+          class="mat-elevation-z8"
+        >
           <ng-container matColumnDef="companyName">
             <th mat-header-cell *matHeaderCellDef>Company Name</th>
 
@@ -145,19 +162,30 @@
               'reviewDate',
               'rating',
               'comments'
-            ]"></tr>
+            ]"
+          ></tr>
           <tr
             mat-row
             *matRowDef="
               let row;
               columns: ['companyName', 'reviewDate', 'rating', 'comments']
-            "></tr>
+            "
+          ></tr>
         </table>
       </div>
     </mat-tab>
 
     <mat-tab label="Feedback & Surveys">
       <mat-card style="margin-bottom: 10px">
+        <div class="download-buttons">
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>file_download</mat-icon>Excel
+          </button>
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <h5>PDF</h5>
+          </button>
+        </div>
         <mat-card-content>
           <div>
             <h3>Select Feedback Type</h3>
@@ -179,12 +207,14 @@
           <div>
             <div
               *ngIf="selectedFeedbackType === 'survey'"
-              class="survey-management">
+              class="survey-management"
+            >
               <h3>Survey</h3>
               <button
                 mat-raised-button
                 color="primary"
-                (click)="openCreateSurvey()">
+                (click)="openCreateSurvey()"
+              >
                 <mat-icon class="maticon">add</mat-icon> Create Survey
               </button>
 
@@ -192,7 +222,8 @@
                 <h3>Created Surveys</h3>
                 <mat-expansion-panel
                   *ngFor="let survey of surveys"
-                  style="margin-bottom: 10px; border-radius: 10px">
+                  style="margin-bottom: 10px; border-radius: 10px"
+                >
                   <mat-expansion-panel-header>
                     <mat-panel-title>{{ survey.title }}</mat-panel-title>
                     <mat-panel-description>{{
@@ -213,7 +244,8 @@
 
             <div
               *ngIf="selectedFeedbackType === 'grievance'"
-              class="grievance-feedback">
+              class="grievance-feedback"
+            >
               <h3>Grievance Feedback</h3>
               <p><strong>Grievance Subject </strong></p>
               <mat-form-field appearance="outline" style="width: 100%">
@@ -221,7 +253,8 @@
                 <input
                   matInput
                   [(ngModel)]="grievanceSubject"
-                  placeholder="Enter grievance subject" />
+                  placeholder="Enter grievance subject"
+                />
               </mat-form-field>
               <p><strong>Grievance Details</strong></p>
               <mat-form-field appearance="outline" style="width: 100%">
@@ -229,12 +262,14 @@
                 <textarea
                   matInput
                   [(ngModel)]="grievanceDetails"
-                  placeholder="Enter grievance details"></textarea>
+                  placeholder="Enter grievance details"
+                ></textarea>
               </mat-form-field>
               <button
                 mat-raised-button
                 color="primary"
-                (click)="submitGrievance()">
+                (click)="submitGrievance()"
+              >
                 Submit Grievance
               </button>
             </div>

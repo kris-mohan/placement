@@ -3,17 +3,19 @@ body {
   background-color: #f4f6f8; /* Light grey background for contrast */
 }
 
-mat-card {
+.mat-card {
   padding: 1rem;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 1200px;
+
   display: flex;
   flex-direction: column; /* Ensure vertical stacking */
 }
-
+.BackIcon {
+  cursor: pointer;
+}
 .custom-card-header {
   display: flex;
   flex-direction: column;
@@ -27,11 +29,12 @@ mat-card {
 }
 
 .header-title {
-  font-size: 27.5px;
-  font-weight: 600;
-  color: #3f51b5;
-
+  font-size: x-large;
+  font-weight: bolder;
+  color: darkblue;
+  margin-top: 8px;
   margin-right: auto;
+  margin-left: 5px;
 }
 
 .filters-container {
@@ -39,6 +42,7 @@ mat-card {
   justify-content: space-between;
   flex-wrap: wrap; /* Ensure wrapping on smaller screens */
   gap: 2rem; /* Flexbox gap for consistent spacing */
+  margin-top: 1.5rem;
 }
 
 .filter-column {

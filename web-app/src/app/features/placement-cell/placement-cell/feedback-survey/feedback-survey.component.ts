@@ -1,46 +1,46 @@
-import { Component, inject } from '@angular/core';
-import { AMGModules } from 'src/AMG-Module/AMG-module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateFeedbackComponent } from './create-feedback/create-feedback.component';
+import { Component, inject } from "@angular/core";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { MatDialog } from "@angular/material/dialog";
+import { CreateFeedbackComponent } from "./create-feedback/create-feedback.component";
 
 @Component({
-  selector: 'app-feedback-survey',
+  selector: "app-feedback-survey",
   standalone: true,
   imports: [AMGModules, FormsModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './feedback-survey.component.html',
-  styleUrl: './feedback-survey.component.css',
+  templateUrl: "./feedback-survey.component.html",
+  styleUrl: "./feedback-survey.component.css",
 })
 export class FeedbackSurveyComponent {
   totalFeedback = 150;
   averageRating = 4.5;
-  selectedFeedbackType: string = 'survey';
+  selectedFeedbackType: string = "survey";
 
   surveys: any[] = [
     {
-      title: 'Survey 1',
-      questions: ['Question 1?', 'Question 2?', 'Question 3?'],
+      title: "Survey 1",
+      questions: ["Question 1?", "Question 2?", "Question 3?"],
     },
     {
-      title: 'Survey 2',
-      questions: ['Question A?', 'Question B?', 'Question C?'],
+      title: "Survey 2",
+      questions: ["Question A?", "Question B?", "Question C?"],
     },
   ];
 
   feedbackList = [
     {
       id: 101,
-      type: 'Student',
-      category: 'Interview',
-      date: '2024-09-01',
+      type: "Student",
+      category: "Interview",
+      date: "2024-09-01",
       rating: 5,
     },
     {
       id: 102,
-      type: 'Company',
-      category: 'Process',
-      date: '2024-09-05',
+      type: "Company",
+      category: "Process",
+      date: "2024-09-05",
       rating: 4,
     },
   ];
@@ -52,67 +52,67 @@ export class FeedbackSurveyComponent {
   }
 
   displayedColumns: string[] = [
-    'id',
-    'type',
-    'category',
-    'date',
-    'rating',
-    'actions',
+    "id",
+    "type",
+    "category",
+    "date",
+    "rating",
+    "actions",
   ];
 
   studentFeedbackList = [
     {
-      studentName: 'John Doe',
-      date: '2024-09-01',
+      studentName: "John Doe",
+      date: "2024-09-01",
       rating: 5,
-      comments: 'Excellent interview process.',
+      comments: "Excellent interview process.",
     },
     {
-      studentName: 'Jane Smith',
-      date: '2024-09-02',
+      studentName: "Jane Smith",
+      date: "2024-09-02",
       rating: 4,
-      comments: 'Good communication.',
+      comments: "Good communication.",
     },
   ];
 
   companyFeedbackList = [
     {
-      companyName: 'Tech Solutions',
-      date: '2024-09-05',
+      companyName: "Tech Solutions",
+      date: "2024-09-05",
       rating: 4,
-      comments: 'Smooth placement process.',
+      comments: "Smooth placement process.",
     },
     {
-      companyName: 'Global Corp',
-      date: '2024-09-06',
+      companyName: "Global Corp",
+      date: "2024-09-06",
       rating: 5,
-      comments: 'Very satisfied with the talent pool.',
+      comments: "Very satisfied with the talent pool.",
     },
   ];
 
-  surveyTitle = '';
-  surveyDescription = '';
+  surveyTitle = "";
+  surveyDescription = "";
   startDate: Date = new Date();
   endDate: Date = new Date();
-  grievanceSubject = '';
-  grievanceDetails = '';
+  grievanceSubject = "";
+  grievanceDetails = "";
 
-  questions: any[] = [{ text: '', type: 'multiple-choice', options: [''] }];
+  questions: any[] = [{ text: "", type: "multiple-choice", options: [""] }];
 
   totalResponses = 0;
   averageSurveyRating = 0;
   readonly dialog = inject(MatDialog);
   calculateFeedbackTotals() {
     this.totalStudentFeedback = this.feedbackList.filter(
-      (f) => f.type === 'Student'
+      (f) => f.type === "Student"
     ).length;
     this.totalCompanyFeedback = this.feedbackList.filter(
-      (f) => f.type === 'Company'
+      (f) => f.type === "Company"
     ).length;
   }
 
   addOption(questionIndex: number) {
-    this.questions[questionIndex].options.push('');
+    this.questions[questionIndex].options.push("");
   }
 
   // Remove Option for Multiple Choice Question
@@ -128,7 +128,7 @@ export class FeedbackSurveyComponent {
   }
   submitGrievance() {
     // Logic to submit grievance feedback
-    console.log('Grievance submitted:', {
+    console.log("Grievance submitted:", {
       subject: this.grievanceSubject,
       details: this.grievanceDetails,
     });
@@ -136,10 +136,15 @@ export class FeedbackSurveyComponent {
 
   openCreateSurvey(): void {
     this.dialog.open(CreateFeedbackComponent, {
-      width: '50%',
-      height: '70%',
-      maxWidth: '100vw',
+      width: "50%",
+      height: "70%",
+      maxWidth: "100vw",
       // data: survey,
     });
+  }
+  selectedTabHeading: string = "Feedback Dashboard"; 
+
+  onTabChange(event: any): void {
+    this.selectedTabHeading = event.tab.textLabel;
   }
 }
