@@ -18,7 +18,7 @@ import { ODataResponse } from "../company-menu/indent-requirements/indentview/in
   styleUrl: "./indentplacement.component.css",
 })
 export class IndentplacementComponent {
-  userType: number;
+  UserRoleId: number;
   constructor(
     private router: Router,
     // private dialogService: DialogMessageService,
@@ -28,8 +28,8 @@ export class IndentplacementComponent {
     private APICalendarEventsService: CalendarEventAPIService
   ) {
     this.generateColumns();
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   IndentData = [
     {
@@ -139,7 +139,7 @@ export class IndentplacementComponent {
   ];
 
   goToInterviewStudentsDetails(id: number) {
-    if (this.userType === 1 || this.userType === 2) {
+    if (this.UserRoleId === 1 || this.UserRoleId === 2) {
       this.router.navigate(["interview/interview-students-list", id]);
     }
   }

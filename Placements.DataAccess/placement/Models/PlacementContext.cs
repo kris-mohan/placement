@@ -87,9 +87,9 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -203,13 +203,19 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.City).HasMaxLength(50);
             entity.Property(e => e.ContactPerson).HasMaxLength(50);
             entity.Property(e => e.Country).HasMaxLength(50);
+            entity.Property(e => e.DateOfRegistration).HasColumnType("datetime");
+            entity.Property(e => e.Email).HasMaxLength(45);
             entity.Property(e => e.Gstnumber)
                 .HasMaxLength(50)
                 .HasColumnName("GSTNumber");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValueSql("b'0'")
+                .HasColumnType("bit(1)");
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
             entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Password).HasMaxLength(45);
             entity.Property(e => e.PhoneNumber).HasMaxLength(50);
             entity.Property(e => e.State).HasMaxLength(50);
             entity.Property(e => e.Url).HasMaxLength(250);
@@ -542,10 +548,6 @@ public partial class PlacementContext : DbContext
                 .HasConstraintName("FK_Login_CompanyData");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Logins)
-                .HasForeignKey(d => d.RoleId)
-                .HasConstraintName("FK_Login_Role");
-
-            entity.HasOne(d => d.RoleNavigation).WithMany(p => p.Logins)
                 .HasForeignKey(d => d.RoleId)
                 .HasConstraintName("FK_Login_UserRole");
 

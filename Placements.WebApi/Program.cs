@@ -159,7 +159,9 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Companydatum>("Companydatum");
     modelBuilder.EntitySet<Course>("Course");
     modelBuilder.EntitySet<Batch>("Batch");
+    modelBuilder.EntitySet<Userrole>("Userrole");
     modelBuilder.EntitySet<Placements.DataAccess.Placement.Models.Stream>("Stream");
+
 
     return modelBuilder.GetEdmModel();
 }

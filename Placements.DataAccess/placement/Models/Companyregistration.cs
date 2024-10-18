@@ -21,7 +21,7 @@ public partial class Companyregistration
 
     public ulong IsDeleted { get; set; }
 
-    public int? UserType { get; set; }
+    public long? UserRoleId { get; set; }
 
     public string? Password { get; set; }
 

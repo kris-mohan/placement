@@ -1,5 +1,5 @@
 export type Login = {
-  UserType: string;
+  UserRoleId: string;
   UserName: string;
   Password: string;
 };

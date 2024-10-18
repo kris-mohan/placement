@@ -37,9 +37,10 @@ namespace Placements.WebApi.Controllers.PlacementController
 
                 var loginDetails = new Login
                 {
+                    CompanyId = companyregistration.Id,
                     UserName = companyregistration.Email,
                     Password = companyregistration.Password,
-                    UserType = companyregistration.UserType,
+                    RoleId = companyregistration.UserRoleId,
                     DateOfRegistration = companyregistration.DateOfRegistration
                 };
                 _context.Logins.Add(loginDetails);

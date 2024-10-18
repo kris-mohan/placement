@@ -251,7 +251,7 @@
       <div class="company">
         <img alt="Company Logo" class="Logo" height="70%" width="auto" />
         <p><strong>Status:</strong> {{ scheduledInterview.status }}</p>
-        <div *ngIf="userType !== 3">
+        <div *ngIf="UserRoleId !== 3">
           <p>
             <strong>Number of students cleared:</strong>
             {{ scheduledInterview.studentsCleared }}

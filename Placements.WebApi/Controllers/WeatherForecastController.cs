@@ -70,13 +70,13 @@ namespace Placements.WebApi.Controllers
 
                 var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-                var refreshToken = Guid.NewGuid().ToString(); // Generate refresh token
+                var refreshToken = Guid.NewGuid().ToString(); 
 
 
                 return Ok(new AuthenticatedResponse
                 {
                     UserName = user.UserName,
-                    UserType = loginUser.UserType,
+                    UserRoleId = loginUser.RoleId,
                     AccessToken = accessToken,
                     RefreshToken = refreshToken,
                 });

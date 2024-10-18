@@ -63,7 +63,7 @@ export class CampusRegistrationComponent {
     companyData.ContactNumber = parseInt(
       companyData.ContactNumber as unknown as string
     );
-    companyData.UserType = 1;
+    companyData.UserRoleId = 1;
     const isUpdate = !!this.Id;
     const actionText = isUpdate ? "update" : "add";
     const confirmed = await this.sweetAlertService.confirm(

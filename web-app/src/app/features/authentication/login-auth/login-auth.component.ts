@@ -22,16 +22,16 @@ export interface ODataResponse<T> {
 export class LoginAuthComponent {
   UserName: string = "";
   Password: string = "";
-  UserType: string = "";
+  UserRoleId: string = "";
   errorMessage: string = "";
-  storedUserType: string = "";
+  storedUserRoleId: string = "";
   isPasswordVisible: boolean = false;
   constructor(private apiService: ApiHttpService, private router: Router) {}
 
   loginModel = {
     UserName: this.UserName,
     Password: this.Password,
-    UserType: this.UserType,
+    UserRoleId: this.UserRoleId,
   };
 
   onClickSignIn(form: any) {
@@ -39,7 +39,7 @@ export class LoginAuthComponent {
       const loginModel = {
         userName: this.UserName,
         password: this.Password,
-        userType: this.UserType,
+        UserRoleId: this.UserRoleId,
       };
 
       this.apiService
@@ -51,16 +51,16 @@ export class LoginAuthComponent {
             if (response.accessToken && response.refreshToken) {
               sessionStorage.setItem("authToken", response.accessToken);
               sessionStorage.setItem("refreshToken", response.refreshToken);
-              sessionStorage.setItem("userType", response.userType);
+              sessionStorage.setItem("UserRoleId", response.UserRoleId);
               sessionStorage.setItem("userName", response.userName);
               sessionStorage.setItem("collegeName", response.collegeName);
 
-              const storedUserType = sessionStorage.getItem("userType");
-              this.storedUserType = storedUserType!;
+              const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+              this.storedUserRoleId = storedUserRoleId!;
 
-              if (this.storedUserType === "1") {
+              if (this.storedUserRoleId === "1") {
                 this.router.navigate(["/placement-dashboard"]);
-              } else if (this.storedUserType === "2") {
+              } else if (this.storedUserRoleId === "2") {
                 this.router.navigate(["/company-dashboard"]);
               } else {
                 this.router.navigate(["/student-dashboard"]);

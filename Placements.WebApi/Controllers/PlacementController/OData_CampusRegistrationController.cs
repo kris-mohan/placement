@@ -31,14 +31,18 @@ namespace Placements.WebApi.Controllers.PlacementController
             try
             {
                 campusregistration.DateOfRegistration = DateTime.Now;
+                var userRoleId = await _context.Userroles.ToListAsync();
                 _context.Campusregistrations.Add(campusregistration);
                 await _context.SaveChangesAsync();
 
+
+
                 var loginDetails = new Login
                 {
+                    CampusId = campusregistration.Id,
                     UserName = campusregistration.CollegeEmail,
                     Password = campusregistration.Password,
-                    UserType = campusregistration.UserType,
+                    RoleId = userRoleId[0].Id,
                     DateOfRegistration = campusregistration.DateOfRegistration
                 };
                 _context.Logins.Add(loginDetails);
@@ -75,7 +79,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 original.DateOfRegistration = campusregistration.DateOfRegistration;
                 original.IsDeleted = campusregistration.IsDeleted;
                 original.IsActive = campusregistration.IsActive;
-                original.UserType = campusregistration.UserType;
+                original.UserRoleId = campusregistration.UserRoleId;
 
 
                 _context.Campusregistrations.Update(original);

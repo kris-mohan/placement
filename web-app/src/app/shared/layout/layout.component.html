@@ -90,13 +90,13 @@
       </span>
 
       <span style="display: flex; align-items: center; margin-left: 1.5rem">
-        <div *ngIf="userType === 1" style="font-family: 'Lato', sans-serif">
+        <div *ngIf="UserRoleId === 1" style="font-family: 'Lato', sans-serif">
           TPC
         </div>
-        <div *ngIf="userType === 2" style="font-family: 'Lato', sans-serif">
+        <div *ngIf="UserRoleId === 2" style="font-family: 'Lato', sans-serif">
           HR
         </div>
-        <div *ngIf="userType === 3" style="font-family: 'Lato', sans-serif">
+        <div *ngIf="UserRoleId === 3" style="font-family: 'Lato', sans-serif">
           Student
         </div>
       </span>
@@ -133,7 +133,7 @@
       <mat-nav-list>
         <!-- Placement Officer -->
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           mat-list-item
           [routerLink]="['/placement-dashboard']"
           routerLinkActive="active"
@@ -145,7 +145,7 @@
           </div>
         </a>
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           mat-list-item
           [routerLink]="['/placement-company']"
           routerLinkActive="active"
@@ -157,7 +157,7 @@
           </div>
         </a>
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           [routerLink]="['/placement-interview']"
           mat-list-item
           routerLinkActive="active"
@@ -170,7 +170,7 @@
         </a>
 
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           mat-list-item
           [routerLink]="['/campus-configuration']"
           routerLinkActive="active"
@@ -183,7 +183,7 @@
         </a>
 
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           mat-list-item
           [routerLink]="['/students']"
           routerLinkActive="active"
@@ -195,7 +195,7 @@
           </div>
         </a>
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           mat-list-item
           [routerLink]="['/Placement-offer-Recieved']"
           routerLinkActive="active"
@@ -207,7 +207,7 @@
           </div>
         </a>
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           mat-list-item
           [routerLink]="['/placement-communicaton']"
           routerLinkActive="active"
@@ -219,7 +219,7 @@
           </div>
         </a>
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           mat-list-item
           [routerLink]="['/placement-feedback-survey']"
           routerLinkActive="active"
@@ -232,7 +232,7 @@
         </a>
 
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           mat-list-item
           [routerLink]="['/indent-view']"
           routerLinkActive="active"
@@ -244,7 +244,7 @@
           </div>
         </a>
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           mat-list-item
           [routerLink]="['/placement-gbsetting']"
           routerLinkActive="active"
@@ -257,7 +257,7 @@
         </a>
 
         <a
-          *ngIf="userType === 1"
+          *ngIf="UserRoleId === 1"
           mat-list-item
           [routerLink]="['/template-generator']"
           routerLinkActive="active"
@@ -272,7 +272,7 @@
         <!-- Company / HR -->
 
         <a
-          *ngIf="userType === 2"
+          *ngIf="UserRoleId === 2"
           mat-list-item
           [routerLink]="['/company-dashboard']"
           routerLinkActive="active"
@@ -285,7 +285,7 @@
         </a>
 
         <a
-          *ngIf="userType === 2"
+          *ngIf="UserRoleId === 2"
           mat-list-item
           [routerLink]="['/Indent-view']"
           routerLinkActive="active"
@@ -298,7 +298,7 @@
         </a>
 
         <a
-          *ngIf="userType === 2"
+          *ngIf="UserRoleId === 2"
           [routerLink]="['/company-profile']"
           mat-list-item
           routerLinkActive="active"
@@ -311,7 +311,7 @@
         </a>
 
         <a
-          *ngIf="userType === 2"
+          *ngIf="UserRoleId === 2"
           mat-list-item
           [routerLink]="['/company-job-details']"
           routerLinkActive="active"
@@ -323,7 +323,7 @@
           </div>
         </a>
         <a
-          *ngIf="userType === 2"
+          *ngIf="UserRoleId === 2"
           [routerLink]="['/interview']"
           mat-list-item
           routerLinkActive="active"
@@ -336,7 +336,7 @@
         </a>
 
         <a
-          *ngIf="userType === 2"
+          *ngIf="UserRoleId === 2"
           mat-list-item
           [routerLink]="['/company-calendar']"
           routerLinkActive="active"
@@ -349,7 +349,7 @@
         </a>
 
         <a
-          *ngIf="userType === 2"
+          *ngIf="UserRoleId === 2"
           mat-list-item
           [routerLink]="['offer-management']"
           routerLinkActive="active"
@@ -362,7 +362,7 @@
         </a>
 
         <a
-          *ngIf="userType === 2"
+          *ngIf="UserRoleId === 2"
           mat-list-item
           [routerLink]="['interview-schedule']"
           routerLinkActive="active"
@@ -375,7 +375,7 @@
         </a>
 
         <a
-          *ngIf="userType === 2"
+          *ngIf="UserRoleId === 2"
           mat-list-item
           [routerLink]="['company-communication']"
           routerLinkActive="active"
@@ -390,7 +390,7 @@
         <!-- Student -->
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           mat-list-item
           [routerLink]="['/student-dashboard']"
           routerLinkActive="active"
@@ -403,7 +403,7 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           mat-list-item
           [routerLink]="['/profile-management-dashboard']"
           routerLinkActive="active"
@@ -416,7 +416,7 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           [routerLink]="['/student-jobs']"
           mat-list-item
           routerLinkActive="active"
@@ -429,7 +429,7 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           [routerLink]="['/interview']"
           mat-list-item
           routerLinkActive="active"
@@ -444,7 +444,7 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           mat-list-item
           [routerLink]="['/student-offer-Recieved']"
           routerLinkActive="active"
@@ -457,7 +457,7 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           mat-list-item
           [routerLink]="['/student-offer-Recieved']"
           routerLinkActive="active"
@@ -472,7 +472,7 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           [routerLink]="['/student-calendar']"
           mat-list-item
           routerLinkActive="active"
@@ -485,7 +485,7 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           [routerLink]="['/student_applied']"
           mat-list-item
           routerLinkActive="active"
@@ -498,7 +498,7 @@
         </a>
 
         <!-- <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           mat-list-item
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }">
@@ -509,7 +509,7 @@
         </a> -->
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           mat-list-item
           [routerLink]="['/resume-builder']"
           routerLinkActive="active"
@@ -522,9 +522,9 @@
         </a>
 
         <a
-          *ngIf="userType === 3"
+          *ngIf="UserRoleId === 3"
           mat-list-item
-          [routerLink]="['/student-communication']"
+          [routerLink]="['/forum']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >

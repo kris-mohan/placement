@@ -43,7 +43,7 @@ export class LayoutComponent {
   showSpinner: boolean = false;
   userName: string = "";
   isAdmin: boolean = false;
-  userType: number;
+  UserRoleId: number;
 
   private autoLogoutSubscription: Subscription = new Subscription();
 
@@ -57,12 +57,12 @@ export class LayoutComponent {
     this.mobileQuery = this.media.matchMedia("(max-width: 1000px)");
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener("change", this._mobileQueryListener);
-    const storedUserType = sessionStorage.getItem("userType");
+    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
     const storedCollegeName = sessionStorage.getItem("collegeName");
 
     const storedUserName = sessionStorage.getItem("userName");
-    console.log(storedUserType);
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    console.log(storedUserRoleId);
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
     this.userName = storedUserName!;
   }
 
@@ -79,9 +79,9 @@ export class LayoutComponent {
   }
 
   onClickSoftwareLogo() {
-    if (this.userType === 1) {
+    if (this.UserRoleId === 1) {
       this.router.navigate(["/placement-dashboard"]);
-    } else if (this.userType === 2) {
+    } else if (this.UserRoleId === 2) {
       this.router.navigate(["/company-dashboard"]);
     } else {
       this.router.navigate(["/student-dashboard"]);

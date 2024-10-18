@@ -11,24 +11,29 @@ import { companyTableList } from "src/app/features/company-configuration/company
 import { SharedModule } from "src/app/shared/shared.module";
 import { PanelTabComponent } from "../panel-tab.component";
 @Component({
-  
   selector: "app-add-edit-panel-modal",
   standalone: true,
-  imports: [MatDialogModule, AMGModules, SharedModule, CommonModule,PanelTabComponent],
+  imports: [
+    MatDialogModule,
+    AMGModules,
+    SharedModule,
+    CommonModule,
+    PanelTabComponent,
+  ],
 
   templateUrl: "./add-edit-panel-modal.component.html",
   styleUrl: "./add-edit-panel-modal.component.css",
 })
 export class AddEditPanelModalComponent {
-  userType: number;
+  UserRoleId: number;
   panelId: number | null = null;
   constructor(
     public dialogRef: MatDialogRef<AddEditPanelModalComponent>,
     private route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public data: companyTableList
   ) {
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
 
   ngOnInit(): void {

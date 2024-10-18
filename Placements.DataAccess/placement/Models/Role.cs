@@ -12,6 +12,4 @@ public partial class Role
     public string? Description { get; set; }
 
     public ulong IsDeleted { get; set; }
-
-    public virtual ICollection<Login> Logins { get; set; } = new List<Login>();
 }

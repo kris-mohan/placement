@@ -77,7 +77,7 @@ export class InterviewComponent {
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
-  userType: number;
+  UserRoleId: number;
 
   CityControl = new FormControl();
   industryControl = new FormControl();
@@ -97,8 +97,8 @@ export class InterviewComponent {
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService
   ) {
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   displayedColumns: string[] = [
     // "Url",
@@ -507,7 +507,7 @@ export class InterviewComponent {
   }
 
   goToInterviewStudentsDetails(id: number) {
-    if (this.userType === 1 || this.userType === 2) {
+    if (this.UserRoleId === 1 || this.UserRoleId === 2) {
       this.router.navigate(["interview/interview-students-list", id]);
     }
   }

@@ -20,7 +20,7 @@ import { InterviewRoundsAPIService } from "./api-add-rounds-modal";
   styleUrl: "./add-rounds-modal.component.css",
 })
 export class AddRoundsModalComponent {
-  userType: number;
+  UserRoleId: number;
   roundId: number | null = null;
   selectedPriority: string = "";
   constructor(
@@ -29,8 +29,8 @@ export class AddRoundsModalComponent {
     private route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public data: companyTableList
   ) {
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
 
   ngOnInit(): void {

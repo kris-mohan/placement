@@ -33,7 +33,7 @@ public partial class Campusregistration
 
     public ulong IsActive { get; set; }
 
-    public int? UserType { get; set; }
+    public long? UserRoleId { get; set; }
 
     public virtual ICollection<Collegejobposting> Collegejobpostings { get; set; } = new List<Collegejobposting>();
 

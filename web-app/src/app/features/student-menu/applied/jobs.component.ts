@@ -28,9 +28,9 @@ export interface ODataResponse<T> {
   value: T[];
 }
 
-export interface JobsList{
-  id: number,
-  Name: string,
+export interface JobsList {
+  id: number;
+  Name: string;
 }
 
 @Component({
@@ -83,7 +83,7 @@ export class JobsComponent {
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
-  userType: number;
+  UserRoleId: number;
 
   CityControl = new FormControl();
   industryControl = new FormControl();
@@ -99,12 +99,12 @@ export class JobsComponent {
   constructor(
     private router: Router,
     private sweetAlertService: SweetAlertService,
-    private location: Location,
-    // private apiCompanyService: CompanyAPIService,
-    // private apiIndustryService: IndustryAPIService
-  ) {
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    private location: Location
+  ) // private apiCompanyService: CompanyAPIService,
+  // private apiIndustryService: IndustryAPIService
+  {
+    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   displayedColumns: string[] = [
     // "Url",
@@ -501,7 +501,7 @@ export class JobsComponent {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-  
+
   showIndustryResults() {
     const selectedIndustries = this.industryControl.value;
     if (selectedIndustries && selectedIndustries.length > 0) {

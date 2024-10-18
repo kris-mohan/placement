@@ -30,7 +30,20 @@ namespace Placements.WebApi.Controllers.PlacementController
         {
             try
             {
+                companydatum.DateOfRegistration = DateTime.Now;
+                var userRoleId = await _context.Userroles.ToListAsync();
                 _context.Companydata.Add(companydatum);
+                await _context.SaveChangesAsync();
+
+                var loginDetails = new Login
+                {
+                    CompanyId = companydatum.Id,
+                    UserName = companydatum.Email,
+                    Password = companydatum.Password,
+                    RoleId = userRoleId[1].Id,
+                    DateOfRegistration = companydatum.DateOfRegistration
+                };
+                _context.Logins.Add(loginDetails);
                 await _context.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Company Added Successfully" });

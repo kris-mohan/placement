@@ -26,8 +26,8 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { PlacementInterviewAdditionalFilterComponent } from "./placement-interview-additional-filter/placement-interview-additional-filter.component";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { provideNativeDateAdapter } from "@angular/material/core";
-import * as XLSX from 'xlsx';
-import { jsPDF } from 'jspdf';
+import * as XLSX from "xlsx";
+import { jsPDF } from "jspdf";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -81,7 +81,7 @@ export class PlacementInterviewComponent {
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
-  userType: number;
+  UserRoleId: number;
 
   CityControl = new FormControl();
   industryControl = new FormControl();
@@ -101,8 +101,8 @@ export class PlacementInterviewComponent {
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService
   ) {
-    const storedUserType = sessionStorage.getItem("userType");
-    this.userType = storedUserType ? parseInt(storedUserType) : 0;
+    const storedUserRoleId = sessionStorage.getItem("UserRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   displayedColumns: string[] = [
     // "Url",
@@ -511,7 +511,7 @@ export class PlacementInterviewComponent {
   }
 
   goToInterviewStudentsDetails(id: number) {
-    if (this.userType === 1 || this.userType === 2) {
+    if (this.UserRoleId === 1 || this.UserRoleId === 2) {
       this.router.navigate([
         "placement-interview/placement-interview-students/",
         id,
@@ -628,4 +628,3 @@ export class PlacementInterviewComponent {
     console.log("View details for interview ID:", id);
   }
 }
-

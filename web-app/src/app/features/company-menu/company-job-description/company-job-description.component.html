@@ -25,7 +25,7 @@
       <p class="matName">Edit Job Posting</p>
     </button>
     <button
-      *ngIf="userType !== 3"
+      *ngIf="UserRoleId !== 3"
       mat-raised-button
       class="matbutton"
       (click)="openAddEditCompanyForm(0)"
@@ -45,9 +45,9 @@
               <span class="rating"> 3.9 | 5486 Reviews</span>
             </div>
             <div>
-              <button *ngIf="userType === 3" class="apply-button">Apply</button>
+              <button *ngIf="UserRoleId === 3" class="apply-button">Apply</button>
               <button
-                *ngIf="userType !== 3"
+                *ngIf="UserRoleId !== 3"
                 class="apply-button"
                 (click)="openEligibleStudentsModel()">
                 Applied Student List

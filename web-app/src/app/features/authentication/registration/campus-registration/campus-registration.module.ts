@@ -12,5 +12,5 @@ export type Campusregistration = {
   ZipCode: string;
   DateOfRegistration: Date;
   IsActive: boolean;
-  UserType: number;
+  UserRoleId: number;
 };
