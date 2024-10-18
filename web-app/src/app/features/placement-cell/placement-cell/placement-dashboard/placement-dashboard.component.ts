@@ -25,6 +25,7 @@ import { BasicLineChartComponent } from 'src/app/features/charts/line chart/basi
     SharedModule,
     AMGModules,
   ],
+
   templateUrl: './placement-dashboard.component.html',
   styleUrl: './placement-dashboard.component.css',
 })
@@ -46,6 +47,12 @@ export class PlacementDashboardComponent implements OnInit {
   companyLabels: string[] = [];
   yearlyComparisonData: any[] = [];
   yearLabels: string[] = [];
+  topHiringCompaniesData: any[] = [];
+  topCompanyYearLabels: string[] = [];
+  skillDemandData: any[] = [];
+  skillLabels: string[] = [];
+  placementTrendData: any[] = [];
+  timeLabels: string[] = [];
 
   notifications = [
     {
@@ -246,6 +253,73 @@ export class PlacementDashboardComponent implements OnInit {
       this.yearLabels = ['CS', 'IS', 'EC', 'ME', 'CV', 'MBA'];
     };
     yearlyComparisonDataSetup();
+
+    const setupTopHiringCompaniesData = async () => {
+      this.topHiringCompaniesData = [
+        {
+          name: 'Microsoft',
+          data: [120, 110, 90, 95, 85],
+        },
+        {
+          name: 'TCS',
+          data: [150, 50, 60, 120, 40],
+        },
+        {
+          name: 'Accenture',
+          data: [90, 10, 90, 95, 85],
+        },
+        {
+          name: 'Google',
+          data: [200, 100, 110, 35, 50],
+        },
+        {
+          name: 'Wipro',
+          data: [180, 30, 87, 54, 43],
+        },
+      ];
+
+      this.topCompanyYearLabels = ['2020', '2021', '2022', '2023', '2024'];
+    };
+    setupTopHiringCompaniesData();
+
+    const setupSkillDemandData = async () => {
+      this.skillDemandData = [
+        {
+          name: 'Softserve Global',
+          data: [100, 100, 100, 100, 100], // Demand for each skill
+        },
+        {
+          name: 'TCS',
+          data: [60, 75, 85, 95, 70],
+        },
+        {
+          name: 'Wipro',
+          data: [50, 60, 70, 85, 90],
+        },
+      ];
+
+      this.skillLabels = ['JavaScript', 'Python', 'Java', 'Angular', 'SQL'];
+    };
+    setupSkillDemandData();
+
+    const setupPlacementTrendData = async () => {
+      this.placementTrendData = [
+        {
+          name: 'Drives Conducted',
+          data: [5, 7, 10, 8, 15, 12, 17], // Example monthly data
+        },
+        {
+          name: 'Students Registered',
+          data: [200, 250, 300, 280, 350, 400, 420],
+        },
+        {
+          name: 'Students Placed',
+          data: [150, 180, 220, 200, 250, 290, 310],
+        },
+      ];
+
+      this.timeLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+    };
 
     const branchWisePlacementStatus = async () => {
       this.branchPlacementSeries = [120, 150, 80, 90, 50];
