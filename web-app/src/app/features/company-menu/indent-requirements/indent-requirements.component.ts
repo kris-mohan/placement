@@ -1,15 +1,29 @@
 import { Component } from "@angular/core";
-import { FormGroup, FormControl, FormBuilder } from "@angular/forms";
+import {
+  FormGroup,
+  FormControl,
+  FormBuilder,
+  FormsModule,
+  FormArray,
+  Validators,
+} from "@angular/forms";
 import { ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { CommonModule, Location } from "@angular/common";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
+import { MatGridListModule } from "@angular/material/grid-list";
 
 @Component({
   selector: "app-indent-requirements",
   standalone: true,
-  imports: [AMGModules, CommonModule, SharedModule],
+  imports: [
+    AMGModules,
+    CommonModule,
+    SharedModule,
+    MatGridListModule,
+    FormsModule,
+  ],
   templateUrl: "./indent-requirements.component.html",
   styleUrl: "./indent-requirements.component.css",
 })
@@ -20,18 +34,46 @@ export class IndentRequirementsComponent {
     private fb: FormBuilder
   ) {
     this.addIndentForm = this.fb.group({
-      TrainerName: "",
-      Email: "",
-      ContactNumber: null,
-      Extra: "",
-      Extra1: "",
+      TrainerName: new FormControl(""),
+      Email: new FormControl(""),
+      ContactNumber: new FormControl(""),
+      Extra: new FormControl(""),
+      Extra1: new FormControl(""),
+      itemsArray: this.fb.array([]),
     });
+
+    this.itemsArray = this.addIndentForm.get("itemsArray") as FormArray;
+    // this.addInitialItems();
   }
-  // indentForm = new FormGroup({
-  //   invalid: new FormControl(false),
-  // });
+
   addIndentForm: FormGroup;
+  itemsArray: FormArray;
+  // addInitialItems() {
+  //   this.itemsArray.push(this.createItemFormControl());
+  //   this.itemsArray.push(this.createItemFormControl());
+  // }
+
+  createItemFormControl(): FormControl {
+    return this.fb.control("", Validators.required);
+  }
+
+  handleAddGrid(): void {
+    this.itemsArray.push(this.createItemFormControl());
+    this.itemsArray.push(this.createItemFormControl());
+  }
+
+  handleDeleteGrid(index: number): void {
+    // const length = this.itemsArray.length;
+    if (index >= 0 && index && this.itemsArray.length > 0) {
+      this.itemsArray.removeAt(index); // Removes the last item
+    }
+  }
+
   onSubmit() {
+    this.location.back();
+  }
+
+  onSubmitDiv() {
     this.location.back();
   }
   onReset() {

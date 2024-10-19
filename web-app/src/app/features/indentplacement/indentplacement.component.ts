@@ -21,10 +21,7 @@ export class IndentplacementComponent {
   UserRoleId: number;
   constructor(
     private router: Router,
-    // private dialogService: DialogMessageService,
     private sweetAlertService: SweetAlertService,
-    private location: Location,
-    // private location: Location,
     private APICalendarEventsService: CalendarEventAPIService
   ) {
     this.generateColumns();

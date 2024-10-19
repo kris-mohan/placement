@@ -12,7 +12,7 @@
 </mat-card-header>
 <mat-divider></mat-divider>
 
-<form [formGroup]="addIndentForm" (ngSubmit)="onSubmit()">
+<form class="content" [formGroup]="addIndentForm" (ngSubmit)="onSubmit()">
   <mat-card>
     <mat-card-content>
       <div fxLayout="row wrap">
@@ -25,7 +25,7 @@
           <p class="grid-label">Company Name</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Company Name</mat-label>
-            <input matInput />
+            <input formControlName="TrainerName" matInput />
           </mat-form-field>
         </div>
 
@@ -71,7 +71,6 @@
             <input matInput formControlName="Extra" />
           </mat-form-field>
         </div>
-
         <div
           fxFlex="100%"
           fxFlex.gt-md="33%"
@@ -84,6 +83,18 @@
             <input matInput formControlName="Extra1" />
           </mat-form-field>
         </div>
+        <!-- <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label"></p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label></mat-label>
+            <input matInput formControlName="Extra1" />
+          </mat-form-field>
+        </div> -->
         <div
           fxFlex="100%"
           fxFlex.gt-md="33%"
@@ -96,6 +107,54 @@
             <input matInput formControlName="Extra1" />
           </mat-form-field>
         </div>
+      </div>
+      <div>
+        <button
+          mat-raised-button
+          class="matbutton"
+          type="button"
+          (click)="handleAddGrid()"
+        >
+          <p class="matName">+</p>
+        </button>
+      </div>
+      <div>
+        <form
+          class="content"
+          [formGroup]="addIndentForm"
+          (ngSubmit)="onSubmitDiv()"
+        >
+          <mat-grid-list
+            cols="2"
+            rowHeight="10:1"
+            class="grid"
+            formArrayName="itemsArray"
+          >
+            <mat-grid-tile
+              *ngFor="let item of itemsArray.controls; let i = index"
+            >
+              <div class="input_div" fxFlex="90%">
+                <p class="grid-label">Required Item</p>
+                <mat-form-field appearance="outline" class="matFormField">
+                  <mat-label>Required Item</mat-label>
+                  <input matInput [formControlName]="i" />
+                </mat-form-field>
+                <div>
+                  <button
+                    mat-raised-button
+                    class="matbutton"
+                    type="button"
+                    (click)="handleDeleteGrid(i)"
+                  >
+                    <p class="matName">remove</p>
+                  </button>
+                </div>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+          <!--  <button type="button" (click)="handleAddGrid()">Add Item</button>
+  <button type="submit">Submit</button> -->
+        </form>
       </div>
     </mat-card-content>
   </mat-card>

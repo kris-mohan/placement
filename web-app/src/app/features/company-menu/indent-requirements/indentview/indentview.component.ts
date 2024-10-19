@@ -182,9 +182,9 @@ export class IndentviewComponent {
     }
   }
 
-  ngOnInit() {
-    this.loadCalendarEventData();
-  }
+  // ngOnInit() {
+  //   this.loadCalendarEventData();
+  // }
 
   loadCalendarEventData() {
     this.APICalendarEventsService.loadCalendarEventData().subscribe({
