@@ -49,7 +49,8 @@
               <button
                 *ngIf="UserRoleId !== 3"
                 class="apply-button"
-                (click)="openEligibleStudentsModel()">
+                (click)="openEligibleStudentsModel()"
+              >
                 Applied Student List
               </button>
             </div>
@@ -121,85 +122,90 @@
           </mat-form-field>
           <app-funnel-chart></app-funnel-chart>
         </div>
-      </div>
-      <div class="right-content">
-        <div class="related-jobs">
-          <h3>Accenture</h3>
-          <ul>
-            <li>
-              <h4>About the company</h4>
-              <p>
-                Accenture plc is a global multinational professional services
-                company originating in the US and headquartered in Dublin,
-                Ireland, that specializes in information technology services and
-                consulting. A Fortune Global 500 company, it reported revenues
-                of $64.9 billion in 2024.Lorem ipsum dolor sit, amet consectetur
-                adipisicing elit. Minus rem amet deserunt eos laborum quae animi
-                minima repellat et? Quae ab nihil nam maiores, in odio velit
-                delectus accusantium facere.
-              </p>
-              <!-- <span>Paytm | 3.3 | 6720 reviews</span>
-              <span>Noida, Bengaluru | Posted 22 days ago</span> -->
-            </li>
-            <li>
-              <p>Headquarters: Dublin, Ireland</p>
-              <p>Customer service: 00 1 312-842-5012</p>
-              <p>Number of employees: 733,000 (2023)</p>
-              <p>CEO: Julie Sweet (1 Sept 2019–)</p>
-              <p>Founded: 1989, Hamilton, Bermuda</p>
-              <p>CFO: KC McClure</p>
-              <!-- <span>Paytm | 3.3 | 6720 reviews</span>
-              <span>Noida, Bengaluru | Posted 22 days ago</span> -->
-            </li>
-            <!-- <li>
-              <h4>Backend Software Engineer - Paytm Money</h4>
-              <span>Paytm | 3.3 | 6720 reviews</span>
-              <span>Noida, Bengaluru | Posted 22 days ago</span>
-            </li> -->
-          </ul>
-        </div>
 
-        <div class="resources">
-          <h2>Uploaded Resources</h2>
-          <div class="resources-container">
-            <div class="video-column">
-              <h4>Video:</h4>
-              <iframe
-                width="120%"
-                height="200"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            </div>
+        <div class="right-content" *ngIf="UserRoleId !== 2">
+          <div class="related-jobs">
+            <h3>Accenture</h3>
+            <ul>
+              <li>
+                <h4>About the company</h4>
+                <p>
+                  Accenture plc is a global multinational professional services
+                  company originating in the US and headquartered in Dublin,
+                  Ireland, that specializes in information technology services
+                  and consulting. A Fortune Global 500 company, it reported
+                  revenues of $64.9 billion in 2024.Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Minus rem amet deserunt eos
+                  laborum quae animi minima repellat et? Quae ab nihil nam
+                  maiores, in odio velit delectus accusantium facere.
+                </p>
+                <!-- <span>Paytm | 3.3 | 6720 reviews</span>
+                <span>Noida, Bengaluru | Posted 22 days ago</span> -->
+              </li>
+              <li>
+                <p>Headquarters: Dublin, Ireland</p>
+                <p>Customer service: 00 1 312-842-5012</p>
+                <p>Number of employees: 733,000 (2023)</p>
+                <p>CEO: Julie Sweet (1 Sept 2019–)</p>
+                <p>Founded: 1989, Hamilton, Bermuda</p>
+                <p>CFO: KC McClure</p>
+                <!-- <span>Paytm | 3.3 | 6720 reviews</span>
+                <span>Noida, Bengaluru | Posted 22 days ago</span> -->
+              </li>
+              <!-- <li>
+                <h4>Backend Software Engineer - Paytm Money</h4>
+                <span>Paytm | 3.3 | 6720 reviews</span>
+                <span>Noida, Bengaluru | Posted 22 days ago</span>
+              </li> -->
+            </ul>
+          </div>
 
-            <div class="resources-column">
-              <div>
-                <h4>PPT:</h4>
-                <a
-                  href="../../../../assets/PaataashalaBrochure.pdf"
-                  target="_blank"
-                  class="resource-link">
-                  <mat-icon>picture_as_pdf</mat-icon> View PPT
-                </a>
+          <div class="resources">
+            <h2>Uploaded Resources</h2>
+            <div class="resources-container">
+              <div class="video-column">
+                <h4>Video:</h4>
+                <iframe
+                  width="120%"
+                  height="200"
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
               </div>
-              <div>
-                <h4>Document:</h4>
-                <a
-                  href="../../../../assets/PaataashalaBrochure.pdf"
-                  target="_blank"
-                  class="resource-link">
-                  <mat-icon>description</mat-icon> View Document
-                </a>
-              </div>
-              <div>
-                <h4>Audio:</h4>
-                <a
-                  href="assets/sample-audio.mp3"
-                  target="_blank"
-                  class="resource-link">
-                  <mat-icon>volume_up</mat-icon> Listen to Audio
-                </a>
+
+              <div class="resources-column">
+                <div>
+                  <h4>PPT:</h4>
+                  <a
+                    href="../../../../assets/PaataashalaBrochure.pdf"
+                    target="_blank"
+                    class="resource-link"
+                  >
+                    <mat-icon>picture_as_pdf</mat-icon> View PPT
+                  </a>
+                </div>
+                <div>
+                  <h4>Document:</h4>
+                  <a
+                    href="../../../../assets/PaataashalaBrochure.pdf"
+                    target="_blank"
+                    class="resource-link"
+                  >
+                    <mat-icon>description</mat-icon> View Document
+                  </a>
+                </div>
+                <div>
+                  <h4>Audio:</h4>
+                  <a
+                    href="assets/sample-audio.mp3"
+                    target="_blank"
+                    class="resource-link"
+                  >
+                    <mat-icon>volume_up</mat-icon> Listen to Audio
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -208,5 +214,3 @@
     </div>
   </mat-card-content>
 </mat-card>
-
- 

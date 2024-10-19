@@ -56,7 +56,9 @@ cdk-overlay-pane {
 .custom-dropdown-panel {
   width: auto;
 }
-
+.mat-card-content {
+  max-width: 75%;
+}
 .mat-grid-tile {
   border-radius: 0.5rem;
   background-color: #c3d2f899;
@@ -122,4 +124,67 @@ cdk-overlay-pane {
 .heading {
   display: flex;
   justify-content: space-between;
+}
+.right-content {
+  width: 40%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+.related-jobs h3 {
+  font-size: 1.3rem;
+}
+
+.related-jobs ul {
+  list-style: none;
+  padding: 0;
+}
+
+.related-jobs li {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.related-jobs li h4 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.related-jobs li span {
+  display: block;
+  font-size: 0.9rem;
+  color: #777;
+}
+.resources-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.resources-column {
+  flex: 1 1 100%;
+  max-width: 48%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+@media (max-width: 768px) {
+  .video-column,
+  .resources-column {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+.image {
+  height: 40px;
+}
+.resource-link {
+  display: flex;
+  margin-top: 10px;
+  gap: 5px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
 }

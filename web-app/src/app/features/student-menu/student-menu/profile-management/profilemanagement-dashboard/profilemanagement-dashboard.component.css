@@ -2,8 +2,13 @@
   background-color: #3f51b5;
   margin-left: 20px;
   margin-top: 20px;
+  display: flex;
+  justify-content: end;
 }
-
+.AddButton {
+  display: flex;
+  justify-content: end;
+}
 .matName {
   color: white;
 }
