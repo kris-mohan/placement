@@ -64,7 +64,7 @@ export class AddEditSchedulesComponent {
     this.getTrainerScheduleById();
     this.companyData();
     this.trainersCourseData();
-    this.trainersData();
+    //this.trainersData();
   }
   onReset() {
     this.addEditScheduleForm.reset(this.initialFormValues);
@@ -93,16 +93,16 @@ export class AddEditSchedulesComponent {
     });
   }
 
-  trainersData(): void {
-    this.apiTrainerService.loadTrainerData().subscribe({
-      next: (Response: ODataResponse<Trainer>) => {
-        this.trainers = Response.value;
-      },
-      error: (error) => {
-        console.error("Error loading trainers", error);
-      },
-    });
-  }
+  // trainersData(): void {
+  //   this.apiTrainerService.loadTrainerData().subscribe({
+  //     next: (Response: ODataResponse<Trainer>) => {
+  //       this.trainers = Response.value;
+  //     },
+  //     error: (error) => {
+  //       console.error("Error loading trainers", error);
+  //     },
+  //   });
+  // }
 
   getTrainerScheduleById(): void {
     this.route.paramMap.subscribe((params) => {

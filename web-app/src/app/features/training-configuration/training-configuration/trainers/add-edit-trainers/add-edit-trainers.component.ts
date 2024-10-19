@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { TabService } from "src/app/features/company-configuration/tabs-service";
 import { TrainerAPIService } from "../api.trainer";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import { Trainer } from "src/app/services/types/Trainer";
 
 @Component({
   selector: "app-add-edit-trainers",
@@ -20,7 +21,7 @@ export class AddEditTrainersComponent {
   addEditTrainerForm: FormGroup;
   Id: number | null = null;
   initialFormValues: any;
-   Training: string[] = ["Paid Training", "College Traning", "Free Training"];
+  Training: string[] = ["Paid Training", "College Traning", "Free Training"];
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +35,8 @@ export class AddEditTrainersComponent {
       Email: "",
       PhoneNumber: "",
       Password: "",
+      CompanyName: "",
+      TrainerType: "",
     });
   }
 
@@ -47,11 +50,13 @@ export class AddEditTrainersComponent {
       this.Id = id !== null ? +id : null;
       if (this.Id) {
         this.apiTrainerService.getTrainerDataById(this.Id).subscribe({
-          next: (response: ODataResponse<any>) => {
-            const trainer = response.value[0];
-            if (trainer) {
-              this.addEditTrainerForm.patchValue(trainer);
+          next: (response) => {
+            console.log(response);
+            if (response.value && response.value.length > 0) {
+              this.addEditTrainerForm.patchValue(response.value[0]);
               this.initialFormValues = this.addEditTrainerForm.value;
+            } else {
+              console.error("No trainer found for the given ID.");
             }
           },
           error: (error) => {
@@ -63,7 +68,7 @@ export class AddEditTrainersComponent {
   }
 
   async onSubmit(): Promise<void> {
-    const TrainerData: Partial<any> = this.addEditTrainerForm.value;
+    const TrainerData: Partial<Trainer> = this.addEditTrainerForm.value;
     const isUpdate = !!this.Id;
     const actionText = isUpdate ? "update" : "add";
     const confirmed = await this.sweetAlertService.confirm(

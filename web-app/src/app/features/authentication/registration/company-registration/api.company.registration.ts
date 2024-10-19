@@ -1,7 +1,9 @@
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
 import { ODataResponse } from "./company-registration.component";
-import { Observable } from "rxjs";
+import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
 import { Injectable } from "@angular/core";
+import { HttpErrorResponse } from "@angular/common/http";
+import { CompanyRegistration } from "./company-registration.module";
 
 @Injectable({
   providedIn: "root",
@@ -9,8 +11,36 @@ import { Injectable } from "@angular/core";
 export class CompanyRegistrationAPIService {
   constructor(private apiHttpService: ApiHttpService) {}
 
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = "";
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Client-side error: ${error.error.message}`;
+    } else {
+      errorMessage = `Server-side error: ${error.status} - ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
+  }
+
+  public async getCompanyDetails(): Promise<any> {
+    try {
+      const response = await firstValueFrom(
+        this.apiHttpService
+          .get("/Companydatum")
+          .pipe(catchError(this.handleError))
+      );
+      return response;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Error in GET request: ${error.message}`);
+      } else {
+        throw error;
+      }
+    }
+  }
+
   public loadCampusRegistrationData(): Observable<ODataResponse<any>> {
-    return this.apiHttpService.get("/Login/?filter=Isdeleted eq false");
+    return this.apiHttpService.get("/Companydatum/?filter=Isdeleted eq false");
   }
 
   public getCompanyRegistrationDataById(

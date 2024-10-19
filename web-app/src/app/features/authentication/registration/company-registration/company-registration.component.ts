@@ -8,6 +8,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { CompanyRegistrationAPIService } from "./api.company.registration";
 import { CompanyRegistration } from "./company-registration.module";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
+import { Companydatum } from "src/app/services/types/Companydatum";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -57,6 +58,16 @@ export class CompanyRegistrationComponent {
 
   onReset() {
     this.addcompanyRegistrationForm.reset();
+  }
+
+  async ngOnInit() {
+    try {
+      const data: Companydatum[] =
+        await this.apiCompanyRegistration.getCompanyDetails();
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching company details:", error);
+    }
   }
 
   async onSubmit(): Promise<void> {

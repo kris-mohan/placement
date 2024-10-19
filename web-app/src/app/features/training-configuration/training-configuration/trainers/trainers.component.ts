@@ -4,9 +4,9 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
-import { Trainer } from "./trainers-module";
 import { TrainerAPIService } from "./api.trainer";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import { Trainer } from "src/app/services/types/Trainer";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -53,7 +53,7 @@ export class TrainersComponent {
       .replace(/([A-Z])/g, " $1")
       .replace(/^./, (str) => str.toUpperCase());
   }
-  dataSource = new MatTableDataSource<Trainer>([]);
+  TrainerDataSource = new MatTableDataSource<Trainer>([]);
 
   openAddEditTrainerForm(trainerId?: number) {
     if (trainerId != undefined) {
@@ -63,21 +63,21 @@ export class TrainersComponent {
     }
   }
 
-  ngOnInit() {
-    this.loadTrainerData();
+  async ngOnInit() {
+    this.getTrainerData();
   }
 
-  loadTrainerData() {
-    this.apiTrainerService.loadTrainerData().subscribe({
-      next: (response: ODataResponse<any>) => {
-        console.log("API Response:", response);
-        this.dataSource.data = response.value;
-      },
-      error: (error) => {
-        console.error("Error loading Trainer", error);
-      },
-    });
+  async getTrainerData() {
+    try {
+      const response = await this.apiTrainerService.getTrainers();
+      const data: Trainer[] = response.value;
+      console.log(data);
+      this.TrainerDataSource.data = data;
+    } catch (error) {
+      console.error("Error fetching company details:", error);
+    }
   }
+
   goBack(): void {
     this.location.back();
   }
@@ -92,7 +92,7 @@ export class TrainersComponent {
         next: (response: { success: boolean; message: string }) => {
           if (response.success) {
             this.sweetAlertService.success(response.message);
-            this.loadTrainerData();
+            this.getTrainerData();
           } else {
             this.sweetAlertService.error(response.message);
           }

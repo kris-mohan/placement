@@ -17,5 +17,9 @@ public partial class Trainer
 
     public ulong IsDeleted { get; set; }
 
+    public string? TrainerType { get; set; }
+
+    public string? CompanyName { get; set; }
+
     public virtual ICollection<Trainerschedule> Trainerschedules { get; set; } = new List<Trainerschedule>();
 }
