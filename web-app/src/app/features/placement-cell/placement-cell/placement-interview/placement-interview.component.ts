@@ -26,8 +26,8 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { PlacementInterviewAdditionalFilterComponent } from "./placement-interview-additional-filter/placement-interview-additional-filter.component";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { provideNativeDateAdapter } from "@angular/material/core";
-import * as XLSX from "xlsx";
-import { jsPDF } from "jspdf";
+// import * as XLSX from "xlsx";
+// import { jsPDF } from "jspdf";
 
 export interface ODataResponse<T> {
   value: T[];

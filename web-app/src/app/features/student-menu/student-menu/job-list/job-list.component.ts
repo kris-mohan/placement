@@ -6,7 +6,6 @@ import { MatSort, Sort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
-import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 import { JOBS } from "./job-list-model";
@@ -75,7 +74,6 @@ export class JobListComponent {
     private router: Router,
     private sweetAlertService: SweetAlertService,
     private location: Location,
-    private apiService: APIService,
     private _liveAnnouncer: LiveAnnouncer
   ) {}
 

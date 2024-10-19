@@ -6,7 +6,6 @@ import { ThemePalette } from "@angular/material/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router, ActivatedRoute } from "@angular/router";
 import { PeriodicElement } from "src/app/features/customers/customer-list/customer-list.component";
-import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 import { jobEligibleStudent } from "./job-eligible-students-model";
@@ -152,7 +151,6 @@ export class JobEligibleStudentsModalComponent {
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
     private location: Location,
-    private apiService: APIService
   ) {}
 
   displayedColumns: string[] = [

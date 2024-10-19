@@ -2,7 +2,6 @@ import { CommonModule, Location } from "@angular/common";
 import { Component } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
-import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 import { FirstRoundComponent } from "./first-round/first-round.component";
@@ -35,8 +34,7 @@ export class StudentResultInformation {
     private router: Router,
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
-    private location: Location,
-    private apiService: APIService
+    private location: Location
   ) {}
 
   ngOnInit() {

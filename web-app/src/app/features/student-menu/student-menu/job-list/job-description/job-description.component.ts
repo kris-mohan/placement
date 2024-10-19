@@ -3,7 +3,6 @@ import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { AddEditCompanyJobDetailsComponent } from "src/app/features/company-menu/company-job-details/add-edit-company-job-details/add-edit-company-job-details.component";
-import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 
@@ -24,8 +23,7 @@ export class JobDescriptionComponent {
     private router: Router,
     private sweetAlertService: SweetAlertService,
     private location: Location,
-    private route: ActivatedRoute,
-    private apiService: APIService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

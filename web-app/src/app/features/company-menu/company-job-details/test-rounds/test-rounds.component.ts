@@ -4,7 +4,6 @@ import { Component, inject } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
-import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 import { HiringRound } from "./test-rounds-model";
@@ -102,8 +101,7 @@ export class TestRoundsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
-    private location: Location,
-    private apiService: APIService
+    private location: Location
   ) {}
 
   jobId: number | undefined = undefined;

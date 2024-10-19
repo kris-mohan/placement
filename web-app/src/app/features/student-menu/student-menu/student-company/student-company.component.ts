@@ -1,6 +1,5 @@
 import { Component, inject, ViewChild } from "@angular/core";
 import { Router, withDebugTracing } from "@angular/router";
-import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { MatTableDataSource } from "@angular/material/table";
 import { CommonModule, Location } from "@angular/common";

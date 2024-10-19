@@ -5,7 +5,6 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Router, withDebugTracing } from "@angular/router";
-import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { MatTableDataSource } from "@angular/material/table";
 import { CommonModule, Location } from "@angular/common";
@@ -27,6 +26,8 @@ import { ImportCompanyDialogComponent } from "src/app/features/company-configura
 import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { provideNativeDateAdapter } from "@angular/material/core";
+import { Companydatum } from "src/app/services/types/Companydatum";
+import { PlacementCompanyApiService } from "./PlacementCompanyApiService";
 
 const today = new Date();
 const month = today.getMonth();
@@ -53,6 +54,8 @@ export interface ODataResponse<T> {
 })
 export class PlacementCompanyComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  companiesList: Companydatum[] = [];
 
   companies: companyTableList[] = [];
 
@@ -99,7 +102,8 @@ export class PlacementCompanyComponent {
     private sweetAlertService: SweetAlertService,
     private location: Location,
     private apiCompanyService: CompanyAPIService,
-    private apiIndustryService: IndustryAPIService
+    private apiIndustryService: IndustryAPIService,
+    private placementCompanyApiService: PlacementCompanyApiService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -285,8 +289,9 @@ export class PlacementCompanyComponent {
   ];
 
   ngOnInit() {
-    this.loadCompanies();
-    this.loadIndustries();
+    this.getAllCompanies();
+    // this.loadCompanies();
+    // this.loadIndustries();
 
     this.dataSource.paginator = this.paginator;
 
@@ -312,6 +317,17 @@ export class PlacementCompanyComponent {
       map((value) => this._filterCompanies(value))
     );
   }
+
+  getAllCompanies = () => {
+    this.placementCompanyApiService.GetAllCompanies().subscribe({
+      next: (companies) => {
+        console.log("companies", companies);
+      },
+      error: (error) => {
+        console.error("Error fetching companies:", error);
+      },
+    });
+  };
 
   onCompanySelected(event: MatAutocompleteSelectedEvent) {
     const selectedCompanyName = event.option.value;

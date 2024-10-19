@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
-import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 import { JobPostingList } from "./company-job-details-model";
@@ -102,7 +101,6 @@ export class CompanyJobDetailsComponent {
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
     private location: Location,
-    private apiService: APIService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;

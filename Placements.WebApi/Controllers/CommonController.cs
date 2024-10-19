@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Placements.DataAccess.Placement.Models;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Placements.WebApi.Controllers
 {
@@ -39,7 +37,7 @@ namespace Placements.WebApi.Controllers
             using (var package = new ExcelPackage())
             {
                 // Add a worksheet
-                var worksheet = package.Workbook.Worksheets.Add("Student Template");
+                var worksheet = package.Workbook.Worksheets.Add("Students");
 
                 // Define column headers
                 worksheet.Cells[1, 1].Value = "First Name";
@@ -76,7 +74,7 @@ namespace Placements.WebApi.Controllers
                 SetDateValidation(worksheet, 13);
 
                 // Prepare the Excel file
-                var fileName = "StudentTemplate.xlsx";
+                var fileName = "Students.xlsx";
                 var fileContents = package.GetAsByteArray();
 
                 // Return the file as a response
@@ -298,7 +296,7 @@ namespace Placements.WebApi.Controllers
             using (var package = new ExcelPackage())
             {
                 // Add a worksheet
-                var worksheet = package.Workbook.Worksheets.Add("Student Template");
+                var worksheet = package.Workbook.Worksheets.Add("Companies");
 
                 // Define column headers
                 worksheet.Cells[1, 1].Value = "Company Name";
@@ -315,7 +313,7 @@ namespace Placements.WebApi.Controllers
                 //worksheet.Cells[1, 12].Value = "Industries";
                 //worksheet.Cells[1, 13].Value = "Designation";
                 //worksheet.Cells[1, 14].Value = "Technologies";
-            
+
 
                 // Apply word wrapping to the entire sheet
                 worksheet.Cells.Style.WrapText = true;
@@ -328,15 +326,15 @@ namespace Placements.WebApi.Controllers
                 }
 
                 // Set dropdown lists for Batch, Stream, and Course columns
-                SetDropdown(worksheet, 3, industries.Select(b => b.Type).ToArray());
-                SetDropdown(worksheet, 4, designations.Select(s => s.Name).ToArray());
-                SetDropdown(worksheet, 5, technologies.Select(c => c.Name).ToArray());
+                //SetDropdown(worksheet, 3, industries.Select(b => b.Type).ToArray());
+                //SetDropdown(worksheet, 4, designations.Select(s => s.Name).ToArray());
+                //SetDropdown(worksheet, 5, technologies.Select(c => c.Name).ToArray());
 
                 // Add custom date validation for Date Of Birth column (Column 13)
-                SetDateValidation(worksheet, 15);
+                //SetDateValidation(worksheet, 15);
 
                 // Prepare the Excel file
-                var fileName = "CompanyTemplate.xlsx";
+                var fileName = "Companies.xlsx";
                 var fileContents = package.GetAsByteArray();
 
                 // Return the file as a response
@@ -344,7 +342,7 @@ namespace Placements.WebApi.Controllers
             }
         }
 
-        private long? GetIndustryId (string industryName)
+        private long? GetIndustryId(string industryName)
         {
             var industry = _context.Industries.FirstOrDefault(c => c.Type == industryName);
             return industry?.Id;
@@ -404,7 +402,7 @@ namespace Placements.WebApi.Controllers
                             var State = worksheet.Cells[row, 9].Text;
                             var zipCode = worksheet.Cells[row, 10].Text;
                             var Country = worksheet.Cells[row, 11].Text;
-                           
+
 
                             // Check if the entire row is empty
                             if (string.IsNullOrWhiteSpace(companyName) &&
@@ -414,11 +412,11 @@ namespace Placements.WebApi.Controllers
                                 string.IsNullOrWhiteSpace(gstNumber) &&
                                 string.IsNullOrWhiteSpace(contactPerson) &&
                                 string.IsNullOrWhiteSpace(addressLine1) &&
-                                string.IsNullOrWhiteSpace(City)&&
+                                string.IsNullOrWhiteSpace(City) &&
                                 string.IsNullOrWhiteSpace(State) &&
                                 string.IsNullOrWhiteSpace(zipCode) &&
-                                string.IsNullOrWhiteSpace(Country) 
-                               
+                                string.IsNullOrWhiteSpace(Country)
+
                                 )
                             {
                                 continue; // Skip this row if it's completely empty
@@ -449,7 +447,7 @@ namespace Placements.WebApi.Controllers
                                 missingFields.Add("Zip Code");
                             if (string.IsNullOrWhiteSpace(Country))
                                 missingFields.Add("Country");
-                           
+
 
                             // If there are any missing fields, add an error message
                             if (missingFields.Any())
@@ -472,7 +470,7 @@ namespace Placements.WebApi.Controllers
                                 State = State,
                                 ZipCode = zipCode,
                                 Country = Country,
-                                
+
                             };
                             companies.Add(company);
                         }

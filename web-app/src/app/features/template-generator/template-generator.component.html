@@ -1,1 +1,38 @@
-<p>template-generator works!</p>
+<mat-card appearance="outlined" class="full-height-card">
+  <mat-card-header>
+    <mat-card-title>Template Builder</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content class="scrollable-content">
+    <div>
+      <div class="main-container">
+        <br />
+        <mat-form-field class="full-width">
+          <mat-label>Subject</mat-label>
+          <input matInput type="text" [(ngModel)]="subject" />
+        </mat-form-field>
+        <br />
+        <div
+          class="editor-container editor-container_classic-editor"
+          #editorContainerElement
+        >
+          <div class="editor-container__editor">
+            <div #editorElement>
+              <ckeditor
+                [editor]="Editor"
+                [config]="config"
+                *ngIf="isLayoutReady"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <br />
+  <mat-divider></mat-divider>
+  <mat-card-actions align="end" class="fixed-actions">
+    <button mat-raised-button color="primary">Save</button>
+    <button mat-raised-button color="accent">Reset</button>
+  </mat-card-actions>
+</mat-card>

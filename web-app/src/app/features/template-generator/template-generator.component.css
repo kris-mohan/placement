@@ -1,0 +1,46 @@
+@import "ckeditor5/ckeditor5.css";
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+@media print {
+  body {
+    margin: 0 !important;
+  }
+}
+
+.main-container {
+  font-family: "Lato";
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ck-content {
+  font-family: "Lato";
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.editor-container_classic-editor .editor-container__editor {
+  min-width: 795px;
+  max-width: 795px;
+}
+
+.full-height-card {
+  display: flex;
+  flex-direction: column;
+  height: 85vh; /* Adjust to your desired full height, can be container height as well */
+}
+
+.scrollable-content {
+  flex-grow: 1; /* Allows content to take up available space */
+  overflow-y: auto; /* Scroll if content overflows */
+  padding: 16px; /* Optional: Adjust padding as per your need */
+}
+
+.fixed-actions {
+  flex-shrink: 0; /* Keeps actions at the bottom and doesn't shrink */
+}
+
+.full-width {
+  width: 100%;
+}

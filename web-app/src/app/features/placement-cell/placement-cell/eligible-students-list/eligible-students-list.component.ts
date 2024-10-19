@@ -6,15 +6,13 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { PeriodicElement } from "src/app/features/customers/customer-list/customer-list.component";
-import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
 import { employeeDataList } from "./eligible-students-list-model";
 import { FormControl } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { StudentdetailsDialogComponent } from "../studentdetails-dialog/studentdetails-dialog.component";
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
 export const EMPLOYEEDATA: employeeDataList[] = [
   {
@@ -80,8 +78,7 @@ export class EligibleStudentsListComponent {
     private router: Router,
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
-    private location: Location,
-    private apiService: APIService
+    private location: Location
   ) {}
 
   isLargeScreen() {
@@ -251,11 +248,11 @@ export class EligibleStudentsListComponent {
       case "Invite":
         return "primary";
       case "Verify":
-        return "primary"; 
+        return "primary";
       case "Accepted":
         return "accent";
       case "Invited":
-        return "warn"; 
+        return "warn";
       case "Rejected":
       case "Blocked":
         return "warn";

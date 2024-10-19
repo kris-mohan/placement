@@ -1,6 +1,5 @@
 import { Component, inject, ViewChild } from "@angular/core";
 import { Router, withDebugTracing } from "@angular/router";
-import { APIService } from "src/app/services/api-services/api-services";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 // import { companyTableList } from "./companies-model";
 import { MatTableDataSource } from "@angular/material/table";
@@ -99,9 +98,8 @@ export class JobsComponent {
   constructor(
     private router: Router,
     private sweetAlertService: SweetAlertService,
-    private location: Location
-  ) // private apiCompanyService: CompanyAPIService,
-  // private apiIndustryService: IndustryAPIService
+    private location: Location // private apiCompanyService: CompanyAPIService,
+  ) // private apiIndustryService: IndustryAPIService
   {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;

@@ -5,7 +5,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { Route, Router } from '@angular/router';
 import { AMGModules } from 'src/AMG-Module/AMG-module';
 import { ApiHttpService } from 'src/app/services/api-services/api-http-services';
-import { APIService } from 'src/app/services/api-services/api-services';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 export interface ODataResponse<T> {
