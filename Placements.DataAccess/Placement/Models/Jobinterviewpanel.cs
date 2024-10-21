@@ -15,9 +15,9 @@ public partial class Jobinterviewpanel
 
     public string? Designation { get; set; }
 
-    public long? JoInterviewRoundId { get; set; }
+    public long? JobInterviewRoundId { get; set; }
 
-    public virtual Jobinterviewround? JoInterviewRound { get; set; }
+    public virtual Jobinterviewround? JobInterviewRound { get; set; }
 
     public virtual Jobposting? JobPosting { get; set; }
 }
