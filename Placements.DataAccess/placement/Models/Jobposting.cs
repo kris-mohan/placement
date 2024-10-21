@@ -37,6 +37,8 @@ public partial class Jobposting
 
     public virtual Companydatum? Company { get; set; }
 
+    public virtual ICollection<Jobinterviewpanel> Jobinterviewpanels { get; set; } = new List<Jobinterviewpanel>();
+
     public virtual ICollection<Jobinterviewround> Jobinterviewrounds { get; set; } = new List<Jobinterviewround>();
 
     public virtual ICollection<JobpostingSelectedstudent> JobpostingSelectedstudents { get; set; } = new List<JobpostingSelectedstudent>();

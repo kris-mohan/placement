@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Placements.DataAccess.Placement.Models;
 
@@ -45,6 +47,8 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Invitation> Invitations { get; set; }
 
+    public virtual DbSet<Jobinterviewpanel> Jobinterviewpanels { get; set; }
+
     public virtual DbSet<Jobinterviewround> Jobinterviewrounds { get; set; }
 
     public virtual DbSet<JobpostStudentround> JobpostStudentrounds { get; set; }
@@ -85,9 +89,9 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -371,6 +375,29 @@ public partial class PlacementContext : DbContext
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
             entity.Property(e => e.Recipients).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Jobinterviewpanel>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("jobinterviewpanels");
+
+            entity.HasIndex(e => e.JoInterviewRoundId, "FK_Round_JobInterviewRound_idx");
+
+            entity.HasIndex(e => e.JobPostingId, "FK_Round_JobPosting_idx");
+
+            entity.Property(e => e.Description).HasMaxLength(250);
+            entity.Property(e => e.Designation).HasMaxLength(100);
+            entity.Property(e => e.PanelName).HasMaxLength(100);
+
+            entity.HasOne(d => d.JoInterviewRound).WithMany(p => p.Jobinterviewpanels)
+                .HasForeignKey(d => d.JoInterviewRoundId)
+                .HasConstraintName("FK_Round_JobInterviewRound");
+
+            entity.HasOne(d => d.JobPosting).WithMany(p => p.Jobinterviewpanels)
+                .HasForeignKey(d => d.JobPostingId)
+                .HasConstraintName("FK_Round_JobPostings");
         });
 
         modelBuilder.Entity<Jobinterviewround>(entity =>

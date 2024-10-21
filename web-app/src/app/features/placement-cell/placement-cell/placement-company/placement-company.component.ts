@@ -55,6 +55,8 @@ export interface ODataResponse<T> {
 export class PlacementCompanyComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  companyData: [] = [];
+
   companiesList: Companydatum[] = [];
 
   companies: companyTableList[] = [];

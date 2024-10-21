@@ -22,6 +22,12 @@ export class TrainerAPIService {
     return throwError(() => new Error(errorMessage));
   }
 
+  GetAllTrainers(): Observable<Trainer[]> {
+    return this.apiHttpService.get<Trainer[]>(
+      "/Trainer?$filter=Isdeleted eq 0"
+    );
+  }
+
   public async getTrainers(): Promise<any> {
     try {
       const response = await firstValueFrom(

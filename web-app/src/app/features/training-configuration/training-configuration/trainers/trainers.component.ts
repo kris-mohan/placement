@@ -63,9 +63,21 @@ export class TrainersComponent {
     }
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    //this.getAllTrainers();
     this.getTrainerData();
   }
+
+  // getAllTrainers = () => {
+  //   this.apiTrainerService.GetAllTrainers().subscribe({
+  //     next: (trainers) => {
+  //       console.log("trainers", trainers);
+  //     },
+  //     error: (error) => {
+  //       console.error("Error fetching trainers:", error);
+  //     },
+  //   });
+  // };
 
   async getTrainerData() {
     try {
@@ -92,6 +104,7 @@ export class TrainersComponent {
         next: (response: { success: boolean; message: string }) => {
           if (response.success) {
             this.sweetAlertService.success(response.message);
+            //this.getAllTrainers();
             this.getTrainerData();
           } else {
             this.sweetAlertService.error(response.message);

@@ -7,9 +7,11 @@ import { Companydatum } from "src/app/services/types/Companydatum";
   providedIn: "root",
 })
 export class PlacementCompanyApiService {
-  constructor(private apiService: ApiHttpService) {}
+  constructor(private apiHttpService: ApiHttpService) {}
 
   GetAllCompanies(): Observable<Companydatum[]> {
-    return this.apiService.get<Companydatum[]>("/Companydatum");
+    return this.apiHttpService.get<Companydatum[]>("/Companydatum");
   }
+ 
+
 }
