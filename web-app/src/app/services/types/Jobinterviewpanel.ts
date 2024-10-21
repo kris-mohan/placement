@@ -7,7 +7,7 @@ export type Jobinterviewpanel = {
     PanelName?: string;
     Description?: string;
     Designstion?: string;
-    JobInterviewRoundId?: number;
+    JoInterviewRoundId?: number;
     JobInterviewRound?: Jobinterviewround[];
     JobPosting?: Jobposting[];
 }
