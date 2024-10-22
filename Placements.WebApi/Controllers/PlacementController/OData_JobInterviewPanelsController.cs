@@ -49,8 +49,6 @@ namespace Placements.WebApi.Controllers.PlacementController
                     return Ok(new { success = false, message = "Panels Not Found" });
                 }
 
-                original.JobPostingId = jobinterviewpanel.JobPostingId;
-                original.JoInterviewRoundId = jobinterviewpanel.JoInterviewRoundId;
                 original.Description = jobinterviewpanel.Description;
                 original.PanelName = jobinterviewpanel.PanelName;
                 original.Designation = jobinterviewpanel.Designation;

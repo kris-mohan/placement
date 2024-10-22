@@ -383,21 +383,15 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("jobinterviewpanels");
 
-            entity.HasIndex(e => e.JoInterviewRoundId, "FK_Round_JobInterviewRound_idx");
-
-            entity.HasIndex(e => e.JobPostingId, "FK_Round_JobPosting_idx");
+            entity.HasIndex(e => e.JobPostingId, "FK_JobPosting_idx");
 
             entity.Property(e => e.Description).HasMaxLength(250);
             entity.Property(e => e.Designation).HasMaxLength(100);
             entity.Property(e => e.PanelName).HasMaxLength(100);
 
-            entity.HasOne(d => d.JoInterviewRound).WithMany(p => p.Jobinterviewpanels)
-                .HasForeignKey(d => d.JoInterviewRoundId)
-                .HasConstraintName("FK_Round_JobInterviewRound");
-
             entity.HasOne(d => d.JobPosting).WithMany(p => p.Jobinterviewpanels)
                 .HasForeignKey(d => d.JobPostingId)
-                .HasConstraintName("FK_Round_JobPostings");
+                .HasConstraintName("FK_JobPosting");
         });
 
         modelBuilder.Entity<Jobinterviewround>(entity =>
