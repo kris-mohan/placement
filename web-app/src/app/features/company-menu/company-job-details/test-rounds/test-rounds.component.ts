@@ -9,6 +9,8 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { HiringRound } from "./test-rounds-model";
 import { AddRoundsModalComponent } from "./add-rounds-modal/add-rounds-modal.component";
 import { MatDialog } from "@angular/material/dialog";
+import { TestRoundsApiService } from "./TestRoundsApiService";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 
 export const HIRING_ROUNDS_DATA: HiringRound[] = [
   {
@@ -89,6 +91,10 @@ export const HIRING_ROUNDS_DATA: HiringRound[] = [
   },
 ];
 
+// interface ODataResponse<T> {
+//   value: T[];
+// }
+
 @Component({
   selector: "app-test-rounds",
   standalone: true,
@@ -101,70 +107,105 @@ export class TestRoundsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
-    private location: Location
+    private location: Location,
+    private testRoundsApiService: TestRoundsApiService
   ) {}
+
+  RoundDataSource = new MatTableDataSource<Jobinterviewround>([]);
+  RoundDataById = new MatTableDataSource<Jobinterviewround>([]);
+  // dataSource = new MatTableDataSource<HiringRound>(HIRING_ROUNDS_DATA);
+  // selection = new SelectionModel<HiringRound>(true, []);
+  // filteredRounds: HiringRound[] = [];
 
   jobId: number | undefined = undefined;
   readonly dialog = inject(MatDialog);
 
   displayedColumns: string[] = [
-    "roundId",
-    "roundName",
-    "description",
-    "roundDate",
-    // "status",
-    // "candidateId",
-    // "feedback",
-    // "priority",
-    "actions",
+    // "Id",
+    // "JobPostingId",
+    "Name",
+    "Description",
+    "Priority",
+    "Actions",
   ];
+
+  getAllRounds = () => {
+    this.testRoundsApiService.GetAllRounds().subscribe({
+      next: (response) => {
+        const data: Jobinterviewround[] = response.value;
+        console.log("rounds", data);
+        this.RoundDataSource.data = data;
+        console.log(this.RoundDataSource);
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
+
+  // async getAllRounds() {
+  //   try {
+  //     const response = await this.testRoundsApiService.GetAllRounds();
+  //     const data: Jobinterviewround[] = response.value;
+  //     this.RoundDataSource.data = data;
+  //     console.log(this.RoundDataSource);
+  //   } catch (error) {
+  //     console.error("Error fetching rounds: ", error);
+  //   }
+  // }
 
   columns = [
-    { key: "roundId", label: "Round ID" },
-    { key: "roundName", label: "Round Name" },
-    { key: "description", label: "Description" },
-    { key: "roundDate", label: "Round Date" },
-    // { key: "status", label: "Status" },
-    // { key: "candidateId", label: "Candidate ID" },
-    // { key: "feedback", label: "Feedback" },
-    { key: "actions", label: "Actions" },
-    // { key: "priority", label: "Priority" },
+    { key: "Id", label: "Round ID" },
+    { key: "JobPostingId", label: "JobPostingId" },
+    { key: "Name", label: "Name" },
+    { key: "Description", label: "Description" },
+    { key: "Priority", label: "Priority" },
+    { key: "Actions", label: "Actions" },
   ];
 
-  priorityOptions = ["1", "2", "3", "4", "5", "6"];
-
-  dataSource = new MatTableDataSource<HiringRound>(HIRING_ROUNDS_DATA);
-  selection = new SelectionModel<HiringRound>(true, []);
-  filteredRounds: HiringRound[] = [];
-
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      this.jobId = Number(params.get("jobId"));
-      this.filteredRounds = HIRING_ROUNDS_DATA.filter(
-        (round) => round.jobId === this.jobId
-      );
-      // this.dataSource.data = this.filteredRounds;
-    });
+    this.getAllRounds();
+
+    // this.route.paramMap.subscribe((params) => {
+    //   this.jobId = Number(params.get("jobId"));
+    //   this.filteredRounds = HIRING_ROUNDS_DATA.filter(
+    //     (round) => round.jobId === this.jobId
+    //   );
+    //   // this.dataSource.data = this.filteredRounds;
+    // });
   }
 
-  openAddEditRounds(roundsId?: number) {
-    if (this.jobId !== undefined && roundsId !== undefined) {
-      this.router.navigate([
-        "company-job-details/test-rounds",
-        this.jobId,
-        roundsId,
-      ]);
-    } else {
-      this.router.navigate(["company-job-details/test-rounds", this.jobId, 0]);
-    }
-  }
+  // openAddEditRounds(roundsId?: number) {
+  //   if (this.jobId !== undefined && roundsId !== undefined) {
+  //     this.router.navigate([
+  //       "company-job-details/test-rounds",
+  //       this.jobId,
+  //       roundsId,
+  //     ]);
+  //   } else {
+  //     this.router.navigate(["company-job-details/test-rounds", this.jobId, 0]);
+  //   }
+  // }
 
   goBack(): void {
     this.location.back();
   }
 
-  handleAddRoundsClick(): void {
+  // handleAddRoundsClick(): void {
+  //   this.dialog.open(AddRoundsModalComponent, {
+  //     width: "500px",
+  //     height: "600px",
+  //   });
+  // }
+
+  handleAddEditRoundsClick(roundsId: number): void {
+    console.log(roundsId);
+    // if (roundsId > 0) {
+    //   this.getRoundsById(roundsId);
+    // }
+
     this.dialog.open(AddRoundsModalComponent, {
+      data: roundsId,
       width: "500px",
       height: "600px",
     });

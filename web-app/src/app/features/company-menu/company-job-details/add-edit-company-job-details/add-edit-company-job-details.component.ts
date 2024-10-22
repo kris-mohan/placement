@@ -49,4 +49,7 @@ export class AddEditCompanyJobDetailsComponent {
   goBack() {
     this.location.back();
   }
+  // onReset() {
+  //   this.addEditTrainerForm.reset(this.initialFormValues);
+  // }
 }

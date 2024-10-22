@@ -14,7 +14,7 @@
           <button
             mat-raised-button
             class="matbutton"
-            (click)="handleAddRoundsClick()"
+            (click)="handleAddEditRoundsClick(0)"
           >
             <mat-icon class="maticon">add</mat-icon>
             <p class="matButtonText">Add Rounds</p>
@@ -93,7 +93,7 @@
 </mat-card> -->
   </mat-card-header>
   <mat-card-content>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="RoundDataSource" class="mat-elevation-z8">
       <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
         <!-- Header -->
         <th mat-header-cell *matHeaderCellDef>
@@ -109,24 +109,27 @@
             <ng-container *ngSwitchCase="'priority'">
               <mat-form-field appearance="fill">
                 <mat-label>Select Priority</mat-label>
-                <mat-select [(value)]="element.priority">
+                <!-- <mat-select [(value)]="element.priority">
                   <mat-option
                     *ngFor="let option of priorityOptions"
                     [value]="option"
                   >
                     {{ option }}
                   </mat-option>
-                </mat-select>
+                </mat-select> -->
               </mat-form-field>
             </ng-container>
 
             <!-- Actions Column with edit/delete buttons -->
-            <ng-container *ngSwitchCase="'actions'">
+            <ng-container *ngSwitchCase="'Actions'">
               <div class="td-mat-button">
-                <button mat-icon-button (click)="handleAddRoundsClick()">
+                <button
+                  mat-icon-button
+                  (click)="handleAddEditRoundsClick(element.Id)"
+                >
                   <mat-icon> edit </mat-icon>
                 </button>
-                <button mat-icon-button (click)="deleteRounds(element.roundId)">
+                <button mat-icon-button (click)="deleteRounds(element.Id)">
                   <mat-icon> delete </mat-icon>
                 </button>
               </div>

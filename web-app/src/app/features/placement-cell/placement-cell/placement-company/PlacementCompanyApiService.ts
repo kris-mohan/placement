@@ -12,6 +12,4 @@ export class PlacementCompanyApiService {
   GetAllCompanies(): Observable<Companydatum[]> {
     return this.apiHttpService.get<Companydatum[]>("/Companydatum");
   }
- 
-
 }

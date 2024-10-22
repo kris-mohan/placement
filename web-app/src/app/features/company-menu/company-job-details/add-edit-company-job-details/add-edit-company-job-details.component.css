@@ -63,3 +63,13 @@ button {
   /* overflow: auto; */
   margin-bottom: 6%;
 }
+
+.add-job-posting {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  background: #fff;
+  /* box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); */
+  z-index: 1000;
+  width: 100%;
+}
