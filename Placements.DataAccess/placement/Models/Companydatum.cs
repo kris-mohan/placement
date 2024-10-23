@@ -43,6 +43,22 @@ public partial class Companydatum
 
     public string? Email { get; set; }
 
+    public long? CompanySize { get; set; }
+
+    public string? LogoPath { get; set; }
+
+    public string? About { get; set; }
+
+    public string? HeadQuarters { get; set; }
+
+    public string? VideoPath { get; set; }
+
+    public string? PresentationPath { get; set; }
+
+    public string? DocumentPath { get; set; }
+
+    public string? AudioPath { get; set; }
+
     public virtual ICollection<Companydesignation> Companydesignations { get; set; } = new List<Companydesignation>();
 
     public virtual ICollection<Companyindustry> Companyindustries { get; set; } = new List<Companyindustry>();

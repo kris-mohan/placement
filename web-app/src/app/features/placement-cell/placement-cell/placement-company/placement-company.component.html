@@ -204,7 +204,7 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let company of companiesCard"
+      *ngFor="let company of companiesList()"
       fxFlex="100%"
       fxFlex.gt-sm="50%"
       fxFlex.gt-md="28%"
@@ -214,14 +214,14 @@
     >
       <div class="company-details">
         <img
-          [src]="company.logo"
+          [src]=""
           alt="Company Logo"
           class="company-logo"
           height="15%"
           width="75%"
         />
-        <h2>{{ company.name }}</h2>
-        <div class="companyType">{{ company.type }}</div>
+        <h2>{{ company.Name }}</h2>
+        <div class="companyType">NA - Type</div>
         <div class="company-type">
           <strong> Email:</strong>
 
@@ -230,12 +230,12 @@
         <div class="company-type">
           <strong> URL:</strong>
 
-          <span class="rating">{{ company.URL }}</span>
+          <span class="rating">{{ company.Url }}</span>
         </div>
         <div class="company-type">
           <strong>Phone No:</strong>
 
-          <span class="rating">{{ company.CompanyPhone }}</span>
+          <span class="rating">{{ company.PhoneNumber }}</span>
         </div>
       </div>
 
@@ -247,17 +247,15 @@
         </div>
         Vacancies:
         <span class="rating"
-          ><strong>{{ company.numberOfJobs }}</strong></span
+          ><strong>{{ company.Jobpostings.length }}</strong></span
         >
 
         Company Size:
-        <span class="rating"
-          ><strong>{{ company.industrysize }}</strong></span
-        >
+        <span class="rating"><strong>NA</strong></span>
 
         Location :
         <span class="rating"
-          ><strong>{{ company.Companylocation }}</strong></span
+          ><strong>{{ company.Address }}</strong></span
         >
       </div>
     </div>

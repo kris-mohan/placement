@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   ViewChild,
+  signal,
 } from "@angular/core";
 import { Router, withDebugTracing } from "@angular/router";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
@@ -57,7 +58,7 @@ export class PlacementCompanyComponent {
 
   companyData: [] = [];
 
-  companiesList: Companydatum[] = [];
+  companiesList = signal<Companydatum[]>([]);
 
   companies: companyTableList[] = [];
 
@@ -322,8 +323,9 @@ export class PlacementCompanyComponent {
 
   getAllCompanies = () => {
     this.placementCompanyApiService.GetAllCompanies().subscribe({
-      next: (companies) => {
-        console.log("companies", companies);
+      next: (odataResponse) => {
+        console.log("companies", odataResponse.value);
+        this.companiesList.set(odataResponse.value);
       },
       error: (error) => {
         console.error("Error fetching companies:", error);
