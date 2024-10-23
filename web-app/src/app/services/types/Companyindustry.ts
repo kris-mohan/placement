@@ -6,6 +6,6 @@ export type Companyindustry = {
     CompanyId?: number;
     IndustryId?: number;
     IsDeleted: boolean;
-    Company: Companydatum[];
-    Industry: Industry[];
+    Company: Companydatum;
+    Industry: Industry;
 }

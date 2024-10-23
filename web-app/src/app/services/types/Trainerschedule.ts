@@ -12,6 +12,6 @@ export type Trainerschedule = {
     ScheduleType?: string;
     StudentId?: number;
     IsDeleted: boolean;
-    Course: Trainingcourse[];
-    Trainer: Trainer[];
+    Course: Trainingcourse;
+    Trainer: Trainer;
 };

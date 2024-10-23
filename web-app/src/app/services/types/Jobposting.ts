@@ -28,10 +28,10 @@ export type Jobposting = {
   Vacancies?: number;
   Collegejobpostings: Collegejobposting[];
   Collegejobpostingschedules: Collegejobpostingschedule[];
-  Company: Companydatum[];
+  Company: Companydatum;
   Jobinterviewrounds: Jobinterviewround[];
   JobpostingSelectedstudents: JobpostingSelectedstudent[];
   JobpostingsEligiblestudents: JobpostingsEligiblestudent[];
-  Technology: Technology[];
+  Technology: Technology;
   Technologies: Technology[];
 };

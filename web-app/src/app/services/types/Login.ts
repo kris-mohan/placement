@@ -1,6 +1,5 @@
 import { Campusregistration } from "./Campusregistration";
 import { Companydatum } from "./Companydatum";
-import { Role } from "./Role";
 import { Tblstudent } from "./Tblstudent";
 import { Userrole } from "./Userrole";
 
@@ -16,9 +15,8 @@ export type Login = {
     UserType?: number;
     IsActive: boolean;
     StudentId?: number;
-    Campus?: Campusregistration[];
-    Company?: Companydatum[];
-    Role?: Role[];
-    RoleNavigation?: Userrole[];
+    Campus?: Campusregistration;
+    Company?: Companydatum;
+    Role?: Userrole;
     Student?: Tblstudent[];
 };

@@ -9,5 +9,5 @@ export type Jobinterviewpanel = {
     Designstion?: string;
     JoInterviewRoundId?: number;
     JobInterviewRound?: Jobinterviewround[];
-    JobPosting?: Jobposting[];
+    JobPosting?: Jobposting;
 }

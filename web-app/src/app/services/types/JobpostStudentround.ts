@@ -10,6 +10,6 @@ export type JobpostStudentround = {
     Score?: number;
     RoundDate?: Date;
     Col?: string;
-    JobPostingRound: Jobinterviewround[];
-    Student: Tblstudent[];
+    JobPostingRound: Jobinterviewround;
+    Student: Tblstudent;
 }

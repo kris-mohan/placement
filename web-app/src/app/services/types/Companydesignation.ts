@@ -4,5 +4,5 @@ export type Companydesignation = {
     Id: number;
     CompanyId?: number;
     Name?: string;
-    Company: Companydatum[];
+    Company: Companydatum;
 }

@@ -5,6 +5,6 @@ export type Collegejobposting = {
     Id : number;
     JobPostingId?: number;
     CollegeId?: number;
-    College : Campusregistration[];
-    JobPosting: Jobposting[];
+    College : Campusregistration;
+    JobPosting: Jobposting;
 }
