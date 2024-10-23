@@ -45,5 +45,7 @@ public partial class Tblstudent
 
     public virtual Campusregistration? Org { get; set; }
 
+    public virtual ICollection<StudentSkill> StudentSkills { get; set; } = new List<StudentSkill>();
+
     public virtual ICollection<Studentacademic> Studentacademics { get; set; } = new List<Studentacademic>();
 }

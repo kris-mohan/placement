@@ -13,6 +13,8 @@ public partial class JobpostingSelectedstudent
 
     public ulong? HasAcceptedOffer { get; set; }
 
+    public DateTime? DateOfJoining { get; set; }
+
     public virtual Jobposting? JobPosting { get; set; }
 
     public virtual Tblstudent? Student { get; set; }

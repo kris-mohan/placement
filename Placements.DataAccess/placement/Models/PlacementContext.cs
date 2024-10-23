@@ -67,7 +67,11 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<SkillType> SkillTypes { get; set; }
+
     public virtual DbSet<Stream> Streams { get; set; }
+
+    public virtual DbSet<StudentSkill> StudentSkills { get; set; }
 
     public virtual DbSet<Studentacademic> Studentacademics { get; set; }
 
@@ -504,6 +508,7 @@ public partial class PlacementContext : DbContext
 
             entity.HasIndex(e => e.StudentId, "FK_jobposting_selectedstudents_Student_idx");
 
+            entity.Property(e => e.DateOfJoining).HasColumnType("datetime");
             entity.Property(e => e.HasAcceptedOffer).HasColumnType("bit(1)");
 
             entity.HasOne(d => d.JobPosting).WithMany(p => p.JobpostingSelectedstudents)
@@ -628,6 +633,15 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.RoleName).HasMaxLength(50);
         });
 
+        modelBuilder.Entity<SkillType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("skill_type");
+
+            entity.Property(e => e.Name).HasMaxLength(245);
+        });
+
         modelBuilder.Entity<Stream>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -635,6 +649,27 @@ public partial class PlacementContext : DbContext
             entity.ToTable("stream");
 
             entity.Property(e => e.Name).HasMaxLength(45);
+        });
+
+        modelBuilder.Entity<StudentSkill>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("student_skill");
+
+            entity.HasIndex(e => e.SkillTypeId, "FK_Skill_SkillType_idx");
+
+            entity.HasIndex(e => e.StudentId, "FK_Skill_Student_idx");
+
+            entity.Property(e => e.Name).HasMaxLength(145);
+
+            entity.HasOne(d => d.SkillType).WithMany(p => p.StudentSkills)
+                .HasForeignKey(d => d.SkillTypeId)
+                .HasConstraintName("FK_Skill_SkillType");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentSkills)
+                .HasForeignKey(d => d.StudentId)
+                .HasConstraintName("FK_Skill_Student");
         });
 
         modelBuilder.Entity<Studentacademic>(entity =>
