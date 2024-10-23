@@ -10,7 +10,7 @@ import { Jobposting } from "src/app/services/types/Jobposting";
 export class StudentJobsApiSerivce {
   constructor(private apiHttpService: ApiHttpService) {}
 
-  GetAllJobPosting(): Observable<Jobposting> {
-    return this.apiHttpService.get<Jobposting>("/Jobposting");
+  GetAllJobPostings(): Observable<any> {
+    return this.apiHttpService.get<any>("/Jobposting");
   }
 }

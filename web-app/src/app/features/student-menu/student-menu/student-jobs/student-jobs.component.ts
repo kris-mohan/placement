@@ -1,6 +1,11 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -18,6 +23,8 @@ import { ImportCompanyDialogComponent } from "src/app/features/company-configura
 import { MatDialog } from "@angular/material/dialog";
 import { StudentJobAdditionalFilterModalComponent } from "../student-job-additional-filter-modal/student-job-additional-filter-modal.component";
 import { provideNativeDateAdapter } from "@angular/material/core";
+import { Jobposting } from "src/app/services/types/Jobposting";
+import { StudentJobsApiSerivce } from "./studentJobsApiService";
 
 const today = new Date();
 const month = today.getMonth();
@@ -100,7 +107,9 @@ export class StudentJobsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
-    private location: Location
+    private location: Location,
+    private studentJobsApiService: StudentJobsApiSerivce,
+    private cd: ChangeDetectorRef
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -428,6 +437,37 @@ export class StudentJobsComponent {
   industries: Industry[] = [];
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
+
+  JobPostingsData: Jobposting[] = [];
+
+  ngOnInit() {
+    this.GetAllJobPosting();
+    console.log(this.JobPostingsData);
+  }
+
+  GetAllJobPosting = () => {
+    this.studentJobsApiService.GetAllJobPostings().subscribe({
+      next: (jobPostings) => {
+        const data: Jobposting[] = jobPostings.value;
+        this.JobPostingsData = jobPostings.value.map((jobposting: any) => ({
+          ...jobposting,
+          ValidTill: this.convertToDateOnly(jobposting.ValidTill),
+          ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
+          DriveDate: this.convertToDateOnly(jobposting.DriveDate),
+        }));
+        this.cd.detectChanges();
+        console.log("jobPosting", this.JobPostingsData);
+      },
+      error: (error) => {
+        console.error("Error fetching jobPostings:", error);
+      },
+    });
+  };
+
+  convertToDateOnly(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  }
 
   openAddEditCompanyForm(id?: number) {
     if (id !== undefined) {

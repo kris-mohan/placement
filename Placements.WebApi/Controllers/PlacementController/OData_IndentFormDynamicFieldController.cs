@@ -40,7 +40,7 @@ namespace Placements.WebApi.Controllers.PlacementController
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(IndentFormDynamicField indentFormDynamicField)
+        public async Task<IActionResult> Put(long key, IndentFormDynamicField indentFormDynamicField )
         {
             try
             {
