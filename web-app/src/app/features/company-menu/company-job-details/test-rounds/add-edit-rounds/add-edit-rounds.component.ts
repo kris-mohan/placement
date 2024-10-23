@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
-import { HIRING_ROUNDS_DATA } from "../test-rounds.component";
 
 @Component({
   selector: "app-add-edit-rounds",
@@ -24,18 +23,18 @@ export class AddEditRoundsComponent {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get("roundsId");
-      this.roundId = id !== null ? +id : null;
-      if (this.roundId) {
-        const technology = HIRING_ROUNDS_DATA.find(
-          (t) => t.roundId === this.roundId
-        );
-        // if (technology) {
-        //   this.addEditTrainerForm.patchValue(technology);
-        // }
-      }
-    });
+    // this.route.paramMap.subscribe((params) => {
+    //   const id = params.get("roundsId");
+    //   this.roundId = id !== null ? +id : null;
+    //   if (this.roundId) {
+    //     const technology = HIRING_ROUNDS_DATA.find(
+    //       (t) => t.roundId === this.roundId
+    //     );
+    //     // if (technology) {
+    //     //   this.addEditTrainerForm.patchValue(technology);
+    //     // }
+    //   }
+    // });
   }
 
   goBack(): void {

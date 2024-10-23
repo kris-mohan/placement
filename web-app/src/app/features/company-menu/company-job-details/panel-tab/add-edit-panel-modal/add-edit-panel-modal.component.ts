@@ -10,6 +10,10 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { SharedModule } from "src/app/shared/shared.module";
 import { PanelTabComponent } from "../panel-tab.component";
+import { TestRoundsComponent } from "../../test-rounds/test-rounds.component";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { TestRoundsApiService } from "../../test-rounds/TestRoundsApiService";
+
 @Component({
   selector: "app-add-edit-panel-modal",
   standalone: true,
@@ -19,6 +23,7 @@ import { PanelTabComponent } from "../panel-tab.component";
     SharedModule,
     CommonModule,
     PanelTabComponent,
+    TestRoundsComponent
   ],
 
   templateUrl: "./add-edit-panel-modal.component.html",
@@ -27,9 +32,11 @@ import { PanelTabComponent } from "../panel-tab.component";
 export class AddEditPanelModalComponent {
   UserRoleId: number;
   panelId: number | null = null;
+  //HiringRound: any;
   constructor(
     public dialogRef: MatDialogRef<AddEditPanelModalComponent>,
     private route: ActivatedRoute,
+    private testRoundsApiService: TestRoundsApiService,
     @Inject(MAT_DIALOG_DATA) public data: companyTableList
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
@@ -38,10 +45,25 @@ export class AddEditPanelModalComponent {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get("roundsId");
+      const id = params.get("roundId");
       this.panelId = id !== null ? +id : null;
       if (this.panelId) {
       }
+    });
+  }
+  RoundDataSource: Jobinterviewround[] = [];
+
+  GetAllRounds = () => {
+    this.testRoundsApiService.GetAllRounds().subscribe({
+      next: (response) => {
+        const data: Jobinterviewround[] = response.value;
+        console.log("rounds", data);
+        this.RoundDataSource = data;
+         console.log(this.RoundDataSource);
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
     });
   }
 
@@ -49,3 +71,4 @@ export class AddEditPanelModalComponent {
     this.dialogRef.close();
   }
 }
+  
