@@ -17,6 +17,7 @@
   </mat-card-header>
   <div class="example-button-container filter_items" style="text-align: end">
     <button
+      *ngIf="UserRoleId !== 3"
       mat-raised-button
       class="matbutton"
       (click)="openStudentJobAdditionalFiltersModal()"
@@ -45,7 +46,9 @@
               <span class="rating"> 3.9 | 5486 Reviews</span>
             </div>
             <div>
-              <button *ngIf="UserRoleId === 3" class="apply-button">Apply</button>
+              <button *ngIf="UserRoleId === 3" class="apply-button">
+                Apply
+              </button>
               <button
                 *ngIf="UserRoleId !== 3"
                 class="apply-button"
@@ -110,7 +113,7 @@
           </ul>
         </div>
 
-        <div class="chart-highlights">
+        <div class="chart-highlights" *ngIf="UserRoleId !== 3">
           <h3>Name of College</h3>
           <mat-form-field class="mat-form-field" appearance="outline">
             <mat-label>Select College</mat-label>
@@ -120,7 +123,9 @@
               }
             </mat-select>
           </mat-form-field>
-          <app-funnel-chart></app-funnel-chart>
+          <div>
+            <app-funnel-chart></app-funnel-chart>
+          </div>
         </div>
 
         <div class="right-content" *ngIf="UserRoleId !== 2">

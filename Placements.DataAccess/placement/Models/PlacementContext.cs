@@ -61,6 +61,8 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<JobpostingsEligiblestudent> JobpostingsEligiblestudents { get; set; }
 
+    public virtual DbSet<Jobstudentstau> Jobstudentstaus { get; set; }
+
     public virtual DbSet<Login> Logins { get; set; }
 
     public virtual DbSet<Paatashalaregistration> Paatashalaregistrations { get; set; }
@@ -446,14 +448,19 @@ public partial class PlacementContext : DbContext
 
             entity.HasIndex(e => e.TechnologyId, "FK_JobPosting_Technology_idx");
 
+            entity.Property(e => e.DriveDate).HasColumnType("datetime");
+            entity.Property(e => e.Experience).HasMaxLength(100);
             entity.Property(e => e.IsClosed).HasColumnType("bit(1)");
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
             entity.Property(e => e.JobDescription).HasMaxLength(50);
             entity.Property(e => e.JobRole).HasMaxLength(50);
+            entity.Property(e => e.JobType).HasMaxLength(50);
             entity.Property(e => e.Location).HasMaxLength(255);
+            entity.Property(e => e.ModeOfWork).HasMaxLength(45);
             entity.Property(e => e.Salary).HasPrecision(10);
+            entity.Property(e => e.Shift).HasMaxLength(45);
             entity.Property(e => e.ValidFrom).HasColumnType("datetime");
             entity.Property(e => e.ValidTill).HasColumnType("datetime");
 
@@ -521,6 +528,8 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("jobpostings_eligiblestudents");
 
+            entity.HasIndex(e => e.StatusId, "FK_JobPostingEligible_Status_idx");
+
             entity.HasIndex(e => e.JobPostingId, "FK_jobpostings_eligiblestudents_JobPosting_idx");
 
             entity.HasIndex(e => e.StudentId, "FK_jobpostings_eligiblestudents_Student_idx");
@@ -529,9 +538,22 @@ public partial class PlacementContext : DbContext
                 .HasForeignKey(d => d.JobPostingId)
                 .HasConstraintName("FK_jobpostings_eligiblestudents_JobPosting");
 
+            entity.HasOne(d => d.Status).WithMany(p => p.JobpostingsEligiblestudents)
+                .HasForeignKey(d => d.StatusId)
+                .HasConstraintName("FK_JobPostingEligible_Status");
+
             entity.HasOne(d => d.Student).WithMany(p => p.JobpostingsEligiblestudents)
                 .HasForeignKey(d => d.StudentId)
                 .HasConstraintName("FK_jobpostings_eligiblestudents_Student");
+        });
+
+        modelBuilder.Entity<Jobstudentstau>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("jobstudentstaus");
+
+            entity.Property(e => e.Name).HasMaxLength(45);
         });
 
         modelBuilder.Entity<Login>(entity =>

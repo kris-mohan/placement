@@ -247,7 +247,7 @@ const appRoutes: Routes = [
         component: AddEditRoundsComponent,
       },
       {
-        path: "company-job-details/companyJobDescription/:jobId",
+        path: "company-job-details/companyJobDescription/:Id",
         component: CompanyJobDescriptionComponent,
       },
       {

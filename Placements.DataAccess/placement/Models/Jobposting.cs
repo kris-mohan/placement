@@ -31,6 +31,18 @@ public partial class Jobposting
 
     public string? Location { get; set; }
 
+    public long? Vacancies { get; set; }
+
+    public string? Experience { get; set; }
+
+    public string? JobType { get; set; }
+
+    public string? Shift { get; set; }
+
+    public string? ModeOfWork { get; set; }
+
+    public DateTime? DriveDate { get; set; }
+
     public virtual ICollection<Collegejobposting> Collegejobpostings { get; set; } = new List<Collegejobposting>();
 
     public virtual ICollection<Collegejobpostingschedule> Collegejobpostingschedules { get; set; } = new List<Collegejobpostingschedule>();

@@ -216,11 +216,12 @@
     </div>
     <div class="button">
       <div class="example-button-container filter_items">
-        <button mat-fab extended class = "matbutton-download">
+        <button mat-fab extended class="matbutton-download">
           <mat-icon>file_download</mat-icon>Excel
         </button>
-        <button mat-fab extended class = "matbutton-download">
-          <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
+        <button mat-fab extended class="matbutton-download">
+          <mat-icon>picture_as_pdf</mat-icon>
+          <h5>PDF</h5>
         </button>
         <button
           mat-raised-button
@@ -238,7 +239,6 @@
           <mat-icon class="maticon">add</mat-icon>
           <p class="matButtonText">Add Job Postings</p>
         </button>
-        
       </div>
     </div>
   </mat-card-header>
@@ -249,8 +249,8 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let job of jobsCard"
-      (click)="openCopmanyJobDescriptionPage(job.Id)"
+      *ngFor="let jobposting of JobPostingsData"
+      (click)="openCopmanyJobDescriptionPage(jobposting.Id)"
       fxFlex="100%"
       fxFlex.gt-sm="100%"
       fxFlex.gt-md="45%"
@@ -259,28 +259,38 @@
     >
       <div class="company-details">
         <div class="company-designation">
-          <h2 class="heading1">{{ job.title }}</h2>
-          <!-- 
-        <div class="company-type">{{ job.applicants }}</div> -->
+          <h2 class="heading1">{{ jobposting.JobRole }}</h2>
         </div>
 
         <div class="job-details-container">
           <div class="job-detail">
-            <span><strong>Experience:</strong> 0 - 2 years</span>
-            <span><strong>Job Type:</strong> MNC</span>
-            <span><strong>Skills:</strong> Node, React</span>
-            <span><strong>Salary:</strong> ₹6 - 8 LPA</span>
-            <span><strong>Location:</strong> Bengaluru</span>
-            <span><strong>No. of vacancies:</strong> 10</span>
-
-            <!-- <span><strong>Number of applicants submitted:</strong> 10</span> -->
+            <span
+              ><strong>Experience:</strong> {{ jobposting.Experience }}</span
+            >
+            <span><strong>Job Type:</strong> {{ jobposting.JobType }}</span>
+            <span><strong>Skills:</strong> {{ jobposting.JobRole }}</span>
+            <span><strong>Salary:</strong> {{ jobposting.Salary }}</span>
+            <span><strong>Location:</strong> {{ jobposting.Location }}</span>
+            <span
+              ><strong>No. of vacancies:</strong>
+              {{ jobposting.Vacancies }}</span
+            >
           </div>
           <div class="job-detail">
-            <span><strong>Shift:</strong> Day Shift</span>
-            <span><strong>Mode of Work:</strong> Hybrid</span>
-            <span><strong> Drive Date:</strong> 17/11/2024</span>
-            <span><strong>Posted Date:</strong> 14/11/2024</span>
-            <span><strong>Application last date:</strong>13/11/2024</span>
+            <span><strong>Shift:</strong> {{ jobposting.Shift }}</span>
+            <span
+              ><strong>Mode of Work:</strong> {{ jobposting.ModeOfWork }}</span
+            >
+            <span
+              ><strong> Drive Date:</strong> {{ jobposting.DriveDate }}</span
+            >
+            <span
+              ><strong>Posted Date:</strong> {{ jobposting.ValidFrom }}</span
+            >
+            <span
+              ><strong>Application last date:</strong
+              >{{ jobposting.ValidTill }}</span
+            >
             <!-- <span><strong>Number of interview schedule:</strong> 10</span> -->
           </div>
         </div>

@@ -11,7 +11,11 @@ public partial class JobpostingsEligiblestudent
 
     public long? JobPostingId { get; set; }
 
+    public int? StatusId { get; set; }
+
     public virtual Jobposting? JobPosting { get; set; }
+
+    public virtual Jobstudentstau? Status { get; set; }
 
     public virtual Tblstudent? Student { get; set; }
 }

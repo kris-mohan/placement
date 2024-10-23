@@ -1,6 +1,11 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -15,6 +20,8 @@ import { StudentJobAdditionalFilterModalComponent } from "../../student-menu/stu
 import { MatDialog } from "@angular/material/dialog";
 import { CompanyJobAdditionalfiltersModalComponent } from "./company-job-additionalfilters-modal/company-job-additionalfilters-modal.component";
 import { provideNativeDateAdapter } from "@angular/material/core";
+import { Jobposting } from "src/app/services/types/Jobposting";
+import { CompanyJobDetailsApiService } from "./company-job-details-apiService";
 
 const today = new Date();
 const month = today.getMonth();
@@ -101,6 +108,8 @@ export class CompanyJobDetailsComponent {
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
     private location: Location,
+    private companyJobDetailsApiService: CompanyJobDetailsApiService,
+    private cd: ChangeDetectorRef
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -378,37 +387,6 @@ export class CompanyJobDetailsComponent {
     },
   ];
 
-  // displayedColumns: string[] = [
-  //   "slNo",
-  //   "jobId",
-  //   "jobTitle",
-  //   // "companyName",
-  //   "location",
-  //   "jobDescription",
-  //   "postedDate",
-  //   "actions",
-  // ];
-
-  // companySizes: string[] = [
-  //   "1-10 Employees",
-  //   "11-50 Employees",
-  //   "51-200 Employees",
-  //   "201-500 Employees",
-  //   "501-1000 Employees",
-  //   "1001-5000 Employees",
-  //   "5001-10000 Employees",
-  //   "10001+ Employees",
-  // ];
-  columns = [
-    { key: "slNo", label: "Sl No" },
-    { key: "jobId", label: "job Id" },
-    { key: "jobTitle", label: "job Title" },
-    { key: "jobType", label: "jobType" },
-    { key: "location", label: "location" },
-    { key: "jobDescription", label: "job Description" },
-    { key: "postedDate", label: "posted Date" },
-    { key: "actions", label: "Actions" },
-  ];
   experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
   dataSource = new MatTableDataSource<JobPostingList>(JOBPOSTING_DATA);
   selection = new SelectionModel<JobPostingList>(true, []);
@@ -419,6 +397,37 @@ export class CompanyJobDetailsComponent {
   industries: Industry[] = [];
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
+
+  JobPostingsData: Jobposting[] = [];
+
+  ngOnInit() {
+    this.GetAllJobPosting();
+    console.log(this.JobPostingsData);
+  }
+
+  GetAllJobPosting = () => {
+    this.companyJobDetailsApiService.GetAllJobPostings().subscribe({
+      next: (jobPostings) => {
+        const data: Jobposting[] = jobPostings.value;
+        this.JobPostingsData = jobPostings.value.map((jobposting: any) => ({
+          ...jobposting,
+          ValidTill: this.convertToDateOnly(jobposting.ValidTill),
+          ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
+          DriveDate: this.convertToDateOnly(jobposting.DriveDate),
+        }));
+        this.cd.detectChanges();
+        console.log("jobPosting", this.JobPostingsData);
+      },
+      error: (error) => {
+        console.error("Error fetching jobPostings:", error);
+      },
+    });
+  };
+
+  convertToDateOnly(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  }
 
   openAddEditCompanyForm(id?: number) {
     if (id !== undefined) {
