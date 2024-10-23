@@ -9,7 +9,6 @@ import { ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { SharedModule } from "src/app/shared/shared.module";
-import { HIRING_ROUNDS_DATA } from "../test-rounds.component";
 import { InterviewRoundsAPIService } from "./api-add-rounds-modal";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { TestRoundsApiService } from "../TestRoundsApiService";

@@ -21,7 +21,6 @@ import { PanelTabComponent } from "../panel-tab/panel-tab.component";
     NgxMaterialTimepickerModule,
     TestRoundsComponent,
     PanelTabComponent,
-    PanelTabComponent,
   ],
   templateUrl: "./add-edit-company-job-details.component.html",
   styleUrl: "./add-edit-company-job-details.component.css",

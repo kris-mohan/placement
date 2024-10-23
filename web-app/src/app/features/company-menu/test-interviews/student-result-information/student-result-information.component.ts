@@ -8,7 +8,7 @@ import { FirstRoundComponent } from "./first-round/first-round.component";
 import { SecondRoundComponent } from "./second-round/second-round.component";
 import { ThirdRoundComponent } from "./third-round/third-round.component";
 import { FourthRoundComponent } from "./fourth-round/fourth-round.component";
-import { HIRING_ROUNDS_DATA } from "../../company-job-details/test-rounds/test-rounds.component";
+//import { HIRING_ROUNDS_DATA } from "../../company-job-details/test-rounds/test-rounds.component";
 import { HiringRound } from "../../company-job-details/test-rounds/test-rounds-model";
 
 @Component({

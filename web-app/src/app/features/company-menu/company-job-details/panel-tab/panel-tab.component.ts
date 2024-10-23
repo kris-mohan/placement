@@ -5,86 +5,8 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { MatDialog } from "@angular/material/dialog";
 import { AddEditPanelModalComponent } from "./add-edit-panel-modal/add-edit-panel-modal.component";
 import { MatTableDataSource } from "@angular/material/table";
-import { HiringPanel } from "./panel-tab-model";
-
-export const HIRING_PANELS_DATA: HiringPanel[] = [
-  {
-    jobId: 1,
-    panelId: 1,
-    panelName: "Assessment",
-    description:
-      "An assessment to evaluate specific skills related to the job role.",
-    role: "Skill Evaluator",
-    status: "Cancelled",
-    candidateId: 125,
-    feedback: "Candidate withdrew from the process.",
-  },
-  {
-    jobId: 1,
-    panelId: 2,
-    panelName: "Technical Interview",
-    description:
-      "A round focused on assessing technical skills and problem-solving abilities.",
-    role: "Technical Interviewer",
-    status: "Scheduled",
-    candidateId: 123,
-    feedback: "",
-  },
-  {
-    jobId: 1,
-    panelId: 3,
-    panelName: "HR Interview",
-    description: "A round to discuss cultural fit and candidate’s background.",
-    role: "HR Interviewer",
-    status: "Scheduled",
-    candidateId: 123,
-    feedback: "",
-  },
-  {
-    jobId: 1,
-    panelId: 4,
-    panelName: "Final Interview",
-    description:
-      "A final interview to make the final decision on the candidate.",
-    role: "Final Decision Maker",
-    status: "Scheduled",
-    candidateId: 124,
-    feedback: "",
-  },
-
-  {
-    jobId: 2,
-    panelId: 1,
-    panelName: "Technical Interview",
-    description:
-      "A round focused on assessing technical skills and problem-solving abilities.",
-    role: "Technical Interviewer",
-    status: "Scheduled",
-    candidateId: 123,
-    feedback: "",
-  },
-  {
-    jobId: 2,
-    panelId: 2,
-    panelName: "HR Interview",
-    description: "A round to discuss cultural fit and candidate’s background.",
-    role: "HR Interviewer",
-    status: "Scheduled",
-    candidateId: 123,
-    feedback: "",
-  },
-  {
-    jobId: 2,
-    panelId: 3,
-    panelName: "Final Interview",
-    description:
-      "A final interview to make the final decision on the candidate.",
-    role: "Final Decision Maker",
-    status: "Scheduled",
-    candidateId: 124,
-    feedback: "",
-  },
-];
+import { Jobinterviewpanel } from "src/app/services/types/Jobinterviewpanel";
+import { PanelAPIService } from "./panel.apiservice";
 
 @Component({
   selector: "app-panel-tab",
@@ -94,30 +16,52 @@ export const HIRING_PANELS_DATA: HiringPanel[] = [
   styleUrl: "./panel-tab.component.css",
 })
 export class PanelTabComponent {
-  constructor(private location: Location) {}
+  constructor(private location: Location, private panelAPIService: PanelAPIService) {}
 
   readonly dialog = inject(MatDialog);
-
   columns = [
-    { key: "panelId", label: "Panel ID" },
-    { key: "panelName", label: "Panel Name" },
-    { key: "description", label: "Description" },
-    { key: "role", label: "Role" },
-    { key: "actions", label: "Actions" },
+    { key: "Id", label: "Panel ID" },
+    { key: "JobPostingId", label: "Job Posting ID"},
+    { key: "PanelName", label: "Panel Name" },
+    { key: "Description", label: "Description" },
+    { key: "Designation", label: "Designation" },
+    //{ key: "JoInterviewRoundId", label: "Job Interview Round ID" },
+    { key: "Actions", label: "Actions" },
   ];
   displayedColumns: string[] = [
-    "panelId",
-    "panelName",
-    "description",
-    "role",
-    "actions",
+    "Id",
+    "JobPostingId",
+    "PanelName",
+    "Description",
+    "Designation",
+    //"JoInterviewRoundId",
+    "Actions",
   ];
-  dataSource = new MatTableDataSource<HiringPanel>(HIRING_PANELS_DATA);
+  JobInterviewPanelDataSource = new MatTableDataSource<Jobinterviewpanel>();
 
   goBack(): void {
     this.location.back();
   }
 
+
+  GetAllPanelData = () => {
+    this.panelAPIService.GetAllPanelData().subscribe({
+      next: (response) => {
+        const data: Jobinterviewpanel[] = response.value;
+        console.log("Jobinterviewpanel", data);
+        this.JobInterviewPanelDataSource.data = data;
+        console.log(this.JobInterviewPanelDataSource);
+      },
+      error: (error) => {
+        console.log("Error fetching panels: ", error);
+      },
+    });
+  };
+
+  ngOnInit()
+  {
+    this.GetAllPanelData();
+  }
   handleAddPanelClick(): void {
     this.dialog.open(AddEditPanelModalComponent, {
       width: "500px",
