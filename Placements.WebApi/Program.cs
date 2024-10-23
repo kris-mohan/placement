@@ -161,6 +161,8 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Batch>("Batch");
     modelBuilder.EntitySet<Userrole>("Userrole");
     modelBuilder.EntitySet<Jobinterviewpanel>("Jobinterviewpanel");
+    modelBuilder.EntitySet<IndentForm>("IndentForm");
+    modelBuilder.EntitySet<IndentFormDynamicField>("IndentFormDynamicField");
     modelBuilder.EntitySet<Placements.DataAccess.Placement.Models.Stream>("Stream");
 
 
