@@ -26,6 +26,8 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { PlacementInterviewAdditionalFilterComponent } from "./placement-interview-additional-filter/placement-interview-additional-filter.component";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { provideNativeDateAdapter } from "@angular/material/core";
+import { interviewApiService } from "src/app/features/company-menu/interview/api.interview";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 // import * as XLSX from "xlsx";
 // import { jsPDF } from "jspdf";
 
@@ -99,7 +101,8 @@ export class PlacementInterviewComponent {
     private sweetAlertService: SweetAlertService,
     private location: Location,
     private apiCompanyService: CompanyAPIService,
-    private apiIndustryService: IndustryAPIService
+    private apiIndustryService: IndustryAPIService,
+    private InterviewService: interviewApiService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -249,9 +252,24 @@ export class PlacementInterviewComponent {
     },
   ];
 
+  Getinterview = () => {
+    this.InterviewService.Getinterview().subscribe({
+      next: (response) => {
+        const data: Jobinterviewround[] = response.value;
+        console.log("rounds", data);
+        // this.RoundDataSource.data = data;
+        // console.log(this.RoundDataSource);
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
+
   ngOnInit() {
-    this.loadCompanies();
-    this.loadIndustries();
+    // this.loadCompanies();
+    // this.loadIndustries();
+    this.Getinterview();
 
     this.dataSource.paginator = this.paginator;
 

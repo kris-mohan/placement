@@ -14,6 +14,9 @@ import { CalendarOptions, EventApi } from "@fullcalendar/core";
 import { FormBuilder } from "@angular/forms";
 import { CalendarModalComponent } from "../calendar-modal/calendar-modal.component";
 import { AMGModules } from "src/AMG-Module/AMG-module";
+// import { interviewApiService } from "./api.interview";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: "app-interview-schedule",
@@ -91,11 +94,14 @@ export class InterviewScheduleComponent implements OnInit {
   ];
 
   constructor(
-    private dialog: MatDialog // Inject MatDialog instead of NgbModal
+    private dialog: MatDialog // Inject MatDialog instead of NgbModal // private InterviewApiService: interviewApiService
   ) {}
 
   ngOnInit(): void {
     this.loadInitialData();
+    // // this.Getinterview();
+
+    // this.getinterview();
   }
 
   calendarOptions: CalendarOptions = {

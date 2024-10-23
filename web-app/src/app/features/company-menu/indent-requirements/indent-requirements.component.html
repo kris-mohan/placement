@@ -131,13 +131,18 @@
             formArrayName="itemsArray"
           >
             <mat-grid-tile
-              *ngFor="let item of itemsArray.controls; let i = index"
+              *ngFor="let item of itemsArray.controls; let i = index" [formGroupName]="i"
             >
               <div class="input_div" fxFlex="90%">
                 <p class="grid-label">Required Item</p>
                 <mat-form-field appearance="outline" class="matFormField">
                   <mat-label>Required Item</mat-label>
-                  <input matInput [formControlName]="i" />
+                  <input matInput formControlName="requiredItem" />
+                </mat-form-field>
+                <p class="grid-label">Description</p>
+                <mat-form-field appearance="outline" class="matFormField">
+                  <mat-label>Description</mat-label>
+                  <input matInput formControlName="description" />
                 </mat-form-field>
                 <div>
                   <button

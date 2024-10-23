@@ -13,6 +13,7 @@ import { CommonModule, Location } from "@angular/common";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { MatGridListModule } from "@angular/material/grid-list";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: "app-indent-requirements",
@@ -23,6 +24,7 @@ import { MatGridListModule } from "@angular/material/grid-list";
     SharedModule,
     MatGridListModule,
     FormsModule,
+    MatButtonModule,
   ],
   templateUrl: "./indent-requirements.component.html",
   styleUrl: "./indent-requirements.component.css",
@@ -53,12 +55,14 @@ export class IndentRequirementsComponent {
   //   this.itemsArray.push(this.createItemFormControl());
   // }
 
-  createItemFormControl(): FormControl {
-    return this.fb.control("", Validators.required);
+  createItemFormControl(): FormGroup {
+    return this.fb.group({
+      requiredItem: new FormControl("", Validators.required), // Form control for requiredItem
+      description: new FormControl("", Validators.required), // Form control for description
+    });
   }
 
   handleAddGrid(): void {
-    this.itemsArray.push(this.createItemFormControl());
     this.itemsArray.push(this.createItemFormControl());
   }
 

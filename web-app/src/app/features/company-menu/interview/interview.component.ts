@@ -25,6 +25,8 @@ import { ImportCompanyDialogComponent } from "../../company-configuration/compan
 import { IndustryAPIService } from "../../company-configuration/company-config/industry/api.industry";
 import { provideNativeDateAdapter } from "@angular/material/core";
 import { InterviewAdditionalFilterComponent } from "./interview-additional-filter/interview-additional-filter.component";
+import { interviewApiService } from "./api.interview";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -95,7 +97,8 @@ export class InterviewComponent {
     private sweetAlertService: SweetAlertService,
     private location: Location,
     private apiCompanyService: CompanyAPIService,
-    private apiIndustryService: IndustryAPIService
+    private apiIndustryService: IndustryAPIService,
+    private InterviewService: interviewApiService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -131,7 +134,19 @@ export class InterviewComponent {
     { key: "Actions", label: "Actions" },
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
-
+  Getinterview = () => {
+    this.InterviewService.Getinterview().subscribe({
+      next: (response) => {
+        const data: Jobinterviewround[] = response.value;
+        console.log("rounds", data);
+        // this.RoundDataSource.data = data;
+        // console.log(this.RoundDataSource);
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
   companiesCard = [
     {
       Id: 1,
@@ -246,8 +261,10 @@ export class InterviewComponent {
   ];
 
   ngOnInit() {
-    this.loadCompanies();
-    this.loadIndustries();
+    // this.loadCompanies();
+    // this.loadIndustries();
+
+    this.Getinterview();
 
     this.dataSource.paginator = this.paginator;
 
@@ -307,32 +324,32 @@ export class InterviewComponent {
     );
   }
 
-  loadCompanies() {
-    this.apiCompanyService.loadCompanyData().subscribe({
-      next: (response: ODataResponse<companyTableList>) => {
-        console.log("API Response:", response);
-        this.dataSource.data = response.value;
-        this.companies = response.value;
-        this.industries = this.extractIndustriesFromCompanies(this.companies);
-        this.filteredIndustries = this.industries;
-      },
-      error: (error) => {
-        console.error("Error loading companies", error);
-      },
-    });
-  }
+  // loadCompanies() {
+  //   this.apiCompanyService.loadCompanyData().subscribe({
+  //     next: (response: ODataResponse<companyTableList>) => {
+  //       console.log("API Response:", response);
+  //       this.dataSource.data = response.value;
+  //       this.companies = response.value;
+  //       this.industries = this.extractIndustriesFromCompanies(this.companies);
+  //       this.filteredIndustries = this.industries;
+  //     },
+  //     error: (error) => {
+  //       console.error("Error loading companies", error);
+  //     },
+  //   });
+  // }
 
-  loadIndustries() {
-    this.apiIndustryService.loadIndustryData().subscribe({
-      next: (response: ODataResponse<any>) => {
-        console.log("API Response:", response);
-        this.industries = response.value;
-      },
-      error: (error) => {
-        console.error("Error loading Industries", error);
-      },
-    });
-  }
+  // loadIndustries() {
+  //   this.apiIndustryService.loadIndustryData().subscribe({
+  //     next: (response: ODataResponse<any>) => {
+  //       console.log("API Response:", response);
+  //       this.industries = response.value;
+  //     },
+  //     error: (error) => {
+  //       console.error("Error loading Industries", error);
+  //     },
+  //   });
+  // }
   openAddEditCompanyForm(id?: number) {
     if (id !== null && id !== undefined) {
       this.router.navigate(["/company-configuration/company", id]);
@@ -341,30 +358,30 @@ export class InterviewComponent {
     }
   }
 
-  async deleteCompany(id: number) {
-    const confirmed = await this.sweetAlertService.confirmDelete(
-      "Do you really want to delete this Company?"
-    );
+  // async deleteCompany(id: number) {
+  //   const confirmed = await this.sweetAlertService.confirmDelete(
+  //     "Do you really want to delete this Company?"
+  //   );
 
-    if (confirmed) {
-      this.apiCompanyService.deleteCompany(id).subscribe({
-        next: (response: { success: boolean; message: string }) => {
-          if (response.success) {
-            this.sweetAlertService.success(response.message);
-            this.loadCompanies();
-          } else {
-            this.sweetAlertService.error(response.message);
-          }
-        },
-        error: (error) => {
-          this.sweetAlertService.error(
-            "An unexpected error occurred while deleting the Company."
-          );
-          console.error("Error deleting Company:", error);
-        },
-      });
-    }
-  }
+  //   if (confirmed) {
+  //     this.apiCompanyService.deleteCompany(id).subscribe({
+  //       next: (response: { success: boolean; message: string }) => {
+  //         if (response.success) {
+  //           this.sweetAlertService.success(response.message);
+  //           this.loadCompanies();
+  //         } else {
+  //           this.sweetAlertService.error(response.message);
+  //         }
+  //       },
+  //       error: (error) => {
+  //         this.sweetAlertService.error(
+  //           "An unexpected error occurred while deleting the Company."
+  //         );
+  //         console.error("Error deleting Company:", error);
+  //       },
+  //     });
+  //   }
+  // }
 
   openJdDetails(id: number) {}
 
