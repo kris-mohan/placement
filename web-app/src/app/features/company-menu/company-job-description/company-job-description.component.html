@@ -38,12 +38,14 @@
   <mat-card-content class="matt-card-content">
     <div class="main-content">
       <div class="left-content">
-        <div class="job-card">
+        <div class="job-card" *ngIf="JobPostingsDescriptionData().length > 0">
           <div class="job-header">
             <div class="job-title">
-              <h2>Backend Developer</h2>
-              <span class="company">Accenture</span>
-              <span class="rating"> 3.9 | 5486 Reviews</span>
+              <h2>{{ JobPostingsDescriptionData()[0]?.JobRole }}</h2>
+              <span class="company">{{
+                JobPostingsDescriptionData()[0]?.Company?.Name
+              }}</span>
+              <!-- <span class="rating"> 3.9 | 5486 Reviews</span> -->
             </div>
             <div>
               <button *ngIf="UserRoleId === 3" class="apply-button">
@@ -61,16 +63,24 @@
 
           <div class="job-details">
             <div class="experience">
-              <span>1 - 4 years</span>
+              <span
+                >Experience:{{
+                  JobPostingsDescriptionData()[0]?.Experience
+                }}</span
+              >
             </div>
             <div class="salary">
-              <span>Not Disclosed</span>
+              <span>Salary:{{ JobPostingsDescriptionData()[0]?.Salary }}</span>
             </div>
             <div class="locations">
-              <span>Gurugram, Bengaluru</span>
+              <span
+                >Location:{{ JobPostingsDescriptionData()[0]?.Location }}</span
+              >
             </div>
             <div class="posted">
-              <span>Posted: 1 day ago</span>
+              <span
+                >Posted:{{ JobPostingsDescriptionData()[0]?.ValidFrom }}</span
+              >
             </div>
           </div>
         </div>
@@ -78,143 +88,122 @@
         <div class="job-highlights">
           <h3>Job Description</h3>
           <ul>
-            <li>
-              Proficient in OOP, Design patterns, and functional programming
-            </li>
-            Project Role :Application Developer Project Role Description
-            :Design, build and configure applications to meet business process
-            and application requirements. Must have skills :Infotainment &
-            Telematics Good to have skills :NA Educational Qualification :15
-            years of full time educationBachelor of Engineering BE or Bachelor
-            of Technology BTech Project Role :Application Developer
-            <h3>Technical Experience</h3>
-
-            <li>
-              tMust Have Skills:Proficiency in ASP.NET MVC, Web API development
-              tGood To Have Skills:Experience with other web development
-              frameworks tStrong understanding of software development
-              principles and methodologies tExperience with database management
-              systems such as SQL Server tHands on experience in designing and
-              developing web applications using ASP.NET MVC tKnowledge of front
-              end technologies such as HTML, CSS, and JavaScriptProfessional
-              Attributes
-            </li>
-            <h3>Key skills</h3>
-            <li>
-              Role: Full Stack Developer Industry Type: IT Services & Consulting
-              Department: Engineering - Software & QA Employment Type: Full
-              Time, Permanent Role Category: Software Development Education UG:
-              B.Tech/B.E. in Any Specialization PG: Any Postgraduate Key Skills
-            </li>
-            <li>
-              At least 2-3 years of hands-on experience designing, developing,
-              deploying, and scaling large-scale applications
-            </li>
+            {{
+              JobPostingsDescriptionData()[0]?.JobDescription
+            }}
           </ul>
         </div>
+      </div>
 
-        <div class="chart-highlights" *ngIf="UserRoleId !== 3">
-          <h3>Name of College</h3>
-          <mat-form-field class="mat-form-field" appearance="outline">
-            <mat-label>Select College</mat-label>
-            <mat-select [formControl]="selectCollegeControl">
-              @for (collegeName of collegesNames; track collegeName) {
-              <mat-option [value]="collegeName">{{ collegeName }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <div>
-            <app-funnel-chart></app-funnel-chart>
-          </div>
-        </div>
-
-        <div class="right-content" *ngIf="UserRoleId !== 2">
-          <div class="related-jobs">
-            <h3>Accenture</h3>
-            <ul>
-              <li>
-                <h4>About the company</h4>
-                <p>
-                  Accenture plc is a global multinational professional services
-                  company originating in the US and headquartered in Dublin,
-                  Ireland, that specializes in information technology services
-                  and consulting. A Fortune Global 500 company, it reported
-                  revenues of $64.9 billion in 2024.Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Minus rem amet deserunt eos
-                  laborum quae animi minima repellat et? Quae ab nihil nam
-                  maiores, in odio velit delectus accusantium facere.
-                </p>
-                <!-- <span>Paytm | 3.3 | 6720 reviews</span>
-                <span>Noida, Bengaluru | Posted 22 days ago</span> -->
-              </li>
-              <li>
-                <p>Headquarters: Dublin, Ireland</p>
-                <p>Customer service: 00 1 312-842-5012</p>
-                <p>Number of employees: 733,000 (2023)</p>
-                <p>CEO: Julie Sweet (1 Sept 2019–)</p>
+      <div class="right-content" *ngIf="UserRoleId !== 2">
+        <div class="related-jobs">
+          <h3>{{ JobPostingsDescriptionData()[0]?.Company?.Name }}</h3>
+          <ul>
+            <li>
+              <h4>About the company</h4>
+              <p>{{ JobPostingsDescriptionData()[0]?.Company?.About }}</p>
+            </li>
+            <li>
+              <p>
+                Headquarters:
+                {{ JobPostingsDescriptionData()[0]?.Company?.HeadQuarters }}
+              </p>
+              <p>
+                Customer service:
+                {{ JobPostingsDescriptionData()[0]?.Company?.PhoneNumber }}
+              </p>
+              <p>
+                Number of employees:
+                {{ JobPostingsDescriptionData()[0]?.Company?.CompanySize }}
+              </p>
+              <!-- <p>CEO: Julie Sweet (1 Sept 2019–)</p>
                 <p>Founded: 1989, Hamilton, Bermuda</p>
-                <p>CFO: KC McClure</p>
-                <!-- <span>Paytm | 3.3 | 6720 reviews</span>
+                <p>CFO: KC McClure</p> -->
+              <!-- <span>Paytm | 3.3 | 6720 reviews</span>
                 <span>Noida, Bengaluru | Posted 22 days ago</span> -->
-              </li>
-              <!-- <li>
+            </li>
+            <!-- <li>
                 <h4>Backend Software Engineer - Paytm Money</h4>
                 <span>Paytm | 3.3 | 6720 reviews</span>
                 <span>Noida, Bengaluru | Posted 22 days ago</span>
               </li> -->
-            </ul>
-          </div>
+          </ul>
+        </div>
 
-          <div class="resources">
-            <h2>Uploaded Resources</h2>
-            <div class="resources-container">
-              <div class="video-column">
-                <h4>Video:</h4>
-                <iframe
-                  width="120%"
-                  height="200"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
+        <div class="resources">
+          <h2>Uploaded Resources</h2>
+          <div class="resources-container">
+            <div class="video-column">
+              <h4>Video:</h4>
+              <iframe
+                width="120%"
+                height="200"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+
+            <div class="resources-column">
+              <div>
+                <h4>PPT:</h4>
+                <a
+                  href="../../../../assets/PaataashalaBrochure.pdf"
+                  target="_blank"
+                  class="resource-link"
+                >
+                  <mat-icon>picture_as_pdf</mat-icon> View PPT
+                </a>
               </div>
-
-              <div class="resources-column">
-                <div>
-                  <h4>PPT:</h4>
-                  <a
-                    href="../../../../assets/PaataashalaBrochure.pdf"
-                    target="_blank"
-                    class="resource-link"
-                  >
-                    <mat-icon>picture_as_pdf</mat-icon> View PPT
-                  </a>
-                </div>
-                <div>
-                  <h4>Document:</h4>
-                  <a
-                    href="../../../../assets/PaataashalaBrochure.pdf"
-                    target="_blank"
-                    class="resource-link"
-                  >
-                    <mat-icon>description</mat-icon> View Document
-                  </a>
-                </div>
-                <div>
-                  <h4>Audio:</h4>
-                  <a
-                    href="assets/sample-audio.mp3"
-                    target="_blank"
-                    class="resource-link"
-                  >
-                    <mat-icon>volume_up</mat-icon> Listen to Audio
-                  </a>
-                </div>
+              <div>
+                <h4>Document:</h4>
+                <a
+                  href="../../../../assets/PaataashalaBrochure.pdf"
+                  target="_blank"
+                  class="resource-link"
+                >
+                  <mat-icon>description</mat-icon> View Document
+                </a>
+              </div>
+              <div>
+                <h4>Audio:</h4>
+                <a
+                  href="assets/sample-audio.mp3"
+                  target="_blank"
+                  class="resource-link"
+                >
+                  <mat-icon>volume_up</mat-icon> Listen to Audio
+                </a>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="chart-highlights" *ngIf="UserRoleId !== 3">
+      <h3>Name of University</h3>
+      <mat-form-field class="mat-form-field" appearance="outline">
+        <mat-label>Select College</mat-label>
+        <mat-select>
+          @for (university of universityTypes; track university) {
+          <mat-option [value]="university">{{ university }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <h3>Name of College</h3>
+      <mat-form-field class="mat-form-field" appearance="outline">
+        <mat-label>Select College</mat-label>
+        <mat-select>
+          @for (college of colleges; track college) {
+          <mat-option [value]="college">{{ college }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <div>
+        <app-funnel-chart></app-funnel-chart>
       </div>
     </div>
   </mat-card-content>

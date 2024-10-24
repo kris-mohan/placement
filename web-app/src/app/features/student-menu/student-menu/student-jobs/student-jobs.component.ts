@@ -25,6 +25,8 @@ import { StudentJobAdditionalFilterModalComponent } from "../student-job-additio
 import { provideNativeDateAdapter } from "@angular/material/core";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { StudentJobsApiSerivce } from "./studentJobsApiService";
+import { Companydatum } from "src/app/services/types/Companydatum";
+import { signal } from "@angular/core";
 
 const today = new Date();
 const month = today.getMonth();
@@ -438,7 +440,7 @@ export class StudentJobsComponent {
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
 
-  JobPostingsData: Jobposting[] = [];
+  JobPostingsData = signal<Jobposting[]>([]);
 
   ngOnInit() {
     this.GetAllJobPosting();
@@ -449,14 +451,15 @@ export class StudentJobsComponent {
     this.studentJobsApiService.GetAllJobPostings().subscribe({
       next: (jobPostings) => {
         const data: Jobposting[] = jobPostings.value;
-        this.JobPostingsData = jobPostings.value.map((jobposting: any) => ({
+        const mappedData = data.map((jobposting: any) => ({
           ...jobposting,
           ValidTill: this.convertToDateOnly(jobposting.ValidTill),
           ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
           DriveDate: this.convertToDateOnly(jobposting.DriveDate),
         }));
-        this.cd.detectChanges();
-        console.log("jobPosting", this.JobPostingsData);
+        this.JobPostingsData.set(mappedData);
+        console.log("Company Name:", this.JobPostingsData()[0].Company.Name);
+        // }
       },
       error: (error) => {
         console.error("Error fetching jobPostings:", error);

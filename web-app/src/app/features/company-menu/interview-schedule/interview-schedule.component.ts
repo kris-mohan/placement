@@ -33,6 +33,28 @@ export class InterviewScheduleComponent implements OnInit {
   private eventIDCounter = 0;
   currentEvents: EventApi[] = [];
 
+  universityTypes: string[] = [
+    "Visvesvaraya Technological University (VTU)",
+    "Deemed University",
+    "Autonomous University",
+  ];
+
+  colleges: string[] = [
+    "East West Institute of Technology",
+    "East West College of Engineering",
+    "East West School of Architecture",
+    "East West First Grade College of Science ",
+    "East West College of Management",
+    "East West College of Management",
+    "St. John’s Pharmacy College",
+    "East West College of Pharmacy",
+    "East West College of Nursing",
+    "East West Institute of Polytechnic",
+    "East West Polytechnic",
+    "East West Pre-University",
+    "East West Pre-University College",
+  ];
+
   events = [
     {
       companyName: "Capgemini",

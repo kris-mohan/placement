@@ -388,6 +388,7 @@ export class CompanyJobDetailsComponent {
   ];
 
   experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
+
   dataSource = new MatTableDataSource<JobPostingList>(JOBPOSTING_DATA);
   selection = new SelectionModel<JobPostingList>(true, []);
 

@@ -1,4 +1,27 @@
-<h2 class="header-mat-label">Interview Schedule</h2>
+<div style="display: flex">
+  <div>
+    <h2 class="header-mat-label">Interview Schedule</h2>
+  </div>
+  <div style="margin: 1rem">
+    <mat-form-field appearance="outline">
+      <mat-label>University</mat-label>
+      <mat-select multiple>
+        @for (uni of universityTypes; track uni) {
+        <mat-option [value]="uni">{{ uni }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>College</mat-label>
+      <mat-select multiple>
+        @for (college of colleges; track college) {
+        <mat-option [value]="college">{{ college }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
 <div class="main-div">
   <full-calendar class="calendar" [options]="calendarOptions"></full-calendar>
   <div style="margin-left: 0px">

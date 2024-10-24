@@ -286,19 +286,6 @@
 
         <a
           *ngIf="UserRoleId === 2"
-          mat-list-item
-          [routerLink]="['/Indent-view-placement']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="sidebar-list-items">
-            <div><mat-icon mat-list-icon> more </mat-icon></div>
-            <div><mat-label>Indentview </mat-label></div>
-          </div>
-        </a>
-
-        <a
-          *ngIf="UserRoleId === 2"
           [routerLink]="['/company-profile']"
           mat-list-item
           routerLinkActive="active"
@@ -386,6 +373,18 @@
           </div>
         </a>
 
+        <a
+          *ngIf="UserRoleId === 2"
+          mat-list-item
+          [routerLink]="['/Indent-view-placement']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <div><mat-icon mat-list-icon> more </mat-icon></div>
+            <div><mat-label>Indent</mat-label></div>
+          </div>
+        </a>
         <!-- Student -->
 
         <a

@@ -1,6 +1,11 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -17,6 +22,10 @@ import { CompanyJobAdditionalfiltersModalComponent } from "src/app/features/comp
 import { ImportCompanyDialogComponent } from "src/app/features/company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { provideNativeDateAdapter } from "@angular/material/core";
+import { PlacementCompanyApiService } from "../placement-company/PlacementCompanyApiService";
+import { PlacementCompanyJobDetailsApiService } from "./placement-company-job-details-apiService";
+import { Companydatum } from "src/app/services/types/Companydatum";
+import { Jobposting } from "src/app/services/types/Jobposting";
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
@@ -86,7 +95,8 @@ export class PlacementCompanyJobDetailsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
-    private location: Location
+    private location: Location,
+    private placementCompanyJobDetailsApiService: PlacementCompanyJobDetailsApiService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -383,6 +393,44 @@ export class PlacementCompanyJobDetailsComponent {
   industries: Industry[] = [];
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
+
+  Id: number | null = null;
+
+  JobPostingsDescriptionData = signal<Companydatum | null>(null);
+  jobPostingsData = signal<Jobposting[]>([]);
+
+  getCompanyJobDescriptionById(): void {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get("id");
+      this.Id = id !== null ? +id : null;
+      if (this.Id !== null) {
+        this.placementCompanyJobDetailsApiService
+          .GetCompanyById(this.Id)
+          .subscribe({
+            next: (jobPostings) => {
+              const data: Companydatum = jobPostings.value[0];
+              console.log(data);
+              this.jobPostingsData.set(data.Jobpostings);
+              this.JobPostingsDescriptionData.set(data);
+              console.log("Company Name:", this.JobPostingsDescriptionData());
+              // }
+            },
+            error: (error) => {
+              console.error("Error fetching jobPostings:", error);
+            },
+          });
+      }
+    });
+  }
+
+  ngOnInit() {
+    this.getCompanyJobDescriptionById();
+  }
+
+  convertToDateOnly(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  }
 
   openImportCompanyDialog() {
     this.dialog.open(ImportCompanyDialogComponent, {

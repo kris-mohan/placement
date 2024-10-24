@@ -164,8 +164,8 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let job of jobsCard"
-      (click)="openCopmanyJobDescriptionPage(job.Id)"
+      *ngFor="let jobPosting of JobPostingsData()"
+      (click)="openCopmanyJobDescriptionPage(jobPosting.Id)"
       fxFlex="100%"
       fxFlex.gt-sm="100%"
       fxFlex.gt-md="45%"
@@ -175,40 +175,49 @@
       <div class="company-details">
         <div class="company-designation">
           <h2 class="heading1">
-            {{ job.title }} <br />
+            {{ jobPosting.JobRole }} <br />
             <span style="color: slategray; font-size: 0.9rem">
-              {{ job.name }}
+              {{ jobPosting.Company.Name }} 
             </span>
           </h2>
 
           <!-- 
         <div class="company-type">{{ job.applicants }}</div> -->
-          <div class="logo-container">
-            <img
-              [src]="job.logo"
-              alt="Company Logo"
-              class="company-logo"
-            
-            />
-          </div>
+          <!-- <div class="logo-container">
+            <img [src]="job.logo" alt="Company Logo" class="company-logo" />
+          </div> -->
         </div>
         <div class="job-details-container">
           <div class="job-detail">
-            <span><strong>Experience:</strong> 0 - 2 years</span>
-            <span><strong>Job Type:</strong> MNC</span>
-            <span><strong>Skills:</strong> Node, React</span>
-            <span><strong>Salary:</strong> ₹6 - 8 LPA</span>
-            <span><strong>Location:</strong> Bengaluru</span>
-            <span><strong>No. of vacancies:</strong> 10</span>
+            <span
+              ><strong>Experience:</strong> {{ jobPosting.Experience }}
+            </span>
+            <span><strong>Job Type:</strong> {{ jobPosting.JobType }}</span>
+            <span><strong>Skills:</strong> {{ jobPosting.Experience }}</span>
+            <span><strong>Salary:</strong>{{ jobPosting.Salary }}</span>
+            <span><strong>Location:</strong> {{ jobPosting.Location }}</span>
+            <span
+              ><strong>No. of vacancies:</strong>
+              {{ jobPosting.Vacancies }}</span
+            >
 
             <!-- <span><strong>Number of applicants submitted:</strong> 10</span> -->
           </div>
           <div class="job-detail">
-            <span><strong>Shift:</strong> Day Shift</span>
-            <span><strong>Mode of Work:</strong> Hybrid</span>
-            <span><strong> Drive Date:</strong> 17/11/2024</span>
-            <span><strong>Posted Date:</strong> 14/11/2024</span>
-            <span><strong>Application last date:</strong>13/11/2024</span>
+            <span><strong>Shift:</strong> {{ jobPosting.Shift }}</span>
+            <span
+              ><strong>Mode of Work:</strong> {{ jobPosting.ModeOfWork }}</span
+            >
+            <span
+              ><strong> Drive Date:</strong> {{ jobPosting.DriveDate }}</span
+            >
+            <span
+              ><strong>Posted Date:</strong> {{ jobPosting.ValidFrom }}</span
+            >
+            <span
+              ><strong>Application last date:</strong
+              >{{ jobPosting.ValidTill }}</span
+            >
             <!-- <span><strong>Number of interview schedule:</strong> 10</span> -->
           </div>
         </div>

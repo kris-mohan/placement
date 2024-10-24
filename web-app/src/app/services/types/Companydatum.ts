@@ -21,6 +21,18 @@ export type Companydatum = {
   Country: string;
   ParentCompanyId: number;
   IsDeleted: boolean;
+  IsActive: boolean;
+  UserRoleId: number;
+  Password: string;
+  CompanySize: number;
+  LogoPath: string;
+  About: string;
+  HeadQuarters: string;
+  VideoPath: string;
+  PresentationPath: string;
+  DocumentPath: string;
+  AudioPath: string;
+  DateOfRegistration: Date;
   Companydesignations: Companydesignation[];
   Companytechnologies: Companytechonology[];
   Companyindustires: Companyindustry[];
