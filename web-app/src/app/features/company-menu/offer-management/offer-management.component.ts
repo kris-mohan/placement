@@ -1,30 +1,30 @@
-import { CommonModule, Location } from "@angular/common";
+import { CommonModule, Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   ViewChild,
-} from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
-import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
-import { MatDialog } from "@angular/material/dialog";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
-import { Observable, of, startWith, map } from "rxjs";
-import { AMGModules } from "src/AMG-Module/AMG-module";
-import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
-import { SharedModule } from "src/app/shared/shared.module";
-import { CompanyAPIService } from "../../company-configuration/company-config/companies/api.companies";
+} from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { Observable, of, startWith, map } from 'rxjs';
+import { AMGModules } from 'src/AMG-Module/AMG-module';
+import { SweetAlertService } from 'src/app/services/sweet-alert-service/sweet-alert-service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CompanyAPIService } from '../../company-configuration/company-config/companies/api.companies';
 import {
   companyTableList,
   Industry,
-} from "../../company-configuration/company-config/companies/companies-model";
-import { CompanyDetailDialogModalComponent } from "../../company-configuration/company-config/companies/company-detail-dialog-modal/company-detail-dialog-modal.component";
-import { ImportCompanyDialogComponent } from "../../company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
-import { IndustryAPIService } from "../../company-configuration/company-config/industry/api.industry";
-import { InterviewAdditionalFilterComponent } from "../interview/interview-additional-filter/interview-additional-filter.component";
-import { provideNativeDateAdapter } from "@angular/material/core";
+} from '../../company-configuration/company-config/companies/companies-model';
+import { CompanyDetailDialogModalComponent } from '../../company-configuration/company-config/companies/company-detail-dialog-modal/company-detail-dialog-modal.component';
+import { ImportCompanyDialogComponent } from '../../company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component';
+import { IndustryAPIService } from '../../company-configuration/company-config/industry/api.industry';
+import { InterviewAdditionalFilterComponent } from '../interview/interview-additional-filter/interview-additional-filter.component';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 export interface ODataResponse<T> {
   value: T[];
@@ -35,11 +35,11 @@ const month = today.getMonth();
 const year = today.getFullYear();
 
 @Component({
-  selector: "app-offer-management",
+  selector: 'app-offer-management',
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules],
-  templateUrl: "./offer-management.component.html",
-  styleUrl: "./offer-management.component.css",
+  templateUrl: './offer-management.component.html',
+  styleUrl: './offer-management.component.css',
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -55,17 +55,17 @@ export class OfferManagementComponent {
   industries: Industry[] = [];
 
   companySizes: string[] = [
-    "1-10 Employees",
-    "11-50 Employees",
-    "51-200 Employees",
-    "201-500 Employees",
-    "501-1000 Employees",
-    "1001-5000 Employees",
-    "5001-10000 Employees",
-    "10001+ Employees",
+    '1-10 Employees',
+    '11-50 Employees',
+    '51-200 Employees',
+    '201-500 Employees',
+    '501-1000 Employees',
+    '1001-5000 Employees',
+    '5001-10000 Employees',
+    '10001+ Employees',
   ];
 
-  experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
+  experienceLevel: string[] = ['Lateral', 'Intern', 'Fresher', 'Contract'];
 
   filteredCompanies: companyTableList[] = [];
   filteredCompany: Observable<any[]> = of([]);
@@ -74,10 +74,30 @@ export class OfferManagementComponent {
   filteredIndustries: Industry[] = [];
   filteredIndutry: Observable<any[]> = of([]);
 
-  searchCompany: string = "";
-  searchCity: string = "";
-  searchIndustry: string = "";
+  searchCompany: string = '';
+  searchCity: string = '';
+  searchIndustry: string = '';
   UserRoleId: number;
+  universityTypes: string[] = [
+    'Visvesvaraya Technological University (VTU)',
+    'Deemed University',
+    'Autonomous University',
+  ];
+  colleges: string[] = [
+    'East West Institute of Technology',
+    'East West College of Engineering',
+    'East West School of Architecture',
+    'East West First Grade College of Science ',
+    'East West College of Management',
+    'East West College of Management',
+    'St. John’s Pharmacy College',
+    'East West College of Pharmacy',
+    'East West College of Nursing',
+    'East West Institute of Polytechnic',
+    'East West Polytechnic',
+    'East West Pre-University',
+    'East West Pre-University College',
+  ];
 
   CityControl = new FormControl();
   industryControl = new FormControl();
@@ -97,7 +117,7 @@ export class OfferManagementComponent {
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService
   ) {
-    const storedUserRoleId = sessionStorage.getItem("userRoleId");
+    const storedUserRoleId = sessionStorage.getItem('userRoleId');
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   displayedColumns: string[] = [
@@ -107,138 +127,138 @@ export class OfferManagementComponent {
     // "City",
     // "ZipCode",
     // "Actions",
-    "Name",
-    "Industries",
-    "OpenPosition",
-    "ContactPerson",
-    "City",
-    "Email",
-    "PhoneNumber",
-    "Url",
-    "JD",
-    "Actions",
+    'Name',
+    'Industries',
+    'OpenPosition',
+    'ContactPerson',
+    'City',
+    'Email',
+    'PhoneNumber',
+    'Url',
+    'JD',
+    'Actions',
   ];
   columns = [
-    { key: "Name", label: "Name" },
-    { key: "Industries", label: "Industries" },
-    { key: "OpenPosition", label: "Open Position" },
-    { key: "ContactPerson", label: "Contact Person" },
-    { key: "City", label: "City" },
-    { key: "Email", label: "Email" },
-    { key: "PhoneNumber", label: "Phone Number" },
-    { key: "Url", label: "URL" },
-    { key: "JD", label: "JD" },
-    { key: "Actions", label: "Actions" },
+    { key: 'Name', label: 'Name' },
+    { key: 'Industries', label: 'Industries' },
+    { key: 'OpenPosition', label: 'Open Position' },
+    { key: 'ContactPerson', label: 'Contact Person' },
+    { key: 'City', label: 'City' },
+    { key: 'Email', label: 'Email' },
+    { key: 'PhoneNumber', label: 'Phone Number' },
+    { key: 'Url', label: 'URL' },
+    { key: 'JD', label: 'JD' },
+    { key: 'Actions', label: 'Actions' },
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
 
   companiesCard = [
     {
       Id: 1,
-      logo: "company-logo-1.png",
-      name: "Haier Appliances",
+      logo: 'company-logo-1.png',
+      name: 'Haier Appliances',
       rating: 4.1,
-      reviews: "1.3K+ reviews",
-      type: "Foreign MNC",
+      reviews: '1.3K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 4,
       registeredStudents: 120,
       placedStudents: 80,
     },
     {
       Id: 2,
-      logo: "company-logo-2.png",
-      name: "Sony Electronics",
+      logo: 'company-logo-2.png',
+      name: 'Sony Electronics',
       rating: 4.5,
-      reviews: "2K+ reviews",
-      type: "Foreign MNC",
+      reviews: '2K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 5,
       registeredStudents: 100,
       placedStudents: 60,
     },
     {
       Id: 3,
-      logo: "company-logo-3.png",
-      name: "Samsung Tech",
+      logo: 'company-logo-3.png',
+      name: 'Samsung Tech',
       rating: 4.2,
-      reviews: "1.5K+ reviews",
-      type: "Foreign MNC",
+      reviews: '1.5K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 3,
       registeredStudents: 200,
       placedStudents: 150,
     },
     {
       Id: 4,
-      logo: "company-logo-4.png",
-      name: "LG Electronics",
+      logo: 'company-logo-4.png',
+      name: 'LG Electronics',
       rating: 4.3,
-      reviews: "1.8K+ reviews",
-      type: "Foreign MNC",
+      reviews: '1.8K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 6,
       registeredStudents: 140,
       placedStudents: 110,
     },
     {
       Id: 5,
-      logo: "company-logo-5.png",
-      name: "Apple Inc.",
+      logo: 'company-logo-5.png',
+      name: 'Apple Inc.',
       rating: 4.8,
-      reviews: "3K+ reviews",
-      type: "Foreign MNC",
+      reviews: '3K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 7,
       registeredStudents: 250,
       placedStudents: 200,
     },
     {
       Id: 6,
-      logo: "company-logo-6.png",
-      name: "Microsoft Corp.",
+      logo: 'company-logo-6.png',
+      name: 'Microsoft Corp.',
       rating: 4.7,
-      reviews: "2.7K+ reviews",
-      type: "Foreign MNC",
+      reviews: '2.7K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 5,
       registeredStudents: 180,
       placedStudents: 160,
     },
     {
       Id: 7,
-      logo: "company-logo-7.png",
-      name: "Google LLC",
+      logo: 'company-logo-7.png',
+      name: 'Google LLC',
       rating: 4.9,
-      reviews: "5K+ reviews",
-      type: "Foreign MNC",
+      reviews: '5K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 8,
       registeredStudents: 300,
       placedStudents: 250,
     },
     {
       Id: 8,
-      logo: "company-logo-8.png",
-      name: "Facebook Inc.",
+      logo: 'company-logo-8.png',
+      name: 'Facebook Inc.',
       rating: 4.6,
-      reviews: "2.2K+ reviews",
-      type: "Foreign MNC",
+      reviews: '2.2K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 4,
       registeredStudents: 170,
       placedStudents: 130,
     },
     {
       Id: 9,
-      logo: "company-logo-9.png",
-      name: "Amazon Web Services",
+      logo: 'company-logo-9.png',
+      name: 'Amazon Web Services',
       rating: 4.4,
-      reviews: "2.5K+ reviews",
-      type: "Foreign MNC",
+      reviews: '2.5K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 6,
       registeredStudents: 220,
       placedStudents: 180,
     },
     {
       Id: 10,
-      logo: "company-logo-10.png",
-      name: "Tesla Inc.",
+      logo: 'company-logo-10.png',
+      name: 'Tesla Inc.',
       rating: 4.7,
-      reviews: "2.8K+ reviews",
-      type: "Foreign MNC",
+      reviews: '2.8K+ reviews',
+      type: 'Foreign MNC',
       numberOfJobs: 5,
       registeredStudents: 160,
       placedStudents: 140,
@@ -247,100 +267,100 @@ export class OfferManagementComponent {
 
   offers = [
     {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
+      candidateName: 'John Doe',
+      company: 'Tech Solutions',
+      position: 'Software Engineer',
+      sentDate: new Date('2023-08-01'),
+      status: 'Pending',
+      expiryDate: new Date('2023-09-01'),
     },
     {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
+      candidateName: 'Jane Smith',
+      company: 'Business Corp',
+      position: 'Product Manager',
+      sentDate: new Date('2023-07-15'),
+      status: 'Accepted',
+      expiryDate: new Date('2023-08-15'),
     },
     {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
+      candidateName: 'John Doe',
+      company: 'Tech Solutions',
+      position: 'Software Engineer',
+      sentDate: new Date('2023-08-01'),
+      status: 'Pending',
+      expiryDate: new Date('2023-09-01'),
     },
     {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
+      candidateName: 'Jane Smith',
+      company: 'Business Corp',
+      position: 'Product Manager',
+      sentDate: new Date('2023-07-15'),
+      status: 'Accepted',
+      expiryDate: new Date('2023-08-15'),
     },
     {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
+      candidateName: 'John Doe',
+      company: 'Tech Solutions',
+      position: 'Software Engineer',
+      sentDate: new Date('2023-08-01'),
+      status: 'Pending',
+      expiryDate: new Date('2023-09-01'),
     },
     {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
+      candidateName: 'Jane Smith',
+      company: 'Business Corp',
+      position: 'Product Manager',
+      sentDate: new Date('2023-07-15'),
+      status: 'Accepted',
+      expiryDate: new Date('2023-08-15'),
     },
     {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
+      candidateName: 'John Doe',
+      company: 'Tech Solutions',
+      position: 'Software Engineer',
+      sentDate: new Date('2023-08-01'),
+      status: 'Pending',
+      expiryDate: new Date('2023-09-01'),
     },
     {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
+      candidateName: 'Jane Smith',
+      company: 'Business Corp',
+      position: 'Product Manager',
+      sentDate: new Date('2023-07-15'),
+      status: 'Accepted',
+      expiryDate: new Date('2023-08-15'),
     },
     {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
+      candidateName: 'John Doe',
+      company: 'Tech Solutions',
+      position: 'Software Engineer',
+      sentDate: new Date('2023-08-01'),
+      status: 'Pending',
+      expiryDate: new Date('2023-09-01'),
     },
     {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
+      candidateName: 'Jane Smith',
+      company: 'Business Corp',
+      position: 'Product Manager',
+      sentDate: new Date('2023-07-15'),
+      status: 'Accepted',
+      expiryDate: new Date('2023-08-15'),
     },
     {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
+      candidateName: 'John Doe',
+      company: 'Tech Solutions',
+      position: 'Software Engineer',
+      sentDate: new Date('2023-08-01'),
+      status: 'Pending',
+      expiryDate: new Date('2023-09-01'),
     },
     {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
+      candidateName: 'Jane Smith',
+      company: 'Business Corp',
+      position: 'Product Manager',
+      sentDate: new Date('2023-07-15'),
+      status: 'Accepted',
+      expiryDate: new Date('2023-08-15'),
     },
     // Add more offers as needed
   ];
@@ -360,16 +380,16 @@ export class OfferManagementComponent {
     });
 
     this.filteredCities = this.CityFilterControl.valueChanges.pipe(
-      startWith(""),
+      startWith(''),
       map((value) => this._filterCities(value))
     );
     this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-      startWith(""),
+      startWith(''),
       map((value) => this._filterIndustries(value))
     );
 
     this.filteredCompany = this.companyControl.valueChanges.pipe(
-      startWith(""),
+      startWith(''),
       map((value) => this._filterCompanies(value))
     );
   }
@@ -391,8 +411,8 @@ export class OfferManagementComponent {
 
   openCompanyModalPopup(company: any): void {
     this.dialog.open(CompanyDetailDialogModalComponent, {
-      width: "500px",
-      height: "600px",
+      width: '500px',
+      height: '600px',
       data: company,
     });
   }
@@ -410,14 +430,14 @@ export class OfferManagementComponent {
   loadCompanies() {
     this.apiCompanyService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
-        console.log("API Response:", response);
+        console.log('API Response:', response);
         this.dataSource.data = response.value;
         this.companies = response.value;
         this.industries = this.extractIndustriesFromCompanies(this.companies);
         this.filteredIndustries = this.industries;
       },
       error: (error) => {
-        console.error("Error loading companies", error);
+        console.error('Error loading companies', error);
       },
     });
   }
@@ -425,25 +445,25 @@ export class OfferManagementComponent {
   loadIndustries() {
     this.apiIndustryService.loadIndustryData().subscribe({
       next: (response: ODataResponse<any>) => {
-        console.log("API Response:", response);
+        console.log('API Response:', response);
         this.industries = response.value;
       },
       error: (error) => {
-        console.error("Error loading Industries", error);
+        console.error('Error loading Industries', error);
       },
     });
   }
   openAddEditCompanyForm(id?: number) {
     if (id !== null && id !== undefined) {
-      this.router.navigate(["/company-configuration/company", id]);
+      this.router.navigate(['/company-configuration/company', id]);
     } else {
-      this.router.navigate(["/company-configuration/company", 0]);
+      this.router.navigate(['/company-configuration/company', 0]);
     }
   }
 
   async deleteCompany(id: number) {
     const confirmed = await this.sweetAlertService.confirmDelete(
-      "Do you really want to delete this Company?"
+      'Do you really want to delete this Company?'
     );
 
     if (confirmed) {
@@ -458,9 +478,9 @@ export class OfferManagementComponent {
         },
         error: (error) => {
           this.sweetAlertService.error(
-            "An unexpected error occurred while deleting the Company."
+            'An unexpected error occurred while deleting the Company.'
           );
-          console.error("Error deleting Company:", error);
+          console.error('Error deleting Company:', error);
         },
       });
     }
@@ -474,8 +494,8 @@ export class OfferManagementComponent {
 
   openImportCompanyDialog() {
     this.dialog.open(ImportCompanyDialogComponent, {
-      width: "500px",
-      height: "600px",
+      width: '500px',
+      height: '600px',
     });
   }
 
@@ -521,16 +541,16 @@ export class OfferManagementComponent {
 
   get selectedCompanyCities(): string {
     const selected = this.CityControl.value;
-    return selected ? selected.join(", ") : "";
+    return selected ? selected.join(', ') : '';
   }
 
   get selectedIndustries(): string {
     const selected = this.industryControl.value;
-    return selected ? selected.join(", ") : "";
+    return selected ? selected.join(', ') : '';
   }
   get selectedCompanySize(): string {
     const selected = this.companySizeControl.value;
-    return selected ? selected.join(", ") : "";
+    return selected ? selected.join(', ') : '';
   }
 
   onCityDropdownOpen() {
@@ -557,14 +577,14 @@ export class OfferManagementComponent {
 
   resetIndustrySelection() {
     this.industryControl.reset();
-    this.searchIndustry = "";
+    this.searchIndustry = '';
     this.filteredCompanies = this.companies;
     this.dataSource.data = this.filteredCompanies;
   }
 
   resetLocationSelection() {
     this.CityControl.reset();
-    this.searchCity = "";
+    this.searchCity = '';
     this.filteredCompanies = this.companies;
     this.dataSource.data = this.filteredCompanies;
   }
@@ -608,107 +628,107 @@ export class OfferManagementComponent {
 
   goToInterviewStudentsDetails(id: number) {
     if (this.UserRoleId === 1 || this.UserRoleId === 2) {
-      this.router.navigate(["interview/interview-students-list", id]);
+      this.router.navigate(['interview/interview-students-list', id]);
     }
   }
 
   scheduledInterviews = [
     {
       id: 1,
-      jobTitle: "Software Engineer",
-      company: "Google",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      status: "Upcoming",
+      jobTitle: 'Software Engineer',
+      company: 'Google',
+      postedDate: '2024-07-01',
+      applicationDeadline: new Date('2024-08-01'),
+      status: 'Upcoming',
       jobDescription:
-        "We are seeking an experienced project manager to oversee our projects.",
+        'We are seeking an experienced project manager to oversee our projects.',
 
-      roundName: "Test Assesment 1",
+      roundName: 'Test Assesment 1',
       studentsCleared: 12,
       studentsRejected: 15,
     },
     {
       id: 2,
-      jobTitle: "Data Scientist",
-      company: "Facebook",
-      date: "2024-09-28",
-      status: "Upcoming",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
+      jobTitle: 'Data Scientist',
+      company: 'Facebook',
+      date: '2024-09-28',
+      status: 'Upcoming',
+      postedDate: '2024-07-01',
+      applicationDeadline: new Date('2024-08-01'),
       jobDescription:
         "This is the first assessment to test the candidate's programming and problem-solving skills.",
-      roundName: "Test Assesment 2",
+      roundName: 'Test Assesment 2',
       studentsCleared: 12,
       studentsRejected: 15,
     },
     {
       id: 3,
-      jobTitle: "Product Manager",
-      company: "Amazon",
-      date: "2024-09-27",
-      status: "Completed",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
+      jobTitle: 'Product Manager',
+      company: 'Amazon',
+      date: '2024-09-27',
+      status: 'Completed',
+      postedDate: '2024-07-01',
+      applicationDeadline: new Date('2024-08-01'),
       jobDescription:
-        "The second assessment focuses on data science challenges and machine learning algorithms.",
+        'The second assessment focuses on data science challenges and machine learning algorithms.',
 
-      roundName: "Test Assesment 3",
+      roundName: 'Test Assesment 3',
       studentsCleared: 12,
       studentsRejected: 15,
     },
     {
       id: 4,
-      jobTitle: "Web Developer",
-      company: "Microsoft",
-      date: "2024-09-29",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
+      jobTitle: 'Web Developer',
+      company: 'Microsoft',
+      date: '2024-09-29',
+      status: 'Ongoing',
+      postedDate: '2024-07-01',
+      applicationDeadline: new Date('2024-08-01'),
       jobDescription:
         "This assessment evaluates the candidate's ability to manage products and handle business cases.",
 
-      roundName: "Technical Interview",
+      roundName: 'Technical Interview',
       studentsCleared: 12,
       studentsRejected: 15,
     },
     {
       id: 5,
-      jobTitle: "UI/UX Designer",
-      company: "Apple",
-      date: "2024-09-26",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
+      jobTitle: 'UI/UX Designer',
+      company: 'Apple',
+      date: '2024-09-26',
+      status: 'Ongoing',
+      postedDate: '2024-07-01',
+      applicationDeadline: new Date('2024-08-01'),
       jobDescription:
-        "A technical interview to assess coding skills, system design, and problem-solving ability.",
+        'A technical interview to assess coding skills, system design, and problem-solving ability.',
 
-      roundName: "HR Interview",
+      roundName: 'HR Interview',
       studentsCleared: 12,
       studentsRejected: 15,
     },
   ];
 
   jobSummary = [
-    { jobTitle: "Software Engineer", studentsCount: 1 },
-    { jobTitle: "Data Scientist", studentsCount: 1 },
-    { jobTitle: "Product Manager", studentsCount: 1 },
-    { jobTitle: "Web Developer", studentsCount: 1 },
-    { jobTitle: "UI/UX Designer", studentsCount: 1 },
+    { jobTitle: 'Software Engineer', studentsCount: 1 },
+    { jobTitle: 'Data Scientist', studentsCount: 1 },
+    { jobTitle: 'Product Manager', studentsCount: 1 },
+    { jobTitle: 'Web Developer', studentsCount: 1 },
+    { jobTitle: 'UI/UX Designer', studentsCount: 1 },
   ];
 
   viewInterviewDetails(id: number) {
     // Navigate to interview details page (to be implemented)
-    console.log("View details for interview ID:", id);
+    console.log('View details for interview ID:', id);
   }
 
   openInterviewAdditionalFilter() {
     this.dialog.open(InterviewAdditionalFilterComponent, {
-      width: "500px",
-      height: "600px",
+      width: '500px',
+      height: '600px',
     });
   }
 
   openOfferManagement() {
-    this.router.navigate(["offer-management/offer-management-details"]);
+    this.router.navigate(['offer-management/offer-management-details']);
   }
 }
