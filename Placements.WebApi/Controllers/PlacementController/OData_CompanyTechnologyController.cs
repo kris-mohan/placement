@@ -23,6 +23,7 @@ namespace Placements.WebApi.Controllers.PlacementController
         public IActionResult Get()
         {
             return Ok(_context.Companytechnologies);
+            return Ok(_context.Companytechnologies);
         }
 
 
@@ -97,7 +98,7 @@ namespace Placements.WebApi.Controllers.PlacementController
         {
             try
             {
-                Companytechnology companytechonology = await _context.Companytechnologies.FirstOrDefaultAsync(x => x.Id == key);
+                Companytechnology? companytechonology = await _context.Companytechnologies.FirstOrDefaultAsync(x => x.Id == key);
                 if (companytechonology == null)
                 {
                     return Ok(new { success = false, message = "Company Technology Not Found" });

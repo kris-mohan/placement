@@ -21,6 +21,7 @@ namespace Placements.WebApi.Controllers.PlacementController
         public IActionResult Get()
         {
             return Ok(_context.Jobstudentstatuses);
+            return Ok(_context.Jobstudentstatuses);
         }
 
         [HttpPost]
@@ -51,7 +52,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 }
 
                 original.Name = jobstudentstatus.Name;
-               
+
 
                 _context.Jobstudentstatuses.Update(original);
                 await _context.SaveChangesAsync();
