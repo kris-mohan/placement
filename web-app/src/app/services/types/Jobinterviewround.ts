@@ -7,6 +7,6 @@ export type Jobinterviewround = {
     Name?: string;
     Description?: string;
     Priority?: number;
-    JobPosting: Jobposting[];
+    JobPosting: Jobposting;
     JobpostStudentrounds: JobpostStudentround[];
 }

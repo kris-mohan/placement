@@ -7,5 +7,5 @@ export type Trainingmodule = {
     TrainingMode?: string;
     TrainingAssetFolder?: string;
     IsDeleted: boolean;
-    TrainingCourse?: Trainingcourse[];
+    TrainingCourse?: Trainingcourse;
 };

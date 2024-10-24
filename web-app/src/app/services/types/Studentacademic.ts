@@ -8,7 +8,7 @@ export type Studentacademic = {
     CourseId?: number;
     StreamId?: number;
     Cgpa?: number;
-    Course?: Course[];
-    Stream?: Stream[];
-    Student?: Tblstudent[];
+    Course?: Course;
+    Stream?: Stream;
+    Student?: Tblstudent;
 };

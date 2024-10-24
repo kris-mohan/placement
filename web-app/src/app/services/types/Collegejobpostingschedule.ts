@@ -6,6 +6,6 @@ export type Collegejobpostingschedule = {
     CollegeId?: number;
     JobPostingId?: number;
     ScheduledDate?: Date;
-    College: Campusregistration[];
-    JobPosting: Jobposting[];
+    College: Campusregistration;
+    JobPosting: Jobposting;
 }

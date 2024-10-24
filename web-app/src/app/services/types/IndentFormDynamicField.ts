@@ -5,5 +5,5 @@ export type IndentFormDynamicField = {
     IndentFormId?: number;
     Name?: string;
     Value?: string;
-    IndentForm: IndentForm[];
+    IndentForm: IndentForm;
 }

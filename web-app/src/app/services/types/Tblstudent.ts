@@ -21,7 +21,7 @@ export type Tblstudent = {
   ParentPhoneNumber?: string;
   DateOfBirth?: Date;
   RollNo?: string;
-  Batch?: Batch[];
+  Batch?: Batch;
   JobpostStudentrounds?: JobpostStudentround[];
   JobpostingSelectedstudents?: JobpostingSelectedstudent[];
   JobpostingsEligiblestudents?: JobpostingsEligiblestudent[];

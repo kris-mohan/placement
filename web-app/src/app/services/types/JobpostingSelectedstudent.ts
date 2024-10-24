@@ -6,6 +6,6 @@ export type JobpostingSelectedstudent = {
     JobPostingId?: number;
     StudentId?: number;
     HasAcceptedOffer?: boolean;
-    JobPosting: Jobposting[];
-    Student: Tblstudent[];
+    JobPosting: Jobposting;
+    Student: Tblstudent;
 }
