@@ -30,7 +30,7 @@ namespace Placements.WebApi.Controllers.PlacementController
         {
             try
             {
-                companydatum.DateOfRegistration = DateTime.Now;
+                //companydatum.DateOfRegistration = DateTime.Now;
                 var userRoleId = await _context.Userroles.ToListAsync();
                 _context.Companydata.Add(companydatum);
                 await _context.SaveChangesAsync();

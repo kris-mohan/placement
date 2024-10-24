@@ -13,7 +13,7 @@ public partial class Technology
 
     public ulong IsDeleted { get; set; }
 
-    public virtual ICollection<Companytechonology> Companytechonologies { get; set; } = new List<Companytechonology>();
+    public virtual ICollection<Companytechnology> Companytechnologies { get; set; } = new List<Companytechnology>();
 
     public virtual ICollection<Jobposting> Jobpostings { get; set; } = new List<Jobposting>();
 

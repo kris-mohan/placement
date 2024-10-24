@@ -214,14 +214,16 @@
     >
       <div class="company-details">
         <img
-          [src]=""
+          [src]="company.LogoPath"
           alt="Company Logo"
           class="company-logo"
           height="15%"
           width="75%"
         />
         <h2>{{ company.Name }}</h2>
-        <div class="companyType">NA - Type</div>
+        <div class="companyType">
+          {{ getCompanyIndustryTypesString(company) }}
+        </div>
         <div class="company-type">
           <strong> Email:</strong>
 
@@ -240,18 +242,20 @@
       </div>
 
       <div class="company">
-        <div>
+        <!-- <div>
           <span class="rating"
             ><strong class="openings">2 New Openings !</strong></span
           >
-        </div>
+        </div> -->
         Vacancies:
         <span class="rating"
           ><strong>{{ company.Jobpostings.length }}</strong></span
         >
 
         Company Size:
-        <span class="rating"><strong>NA</strong></span>
+        <span class="rating"
+          ><strong>{{ company.CompanySize }}</strong></span
+        >
 
         Location :
         <span class="rating"

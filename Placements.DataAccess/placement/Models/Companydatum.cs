@@ -63,7 +63,7 @@ public partial class Companydatum
 
     public virtual ICollection<Companyindustry> Companyindustries { get; set; } = new List<Companyindustry>();
 
-    public virtual ICollection<Companytechonology> Companytechonologies { get; set; } = new List<Companytechonology>();
+    public virtual ICollection<Companytechnology> Companytechnologies { get; set; } = new List<Companytechnology>();
 
     public virtual ICollection<Jobposting> Jobpostings { get; set; } = new List<Jobposting>();
 

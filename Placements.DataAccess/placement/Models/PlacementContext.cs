@@ -33,7 +33,7 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Companyregistration> Companyregistrations { get; set; }
 
-    public virtual DbSet<Companytechonology> Companytechonologies { get; set; }
+    public virtual DbSet<Companytechnology> Companytechnologies { get; set; }
 
     public virtual DbSet<Course> Courses { get; set; }
 
@@ -59,7 +59,7 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<JobpostingsEligiblestudent> JobpostingsEligiblestudents { get; set; }
 
-    public virtual DbSet<Jobstudentstau> Jobstudentstaus { get; set; }
+    public virtual DbSet<Jobstudentstatus> Jobstudentstatuses { get; set; }
 
     public virtual DbSet<Login> Logins { get; set; }
 
@@ -294,11 +294,11 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.PhoneNumber).HasMaxLength(50);
         });
 
-        modelBuilder.Entity<Companytechonology>(entity =>
+        modelBuilder.Entity<Companytechnology>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("companytechonologies");
+            entity.ToTable("companytechnologies");
 
             entity.HasIndex(e => e.CompanyId, "FK_CompanyTechonologies_CompanyData");
 
@@ -308,11 +308,11 @@ public partial class PlacementContext : DbContext
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
 
-            entity.HasOne(d => d.Company).WithMany(p => p.Companytechonologies)
+            entity.HasOne(d => d.Company).WithMany(p => p.Companytechnologies)
                 .HasForeignKey(d => d.CompanyId)
                 .HasConstraintName("FK_CompanyTechonologies_CompanyData");
 
-            entity.HasOne(d => d.Technology).WithMany(p => p.Companytechonologies)
+            entity.HasOne(d => d.Technology).WithMany(p => p.Companytechnologies)
                 .HasForeignKey(d => d.TechnologyId)
                 .HasConstraintName("FK_CompanyTechonologies_Technologies");
         });
@@ -557,11 +557,11 @@ public partial class PlacementContext : DbContext
                 .HasConstraintName("FK_jobpostings_eligiblestudents_Student");
         });
 
-        modelBuilder.Entity<Jobstudentstau>(entity =>
+        modelBuilder.Entity<Jobstudentstatus>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("jobstudentstaus");
+            entity.ToTable("jobstudentstatus");
 
             entity.Property(e => e.Name).HasMaxLength(45);
         });

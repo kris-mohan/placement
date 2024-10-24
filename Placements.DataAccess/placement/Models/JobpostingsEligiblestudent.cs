@@ -15,7 +15,7 @@ public partial class JobpostingsEligiblestudent
 
     public virtual Jobposting? JobPosting { get; set; }
 
-    public virtual Jobstudentstau? Status { get; set; }
+    public virtual Jobstudentstatus? Status { get; set; }
 
     public virtual Tblstudent? Student { get; set; }
 }

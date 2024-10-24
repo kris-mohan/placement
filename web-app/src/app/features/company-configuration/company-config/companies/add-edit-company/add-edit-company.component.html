@@ -36,10 +36,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Description</p>
+          <p class="grid-label">About</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Description</mat-label>
-            <input matInput formControlName="Url" />
+            <mat-label>About</mat-label>
+            <textarea matInput formControlName="About"></textarea>
           </mat-form-field>
         </div>
 
@@ -52,7 +52,7 @@
           <p class="grid-label">Email</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Email</mat-label>
-            <input matInput formControlName="ContactPerson" />
+            <input type="email" matInput formControlName="Email" />
           </mat-form-field>
         </div>
       </div>
@@ -67,6 +67,58 @@
           <p class="grid-label">Phone number</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Phone number</mat-label>
+            <input matInput formControlName="PhoneNumber" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">GST Number</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>GST Number</mat-label>
+            <input matInput formControlName="Gstnumber" />
+          </mat-form-field>
+        </div>
+        <!-- <div fxLayout="row wrap"></div> -->
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Contact Person</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Contact Person</mat-label>
+            <input matInput formControlName="ContactPerson" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Address</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="Address" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">City</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>City</mat-label>
             <input matInput formControlName="City" />
           </mat-form-field>
         </div>
@@ -77,23 +129,36 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Requirment/ Item name</p>
+          <p class="grid-label">State</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Requirment/ Item name</mat-label>
+            <mat-label>State</mat-label>
+            <input matInput formControlName="State" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">ZipCode</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>ZipCode</mat-label>
             <input matInput formControlName="ZipCode" />
           </mat-form-field>
         </div>
-        <div fxLayout="row wrap"></div>
+
         <div
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Quantity/Details</p>
+          <p class="grid-label">Country</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label></mat-label>
-            <input matInput formControlName="Name" />
+            <mat-label>Country</mat-label>
+            <input matInput formControlName="Country" />
           </mat-form-field>
         </div>
 
@@ -103,10 +168,10 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Company Description</p>
+          <p class="grid-label">Company Size</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Company Description</mat-label>
-            <input matInput formControlName="Url" />
+            <mat-label>Company Size</mat-label>
+            <input type="number" matInput formControlName="CompanySize" />
           </mat-form-field>
         </div>
 
@@ -116,10 +181,99 @@
           fxFlex.gt-lg="25%"
           fxFlex.gt-sm="50%"
         >
-          <p class="grid-label">Email</p>
+          <p class="grid-label">Head Quarters</p>
           <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="ContactPerson" />
+            <mat-label>Head Quarters</mat-label>
+            <input matInput formControlName="HeadQuarters" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Date Of Registration</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Date Of Registration</mat-label>
+            <!-- <input type="date" matInput formControlName="DateOfRegistration" /> -->
+            <input
+              matInput
+              [matDatepicker]="DateOfRegistration"
+              formControlName="DateOfRegistration"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="DateOfRegistration"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #DateOfRegistration></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Company Logo</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Company Logo</mat-label>
+            <input type="url" matInput formControlName="LogoPath" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Video</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Video</mat-label>
+            <input type="url" matInput formControlName="VideoPath" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Presentation</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Presentation</mat-label>
+            <input type="url" matInput formControlName="PresentationPath" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Document</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Document</mat-label>
+            <input type="url" matInput formControlName="DocumentPath" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Audio</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Audio</mat-label>
+            <input type="url" matInput formControlName="AudioPath" />
           </mat-form-field>
         </div>
       </div>

@@ -4,6 +4,10 @@ import { Observable } from "rxjs";
 import { ODataResponse } from "./companies.component";
 import { companyTableList } from "./companies-model";
 import { HttpParams } from "@angular/common/http";
+import {
+  Companydatum,
+  PostCompanydatum,
+} from "src/app/services/types/Companydatum";
 
 @Injectable({
   providedIn: "root",
@@ -29,10 +33,11 @@ export class CompanyAPIService {
 
   public addUpdateCompany(
     id: number | null,
-    CompanyData: Partial<any>
+    companydatum: Companydatum | PostCompanydatum
   ): Observable<any> {
-    const url = `/Companydatum?key=${id ? id : ""}`;
-    const method = id ? "patch" : "post";
-    return this.apiHttpService[method](url, CompanyData);
+    const url = `/Companydatum${id ? `?key=${id}` : ""}`;
+    return id
+      ? this.apiHttpService.patch(url, companydatum)
+      : this.apiHttpService.post(url, companydatum);
   }
 }

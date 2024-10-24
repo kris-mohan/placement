@@ -15,39 +15,41 @@ export class ApiHttpService {
 
   // Generic POST method
   post<T>(url: string, body: any, options?: object): Observable<T> {
-    return this.http.post<T>(url, body, options);
+    return this.http.post<T>(this.baseUrl + url, body, options);
   }
 
   // Generic PUT method
   put<T>(url: string, body: any): Observable<T> {
-    return this.http.put<T>(url, body);
+    return this.http.put<T>(this.baseUrl + url, body);
   }
 
   // Generic PATCH method
   patch<T>(url: string, body: any): Observable<T> {
-    return this.http.patch<T>(url, body);
+    return this.http.patch<T>(this.baseUrl + url, body);
   }
 
   // Generic DELETE method
   delete<T>(url: string): Observable<T> {
-    return this.http.delete<T>(url);
+    return this.http.delete<T>(this.baseUrl + url);
   }
 
   // Method to download files
   downloadFile(url: string, fileType: string): Observable<Blob> {
-    return this.http.get(url, { responseType: "blob" });
+    return this.http.get(this.baseUrl + url, { responseType: "blob" });
   }
 
   // Method to handle different file types
   downloadAsFile(url: string, fileName: string, fileType: string): void {
-    this.downloadFile(url, fileType).subscribe((response: Blob) => {
-      const blob = new Blob([response], { type: fileType });
-      const downloadURL = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = downloadURL;
-      link.download = fileName;
-      link.click();
-    });
+    this.downloadFile(this.baseUrl + url, fileType).subscribe(
+      (response: Blob) => {
+        const blob = new Blob([response], { type: fileType });
+        const downloadURL = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = downloadURL;
+        link.download = fileName;
+        link.click();
+      }
+    );
   }
 
   public loginpost(url: string, data: any, options?: any): Observable<any> {

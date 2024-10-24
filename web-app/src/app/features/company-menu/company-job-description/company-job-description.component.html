@@ -41,9 +41,9 @@
         <div class="job-card" *ngIf="JobPostingsDescriptionData().length > 0">
           <div class="job-header">
             <div class="job-title">
-              <h2>{{ JobPostingsDescriptionData()[0]?.JobRole }}</h2>
+              <h2>{{ JobPostingsDescriptionData()[0].JobRole }}</h2>
               <span class="company">{{
-                JobPostingsDescriptionData()[0]?.Company?.Name
+                JobPostingsDescriptionData()[0].Company.Name
               }}</span>
               <!-- <span class="rating"> 3.9 | 5486 Reviews</span> -->
             </div>
@@ -65,21 +65,21 @@
             <div class="experience">
               <span
                 >Experience:{{
-                  JobPostingsDescriptionData()[0]?.Experience
+                  JobPostingsDescriptionData()[0].Experience
                 }}</span
               >
             </div>
             <div class="salary">
-              <span>Salary:{{ JobPostingsDescriptionData()[0]?.Salary }}</span>
+              <span>Salary:{{ JobPostingsDescriptionData()[0].Salary }}</span>
             </div>
             <div class="locations">
               <span
-                >Location:{{ JobPostingsDescriptionData()[0]?.Location }}</span
+                >Location:{{ JobPostingsDescriptionData()[0].Location }}</span
               >
             </div>
             <div class="posted">
               <span
-                >Posted:{{ JobPostingsDescriptionData()[0]?.ValidFrom }}</span
+                >Posted:{{ JobPostingsDescriptionData()[0].ValidFrom }}</span
               >
             </div>
           </div>
@@ -89,7 +89,7 @@
           <h3>Job Description</h3>
           <ul>
             {{
-              JobPostingsDescriptionData()[0]?.JobDescription
+              JobPostingsDescriptionData()[0].JobDescription
             }}
           </ul>
         </div>
@@ -97,24 +97,24 @@
 
       <div class="right-content" *ngIf="UserRoleId !== 2">
         <div class="related-jobs">
-          <h3>{{ JobPostingsDescriptionData()[0]?.Company?.Name }}</h3>
+          <h3>{{ JobPostingsDescriptionData()[0].Company.Name }}</h3>
           <ul>
             <li>
               <h4>About the company</h4>
-              <p>{{ JobPostingsDescriptionData()[0]?.Company?.About }}</p>
+              <p>{{ JobPostingsDescriptionData()[0].Company.About }}</p>
             </li>
             <li>
               <p>
                 Headquarters:
-                {{ JobPostingsDescriptionData()[0]?.Company?.HeadQuarters }}
+                {{ JobPostingsDescriptionData()[0].Company.HeadQuarters }}
               </p>
               <p>
                 Customer service:
-                {{ JobPostingsDescriptionData()[0]?.Company?.PhoneNumber }}
+                {{ JobPostingsDescriptionData()[0].Company.PhoneNumber }}
               </p>
               <p>
                 Number of employees:
-                {{ JobPostingsDescriptionData()[0]?.Company?.CompanySize }}
+                {{ JobPostingsDescriptionData()[0].Company.CompanySize }}
               </p>
               <!-- <p>CEO: Julie Sweet (1 Sept 2019–)</p>
                 <p>Founded: 1989, Hamilton, Bermuda</p>

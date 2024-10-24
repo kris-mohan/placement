@@ -29,6 +29,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { provideNativeDateAdapter } from "@angular/material/core";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { PlacementCompanyApiService } from "./PlacementCompanyApiService";
+import { getCompanyIndustryTypes } from "./placement-company-module";
 
 const today = new Date();
 const month = today.getMonth();
@@ -580,4 +581,8 @@ export class PlacementCompanyComponent {
     event.stopPropagation();
     this.router.navigate(["placement-company/add-edit-company/", id]);
   }
+
+  getCompanyIndustryTypesString = (company: Companydatum): string => {
+    return getCompanyIndustryTypes(company);
+  };
 }
