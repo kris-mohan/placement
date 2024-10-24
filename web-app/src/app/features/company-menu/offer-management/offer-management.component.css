@@ -13,13 +13,18 @@ button {
 .example-button-container {
   display: flex;
   justify-content: end;
- 
 }
-.BackIcon{
+.BackIcon {
   cursor: pointer;
 }
 .button-label-container {
   display: flex;
+}
+.filters-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .header-mat-label {
@@ -130,4 +135,9 @@ cdk-overlay-pane {
 }
 .stats-header {
   color: white;
+}
+
+.mat-select {
+  padding: 20px;
+  width: 25%;
 }

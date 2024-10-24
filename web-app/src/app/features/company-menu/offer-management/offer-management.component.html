@@ -4,8 +4,10 @@
       <div class="example-flex-container">
         <!-- Go back button -->
         <div class="button-label-container">
-          <div class="example-button-container" >
-            <mat-icon (click)="goBack()" class="BackIcon">keyboard_backspace</mat-icon>
+          <div class="example-button-container">
+            <mat-icon (click)="goBack()" class="BackIcon"
+              >keyboard_backspace</mat-icon
+            >
             <div class="header-mat-label">
               <mat-label>Offer Management</mat-label>
             </div>
@@ -56,16 +58,14 @@
               [formGroup]="campaignOne"
               [rangePicker]="datePicker"
               [comparisonStart]="campaignOne.value.start"
-              [comparisonEnd]="campaignOne.value.end"
-            >
+              [comparisonEnd]="campaignOne.value.end">
               <input matStartDate placeholder="Start date" />
               <input matEndDate placeholder="End date" />
             </mat-date-range-input>
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle
               matIconSuffix
-              [for]="datePicker"
-            ></mat-datepicker-toggle>
+              [for]="datePicker"></mat-datepicker-toggle>
             <mat-date-range-picker #datePicker></mat-date-range-picker>
           </mat-form-field>
         </div>
@@ -84,16 +84,41 @@
     </div>
   </mat-card-header>
 
-  <div class="sendButton">
-    <button mat-fab extended class = "matbutton-download">
-      <mat-icon>file_download</mat-icon>Excel
-    </button>
-    <button mat-fab extended class = "matbutton-download">
-      <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
-    </button>
-    <button mat-raised-button class="matbutton">
-      <p class="matName"><mat-icon>mail</mat-icon>Generate Offer Letter</p>
-    </button>
+  <div>
+    <div class="filters-row">
+      <!-- University Select -->
+      <mat-form-field appearance="outline" class="mat-select full-width-select">
+        <mat-label> Select Name of the University</mat-label>
+        <mat-select multiple>
+          <mat-option *ngFor="let uni of universityTypes" [value]="uni">
+            {{ uni }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- College Select -->
+      <mat-form-field appearance="outline" class="mat-select full-width-select">
+        <mat-label> Select Name of the College</mat-label>
+        <mat-select multiple>
+          <mat-option *ngFor="let college of colleges" [value]="college">
+            {{ college }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Buttons -->
+      <div class="button-group">
+        <button mat-fab extended class="matbutton-download">
+          <mat-icon>file_download</mat-icon>Excel
+        </button>
+        <button mat-fab extended class="matbutton-download">
+          <mat-icon>picture_as_pdf</mat-icon>PDF
+        </button>
+        <button mat-raised-button class="matbutton">
+          <p class="matName"><mat-icon>mail</mat-icon>Generate Offer Letter</p>
+        </button>
+      </div>
+    </div>
   </div>
   <mat-card class="placement-stats-card">
     <!-- <mat-card-title>Placement Statistics</mat-card-title> -->
@@ -135,16 +160,14 @@
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"
     class="mat-card-content"
-    (click)="openOfferManagement()"
-  >
+    (click)="openOfferManagement()">
     <div
       *ngFor="let offer of offers"
       fxFlex="100%"
       fxFlex.gt-sm="50%"
       fxFlex.gt-md="28%"
       fxFlex.gt-lg="25%"
-      class="grid-item mat-grid-tile"
-    >
+      class="grid-item mat-grid-tile">
       <div class="company-details">
         <h3>{{ offer.candidateName }}</h3>
         <div class="company-type">{{ offer.company }}</div>
