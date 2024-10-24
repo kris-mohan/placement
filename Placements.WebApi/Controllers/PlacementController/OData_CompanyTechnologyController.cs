@@ -9,7 +9,7 @@ using Placements.DataAccess.Placement.Models;
 namespace Placements.WebApi.Controllers.PlacementController
 {
     [ApiController]
-    [Route("odata/Companytechonology")]
+    [Route("odata/Companytechnology")]
     public class OData_CompanyTechnologyController : ODataController
     {
         private readonly PlacementContext _context;
@@ -22,72 +22,72 @@ namespace Placements.WebApi.Controllers.PlacementController
         [HttpGet, EnableQuery]
         public IActionResult Get()
         {
-            return Ok(_context.Companytechonologies);
+            return Ok(_context.Companytechnologies);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Post(Companytechonology companytechonology)
+        public async Task<IActionResult> Post(Companytechnology companytechnology)
         {
             try
             {
-                _context.Companytechonologies.Add(companytechonology);
+                _context.Companytechnologies.Add(companytechnology);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Company Techonology Added Successfully" });
+                return Ok(new { success = true, message = "Company Technology Added Successfully" });
             }
             catch (Exception ex)
             {
-                return Ok(new { success = false, message = "Failed to Add Company Techonology.", exception = ex });
+                return Ok(new { success = false, message = "Failed to Add Company Technology.", exception = ex });
             }
         }
 
 
         [HttpPut]
-        public async Task<IActionResult> Put(long key, Companytechonology companytechonology)
+        public async Task<IActionResult> Put(long key, Companytechnology companytechnology)
         {
             try
             {
-                Companytechonology? original = await _context.Companytechonologies.FirstOrDefaultAsync(x => x.Id == key);
+                Companytechnology? original = await _context.Companytechnologies.FirstOrDefaultAsync(x => x.Id == key);
                 if (original == null)
                 {
-                    return Ok(new { success = false, message = "Company Techonology Not Found" });
+                    return Ok(new { success = false, message = "Company Technology Not Found" });
                 }
 
-                original.Company = companytechonology.Company;
-                original.Technology = companytechonology.Technology;
-                _context.Companytechonologies.Update(original);
+                original.Company = companytechnology.Company;
+                original.Technology = companytechnology.Technology;
+                _context.Companytechnologies.Update(original);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Company Techonology Updated Successfully." });
+                return Ok(new { success = true, message = "Company Technology Updated Successfully." });
             }
             catch (Exception ex)
             {
-                return Ok(new { success = false, message = "Failed to Update Company Techonology.", exception = ex });
+                return Ok(new { success = false, message = "Failed to Update Company Technology.", exception = ex });
             }
         }
 
 
         [HttpPatch]
-        public async Task<IActionResult> Patch(long key, Delta<Companytechonology>? delta)
+        public async Task<IActionResult> Patch(long key, Delta<Companytechnology>? delta)
         {
             try
             {
-                Companytechonology original = await _context.Companytechonologies.FirstOrDefaultAsync(x => x.Id == key);
+                Companytechnology original = await _context.Companytechnologies.FirstOrDefaultAsync(x => x.Id == key);
                 if (original == null)
                 {
-                    return Ok(new { success = false, message = "Company Techonology Not Found" });
+                    return Ok(new { success = false, message = "Company Technology Not Found" });
                 }
 
                 delta.Patch(original);
 
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Company Techonology Updated Successfully." });
+                return Ok(new { success = true, message = "Company Technology Updated Successfully." });
             }
             catch (Exception ex)
             {
-                return Ok(new { success = false, message = "Failed to Update Company Techonology.", exception = ex });
+                return Ok(new { success = false, message = "Failed to Update Company Technology.", exception = ex });
             }
         }
 
@@ -97,20 +97,20 @@ namespace Placements.WebApi.Controllers.PlacementController
         {
             try
             {
-                Companytechonology companytechonology = await _context.Companytechonologies.FirstOrDefaultAsync(x => x.Id == key);
+                Companytechnology companytechonology = await _context.Companytechnologies.FirstOrDefaultAsync(x => x.Id == key);
                 if (companytechonology == null)
                 {
-                    return Ok(new { success = false, message = "Company Techonology Not Found" });
+                    return Ok(new { success = false, message = "Company Technology Not Found" });
                 }
 
-                _context.Companytechonologies.Remove(companytechonology);
+                _context.Companytechnologies.Remove(companytechonology);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Company Techonology Deleted Successfully." });
+                return Ok(new { success = true, message = "Company Technology Deleted Successfully." });
             }
             catch (Exception ex)
             {
-                return Ok(new { success = false, message = "Failed to Delete Company Techonology.", exception = ex });
+                return Ok(new { success = false, message = "Failed to Delete Company Technology.", exception = ex });
             }
         }
 

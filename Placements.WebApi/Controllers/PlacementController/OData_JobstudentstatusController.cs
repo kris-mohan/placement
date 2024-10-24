@@ -20,15 +20,15 @@ namespace Placements.WebApi.Controllers.PlacementController
         [HttpGet, EnableQuery]
         public IActionResult Get()
         {
-            return Ok(_context.Jobstudentstaus);
+            return Ok(_context.Jobstudentstatuses);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Jobstudentstau jobstudentstau)
+        public async Task<IActionResult> Post(Jobstudentstatus jobstudentstatus)
         {
             try
             {
-                _context.Jobstudentstaus.Add(jobstudentstau);
+                _context.Jobstudentstatuses.Add(jobstudentstatus);
                 await _context.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Job student status Added Succesfully" });
@@ -40,11 +40,11 @@ namespace Placements.WebApi.Controllers.PlacementController
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(long key, Jobstudentstau jobstudentstatus)
+        public async Task<IActionResult> Put(long key, Jobstudentstatus jobstudentstatus)
         {
             try
             {
-                Jobstudentstau? original = await _context.Jobstudentstaus.FirstOrDefaultAsync(x => x.Id == key);
+                Jobstudentstatus? original = await _context.Jobstudentstatuses.FirstOrDefaultAsync(x => x.Id == key);
                 if (original == null)
                 {
                     return Ok(new { success = false, message = "Job student status Not Found" });
@@ -53,7 +53,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 original.Name = jobstudentstatus.Name;
                
 
-                _context.Jobstudentstaus.Update(original);
+                _context.Jobstudentstatuses.Update(original);
                 await _context.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Job student status Updated Successfully." });
@@ -65,11 +65,11 @@ namespace Placements.WebApi.Controllers.PlacementController
         }
 
         [HttpPatch]
-        public async Task<IActionResult> Patch(long key, Delta<Jobstudentstau> delta)
+        public async Task<IActionResult> Patch(long key, Delta<Jobstudentstatus> delta)
         {
             try
             {
-                Jobstudentstau? original = await _context.Jobstudentstaus.FirstOrDefaultAsync(x => x.Id == key);
+                Jobstudentstatus? original = await _context.Jobstudentstatuses.FirstOrDefaultAsync(x => x.Id == key);
                 if (original == null)
                 {
                     return Ok(new { success = false, message = "Job student status Not Found" });
@@ -92,13 +92,13 @@ namespace Placements.WebApi.Controllers.PlacementController
         {
             try
             {
-                Jobstudentstau jobstudentstatus = await _context.Jobstudentstaus.FirstOrDefaultAsync(x => x.Id == key);
+                Jobstudentstatus jobstudentstatus = await _context.Jobstudentstatuses.FirstOrDefaultAsync(x => x.Id == key);
                 if (jobstudentstatus == null)
                 {
                     return Ok(new { success = false, message = "Job student status Not Found" });
                 }
 
-                _context.Jobstudentstaus.Remove(jobstudentstatus);
+                _context.Jobstudentstatuses.Remove(jobstudentstatus);
                 await _context.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Job student status Deleted Successfully." });

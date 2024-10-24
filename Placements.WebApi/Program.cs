@@ -135,7 +135,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Companydesignation>("Companydesignation");
     modelBuilder.EntitySet<Companyindustry>("Companyindustry");
     modelBuilder.EntitySet<Companyregistration>("Companyregistration");
-    modelBuilder.EntitySet<Companytechonology>("Companytechonology");
+    modelBuilder.EntitySet<Companytechnology>("Companytechnology");
     modelBuilder.EntitySet<Industry>("Industry");
     modelBuilder.EntitySet<Invitation>("Invitation");
     modelBuilder.EntitySet<Jobinterviewround>("Jobinterviewround");
@@ -163,7 +163,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Jobinterviewpanel>("Jobinterviewpanel");
     modelBuilder.EntitySet<IndentForm>("IndentForm");
     modelBuilder.EntitySet<IndentFormDynamicField>("IndentFormDynamicField");
-    modelBuilder.EntitySet<Jobstudentstau>("Jobstudentstau");
+    modelBuilder.EntitySet<Jobstudentstatus>("Jobstudentstatus");
     modelBuilder.EntitySet<StudentSkill>("StudentSkill");
     modelBuilder.EntitySet<Placements.DataAccess.Placement.Models.Stream>("Stream");
 
