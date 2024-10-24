@@ -163,6 +163,8 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Jobinterviewpanel>("Jobinterviewpanel");
     modelBuilder.EntitySet<IndentForm>("IndentForm");
     modelBuilder.EntitySet<IndentFormDynamicField>("IndentFormDynamicField");
+    modelBuilder.EntitySet<Jobstudentstau>("Jobstudentstau");
+    modelBuilder.EntitySet<StudentSkill>("StudentSkill");
     modelBuilder.EntitySet<Placements.DataAccess.Placement.Models.Stream>("Stream");
 
 
