@@ -55,7 +55,7 @@ namespace Placements.WebApi.Controllers.PlacementController
 
                 original.Name = technology.Name;
                 original.Description = technology.Description;
-                original.Companytechonologies = technology.Companytechonologies;
+                original.Companytechnologies = technology.Companytechnologies;
 
 
                 _context.Technologies.Update(original);

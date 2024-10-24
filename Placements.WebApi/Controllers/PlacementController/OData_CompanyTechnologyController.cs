@@ -22,16 +22,16 @@ namespace Placements.WebApi.Controllers.PlacementController
         [HttpGet, EnableQuery]
         public IActionResult Get()
         {
-            return Ok(_context.Companytechonologies);
+            return Ok(_context.Companytechnologies);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Post(Companytechonology companytechonology)
+        public async Task<IActionResult> Post(Companytechnology companytechonology)
         {
             try
             {
-                _context.Companytechonologies.Add(companytechonology);
+                _context.Companytechnologies.Add(companytechonology);
                 await _context.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Company Techonology Added Successfully" });
@@ -44,11 +44,11 @@ namespace Placements.WebApi.Controllers.PlacementController
 
 
         [HttpPut]
-        public async Task<IActionResult> Put(long key, Companytechonology companytechonology)
+        public async Task<IActionResult> Put(long key, Companytechnology companytechonology)
         {
             try
             {
-                Companytechonology? original = await _context.Companytechonologies.FirstOrDefaultAsync(x => x.Id == key);
+                Companytechnology? original = await _context.Companytechnologies.FirstOrDefaultAsync(x => x.Id == key);
                 if (original == null)
                 {
                     return Ok(new { success = false, message = "Company Techonology Not Found" });
@@ -56,7 +56,7 @@ namespace Placements.WebApi.Controllers.PlacementController
 
                 original.Company = companytechonology.Company;
                 original.Technology = companytechonology.Technology;
-                _context.Companytechonologies.Update(original);
+                _context.Companytechnologies.Update(original);
                 await _context.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Company Techonology Updated Successfully." });
@@ -69,11 +69,11 @@ namespace Placements.WebApi.Controllers.PlacementController
 
 
         [HttpPatch]
-        public async Task<IActionResult> Patch(long key, Delta<Companytechonology>? delta)
+        public async Task<IActionResult> Patch(long key, Delta<Companytechnology>? delta)
         {
             try
             {
-                Companytechonology original = await _context.Companytechonologies.FirstOrDefaultAsync(x => x.Id == key);
+                Companytechnology original = await _context.Companytechnologies.FirstOrDefaultAsync(x => x.Id == key);
                 if (original == null)
                 {
                     return Ok(new { success = false, message = "Company Techonology Not Found" });
@@ -97,13 +97,13 @@ namespace Placements.WebApi.Controllers.PlacementController
         {
             try
             {
-                Companytechonology companytechonology = await _context.Companytechonologies.FirstOrDefaultAsync(x => x.Id == key);
+                Companytechnology? companytechonology = await _context.Companytechnologies.FirstOrDefaultAsync(x => x.Id == key);
                 if (companytechonology == null)
                 {
                     return Ok(new { success = false, message = "Company Techonology Not Found" });
                 }
 
-                _context.Companytechonologies.Remove(companytechonology);
+                _context.Companytechnologies.Remove(companytechonology);
                 await _context.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Company Techonology Deleted Successfully." });

@@ -77,7 +77,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 original.ZipCode = companydatum.ZipCode;
                 original.Country = companydatum.Country;
                 original.ParentCompanyId = companydatum.ParentCompanyId;
-                original.Companytechonologies = companydatum.Companytechonologies;
+                original.Companytechnologies = companydatum.Companytechnologies;
                 original.Logins = companydatum.Logins;
                 original.Paatashalaregistrations = companydatum.Paatashalaregistrations;
 
