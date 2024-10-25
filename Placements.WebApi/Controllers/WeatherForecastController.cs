@@ -79,6 +79,9 @@ namespace Placements.WebApi.Controllers
                     UserRoleId = loginUser.RoleId,
                     AccessToken = accessToken,
                     RefreshToken = refreshToken,
+                    StudentId= loginUser.StudentId,
+                    CompanyId = loginUser.CompanyId,
+                    CampusId = loginUser.CampusId
                 });
                 //}
 
