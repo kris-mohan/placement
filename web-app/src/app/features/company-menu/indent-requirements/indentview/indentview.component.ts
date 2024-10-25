@@ -46,7 +46,7 @@ export class IndentviewComponent {
       CompanyName: "google",
 
       EmailAddress: "abcgmailcom",
-    },
+    },  
     {
       id: 2,
       jobTitle: "Data Scientist",
@@ -71,7 +71,6 @@ export class IndentviewComponent {
       id: 3,
       jobTitle: "Product Manager",
       company: "Amazon",
-      date: "2024-09-27",
       status: "Completed",
       postedDate: "2024-07-01",
       applicationDeadline: new Date("2024-08-01"),

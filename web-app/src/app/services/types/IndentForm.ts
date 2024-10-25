@@ -1,12 +1,16 @@
-import { IndentFormDynamicField } from "./IndentFormDynamicField";
+import { IndentFormDynamicField } from './IndentFormDynamicField';
 
-export type IndentForm = {
-    Id: number;
-    CompanyName?: string;
-    ContactPersonName?: string;
-    ContactPersonDesignation?: string;
-    Email?: string;
-    PhoneNumber?: string;
-    CreatedAt?: Date;
-    IndentFormDynamicFields: IndentFormDynamicField[];
+export interface IndentForm {
+  Id: number;
+  CompanyName: string;
+  ContactPersonName: string;
+  ContactPersonDesignation: string;
+  PhoneNumber: string;
+  Email: string;
+  IndentFormDynamicFields: IndentFormDynamicField;
+  RequiredItem: string | number;
+  Quatity: string | number;
+  studentsCleared: number;
+  studentsRejected: number;
+  roundName: string;
 }
