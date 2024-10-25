@@ -249,7 +249,7 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let jobposting of JobPostingsData"
+      *ngFor="let jobposting of JobPostingsData()"
       (click)="openCopmanyJobDescriptionPage(jobposting.Id)"
       fxFlex="100%"
       fxFlex.gt-sm="100%"

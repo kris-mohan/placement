@@ -9,5 +9,7 @@ public partial class Batch
 
     public string? Name { get; set; }
 
+    public virtual ICollection<CompanyJobBatch> CompanyJobBatches { get; set; } = new List<CompanyJobBatch>();
+
     public virtual ICollection<Tblstudent> Tblstudents { get; set; } = new List<Tblstudent>();
 }

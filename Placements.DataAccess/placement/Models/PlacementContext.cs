@@ -29,6 +29,10 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Collegejobpostingschedule> Collegejobpostingschedules { get; set; }
 
+    public virtual DbSet<CompanyJobBatch> CompanyJobBatches { get; set; }
+
+    public virtual DbSet<CompanyJobCourse> CompanyJobCourses { get; set; }
+
     public virtual DbSet<Companydatum> Companydata { get; set; }
 
     public virtual DbSet<Companydesignation> Companydesignations { get; set; }
@@ -219,6 +223,44 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.JobPosting).WithMany(p => p.Collegejobpostingschedules)
                 .HasForeignKey(d => d.JobPostingId)
                 .HasConstraintName("FK_CollegeSchedule_JobPosting");
+        });
+
+        modelBuilder.Entity<CompanyJobBatch>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("company_job_batch");
+
+            entity.HasIndex(e => e.BatchId, "FK_CompanyJobBatch_Batch_idx");
+
+            entity.HasIndex(e => e.JobPostingId, "FK_CompanyJobBatch_JobPosting_idx");
+
+            entity.HasOne(d => d.Batch).WithMany(p => p.CompanyJobBatches)
+                .HasForeignKey(d => d.BatchId)
+                .HasConstraintName("FK_CompanyJobBatch_Batch");
+
+            entity.HasOne(d => d.JobPosting).WithMany(p => p.CompanyJobBatches)
+                .HasForeignKey(d => d.JobPostingId)
+                .HasConstraintName("FK_CompanyJobBatch_JobPosting");
+        });
+
+        modelBuilder.Entity<CompanyJobCourse>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("company_job_course");
+
+            entity.HasIndex(e => e.CourseId, "FK_CompanyJobCourse_Course");
+
+            entity.HasIndex(e => e.JobPostingId, "FK_CompanyJobCourse_JobPost_idx");
+
+            entity.HasOne(d => d.Course).WithMany(p => p.CompanyJobCourses)
+                .HasForeignKey(d => d.CourseId)
+                .HasConstraintName("FK_CompanyJobCourse_Course");
+
+            entity.HasOne(d => d.JobPosting).WithMany(p => p.CompanyJobCourses)
+                .HasForeignKey(d => d.JobPostingId)
+                .HasConstraintName("FK_CompanyJobCourse_JobPost");
         });
 
         modelBuilder.Entity<Companydatum>(entity =>

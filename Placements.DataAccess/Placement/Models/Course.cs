@@ -11,5 +11,7 @@ public partial class Course
 
     public string? FullForm { get; set; }
 
+    public virtual ICollection<CompanyJobCourse> CompanyJobCourses { get; set; } = new List<CompanyJobCourse>();
+
     public virtual ICollection<Studentacademic> Studentacademics { get; set; } = new List<Studentacademic>();
 }
