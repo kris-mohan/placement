@@ -59,6 +59,8 @@ public partial class Companydatum
 
     public string? AudioPath { get; set; }
 
+    public virtual ICollection<CampusCompany> CampusCompanies { get; set; } = new List<CampusCompany>();
+
     public virtual ICollection<Companydesignation> Companydesignations { get; set; } = new List<Companydesignation>();
 
     public virtual ICollection<Companyindustry> Companyindustries { get; set; } = new List<Companyindustry>();

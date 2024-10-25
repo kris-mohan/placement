@@ -23,7 +23,6 @@ namespace Placements.WebApi.Controllers.PlacementController
         public IActionResult Get()
         {
             return Ok(_context.Companytechnologies);
-            return Ok(_context.Companytechnologies);
         }
 
 

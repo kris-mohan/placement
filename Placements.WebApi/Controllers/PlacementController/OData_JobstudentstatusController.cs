@@ -21,7 +21,6 @@ namespace Placements.WebApi.Controllers.PlacementController
         public IActionResult Get()
         {
             return Ok(_context.Jobstudentstatuses);
-            return Ok(_context.Jobstudentstatuses);
         }
 
         [HttpPost]

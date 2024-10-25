@@ -35,6 +35,8 @@ public partial class Campusregistration
 
     public long? UserRoleId { get; set; }
 
+    public virtual ICollection<CampusCompany> CampusCompanies { get; set; } = new List<CampusCompany>();
+
     public virtual ICollection<Collegejobposting> Collegejobpostings { get; set; } = new List<Collegejobposting>();
 
     public virtual ICollection<Collegejobpostingschedule> Collegejobpostingschedules { get; set; } = new List<Collegejobpostingschedule>();

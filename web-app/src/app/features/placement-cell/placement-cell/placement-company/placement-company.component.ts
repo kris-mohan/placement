@@ -60,6 +60,7 @@ export class PlacementCompanyComponent {
   companyData: [] = [];
 
   companiesList = signal<Companydatum[]>([]);
+  filteredCompanyData: Observable<Companydatum[]> = of([]);
 
   companies: companyTableList[] = [];
 
@@ -320,6 +321,15 @@ export class PlacementCompanyComponent {
       startWith(""),
       map((value) => this._filterCompanies(value))
     );
+
+    this.placementCompanyApiService.GetAllCompanies().subscribe((companies) => {
+      this.companiesList.set(companies.value);
+
+      this.filteredCompany = this.companyControl.valueChanges.pipe(
+        startWith(""),
+        map((value) => this._filterCompanies(value))
+      );
+    });
   }
 
   getAllCompanies = () => {
@@ -334,18 +344,21 @@ export class PlacementCompanyComponent {
     });
   };
 
-  onCompanySelected(event: MatAutocompleteSelectedEvent) {
+  private _filterCompanies(value: string): Companydatum[] {
+    const filterValue = value.toLowerCase();
+    return this.companiesList().filter((company) =>
+      company.Name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  onCompanySelected(event: any): void {
     const selectedCompanyName = event.option.value;
-    const selectedCompany = this.companies.find(
+    const selectedCompany = this.companiesList().find(
       (company) => company.Name === selectedCompanyName
     );
+
     if (selectedCompany) {
-      this.apiCompanyService
-        .getCompanyDataById(selectedCompany.Id)
-        .subscribe((response) => {
-          const companyData = response.value[0];
-          this.openCompanyModalPopup(companyData);
-        });
+      this.openCompanyModalPopup(selectedCompany);
     }
   }
 
@@ -355,16 +368,6 @@ export class PlacementCompanyComponent {
       height: "600px",
       data: company,
     });
-  }
-
-  _filterCompanies(value: string): companyTableList[] {
-    const filterValue = value.toLowerCase();
-    if (filterValue.length < 2) {
-      return [];
-    }
-    return this.companies.filter((company) =>
-      company.Name.toLowerCase().includes(filterValue)
-    );
   }
 
   loadCompanies() {

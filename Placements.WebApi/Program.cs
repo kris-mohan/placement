@@ -145,7 +145,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<JobpostingsEligiblestudent>("JobpostingsEligiblestudent");
     modelBuilder.EntitySet<JobpostStudentround>("JobpostStudentround");
     modelBuilder.EntitySet<Login>("Login");
-    modelBuilder.EntitySet<Paatashalaregistration>("Paatashalaregistration");
+    modelBuilder.EntitySet<CampusCompany>("CampusCompany");
     modelBuilder.EntitySet<Role>("Role");
     modelBuilder.EntitySet<Studentacademic>("Studentacademic");
     modelBuilder.EntitySet<Studentplaced>("Studentplaced");
