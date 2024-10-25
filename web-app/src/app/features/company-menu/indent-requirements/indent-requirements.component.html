@@ -83,18 +83,6 @@
             <input matInput formControlName="Extra1" />
           </mat-form-field>
         </div>
-        <!-- <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label"></p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label></mat-label>
-            <input matInput formControlName="Extra1" />
-          </mat-form-field>
-        </div> -->
         <div
           fxFlex="100%"
           fxFlex.gt-md="33%"
@@ -124,27 +112,30 @@
           [formGroup]="addIndentForm"
           (ngSubmit)="onSubmitDiv()"
         >
-          <mat-grid-list
-            cols="2"
-            rowHeight="10:1"
-            class="grid"
-            formArrayName="itemsArray"
-          >
-            <mat-grid-tile
-              *ngFor="let item of itemsArray.controls; let i = index" [formGroupName]="i"
+          <div formArrayName="itemsArray">
+            <div
+              *ngFor="let item of itemsArray.controls; let i = index"
+              [formGroupName]="i"
+              class="item_container"
             >
-              <div class="input_div" fxFlex="90%">
-                <p class="grid-label">Required Item</p>
-                <mat-form-field appearance="outline" class="matFormField">
-                  <mat-label>Required Item</mat-label>
-                  <input matInput formControlName="requiredItem" />
-                </mat-form-field>
-                <p class="grid-label">Description</p>
-                <mat-form-field appearance="outline" class="matFormField">
-                  <mat-label>Description</mat-label>
-                  <input matInput formControlName="description" />
-                </mat-form-field>
-                <div>
+              <div class="input_div" fxFlex="95%">
+                <div class="input_div_input">
+                  <p class="grid-label">Required Item</p>
+                  <mat-form-field appearance="outline" class="matFormField">
+                    <mat-label>Required Item</mat-label>
+                    <input matInput formControlName="requiredItem" />
+                  </mat-form-field>
+                </div>
+
+                <div class="input_div_input">
+                  <p class="grid-label">Description</p>
+                  <mat-form-field appearance="outline" class="matFormField">
+                    <mat-label>Description</mat-label>
+                    <input matInput formControlName="description" />
+                  </mat-form-field>
+                </div>
+
+                <div class="input_div_btn">
                   <button
                     mat-raised-button
                     class="matbutton"
@@ -155,14 +146,13 @@
                   </button>
                 </div>
               </div>
-            </mat-grid-tile>
-          </mat-grid-list>
-          <!--  <button type="button" (click)="handleAddGrid()">Add Item</button>
-  <button type="submit">Submit</button> -->
+            </div>
+          </div>
         </form>
       </div>
     </mat-card-content>
   </mat-card>
+
   <mat-card-actions class="footer-actions">
     <button
       mat-raised-button
@@ -177,178 +167,3 @@
     </button>
   </mat-card-actions>
 </form>
-
-<!-- <mat-card>
-  <mat-card-header class="custom-card-header">
-    <div class="example-button-row">
-      <div class="example-flex-container">
-        <div class="button-label-container">
-          <div class="example-button-container" (click)="goBack()">
-            <mat-icon>keyboard_backspace</mat-icon>
-          </div>
-          <div class="header-mat-label">
-            <h3>Indenting Organisation Details</h3>
-          </div>
-        </div>
-      </div>
-    </div>
-  </mat-card-header>
-  <form class="form-content">
-    <div class="form-container">
-      <mat-card-content>
-        <div fxLayout="row wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Company Name</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Company Name</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">URL</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>URL</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Contact Person</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Contact Person</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div fxLayout="row wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">City</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>City</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Zip Code</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Zip Code</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-        </div>
-      </mat-card-content>
-      <!-- <form [formGroup]="indentForm" (ngSubmit)="onSubmit()">
-      <table
-        class="indent_req"
-        border="1"
-        cellpadding="10"
-        cellspacing="0"
-        width="100%"
-      >
-        <thead>
-          <tr>
-            <th>Sr No</th>
-            <th>Particulars</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1.</td>
-            <td>Department/Organization</td>
-            <td><input type="text" formControlName="department" /></td>
-          </tr>
-          <tr>
-            <td>2.</td>
-            <td>Address</td>
-            <td><textarea formControlName="address"></textarea></td>
-          </tr>
-          <tr>
-            <td>3.</td>
-            <td>Contact Person:<br />Name<br />Designation</td>
-            <td>
-              <input type="text" formControlName="contactName" /><br />
-              <input type="text" formControlName="designation" />
-            </td>
-          </tr>
-          <tr>
-            <td>4.</td>
-            <td>Contact Person:<br />Phone/Mobile<br />Email address</td>
-            <td>
-              <input type="text" formControlName="phone" /><br />
-              <input type="email" formControlName="email" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="submit" [disabled]="indentForm.invalid">Submit</button>
-    </form> -->
-
-<!-- <div>
-  <table
-    class="manpower_requirement_table"
-    border="1"
-    cellpadding="10"
-    cellspacing="0"
-    width="100%"
-  >
-    <thead>
-      <tr>
-        <th>Sr. No</th>
-        <th>Category</th>
-        <th>No of assignees</th>
-        <th colspan="2">Period of requirement</th>
-        <th>Location</th>
-        <th>Monthly Payment</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th>From</th>
-        <th>To</th>
-        <th></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
