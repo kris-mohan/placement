@@ -97,9 +97,9 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -323,9 +323,9 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("companytechnologies");
 
-            entity.HasIndex(e => e.CompanyId, "FK_CompanyTechonologies_CompanyData");
+            entity.HasIndex(e => e.CompanyId, "FK_CompanyTechnologies_CompanyData");
 
-            entity.HasIndex(e => e.TechnologyId, "FK_CompanyTechonologies_Technologies");
+            entity.HasIndex(e => e.TechnologyId, "FK_CompanyTechnologies_Technologies");
 
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
@@ -333,11 +333,11 @@ public partial class PlacementContext : DbContext
 
             entity.HasOne(d => d.Company).WithMany(p => p.Companytechnologies)
                 .HasForeignKey(d => d.CompanyId)
-                .HasConstraintName("FK_CompanyTechonologies_CompanyData");
+                .HasConstraintName("FK_CompanyTechnologies_CompanyData");
 
             entity.HasOne(d => d.Technology).WithMany(p => p.Companytechnologies)
                 .HasForeignKey(d => d.TechnologyId)
-                .HasConstraintName("FK_CompanyTechonologies_Technologies");
+                .HasConstraintName("FK_CompanyTechnologies_Technologies");
         });
 
         modelBuilder.Entity<Course>(entity =>
@@ -532,7 +532,6 @@ public partial class PlacementContext : DbContext
             entity.HasIndex(e => e.StudentId, "FK_jobposting_selectedstudents_Student_idx");
 
             entity.Property(e => e.DateOfJoining).HasColumnType("datetime");
-            entity.Property(e => e.HasAcceptedOffer).HasColumnType("bit(1)");
 
             entity.HasOne(d => d.JobPosting).WithMany(p => p.JobpostingSelectedstudents)
                 .HasForeignKey(d => d.JobPostingId)

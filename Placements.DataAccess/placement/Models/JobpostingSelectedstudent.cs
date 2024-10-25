@@ -11,7 +11,7 @@ public partial class JobpostingSelectedstudent
 
     public long? StudentId { get; set; }
 
-    public ulong? HasAcceptedOffer { get; set; }
+    public int? HasAcceptedOffer { get; set; }
 
     public DateTime? DateOfJoining { get; set; }
 
