@@ -99,6 +99,8 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Trainingmodule> Trainingmodules { get; set; }
 
+    public virtual DbSet<University> Universities { get; set; }
+
     public virtual DbSet<Userrole> Userroles { get; set; }
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -156,6 +158,8 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("campusregistration");
 
+            entity.HasIndex(e => e.UniversityId, "FK_Campus_University_idx");
+
             entity.Property(e => e.Address).HasMaxLength(100);
             entity.Property(e => e.CollegeEmail).HasMaxLength(50);
             entity.Property(e => e.CollegeName).HasMaxLength(100);
@@ -172,6 +176,10 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.PlacementOfficerName).HasMaxLength(50);
             entity.Property(e => e.State).HasMaxLength(100);
             entity.Property(e => e.ZipCode).HasMaxLength(100);
+
+            entity.HasOne(d => d.University).WithMany(p => p.Campusregistrations)
+                .HasForeignKey(d => d.UniversityId)
+                .HasConstraintName("FK_Campus_University");
         });
 
         modelBuilder.Entity<Collegejobposting>(entity =>
@@ -914,6 +922,15 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.TrainingCourse).WithMany(p => p.Trainingmodules)
                 .HasForeignKey(d => d.TrainingCourseId)
                 .HasConstraintName("FK_TrainingModule_TrainingCourse");
+        });
+
+        modelBuilder.Entity<University>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("university");
+
+            entity.Property(e => e.Name).HasMaxLength(145);
         });
 
         modelBuilder.Entity<Userrole>(entity =>

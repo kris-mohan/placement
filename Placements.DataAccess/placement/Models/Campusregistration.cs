@@ -35,6 +35,8 @@ public partial class Campusregistration
 
     public long? UserRoleId { get; set; }
 
+    public long? UniversityId { get; set; }
+
     public virtual ICollection<CampusCompany> CampusCompanies { get; set; } = new List<CampusCompany>();
 
     public virtual ICollection<Collegejobposting> Collegejobpostings { get; set; } = new List<Collegejobposting>();
@@ -44,4 +46,6 @@ public partial class Campusregistration
     public virtual ICollection<Login> Logins { get; set; } = new List<Login>();
 
     public virtual ICollection<Tblstudent> Tblstudents { get; set; } = new List<Tblstudent>();
+
+    public virtual University? University { get; set; }
 }
