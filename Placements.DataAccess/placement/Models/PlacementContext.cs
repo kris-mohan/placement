@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Placements.DataAccess.Placement.Models;
 
@@ -63,6 +61,8 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<JobpostingSelectedstudent> JobpostingSelectedstudents { get; set; }
 
+    public virtual DbSet<JobpostingSkill> JobpostingSkills { get; set; }
+
     public virtual DbSet<Jobpostingdetail> Jobpostingdetails { get; set; }
 
     public virtual DbSet<JobpostingsEligiblestudent> JobpostingsEligiblestudents { get; set; }
@@ -74,6 +74,8 @@ public partial class PlacementContext : DbContext
     public virtual DbSet<Paatashalaregistration> Paatashalaregistrations { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<Skill> Skills { get; set; }
 
     public virtual DbSet<SkillType> SkillTypes { get; set; }
 
@@ -103,9 +105,9 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+    //        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Akram@123;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -592,6 +594,25 @@ public partial class PlacementContext : DbContext
                 .HasConstraintName("FK_jobposting_selectedstudents_Student");
         });
 
+        modelBuilder.Entity<JobpostingSkill>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("jobposting_skill");
+
+            entity.HasIndex(e => e.JobPostingId, "FK_JobPostingSkill_JobPosting_idx");
+
+            entity.HasIndex(e => e.SkillId, "FK_JobPostingSkill_Skill_idx");
+
+            entity.HasOne(d => d.JobPosting).WithMany(p => p.JobpostingSkills)
+                .HasForeignKey(d => d.JobPostingId)
+                .HasConstraintName("FK_JobPostingSkill_JobPosting");
+
+            entity.HasOne(d => d.Skill).WithMany(p => p.JobpostingSkills)
+                .HasForeignKey(d => d.SkillId)
+                .HasConstraintName("FK_JobPostingSkill_Skill");
+        });
+
         modelBuilder.Entity<Jobpostingdetail>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -705,6 +726,15 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.RoleName).HasMaxLength(50);
         });
 
+        modelBuilder.Entity<Skill>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("skill");
+
+            entity.Property(e => e.Name).HasMaxLength(145);
+        });
+
         modelBuilder.Entity<SkillType>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -729,15 +759,13 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("student_skill");
 
-            entity.HasIndex(e => e.SkillTypeId, "FK_Skill_SkillType_idx");
-
             entity.HasIndex(e => e.StudentId, "FK_Skill_Student_idx");
 
-            entity.Property(e => e.Name).HasMaxLength(145);
+            entity.HasIndex(e => e.SkillId, "FK_StudentSkill_Skill_idx");
 
-            entity.HasOne(d => d.SkillType).WithMany(p => p.StudentSkills)
-                .HasForeignKey(d => d.SkillTypeId)
-                .HasConstraintName("FK_Skill_SkillType");
+            entity.HasOne(d => d.Skill).WithMany(p => p.StudentSkills)
+                .HasForeignKey(d => d.SkillId)
+                .HasConstraintName("FK_StudentSkill_Skill");
 
             entity.HasOne(d => d.Student).WithMany(p => p.StudentSkills)
                 .HasForeignKey(d => d.StudentId)
