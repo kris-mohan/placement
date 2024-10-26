@@ -50,8 +50,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                     return Ok(new { success = false, message = "Skill Not Found" });
                 }
 
-                original.Name = studentSkill.Name;
-                original.SkillTypeId = studentSkill.SkillTypeId;
+                original.SkillId = studentSkill.SkillId;
                 original.StudentId = studentSkill.StudentId;
 
                 _context.StudentSkills.Update(original);
