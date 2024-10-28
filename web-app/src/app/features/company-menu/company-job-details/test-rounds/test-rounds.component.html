@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    </mat-card-header>
+  </mat-card-header>
   <mat-card-content>
     <table mat-table [dataSource]="RoundDataSource" class="mat-elevation-z8">
       <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
@@ -40,7 +40,6 @@
             <ng-container *ngSwitchCase="'priority'">
               <mat-form-field appearance="fill">
                 <mat-label>Select Priority</mat-label>
-                
               </mat-form-field>
             </ng-container>
 
@@ -53,7 +52,7 @@
                 >
                   <mat-icon> edit </mat-icon>
                 </button>
-                <button mat-icon-button (click)="deleteRounds(element.Id)">
+                <button mat-icon-button (click)="deleteCompany(element.Id)">
                   <mat-icon> delete </mat-icon>
                 </button>
               </div>

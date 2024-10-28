@@ -9,24 +9,7 @@ import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 })
 export class TestRoundsApiService {
   constructor(private apiHttpService: ApiHttpService) {}
-
-  // public async GetAllRounds(): Promise<any> {
-  //   try {
-  //     const response = await firstValueFrom(
-  //       this.apiService
-  //         .get("/Jobinterviewround")
-  //         .pipe(catchError(this.handleError))
-  //     );
-  //     return response;
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       throw new Error(`Error in GET request: ${error.message}`);
-  //     } else {
-  //       throw error;
-  //     }
-  //   }
-  //   // return this.apiService.get<Jobinterviewround[]>("/Jobinterviewround");
-  // }
+ 
   GetAllRounds(): Observable<any> {
     return this.apiHttpService.get<any>("/Jobinterviewround");
   }
@@ -34,11 +17,14 @@ export class TestRoundsApiService {
   GetRoundsById(id: number): Observable<any> {
     return this.apiHttpService.get(`/Jobinterviewround?filter=Id eq ${id}`);
   }
+  CreateRound(data: any): Observable<any> {
+    return this.apiHttpService.post("/Jobinterviewround", data);
+  }
 
   deleteRound(id: number): Observable<any> {
-    const url = `/Trainingcourse?key=${id}`;
+    const url = `/Jobinterviewround?key=${id}`;
     const data = { isdeleted: true };
-    return this.apiHttpService.patch(url, data);
+    return this.apiHttpService.delete(url);
   }
 
   addUpdateRounds(
