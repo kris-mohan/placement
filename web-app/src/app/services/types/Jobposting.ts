@@ -5,6 +5,9 @@ import { Jobinterviewround } from "./Jobinterviewround";
 import { JobpostingsEligiblestudent } from "./JobpostingsEligibleStudent";
 import { JobpostingSelectedstudent } from "./JobpostingSelectedstudent";
 import { Technology } from "./Technology";
+import { JobpostingSkill } from "./JobpostingSkill";
+import { CompanyJobBatch } from "./CompanyJobBatch";
+import { CompanyJobCourse } from "./CompanyJobCourse";
 
 export type Jobposting = {
   Id: number;
@@ -34,4 +37,7 @@ export type Jobposting = {
   JobpostingsEligiblestudents: JobpostingsEligiblestudent[];
   Technology: Technology;
   Technologies: Technology[];
+  JobpostingSkills?: JobpostingSkill[];
+  CompanyJobBatches?: CompanyJobBatch[];
+  CompanyJobCourses?: CompanyJobCourse[];
 };
