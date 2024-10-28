@@ -3,19 +3,15 @@ using System.Collections.Generic;
 
 namespace Placements.DataAccess.Placement.Models;
 
-public partial class JobpostingSelectedstudent
+public partial class CompanyJobCourse
 {
     public long Id { get; set; }
 
     public long? JobPostingId { get; set; }
 
-    public long? StudentId { get; set; }
+    public long? CourseId { get; set; }
 
-    public int? HasAcceptedOffer { get; set; }
-
-    public DateTime? DateOfJoining { get; set; }
+    public virtual Course? Course { get; set; }
 
     public virtual Jobposting? JobPosting { get; set; }
-
-    public virtual Tblstudent? Student { get; set; }
 }

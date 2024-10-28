@@ -1,22 +1,13 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-
-import { MatDialogModule } from "@angular/material/dialog";
 import { MatDialog } from "@angular/material/dialog";
-
 import { FullCalendarModule } from "@fullcalendar/angular";
-import { CalendarOption } from "@fullcalendar/angular/private-types";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-// import { CalendarOptions } from "@fullcalendar/angular";
 import { CalendarOptions, EventApi } from "@fullcalendar/core";
-import { FormBuilder } from "@angular/forms";
 import { CalendarModalComponent } from "../calendar-modal/calendar-modal.component";
 import { AMGModules } from "src/AMG-Module/AMG-module";
-// import { interviewApiService } from "./api.interview";
-import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
-import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: "app-interview-schedule",
@@ -116,14 +107,11 @@ export class InterviewScheduleComponent implements OnInit {
   ];
 
   constructor(
-    private dialog: MatDialog // Inject MatDialog instead of NgbModal // private InterviewApiService: interviewApiService
+    private dialog: MatDialog 
   ) {}
 
   ngOnInit(): void {
     this.loadInitialData();
-    // // this.Getinterview();
-
-    // this.getinterview();
   }
 
   calendarOptions: CalendarOptions = {
@@ -132,23 +120,21 @@ export class InterviewScheduleComponent implements OnInit {
       center: "title",
       right: "prevYear,prev,next,nextYear",
     },
-    // events: this.calendarEvents,
     events: this.calendarEvents.map((event) => ({
       ...event,
       extendedProps: {
-        jobRoles: event.jobRole, // Assuming event.jobRole is defined
+        jobRoles: event.jobRole, 
       },
     })),
     editable: true,
     selectable: true,
     selectMirror: true,
-    initialView: "dayGridMonth", // Default view
+    initialView: "dayGridMonth", 
     weekends: true,
-    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin], // Register the plugins
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     dateClick: this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventTimeFormat: {
-      // like '14:30:00'
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,

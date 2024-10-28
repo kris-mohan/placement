@@ -8,6 +8,4 @@ public partial class SkillType
     public int Id { get; set; }
 
     public string? Name { get; set; }
-
-    public virtual ICollection<StudentSkill> StudentSkills { get; set; } = new List<StudentSkill>();
 }

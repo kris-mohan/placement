@@ -276,7 +276,7 @@ namespace Placements.WebApi.Controllers
 
         #endregion
 
-
+        #region download company template
         [HttpGet("download-company-template")]
         public async Task<IActionResult> DownloadCompanyTemplate()
         {
@@ -341,7 +341,9 @@ namespace Placements.WebApi.Controllers
                 return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
             }
         }
+        #endregion
 
+        #region upload companies
         private long? GetIndustryId(string industryName)
         {
             var industry = _context.Industries.FirstOrDefault(c => c.Type == industryName);
@@ -493,5 +495,26 @@ namespace Placements.WebApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+        #endregion
+
+        #region add company
+        [HttpPost("AddCompany")]
+        public async Task<IActionResult> AddCompany(Companydatum companydatum)
+        {
+            try
+            {
+                var files = Request.Form.Files;
+
+
+
+                return Ok(new { success = true, message = "Company Added Successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        #endregion
     }
 }

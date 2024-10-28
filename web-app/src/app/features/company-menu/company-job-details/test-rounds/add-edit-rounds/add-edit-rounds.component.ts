@@ -19,23 +19,23 @@ export class AddEditRoundsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
-    private location: Location,
+    private location: Location
   ) {}
 
-  ngOnInit(): void {
-    // this.route.paramMap.subscribe((params) => {
-    //   const id = params.get("roundsId");
-    //   this.roundId = id !== null ? +id : null;
-    //   if (this.roundId) {
-    //     const technology = HIRING_ROUNDS_DATA.find(
-    //       (t) => t.roundId === this.roundId
-    //     );
-    //     // if (technology) {
-    //     //   this.addEditTrainerForm.patchValue(technology);
-    //     // }
-    //   }
-    // });
-  }
+  //ngOnInit(): void {
+  // this.route.paramMap.subscribe((params) => {
+  //   const id = params.get("roundsId");
+  //   this.roundId = id !== null ? +id : null;
+  //   if (this.roundId) {
+  //     const technology = HIRING_ROUNDS_DATA.find(
+  //       (t) => t.roundId === this.roundId
+  //     );
+  //     // if (technology) {
+  //     //   this.addEditTrainerForm.patchValue(technology);
+  //     // }
+  //   }
+  // });
+  //}
 
   goBack(): void {
     this.location.back();

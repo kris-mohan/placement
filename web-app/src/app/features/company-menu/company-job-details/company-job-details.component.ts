@@ -5,6 +5,7 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  signal,
 } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -103,6 +104,7 @@ export const JOBPOSTING_DATA: JobPostingList[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompanyJobDetailsComponent {
+  sessionCompanyId: number;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -113,6 +115,8 @@ export class CompanyJobDetailsComponent {
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
+    const storedCompanyId = sessionStorage.getItem("CompanyId");
+    this.sessionCompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
   }
   readonly campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
@@ -399,24 +403,25 @@ export class CompanyJobDetailsComponent {
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
 
-  JobPostingsData: Jobposting[] = [];
+  JobPostingsData = signal<Jobposting[]>([]);
 
   ngOnInit() {
-    this.GetAllJobPosting();
+    this.GetAllJobPosting(this.sessionCompanyId);
+
     console.log(this.JobPostingsData);
   }
 
-  GetAllJobPosting = () => {
-    this.companyJobDetailsApiService.GetAllJobPostings().subscribe({
+  GetAllJobPosting = (id: number) => {
+    this.companyJobDetailsApiService.GetAllJobPostings(id).subscribe({
       next: (jobPostings) => {
         const data: Jobposting[] = jobPostings.value;
-        this.JobPostingsData = jobPostings.value.map((jobposting: any) => ({
+        const mappedData = data.map((jobposting: any) => ({
           ...jobposting,
           ValidTill: this.convertToDateOnly(jobposting.ValidTill),
           ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
           DriveDate: this.convertToDateOnly(jobposting.DriveDate),
         }));
-        this.cd.detectChanges();
+        this.JobPostingsData.set(mappedData);
         console.log("jobPosting", this.JobPostingsData);
       },
       error: (error) => {
