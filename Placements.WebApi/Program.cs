@@ -85,6 +85,7 @@ app.UseCors(s => s.AllowAnyHeader()
   .AllowAnyMethod()
   .SetIsOriginAllowed((host) => true)
   .AllowCredentials());
+app.UseStaticFiles();
 //if (app.Environment.IsDevelopment())
 //{
 app.UseSwagger();
