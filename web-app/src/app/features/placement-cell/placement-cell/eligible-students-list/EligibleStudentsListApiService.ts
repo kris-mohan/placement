@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, Observable, throwError } from 'rxjs';
+import { ODataEntity } from 'src/app/services/types/OData';
+import { Tblstudent } from 'src/app/services/types/Tblstudent';
 import { ApiHttpService } from 'src/app/services/api-services/api-http-services';
 
 @Injectable({
@@ -16,6 +18,8 @@ export class EligibleStudentsListApiService {
   }
 
   GetAllStudentsById(id: number): Observable<any> {
-    return this.apiHttpService.get(`/Tblstudent?filter=Id eq ${id}`);
+    return this.apiHttpService.get<any>(
+      `/Tblstudent?filter=Id eq ${id}`
+    );
   }
 }
