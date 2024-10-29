@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from "@angular/core";
+import { Component, inject, signal, ViewChild } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatDialog } from "@angular/material/dialog";
@@ -7,10 +7,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { Observable, of, startWith, map } from "rxjs";
 import { CompanyAPIService } from "src/app/features/company-configuration/company-config/companies/api.companies";
-import {
-  companyTableList,
-  Industry,
-} from "src/app/features/company-configuration/company-config/companies/companies-model";
+import { Industry } from "src/app/services/types/Industry";
 import { CompanyDetailDialogModalComponent } from "src/app/features/company-configuration/company-config/companies/company-detail-dialog-modal/company-detail-dialog-modal.component";
 import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
 import { PlacementInterviewAdditionalFilterComponent } from "src/app/features/placement-cell/placement-cell/placement-interview/placement-interview-additional-filter/placement-interview-additional-filter.component";
@@ -19,10 +16,16 @@ import { ODataResponse } from "../student-company/student-company.component";
 import { CommonModule, Location } from "@angular/common";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
+import { JobpostingSelectedstudent } from "src/app/services/types/JobpostingSelectedstudent";
+import { StudentOfferRecievedApiService } from "./api.student-offer-recieved";
+import { Tblstudent } from "src/app/services/types/Tblstudent";
+import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
 
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
+
+// const userId -
 
 @Component({
   selector: "app-student-offer-recieved",
@@ -37,15 +40,50 @@ export class StudentOfferRecievedComponent {
     private sweetAlertService: SweetAlertService,
     private location: Location,
     private apiCompanyService: CompanyAPIService,
-    private apiIndustryService: IndustryAPIService
+    private apiIndustryService: IndustryAPIService,
+    private studentOfferRecievedApiService: StudentOfferRecievedApiService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
+    const userStudentId = sessionStorage.getItem("StudentId");
+    this.studentId = userStudentId ? parseInt(userStudentId) : 0;
   }
   readonly campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
   });
+
+  studentId: number;
+
+  getAllSelectedStudents = () => {
+    this.studentOfferRecievedApiService
+      .GetAllSelectedStudents(this.studentId)
+      .subscribe({
+        next: (response) => {
+          const data: Tblstudent[] = response.value;
+          console.log("Selected Students", data);
+          const StudentData = data[0].JobpostingSelectedstudents;
+          this.JobpostingSelectedstudentData.set(StudentData);
+          console.log(this.JobpostingSelectedstudentData());
+        },
+        error: (error) => {
+          console.log("Error fetching rounds: ", error);
+        },
+      });
+  };
+
+  getAllIndustries = () => {
+    this.studentOfferRecievedApiService.GetAllIndustries().subscribe({
+      next: (response) => {
+        const data: Industry[] = response.value;
+        console.log("All Industries", data);
+        this.industries = data;
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -70,7 +108,7 @@ export class StudentOfferRecievedComponent {
   filteredCompany: Observable<any[]> = of([]);
   filteredCities: Observable<any[]> = of([]);
   filteredCompanySize: Observable<string[]> = of([]);
-  filteredIndustries: Industry[] = [];
+  filteredIndustries: Industry[] = [...this.industries];
   filteredIndutry: Observable<any[]> = of([]);
 
   searchCompany: string = "";
@@ -83,6 +121,7 @@ export class StudentOfferRecievedComponent {
   companySizeControl = new FormControl();
   experienceLevelControl = new FormControl();
   companyControl = new FormControl();
+  salaryControl = new FormControl();
 
   CityFilterControl = new FormControl();
   industryFilterControl = new FormControl();
@@ -137,11 +176,25 @@ export class StudentOfferRecievedComponent {
     },
   ];
 
+  salaryOptions: string[] = [
+    "₹3 - 5 LPA",
+    "₹6 - 8 LPA",
+    "₹9 - 12 LPA",
+    "₹12 - 15 LPA",
+    "₹15 LPA and above",
+  ];
+
+  JobpostingSelectedstudentData = signal<JobpostingSelectedstudent[]>([]);
+
   dataSource = new MatTableDataSource<companyTableList>([]);
 
   ngOnInit() {
-    this.loadCompanies();
-    this.loadIndustries();
+    // this.loadCompanies();
+    // this.loadIndustries();
+
+    this.getAllIndustries();
+
+    this.getAllSelectedStudents();
 
     this.dataSource.paginator = this.paginator;
 
@@ -297,7 +350,7 @@ export class StudentOfferRecievedComponent {
     const filterValue = search.toLowerCase();
 
     const filteredList = this.industries.filter((industry) =>
-      industry.Type.toLowerCase().includes(filterValue)
+      industry.Type?.toLowerCase().includes(filterValue)
     );
 
     const selectedIndustries = this.industryControl.value || [];
@@ -345,7 +398,7 @@ export class StudentOfferRecievedComponent {
   _filterIndustries(value: string): any[] {
     const filterValue = value.toLowerCase();
     return this.industries.filter((option) =>
-      option.Type.toLowerCase().includes(filterValue)
+      option.Type?.toLowerCase().includes(filterValue)
     );
   }
 
