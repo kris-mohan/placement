@@ -1,7 +1,7 @@
-import { Studentacademic } from "./Studentacademic";
+import { Studentacademic } from './Studentacademic';
 
 export type Stream = {
-    Id: number;
-    Name?: string;
-    Studentacademics: Studentacademic[];
+  Id: number;
+  Name: string;
+  Studentacademics: Studentacademic[];
 };

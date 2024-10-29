@@ -1,7 +1,7 @@
-import { Tblstudent } from "./Tblstudent";
+import { Tblstudent } from './Tblstudent';
 
 export type Batch = {
   Id: number;
-  Name?: string;
+  Name: string;
   Tblstudents: Tblstudent[];
 };

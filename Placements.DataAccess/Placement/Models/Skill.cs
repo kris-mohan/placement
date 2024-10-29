@@ -9,7 +9,11 @@ public partial class Skill
 
     public string? Name { get; set; }
 
+    public int? SkillTypeId { get; set; }
+
     public virtual ICollection<JobpostingSkill> JobpostingSkills { get; set; } = new List<JobpostingSkill>();
+
+    public virtual SkillType? SkillType { get; set; }
 
     public virtual ICollection<StudentSkill> StudentSkills { get; set; } = new List<StudentSkill>();
 }
