@@ -1,4 +1,4 @@
-import { IndentFormDynamicField } from './IndentFormDynamicField';
+import { IndentFormDynamicField } from "./IndentFormDynamicField";
 
 export interface IndentForm {
   Id: number;
@@ -7,7 +7,7 @@ export interface IndentForm {
   ContactPersonDesignation: string;
   PhoneNumber: string;
   Email: string;
-  IndentFormDynamicFields: IndentFormDynamicField;
+  IndentFormDynamicFields: IndentFormDynamicField[];
   RequiredItem: string | number;
   Quatity: string | number;
   studentsCleared: number;
