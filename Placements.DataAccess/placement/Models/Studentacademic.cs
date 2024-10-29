@@ -20,4 +20,6 @@ public partial class Studentacademic
     public virtual Stream? Stream { get; set; }
 
     public virtual Tblstudent? Student { get; set; }
+
+    public virtual ICollection<StudentSemesterMark> StudentSemesterMarks { get; set; } = new List<StudentSemesterMark>();
 }
