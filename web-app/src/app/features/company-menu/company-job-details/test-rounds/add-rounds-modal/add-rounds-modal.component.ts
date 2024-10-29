@@ -50,9 +50,7 @@ export class AddRoundsModalComponent {
   }
 
   ngOnInit(): void {
-    console.log("API call", this.RoundId);
     this.getRoundsById(this.RoundId);
-    console.log("Returned");
 
     // this.route.paramMap.subscribe((params) => {
     //   const id = params.get("roundsId");
@@ -98,6 +96,8 @@ export class AddRoundsModalComponent {
     });
   }
 
+  async onSubmit(): Promise<void> {}
+
   onClose(): void {
     this.dialogRef.close();
   }
@@ -119,12 +119,12 @@ export class AddRoundsModalComponent {
   //   console.log("Selected Priority:", this.selectedPriority);
   // }
 
-  async getInterviewRounds() {
-    this.apiInterviewRounds.getInterviewRounds().subscribe({
-      next: () => {},
-      error: () => {
-        console.error("error 404");
-      },
-    });
-  }
+  // async getInterviewRounds() {
+  //   this.apiInterviewRounds.getInterviewRounds().subscribe({
+  //     next: () => {},
+  //     error: () => {
+  //       console.error("error 404");
+  //     },
+  //   });
+  // }
 }

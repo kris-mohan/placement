@@ -3,7 +3,11 @@
     {{ roundId ? "Edit Rounds" : "Add Rounds" }}
   </h1>
 
-  <form [formGroup]="roundAddEditForm" class="form-content">
+  <form
+    [formGroup]="roundAddEditForm"
+    class="form-content"
+    (ngSubmit)="onSubmit()"
+  >
     <mat-dialog-content>
       <div class="form-container">
         <mat-card-content>
@@ -92,7 +96,7 @@
 
     <mat-dialog-actions class="mat-dialog-actions">
       <mat-card-actions>
-        <button mat-raised-button class="matbutton">
+        <button mat-raised-button class="matbutton" type="button">
           <p class="matName">Reset</p>
         </button>
         <button mat-raised-button class="matbutton" type="submit">
