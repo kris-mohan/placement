@@ -83,18 +83,6 @@
             <input matInput formControlName="Extra1" />
           </mat-form-field>
         </div>
-        <!-- <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label"></p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label></mat-label>
-            <input matInput formControlName="Extra1" />
-          </mat-form-field>
-        </div> -->
         <div
           fxFlex="100%"
           fxFlex.gt-md="33%"
@@ -124,27 +112,30 @@
           [formGroup]="addIndentForm"
           (ngSubmit)="onSubmitDiv()"
         >
-          <mat-grid-list
-            cols="2"
-            rowHeight="10:1"
-            class="grid"
-            formArrayName="itemsArray"
-          >
-            <mat-grid-tile
-              *ngFor="let item of itemsArray.controls; let i = index" [formGroupName]="i"
+          <div formArrayName="itemsArray">
+            <div
+              *ngFor="let item of itemsArray.controls; let i = index"
+              [formGroupName]="i"
+              class="item_container"
             >
-              <div class="input_div" fxFlex="90%">
-                <p class="grid-label">Required Item</p>
-                <mat-form-field appearance="outline" class="matFormField">
-                  <mat-label>Required Item</mat-label>
-                  <input matInput formControlName="requiredItem" />
-                </mat-form-field>
-                <p class="grid-label">Description</p>
-                <mat-form-field appearance="outline" class="matFormField">
-                  <mat-label>Description</mat-label>
-                  <input matInput formControlName="description" />
-                </mat-form-field>
-                <div>
+              <div class="input_div" fxFlex="95%">
+                <div class="input_div_input">
+                  <p class="grid-label">Required Item</p>
+                  <mat-form-field appearance="outline" class="matFormField">
+                    <mat-label>Required Item</mat-label>
+                    <input matInput formControlName="requiredItem" />
+                  </mat-form-field>
+                </div>
+
+                <div class="input_div_input">
+                  <p class="grid-label">Description</p>
+                  <mat-form-field appearance="outline" class="matFormField">
+                    <mat-label>Description</mat-label>
+                    <input matInput formControlName="description" />
+                  </mat-form-field>
+                </div>
+
+                <div class="input_div_btn">
                   <button
                     mat-raised-button
                     class="matbutton"
@@ -155,14 +146,13 @@
                   </button>
                 </div>
               </div>
-            </mat-grid-tile>
-          </mat-grid-list>
-          <!--  <button type="button" (click)="handleAddGrid()">Add Item</button>
-  <button type="submit">Submit</button> -->
+            </div>
+          </div>
         </form>
       </div>
     </mat-card-content>
   </mat-card>
+
   <mat-card-actions class="footer-actions">
     <button
       mat-raised-button

@@ -1,6 +1,7 @@
-import { Course } from './Course';
-import { Stream } from './Stream';
-import { Tblstudent } from './Tblstudent';
+import { Course } from "./Course";
+import { Stream } from "./Stream";
+import { StudentSemesterMark } from "./StudentSemesterMark";
+import { Tblstudent } from "./Tblstudent";
 
 export type Studentacademic = {
   length: number;
@@ -12,4 +13,5 @@ export type Studentacademic = {
   Course: Course;
   Stream: Stream;
   Student: Tblstudent;
+  StudentSemesterMarks: StudentSemesterMark[];
 };

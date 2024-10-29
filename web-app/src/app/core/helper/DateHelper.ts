@@ -3,3 +3,7 @@ import { format } from "date-fns/format";
 export const GetDateInYYYYMMDD = (date: Date): string => {
   return format(date, "yyyy-MM-dd");
 };
+
+export const GetDateForLabel = (date: Date): string => {
+  return format(date, "yyyy-MMM-dd");
+};

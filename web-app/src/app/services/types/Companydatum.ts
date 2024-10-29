@@ -1,3 +1,4 @@
+import { CampusCompany } from "./CampusCompany";
 import { Companydesignation } from "./Companydesignation";
 import { Companyindustry } from "./Companyindustry";
 import { Companytechnology } from "./Companytechnology";
@@ -39,6 +40,7 @@ export type Companydatum = {
   Jobpostings: Jobposting[];
   Logins: Login[];
   Paatashalaregistrations: Paatashalaregistration[];
+  CampusCompanies: CampusCompany;
 };
 
 export type PostCompanydatum = {

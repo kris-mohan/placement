@@ -57,22 +57,6 @@ builder.Services.AddAuthentication(opt =>
     });
 
 
-//builder.Services.AddEntityFrameworkMySQL()
-//           .AddDbContext<PaatashalacampusContext>(options =>
-//           {
-//             options.UseMySQL(builder.Configuration.GetConnectionString("PaatashalaCampusConnection"));
-//           });
-//builder.Services.AddEntityFrameworkMySQL()
-//           .AddDbContext<PaatashalacompanydbContext>(options =>
-//           {
-//             options.UseMySQL(builder.Configuration.GetConnectionString("PaatashalaCompanyConnection"));
-//           });
-//builder.Services.AddEntityFrameworkMySQL()
-//           .AddDbContext<PaatashalatrainingContext>(options =>
-//           {
-//             options.UseMySQL(builder.Configuration.GetConnectionString("PaatashalaTrainingConnection"));
-//           });
-
 
 builder.Services.AddEntityFrameworkMySQL()
            .AddDbContext<PlacementContext>(options =>
@@ -103,30 +87,6 @@ app.Run();
 static IEdmModel GetEdmModel()
 {
     ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
-
-    //modelBuilder.EntitySet<Calendarevent>("Calendarevent");
-    //modelBuilder.EntitySet<Invitation>("Invitation");
-    //modelBuilder.EntitySet<Jobposting>("Jobposting");
-    //modelBuilder.EntitySet<Jobpostingdetail>("Jobpostingdetail");
-    //modelBuilder.EntitySet<Studentplaced>("Studentplaced");
-    //modelBuilder.EntitySet<Tblstudent>("Tblstudent");
-    //modelBuilder.EntitySet<Campusregistration>("Campusregistration");
-    //modelBuilder.EntitySet<Studentregistartion>("Studentregistartion");
-
-    //modelBuilder.EntitySet<Companydatum>("Companydatum");
-    //modelBuilder.EntitySet<Companytechonology>("Companytechonology");
-    //modelBuilder.EntitySet<Paatashalaregistration>("Paatashalaregistration");
-    //modelBuilder.EntitySet<Role>("Role");
-    //modelBuilder.EntitySet<Technology>("Technology");
-    //modelBuilder.EntitySet<Industry>("Industry");
-    //modelBuilder.EntitySet<Companyindustry>("Companyindustry");
-    //modelBuilder.EntitySet<Login>("Login");
-    //modelBuilder.EntitySet<Companyregistration>("Companyregistration");
-
-    //modelBuilder.EntitySet<Trainer>("Trainer");
-    //modelBuilder.EntitySet<Trainerschedule>("Trainerschedule");
-    //modelBuilder.EntitySet<Trainingcourse>("Trainingcourse");
-    //modelBuilder.EntitySet<Trainingmodule>("Trainingmodule");
 
     modelBuilder.EntitySet<Calendarevent>("Calendarevent");
     modelBuilder.EntitySet<Campusregistration>("Campusregistration");
@@ -166,6 +126,12 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<IndentFormDynamicField>("IndentFormDynamicField");
     modelBuilder.EntitySet<Jobstudentstatus>("Jobstudentstatus");
     modelBuilder.EntitySet<StudentSkill>("StudentSkill");
+    modelBuilder.EntitySet<SkillType>("SkillType");
+    modelBuilder.EntitySet<Skill>("Skill");
+    modelBuilder.EntitySet<JobpostingSkill>("JobpostingSkill");
+    modelBuilder.EntitySet<CompanyJobBatch>("CompanyJobBatch");
+    modelBuilder.EntitySet<CompanyJobCourse>("CompanyJobCourse");
+    modelBuilder.EntitySet<StudentSemesterMark>("StudentSemesterMark");
     modelBuilder.EntitySet<Placements.DataAccess.Placement.Models.Stream>("Stream");
 
 

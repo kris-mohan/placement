@@ -7,7 +7,6 @@ import {
   FormArray,
   Validators,
 } from "@angular/forms";
-import { ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { CommonModule, Location } from "@angular/common";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -45,15 +44,10 @@ export class IndentRequirementsComponent {
     });
 
     this.itemsArray = this.addIndentForm.get("itemsArray") as FormArray;
-    // this.addInitialItems();
   }
 
   addIndentForm: FormGroup;
   itemsArray: FormArray;
-  // addInitialItems() {
-  //   this.itemsArray.push(this.createItemFormControl());
-  //   this.itemsArray.push(this.createItemFormControl());
-  // }
 
   createItemFormControl(): FormGroup {
     return this.fb.group({
@@ -67,9 +61,8 @@ export class IndentRequirementsComponent {
   }
 
   handleDeleteGrid(index: number): void {
-    // const length = this.itemsArray.length;
-    if (index >= 0 && index && this.itemsArray.length > 0) {
-      this.itemsArray.removeAt(index); // Removes the last item
+    if (index >= 0 && this.itemsArray.length > 0) {
+      this.itemsArray.removeAt(index);
     }
   }
 
@@ -88,49 +81,3 @@ export class IndentRequirementsComponent {
     this.location.back();
   }
 }
-// table-form.component.ts
-
-// import { Component, OnInit } from "@angular/core";
-// import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
-// @Component({
-//   selector: "app-table-form",
-//   templateUrl: "./table-form.component.html",
-//   styleUrls: ["./table-form.component.css"],
-// })
-// export class TableFormComponent implements OnInit {
-//   indentForm: FormGroup;
-
-//   constructor(private fb: FormBuilder) {}
-
-//   ngOnInit(): void {
-//     this.indentForm = this.fb.group({
-//       department: ["", Validators.required],
-//       address: ["", Validators.required],
-//       contactName: ["", Validators.required],
-//       designation: ["", Validators.required],
-//       phone: ["", [Validators.required, Validators.pattern("^[0-9]*$")]],
-//       email: ["", [Validators.required, Validators.email]],
-//     });
-//   }
-
-//   onSubmit(): void {
-//     if (this.indentForm.valid) {
-//       console.log(this.indentForm.value);
-//     }
-//   }
-// }
-// // app.module.ts
-
-// import { ReactiveFormsModule } from "@angular/forms";
-
-// @NgModule({
-//   declarations: [TableFormComponent],
-//   imports: [
-//     ReactiveFormsModule,
-//     // other modules
-//   ],
-//   providers: [],
-//   bootstrap: [AppComponent],
-// })
-// export class AppModule {}

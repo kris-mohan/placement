@@ -1,10 +1,11 @@
-import { Batch } from './Batch';
-import { Campusregistration } from './Campusregistration';
-import { JobpostingSelectedstudent } from './JobpostingSelectedstudent';
-import { JobpostingsEligiblestudent } from './JobpostingsEligibleStudent';
-import { JobpostStudentround } from './JobpostStudentround';
-import { Login } from './Login';
-import { Studentacademic } from './Studentacademic';
+import { Batch } from "./Batch";
+import { Campusregistration } from "./Campusregistration";
+import { JobpostingSelectedstudent } from "./JobpostingSelectedstudent";
+import { JobpostingsEligiblestudent } from "./JobpostingsEligibleStudent";
+import { JobpostStudentround } from "./JobpostStudentround";
+import { Login } from "./Login";
+import { Studentacademic } from "./Studentacademic";
+import { StudentSkill } from "./StudentSkill";
 
 export type Tblstudent = {
   Id: number;
@@ -28,4 +29,5 @@ export type Tblstudent = {
   Logins: Login[];
   Org: Campusregistration;
   Studentacademics: Studentacademic[];
+  StudentSkills: StudentSkill[];
 };

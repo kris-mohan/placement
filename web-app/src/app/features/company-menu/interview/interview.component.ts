@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  signal,
   ViewChild,
 } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
@@ -51,6 +52,7 @@ export class InterviewComponent {
     end: new FormControl(new Date(year, month, 16)),
   });
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  jobInterviewRounds = signal<Jobinterviewround[]>([]);
 
   companies: companyTableList[] = [];
 
@@ -156,19 +158,19 @@ export class InterviewComponent {
     { key: "Actions", label: "Actions" },
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
-  Getinterview = () => {
-    this.InterviewService.Getinterview().subscribe({
-      next: (response) => {
-        const data: Jobinterviewround[] = response.value;
-        console.log("rounds", data);
-        // this.RoundDataSource.data = data;
-        // console.log(this.RoundDataSource);
-      },
-      error: (error) => {
-        console.log("Error fetching rounds: ", error);
-      },
-    });
-  };
+  // Getinterview = () => {
+  //   this.InterviewService.Getinterview().subscribe({
+  //     next: (response) => {
+  //       const data: Jobinterviewround[] = response.value;
+  //       console.log("rounds", data);
+  //       // this.RoundDataSource.data = data;
+  //       // console.log(this.RoundDataSource);
+  //     },
+  //     error: (error) => {
+  //       console.log("Error fetching rounds: ", error);
+  //     },
+  //   });
+  // };
   companiesCard = [
     {
       Id: 1,
@@ -281,12 +283,32 @@ export class InterviewComponent {
       placedStudents: 140,
     },
   ];
+  GetJobInterviewRounds = () => {
+    this.InterviewService.GetJobInterviewRounds().subscribe({
+      next: (response) => {
+        console.log(response.value[0], "res");
+        const data = response.value;
+        const finalData: Jobinterviewround[] = [];
+        data.map((d) => {
+          finalData.push({
+            ...d,
+            Name: d.JobPosting.JobRole,
+          });
+        });
 
+        this.jobInterviewRounds.set(finalData);
+        console.log(this.jobInterviewRounds);
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
   ngOnInit() {
     // this.loadCompanies();
     // this.loadIndustries();
 
-    this.Getinterview();
+    this.GetJobInterviewRounds();
 
     this.dataSource.paginator = this.paginator;
 

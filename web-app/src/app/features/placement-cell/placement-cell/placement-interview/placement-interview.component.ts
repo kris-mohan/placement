@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  signal,
   ViewChild,
 } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
@@ -28,6 +29,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { provideNativeDateAdapter } from "@angular/material/core";
 import { interviewApiService } from "src/app/features/company-menu/interview/api.interview";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { GetDateForLabel } from "src/app/core/helper/DateHelper";
 // import * as XLSX from "xlsx";
 // import { jsPDF } from "jspdf";
 
@@ -55,6 +57,7 @@ export class PlacementInterviewComponent {
   });
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  jobInterviewRounds = signal<Jobinterviewround[]>([]);
 
   companies: companyTableList[] = [];
 
@@ -252,13 +255,16 @@ export class PlacementInterviewComponent {
     },
   ];
 
-  Getinterview = () => {
-    this.InterviewService.Getinterview().subscribe({
+  GetDateLabelByDate = (date?: Date) => {
+    return date ? GetDateForLabel(date) : "NA";
+  };
+
+  GetJobInterviewRounds = () => {
+    this.InterviewService.GetJobInterviewRounds().subscribe({
       next: (response) => {
         const data: Jobinterviewround[] = response.value;
-        console.log("rounds", data);
-        // this.RoundDataSource.data = data;
-        // console.log(this.RoundDataSource);
+        this.jobInterviewRounds.set(data);
+        console.log(this.jobInterviewRounds);
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);
@@ -269,7 +275,7 @@ export class PlacementInterviewComponent {
   ngOnInit() {
     // this.loadCompanies();
     // this.loadIndustries();
-    this.Getinterview();
+    this.GetJobInterviewRounds();
 
     this.dataSource.paginator = this.paginator;
 
@@ -536,102 +542,6 @@ export class PlacementInterviewComponent {
       ]);
     }
   }
-
-  scheduledInterviews = [
-    {
-      id: 1,
-      jobTitle: "Software Engineer",
-      company: "Google",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      status: "Upcoming",
-      jobDescription:
-        "We are seeking an experienced project manager to oversee our projects.",
-
-      roundName: "Test Assesment 1",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 2,
-      jobTitle: "Data Scientist",
-      company: "Facebook",
-      date: "2024-09-28",
-      status: "Upcoming",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "This is the first assessment to test the candidate's programming and problem-solving skills.",
-      roundName: "Test Assesment 2",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 3,
-      jobTitle: "Product Manager",
-      company: "Amazon",
-      date: "2024-09-27",
-      status: "Completed",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "The second assessment focuses on data science challenges and machine learning algorithms.",
-
-      roundName: "Test Assesment 3",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 4,
-      jobTitle: "Web Developer",
-      company: "Microsoft",
-      date: "2024-09-29",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "This assessment evaluates the candidate's ability to manage products and handle business cases.",
-
-      roundName: "Technical Interview",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 5,
-      jobTitle: "UI/UX Designer",
-      company: "Apple",
-      date: "2024-09-26",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "A technical interview to assess coding skills, system design, and problem-solving ability.",
-
-      roundName: "HR Interview",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 6,
-      jobTitle: "DevOps Engineer",
-      company: "ABB",
-      date: "2024-09-26",
-      status: "Completed",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription: "Use of Agile Technology to streamline operations",
-
-      roundName: "Aptitude Test",
-      studentsCleared: 45,
-      studentsRejected: 5,
-      logo: "company.logo",
-    },
-  ];
 
   jobSummary = [
     { jobTitle: "Software Engineer", studentsCount: 1 },
