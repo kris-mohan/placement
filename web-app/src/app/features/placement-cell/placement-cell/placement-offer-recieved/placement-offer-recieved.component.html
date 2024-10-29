@@ -333,7 +333,9 @@
   <div>
     <h3 class="heading1">
       Total offers Recieved :
-      <span style="color: slategray; font-size: 0.9rem"> 50 </span>
+      <span style="color: slategray; font-size: 0.9rem">
+        {{ JobpostingSelectedstudentData().length }}
+      </span>
     </h3>
   </div>
 
@@ -343,7 +345,7 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let job of jobsCard"
+      *ngFor="let job of JobpostingSelectedstudentData()"
       fxFlex="100%"
       fxFlex.gt-sm="100%"
       fxFlex.gt-md="45%"
@@ -353,7 +355,7 @@
       <div class="company-details">
         <div class="company-designation">
           <h3 class="heading1">
-            John Doe <br />
+            {{ job.Student.FirstName }} {{ job.Student.LastName }} <br />
             <span style="color: slategray; font-size: 0.9rem">
               4JN17EC109
             </span>
@@ -361,7 +363,7 @@
 
           <div>
             <img
-              [src]="job.logo"
+              src="../../../../../assets/images/Softserve-logo1.png"
               alt="Company Logo"
               class="company-logo"
               height="70%"
@@ -372,23 +374,38 @@
         </div>
         <div class="job-details-container">
           <div class="job-detail">
-            <span><strong>Batch:</strong> 2019</span>
-            <span><strong>Branch:</strong>Computer Science</span>
-            <span><strong>Company Name:</strong> {{ job.name }}</span>
-            <span><strong>Job Role:</strong>{{ job.title }}</span>
+            <span><strong>Batch:</strong> {{ job.Student.Batch.Name }}</span>
+            <span
+              ><strong>Branch:</strong>
+              <!-- {{
+                job.Student?.Studentacademics?.length > 0
+                  ? job.Student.Studentacademics[0]?.Course?.FullForm
+                  : "N/A"
+              }} -->
+              {{ job.Student.Studentacademics[0].Course.FullForm }}
+            </span>
+            <span
+              ><strong>Company Name:</strong>
+              {{ job.JobPosting.Company.Name }}</span
+            >
+            <span><strong>Job Role:</strong>{{ job.JobPosting.JobRole }}</span>
           </div>
           <div class="job-detail">
             <!-- <span><strong>Shift:</strong> {{ job.shift }}</span>
             <span><strong>Mode of Work:</strong> {{ job.modeOfWork }}</span>
             <span><strong>Job Type:</strong> {{ job.type }}</span> -->
-            <span><strong>Skills:</strong> {{ job.Skills }}</span>
-            <span><strong>Salary:</strong> {{ job.salary }}</span>
-            <span><strong>Location:</strong> {{ job.location }}</span>
-            <span><strong>Joining Date :</strong> 14/11/2024</span>
-            <span><strong>Induction Program Date :</strong> 17/11/2024</span>
+            <span
+              ><strong>Skills:</strong> {{ job.Student.StudentSkills }}</span
+            >
+            <span><strong>Salary:</strong> {{ job.JobPosting.Salary }}</span>
+            <span
+              ><strong>Location:</strong> {{ job.JobPosting.Location }}</span
+            >
+            <span><strong>Joining Date :</strong> {{ job.DateOfJoining }}</span>
+            <!-- <span><strong>Induction Program Date :</strong> 17/11/2024</span>
             <span
               ><strong>Training Period :</strong> 30/11/2024 - 30/1/2025</span
-            >
+            > -->
           </div>
         </div>
       </div>
