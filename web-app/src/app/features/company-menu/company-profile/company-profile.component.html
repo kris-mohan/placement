@@ -3,23 +3,23 @@
     <button
       mat-raised-button
       class="matbutton"
-      (click)="openEditCompanyProfile()"
-    >
+      (click)="openEditCompanyProfile()">
       <mat-icon class="maticon">add</mat-icon>
       <p class="matName">Add Details</p>
     </button>
   </div>
 
   <div class="heading">
-    <h2>Company Name</h2>
+    <!-- <h2>{{ CompanyProfileData().Name }}</h2> -->
+    <h2 *ngIf="CompanyProfileData() && CompanyProfileData().length > 0">
+      {{ CompanyProfileData()[0].Name }}
+    </h2>
+
     <h4>Company Sector</h4>
     <ul>
-      <li>Internet</li>
-      <li>Saas</li>
-      <li>Software Product</li>
-      <li>Unicorn</li>
-      <li>Private</li>
-      <li>Startup</li>
+      <li *ngFor="let industry of CompanyIndustriesData()">
+        {{ industry.Industry.Type }}
+      </li>
     </ul>
   </div>
   <div class="content">
@@ -29,27 +29,11 @@
         <div>
           <h3>About Company</h3>
           <div>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum alias
-              sequi officiis dolore aspernatur omnis ducimus quos, a atque, odio
-              perferendis doloremque. Ducimus dicta tempore expedita numquam
-              nulla quasi impedit.
+            <p *ngIf="CompanyProfileData() && CompanyProfileData()[0]?.About">
+              {{ CompanyProfileData()[0].About }}
             </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Distinctio ullam minus, libero est deleniti recusandae at
-              quibusdam ut minima, in pariatur autem quo voluptates esse dolore
-              velit! Fuga possimus doloremque esse aliquid dolore ex officiis?
-              Ducimus quos, adipisci eaque, ut accusamus vero et temporibus
-              corrupti quam saepe itaque quaerat impedit voluptatum officiis
-              excepturi placeat? Nulla ex esse consectetur incidunt porro,
-              deserunt, eum ut similique tempora placeat, culpa impedit quo
-              modi!
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam dolor
-              ut, incidunt optio accusamus autem facere animi laborum aliquid.
-              Similique?
+            <p *ngIf="CompanyProfileData() && !CompanyProfileData()[0]?.About">
+              No description available.
             </p>
           </div>
         </div>
@@ -58,19 +42,41 @@
         <h2>More Information</h2>
         <div>
           <div class="more_info_item">
-            <strong>Type : </strong> <span>Private</span>
+            <strong>Type : </strong>
+            <span>{{
+              CompanyProfileData()[0]?.IsActive ? 'Active' : 'Inactive'
+            }}</span>
           </div>
           <div class="more_info_item">
-            <strong>Founded : </strong> <span>2014 (10 yrs old)</span>
+            <strong>Founded: </strong>
+            <span
+              *ngIf="CompanyProfileData()[0]?.DateOfRegistration; else noDate">
+              {{ CompanyProfileData()[0].DateOfRegistration | date }}
+            </span>
+            <ng-template #noDate>Not Available</ng-template>
           </div>
           <div class="more_info_item">
-            <strong>Company Size : </strong> <span>1001-5000</span>
+            <strong>Company Size : </strong>
+            <span *ngIf="CompanyProfileData()[0]?.CompanySize">
+              {{ CompanyProfileData()[0].CompanySize }} Employees
+            </span>
+            <!-- <ng-template #noSize>Not Available</ng-template> -->
           </div>
+
           <div class="more_info_item">
-            <strong>Headquarters : </strong> <span>Bengaluru, India</span>
+            <strong>Headquarters : </strong>
+            <span *ngIf="CompanyProfileData()[0]?.HeadQuarters">
+              {{ CompanyProfileData()[0].HeadQuarters }}
+            </span>
+            <!-- <ng-template #noHQ>N/A</ng-template> -->
           </div>
+
           <div class="more_info_item">
-            <strong>Website : </strong> <span>http://qwertyiop</span>
+            <strong>Website : </strong>
+            <a [href]="CompanyProfileData()[0].Url" target="_blank">
+              <!-- {{ CompanyProfileData()[0].Url }} -->
+              Click here
+            </a>
           </div>
         </div>
       </div>
@@ -87,8 +93,7 @@
               title="Dummy YouTube Video"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
+              allowfullscreen></iframe>
           </div>
 
           <div class="resources-column">
@@ -97,8 +102,7 @@
               <a
                 href="../../../../assets/PaataashalaBrochure.pdf"
                 target="_blank"
-                class="resource-link"
-              >
+                class="resource-link">
                 <mat-icon>picture_as_pdf</mat-icon> View PPT
               </a>
             </div>
@@ -107,8 +111,7 @@
               <a
                 href="../../../../assets/PaataashalaBrochure.pdf"
                 target="_blank"
-                class="resource-link"
-              >
+                class="resource-link">
                 <mat-icon>description</mat-icon> View Document
               </a>
             </div>
@@ -117,8 +120,7 @@
               <a
                 href="../../../../assets/Shiva_Tandava_Stotram_Original_Powerful_Best_Trance_(youconvert.net).mp3"
                 target="_blank"
-                class="resource-link"
-              >
+                class="resource-link">
                 <mat-icon>volume_up</mat-icon> Listen to Audio
               </a>
             </div>
@@ -130,46 +132,11 @@
     <div class="right">
       <div class="feedback">
         <div class="feedback_card">
-          <h3>Associate Consultant in Bangalore / Bengaluru</h3>
-          <div>Full Time · <span>IT Consulting Department</span></div>
-
-          <h4>Likes</h4>
-          <div class="content">The work culture is very nice</div>
-
-          <h4>Dislikes</h4>
-          <div class="content">Sometimes work can be hectic</div>
-
-          <h4>Work Details</h4>
-          <div class="work-details">
-            <p>
-              <strong>Work days:</strong> Monday to Friday (Flexible Timings)
-            </p>
-            <p>
-              <strong>Work related travel:</strong> This job involves travel
-              within city.
-            </p>
-          </div>
-        </div>
-        <div class="feedback_card">
-          <h3>Associate Consultant in Bangalore / Bengaluru</h3>
-          <div>Full Time · <span>IT Consulting Department</span></div>
-
-          <h4>Likes</h4>
-          <div class="content">The work culture is very nice</div>
-
-          <h4>Dislikes</h4>
-          <div class="content">Sometimes work can be hectic</div>
-
-          <h4>Work Details</h4>
-          <div class="work-details">
-            <p>
-              <strong>Work days:</strong> Monday to Friday (Flexible Timings)
-            </p>
-            <p>
-              <strong>Work related travel:</strong> This job involves travel
-              within city.
-            </p>
-          </div>
+          <h3>Python Developer</h3>
+          <div><strong>Job Type:</strong> Full Time</div>
+          <div><strong>Location:</strong> IT Consulting Department</div>
+          <div><strong>Posted Date:</strong> October 28, 2024</div>
+          <div><strong>Experience:</strong> 2+ years</div>
         </div>
       </div>
     </div>

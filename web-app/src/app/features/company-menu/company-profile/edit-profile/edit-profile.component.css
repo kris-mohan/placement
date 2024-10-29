@@ -1,19 +1,25 @@
 .show-more-chip {
-  background-color: #f0f0f0; /* Light background */
-  color: #007bff; /* Blue text color */
-  font-weight: bold; /* Bold text */
-  border: 1px solid #007bff; /* Border to match the text color */
-  border-radius: 4px; /* Rounded corners */
+  background-color: #f0f0f0;
+  color: #007bff;
+  font-weight: bold;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+}
+
+.dialog-container {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .show-more-chip:hover {
-  background-color: #e0e0e0; /* Darker background on hover */
-  cursor: pointer; /* Pointer cursor on hover */
+  background-color: #e0e0e0;
+  cursor: pointer;
 }
 .button-row {
   display: flex;
-  justify-content: space-around; /* Align buttons with even space */
-  align-items: center; /* Vertically align content */
+  justify-content: space-around;
+  align-items: center;
   margin-top: 10px;
 }
 
@@ -41,17 +47,15 @@
 .buttonName {
   margin: 0;
 }
-.full-width {
-  width: 100%;
-}
 
 h4 {
   margin: 0 0 8px 0;
   font-weight: 500;
 }
 
-mat-form-field {
-  margin-bottom: 20px;
+.mat-form-field {
+  width: 100%;
+  height: auto;
 }
 
 @media (min-width: 600px) {

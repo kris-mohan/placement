@@ -1,3 +1,4 @@
+
 import { CampusCompany } from "./CampusCompany";
 import { Companydesignation } from "./Companydesignation";
 import { Companyindustry } from "./Companyindustry";
@@ -36,7 +37,7 @@ export type Companydatum = {
   UserRoleId: number;
   Companydesignations: Companydesignation[];
   Companytechnologies: Companytechnology[];
-  Companyindustires: Companyindustry[];
+  Companyindustries: Companyindustry[];
   Jobpostings: Jobposting[];
   Logins: Login[];
   Paatashalaregistrations: Paatashalaregistration[];
