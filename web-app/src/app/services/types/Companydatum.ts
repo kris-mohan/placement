@@ -73,3 +73,33 @@ export type PostCompanydatum = {
   AudioPath: string;
   UserRoleId: number;
 };
+
+export type PostCompanyProfileData = {
+  Id: number;
+  Url: string;
+  Name: string;
+  Email: string;
+  Password: string;
+  Address: string;
+  PhoneNumber: string;
+  Gstnumber: string;
+  ContactPerson: string;
+  AddressLine1: string;
+  City: string;
+  State: string;
+  ZipCode: string;
+  Country: string;
+  ParentCompanyId: number;
+  IsDeleted: number;
+  IsActive: number;
+  DateOfRegistration: Date | null;
+  CompanySize: number;
+  LogoPath: string;
+  About: string;
+  HeadQuarters: string;
+  VideoPath: string;
+  PresentationPath: string;
+  DocumentPath: string;
+  AudioPath: string;
+  UserRoleId: number;
+};
