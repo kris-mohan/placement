@@ -94,7 +94,7 @@
             </mat-form-field>
           </div>
 
-          <div
+          <!-- <div
             fxFlex="100%"
             fxFlex.gt-md="33%"
             fxFlex.gt-lg="25%"
@@ -106,7 +106,7 @@
               <mat-select
                 multiple
                 [(ngModel)]="selectedSkillTypeIds"
-                (ngModelChange)="onSkillTypeSelectionChange($event)"
+                 (ngModelChange)="onSkillTypeSelectionChange($event)" 
               >
                 @for (skillTypeName of SkillTypeNames(); track skillTypeName) {
                 <mat-option [value]="skillTypeName.Id">{{
@@ -115,7 +115,7 @@
                 }
               </mat-select>
             </mat-form-field>
-          </div>
+          </div> -->
 
           <div
             fxFlex="100%"

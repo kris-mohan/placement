@@ -93,16 +93,7 @@ export class TestRoundsComponent {
   }
 }
  
-  // async getAllRounds() {
-  //   try {
-  //     const response = await this.testRoundsApiService.GetAllRounds();
-  //     const data: Jobinterviewround[] = response.value;
-  //     this.RoundDataSource.data = data;
-  //     console.log(this.RoundDataSource);
-  //   } catch (error) {
-  //     console.error("Error fetching rounds: ", error);
-  //   }
-  // }
+  
 
   columns = [
     { key: "Id", label: "Round ID" },
@@ -123,9 +114,7 @@ export class TestRoundsComponent {
 
   handleAddEditRoundsClick(roundsId: number): void {
     console.log(roundsId);
-    // if (roundsId > 0) {
-    //   this.getRoundsById(roundsId);
-    // }
+    
 
     this.dialog.open(AddRoundsModalComponent, {
       data: roundsId,
