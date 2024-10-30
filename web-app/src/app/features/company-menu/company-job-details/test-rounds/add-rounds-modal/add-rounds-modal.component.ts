@@ -102,8 +102,6 @@ export class AddRoundsModalComponent {
     });
   }
 
-  async onSubmit(): Promise<void> {}
-
   onClose(): void {
     this.dialogRef.close();
   }

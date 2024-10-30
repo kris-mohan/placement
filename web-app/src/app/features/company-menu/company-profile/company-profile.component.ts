@@ -1,27 +1,27 @@
-import { Component, signal } from '@angular/core';
-import { AMGModules } from 'src/AMG-Module/AMG-module';
-import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder } from '@angular/forms';
-import { EditProfileComponent } from './edit-profile/edit-profile.component';
-import { MatTableDataSource } from '@angular/material/table';
-import { Companydatum } from 'src/app/services/types/Companydatum';
-import { CompanyProfileApiService } from './CompanyProfileApiService';
-import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { ActivatedRoute } from '@angular/router';
-import { Companyindustry } from 'src/app/services/types/Companyindustry';
-import { Jobposting } from 'src/app/services/types/Jobposting';
+import { Component, signal } from "@angular/core";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { MatDialog } from "@angular/material/dialog";
+import { FormBuilder } from "@angular/forms";
+import { EditProfileComponent } from "./edit-profile/edit-profile.component";
+import { MatTableDataSource } from "@angular/material/table";
+import { Companydatum } from "src/app/services/types/Companydatum";
+import { CompanyProfileApiService } from "./CompanyProfileApiService";
+import { CommonModule } from "@angular/common";
+import { SharedModule } from "src/app/shared/shared.module";
+import { ActivatedRoute } from "@angular/router";
+import { Companyindustry } from "src/app/services/types/Companyindustry";
+import { Jobposting } from "src/app/services/types/Jobposting";
 
 @Component({
-  selector: 'app-company-profile',
+  selector: "app-company-profile",
   standalone: true,
   imports: [AMGModules, CommonModule, SharedModule],
-  templateUrl: './company-profile.component.html',
-  styleUrl: './company-profile.component.css',
+  templateUrl: "./company-profile.component.html",
+  styleUrl: "./company-profile.component.css",
 })
 export class CompanyProfileComponent {
   companyData!: Companydatum;
-  companyID: string = '';
+  companyID: string = "";
   UserRoleId: number;
   sessionCompanyId: number;
   Id: number | null = null;
@@ -36,15 +36,15 @@ export class CompanyProfileComponent {
     private apiService: CompanyProfileApiService,
     private route: ActivatedRoute
   ) {
-    const storedUserRoleId = sessionStorage.getItem('userRoleId');
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
-    const storedCompanyId = sessionStorage.getItem('CompanyId');
+    const storedCompanyId = sessionStorage.getItem("CompanyId");
     this.sessionCompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
   }
 
   openEditCompanyProfile() {
     const dialogRef = this.dialog.open(EditProfileComponent, {
-      width: '65vw',
+      width: "65vw",
     });
     dialogRef.afterClosed();
   }
@@ -73,12 +73,12 @@ export class CompanyProfileComponent {
         this.CompanyProfileData.set(data);
         this.JobPostingData.set(data[0].Jobpostings);
         this.CompanyIndustriesData.set(data[0].Companyindustries);
-        console.log('Company Profile:', this.CompanyIndustriesData());
-        console.log('Company:', this.CompanyProfileData());
+        console.log("Company Profile:", this.CompanyIndustriesData());
+        console.log("Company:", this.CompanyProfileData());
       },
 
       error: (error) => {
-        console.error('Error fetching Company Data', error);
+        console.error("Error fetching Company Data", error);
       },
     });
   }

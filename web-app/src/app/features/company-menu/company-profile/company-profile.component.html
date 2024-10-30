@@ -18,7 +18,7 @@
     <h4>Company Sector</h4>
     <ul>
       <li *ngFor="let industry of CompanyIndustriesData()">
-        {{ industry.Industry.Type }}
+        {{ industry.Industry?.Type }}
       </li>
     </ul>
   </div>

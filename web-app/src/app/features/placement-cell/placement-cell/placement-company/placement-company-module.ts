@@ -1,7 +1,7 @@
 import { Companydatum } from "src/app/services/types/Companydatum";
 
 export const getCompanyIndustryTypes = (company: Companydatum): string => {
-  return company.Companyindustires?.map(
+  return company.Companyindustries?.map(
     (industry) => industry.Industry?.Type || ""
   )
     .filter((type) => type)
