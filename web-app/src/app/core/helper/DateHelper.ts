@@ -7,3 +7,7 @@ export const GetDateInYYYYMMDD = (date: Date): string => {
 export const GetDateForLabel = (date: Date): string => {
   return format(date, "yyyy-MMM-dd");
 };
+
+export const GetDate = (date: Date): string => {
+  return format(date, "dd-MM-yyyy");
+};
