@@ -1,3 +1,4 @@
+import { CompanyJobCourse } from "./CompanyJobCourse";
 import { Studentacademic } from "./Studentacademic";
 
 export type Course = {
@@ -5,4 +6,5 @@ export type Course = {
   Name?: string;
   FullForm?: string;
   Studentacademics: Studentacademic[];
+  CompanyJobCourses: CompanyJobCourse[];
 };

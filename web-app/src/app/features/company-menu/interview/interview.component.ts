@@ -292,7 +292,7 @@ export class InterviewComponent {
         data.map((d) => {
           finalData.push({
             ...d,
-            JobRole: d.JobPosting.JobRole,
+            Name: d.JobPosting.JobRole,
           });
         });
 

@@ -131,6 +131,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<JobpostingSkill>("JobpostingSkill");
     modelBuilder.EntitySet<CompanyJobBatch>("CompanyJobBatch");
     modelBuilder.EntitySet<CompanyJobCourse>("CompanyJobCourse");
+    modelBuilder.EntitySet<StudentSemesterMark>("StudentSemesterMark");
     modelBuilder.EntitySet<Placements.DataAccess.Placement.Models.Stream>("Stream");
 
 

@@ -29,12 +29,14 @@
             fxFlex.gt-sm="50%"
           >
             <p>College Name</p>
-            <mat-form-field>
+            <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Select College name</mat-label>
-              <mat-select>
-                <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
+              <mat-select multiple>
+                @for (collegeName of collegeNames(); track collegeName) {
+                <mat-option [value]="collegeName.Id">{{
+                  collegeName.CollegeName
+                }}</mat-option>
+                }
               </mat-select>
             </mat-form-field>
           </div>
@@ -46,12 +48,12 @@
             fxFlex.gt-sm="50%"
           >
             <p>Batch</p>
-            <mat-form-field>
+            <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Select Batch</mat-label>
-              <mat-select>
-                <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
+              <mat-select multiple>
+                @for (batch of BatchesNames(); track batch) {
+                <mat-option [value]="batch.Id">{{ batch.Name }}</mat-option>
+                }
               </mat-select>
             </mat-form-field>
           </div>
@@ -62,13 +64,74 @@
             fxFlex.gt-lg="25%"
             fxFlex.gt-sm="50%"
           >
-            <p>Branch</p>
-            <mat-form-field>
-              <mat-label>Select Branch</mat-label>
-              <mat-select>
-                <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
+            <p>Stream</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Select Stream</mat-label>
+              <mat-select multiple>
+                @for (stream of StreamNames(); track stream) {
+                <mat-option [value]="stream.Id">{{ stream.Name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Course</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Select Course</mat-label>
+              <mat-select multiple>
+                @for (course of CoursesNames(); track course) {
+                <mat-option [value]="course.Id">{{ course.Name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Skill Types</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Select Skill Types</mat-label>
+              <mat-select
+                multiple
+                [(ngModel)]="selectedSkillTypeIds"
+                (ngModelChange)="onSkillTypeSelectionChange($event)"
+              >
+                @for (skillTypeName of SkillTypeNames(); track skillTypeName) {
+                <mat-option [value]="skillTypeName.Id">{{
+                  skillTypeName.Name
+                }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Skills</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Select Skills</mat-label>
+              <mat-select multiple>
+                @for (skillName of SkillNames(); track skillName) {
+                <mat-option [value]="skillName.Id">{{
+                  skillName.Name
+                }}</mat-option>
+                }
               </mat-select>
             </mat-form-field>
           </div>

@@ -8,6 +8,7 @@ import { Technology } from "./Technology";
 import { JobpostingSkill } from "./JobpostingSkill";
 import { CompanyJobBatch } from "./CompanyJobBatch";
 import { CompanyJobCourse } from "./CompanyJobCourse";
+import { Jobinterviewpanel } from "./Jobinterviewpanel";
 
 export type Jobposting = {
   Id: number;
@@ -40,4 +41,5 @@ export type Jobposting = {
   JobpostingSkills?: JobpostingSkill[];
   CompanyJobBatches?: CompanyJobBatch[];
   CompanyJobCourses?: CompanyJobCourse[];
+  Jobinterviewpanels: Jobinterviewpanel[];
 };

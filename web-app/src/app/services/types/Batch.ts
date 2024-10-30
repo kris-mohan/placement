@@ -1,7 +1,9 @@
-import { Tblstudent } from './Tblstudent';
+import { CompanyJobBatch } from "./CompanyJobBatch";
+import { Tblstudent } from "./Tblstudent";
 
 export type Batch = {
   Id: number;
   Name: string;
   Tblstudents: Tblstudent[];
+  CompanyJobBatches: CompanyJobBatch[];
 };

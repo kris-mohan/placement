@@ -10,6 +10,4 @@ export type Jobinterviewround = {
   Priority?: number;
   JobPosting: Jobposting;
   JobpostStudentrounds: JobpostStudentround[];
-  Jobpostings: JobPostingList[];
-  JobRole?: string;
 };
