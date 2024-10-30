@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Placements.DataAccess.Placement.Models;
 
 namespace Placements.WebApi.Controllers.PlacementController
 {
-    [Route("odata/University")]
-    [ApiController]
-    public class OData_UniversityController : ControllerBase
+  [ApiController]
+  [Route("odata/University")]
+   
+    public class OData_UniversityController : ODataController
     {
         private readonly PlacementContext _context;
         public OData_UniversityController(PlacementContext context)

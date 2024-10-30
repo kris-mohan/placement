@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  signal,
   ViewChild,
 } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
@@ -28,6 +29,7 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { OfferManagementDetailsApiService } from "./api.offer-management-details";
 import { JobpostingSelectedstudent } from "src/app/services/types/JobpostingSelectedstudent";
 import { Companydatum } from "src/app/services/types/Companydatum";
+import { University } from "src/app/services/types/University";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -55,6 +57,9 @@ const year = today.getFullYear();
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OfferManagementComponent {
+  // universityTypes = signal<University[]>([]);
+  universityTypes: University[] = [];
+
   readonly campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
@@ -64,6 +69,11 @@ export class OfferManagementComponent {
   companyId: number;
 
   companies: companyTableList[] = [];
+
+  JobpostingSelectedstudentData = signal<JobpostingSelectedstudent[]>([]);
+  acceptedOffersCount: number = 0;
+  rejectedOffersCount: number = 0;
+  pendingOffersCount: number = 0;
 
   industries: Industry[] = [];
 
@@ -78,21 +88,41 @@ export class OfferManagementComponent {
     "10001+ Employees",
   ];
 
+  offers: JobpostingSelectedstudent[] = [];
+
   getAllOffers = () => {
-    this.companyId = 1;
     this.offerManagementDetailsApiService
       .GetAllOffers(this.companyId, this.filterObject)
       .subscribe({
         next: (response) => {
-          const data: Companydatum[] = response.value;
+          const data: JobpostingSelectedstudent[] = response.value;
           console.log("Selected Students", data);
-          // this.RoundDataSource.data = data;
-          // console.log(this.RoundDataSource);
+          this.JobpostingSelectedstudentData.set(data);
+          this.offers = data;
+          this.calculateAcceptedOffers();
+          this.calculateRejectedOffer();
+          this.calculatePendingOffer();
         },
         error: (error) => {
           console.log("Error fetching rounds: ", error);
         },
       });
+  };
+
+  getAllUniversities = () => {
+    this.offerManagementDetailsApiService.GetAllUniversities().subscribe({
+      next: (response) => {
+        const data: University[] = response;
+        console.log("University Types", data);
+
+        // this.universityTypes.set(data);
+        // console.log(this.universityTypes());
+        this.universityTypes = data;
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
   };
 
   experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
@@ -108,11 +138,7 @@ export class OfferManagementComponent {
   searchCity: string = "";
   searchIndustry: string = "";
   UserRoleId: number;
-  universityTypes: string[] = [
-    "Visvesvaraya Technological University (VTU)",
-    "Deemed University",
-    "Autonomous University",
-  ];
+
   colleges: string[] = [
     "East West Institute of Technology",
     "East West College of Engineering",
@@ -298,105 +324,105 @@ export class OfferManagementComponent {
     },
   ];
 
-  offers = [
-    {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
-    },
-    {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
-    },
-    {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
-    },
-    {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
-    },
-    {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
-    },
-    {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
-    },
-    {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
-    },
-    {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
-    },
-    {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
-    },
-    {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
-    },
-    {
-      candidateName: "John Doe",
-      company: "Tech Solutions",
-      position: "Software Engineer",
-      sentDate: new Date("2023-08-01"),
-      status: "Pending",
-      expiryDate: new Date("2023-09-01"),
-    },
-    {
-      candidateName: "Jane Smith",
-      company: "Business Corp",
-      position: "Product Manager",
-      sentDate: new Date("2023-07-15"),
-      status: "Accepted",
-      expiryDate: new Date("2023-08-15"),
-    },
-    // Add more offers as needed
-  ];
+  // offers = [
+  //   {
+  //     candidateName: "John Doe",
+  //     company: "Tech Solutions",
+  //     position: "Software Engineer",
+  //     sentDate: new Date("2023-08-01"),
+  //     status: "Pending",
+  //     expiryDate: new Date("2023-09-01"),
+  //   },
+  //   {
+  //     candidateName: "Jane Smith",
+  //     company: "Business Corp",
+  //     position: "Product Manager",
+  //     sentDate: new Date("2023-07-15"),
+  //     status: "Accepted",
+  //     expiryDate: new Date("2023-08-15"),
+  //   },
+  //   {
+  //     candidateName: "John Doe",
+  //     company: "Tech Solutions",
+  //     position: "Software Engineer",
+  //     sentDate: new Date("2023-08-01"),
+  //     status: "Pending",
+  //     expiryDate: new Date("2023-09-01"),
+  //   },
+  //   {
+  //     candidateName: "Jane Smith",
+  //     company: "Business Corp",
+  //     position: "Product Manager",
+  //     sentDate: new Date("2023-07-15"),
+  //     status: "Accepted",
+  //     expiryDate: new Date("2023-08-15"),
+  //   },
+  //   {
+  //     candidateName: "John Doe",
+  //     company: "Tech Solutions",
+  //     position: "Software Engineer",
+  //     sentDate: new Date("2023-08-01"),
+  //     status: "Pending",
+  //     expiryDate: new Date("2023-09-01"),
+  //   },
+  //   {
+  //     candidateName: "Jane Smith",
+  //     company: "Business Corp",
+  //     position: "Product Manager",
+  //     sentDate: new Date("2023-07-15"),
+  //     status: "Accepted",
+  //     expiryDate: new Date("2023-08-15"),
+  //   },
+  //   {
+  //     candidateName: "John Doe",
+  //     company: "Tech Solutions",
+  //     position: "Software Engineer",
+  //     sentDate: new Date("2023-08-01"),
+  //     status: "Pending",
+  //     expiryDate: new Date("2023-09-01"),
+  //   },
+  //   {
+  //     candidateName: "Jane Smith",
+  //     company: "Business Corp",
+  //     position: "Product Manager",
+  //     sentDate: new Date("2023-07-15"),
+  //     status: "Accepted",
+  //     expiryDate: new Date("2023-08-15"),
+  //   },
+  //   {
+  //     candidateName: "John Doe",
+  //     company: "Tech Solutions",
+  //     position: "Software Engineer",
+  //     sentDate: new Date("2023-08-01"),
+  //     status: "Pending",
+  //     expiryDate: new Date("2023-09-01"),
+  //   },
+  //   {
+  //     candidateName: "Jane Smith",
+  //     company: "Business Corp",
+  //     position: "Product Manager",
+  //     sentDate: new Date("2023-07-15"),
+  //     status: "Accepted",
+  //     expiryDate: new Date("2023-08-15"),
+  //   },
+  //   {
+  //     candidateName: "John Doe",
+  //     company: "Tech Solutions",
+  //     position: "Software Engineer",
+  //     sentDate: new Date("2023-08-01"),
+  //     status: "Pending",
+  //     expiryDate: new Date("2023-09-01"),
+  //   },
+  //   {
+  //     candidateName: "Jane Smith",
+  //     company: "Business Corp",
+  //     position: "Product Manager",
+  //     sentDate: new Date("2023-07-15"),
+  //     status: "Accepted",
+  //     expiryDate: new Date("2023-08-15"),
+  //   },
+  //   // Add more offers as needed
+  // ];
 
   filterObject: FilterObject = {
     Status: 0,
@@ -406,11 +432,31 @@ export class OfferManagementComponent {
     College: 0,
   };
 
+  calculateAcceptedOffers() {
+    this.acceptedOffersCount = this.offers.filter(
+      (offer) => offer.HasAcceptedOffer === 1
+    ).length;
+  }
+
+  calculateRejectedOffer() {
+    this.rejectedOffersCount = this.offers.filter(
+      (offer) => offer.HasAcceptedOffer === 0
+    ).length;
+  }
+
+  calculatePendingOffer() {
+    this.pendingOffersCount = this.offers.filter(
+      (offer) => offer.HasAcceptedOffer === null
+    ).length;
+  }
+
   ngOnInit() {
     // this.loadCompanies();
     // this.loadIndustries();
 
     this.getAllOffers();
+
+    this.getAllUniversities();
 
     this.dataSource.paginator = this.paginator;
 
@@ -497,6 +543,7 @@ export class OfferManagementComponent {
       },
     });
   }
+
   openAddEditCompanyForm(id?: number) {
     if (id !== null && id !== undefined) {
       this.router.navigate(["/company-configuration/company", id]);
