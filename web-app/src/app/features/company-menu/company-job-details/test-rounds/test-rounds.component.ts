@@ -12,7 +12,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { TestRoundsApiService } from "./TestRoundsApiService";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 
-
 @Component({
   selector: "app-test-rounds",
   standalone: true,
@@ -56,6 +55,54 @@ export class TestRoundsComponent {
     });
   };
 
+  loadRounds() {
+    this.testRoundsApiService.GetAllRounds().subscribe({
+      next: (response) => {
+        const data: Jobinterviewround[] = response.value;
+        this.RoundDataSource.data = data;
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  }
+ async deleteCompany(id: number) {
+  // Confirm deletion with the user
+  const confirmed = await this.sweetAlertService.confirmDelete(
+    "Do you really want to delete this Company?"
+  );
+
+  if (confirmed) {
+    this.testRoundsApiService.deleteRound(id).subscribe({
+      next: (response: { success: boolean; message: string }) => {
+        if (response.success) {
+          this.sweetAlertService.success(response.message);
+          this.loadRounds(); 
+        } else {
+          
+          this.sweetAlertService.error(response.message);
+        }
+      },
+      error: (error) => {
+        this.sweetAlertService.error(
+          "An unexpected error occurred while deleting the Company."
+        );
+        console.error("Error deleting Company:", error);
+      },
+    });
+  }
+}
+ 
+  // async getAllRounds() {
+  //   try {
+  //     const response = await this.testRoundsApiService.GetAllRounds();
+  //     const data: Jobinterviewround[] = response.value;
+  //     this.RoundDataSource.data = data;
+  //     console.log(this.RoundDataSource);
+  //   } catch (error) {
+  //     console.error("Error fetching rounds: ", error);
+  //   }
+  // }
 
   columns = [
     { key: "Id", label: "Round ID" },
@@ -88,5 +135,5 @@ export class TestRoundsComponent {
   }
 
   openAddEditRoundsForm(roundsId?: number): void {}
-  deleteRounds(roundsId?: number): void {}
+  deleteRound(roundsId?: number): void {}
 }

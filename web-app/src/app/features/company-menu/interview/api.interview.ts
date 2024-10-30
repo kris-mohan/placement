@@ -20,6 +20,7 @@ export class interviewApiService {
       "/Jobinterviewround?expand=JobPosting(expand=Company)"
     );
   }
+  
 
   // GetJobInterviewRounds1(): Observable<ODataEntity<Jobinterviewround[]>> {
   //   // return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(

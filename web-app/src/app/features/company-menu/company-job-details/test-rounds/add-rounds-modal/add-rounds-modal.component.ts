@@ -5,7 +5,7 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from "@angular/material/dialog";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -14,6 +14,8 @@ import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { TestRoundsApiService } from "../TestRoundsApiService";
 import { MatTableDataSource } from "@angular/material/table";
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import { interviewRounds } from "./add-rounds-modal.model";
 
 @Component({
   selector: "app-add-rounds-modal",
@@ -27,11 +29,14 @@ export class AddRoundsModalComponent {
   selectedPriority: string = "";
   roundId: number;
   roundAddEditForm: FormGroup;
+  jobPostingId: number;
 
   constructor(
     private apiInterviewRounds: InterviewRoundsAPIService,
     public dialogRef: MatDialogRef<AddRoundsModalComponent>,
     private route: ActivatedRoute,
+    private router: Router,
+    private sweetAlertService: SweetAlertService,
     private testRoundsApiService: TestRoundsApiService,
     @Inject(MAT_DIALOG_DATA) public RoundId: any,
     private fb: FormBuilder
@@ -39,6 +44,7 @@ export class AddRoundsModalComponent {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
     this.roundId = this.RoundId;
+    this.jobPostingId = this.RoundId;
 
     this.roundAddEditForm = this.fb.group({
       Name: "",
@@ -119,12 +125,48 @@ export class AddRoundsModalComponent {
   //   console.log("Selected Priority:", this.selectedPriority);
   // }
 
-  // async getInterviewRounds() {
-  //   this.apiInterviewRounds.getInterviewRounds().subscribe({
-  //     next: () => {},
-  //     error: () => {
-  //       console.error("error 404");
-  //     },
-  //   });
-  // }
+  async getInterviewRounds() {
+    this.apiInterviewRounds.getInterviewRounds().subscribe({
+      next: () => {},
+      error: () => {
+        console.error("error 404");
+      },
+    });
+  }
+  async onSubmit() {
+    const companyData: Partial<interviewRounds> = this.roundAddEditForm.value;
+    const isUpdate = !!this.roundId;
+    const actionText = isUpdate ? "update" : "add";
+    const confirmed = await this.sweetAlertService.confirm(
+      `Do you want to ${actionText} this company?`
+    );
+
+    if (confirmed) {
+      const companydatum: any = {
+        Id: this.roundId ?? 0,
+        // JobPostingId: this.jobPostingId ?? "",
+        Name: companyData.Name ?? "",
+        Description: companyData.Description ?? "",
+        Priority: companyData.Priority ?? "",
+      };
+      this.apiInterviewRounds
+        .addInterviewRounds(this.roundId, companydatum)
+        .subscribe({
+          next: (response: { success: boolean; message: any }) => {
+            console.log(response);
+            if (response.success) {
+              this.sweetAlertService.success(response.message);
+              this.router.navigate([
+                "/company-job-details/add-edit-jobPosting/",
+              ]);
+            } else {
+              this.sweetAlertService.error(response.message);
+            }
+          },
+          error: (error) => {
+            this.sweetAlertService.error("An unexpected error occurred.");
+          },
+        });
+    }
+  }
 }
