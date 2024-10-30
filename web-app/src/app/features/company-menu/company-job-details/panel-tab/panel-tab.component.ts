@@ -7,6 +7,7 @@ import { AddEditPanelModalComponent } from "./add-edit-panel-modal/add-edit-pane
 import { MatTableDataSource } from "@angular/material/table";
 import { Jobinterviewpanel } from "src/app/services/types/Jobinterviewpanel";
 import { PanelAPIService } from "./panel.apiservice";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 
 @Component({
   selector: "app-panel-tab",
@@ -16,12 +17,16 @@ import { PanelAPIService } from "./panel.apiservice";
   styleUrl: "./panel-tab.component.css",
 })
 export class PanelTabComponent {
-  constructor(private location: Location, private panelAPIService: PanelAPIService) {}
+  constructor(
+    private location: Location,
+    private panelAPIService: PanelAPIService,
+    private sweetAlertService: SweetAlertService
+  ) {}
 
   readonly dialog = inject(MatDialog);
   columns = [
     { key: "Id", label: "Panel ID" },
-    { key: "JobPostingId", label: "Job Posting ID"},
+    { key: "JobPostingId", label: "Job Posting ID" },
     { key: "PanelName", label: "Panel Name" },
     { key: "Description", label: "Description" },
     { key: "Designation", label: "Designation" },
@@ -43,7 +48,6 @@ export class PanelTabComponent {
     this.location.back();
   }
 
-
   GetAllPanelData = () => {
     this.panelAPIService.GetAllPanelData().subscribe({
       next: (response) => {
@@ -57,13 +61,52 @@ export class PanelTabComponent {
       },
     });
   };
+  loadRounds() {
+    this.panelAPIService.GetAllPanelData().subscribe({
+      next: (response) => {
+        const data: Jobinterviewpanel[] = response.value;
+        console.log("Jobinterviewpanel", data);
+        this.JobInterviewPanelDataSource.data = data;
+        console.log(this.JobInterviewPanelDataSource);
+      },
+      error: (error) => {
+        console.log("Error fetching panels: ", error);
+      },
+    });
+  }
 
-  ngOnInit()
-  {
+  async deleteCompany(id: number) {
+    // Confirm deletion with the user
+    const confirmed = await this.sweetAlertService.confirmDelete(
+      "Do you really want to delete this Company?"
+    );
+
+    if (confirmed) {
+      this.panelAPIService.DeletePanel(id).subscribe({
+        next: (response: { success: boolean; message: string }) => {
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+            this.loadRounds();
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error(
+            "An unexpected error occurred while deleting the Company."
+          );
+          console.error("Error deleting Company:", error);
+        },
+      });
+    }
+  }
+  ngOnInit() {
     this.GetAllPanelData();
   }
-  handleAddPanelClick(): void {
+  handleAddPanelClick(roundsId: number): void {
+   
     this.dialog.open(AddEditPanelModalComponent, {
+      data: roundsId,
       width: "500px",
       height: "600px",
     });

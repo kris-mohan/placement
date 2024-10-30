@@ -14,7 +14,7 @@
           <button
             mat-raised-button
             class="matbutton"
-            (click)="handleAddPanelClick()"
+            (click)="handleAddPanelClick(0)"
           >
             <mat-icon class="maticon">add</mat-icon>
             <p class="matButtonText">Add Panel</p>
@@ -24,7 +24,11 @@
     </div>
   </mat-card-header>
   <mat-card-content>
-    <table mat-table [dataSource]="JobInterviewPanelDataSource" class="mat-elevation-z8">
+    <table
+      mat-table
+      [dataSource]="JobInterviewPanelDataSource"
+      class="mat-elevation-z8"
+    >
       <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
         <th mat-header-cell *matHeaderCellDef>
           <ng-container [ngSwitch]="column.key">
@@ -36,10 +40,13 @@
           <ng-container [ngSwitch]="column.key">
             <ng-container *ngSwitchCase="'Actions'">
               <div class="td-mat-button">
-                <button mat-icon-button (click)="handleAddPanelClick()">
+                <button
+                  mat-icon-button
+                  (click)="handleAddPanelClick(element.Id)"
+                >
                   <mat-icon> edit </mat-icon>
                 </button>
-                <button mat-icon-button (click)="deletePanel(element.Id)">
+                <button mat-icon-button (click)="deleteCompany(element.Id)">
                   <mat-icon> delete </mat-icon>
                 </button>
               </div>

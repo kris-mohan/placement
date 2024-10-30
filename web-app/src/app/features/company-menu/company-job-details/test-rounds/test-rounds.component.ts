@@ -66,8 +66,7 @@ export class TestRoundsComponent {
       },
     });
   }
-
-  async deleteCompany(id: number) {
+ async deleteCompany(id: number) {
   // Confirm deletion with the user
   const confirmed = await this.sweetAlertService.confirmDelete(
     "Do you really want to delete this Company?"
@@ -93,6 +92,7 @@ export class TestRoundsComponent {
     });
   }
 }
+ 
   // async getAllRounds() {
   //   try {
   //     const response = await this.testRoundsApiService.GetAllRounds();
@@ -135,5 +135,5 @@ export class TestRoundsComponent {
   }
 
   openAddEditRoundsForm(roundsId?: number): void {}
-  deleteRounds(roundsId?: number): void {}
+  deleteRound(roundsId?: number): void {}
 }
