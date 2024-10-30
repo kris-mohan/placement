@@ -43,6 +43,16 @@ public partial class Jobposting
 
     public DateTime? DriveDate { get; set; }
 
+    public decimal? MinSslcpercentage { get; set; }
+
+    public decimal? MinPucpercentage { get; set; }
+
+    public decimal? MinCgpa { get; set; }
+
+    public int? BacklogsAllowed { get; set; }
+
+    public DateTime? PostedDate { get; set; }
+
     public virtual ICollection<Collegejobposting> Collegejobpostings { get; set; } = new List<Collegejobposting>();
 
     public virtual ICollection<Collegejobpostingschedule> Collegejobpostingschedules { get; set; } = new List<Collegejobpostingschedule>();

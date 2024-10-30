@@ -111,7 +111,7 @@ public partial class PlacementContext : DbContext
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
- //       => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
+//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -164,6 +164,8 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("campusregistration");
 
+            entity.HasIndex(e => e.ParentCampusId, "FK_Campus_Campus_idx");
+
             entity.HasIndex(e => e.UniversityId, "FK_Campus_University_idx");
 
             entity.Property(e => e.Address).HasMaxLength(100);
@@ -182,6 +184,10 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.PlacementOfficerName).HasMaxLength(50);
             entity.Property(e => e.State).HasMaxLength(100);
             entity.Property(e => e.ZipCode).HasMaxLength(100);
+
+            entity.HasOne(d => d.ParentCampus).WithMany(p => p.InverseParentCampus)
+                .HasForeignKey(d => d.ParentCampusId)
+                .HasConstraintName("FK_Campus_Campus");
 
             entity.HasOne(d => d.University).WithMany(p => p.Campusregistrations)
                 .HasForeignKey(d => d.UniversityId)
@@ -288,6 +294,7 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.AddressLine1).HasMaxLength(50);
             entity.Property(e => e.AudioPath).HasMaxLength(255);
             entity.Property(e => e.City).HasMaxLength(50);
+            entity.Property(e => e.CompanyType).HasMaxLength(45);
             entity.Property(e => e.ContactPerson).HasMaxLength(50);
             entity.Property(e => e.Country).HasMaxLength(50);
             entity.Property(e => e.DateOfRegistration).HasColumnType("datetime");
@@ -542,11 +549,21 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
-            entity.Property(e => e.JobDescription).HasMaxLength(50);
+            entity.Property(e => e.JobDescription).HasMaxLength(15000);
             entity.Property(e => e.JobRole).HasMaxLength(50);
             entity.Property(e => e.JobType).HasMaxLength(50);
             entity.Property(e => e.Location).HasMaxLength(255);
+            entity.Property(e => e.MinCgpa)
+                .HasPrecision(10)
+                .HasColumnName("MinCGPA");
+            entity.Property(e => e.MinPucpercentage)
+                .HasPrecision(10)
+                .HasColumnName("MinPUCPercentage");
+            entity.Property(e => e.MinSslcpercentage)
+                .HasPrecision(10)
+                .HasColumnName("MinSSLCPercentage");
             entity.Property(e => e.ModeOfWork).HasMaxLength(45);
+            entity.Property(e => e.PostedDate).HasColumnType("datetime");
             entity.Property(e => e.Salary).HasPrecision(10);
             entity.Property(e => e.Shift).HasMaxLength(45);
             entity.Property(e => e.ValidFrom).HasColumnType("datetime");
@@ -588,6 +605,8 @@ public partial class PlacementContext : DbContext
             entity.HasIndex(e => e.StudentId, "FK_jobposting_selectedstudents_Student_idx");
 
             entity.Property(e => e.DateOfJoining).HasColumnType("datetime");
+            entity.Property(e => e.OfferLetterExpiryDate).HasColumnType("datetime");
+            entity.Property(e => e.OfferLetterSentDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.JobPosting).WithMany(p => p.JobpostingSelectedstudents)
                 .HasForeignKey(d => d.JobPostingId)

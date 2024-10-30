@@ -15,6 +15,10 @@ public partial class JobpostingSelectedstudent
 
     public DateTime? DateOfJoining { get; set; }
 
+    public DateTime? OfferLetterSentDate { get; set; }
+
+    public DateTime? OfferLetterExpiryDate { get; set; }
+
     public virtual Jobposting? JobPosting { get; set; }
 
     public virtual Tblstudent? Student { get; set; }
