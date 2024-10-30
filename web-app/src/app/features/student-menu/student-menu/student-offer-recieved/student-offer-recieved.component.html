@@ -14,15 +14,11 @@
           <div>
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Salary Range</mat-label>
-              <mat-select
-                [formControl]="industryControl"
-                multiple
-                (openedChange)="onIndustryDropdownOpen()"
-              >
-                <mat-select-trigger>
+              <mat-select [formControl]="salaryControl" multiple>
+                <!-- <mat-select-trigger>
                   {{ selectedIndustries }}
-                </mat-select-trigger>
-                <mat-form-field appearance="outline">
+                </mat-select-trigger> -->
+                <!-- <mat-form-field appearance="outline">
                   <input
                     class="full-width"
                     matInput
@@ -30,18 +26,18 @@
                     (ngModelChange)="filterIndustries($event)"
                     placeholder="Search"
                   />
-                </mat-form-field>
-                <mat-option *ngIf="!filteredIndustries.length" disabled
+                </mat-form-field> -->
+                <!-- <mat-option *ngIf="!filteredIndustries.length" disabled
                   >No options</mat-option
-                >
+                > -->
                 <mat-option
-                  *ngFor="let industry of filteredIndustries"
-                  [value]="industry.Type"
+                  *ngFor="let salary of salaryOptions"
+                  [value]="salary"
                 >
-                  {{ industry.Type }}
+                  {{ salary }}
                 </mat-option>
 
-                <mat-dialog-actions class="mat-dialog-actions">
+                <!-- <mat-dialog-actions class="mat-dialog-actions">
                   <button
                     mat-button
                     mat-dialog-close
@@ -56,7 +52,7 @@
                   >
                     <p class="matName">Show results</p>
                   </button>
-                </mat-dialog-actions>
+                </mat-dialog-actions> -->
               </mat-select>
             </mat-form-field>
           </div>
@@ -120,7 +116,7 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let job of jobsCard"
+      *ngFor="let job of JobpostingSelectedstudentData()"
       fxFlex="100%"
       fxFlex.gt-sm="100%"
       fxFlex.gt-md="45%"
@@ -130,15 +126,15 @@
       <div class="company-details">
         <div class="company-designation">
           <h3 class="heading1">
-            {{ job.name }} <br />
+            {{ job.JobPosting.Company.Name }} <br />
             <span style="color: slategray; font-size: 0.9rem">
-              {{ job.title }}
+              {{ job.JobPosting.JobRole }}
             </span>
           </h3>
 
           <div>
             <img
-              [src]="job.logo"
+              [src]="job.JobPosting.Company.LogoPath"
               alt="Company Logo"
               class="company-logo"
               height="70%"
@@ -149,19 +145,24 @@
         </div>
         <div class="job-details-container">
           <div class="job-detail">
-            <span><strong>Shift :</strong> {{ job.shift }}</span>
-            <span><strong>Skills :</strong> {{ job.Skills }}</span>
-            <span><strong>Salary :</strong> {{ job.salary }}</span>
-            <span><strong>Location :</strong> {{ job.location }}</span>
+            <span><strong>Shift :</strong> {{ job.JobPosting.Shift }}</span>
+            <!-- <span><strong>Skills :</strong> {{ job.Skills }}</span> -->
+            <span><strong>Salary :</strong> {{ job.JobPosting.Salary }}</span>
+            <span
+              ><strong>Location :</strong> {{ job.JobPosting.Location }}</span
+            >
           </div>
           <div class="job-detail">
-            <span><strong>Mode of Work :</strong> {{ job.modeOfWork }}</span>
+            <span
+              ><strong>Mode of Work :</strong>
+              {{ job.JobPosting.ModeOfWork }}</span
+            >
 
             <span><strong>Joining Date :</strong> 14/11/2024</span>
-            <span><strong>Induction Program Date :</strong> 17/11/2024</span>
+            <!-- <span><strong>Induction Program Date :</strong> 17/11/2024</span>
             <span
               ><strong>Training Period :</strong> 30/11/2024 - 30/1/2025</span
-            >
+            > -->
           </div>
         </div>
       </div>

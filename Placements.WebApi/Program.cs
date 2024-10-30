@@ -133,6 +133,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<CompanyJobCourse>("CompanyJobCourse");
     modelBuilder.EntitySet<StudentSemesterMark>("StudentSemesterMark");
     modelBuilder.EntitySet<Placements.DataAccess.Placement.Models.Stream>("Stream");
+    modelBuilder.EntitySet<University>("University");
 
 
     return modelBuilder.GetEdmModel();

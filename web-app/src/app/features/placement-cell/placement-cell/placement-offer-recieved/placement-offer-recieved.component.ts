@@ -1,5 +1,5 @@
 import { CommonModule, Location } from "@angular/common";
-import { Component, inject, ViewChild } from "@angular/core";
+import { Component, inject, signal, ViewChild } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatDialog } from "@angular/material/dialog";
@@ -19,10 +19,26 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { ODataResponse } from "../eligible-students-list/eligible-students-list.component";
 import { PlacementInterviewAdditionalFilterComponent } from "../placement-interview/placement-interview-additional-filter/placement-interview-additional-filter.component";
 import { MatTableDataSource } from "@angular/material/table";
+import { JobpostingSelectedstudent } from "src/app/services/types/JobpostingSelectedstudent";
+import { PlacementOfferRecievedApiService } from "./api.placement-offer-recieved";
 
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
+
+// export interface Job {
+//   logo: string; // URL to the company logo (add this to your data source if available)
+//   name: string; // Company name
+//   title: string; // Job role
+//   skills: string; // Skills required
+//   salary: number; // Salary
+//   location: string; // Job location
+//   batch: string; // Batch year
+//   branch: string; // Branch (if available)
+//   joiningDate: string; // Joining date
+//   inductionDate: string; // Induction date
+//   trainingPeriod: string; // Training period
+// }
 
 @Component({
   selector: "app-placement-offer-recieved",
@@ -37,7 +53,8 @@ export class PlacementOfferRecievedComponent {
     private sweetAlertService: SweetAlertService,
     private location: Location,
     private apiCompanyService: CompanyAPIService,
-    private apiIndustryService: IndustryAPIService
+    private apiIndustryService: IndustryAPIService,
+    private placementOfferRecievedApiService: PlacementOfferRecievedApiService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -46,6 +63,27 @@ export class PlacementOfferRecievedComponent {
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
   });
+
+  // jobsCard = signal<JobpostingSelectedstudent[]>([]);
+
+  // jobsCard = [];
+
+  JobpostingSelectedstudentData = signal<JobpostingSelectedstudent[]>([]);
+  // studentAcademics = signal<>();
+
+  getAllSelectedStudents = () => {
+    this.placementOfferRecievedApiService.GetAllOffersRecieved().subscribe({
+      next: (response) => {
+        const data: JobpostingSelectedstudent[] = response.value;
+        console.log(data);
+        this.JobpostingSelectedstudentData.set(data);
+        console.log(this.JobpostingSelectedstudentData());
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -245,8 +283,10 @@ export class PlacementOfferRecievedComponent {
   dataSource = new MatTableDataSource<companyTableList>([]);
 
   ngOnInit() {
-    this.loadCompanies();
-    this.loadIndustries();
+    // this.loadCompanies();
+    // this.loadIndustries();
+
+    this.getAllSelectedStudents();
 
     this.dataSource.paginator = this.paginator;
 
