@@ -50,7 +50,7 @@ export class AddeditCompanyJobDetailsApiService {
 
   public GetJobPostingById(id: number): Observable<ODataEntity<Jobposting[]>> {
     return this.apiHttpService.get<ODataEntity<Jobposting[]>>(
-      `/Jobposting?$filter=Id eq ${id}`
+      `/Jobposting?$filter=Id eq ${id}&$expand=JobpostingSkills($expand=Skill)`
     );
   }
 

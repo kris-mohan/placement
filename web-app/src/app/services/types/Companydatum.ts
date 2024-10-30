@@ -1,4 +1,3 @@
-
 import { CampusCompany } from "./CampusCompany";
 import { Companydesignation } from "./Companydesignation";
 import { Companyindustry } from "./Companyindustry";

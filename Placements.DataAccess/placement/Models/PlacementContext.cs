@@ -544,7 +544,6 @@ public partial class PlacementContext : DbContext
             entity.HasIndex(e => e.TechnologyId, "FK_JobPosting_Technology_idx");
 
             entity.Property(e => e.DriveDate).HasColumnType("datetime");
-            entity.Property(e => e.Experience).HasMaxLength(100);
             entity.Property(e => e.IsClosed).HasColumnType("bit(1)");
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
