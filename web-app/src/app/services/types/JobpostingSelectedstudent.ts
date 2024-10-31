@@ -7,6 +7,8 @@ export type JobpostingSelectedstudent = {
   StudentId: number;
   HasAcceptedOffer: number;
   DateOfJoining: Date;
+  OfferLetterSentDate: Date;
+  OfferLetterExpiryDate: Date;
   JobPosting: Jobposting;
   Student: Tblstudent;
 };
