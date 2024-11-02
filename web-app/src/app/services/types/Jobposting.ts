@@ -24,7 +24,11 @@ export type Jobposting = {
   TechnologyId?: number;
   Salary?: number;
   Location?: string;
-  Experience?: string;
+  MinimumYearExperience?: number;
+  MaximumYearExperience?: number;
+  MinimumMonthExperience?: number;
+  MaximumMonthExperience?: number;
+  PostedDate?: Date;
   JobType?: string;
   Shift?: string;
   ModeOfWork?: string;
@@ -59,10 +63,13 @@ export type PostJobposting = {
   QuantityFilled?: number;
   IsClosed?: number;
   IsDeleted?: number;
-
   Salary?: number;
   Location?: string;
-  Experience?: string;
+  MinimumYearExperience?: number;
+  MaximumYearExperience?: number;
+  MinimumMonthExperience?: number;
+  MaximumMonthExperience?: number;
+  PostedDate?: Date;
   JobType?: string;
   Shift?: string;
   ModeOfWork?: string;
@@ -73,7 +80,6 @@ export type PostJobposting = {
   MinCgpa?: number;
   BacklogsAllowed?: number;
   Collegejobpostings: { JobPostingId?: number; CollegeId?: number }[];
-  // Technologies: Technology[];
   JobpostingSkills?: { SkillId?: number; JobPostingId?: number }[];
   CompanyJobBatches?: { JobPostingId?: number; BatchId?: number }[];
   CompanyJobCourses?: { JobPostingId?: number; CourseId?: number }[];
