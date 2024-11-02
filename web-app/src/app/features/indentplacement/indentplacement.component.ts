@@ -9,6 +9,8 @@ import { CalendarEventAPIService } from "../campus-configuration/campus-configur
 import { MatTableDataSource } from "@angular/material/table";
 import { IndentData } from "../company-menu/indent-requirements/indentview/indentview.component.model";
 import { ODataResponse } from "../company-menu/indent-requirements/indentview/indentview.component";
+import { IndentRequirementsApiService } from "../company-menu/indent-requirements/IndentRequirementsApiService";
+import { IndentForm } from "src/app/services/types/IndentForm";
 
 @Component({
   selector: "app-indentplacement",
@@ -22,7 +24,8 @@ export class IndentplacementComponent {
   constructor(
     private router: Router,
     private sweetAlertService: SweetAlertService,
-    private APICalendarEventsService: CalendarEventAPIService
+    private APICalendarEventsService: CalendarEventAPIService,
+    private IndentApiService: IndentRequirementsApiService
   ) {
     this.generateColumns();
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
@@ -151,6 +154,7 @@ export class IndentplacementComponent {
 
   columns: { key: string; label: string }[] = [];
   dataSource = new MatTableDataSource<IndentData>([]);
+  indentdata: IndentForm[] = [];
 
   generateColumns(): void {
     this.displayedColumns.forEach((column) => {
@@ -176,7 +180,7 @@ export class IndentplacementComponent {
   }
 
   ngOnInit() {
-    this.loadCalendarEventData();
+    this.getAllIndent();
   }
 
   loadCalendarEventData() {
@@ -215,6 +219,17 @@ export class IndentplacementComponent {
       });
     }
   }
+  getAllIndent = () => {
+    this.IndentApiService.GetAllIndents().subscribe({
+      next: (response) => {
+        const data: IndentForm[] = response.value;
+        this.indentdata = data;
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
 
   // goBack(): void {
   //   this.location.back();

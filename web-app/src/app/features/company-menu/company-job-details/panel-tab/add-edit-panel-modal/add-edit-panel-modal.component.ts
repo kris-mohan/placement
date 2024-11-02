@@ -55,7 +55,7 @@ export class AddEditPanelModalComponent {
       PanelName: "",
       Description: "",
       Designation: "",
-    });
+    }); 
     this.panelId = this.PanelId;
   }
 

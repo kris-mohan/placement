@@ -11,11 +11,12 @@
           </div>
         </div>
         <div class="example-button-container">
-          <button mat-fab extended class = "matbutton-download">
+          <button mat-fab extended class="matbutton-download">
             <mat-icon>file_download</mat-icon>Excel
           </button>
-          <button mat-fab extended class = "matbutton-download">
-            <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <h5>PDF</h5>
           </button>
           <button
             mat-raised-button
@@ -73,7 +74,7 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let indent of IndentData"
+      *ngFor="let indent of indentdata"
       fxFlex="100%"
       fxFlex.gt-sm="50%"
       fxFlex.gt-md="28%"
@@ -83,16 +84,16 @@
     >
       <div class="company-details">
         <p><strong>Company Designation:</strong></p>
-        <h3>{{ indent.CompanyDesignation }}</h3>
+        <h3>{{ indent.ContactPersonDesignation }}</h3>
         <div class="company-type">
           <p><strong>Company Name:</strong> {{ indent.CompanyName }}</p>
         </div>
 
-        <p><strong>Email:</strong> {{ indent.EmailAddress }}</p>
+        <p><strong>Email:</strong> {{ indent.Email }}</p>
       </div>
 
       <div class="company">
-        <p><strong>Phone No:</strong> {{ indent.PhoneNo }}</p>
+        <p><strong>Phone No:</strong> {{ indent.PhoneNumber }}</p>
         <div *ngIf="UserRoleId !== 3">
           <p>
             <strong>Required Items:</strong>
