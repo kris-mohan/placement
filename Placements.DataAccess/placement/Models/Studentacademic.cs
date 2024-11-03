@@ -15,6 +15,10 @@ public partial class Studentacademic
 
     public decimal? Cgpa { get; set; }
 
+    public decimal? TenthMarks { get; set; }
+
+    public decimal? TwelthMarks { get; set; }
+
     public virtual Course? Course { get; set; }
 
     public virtual Stream? Stream { get; set; }
