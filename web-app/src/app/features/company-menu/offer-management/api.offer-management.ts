@@ -15,7 +15,7 @@ import { University } from "src/app/services/types/University";
 @Injectable({
   providedIn: "root",
 })
-export class OfferManagementDetailsApiService {
+export class OfferManagementApiService {
   constructor(private apiHttpService: ApiHttpService) {}
 
   GetAllOffers(

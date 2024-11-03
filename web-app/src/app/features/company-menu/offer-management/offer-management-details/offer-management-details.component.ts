@@ -6,6 +6,9 @@ import { MatTableDataSource } from "@angular/material/table";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { roundsDetails } from "./offer-mamanement-details-model";
+import { OfferManagementDetailsApiService } from "./api.offer-management-details";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { ActivatedRoute } from "@angular/router";
 
 export const RoundsData: roundsDetails[] = [
   {
@@ -42,6 +45,15 @@ export const RoundsData: roundsDetails[] = [
   },
 ];
 
+export type columnData = {
+  SlNo: number;
+  RoundNo: string;
+  RoundName: string;
+  PeriodOfRequirement: Date | null;
+  Marks: number | null;
+  Feedback: string;
+};
+
 @Component({
   selector: "app-offer-management-details",
   standalone: true,
@@ -56,12 +68,20 @@ export const RoundsData: roundsDetails[] = [
   styleUrl: "./offer-management-details.component.css",
 })
 export class OfferManagementDetailsComponent {
-  constructor(private location: Location) {}
+  constructor(
+    private location: Location,
+    private offerManagementDetailsApiService: OfferManagementDetailsApiService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit() {
+    this.getAllDetails();
+  }
   isLargeScreen() {
     return window.innerWidth > 768; // Customize based on your layout
   }
 
-  dataSource = new MatTableDataSource<roundsDetails>(RoundsData);
+  detailsDataSource = new MatTableDataSource<columnData>();
   displayedColumns: string[] = [
     "SlNo",
     "RoundNo",
@@ -81,4 +101,34 @@ export class OfferManagementDetailsComponent {
   goBack(): void {
     this.location.back();
   }
+  getAllDetails = () => {
+    const jobPostingId = this.route.snapshot.paramMap.get("id");
+    if (jobPostingId) {
+      const id = parseInt(jobPostingId);
+      this.offerManagementDetailsApiService.GetAllDetails(id).subscribe({
+        next: (response) => {
+          const data: Jobinterviewround[] = response.value;
+          console.log("Details", data);
+          // Transform data to fit your table's structure
+          const transformedData: columnData[] = data.map((item, index) => {
+            return {
+              SlNo: index + 1, // or whatever property represents the serial number
+              RoundNo: item.Name || "", // Assuming Name corresponds to Round Number
+              RoundName: item.Description || "", // Assuming you have a description
+              PeriodOfRequirement:
+                item.JobpostStudentrounds[0].RoundDate || null, // Format this as needed
+              Marks: item.JobpostStudentrounds[0].Score || null, // Assuming Score corresponds to Marks
+              Feedback: item.JobpostStudentrounds[0].Feedback || "", // Feedback field
+            };
+          });
+
+          console.log("Transformed Details", transformedData);
+          this.detailsDataSource.data = transformedData;
+        },
+        error: (error) => {
+          console.log("Error fetching rounds: ", error);
+        },
+      });
+    }
+  };
 }

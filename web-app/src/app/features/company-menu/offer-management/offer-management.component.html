@@ -201,7 +201,6 @@
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"
     class="mat-card-content"
-    (click)="openOfferManagement()"
   >
     <div
       *ngFor="let offer of JobpostingSelectedstudentData()"
@@ -210,6 +209,7 @@
       fxFlex.gt-md="28%"
       fxFlex.gt-lg="25%"
       class="grid-item mat-grid-tile"
+      (click)="openOfferManagement(offer.JobPosting.Id)"
     >
       <div class="company-details">
         <h3>{{ offer.Student.FirstName }} {{ offer.Student.LastName }}</h3>

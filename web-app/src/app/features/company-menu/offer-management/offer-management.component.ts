@@ -26,7 +26,7 @@ import { ImportCompanyDialogComponent } from "../../company-configuration/compan
 import { IndustryAPIService } from "../../company-configuration/company-config/industry/api.industry";
 import { InterviewAdditionalFilterComponent } from "../interview/interview-additional-filter/interview-additional-filter.component";
 import { provideNativeDateAdapter } from "@angular/material/core";
-import { OfferManagementDetailsApiService } from "./api.offer-management-details";
+import { OfferManagementApiService } from "./api.offer-management";
 import { JobpostingSelectedstudent } from "src/app/services/types/JobpostingSelectedstudent";
 import { University } from "src/app/services/types/University";
 import { Campusregistration } from "src/app/services/types/Campusregistration";
@@ -66,7 +66,7 @@ export class OfferManagementComponent {
     private location: Location,
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService,
-    private offerManagementDetailsApiService: OfferManagementDetailsApiService
+    private offerManagementDetailsApiService: OfferManagementApiService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -480,8 +480,11 @@ export class OfferManagementComponent {
     });
   }
 
-  openOfferManagement() {
-    this.router.navigate(["offer-management/offer-management-details"]);
+  openOfferManagement(jobPostingId: number) {
+    this.router.navigate([
+      "offer-management/offer-management-details",
+      jobPostingId,
+    ]);
   }
 
   // filteredCompanies: companyTableList[] = [];
