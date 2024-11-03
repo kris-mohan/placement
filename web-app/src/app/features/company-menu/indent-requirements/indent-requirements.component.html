@@ -25,7 +25,7 @@
           <p class="grid-label">Company Name</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Company Name</mat-label>
-            <input formControlName="TrainerName" matInput />
+            <input formControlName="CompanyName" matInput />
           </mat-form-field>
         </div>
 
@@ -40,7 +40,7 @@
             <mat-label>Company designation</mat-label>
             <input
               matInput
-              formControlName="Email"
+              formControlName="ContactPersonDesignation"
               type="Company designation"
             />
           </mat-form-field>
@@ -68,7 +68,7 @@
           <p class="grid-label">Phone Number</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Phone Number</mat-label>
-            <input matInput formControlName="Extra" />
+            <input matInput formControlName="PhoneNumber" />
           </mat-form-field>
         </div>
         <div
@@ -112,9 +112,12 @@
           [formGroup]="addIndentForm"
           (ngSubmit)="onSubmitDiv()"
         >
-          <div formArrayName="itemsArray">
+          <div formArrayName="IndentFormDynamicFields">
             <div
-              *ngFor="let item of itemsArray.controls; let i = index"
+              *ngFor="
+                let item of IndentFormDynamicFields.controls;
+                let i = index
+              "
               [formGroupName]="i"
               class="item_container"
             >
@@ -123,7 +126,7 @@
                   <p class="grid-label">Required Item</p>
                   <mat-form-field appearance="outline" class="matFormField">
                     <mat-label>Required Item</mat-label>
-                    <input matInput formControlName="requiredItem" />
+                    <input matInput formControlName="Name" />
                   </mat-form-field>
                 </div>
 
@@ -131,7 +134,7 @@
                   <p class="grid-label">Description</p>
                   <mat-form-field appearance="outline" class="matFormField">
                     <mat-label>Description</mat-label>
-                    <input matInput formControlName="description" />
+                    <input matInput formControlName="Value" />
                   </mat-form-field>
                 </div>
 

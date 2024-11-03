@@ -1,0 +1,88 @@
+button {
+  margin: 0 8px 8px 0;
+}
+
+.matbutton {
+  background-color: #3f51b5;
+}
+.maticon {
+  color: white;
+}
+.matName {
+  color: white;
+}
+
+.formGrid {
+  display: flex;
+  align-items: start;
+  justify-content: end;
+}
+.matHeaderName {
+  font-weight: bolder;
+}
+.matFormField {
+  width: 90%;
+}
+
+.footer-actions {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.footer-actions button {
+  margin-left: 10px;
+}
+
+.mat-card {
+  height: 100vh;
+}
+.row-wrap {
+  display: unset;
+}
+
+.example-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 1rem;
+}
+.matHeaderName {
+  font-size: x-large;
+  color: darkblue;
+}
+
+.input_div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input_div_input {
+  flex: 0 0 40%;
+}
+
+.input_div_btn {
+  flex: 0 0 20%;
+}
+
+.content {
+  margin-bottom: 100px;
+}
+
+.field__input {
+  padding: 46px;
+}
+
+.matbutton {
+  display: block; /* Ensure the button is not hidden */
+  visibility: visible; /* Ensure it's visible */
+  margin-top: 10px; /* Add some spacing to make it visible */
+}

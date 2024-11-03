@@ -173,9 +173,9 @@ export class IndentplacementComponent {
 
   openAddEditIndentForm(id?: string) {
     if (id !== undefined) {
-      this.router.navigate(["/indent-requirement", id]);
+      this.router.navigate(["Indent-view-placement/Indent-requirement", id]);
     } else {
-      this.router.navigate(["/indent-requirement", ""]);
+      this.router.navigate(["Indent-view-placement/Indent-requirement", ""]);
     }
   }
 
