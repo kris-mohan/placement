@@ -178,7 +178,7 @@ export class IndentviewComponent {
       .replace(/^./, (str) => str.toUpperCase());
   }
 
-  openAddEditIndentForm(id?: string) {
+  openAddEditIndentForm(id?: number) {
     if (id !== undefined) {
       this.router.navigate(["/indent-requirement", id]);
     } else {
@@ -235,6 +235,7 @@ export class IndentviewComponent {
       next: (response) => {
         const data: IndentForm[] = response.value;
         this.indentdata = data;
+        console.log(this.indentdata);
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);

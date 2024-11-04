@@ -1,7 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { catchError, firstValueFrom, Observable, throwError } from 'rxjs';
-import { ApiHttpService } from 'src/app/services/api-services/api-http-services';
+import { HttpErrorResponse } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
+import { ApiHttpService } from "src/app/services/api-services/api-http-services";
+import { IndentForm } from "src/app/services/types/IndentForm";
+import { ODataEntity } from "src/app/services/types/OData";
 
 @Injectable({
   providedIn: "root",
@@ -10,11 +12,11 @@ export class IndentRequirementsApiService {
   constructor(private apiHttpService: ApiHttpService) {}
 
   GetAllIndents(): Observable<any> {
-    return this.apiHttpService.get<any>('/IndentForm');
+    return this.apiHttpService.get<any>("/IndentForm");
   }
 
   GetAllIndentsDynamicField(): Observable<any> {
-    return this.apiHttpService.get<any>('/IndentFormDynamicField');
+    return this.apiHttpService.get<any>("/IndentFormDynamicField");
   }
 
   public GetAllIndentsDynamicFieldById(
@@ -27,7 +29,7 @@ export class IndentRequirementsApiService {
 
   public GetAllIndentsById(id: number): Observable<ODataEntity<IndentForm[]>> {
     return this.apiHttpService.get<ODataEntity<IndentForm[]>>(
-      `/IndentForm?filter=Id eq ${id}`
+      `/IndentForm?filter=Id eq ${id}&$expand=IndentFormDynamicFields`
     );
   }
 
@@ -41,12 +43,19 @@ export class IndentRequirementsApiService {
     id: number | null,
     IndentForm: IndentForm
   ): Observable<ODataEntity<IndentForm[]>> {
-    const url = `/Companydatum${id ? `?key=${id}` : ''}`;
+    const url = `/Companydatum${id ? `?key=${id}` : ""}`;
     return id
       ? this.apiHttpService.patch(url, IndentForm)
       : this.apiHttpService.post(url, IndentForm);
   }
   CreateIndent(data: any): Observable<any> {
     return this.apiHttpService.post("/IndentForm", data);
+  }
+
+  CreateUpdateIndent(id: number | null, data: any): Observable<any> {
+    const url = `/IndentForm${id ? `?key=${id}` : ""}`;
+    return id
+      ? this.apiHttpService.patch(url, data)
+      : this.apiHttpService.post(url, data);
   }
 }
