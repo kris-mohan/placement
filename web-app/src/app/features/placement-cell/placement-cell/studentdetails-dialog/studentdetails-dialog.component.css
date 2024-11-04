@@ -46,7 +46,9 @@ mat-chip {
 .status {
   padding: 10px;
 }
-
+.overview {
+  padding: 10px;
+}
 table {
   width: 100%;
   border-collapse: collapse;
@@ -65,4 +67,9 @@ th {
 
 td {
   background-color: #fff;
+}
+
+.bold-dark-text {
+  font-weight: bold;
+  color: #333;
 }

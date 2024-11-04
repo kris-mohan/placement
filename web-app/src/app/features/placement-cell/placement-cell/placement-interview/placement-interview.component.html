@@ -249,8 +249,17 @@
         </div>
         <p>
           <strong>Duration:</strong>
-          {{ GetDateLabelByDate(scheduledInterview.JobPosting.ValidFrom) }} -
-          {{ GetDateLabelByDate(scheduledInterview.JobPosting.ValidTill) }}
+          {{
+            GetDateLabelByDate(
+              scheduledInterview.JobPosting.ValidFrom || undefined
+            )
+          }}
+          -
+          {{
+            GetDateLabelByDate(
+              scheduledInterview.JobPosting.ValidTill || undefined
+            )
+          }}
         </p>
       </div>
 

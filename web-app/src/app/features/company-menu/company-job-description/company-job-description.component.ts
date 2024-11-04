@@ -6,7 +6,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { FunnelChartComponent } from "../../charts/funnel chart/funnel-chart/funnel-chart.component";
 import { FormControl } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CompanyJobDetailsApiService } from "../company-job-details/company-job-details-apiService";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { StudentJobsApiSerivce } from "../../student-menu/student-menu/student-jobs/studentJobsApiService";
@@ -51,7 +51,8 @@ export class CompanyJobDescriptionComponent {
     private location: Location,
     private route: ActivatedRoute,
     private companyJobDetailsApiService: CompanyJobDetailsApiService,
-    private studentJobsApiService: StudentJobsApiSerivce
+    private studentJobsApiService: StudentJobsApiSerivce,
+    private router: Router
   ) {
     const storedUserType = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserType ? parseInt(storedUserType) : 0;
@@ -85,7 +86,7 @@ export class CompanyJobDescriptionComponent {
             }));
             this.JobPostingsDescriptionData.set(mappedData);
             console.log("Company Name:", this.JobPostingsDescriptionData());
-            // }
+             
           },
           error: (error) => {
             console.error("Error fetching jobPostings:", error);
@@ -104,7 +105,16 @@ export class CompanyJobDescriptionComponent {
     return date.toISOString().split("T")[0];
   }
 
-  openStudentJobAdditionalFiltersModal() {}
+  openAddEditJobPostingForm() {
+    if (this.Id !== undefined) {
+      this.router.navigate([
+        "/company-job-details/add-edit-jobPosting/",
+        this.Id,
+      ]);
+    } else {
+      this.router.navigate(["/company-job-details/add-edit-jobPosting/", 0]);
+    }
+  }
 
   openAddEditCompanyForm(id: number) {}
 }

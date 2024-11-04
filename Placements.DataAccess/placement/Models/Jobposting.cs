@@ -33,8 +33,6 @@ public partial class Jobposting
 
     public long? Vacancies { get; set; }
 
-    public string? Experience { get; set; }
-
     public string? JobType { get; set; }
 
     public string? Shift { get; set; }
@@ -42,6 +40,24 @@ public partial class Jobposting
     public string? ModeOfWork { get; set; }
 
     public DateTime? DriveDate { get; set; }
+
+    public decimal? MinSslcpercentage { get; set; }
+
+    public decimal? MinPucpercentage { get; set; }
+
+    public decimal? MinCgpa { get; set; }
+
+    public int? BacklogsAllowed { get; set; }
+
+    public DateTime? PostedDate { get; set; }
+
+    public int? MinimumYearExperience { get; set; }
+
+    public int? MaximumYearExperience { get; set; }
+
+    public int? MinimumMonthExperience { get; set; }
+
+    public int? MaximumMonthExperience { get; set; }
 
     public virtual ICollection<Collegejobposting> Collegejobpostings { get; set; } = new List<Collegejobposting>();
 

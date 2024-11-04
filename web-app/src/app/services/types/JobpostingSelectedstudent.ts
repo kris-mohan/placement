@@ -3,9 +3,10 @@ import { Tblstudent } from "./Tblstudent";
 
 export type JobpostingSelectedstudent = {
   Id: number;
-  JobPostingId?: number;
-  StudentId?: number;
-  HasAcceptedOffer?: boolean;
-  JobPosting?: Jobposting;
-  Student?: Tblstudent;
+  JobPostingId: number;
+  StudentId: number;
+  HasAcceptedOffer: number;
+  DateOfJoining: Date;
+  JobPosting: Jobposting;
+  Student: Tblstudent;
 };

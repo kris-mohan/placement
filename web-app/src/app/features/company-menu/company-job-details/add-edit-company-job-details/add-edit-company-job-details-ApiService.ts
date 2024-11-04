@@ -4,6 +4,7 @@ import { ApiHttpService } from "src/app/services/api-services/api-http-services"
 import { Batch } from "src/app/services/types/Batch";
 import { Campusregistration } from "src/app/services/types/Campusregistration";
 import { Course } from "src/app/services/types/Course";
+import { Jobposting, PostJobposting } from "src/app/services/types/Jobposting";
 import { ODataEntity } from "src/app/services/types/OData";
 import { SkillType } from "src/app/services/types/SkillType";
 import { Stream } from "src/app/services/types/Stream";
@@ -37,10 +38,29 @@ export class AddeditCompanyJobDetailsApiService {
       `/SkillType?$expand=Skills`
     );
   }
-
   public GetSkillsByIds(ids: number[]): Observable<ODataEntity<SkillType[]>> {
-    const filterQuery = ids.map((id) => `Id eq ${id}`).join(" or ");
-    const odataUrl = `/SkillType?$filter=${filterQuery}&$expand=Skills`;
+    const filterQuery =
+      ids.length > 0 ? ids.map((id) => `Id eq ${id}`).join(" or ") : "";
+    const odataUrl = filterQuery
+      ? `/SkillType?$filter=${filterQuery}&$expand=Skills`
+      : `/SkillType?$expand=Skills`;
+
     return this.apiHttpService.get<ODataEntity<SkillType[]>>(odataUrl);
+  }
+
+  public GetJobPostingById(id: number): Observable<ODataEntity<Jobposting[]>> {
+    return this.apiHttpService.get<ODataEntity<Jobposting[]>>(
+      `/Jobposting?$filter=Id eq ${id}&$expand=JobpostingSkills($expand=Skill)`
+    );
+  }
+
+  public addUpdateJobPosting(
+    id: number | null,
+    jobPosting: PostJobposting
+  ): Observable<any> {
+    const url = `/Jobposting${id ? `?key=${id}` : ""}`;
+    return id
+      ? this.apiHttpService.patch(url, jobPosting)
+      : this.apiHttpService.post(url, jobPosting);
   }
 }

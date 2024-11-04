@@ -56,9 +56,7 @@ export class AddRoundsModalComponent {
   }
 
   ngOnInit(): void {
-    console.log("API call", this.RoundId);
     this.getRoundsById(this.RoundId);
-    console.log("Returned");
 
     // this.route.paramMap.subscribe((params) => {
     //   const id = params.get("roundsId");

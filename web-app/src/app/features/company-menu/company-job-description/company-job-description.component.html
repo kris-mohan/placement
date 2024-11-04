@@ -20,7 +20,7 @@
       *ngIf="UserRoleId !== 3"
       mat-raised-button
       class="matbutton"
-      (click)="openStudentJobAdditionalFiltersModal()"
+      (click)="openAddEditJobPostingForm()"
     >
       <mat-icon class="maticon">edit</mat-icon>
       <p class="matName">Edit Job Posting</p>
@@ -56,18 +56,18 @@
                 class="apply-button"
                 (click)="openEligibleStudentsModel()"
               >
-                Eligible Student List
+                Invite Student
               </button>
             </div>
           </div>
 
           <div class="job-details">
             <div class="experience">
-              <span
+              <!-- <span
                 >Experience:{{
                   JobPostingsDescriptionData()[0].Experience
                 }}</span
-              >
+              > -->
             </div>
             <div class="salary">
               <span>Salary:{{ JobPostingsDescriptionData()[0].Salary }}</span>

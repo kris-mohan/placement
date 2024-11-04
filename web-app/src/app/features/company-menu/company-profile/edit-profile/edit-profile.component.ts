@@ -110,6 +110,7 @@ export class EditProfileComponent implements OnInit {
     });
 
     this.types = ["Private", "Public", "Other"];
-    // Load the data passed in the dialog from the company profile component.
   }
+
+  onSubmit(){}
 }

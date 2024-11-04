@@ -30,6 +30,7 @@ namespace Placements.WebApi.Controllers.PlacementController
         {
             try
             {
+                jobposting.PostedDate = DateTime.Now;
                 _context.Jobpostings.Add(jobposting);
                 await _context.SaveChangesAsync();
 

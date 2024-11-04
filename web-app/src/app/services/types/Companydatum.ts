@@ -36,7 +36,7 @@ export type Companydatum = {
   UserRoleId: number;
   Companydesignations: Companydesignation[];
   Companytechnologies: Companytechnology[];
-  Companyindustires: Companyindustry[];
+  Companyindustries: Companyindustry[];
   Jobpostings: Jobposting[];
   Logins: Login[];
   Paatashalaregistrations: Paatashalaregistration[];
