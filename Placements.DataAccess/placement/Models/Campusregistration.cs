@@ -35,11 +35,23 @@ public partial class Campusregistration
 
     public long? UserRoleId { get; set; }
 
+    public long? UniversityId { get; set; }
+
+    public long? ParentCampusId { get; set; }
+
+    public virtual ICollection<CampusCompany> CampusCompanies { get; set; } = new List<CampusCompany>();
+
     public virtual ICollection<Collegejobposting> Collegejobpostings { get; set; } = new List<Collegejobposting>();
 
     public virtual ICollection<Collegejobpostingschedule> Collegejobpostingschedules { get; set; } = new List<Collegejobpostingschedule>();
 
+    public virtual ICollection<Campusregistration> InverseParentCampus { get; set; } = new List<Campusregistration>();
+
     public virtual ICollection<Login> Logins { get; set; } = new List<Login>();
 
+    public virtual Campusregistration? ParentCampus { get; set; }
+
     public virtual ICollection<Tblstudent> Tblstudents { get; set; } = new List<Tblstudent>();
+
+    public virtual University? University { get; set; }
 }

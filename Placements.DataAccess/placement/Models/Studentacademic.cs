@@ -15,9 +15,15 @@ public partial class Studentacademic
 
     public decimal? Cgpa { get; set; }
 
+    public decimal? TenthMarks { get; set; }
+
+    public decimal? TwelthMarks { get; set; }
+
     public virtual Course? Course { get; set; }
 
     public virtual Stream? Stream { get; set; }
 
     public virtual Tblstudent? Student { get; set; }
+
+    public virtual ICollection<StudentSemesterMark> StudentSemesterMarks { get; set; } = new List<StudentSemesterMark>();
 }

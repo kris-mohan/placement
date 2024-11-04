@@ -17,6 +17,8 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Calendarevent> Calendarevents { get; set; }
 
+    public virtual DbSet<CampusCompany> CampusCompanies { get; set; }
+
     public virtual DbSet<Campusregistration> Campusregistrations { get; set; }
 
     public virtual DbSet<Collegejobposting> Collegejobpostings { get; set; }
@@ -24,6 +26,10 @@ public partial class PlacementContext : DbContext
     public virtual DbSet<CollegejobpostingScheduledetail> CollegejobpostingScheduledetails { get; set; }
 
     public virtual DbSet<Collegejobpostingschedule> Collegejobpostingschedules { get; set; }
+
+    public virtual DbSet<CompanyJobBatch> CompanyJobBatches { get; set; }
+
+    public virtual DbSet<CompanyJobCourse> CompanyJobCourses { get; set; }
 
     public virtual DbSet<Companydatum> Companydata { get; set; }
 
@@ -33,7 +39,7 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Companyregistration> Companyregistrations { get; set; }
 
-    public virtual DbSet<Companytechonology> Companytechonologies { get; set; }
+    public virtual DbSet<Companytechnology> Companytechnologies { get; set; }
 
     public virtual DbSet<Course> Courses { get; set; }
 
@@ -55,11 +61,13 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<JobpostingSelectedstudent> JobpostingSelectedstudents { get; set; }
 
+    public virtual DbSet<JobpostingSkill> JobpostingSkills { get; set; }
+
     public virtual DbSet<Jobpostingdetail> Jobpostingdetails { get; set; }
 
     public virtual DbSet<JobpostingsEligiblestudent> JobpostingsEligiblestudents { get; set; }
 
-    public virtual DbSet<Jobstudentstau> Jobstudentstaus { get; set; }
+    public virtual DbSet<Jobstudentstatus> Jobstudentstatuses { get; set; }
 
     public virtual DbSet<Login> Logins { get; set; }
 
@@ -67,9 +75,13 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<Skill> Skills { get; set; }
+
     public virtual DbSet<SkillType> SkillTypes { get; set; }
 
     public virtual DbSet<Stream> Streams { get; set; }
+
+    public virtual DbSet<StudentSemesterMark> StudentSemesterMarks { get; set; }
 
     public virtual DbSet<StudentSkill> StudentSkills { get; set; }
 
@@ -90,6 +102,8 @@ public partial class PlacementContext : DbContext
     public virtual DbSet<Trainingcourse> Trainingcourses { get; set; }
 
     public virtual DbSet<Trainingmodule> Trainingmodules { get; set; }
+
+    public virtual DbSet<University> Universities { get; set; }
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
@@ -123,11 +137,34 @@ public partial class PlacementContext : DbContext
                 .HasColumnType("bit(1)");
         });
 
+        modelBuilder.Entity<CampusCompany>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("campus_company");
+
+            entity.HasIndex(e => e.CampusId, "FK_Campus_CampusRegistartion_idx");
+
+            entity.HasIndex(e => e.CompanyId, "FK_Company_Companydatum_idx");
+
+            entity.HasOne(d => d.Campus).WithMany(p => p.CampusCompanies)
+                .HasForeignKey(d => d.CampusId)
+                .HasConstraintName("FK_Campus_CampusRegistartion");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.CampusCompanies)
+                .HasForeignKey(d => d.CompanyId)
+                .HasConstraintName("FK_Company_Companydatum");
+        });
+
         modelBuilder.Entity<Campusregistration>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("campusregistration");
+
+            entity.HasIndex(e => e.ParentCampusId, "FK_Campus_Campus_idx");
+
+            entity.HasIndex(e => e.UniversityId, "FK_Campus_University_idx");
 
             entity.Property(e => e.Address).HasMaxLength(100);
             entity.Property(e => e.CollegeEmail).HasMaxLength(50);
@@ -145,6 +182,14 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.PlacementOfficerName).HasMaxLength(50);
             entity.Property(e => e.State).HasMaxLength(100);
             entity.Property(e => e.ZipCode).HasMaxLength(100);
+
+            entity.HasOne(d => d.ParentCampus).WithMany(p => p.InverseParentCampus)
+                .HasForeignKey(d => d.ParentCampusId)
+                .HasConstraintName("FK_Campus_Campus");
+
+            entity.HasOne(d => d.University).WithMany(p => p.Campusregistrations)
+                .HasForeignKey(d => d.UniversityId)
+                .HasConstraintName("FK_Campus_University");
         });
 
         modelBuilder.Entity<Collegejobposting>(entity =>
@@ -198,6 +243,44 @@ public partial class PlacementContext : DbContext
                 .HasConstraintName("FK_CollegeSchedule_JobPosting");
         });
 
+        modelBuilder.Entity<CompanyJobBatch>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("company_job_batch");
+
+            entity.HasIndex(e => e.BatchId, "FK_CompanyJobBatch_Batch_idx");
+
+            entity.HasIndex(e => e.JobPostingId, "FK_CompanyJobBatch_JobPosting_idx");
+
+            entity.HasOne(d => d.Batch).WithMany(p => p.CompanyJobBatches)
+                .HasForeignKey(d => d.BatchId)
+                .HasConstraintName("FK_CompanyJobBatch_Batch");
+
+            entity.HasOne(d => d.JobPosting).WithMany(p => p.CompanyJobBatches)
+                .HasForeignKey(d => d.JobPostingId)
+                .HasConstraintName("FK_CompanyJobBatch_JobPosting");
+        });
+
+        modelBuilder.Entity<CompanyJobCourse>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("company_job_course");
+
+            entity.HasIndex(e => e.CourseId, "FK_CompanyJobCourse_Course");
+
+            entity.HasIndex(e => e.JobPostingId, "FK_CompanyJobCourse_JobPost_idx");
+
+            entity.HasOne(d => d.Course).WithMany(p => p.CompanyJobCourses)
+                .HasForeignKey(d => d.CourseId)
+                .HasConstraintName("FK_CompanyJobCourse_Course");
+
+            entity.HasOne(d => d.JobPosting).WithMany(p => p.CompanyJobCourses)
+                .HasForeignKey(d => d.JobPostingId)
+                .HasConstraintName("FK_CompanyJobCourse_JobPost");
+        });
+
         modelBuilder.Entity<Companydatum>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -209,6 +292,7 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.AddressLine1).HasMaxLength(50);
             entity.Property(e => e.AudioPath).HasMaxLength(255);
             entity.Property(e => e.City).HasMaxLength(50);
+            entity.Property(e => e.CompanyType).HasMaxLength(45);
             entity.Property(e => e.ContactPerson).HasMaxLength(50);
             entity.Property(e => e.Country).HasMaxLength(50);
             entity.Property(e => e.DateOfRegistration).HasColumnType("datetime");
@@ -294,27 +378,27 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.PhoneNumber).HasMaxLength(50);
         });
 
-        modelBuilder.Entity<Companytechonology>(entity =>
+        modelBuilder.Entity<Companytechnology>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("companytechonologies");
+            entity.ToTable("companytechnologies");
 
-            entity.HasIndex(e => e.CompanyId, "FK_CompanyTechonologies_CompanyData");
+            entity.HasIndex(e => e.CompanyId, "FK_CompanyTechnologies_CompanyData");
 
-            entity.HasIndex(e => e.TechnologyId, "FK_CompanyTechonologies_Technologies");
+            entity.HasIndex(e => e.TechnologyId, "FK_CompanyTechnologies_Technologies");
 
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
 
-            entity.HasOne(d => d.Company).WithMany(p => p.Companytechonologies)
+            entity.HasOne(d => d.Company).WithMany(p => p.Companytechnologies)
                 .HasForeignKey(d => d.CompanyId)
-                .HasConstraintName("FK_CompanyTechonologies_CompanyData");
+                .HasConstraintName("FK_CompanyTechnologies_CompanyData");
 
-            entity.HasOne(d => d.Technology).WithMany(p => p.Companytechonologies)
+            entity.HasOne(d => d.Technology).WithMany(p => p.Companytechnologies)
                 .HasForeignKey(d => d.TechnologyId)
-                .HasConstraintName("FK_CompanyTechonologies_Technologies");
+                .HasConstraintName("FK_CompanyTechnologies_Technologies");
         });
 
         modelBuilder.Entity<Course>(entity =>
@@ -458,16 +542,25 @@ public partial class PlacementContext : DbContext
             entity.HasIndex(e => e.TechnologyId, "FK_JobPosting_Technology_idx");
 
             entity.Property(e => e.DriveDate).HasColumnType("datetime");
-            entity.Property(e => e.Experience).HasMaxLength(100);
             entity.Property(e => e.IsClosed).HasColumnType("bit(1)");
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
-            entity.Property(e => e.JobDescription).HasMaxLength(50);
+            entity.Property(e => e.JobDescription).HasMaxLength(15000);
             entity.Property(e => e.JobRole).HasMaxLength(50);
             entity.Property(e => e.JobType).HasMaxLength(50);
             entity.Property(e => e.Location).HasMaxLength(255);
+            entity.Property(e => e.MinCgpa)
+                .HasPrecision(10)
+                .HasColumnName("MinCGPA");
+            entity.Property(e => e.MinPucpercentage)
+                .HasPrecision(10)
+                .HasColumnName("MinPUCPercentage");
+            entity.Property(e => e.MinSslcpercentage)
+                .HasPrecision(10)
+                .HasColumnName("MinSSLCPercentage");
             entity.Property(e => e.ModeOfWork).HasMaxLength(45);
+            entity.Property(e => e.PostedDate).HasColumnType("datetime");
             entity.Property(e => e.Salary).HasPrecision(10);
             entity.Property(e => e.Shift).HasMaxLength(45);
             entity.Property(e => e.ValidFrom).HasColumnType("datetime");
@@ -509,7 +602,8 @@ public partial class PlacementContext : DbContext
             entity.HasIndex(e => e.StudentId, "FK_jobposting_selectedstudents_Student_idx");
 
             entity.Property(e => e.DateOfJoining).HasColumnType("datetime");
-            entity.Property(e => e.HasAcceptedOffer).HasColumnType("bit(1)");
+            entity.Property(e => e.OfferLetterExpiryDate).HasColumnType("datetime");
+            entity.Property(e => e.OfferLetterSentDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.JobPosting).WithMany(p => p.JobpostingSelectedstudents)
                 .HasForeignKey(d => d.JobPostingId)
@@ -518,6 +612,25 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.Student).WithMany(p => p.JobpostingSelectedstudents)
                 .HasForeignKey(d => d.StudentId)
                 .HasConstraintName("FK_jobposting_selectedstudents_Student");
+        });
+
+        modelBuilder.Entity<JobpostingSkill>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("jobposting_skill");
+
+            entity.HasIndex(e => e.JobPostingId, "FK_JobPostingSkill_JobPosting_idx");
+
+            entity.HasIndex(e => e.SkillId, "FK_JobPostingSkill_Skill_idx");
+
+            entity.HasOne(d => d.JobPosting).WithMany(p => p.JobpostingSkills)
+                .HasForeignKey(d => d.JobPostingId)
+                .HasConstraintName("FK_JobPostingSkill_JobPosting");
+
+            entity.HasOne(d => d.Skill).WithMany(p => p.JobpostingSkills)
+                .HasForeignKey(d => d.SkillId)
+                .HasConstraintName("FK_JobPostingSkill_Skill");
         });
 
         modelBuilder.Entity<Jobpostingdetail>(entity =>
@@ -557,11 +670,11 @@ public partial class PlacementContext : DbContext
                 .HasConstraintName("FK_jobpostings_eligiblestudents_Student");
         });
 
-        modelBuilder.Entity<Jobstudentstau>(entity =>
+        modelBuilder.Entity<Jobstudentstatus>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("jobstudentstaus");
+            entity.ToTable("jobstudentstatus");
 
             entity.Property(e => e.Name).HasMaxLength(45);
         });
@@ -633,6 +746,21 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.RoleName).HasMaxLength(50);
         });
 
+        modelBuilder.Entity<Skill>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("skill");
+
+            entity.HasIndex(e => e.SkillTypeId, "FK_Skill_SkillType_idx");
+
+            entity.Property(e => e.Name).HasMaxLength(145);
+
+            entity.HasOne(d => d.SkillType).WithMany(p => p.Skills)
+                .HasForeignKey(d => d.SkillTypeId)
+                .HasConstraintName("FK_Skill_SkillType");
+        });
+
         modelBuilder.Entity<SkillType>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -651,21 +779,35 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(45);
         });
 
+        modelBuilder.Entity<StudentSemesterMark>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("student_semester_mark");
+
+            entity.HasIndex(e => e.StudentAcademicId, "FK_StudentSemMarks_StudentAcademic_idx");
+
+            entity.Property(e => e.Sgpa).HasPrecision(10);
+            entity.Property(e => e.Status).HasMaxLength(45);
+
+            entity.HasOne(d => d.StudentAcademic).WithMany(p => p.StudentSemesterMarks)
+                .HasForeignKey(d => d.StudentAcademicId)
+                .HasConstraintName("FK_StudentSemMarks_StudentAcademic");
+        });
+
         modelBuilder.Entity<StudentSkill>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("student_skill");
 
-            entity.HasIndex(e => e.SkillTypeId, "FK_Skill_SkillType_idx");
-
             entity.HasIndex(e => e.StudentId, "FK_Skill_Student_idx");
 
-            entity.Property(e => e.Name).HasMaxLength(145);
+            entity.HasIndex(e => e.SkillId, "FK_StudentSkill_Skill_idx");
 
-            entity.HasOne(d => d.SkillType).WithMany(p => p.StudentSkills)
-                .HasForeignKey(d => d.SkillTypeId)
-                .HasConstraintName("FK_Skill_SkillType");
+            entity.HasOne(d => d.Skill).WithMany(p => p.StudentSkills)
+                .HasForeignKey(d => d.SkillId)
+                .HasConstraintName("FK_StudentSkill_Skill");
 
             entity.HasOne(d => d.Student).WithMany(p => p.StudentSkills)
                 .HasForeignKey(d => d.StudentId)
@@ -687,6 +829,8 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.Cgpa)
                 .HasPrecision(10)
                 .HasColumnName("CGPA");
+            entity.Property(e => e.TenthMarks).HasPrecision(10);
+            entity.Property(e => e.TwelthMarks).HasPrecision(10);
 
             entity.HasOne(d => d.Course).WithMany(p => p.Studentacademics)
                 .HasForeignKey(d => d.CourseId)
@@ -850,6 +994,15 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.TrainingCourse).WithMany(p => p.Trainingmodules)
                 .HasForeignKey(d => d.TrainingCourseId)
                 .HasConstraintName("FK_TrainingModule_TrainingCourse");
+        });
+
+        modelBuilder.Entity<University>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("university");
+
+            entity.Property(e => e.Name).HasMaxLength(145);
         });
 
         modelBuilder.Entity<Userrole>(entity =>

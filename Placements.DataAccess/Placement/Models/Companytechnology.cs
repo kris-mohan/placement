@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Placements.DataAccess.Placement.Models;
 
-public partial class Companytechonology
+public partial class Companytechnology
 {
     public long Id { get; set; }
 

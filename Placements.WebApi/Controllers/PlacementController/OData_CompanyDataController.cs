@@ -18,7 +18,7 @@ namespace Placements.WebApi.Controllers.PlacementController
             _context = context;
         }
 
-        [HttpGet, EnableQuery]
+        [HttpGet, EnableQuery(MaxExpansionDepth = 10)]
         public IActionResult Get()
         {
             return Ok(_context.Companydata);
@@ -30,7 +30,7 @@ namespace Placements.WebApi.Controllers.PlacementController
         {
             try
             {
-                companydatum.DateOfRegistration = DateTime.Now;
+                //companydatum.DateOfRegistration = DateTime.Now;
                 var userRoleId = await _context.Userroles.ToListAsync();
                 _context.Companydata.Add(companydatum);
                 await _context.SaveChangesAsync();
@@ -77,7 +77,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 original.ZipCode = companydatum.ZipCode;
                 original.Country = companydatum.Country;
                 original.ParentCompanyId = companydatum.ParentCompanyId;
-                original.Companytechonologies = companydatum.Companytechonologies;
+                original.Companytechnologies = companydatum.Companytechnologies;
                 original.Logins = companydatum.Logins;
                 original.Paatashalaregistrations = companydatum.Paatashalaregistrations;
 

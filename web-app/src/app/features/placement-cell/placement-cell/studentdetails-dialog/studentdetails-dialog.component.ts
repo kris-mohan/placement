@@ -1,34 +1,148 @@
-import { Component } from '@angular/core';
-import { AMGModules } from 'src/AMG-Module/AMG-module';
+import { Component, Inject, signal } from "@angular/core";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { MatTableDataSource } from "@angular/material/table";
+import { Tblstudent } from "src/app/services/types/Tblstudent";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { StudentDetailsDialogApiService } from "./studentDetailsApiService";
+import { Studentacademic } from "src/app/services/types/Studentacademic";
+import { StudentSemesterMark } from "src/app/services/types/StudentSemesterMark";
+import { StudentSkill } from "src/app/services/types/StudentSkill";
+import { GetDate } from "src/app/core/helper/DateHelper";
 
 @Component({
-  selector: 'app-studentdetails-dialog',
+  selector: "app-studentdetails-dialog",
   standalone: true,
   imports: [AMGModules],
-  templateUrl: './studentdetails-dialog.component.html',
-  styleUrl: './studentdetails-dialog.component.css',
+  templateUrl: "./studentdetails-dialog.component.html",
+  styleUrl: "./studentdetails-dialog.component.css",
 })
 export class StudentdetailsDialogComponent {
-  displayedSkillsColumns: string[] = [
-    'skillName',
-    'proficiencyLevel',
-    'verified',
-  ];
-  displayedStatusColumns: string[] = ['companyName', 'status', 'interviewDate'];
+  studentById: number;
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private studentId: number,
+    private studentDetailsApiService: StudentDetailsDialogApiService
+  ) {
+    this.studentById = studentId;
+  }
+  studentData = signal<Tblstudent[]>([]);
+  studentAcademicsData = signal<Studentacademic[]>([]);
+  studentSemesterMarksData = signal<StudentSemesterMark[]>([]);
+  studentSkillsData = new MatTableDataSource<{
+    skillType: string;
+    skills: string;
+  }>([]);
+  statusData = new MatTableDataSource<{
+    companyName: string;
+    status: string;
+    interviewDate: string;
+  }>([]);
 
-  skillsData = [
-    { name: 'HTML + CSS', level: 'Beginner', verified: 'Yes' },
-    { name: 'JavaScript', level: 'Intermediate', verified: 'No' },
-    { name: 'Python3', level: 'Advanced', verified: 'Yes' },
-  ];
+  studentSemWiseMarksData = new MatTableDataSource<{
+    semesterName: number;
+    sgpa: number;
+  }>();
 
-  statusData = [
-    { company: 'Google', currentStatus: 'Selected', date: '15th Sep 2024' },
-    {
-      company: 'Microsoft',
-      currentStatus: 'In Progress',
-      date: '22nd Sep 2024',
-    },
-    { company: 'Infosys', currentStatus: 'Unselected', date: '10th Sep 2024' },
+  displayedSkillsColumns: string[] = ["skillType", "skills"];
+
+  displayedStatusColumns: string[] = [
+    "companyName",
+    "jobRole",
+    "status",
+    "interviewDate",
   ];
+  displayedSemesterColumns: string[] = ["semesterName", "sgpa"];
+
+  ngOnInit(): void {
+    this.getStudentDetails();
+    this.getStudentSkills();
+    this.getstatusData();
+    this.getSemesterData();
+  }
+
+  getStudentDetails = () => {
+    this.studentDetailsApiService
+      .GetStudentDetailsById(this.studentById)
+      .subscribe({
+        next: (response) => {
+          const data: Tblstudent[] = response.value;
+          this.studentData.set(data);
+          this.studentAcademicsData.set(data[0].Studentacademics);
+          this.studentSemesterMarksData.set(
+            this.studentAcademicsData()[0].StudentSemesterMarks
+          );
+          console.log(this.studentSemesterMarksData());
+        },
+        error: (error) => {
+          console.error("Error fetching Student details:", error);
+        },
+      });
+  };
+
+  getStudentSkills = () => {
+    this.studentDetailsApiService
+      .GetStudentSkillsByStudentId(this.studentById)
+      .subscribe({
+        next: (response) => {
+          const data: StudentSkill[] = response.value;
+          const groupedData: { [key: string]: string[] } = {};
+          data.forEach((item) => {
+            const skillTypeName = item.Skill?.SkillType?.Name || "";
+            const skillName = item.Skill?.Name || "";
+            if (!groupedData[skillTypeName]) {
+              groupedData[skillTypeName] = [];
+            }
+            groupedData[skillTypeName].push(skillName);
+          });
+          this.studentSkillsData.data = Object.keys(groupedData).map((key) => ({
+            skillType: key,
+            skills: groupedData[key].join(", "),
+          }));
+          console.log(this.studentSkillsData);
+        },
+        error: (error) => {
+          console.error("Error fetching Student details:", error);
+        },
+      });
+  };
+
+  getstatusData = () => {
+    this.studentDetailsApiService
+      .GetCompanyDetails(this.studentById)
+      .subscribe({
+        next: (response) => {
+          const formattedData = response.value.map((item: any) => {
+            const driveDate = item.JobPosting?.DriveDate;
+            const interviewDate = driveDate ? GetDate(new Date(driveDate)) : "";
+
+            return {
+              companyName: item.JobPosting?.Company?.Name || "",
+              jobRole: item.JobPosting?.JobRole || "",
+              status: item.Status?.Name || "",
+              interviewDate,
+            };
+          });
+          this.statusData.data = formattedData;
+        },
+        error: (error) => {
+          console.error("Error fetching status data:", error);
+        },
+      });
+  };
+  getSemesterData = () => {
+    this.studentDetailsApiService.GetSemesterData(this.studentById).subscribe({
+      next: (response) => {
+        const data = response.value.flatMap((item: any) =>
+          (item.StudentSemesterMarks || []).map((mark: any) => ({
+            semesterName: mark.Semester || 0,
+            sgpa: mark.Sgpa || 0,
+          }))
+        );
+        this.studentSemWiseMarksData.data = data;
+        console.log("Mapped Semester Data:", data);
+      },
+      error: (error) => {
+        console.error("Error fetching status data:", error);
+      },
+    });
+  };
 }

@@ -27,8 +27,7 @@
           <input
             matInput
             placeholder="Search by Student Name"
-            [formControl]="searchControl"
-          />
+            [formControl]="searchControl" />
         </mat-form-field>
       </div>
 
@@ -67,26 +66,23 @@
     <!-- Standard Table for Larger Screens -->
     <table
       mat-table
-      [dataSource]="dataSource"
+      [dataSource]="StudentDataSource"
       class="student-table mat-elevation-z8"
-      *ngIf="isLargeScreen()"
-    >
+      *ngIf="isLargeScreen()">
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox
             (change)="$event ? toggleAllRows() : null"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()"
-            [aria-label]="checkboxLabel()"
-          ></mat-checkbox>
+            [aria-label]="checkboxLabel()"></mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
           <mat-checkbox
             (click)="$event.stopPropagation()"
             (change)="$event ? selection.toggle(row) : null"
             [checked]="selection.isSelected(row)"
-            [aria-label]="checkboxLabel(row)"
-          ></mat-checkbox>
+            [aria-label]="checkboxLabel(row)"></mat-checkbox>
         </td>
       </ng-container>
 
@@ -97,7 +93,7 @@
             <ng-container *ngSwitchCase="'StudentName'">
               <a
                 href="javascript:void(0)"
-                (click)="openStudentDetailsDialog()"
+                (click)="openStudentDetailsDialog(element.StudentID)"
                 class="student-link"
                 >{{ element.StudentName }}</a
               >
@@ -107,14 +103,12 @@
               <button
                 *ngIf="element.Status === 'Invite'"
                 mat-raised-button
-                color="primary"
-              >
+                color="primary">
                 <mat-icon>mail</mat-icon>Invite
               </button>
               <mat-chip
                 *ngIf="element.Status !== 'Invite'"
-                [ngStyle]="getChipStyle(element.Status)"
-              >
+                [ngStyle]="getChipStyle(element.Status)">
                 {{ element.Status }}
               </mat-chip>
             </ng-container>
@@ -124,13 +118,11 @@
                 *ngIf="
                   element.ApplicationApprovalStatus === 'Verify';
                   else showChip
-                "
-              >
+                ">
                 <button
                   (click)="verifyApplicationStatus(element.StudentID)"
                   mat-raised-button
-                  color="primary"
-                >
+                  color="primary">
                   Verify
                 </button>
               </ng-container>
@@ -140,8 +132,7 @@
                     getApplicationApproveChipStyle(
                       element.ApplicationApprovalStatus
                     )
-                  "
-                >
+                  ">
                   {{ element.ApplicationApprovalStatus }}
                 </mat-chip>
               </ng-template>
@@ -166,8 +157,7 @@
             {{ row.StudentName }}
             <mat-checkbox
               (change)="$event ? selection.toggle(row) : null"
-              [checked]="selection.isSelected(row)"
-            >
+              [checked]="selection.isSelected(row)">
             </mat-checkbox>
           </mat-panel-title>
           <mat-panel-description>
@@ -184,15 +174,13 @@
           <button
             *ngIf="row.Status === 'Invite'"
             mat-raised-button
-            color="primary"
-          >
+            color="primary">
             <mat-icon>mail</mat-icon>Invite
           </button>
           <button
             (click)="verifyApplicationStatus(row.StudentID)"
             mat-raised-button
-            color="primary"
-          >
+            color="primary">
             Verify
           </button>
         </div>

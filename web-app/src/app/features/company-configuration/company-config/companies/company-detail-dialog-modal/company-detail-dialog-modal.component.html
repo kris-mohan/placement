@@ -8,7 +8,7 @@
     <!-- <p><strong>GST Number:</strong> {{ data.Gstnumber }}</p> -->
     <p><strong>Contact Person:</strong> {{ data.ContactPerson }}</p>
     <p><strong>Address Line 1:</strong> {{ data.AddressLine1 }}</p>
-    <p><strong>City:</strong > {{ data.City }}</p>
+    <p><strong>City:</strong> {{ data.City }}</p>
     <p><strong>State:</strong> {{ data.State }}</p>
     <!-- <p><strong>Zip Code:</strong> {{ data.ZipCode }}</p> -->
     <p><strong>Country:</strong> {{ data.Country }}</p>
@@ -30,12 +30,10 @@
   <mat-dialog-actions>
     <button mat-button (click)="onClose()">Close</button>
     <button *ngIf="UserRoleId !== 3" mat-button (click)="clickKnowMore()">
-      Know More
+      Add Company
     </button>
     <button *ngIf="UserRoleId === 3" mat-button (click)="clickKnowMore()">
       Apply now
     </button>
   </mat-dialog-actions>
 </div>
-
-

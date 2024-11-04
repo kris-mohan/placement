@@ -233,32 +233,48 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let scheduledInterview of scheduledInterviews"
+      *ngFor="let scheduledInterview of jobInterviewRounds()"
       fxFlex="100%"
       fxFlex.gt-sm="50%"
       fxFlex.gt-md="28%"
       fxFlex.gt-lg="25%"
       class="grid-item"
       class="mat-grid-tile"
-      (click)="goToInterviewStudentsDetails(scheduledInterview.id)"
+      (click)="goToInterviewStudentsDetails(scheduledInterview.Id)"
     >
       <div class="company-details">
-        <h3>{{ scheduledInterview.roundName }}</h3>
-        <div class="company-type">{{ scheduledInterview.company }}</div>
-        <p><strong>Date:</strong> {{ scheduledInterview.postedDate }}</p>
+        <h3>{{ scheduledInterview.Name }}</h3>
+        <div class="company-type">
+          {{ scheduledInterview.JobPosting.Company.Name }}
+        </div>
+        <p>
+          <strong>Duration:</strong>
+          {{
+            GetDateLabelByDate(
+              scheduledInterview.JobPosting.ValidFrom || undefined
+            )
+          }}
+          -
+          {{
+            GetDateLabelByDate(
+              scheduledInterview.JobPosting.ValidTill || undefined
+            )
+          }}
+        </p>
       </div>
 
       <div class="company">
-        <img alt="Company Logo" class="Logo" height="70%" width="auto" />
-        <p><strong>Status:</strong> {{ scheduledInterview.status }}</p>
+        <img alt="company logo" class="Logo" height="70%" width="auto" />
+        <p><strong>Status:</strong> NA</p>
+        <!-- <p><strong>Status:</strong> {{ scheduledInterview.status }}</p> -->
         <div *ngIf="UserRoleId !== 3">
           <p>
             <strong>Number of students cleared:</strong>
-            {{ scheduledInterview.studentsCleared }}
+            <!-- {{ scheduledInterview.studentsCleared }} -->
           </p>
           <p>
             <strong>Number of students rejected:</strong>
-            {{ scheduledInterview.studentsRejected }}
+            <!-- {{ scheduledInterview.studentsRejected }} -->
           </p>
         </div>
       </div>

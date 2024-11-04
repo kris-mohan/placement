@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Placements.DataAccess.Placement.Models;
 
-public partial class Jobstudentstau
+public partial class Jobstudentstatus
 {
     public int Id { get; set; }
 

@@ -55,7 +55,7 @@ namespace Placements.WebApi.Controllers.PlacementController
 
                 original.Name = technology.Name;
                 original.Description = technology.Description;
-                original.Companytechonologies = technology.Companytechonologies;
+                original.Companytechnologies = technology.Companytechnologies;
 
 
                 _context.Technologies.Update(original);
@@ -70,11 +70,11 @@ namespace Placements.WebApi.Controllers.PlacementController
         }
 
         [HttpPatch]
-        public async Task<IActionResult> Patch(long key, Delta<Technology>? delta)
+        public async Task<IActionResult> Patch(long key, Delta<Technology> delta)
         {
             try
             {
-                Technology original = await _context.Technologies.FirstOrDefaultAsync(x => x.Id == key);
+                Technology? original = await _context.Technologies.FirstOrDefaultAsync(x => x.Id == key);
                 if (original == null)
                 {
                     return Ok(new { success = false, message = "Technology Not Found" });

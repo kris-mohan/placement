@@ -9,8 +9,7 @@
         </div>
         <div>
           <p class="matHeaderName">
-            Add Job Posting
-            <!-- {{ TrainerId ? "Edit Trainer" : "Add Trainer" }} -->
+            {{ Id ? "Edit Job Posting" : "Add Job Posting" }}
           </p>
         </div>
       </div>
@@ -18,7 +17,11 @@
   </mat-card-header>
   <mat-divider></mat-divider>
 
-  <form class="form-content">
+  <form
+    class="form-content"
+    [formGroup]="addEditJobPostingForm"
+    (ngSubmit)="onSubmit()"
+  >
     <div class="form-container">
       <mat-card-content>
         <div fxLayout="row wrap">
@@ -29,12 +32,14 @@
             fxFlex.gt-sm="50%"
           >
             <p>College Name</p>
-            <mat-form-field>
+            <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Select College name</mat-label>
-              <mat-select>
-                <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
+              <mat-select multiple formControlName="Collegejobpostings">
+                @for (collegeName of collegeNames(); track collegeName) {
+                <mat-option [value]="collegeName.Id">{{
+                  collegeName.CollegeName
+                }}</mat-option>
+                }
               </mat-select>
             </mat-form-field>
           </div>
@@ -46,12 +51,12 @@
             fxFlex.gt-sm="50%"
           >
             <p>Batch</p>
-            <mat-form-field>
+            <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Select Batch</mat-label>
-              <mat-select>
-                <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
+              <mat-select multiple formControlName="CompanyJobBatches">
+                @for (batch of BatchesNames(); track batch) {
+                <mat-option [value]="batch.Id">{{ batch.Name }}</mat-option>
+                }
               </mat-select>
             </mat-form-field>
           </div>
@@ -62,13 +67,79 @@
             fxFlex.gt-lg="25%"
             fxFlex.gt-sm="50%"
           >
-            <p>Branch</p>
-            <mat-form-field>
-              <mat-label>Select Branch</mat-label>
-              <mat-select>
-                <!-- @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                } -->
+            <p>Stream</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Select Stream</mat-label>
+              <mat-select multiple formControlName="CompanyJobCourses">
+                @for (stream of StreamNames(); track stream) {
+                <mat-option [value]="stream.Id">{{ stream.Name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Course</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Select Course</mat-label>
+              <mat-select multiple formControlName="CompanyJobCourses">
+                @for (course of CoursesNames(); track course) {
+                <mat-option [value]="course.Id">{{ course.Name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Skill Types</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Select Skill Types</mat-label>
+              <mat-select
+                multiple
+                [(ngModel)]="selectedSkillTypeIds"
+                (selectionChange)="onSkillTypeSelectionChange($event)"
+                formControlName="JobpostingSkillTypes"
+              >
+                @for (skillTypeName of SkillTypeNames(); track skillTypeName) {
+                <mat-option [value]="skillTypeName.Id">{{
+                  skillTypeName.Name
+                }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Skills</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Select Skills</mat-label>
+              <mat-select
+                [(ngModel)]="selectedSkillIds"
+                multiple
+                formControlName="JobpostingSkills"
+              >
+                @for (skillName of SkillNames(); track skillName) {
+                <mat-option [value]="skillName.Id">{{
+                  skillName.Name
+                }}</mat-option>
+                }
               </mat-select>
             </mat-form-field>
           </div>
@@ -84,20 +155,7 @@
             <p class="grid-label">Job Role</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Job Role</mat-label>
-              <input matInput placeholder="" />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Post</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Post</mat-label>
-              <input matInput placeholder="" />
+              <input matInput formControlName="JobRole" />
             </mat-form-field>
           </div>
 
@@ -110,7 +168,24 @@
             <p class="grid-label">No of Posts</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>No of Posts</mat-label>
-              <input matInput placeholder="" />
+              <input type="number" matInput formControlName="Vacancies" />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Minimum Year of Experience</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Minimum year of Experience</mat-label>
+              <input
+                type="number"
+                matInput
+                formControlName="MinimumYearExperience"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -122,36 +197,97 @@
             fxFlex.gt-lg="25%"
             fxFlex.gt-sm="50%"
           >
+            <p class="grid-label">Minimum Month of Experience</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Minimum Month of Experience</mat-label>
+              <mat-select formControlName="MinimumMonthExperience">
+                <mat-option *ngFor="let month of Months" [value]="month">
+                  {{ month }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Maximum Year of Experience</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Maximum Year of Experience</mat-label>
+              <input
+                type="number"
+                matInput
+                formControlName="MaximumYearExperience"
+              />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Maximum Month of Experience</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Maximum Month of Experience</mat-label>
+              <mat-select formControlName="MaximumMonthExperience">
+                <mat-option *ngFor="let month of Months" [value]="month">
+                  {{ month }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Min 10th/SSLC %</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>10th Marks</mat-label>
+              <input
+                type="number"
+                matInput
+                formControlName="MinSslcpercentage"
+              />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Min PUC %</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Technology</mat-label>
+              <input
+                type="number"
+                matInput
+                formControlName="MinPucpercentage"
+              />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
             <p class="grid-label">Min CGPA</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Min CGPA</mat-label>
-              <input matInput placeholder="" />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Number of backlogs allowed</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>No of backlogs</mat-label>
-              <input matInput placeholder="" />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Location</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Location</mat-label>
-              <input matInput placeholder="" />
+              <input type="number" matInput formControlName="MinCgpa" />
             </mat-form-field>
           </div>
         </div>
@@ -165,7 +301,7 @@
             <p class="grid-label">CTC</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>CTC</mat-label>
-              <input matInput placeholder="" />
+              <input type="number" matInput formControlName="Salary" />
             </mat-form-field>
           </div>
 
@@ -175,10 +311,14 @@
             fxFlex.gt-lg="25%"
             fxFlex.gt-sm="50%"
           >
-            <p class="grid-label">Technology</p>
+            <p class="grid-label">Mode of Work</p>
             <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Technology</mat-label>
-              <input matInput placeholder="" />
+              <mat-label>Mode of Work</mat-label>
+              <mat-select formControlName="ModeOfWork">
+                <mat-option *ngFor="let mode of ModeOfWorks" [value]="mode">
+                  {{ mode }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
           <div
@@ -187,10 +327,10 @@
             fxFlex.gt-lg="25%"
             fxFlex.gt-sm="50%"
           >
-            <p class="grid-label">Min PUC % / CGPA</p>
+            <p class="grid-label">Location</p>
             <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Technology</mat-label>
-              <input matInput placeholder="" />
+              <mat-label>Location</mat-label>
+              <input matInput formControlName="Location" />
             </mat-form-field>
           </div>
         </div>
@@ -204,88 +344,101 @@
             <p class="grid-label">Job Type</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Job Type</mat-label>
-              <input matInput placeholder="" />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Shift</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Shift</mat-label>
-              <input matInput placeholder="Shift" />
-            </mat-form-field>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">10th Marks</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>10th Marks</mat-label>
-              <input matInput placeholder="" />
-            </mat-form-field>
-          </div>
-
-          <!-- <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p>Select Pay Roll</p>
-            <mat-form-field>
-              <mat-label>Pay Roll</mat-label>
-              <mat-select>
-                @for (company of technologyTableList; track company) {
-                <mat-option [value]="company">{{ company }}</mat-option>
-                }
+              <mat-select formControlName="JobType">
+                <mat-option *ngFor="let JobType of JobTypes" [value]="JobType">
+                  {{ JobType }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
-          </div> -->
-        </div>
-        <!-- <div fxLayout="row wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p>Last Date to apply</p>
-            <mat-form-field appearance="fill">
-              <input matInput [matDatepicker]="startDatePicker" />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="startDatePicker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #startDatePicker></mat-datepicker>
-            </mat-form-field>
           </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p>Last Date to apply</p>
-            <mat-form-field appearance="fill">
-              <input matInput [matDatepicker]="startDatePicker" />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="startDatePicker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #startDatePicker></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </div> -->
 
-        <!-- <mat-card-actions class="footer-actions"> -->
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Shift Type</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Shift Type</mat-label>
+              <mat-select formControlName="Shift">
+                <mat-option
+                  *ngFor="let shiftType of ShiftTypes"
+                  [value]="shiftType"
+                >
+                  {{ shiftType }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Number of backlogs allowed</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>No of backlogs</mat-label>
+              <input type="number" matInput formControlName="BacklogsAllowed" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row wrap">
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Last Date to apply</p>
+            <mat-form-field appearance="fill" appearance="outline">
+              <input
+                matInput
+                [matDatepicker]="startDatePicker"
+                formControlName="ValidTill"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p>Drive Date</p>
+            <mat-form-field appearance="fill" appearance="outline">
+              <input
+                matInput
+                [matDatepicker]="DriveDatePicker"
+                formControlName="DriveDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="DriveDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #DriveDatePicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div
+            fxFlex="100%"
+            fxFlex.gt-md="33%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%"
+          >
+            <p class="grid-label">Job Description</p>
+            <mat-form-field appearance="outline" class="matFormField">
+              <mat-label>Job Description</mat-label>
+              <textarea matInput formControlName="JobDescription"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
         <div class="add-job-posting">
           <button mat-raised-button class="matbutton">
             <p class="matName">Reset</p>
@@ -294,7 +447,6 @@
             <p class="matName">Add Job Posting</p>
           </button>
         </div>
-        <!-- </mat-card-actions> -->
 
         <div>
           <mat-card>
@@ -311,139 +463,8 @@
             </mat-tab-group>
           </mat-card>
         </div>
-        <!--
-        <div fxLayout="row wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Round Name</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Round Name</mat-label>
-              <input matInput placeholder="Round Name" />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Description</p>
-            <mat-form-field appearance="outline" class="matFormField">
-              <mat-label>Description</mat-label>
-              <input matInput placeholder="Description" />
-            </mat-form-field>
-          </div>
-        </div>
-        <div fxLayout="row wrap">
-          <div
-            class="row-wrap-content"
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p>Start Date</p>
-            <mat-form-field appearance="fill" class="matFormField">
-              <mat-label>Start Date</mat-label>
-              <input
-                formControlName="StartDate"
-                matInput
-                [matDatepicker]="startDatePicker"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="startDatePicker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #startDatePicker></mat-datepicker>
-            </mat-form-field>
-            <p>Start Time</p>
-            <mat-form-field appearance="fill" class="matFormField">
-              <mat-label>Start Time</mat-label>
-              <input
-                id="StartTimePicker"
-                matInput
-                [ngxTimepicker]="startTimePicker"
-              />
-              <ngx-material-timepicker
-                #startTimePicker
-              ></ngx-material-timepicker>
-            </mat-form-field>
-          </div>
-          <div
-            class="row-wrap-content"
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p>End Date</p>
-            <mat-form-field appearance="fill" class="matFormField">
-              <mat-label>End Date</mat-label>
-              <input
-                formControlName="EndDate"
-                matInput
-                [matDatepicker]="endDatePicker"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="endDatePicker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #endDatePicker></mat-datepicker>
-            </mat-form-field>
-
-            <p>End Time</p>
-            <mat-form-field appearance="fill" class="matFormField">
-              <mat-label>End Time</mat-label>
-              <input
-                id="EndTimePicker"
-                matInput
-                [ngxTimepicker]="endTimePicker"
-              />
-              <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
-            </mat-form-field>
-          </div>
-        </div> -->
-
-        <!-- <button mat-raised-button class="matbutton" type="submit">
-          <p class="matName">
-            + Add
-          </p>
-        </button> -->
       </mat-card-content>
       <div>
-        <!-- <div fxLayout="row wrap">
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Panel Member Name</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Panel Member Name</mat-label>
-            <input matInput placeholder="panel Member Name" />
-          </mat-form-field>
-        </div>
-
-        <div
-          fxFlex="100%"
-          fxFlex.gt-md="33%"
-          fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Role</p>
-          <mat-form-field appearance="outline" class="matFormField">
-            <mat-label>Role</mat-label>
-            <input matInput placeholder="Role" />
-          </mat-form-field>
-        </div>
-      </div> -->
-
         <mat-card-actions class="footer-actions">
           <button mat-raised-button class="matbutton">
             <p class="matName">Reset</p>

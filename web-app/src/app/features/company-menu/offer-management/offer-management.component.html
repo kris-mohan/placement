@@ -58,14 +58,16 @@
               [formGroup]="campaignOne"
               [rangePicker]="datePicker"
               [comparisonStart]="campaignOne.value.start"
-              [comparisonEnd]="campaignOne.value.end">
+              [comparisonEnd]="campaignOne.value.end"
+            >
               <input matStartDate placeholder="Start date" />
               <input matEndDate placeholder="End date" />
             </mat-date-range-input>
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle
               matIconSuffix
-              [for]="datePicker"></mat-datepicker-toggle>
+              [for]="datePicker"
+            ></mat-datepicker-toggle>
             <mat-date-range-picker #datePicker></mat-date-range-picker>
           </mat-form-field>
         </div>
@@ -91,7 +93,7 @@
         <mat-label> Select Name of the University</mat-label>
         <mat-select multiple>
           <mat-option *ngFor="let uni of universityTypes" [value]="uni">
-            {{ uni }}
+            {{ uni.Name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -125,22 +127,26 @@
     <div class="stats-section">
       <div>
         <p class="stats-para">Total Offers Sent</p>
-        <h2 class="stats-header">20</h2>
+        <h2 class="stats-header">
+          {{ JobpostingSelectedstudentData().length }}
+        </h2>
       </div>
       <div class="divider"></div>
       <div>
         <p class="stats-para">Offers Accepted</p>
-        <h2 class="stats-header">30</h2>
+        <h2 class="stats-header">
+          {{ acceptedOffersCount }}
+        </h2>
       </div>
       <div class="divider"></div>
       <div>
         <p class="stats-para">Offers Rejected</p>
-        <h2 class="stats-header">5</h2>
+        <h2 class="stats-header">{{ rejectedOffersCount }}</h2>
       </div>
       <div class="divider"></div>
       <div>
         <p class="stats-para">Pending Offers</p>
-        <h2 class="stats-header">9</h2>
+        <h2 class="stats-header">{{ pendingOffersCount }}</h2>
       </div>
     </div>
   </mat-card>
@@ -160,24 +166,35 @@
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"
     class="mat-card-content"
-    (click)="openOfferManagement()">
+    (click)="openOfferManagement()"
+  >
     <div
-      *ngFor="let offer of offers"
+      *ngFor="let offer of JobpostingSelectedstudentData()"
       fxFlex="100%"
       fxFlex.gt-sm="50%"
       fxFlex.gt-md="28%"
       fxFlex.gt-lg="25%"
-      class="grid-item mat-grid-tile">
+      class="grid-item mat-grid-tile"
+    >
       <div class="company-details">
-        <h3>{{ offer.candidateName }}</h3>
-        <div class="company-type">{{ offer.company }}</div>
-        <p><strong>Position:</strong> {{ offer.position }}</p>
-        <p><strong>Date Sent:</strong> {{ offer.sentDate | date }}</p>
+        <h3>{{ offer.Student.FirstName }} {{ offer.Student.LastName }}</h3>
+        <div class="company-type"></div>
+        <p><strong>Position:</strong> {{ offer.JobPosting.JobRole }}</p>
+        <p><strong>Date Sent:</strong></p>
       </div>
 
       <div class="company">
-        <p><strong>Status:</strong> {{ offer.status }}</p>
-        <p><strong>Offer Expiry:</strong> {{ offer.expiryDate | date }}</p>
+        <p>
+          <strong>Status:</strong
+          >{{
+            offer.HasAcceptedOffer == null
+              ? "Pending"
+              : offer.HasAcceptedOffer === 1
+              ? "Accepted"
+              : "Rejected"
+          }}
+        </p>
+        <p><strong>Offer Expiry:</strong></p>
       </div>
     </div>
   </mat-card-content>

@@ -206,7 +206,7 @@ export class CompaniesComponent {
     {
       Id: 9,
       logo: 'company-logo-9.png',
-      name: 'Amazon Web Services',
+      name: 'AmazWeb Services',
       rating: 4.4,
       reviews: '2.5K+ reviews',
       type: 'Foreign MNC',

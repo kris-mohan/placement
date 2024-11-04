@@ -249,7 +249,7 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let jobposting of JobPostingsData"
+      *ngFor="let jobposting of JobPostingsData()"
       (click)="openCopmanyJobDescriptionPage(jobposting.Id)"
       fxFlex="100%"
       fxFlex.gt-sm="100%"
@@ -264,9 +264,9 @@
 
         <div class="job-details-container">
           <div class="job-detail">
-            <span
+            <!-- <span
               ><strong>Experience:</strong> {{ jobposting.Experience }}</span
-            >
+            > -->
             <span><strong>Job Type:</strong> {{ jobposting.JobType }}</span>
             <span><strong>Skills:</strong> {{ jobposting.JobRole }}</span>
             <span><strong>Salary:</strong> {{ jobposting.Salary }}</span>

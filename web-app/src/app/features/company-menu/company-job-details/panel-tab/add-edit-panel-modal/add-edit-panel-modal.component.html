@@ -1,9 +1,19 @@
 <div>
   <h1 class="header" mat-dialog-title>
     {{ panelId ? "Edit Panel" : "Add Panel" }}
+    <mat-icon
+      mat-button
+      mat-dialog-close
+      style="cursor: pointer; margin-right: auto"
+      >cancel</mat-icon
+    >
   </h1>
 
-  <form class="form-content">
+  <form
+    [formGroup]="panelAddEditForm"
+    class="form-content"
+    (ngSubmit)="onSubmit()"
+  >
     <mat-dialog-content>
       <mat-card-content>
         <div fxLayout="row wrap">
@@ -13,18 +23,11 @@
               appearance="outline"
               class="matFormField panels_input"
             >
-              <input matInput/>
+              <input matInput formControlName="PanelName" />
             </mat-form-field>
           </div>
 
-          <!-- <div fxFlex="80%">
-            <p class="grid-label">Current Round</p>
-            <mat-form-field appearance="outline" class="matFormField panels_input">
-              <mat-select placeholder="Select Round">
-                <mat-option *ngFor="let round of RoundDataSource" [value]="round.Id">{{ round.Name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div> -->
+        
 
           <div fxFlex="80%">
             <p class="grid-label">Description</p>
@@ -32,7 +35,7 @@
               appearance="outline"
               class="matFormField panels_input"
             >
-              <input matInput/>
+              <input matInput formControlName="Description" />
             </mat-form-field>
           </div>
 
@@ -42,7 +45,7 @@
               appearance="outline"
               class="matFormField panels_input"
             >
-              <input matInput/>
+              <input matInput formControlName="Designation" />
             </mat-form-field>
           </div>
 

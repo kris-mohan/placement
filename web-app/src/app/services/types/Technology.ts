@@ -1,4 +1,4 @@
-import { Companytechonology } from "./Companytechonology";
+import { Companytechnology } from "./Companytechnology";
 import { Jobposting } from "./Jobposting";
 
 export type Technology = {
@@ -6,7 +6,7 @@ export type Technology = {
     Name?: string;
     Description?: string;
     IsDeleted: boolean;
-    Companytechonologies?: Companytechonology[];
+    Companytechonologies?: Companytechnology[];
     Jobpostings?: Jobposting[];
     JobpostingsNavigation?: Jobposting[];
 };

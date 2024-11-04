@@ -6,22 +6,21 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class PanelAPIService {
+  [x: string]: any;
   constructor(private apiHttpService: ApiHttpService) {}
 
   public GetAllPanelData(): Observable<any> {
-    return this.apiHttpService.get(
-      "/Jobinterviewpanel"
-    );
+    return this.apiHttpService.get("/Jobinterviewpanel");
   }
 
-  public GetPanelDataById(id: number): Observable<any> {
+  public GetPanelDataById(id: number | null): Observable<any> {
     return this.apiHttpService.get(`/Jobinterviewpanel?filter=Id eq ${id}`);
   }
 
   public DeletePanel(id: number): Observable<any> {
     const url = `/Jobinterviewpanel?key=${id}`;
     const data = { isdeleted: true };
-    return this.apiHttpService.patch(url, data);
+    return this.apiHttpService.delete(url);
   }
 
   public AddUpdatePanel(
