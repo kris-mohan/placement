@@ -1,5 +1,5 @@
 import { CommonModule, Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, signal } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -11,6 +11,10 @@ import {
   Companydatum,
   PostCompanydatum,
 } from "src/app/services/types/Companydatum";
+import { TechnologyAPIService } from "../../technologies/api-technology";
+import { Technology } from "src/app/services/types/Technology";
+import { IndustryAPIService } from "../../industry/api.industry";
+import { Industry } from "src/app/services/types/Industry";
 
 @Component({
   selector: "app-add-edit-company",
@@ -23,6 +27,8 @@ export class AddEditCompanyComponent {
   addEditCompanyForm: FormGroup;
   Id: number | null = null;
   initialFormValues: any;
+  technologies = signal<Technology[]>([]);
+  industries = signal<Industry[]>([]);
 
   constructor(
     private fb: FormBuilder,
@@ -30,7 +36,9 @@ export class AddEditCompanyComponent {
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
     private apiCompanyService: CompanyAPIService,
-    private location: Location
+    private location: Location,
+    private technologyApiService: TechnologyAPIService,
+    private industryApiService: IndustryAPIService
   ) {
     this.addEditCompanyForm = this.fb.group({
       Url: ["", [Validators.required]],
@@ -87,6 +95,19 @@ export class AddEditCompanyComponent {
         });
       }
     });
+  }
+
+  getTechnologies() {
+    this.technologyApiService.loadTechnologyData().subscribe((techs) => {
+      this.technologies.set(techs.value);
+    });
+  }
+
+  getIndustries() {
+    this.industryApiService.loadIndustryData().subscribe((list) => {
+      this.industries.set(list.value);
+    });
+    
   }
 
   async onSubmit() {
