@@ -5,7 +5,6 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { AddRoundsModalComponent } from "../test-rounds/add-rounds-modal/add-rounds-modal.component";
 import { MatDialog } from "@angular/material/dialog";
-
 import { ActivatedRoute, Router } from "@angular/router";
 import { TestRoundsComponent } from "../test-rounds/test-rounds.component";
 import { TabsCompanyJobDetailsService } from "../../tabs-Company-job-details";
@@ -45,9 +44,39 @@ export class AddEditCompanyJobDetailsComponent {
   SkillNames = signal<Skill[]>([]);
 
   selectedSkillTypeIds: number[] = [];
+  selectedSkillIds: number[] = [];
   Id: number | null = null;
   sessionCompanyId: number;
   addEditJobPostingForm: FormGroup;
+
+  JobTypes = [
+    "Full-Time",
+    "Part-Time",
+    "Temporary",
+    "Contract",
+    "Freelance",
+    "Internship",
+    "Apprenticeship",
+    "Consultant",
+    "Remote",
+    "Seasonal",
+  ];
+
+  ModeOfWorks = ["On-Site", "Remote", "Hybrid", "Flexible", "Travel-Based"];
+
+  ShiftTypes = [
+    "Day Shift",
+    "Night Shift",
+    "Swing Shift",
+    "Rotating Shift",
+    "Split Shift",
+    "Weekend Shift",
+    "On-Call Shift",
+    "Fixed Shift",
+    "Flexible Shift",
+  ];
+
+  Months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   readonly dialog = inject(MatDialog);
   constructor(
@@ -80,12 +109,20 @@ export class AddEditCompanyJobDetailsComponent {
       MinPucpercentage: [0, [Validators.required]],
       MinCgpa: [0, [Validators.required]],
       BacklogsAllowed: [0, [Validators.required]],
+
+      MinimumYearExperience: [0, [Validators.required]],
+      MaximumYearExperience: [0, [Validators.required]],
+      MinimumMonthExperience: [0],
+      MaximumMonthExperience: [0],
       IsDeleted: [false],
       IsActive: [true],
-      Collegejobpostings: [[], [Validators.required]],
-      CompanyJobBatches: [[], [Validators.required]],
-      CompanyJobCourses: [[], [Validators.required]],
-      JobpostingSkills: [[], [Validators.required]],
+      Collegejobpostings: [[]],
+      CompanyJobBatches: [[]],
+      CompanyJobCourses: [[]],
+      JobpostingSkillTypes: [[]],
+      JobpostingSkills: [[]],
+      selectedSkillTypeIds: [[]],
+      selectedSkillIds: [[]],
     });
   }
 
@@ -200,6 +237,28 @@ export class AddEditCompanyJobDetailsComponent {
               const data: Jobposting = response.value[0];
               if (data) {
                 this.addEditJobPostingForm.patchValue(data);
+                // this.addEditJobPostingForm = this.fb.group({
+                //   selectedSkillTypeIds: data.JobpostingSkills?.map(
+                //     (x) => x.Skill?.SkillTypeId
+                //   ),
+                // });
+                this.selectedSkillTypeIds = Array.from(
+                  new Set(
+                    data.JobpostingSkills?.filter(
+                      (x) => x.Skill?.SkillTypeId
+                    ).map((x) => x.Skill?.SkillTypeId ?? 0) ?? []
+                  )
+                );
+
+                // this.addEditJobPostingForm = this.fb.group({
+                //   selectedSkillIds: data.JobpostingSkills?.map(
+                //     (x) => x.SkillId
+                //   ),
+                // });
+                this.selectedSkillIds =
+                  data.JobpostingSkills?.filter((x) => x.SkillId).map(
+                    (x) => x.SkillId ?? 0
+                  ) ?? [];
               }
             },
             error: (error) => {
@@ -230,7 +289,6 @@ export class AddEditCompanyJobDetailsComponent {
         QuantityFilled: jobPosting.QuantityFilled ?? 0,
         Salary: jobPosting.Salary ?? 0,
         Location: jobPosting.Location ?? "",
-        Experience: jobPosting.Experience ?? "",
         JobType: jobPosting.JobType ?? "",
         Shift: jobPosting.Shift ?? "",
         ModeOfWork: jobPosting.ModeOfWork ?? "",
@@ -240,6 +298,10 @@ export class AddEditCompanyJobDetailsComponent {
         MinPucpercentage: jobPosting.MinPucpercentage ?? 0,
         MinCgpa: jobPosting.MinCgpa ?? 0,
         BacklogsAllowed: jobPosting.BacklogsAllowed ?? 0,
+        MinimumYearExperience: jobPosting.MinimumYearExperience ?? 0,
+        MaximumYearExperience: jobPosting.MaximumYearExperience ?? 0,
+        MinimumMonthExperience: jobPosting.MinimumMonthExperience ?? 0,
+        MaximumMonthExperience: jobPosting.MaximumMonthExperience ?? 0,
         IsDeleted: 0,
         IsClosed: 0,
         Collegejobpostings: (jobPosting.Collegejobpostings ?? []).map(

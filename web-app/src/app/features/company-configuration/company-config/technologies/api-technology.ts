@@ -1,8 +1,10 @@
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
 import { ODataResponse } from "./technologies.component";
 import { Observable } from "rxjs";
-import { Technology } from "./technologies-module";
+// import { Technology } from "./technologies-module";
 import { Injectable } from "@angular/core";
+import { ODataEntity } from "src/app/services/types/OData";
+import { Technology } from "src/app/services/types/Technology";
 
 @Injectable({
   providedIn: "root",
@@ -10,8 +12,10 @@ import { Injectable } from "@angular/core";
 export class TechnologyAPIService {
   constructor(private apiHttpService: ApiHttpService) {}
 
-  public loadTechnologyData(): Observable<ODataResponse<any>> {
-    return this.apiHttpService.get("/Technology/?filter=Isdeleted eq false");
+  public loadTechnologyData(): Observable<ODataEntity<Technology[]>> {
+    return this.apiHttpService.get<ODataEntity<Technology[]>>(
+      "/Technology/?filter=Isdeleted eq false"
+    );
   }
 
   public getTechnologyDataById(
