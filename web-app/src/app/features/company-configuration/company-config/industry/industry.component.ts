@@ -2,11 +2,11 @@ import { CommonModule, Location } from "@angular/common";
 import { Component } from "@angular/core";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
-import { Industry } from "./industry.module";
 import { MatTableDataSource } from "@angular/material/table";
 import { IndustryAPIService } from "./api.industry";
 import { Router } from "@angular/router";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import { Industry } from "src/app/services/types/Industry";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -52,14 +52,8 @@ export class IndustryComponent {
   }
 
   loadIndustryData() {
-    this.apiIndustrySevice.loadIndustryData().subscribe({
-      next: (response: ODataResponse<Industry>) => {
-        console.log("API Response:", response);
-        this.dataSource.data = response.value;
-      },
-      error: (error) => {
-        console.error("Error loading Industry", error);
-      },
+    this.apiIndustrySevice.loadIndustryData().subscribe((response) => {
+      this.dataSource.data = response.value;
     });
   }
 
