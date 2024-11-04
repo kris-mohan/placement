@@ -2,6 +2,8 @@ import { Observable } from "rxjs";
 import { ODataResponse } from "./industry.component";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
 import { Injectable } from "@angular/core";
+import { ODataEntity } from "src/app/services/types/OData";
+import { Industry } from "src/app/services/types/Industry";
 
 @Injectable({
   providedIn: "root",
@@ -9,7 +11,7 @@ import { Injectable } from "@angular/core";
 export class IndustryAPIService {
   constructor(private apiHttpService: ApiHttpService) {}
 
-  public loadIndustryData(): Observable<ODataResponse<any>> {
+  public loadIndustryData(): Observable<ODataEntity<Industry[]>> {
     return this.apiHttpService.get(`/Industry?filter=Isdeleted eq false`);
   }
 
