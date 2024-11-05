@@ -3,7 +3,8 @@
     <button
       mat-raised-button
       class="matbutton"
-      (click)="openEditCompanyProfile()">
+      (click)="openEditCompanyProfile()"
+    >
       <mat-icon class="maticon">add</mat-icon>
       <p class="matName">Add Details</p>
     </button>
@@ -45,13 +46,14 @@
           <div class="more_info_item">
             <strong>Type : </strong>
             <span>{{
-              CompanyProfileData()[0]?.IsActive ? 'Active' : 'Inactive'
+              CompanyProfileData()[0]?.IsActive ? "Active" : "Inactive"
             }}</span>
           </div>
           <div class="more_info_item">
             <strong>Founded: </strong>
             <span
-              *ngIf="CompanyProfileData()[0]?.DateOfRegistration; else noDate">
+              *ngIf="CompanyProfileData()[0]?.DateOfRegistration; else noDate"
+            >
               {{ CompanyProfileData()[0].DateOfRegistration | date }}
             </span>
             <ng-template #noDate>Not Available</ng-template>
@@ -74,7 +76,8 @@
 
           <div
             class="more_info_item"
-            *ngIf="CompanyProfileData() && CompanyProfileData().length > 0">
+            *ngIf="CompanyProfileData() && CompanyProfileData().length > 0"
+          >
             <strong>Website : </strong>
             <a [href]="CompanyProfileData()[0].Url" target="_blank">
               {{ CompanyProfileData()[0].Url }}
@@ -95,7 +98,8 @@
               title="Dummy YouTube Video"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
+              allowfullscreen
+            ></iframe>
           </div>
 
           <div class="resources-column">
@@ -104,7 +108,8 @@
               <a
                 href="../../../../assets/PaataashalaBrochure.pdf"
                 target="_blank"
-                class="resource-link">
+                class="resource-link"
+              >
                 <mat-icon>picture_as_pdf</mat-icon> View PPT
               </a>
             </div>
@@ -113,7 +118,8 @@
               <a
                 href="../../../../assets/PaataashalaBrochure.pdf"
                 target="_blank"
-                class="resource-link">
+                class="resource-link"
+              >
                 <mat-icon>description</mat-icon> View Document
               </a>
             </div>
@@ -122,7 +128,8 @@
               <a
                 href="../../../../assets/Shiva_Tandava_Stotram_Original_Powerful_Best_Trance_(youconvert.net).mp3"
                 target="_blank"
-                class="resource-link">
+                class="resource-link"
+              >
                 <mat-icon>volume_up</mat-icon> Listen to Audio
               </a>
             </div>
@@ -140,13 +147,13 @@
 
         <div *ngFor="let job of JobPostingData()" class="feedback_card">
           <h3>{{ job.JobRole }}</h3>
-          <div><strong>Job Type:</strong> {{ job.JobType || 'N/A' }}</div>
+          <div><strong>Job Type:</strong> {{ job.JobType || "N/A" }}</div>
           <div><strong>Location:</strong> {{ job.Location }}</div>
           <div>
             <strong>Posted Date:</strong>
-            {{ job.ValidFrom | date : 'mediumDate' }}
+            {{ job.ValidFrom | date : "mediumDate" }}
           </div>
-          <div><strong>Experience:</strong> {{ job.Experience || 'N/A' }}</div>
+          <!-- <div><strong>Experience:</strong> {{ job.Experience || 'N/A' }}</div> -->
         </div>
       </div>
     </div>
