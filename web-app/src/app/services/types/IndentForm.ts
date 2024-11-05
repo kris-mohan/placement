@@ -1,4 +1,4 @@
-import { IndentFormDynamicField } from "./IndentFormDynamicField";
+import { IndentFormDynamicField } from './IndentFormDynamicField';
 
 export interface IndentForm {
   Id: number;

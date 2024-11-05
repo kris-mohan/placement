@@ -198,30 +198,34 @@ export class PlacementDashboardComponent implements OnInit {
     const companyWisePlacementData = async () => {
       this.studentPlacementSeries = [
         {
-          name: 'Company A',
+          name: 'IT',
           data: [10, 20, 30, 40, 50, 60],
         },
         {
-          name: 'Company B',
+          name: 'EC-core',
           data: [15, 25, 35, 45, 55, 65],
         },
         {
-          name: 'Company C',
+          name: 'Mech-core',
           data: [20, 30, 40, 50, 60, 70],
         },
         {
-          name: 'Company D',
+          name: 'Non-Tech',
+          data: [20, 30, 10, 15, 15],
+        },
+        {
+          name: 'Sales',
           data: [20, 30, 10, 15, 15, 10],
         },
       ];
 
       this.placementCategories = [
-        'IT',
-        'EC-core',
-        'Mech-core',
-        'Tech',
-        'Non-Tech',
-        'Sales',
+        'Company A',
+        'Company B',
+        'Company C',
+        'Company D',
+        'Company E',
+        'Company F',
       ];
     };
     companyWisePlacementData();

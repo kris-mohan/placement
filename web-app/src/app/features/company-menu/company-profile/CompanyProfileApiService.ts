@@ -26,6 +26,8 @@ export class CompanyProfileApiService {
     );
   }
 
+
+
   public deleteCompany(id: number): Observable<ODataEntity<Companydatum[]>> {
     const url = `/Companydatum?key=${id}`;
     const data = { isdeleted: true };

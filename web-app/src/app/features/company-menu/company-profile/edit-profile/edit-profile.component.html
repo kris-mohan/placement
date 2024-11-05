@@ -4,37 +4,41 @@
     >cancel</mat-icon
   >
 </div>
-<h2 mat-dialog-title>Company Name</h2>
+<h2 mat-dialog-title formControlName="Name">
+  Enter Company Name: {{ CompanyProfileData()[0].Name }}
+</h2>
 <div mat-dialog-content>
-  <form [formGroup]="formData">
+  <form [formGroup]="addEditCompanyProfile">
     <h3>Company Sectors:</h3>
     <mat-form-field class="mat-form-field" appearance="outline">
       <mat-label>Company Sectors</mat-label>
       <mat-chip-grid #chipGrid aria-label="Enter Sectors">
-        @for (sector of sectorChips(); track sector) { @if (showAllSectors ||
-        sectorChips().indexOf(sector) < 3) {
-        <mat-chip-row (removed)="remove(sector)">
-          {{ sector?.Name }}
+        <mat-chip-row
+          *ngFor="let sector of sectorChips(); let i = index"
+          [hidden]="!showAllSectors && i >= 3"
+          (removed)="remove(sector)">
+          {{ sector.Name }}
           <button matChipRemove [attr.aria-label]="'remove ' + sector.Name">
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip-row>
-        } } @if (sectorChips().length > 3) {
+
         <mat-chip-row
+          *ngIf="sectorChips().length > 3"
           (click)="showAllSectors = !showAllSectors"
           style="cursor: pointer"
           class="show-more-chip">
           {{ showAllSectors ? 'Show less' : 'Show more' }}
         </mat-chip-row>
-        }
       </mat-chip-grid>
       <input
         placeholder="Enter Sectors"
         [matChipInputFor]="chipGrid"
         (matChipInputTokenEnd)="add($event)"
         matInput
-        formControlName="sector" />
+        formControlName="Type" />
     </mat-form-field>
+
     <div fxLayout="row">
       <div fxFlex="100%">
         <h3>About Us</h3>
@@ -44,17 +48,17 @@
         </mat-form-field>
       </div>
     </div>
-    <h3>More Information</h3>
 
+    <h3>More Information</h3>
     <div fxLayout="" fxLayoutAlign="space-around start" fxLayoutGap="20px">
       <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
         <h4>Type:</h4>
         <mat-form-field appearance="outline" class="mat-form-field">
           <mat-label>Type</mat-label>
           <mat-select>
-            <mat-option *ngFor="let type of types" [value]="type">{{
-              type
-            }}</mat-option>
+            <mat-option *ngFor="let type of types" [value]="type"
+              >MNC</mat-option
+            >
           </mat-select>
         </mat-form-field>
       </div>
@@ -134,6 +138,11 @@
         <input type="file" accept=".pdf,.doc,.docx" />
         <button class="UploadButton">Upload</button>
       </div>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" (click)="onSubmit()">
+        Submit
+      </button>
     </div>
   </form>
 </div>

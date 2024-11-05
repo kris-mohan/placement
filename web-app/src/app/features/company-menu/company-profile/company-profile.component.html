@@ -10,7 +10,6 @@
   </div>
 
   <div class="heading">
-    <!-- <h2>{{ CompanyProfileData().Name }}</h2> -->
     <h2 *ngIf="CompanyProfileData() && CompanyProfileData().length > 0">
       {{ CompanyProfileData()[0].Name }}
     </h2>
@@ -20,8 +19,10 @@
       <li *ngFor="let industry of CompanyIndustriesData()">
         {{ industry.Industry?.Type }}
       </li>
+      <li *ngIf="!CompanyIndustriesData().length">Sector not available</li>
     </ul>
   </div>
+
   <div class="content">
     <div class="left">
       <div class="overview">
@@ -71,11 +72,12 @@
             <!-- <ng-template #noHQ>N/A</ng-template> -->
           </div>
 
-          <div class="more_info_item">
+          <div
+            class="more_info_item"
+            *ngIf="CompanyProfileData() && CompanyProfileData().length > 0">
             <strong>Website : </strong>
             <a [href]="CompanyProfileData()[0].Url" target="_blank">
-              <!-- {{ CompanyProfileData()[0].Url }} -->
-              Click here
+              {{ CompanyProfileData()[0].Url }}
             </a>
           </div>
         </div>
@@ -131,12 +133,20 @@
 
     <div class="right">
       <div class="feedback">
-        <div class="feedback_card">
-          <h3>Python Developer</h3>
-          <div><strong>Job Type:</strong> Full Time</div>
-          <div><strong>Location:</strong> IT Consulting Department</div>
-          <div><strong>Posted Date:</strong> October 28, 2024</div>
-          <div><strong>Experience:</strong> 2+ years</div>
+        <h3 class="right-heading">
+          Job Postings
+          <a href="company-job-details">View More</a>
+        </h3>
+
+        <div *ngFor="let job of JobPostingData()" class="feedback_card">
+          <h3>{{ job.JobRole }}</h3>
+          <div><strong>Job Type:</strong> {{ job.JobType || 'N/A' }}</div>
+          <div><strong>Location:</strong> {{ job.Location }}</div>
+          <div>
+            <strong>Posted Date:</strong>
+            {{ job.ValidFrom | date : 'mediumDate' }}
+          </div>
+          <div><strong>Experience:</strong> {{ job.Experience || 'N/A' }}</div>
         </div>
       </div>
     </div>
