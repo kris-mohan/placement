@@ -82,3 +82,17 @@ h4 {
   font-size: x-large;
   font-weight: bold;
 }
+
+.footer-actions {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: auto;
+}

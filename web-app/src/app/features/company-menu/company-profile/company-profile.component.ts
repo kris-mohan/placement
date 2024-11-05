@@ -80,6 +80,7 @@ export class CompanyProfileComponent {
   openEditCompanyProfile() {
     const dialogRef = this.dialog.open(EditProfileComponent, {
       width: "65vw",
+      data: this.CompanyProfileData(),
     });
     dialogRef.afterClosed();
   }
@@ -96,7 +97,7 @@ export class CompanyProfileComponent {
         this.JobPostingData.set(data[0].Jobpostings);
         this.CompanyIndustriesData.set(data[0].Companyindustries);
         console.log("Company Profile:", this.CompanyIndustriesData());
-        console.log("Company:", this.CompanyProfileData());
+        console.log("Company Profile Data:", this.CompanyProfileData());
       },
 
       error: (error) => {

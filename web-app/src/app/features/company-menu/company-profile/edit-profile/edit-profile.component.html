@@ -5,18 +5,25 @@
   >
 </div>
 <h2 mat-dialog-title formControlName="Name">
-  Enter Company Name: {{ CompanyProfileData()[0].Name }}
+  Company Name: {{ data[0].Name }}
 </h2>
 <div mat-dialog-content>
   <form [formGroup]="addEditCompanyProfile">
     <h3>Company Sectors:</h3>
     <mat-form-field class="mat-form-field" appearance="outline">
       <mat-label>Company Sectors</mat-label>
-      <mat-chip-grid #chipGrid aria-label="Enter Sectors">
+      <mat-select formControlName="sector" multiple>
+        <mat-option *ngFor="let industry of industries" [value]="industry.Id">
+          {{ industry.Type }}
+        </mat-option>
+      </mat-select>
+
+      <!-- <mat-chip-grid #chipGrid aria-label="Enter Sectors">
         <mat-chip-row
           *ngFor="let sector of sectorChips(); let i = index"
           [hidden]="!showAllSectors && i >= 3"
-          (removed)="remove(sector)">
+          (removed)="remove(sector)"
+        >
           {{ sector.Name }}
           <button matChipRemove [attr.aria-label]="'remove ' + sector.Name">
             <mat-icon>cancel</mat-icon>
@@ -27,8 +34,9 @@
           *ngIf="sectorChips().length > 3"
           (click)="showAllSectors = !showAllSectors"
           style="cursor: pointer"
-          class="show-more-chip">
-          {{ showAllSectors ? 'Show less' : 'Show more' }}
+          class="show-more-chip"
+        >
+          {{ showAllSectors ? "Show less" : "Show more" }}
         </mat-chip-row>
       </mat-chip-grid>
       <input
@@ -36,7 +44,8 @@
         [matChipInputFor]="chipGrid"
         (matChipInputTokenEnd)="add($event)"
         matInput
-        formControlName="Type" />
+        formControlName="sector"
+      /> -->
     </mat-form-field>
 
     <div fxLayout="row">
@@ -51,7 +60,7 @@
 
     <h3>More Information</h3>
     <div fxLayout="" fxLayoutAlign="space-around start" fxLayoutGap="20px">
-      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
+      <!-- <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
         <h4>Type:</h4>
         <mat-form-field appearance="outline" class="mat-form-field">
           <mat-label>Type</mat-label>
@@ -61,13 +70,18 @@
             >
           </mat-select>
         </mat-form-field>
-      </div>
+      </div> -->
 
       <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
         <h4>Founded:</h4>
         <mat-form-field appearance="outline" class="mat-form-field">
           <mat-label>Founding year</mat-label>
-          <input matInput placeholder="Enter year" type="number" />
+          <input
+            matInput
+            placeholder="Enter year"
+            type="number"
+            formControlName="foundingYear"
+          />
         </mat-form-field>
       </div>
 
@@ -75,7 +89,11 @@
         <h4>Company Size:</h4>
         <mat-form-field appearance="outline" class="mat-form-field">
           <mat-label>Company Range</mat-label>
-          <input matInput placeholder="Ex. 1000-5000" />
+          <input
+            matInput
+            placeholder="Ex. 1000-5000"
+            formControlName="companySize"
+          />
         </mat-form-field>
       </div>
 
@@ -83,11 +101,16 @@
         fxFlex="100%"
         fxFlex.gt-sm="48%"
         fxFlex.gt-md="24%"
-        class="moreInfoFields">
+        class="moreInfoFields"
+      >
         <h4>Headquarters:</h4>
         <mat-form-field appearance="outline" class="mat-form-field">
           <mat-label>Headquarters</mat-label>
-          <input matInput placeholder="Ex. Bangalore" />
+          <input
+            matInput
+            placeholder="Ex. Bangalore"
+            formControlName="headquarters"
+          />
         </mat-form-field>
       </div>
 
@@ -95,7 +118,12 @@
         <h4>Website:</h4>
         <mat-form-field appearance="outline" class="mat-form-field">
           <mat-label>Website</mat-label>
-          <input matInput placeholder="Ex. www.abc.com" type="url" />
+          <input
+            matInput
+            placeholder="Ex. www.abc.com"
+            type="url"
+            formControlName="website"
+          />
         </mat-form-field>
       </div>
     </div>
@@ -106,7 +134,8 @@
         fxFlex="100%"
         fxFlex.gt-md="25%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%">
+        fxFlex.gt-sm="50%"
+      >
         <p class="grid-label">Upload Video</p>
         <input type="file" accept="video" />
         <button class="UploadButton">Upload</button>
@@ -115,7 +144,8 @@
         fxFlex="100%"
         fxFlex.gt-md="25%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%">
+        fxFlex.gt-sm="50%"
+      >
         <p class="grid-label">Upload PPT</p>
         <input type="file" accept=".ppt , .pptx" />
         <button class="UploadButton">Upload</button>
@@ -124,7 +154,8 @@
         fxFlex="100%"
         fxFlex.gt-md="25%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%">
+        fxFlex.gt-sm="50%"
+      >
         <p class="grid-label">Upload Audio</p>
         <input type="file" accept="audio" />
         <button class="UploadButton">Upload</button>
@@ -133,15 +164,21 @@
         fxFlex="100%"
         fxFlex.gt-md="25%"
         fxFlex.gt-lg="25%"
-        fxFlex.gt-sm="50%">
+        fxFlex.gt-sm="50%"
+      >
         <p class="grid-label">Upload Document</p>
         <input type="file" accept=".pdf,.doc,.docx" />
         <button class="UploadButton">Upload</button>
       </div>
     </div>
-    <div mat-dialog-actions>
-      <button mat-raised-button color="primary" (click)="onSubmit()">
-        Submit
+    <div class="footer-actions">
+      <button
+        mat-raised-button
+        class="matbutton"
+        type="submit"
+        (click)="onSubmit()"
+      >
+        <p class="matName">Update</p>
       </button>
     </div>
   </form>
