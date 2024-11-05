@@ -6,6 +6,8 @@ import { Jobposting } from "./Jobposting";
 import { Login } from "./Login";
 import { Paatashalaregistration } from "./Paatasalagistration";
 
+export type PatchCompanyDatum = Companydatum | {};
+
 export type Companydatum = {
   Id: number;
   Url: string;
