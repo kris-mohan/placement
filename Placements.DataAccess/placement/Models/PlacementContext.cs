@@ -829,7 +829,9 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.Cgpa)
                 .HasPrecision(10)
                 .HasColumnName("CGPA");
+            entity.Property(e => e.TenthBoard).HasMaxLength(145);
             entity.Property(e => e.TenthMarks).HasPrecision(10);
+            entity.Property(e => e.TwelthBoard).HasMaxLength(145);
             entity.Property(e => e.TwelthMarks).HasPrecision(10);
 
             entity.HasOne(d => d.Course).WithMany(p => p.Studentacademics)
@@ -885,6 +887,7 @@ public partial class PlacementContext : DbContext
             entity.HasIndex(e => e.OrgId, "FK_Student_Campus_idx");
 
             entity.Property(e => e.AadharCardNumber).HasMaxLength(45);
+            entity.Property(e => e.BloodGroup).HasMaxLength(45);
             entity.Property(e => e.CurrentAddress).HasMaxLength(500);
             entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(50);

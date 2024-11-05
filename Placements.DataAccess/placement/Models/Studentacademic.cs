@@ -19,6 +19,14 @@ public partial class Studentacademic
 
     public decimal? TwelthMarks { get; set; }
 
+    public string? TenthBoard { get; set; }
+
+    public string? TwelthBoard { get; set; }
+
+    public int? TenthPassedOutYear { get; set; }
+
+    public int? TwelthPassedOutYear { get; set; }
+
     public virtual Course? Course { get; set; }
 
     public virtual Stream? Stream { get; set; }

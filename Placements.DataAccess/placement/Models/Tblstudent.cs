@@ -33,6 +33,8 @@ public partial class Tblstudent
 
     public string? RollNo { get; set; }
 
+    public string? BloodGroup { get; set; }
+
     public virtual Batch? Batch { get; set; }
 
     public virtual ICollection<JobpostStudentround> JobpostStudentrounds { get; set; } = new List<JobpostStudentround>();
