@@ -31,97 +31,6 @@ export class IndentplacementComponent {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
-  IndentData = [
-    {
-      CompanyDesignation: "",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      PhoneNo: 2345678,
-      RequiredItem: "Sheets",
-      Quatity: 34,
-      CompanyName: "google",
-
-      EmailAddress: "abcgmailcom",
-    },
-    {
-      id: 2,
-      jobTitle: "Data Scientist",
-      company: "Facebook",
-      date: "2024-09-28",
-      status: "Upcoming",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "This is the first assessment to test the candidate's programming and problem-solving skills.",
-      roundName: "Test Assesment 2",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      PhoneNo: 2345678,
-      RequiredItem: "Stationary",
-      Quatity: 4,
-      CompanyName: "google",
-      CompanyDesignation: "",
-      EmailAddress: "abcgmailcom",
-    },
-    {
-      id: 3,
-      jobTitle: "Product Manager",
-      company: "Amazon",
-      date: "2024-09-27",
-      status: "Completed",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "The second assessment focuses on data science challenges and machine learning algorithms.",
-
-      roundName: "Test Assesment 3",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      PhoneNo: 2345678,
-      RequiredItem: "Sheets",
-      Quatity: 3,
-      CompanyName: "google",
-      CompanyDesignation: "",
-      EmailAddress: "abcgmailcom",
-    },
-    {
-      id: 4,
-      jobTitle: "Web Developer",
-      company: "Microsoft",
-      date: "2024-09-29",
-      status: "",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "This assessment evaluates the candidate's ability to manage products and handle business cases.",
-
-      roundName: "Technical Interview",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      EmailAddress: "abcgmailcom",
-    },
-    {
-      id: 5,
-      jobTitle: "UI/UX Designer",
-      company: "Apple",
-      date: "2024-09-26",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "A technical interview to assess coding skills, system design, and problem-solving ability.",
-
-      roundName: "HR Interview",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      PhoneNo: 2345678989,
-      RequiredItem: "pens",
-      Quatity: 10,
-      CompanyName: "google",
-      CompanyDesignation: "",
-      EmailAddress: "abc@gmailcom",
-    },
-  ];
 
   jobSummary = [
     { jobTitle: "Software Engineer", studentsCount: 1 },
@@ -171,7 +80,7 @@ export class IndentplacementComponent {
       .replace(/^./, (str) => str.toUpperCase());
   }
 
-  openAddEditIndentForm(id?: string) {
+  openAddEditIndentForm(id?: number) {
     if (id !== undefined) {
       this.router.navigate(["Indent-view-placement/Indent-requirement", id]);
     } else {
