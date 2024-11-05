@@ -9,8 +9,8 @@ import { CalendarEventAPIService } from "../../../campus-configuration/campus-co
 import { MatTableDataSource } from "@angular/material/table";
 import { IndentData } from "../../../company-menu/indent-requirements/indentview/indentview.component.model";
 import { ODataResponse } from "../../../company-menu/indent-requirements/indentview/indentview.component";
-import { IndentPlacementApiService } from "../IndentPlacementApiService";
 import { IndentForm } from "src/app/services/types/IndentForm";
+import { IndentRequirementsApiService } from "src/app/features/company-menu/indent-requirements/IndentRequirementsApiService";
 
 @Component({
   selector: "app-indentplacement",
@@ -25,7 +25,7 @@ export class IndentplacementComponent {
     private router: Router,
     private sweetAlertService: SweetAlertService,
     private APICalendarEventsService: CalendarEventAPIService,
-    private indentApiService: IndentPlacementApiService
+    private indentApiService: IndentRequirementsApiService
   ) {
     this.generateColumns();
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
@@ -53,8 +53,8 @@ export class IndentplacementComponent {
     "East West Pre-University College",
   ];
 
-  selectedUniversityType: string = '';
-  selectedCollegeName: string = '';
+  selectedUniversityType: string = "";
+  selectedCollegeName: string = "";
   filteredColleges: string[] = [];
 
   IndentData: IndentForm[] = [];
@@ -169,19 +169,19 @@ export class IndentplacementComponent {
           Id: indent.Id,
           CompanyName: indent.CompanyName,
           ContactPersonName: indent.ContactPersonName,
-          ContactPersonDesignation: indent.ContactPersonDesignation || '',
-          PhoneNumber: indent.PhoneNumber || '',
-          Email: indent.Email || '',
+          ContactPersonDesignation: indent.ContactPersonDesignation || "",
+          PhoneNumber: indent.PhoneNumber || "",
+          Email: indent.Email || "",
           IndentFormDynamicFields: indent.IndentFormDynamicFields,
-          RequiredItem: '',
-          Quatity: '',
+          RequiredItem: "",
+          Quatity: "",
           studentsCleared: 0,
           studentsRejected: 0,
-          roundName: '',
+          roundName: "",
         }));
       },
       error: (error) => {
-        console.log('Error fetching indents: ', error);
+        console.log("Error fetching indents: ", error);
       },
     });
   };
