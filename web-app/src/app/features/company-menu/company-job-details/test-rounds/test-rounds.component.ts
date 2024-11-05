@@ -66,43 +66,31 @@ export class TestRoundsComponent {
       },
     });
   }
- async deleteCompany(id: number) {
-  // Confirm deletion with the user
-  const confirmed = await this.sweetAlertService.confirmDelete(
-    "Do you really want to delete this Company?"
-  );
+  async deleteCompany(id: number) {
+    // Confirm deletion with the user
+    const confirmed = await this.sweetAlertService.confirmDelete(
+      "Do you really want to delete this Company?"
+    );
 
-  if (confirmed) {
-    this.testRoundsApiService.deleteRound(id).subscribe({
-      next: (response: { success: boolean; message: string }) => {
-        if (response.success) {
-          this.sweetAlertService.success(response.message);
-          this.loadRounds(); 
-        } else {
-          
-          this.sweetAlertService.error(response.message);
-        }
-      },
-      error: (error) => {
-        this.sweetAlertService.error(
-          "An unexpected error occurred while deleting the Company."
-        );
-        console.error("Error deleting Company:", error);
-      },
-    });
+    if (confirmed) {
+      this.testRoundsApiService.deleteRound(id).subscribe({
+        next: (response: { success: boolean; message: string }) => {
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+            this.loadRounds();
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error(
+            "An unexpected error occurred while deleting the Company."
+          );
+          console.error("Error deleting Company:", error);
+        },
+      });
+    }
   }
-}
- 
-  // async getAllRounds() {
-  //   try {
-  //     const response = await this.testRoundsApiService.GetAllRounds();
-  //     const data: Jobinterviewround[] = response.value;
-  //     this.RoundDataSource.data = data;
-  //     console.log(this.RoundDataSource);
-  //   } catch (error) {
-  //     console.error("Error fetching rounds: ", error);
-  //   }
-  // }
 
   columns = [
     { key: "Id", label: "Round ID" },
@@ -123,9 +111,6 @@ export class TestRoundsComponent {
 
   handleAddEditRoundsClick(roundsId: number): void {
     console.log(roundsId);
-    // if (roundsId > 0) {
-    //   this.getRoundsById(roundsId);
-    // }
 
     this.dialog.open(AddRoundsModalComponent, {
       data: roundsId,

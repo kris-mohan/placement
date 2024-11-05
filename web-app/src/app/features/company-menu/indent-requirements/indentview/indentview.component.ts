@@ -10,6 +10,8 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { Calendarevent } from "src/app/features/campus-configuration/campus-configuration/calendar-events/calendar-events-module";
 import { CalendarEventAPIService } from "src/app/features/campus-configuration/campus-configuration/calendar-events/api.calendar.events";
 import { IndentData } from "./indentview.component.model";
+import { IndentRequirementsApiService } from "../IndentRequirementsApiService";
+import { IndentForm } from "src/app/services/types/IndentForm";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -23,13 +25,15 @@ export interface ODataResponse<T> {
   styleUrl: "./indentview.component.css",
 })
 export class IndentviewComponent {
+  [x: string]: any;
   UserRoleId: number;
   constructor(
     private router: Router,
     private dialogService: DialogMessageService,
     private sweetAlertService: SweetAlertService,
     private location: Location,
-    private APICalendarEventsService: CalendarEventAPIService
+    private APICalendarEventsService: CalendarEventAPIService,
+    private IndentApiService: IndentRequirementsApiService
   ) {
     this.generateColumns();
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
@@ -46,7 +50,7 @@ export class IndentviewComponent {
       CompanyName: "google",
 
       EmailAddress: "abcgmailcom",
-    },  
+    },
     {
       id: 2,
       jobTitle: "Data Scientist",
@@ -157,6 +161,7 @@ export class IndentviewComponent {
 
   columns: { key: string; label: string }[] = [];
   dataSource = new MatTableDataSource<IndentData>([]);
+  indentdata: IndentForm[] = [];
 
   generateColumns(): void {
     this.displayedColumns.forEach((column) => {
@@ -173,7 +178,7 @@ export class IndentviewComponent {
       .replace(/^./, (str) => str.toUpperCase());
   }
 
-  openAddEditIndentForm(id?: string) {
+  openAddEditIndentForm(id?: number) {
     if (id !== undefined) {
       this.router.navigate(["/indent-requirement", id]);
     } else {
@@ -182,8 +187,8 @@ export class IndentviewComponent {
   }
 
   // ngOnInit() {
-  //   this.loadCalendarEventData();
-  // }
+  //   this.getAllIndent();
+  // // }
 
   loadCalendarEventData() {
     this.APICalendarEventsService.loadCalendarEventData().subscribe({
@@ -224,5 +229,20 @@ export class IndentviewComponent {
 
   goBack(): void {
     this.location.back();
+  }
+  getAllIndent = () => {
+    this.IndentApiService.GetAllIndents().subscribe({
+      next: (response) => {
+        const data: IndentForm[] = response.value;
+        this.indentdata = data;
+        console.log(this.indentdata);
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
+  ngOnInit() {
+    this.getAllIndent();
   }
 }

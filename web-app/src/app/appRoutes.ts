@@ -82,8 +82,8 @@ import { PlacementOfferRecievedComponent } from "./features/placement-cell/place
 import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/test-rounds/add-rounds-modal/add-rounds-modal.component";
 import { TemplateGeneratorComponent } from "./features/template-generator/template-generator.component";
 
-import { IndentplacementComponent } from "./features/placement-cell/indent-placement/indentplacement/indentplacement.component";
 import { IndentrequirementplacementComponent } from "./features/indentrequirementplacement/indentrequirementplacement.component";
+import { IndentplacementComponent } from "./features/indentplacement/indentplacement.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -431,7 +431,7 @@ const appRoutes: Routes = [
         component: IndentviewComponent,
       },
       {
-        path: "offer-management/offer-management-details/:id",
+        path: "offer-management/offer-management-details",
         component: OfferManagementDetailsComponent,
       },
       {
