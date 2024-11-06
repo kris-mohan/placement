@@ -1,12 +1,12 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { catchError, firstValueFrom, Observable, throwError } from 'rxjs';
-import { ApiHttpService } from 'src/app/services/api-services/api-http-services';
-import { Jobinterviewround } from 'src/app/services/types/Jobinterviewround';
-import { ODataEntity } from 'src/app/services/types/OData';
+import { HttpErrorResponse } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
+import { ApiHttpService } from "src/app/services/api-services/api-http-services";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { ODataEntity } from "src/app/services/types/OData";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class interviewApiService {
   constructor(private apiHttpService: ApiHttpService) {}
@@ -16,8 +16,18 @@ export class interviewApiService {
     //   "/Companydatum?$filter=Id eq 4&expand=Jobpostings(expand=Jobinterviewrounds)"
     // );
     return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
-      '/Jobinterviewround?expand=JobPosting(expand=Company)'
+      `/Jobinterviewround?expand=JobPosting(expand=Company)`
     );
   }
-  
+
+  GetJobInterviewRoundsByCompanyId(
+    companyId: number
+  ): Observable<ODataEntity<Jobinterviewround[]>> {
+    // return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
+    //   "/Companydatum?$filter=Id eq 4&expand=Jobpostings(expand=Jobinterviewrounds)"
+    // );
+    return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
+      `/Jobinterviewround?expand=JobPosting(expand=Company)&filter=JobPosting/CompanyId eq ${companyId}`
+    );
+  }
 }
