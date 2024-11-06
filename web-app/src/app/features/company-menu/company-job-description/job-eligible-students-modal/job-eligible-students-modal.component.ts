@@ -205,55 +205,56 @@ export class JobEligibleStudentsModalComponent {
   ngOnInit() {
     this.getAllStudents();
 
-    // this.dataSource.filterPredicate = (
-    //   data: jobEligibleStudent,
-    //   filter: string
-    // ) => {
-    //   if (!filter) {
-    //     return true;
-    //   }
-    //   const [statusFilter, branchFilter, batchFilter, searchFilter] =
-    //     filter.split("|");
-    //   const statusArray = statusFilter ? statusFilter.split(",") : [];
-    //   const branchArray = branchFilter ? branchFilter.split(",") : [];
-    //   const batchArray = batchFilter ? batchFilter.split(",") : [];
-    //   const searchString = searchFilter ? searchFilter.toLowerCase() : "";
+    this.dataSource.filterPredicate = (
+      data: jobEligibleStudent,
+      filter: string
+    ) => {
+      if (!filter) {
+        return true;
+      }
+      const [statusFilter, branchFilter, batchFilter, searchFilter] =
+        filter.split("|");
+      const statusArray = statusFilter ? statusFilter.split(",") : [];
+      const branchArray = branchFilter ? branchFilter.split(",") : [];
+      const batchArray = batchFilter ? batchFilter.split(",") : [];
+      const searchString = searchFilter ? searchFilter.toLowerCase() : "";
 
-    //   const statusMatch =
-    //     statusArray.length === 0 || statusArray.includes(data.Status);
-    //   const branchMatch =
-    //     branchArray.length === 0 || branchArray.includes(data.Branch);
-    //   const batchMatch =
-    //     batchArray.length === 0 || batchArray.includes(data.Batch);
-    //   const searchMatch =
-    //     !searchString || data.StudentName.toLowerCase().includes(searchString);
+      const statusMatch =
+        statusArray.length === 0 || statusArray.includes(data.Status);
+      const branchMatch =
+        branchArray.length === 0 ||
+        branchArray.includes(data.Branch ? data.Branch : "");
+      const batchMatch =
+        batchArray.length === 0 || batchArray.includes(data.Batch);
+      const searchMatch =
+        !searchString || data.StudentName.toLowerCase().includes(searchString);
 
-    //   return statusMatch && branchMatch && batchMatch && searchMatch;
-    // };
+      return statusMatch && branchMatch && batchMatch && searchMatch;
+    };
 
-    // this.statusControl.valueChanges.subscribe(() => {
-    //   this.applyFilter();
-    // });
+    this.statusControl.valueChanges.subscribe(() => {
+      this.applyFilter();
+    });
 
-    // this.branchControl.valueChanges.subscribe(() => {
-    //   this.applyFilter();
-    // });
+    this.branchControl.valueChanges.subscribe(() => {
+      this.applyFilter();
+    });
 
-    // this.batchControl.valueChanges.subscribe(() => {
-    //   this.applyFilter();
-    // });
+    this.batchControl.valueChanges.subscribe(() => {
+      this.applyFilter();
+    });
 
-    // this.searchControl.valueChanges.subscribe(() => {
-    //   this.applyFilter();
-    // });
+    this.searchControl.valueChanges.subscribe(() => {
+      this.applyFilter();
+    });
 
     // this.applyFilter();
 
-    // this.route.paramMap.subscribe((params) => {
-    //   const companyId = Number(params.get("id"));
-    //   if (companyId) {
-    //   }
-    // });
+    this.route.paramMap.subscribe((params) => {
+      const companyId = Number(params.get("id"));
+      if (companyId) {
+      }
+    });
   }
 
   applyFilter() {
@@ -346,12 +347,9 @@ export class JobEligibleStudentsModalComponent {
         this.dataSource.data = data.map((studentRecord: Studentacademic) => ({
           StudentID: studentRecord.StudentId,
           StudentName: studentRecord.Student.FirstName,
-          DegreeName:
-            studentRecord?.length > 0
-              ? studentRecord?.Course?.FullForm ?? ""
-              : "",
+          DegreeName: studentRecord?.Stream?.Name ?? "",
           CollegeName: "MSRIT",
-          Branch: studentRecord?.Batch?.Name,
+          Branch: studentRecord?.Course?.FullForm ?? "",
           Batch: studentRecord?.Student?.Batch?.Name,
           JobeRole: "Developer",
           CGPA: studentRecord?.Cgpa?.toString(),
