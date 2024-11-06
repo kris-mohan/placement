@@ -3,7 +3,7 @@ export type jobEligibleStudent = {
   DegreeName: string;
   CollegeName: string;
   StudentName: string;
-  Branch: string;
+  Branch: string | undefined;
   JobeRole: string;
   Batch: string;
   CGPA: string;

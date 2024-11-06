@@ -12,6 +12,7 @@ export type Studentacademic = {
   Cgpa: number;
   Course: Course;
   Stream: Stream;
+  Batch: Stream;
   Student: Tblstudent;
   StudentSemesterMarks: StudentSemesterMark[];
 };

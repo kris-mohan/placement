@@ -20,7 +20,7 @@ namespace Placements.WebApi.Controllers.PlacementController
 
         [HttpGet, EnableQuery]
         public IActionResult Get()
-        {
+            {
             return Ok(_context.Jobpostings);
         }
 
