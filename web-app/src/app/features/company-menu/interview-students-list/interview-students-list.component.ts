@@ -1,7 +1,7 @@
 import { CommonModule, Location } from "@angular/common";
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { IndentRequirementsApiService } from "./InterviewStudentListApiService";
 import { Jobposting } from "src/app/services/types/Jobposting";
@@ -10,6 +10,7 @@ import { map, Observable } from "rxjs";
 import { StepperOrientation } from "@angular/material/stepper";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { FormBuilder, Validators } from "@angular/forms";
+import { N } from "@angular/cdk/keycodes";
 
 @Component({
   selector: "app-interview-students-list",
@@ -21,6 +22,8 @@ import { FormBuilder, Validators } from "@angular/forms";
 export class InterviewStudentsListComponent implements OnInit {
   allDetails: Jobposting[] = [];
 
+  Id: string | null = "0";
+
   currentRoundIndex: number = 0;
 
   stepperOrientation: Observable<StepperOrientation>;
@@ -28,6 +31,7 @@ export class InterviewStudentsListComponent implements OnInit {
   constructor(
     private location: Location,
     private router: Router,
+    private route: ActivatedRoute,
     private indentRequirementsApiService: IndentRequirementsApiService
   ) {
     const breakpointObserver = inject(BreakpointObserver);
@@ -38,6 +42,8 @@ export class InterviewStudentsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.Id = this.route.snapshot.paramMap.get("id");
+    console.log(this.Id);
     this.getAllStudents();
   }
 
@@ -46,14 +52,21 @@ export class InterviewStudentsListComponent implements OnInit {
   }
 
   getAllStudents = () => {
-    const id = 2;
-    this.indentRequirementsApiService.GetAllStudents(id).subscribe({
-      next: (response) => {
-        const data: Jobposting[] = response.value;
-        console.log("All Students", data);
-        this.allDetails = data;
-      },
-    });
+    console.log(this.Id);
+    const id = this.Id ? parseInt(this.Id) : 0;
+    console.log(id);
+    this.indentRequirementsApiService
+      .GetAllStudentsByJobInterviewRounds(id)
+      .subscribe({
+        next: (response) => {
+          const data: Jobposting[] = response.value;
+          console.log("All Students", data);
+          this.allDetails = data;
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   };
 
   onStepChange(index: number): void {
