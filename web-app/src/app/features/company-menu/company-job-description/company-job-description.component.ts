@@ -87,7 +87,6 @@ export class CompanyJobDescriptionComponent {
             }));
             this.JobPostingsDescriptionData.set(mappedData);
             console.log("Company Name:", this.JobPostingsDescriptionData());
-             
           },
           error: (error) => {
             console.error("Error fetching jobPostings:", error);

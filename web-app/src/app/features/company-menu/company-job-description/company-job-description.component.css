@@ -45,6 +45,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin: 1rem;
 }
 
 .apply-button:hover {
