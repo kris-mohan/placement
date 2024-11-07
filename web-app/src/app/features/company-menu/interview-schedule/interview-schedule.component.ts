@@ -11,6 +11,9 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { InterviewScheduleAPIService } from "./api.interview-schedule";
 import { Colleges, Universities } from "src/app/services/types/Universities";
 import { ODataEntity } from "src/app/services/types/OData";
+import { Jobposting } from "../../campus-configuration/campus-configuration/job-postings/job-postings-model";
+import { GetDate } from "src/app/core/helper/DateHelper";
+import { InterviewScheduleApiService } from "./InterviewScheduleApiService";
 
 @Component({
   selector: "app-interview-schedule",
@@ -27,42 +30,43 @@ export class InterviewScheduleComponent implements OnInit {
   private eventIDCounter = 0;
   currentEvents: EventApi[] = [];
 
-  universityTypes : WritableSignal<Universities[]> = signal([]);
+  universityTypes: WritableSignal<Universities[]> = signal([]);
   // companiesList: WritableSignal<Companydatum[]> = signal([]);
 
   // colleges : signal<Colleges[]>([]);
-  colleges : WritableSignal<Colleges[]> = signal([]);
+  colleges: WritableSignal<Colleges[]> = signal([]);
 
-  events = [
-    {
-      companyName: "Capgemini",
-      jobTitle: "Associate Software Engineer",
-      Round: 3,
-      RoundName: "Technical Round",
-      eventDate: "05-10-2024",
-      timings: "10:00 AM - 12:00 PM",
-      duration: "2 hours",
-    },
-    {
-      companyName: "Accenture",
-      jobTitle: "Software Developer",
-      Round: 1,
-      RoundName: "Test Assesment",
-      eventDate: "05-10-2024",
-      timings: "2:00 PM - 3:30 PM",
-      duration: "1.5 hours",
-    },
-    {
-      companyName: "Google",
-      jobTitle: "QA",
-      Round: 2,
-      RoundName: "Interview-1",
-      eventDate: "05-10-2024",
-      timings: "9:00 AM - 1:00 PM",
-      duration: "4 hours",
-    },
-  ];
+  // events = [
+  //   {
+  //     companyName: "Capgemini",
+  //     jobTitle: "Associate Software Engineer",
+  //     Round: 3,
+  //     RoundName: "Technical Round",
+  //     eventDate: "05-10-2024",
+  //     timings: "10:00 AM - 12:00 PM",
+  //     duration: "2 hours",
+  //   },
+  //   {
+  //     companyName: "Accenture",
+  //     jobTitle: "Software Developer",
+  //     Round: 1,
+  //     RoundName: "Test Assesment",
+  //     eventDate: "05-10-2024",
+  //     timings: "2:00 PM - 3:30 PM",
+  //     duration: "1.5 hours",
+  //   },
+  //   {
+  //     companyName: "Google",
+  //     jobTitle: "QA",
+  //     Round: 2,
+  //     RoundName: "Interview-1",
+  //     eventDate: "05-10-2024",
+  //     timings: "9:00 AM - 1:00 PM",
+  //     duration: "4 hours",
+  //   },
+  // ];
 
+  events: any[] = [];
   calendarEvents: any[] = [
     {
       id: this.eventIDCounter++,
@@ -94,42 +98,43 @@ export class InterviewScheduleComponent implements OnInit {
   ];
 
   constructor(
-    private dialog: MatDialog ,
-    private apiInterviewSchedule : InterviewScheduleAPIService
+    private dialog: MatDialog,
+    private apiInterviewSchedule: InterviewScheduleApiService,
+    private apiInterviewSchedule1: InterviewScheduleAPIService
   ) {}
 
   ngOnInit(): void {
     this.loadInitialData();
     this.GetUniversties();
     this.GetColleges();
+    this.getInterviewSchedule();
   }
 
- async GetUniversties() {
-  this.apiInterviewSchedule.getUniversities().subscribe({
-    next: (odataResponse) => {
-      this.universityTypes.set(odataResponse.value);
-    },
-    error: (error) => {
-      console.error("Error fetching companies:", error);
-    },
-  });
+  async GetUniversties() {
+    this.apiInterviewSchedule1.getUniversities().subscribe({
+      next: (odataResponse) => {
+        this.universityTypes.set(odataResponse.value);
+      },
+      error: (error) => {
+        console.error("Error fetching companies:", error);
+      },
+    });
   }
 
- async GetColleges() {
-  this.apiInterviewSchedule.getColleges().subscribe({
-    next: (odataResponse) => {
-      this.colleges.set(odataResponse.value);
-    },
-    error: (error) => {
-      console.error("Error fetching colleges:", error);
-    },
-  });
+  async GetColleges() {
+    this.apiInterviewSchedule1.getColleges().subscribe({
+      next: (odataResponse) => {
+        this.colleges.set(odataResponse.value);
+      },
+      error: (error) => {
+        console.error("Error fetching colleges:", error);
+      },
+    });
   }
 
   trackById(index: number, item: any): number {
     return item.Id;
   }
-  
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -140,13 +145,13 @@ export class InterviewScheduleComponent implements OnInit {
     events: this.calendarEvents.map((event) => ({
       ...event,
       extendedProps: {
-        jobRoles: event.jobRole, 
+        jobRoles: event.jobRole,
       },
     })),
     editable: true,
     selectable: true,
     selectMirror: true,
-    initialView: "dayGridMonth", 
+    initialView: "dayGridMonth",
     weekends: true,
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     dateClick: this.handleDateClick.bind(this),
@@ -363,6 +368,34 @@ export class InterviewScheduleComponent implements OnInit {
       // });
     }
   }
+  getInterviewSchedule = () => {
+    this.apiInterviewSchedule.GetInterviewSchedule().subscribe({
+      next: (response) => {
+        const responseList = response.value.flatMap((item: any) => {
+          debugger;
+          const driveDate = item.JobPosting?.DriveDate;
+          const eventDate = driveDate ? GetDate(new Date(driveDate)) : "";
+
+          return item.Jobinterviewrounds?.flatMap((i: any) => {
+            return {
+              jobTitle: item.JobRole,
+              Round: i.Description,
+              RoundName: i.Name,
+              eventDate: item.DriveDate,
+              // timings: ,
+              // duration: ,
+            };
+          });
+        });
+
+        console.log(responseList, "event data");
+        this.events = responseList;
+      },
+      error: (error) => {
+        console.error("Error fetching Company Data", error);
+      },
+    });
+  };
 
   handleEventClick(event?: any) {
     this.isEdited = true;

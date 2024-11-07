@@ -186,11 +186,9 @@ export class JobEligibleStudentsModalComponent {
 
   status: string[] = ["Invite", "Accepted", "Invited", "Rejected", "Pending"];
   branches: string[] = [
-    "Computer Science",
+    "Computer Science and Engineering",
     "Mechanical Engineering",
-    "Electrical Engineering",
-    "Civil Engineering",
-    "Information Technology",
+    "Electronics and Communication Engineering",
   ];
   batches: number[] = [2019, 2020, 2021, 2022];
 
@@ -212,29 +210,20 @@ export class JobEligibleStudentsModalComponent {
       if (!filter) {
         return true;
       }
-      const [statusFilter, branchFilter, batchFilter, searchFilter] =
-        filter.split("|");
-      const statusArray = statusFilter ? statusFilter.split(",") : [];
-      const branchArray = branchFilter ? branchFilter.split(",") : [];
-      const batchArray = batchFilter ? batchFilter.split(",") : [];
+      const [searchFilter, batchFilter, branchFilter] = filter.split("|");
       const searchString = searchFilter ? searchFilter.toLowerCase() : "";
+      const batchArray = batchFilter ? batchFilter.split(",") : [];
+      const branchArray = branchFilter ? branchFilter.split(",") : [];
 
-      const statusMatch =
-        statusArray.length === 0 || statusArray.includes(data.Status);
+      const searchMatch = data.StudentName.toLowerCase().includes(searchString);
+      const batchMatch =
+        batchArray.length == 0 || batchArray.includes(data.Batch);
       const branchMatch =
         branchArray.length === 0 ||
         branchArray.includes(data.Branch ? data.Branch : "");
-      const batchMatch =
-        batchArray.length === 0 || batchArray.includes(data.Batch);
-      const searchMatch =
-        !searchString || data.StudentName.toLowerCase().includes(searchString);
 
-      return statusMatch && branchMatch && batchMatch && searchMatch;
+      return searchMatch && batchMatch && branchMatch;
     };
-
-    this.statusControl.valueChanges.subscribe(() => {
-      this.applyFilter();
-    });
 
     this.branchControl.valueChanges.subscribe(() => {
       this.applyFilter();
@@ -248,8 +237,6 @@ export class JobEligibleStudentsModalComponent {
       this.applyFilter();
     });
 
-    // this.applyFilter();
-
     this.route.paramMap.subscribe((params) => {
       const companyId = Number(params.get("id"));
       if (companyId) {
@@ -258,16 +245,14 @@ export class JobEligibleStudentsModalComponent {
   }
 
   applyFilter() {
-    const selectedStatuses = this.statusControl.value || [];
     const selectedBranches = this.branchControl.value || [];
     const selectedBatch = this.batchControl.value || [];
     const searchText = this.searchControl.value || "";
 
-    const statusFilter = selectedStatuses.join(",");
     const branchFilter = selectedBranches.join(",");
     const batchFilter = selectedBatch.join(",");
 
-    this.dataSource.filter = `${statusFilter}|${branchFilter}|${batchFilter}|${searchText}`;
+    this.dataSource.filter = `${searchText}|${batchFilter}|${branchFilter}`;
   }
 
   isAllSelected() {
