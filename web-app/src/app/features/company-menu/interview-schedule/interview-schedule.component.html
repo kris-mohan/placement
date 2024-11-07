@@ -1,26 +1,27 @@
+<div>
+  <h2 class="header-mat-label">Schedule Interview</h2>
+</div>
 <div style="display: flex">
-  <div>
-    <h2 class="header-mat-label">Interview Schedule</h2>
-  </div>
   <div style="margin: 1rem">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" style="margin-right: 1rem; width: 300px;">
       <mat-label>University</mat-label>
       <mat-select multiple>
-        @for (uni of universityTypes; track uni) {
-        <mat-option [value]="uni">{{ uni }}</mat-option>
-        }
+        <ng-container *ngFor="let uni of universityTypes(); trackBy: trackById">
+          <mat-option [value]="uni.Id">{{ uni.Name }}</mat-option>
+        </ng-container>
       </mat-select>
     </mat-form-field>
-
-    <mat-form-field appearance="outline">
+  
+    <mat-form-field appearance="outline" style="width: 300px;">
       <mat-label>College</mat-label>
       <mat-select multiple>
-        @for (college of colleges; track college) {
-        <mat-option [value]="college">{{ college }}</mat-option>
-        }
+        <ng-container *ngFor="let college of colleges(); trackBy: trackById">
+          <mat-option [value]="college.Id">{{ college.CollegeName }}</mat-option>
+        </ng-container>
       </mat-select>
     </mat-form-field>
   </div>
+  
 </div>
 <div class="main-div">
   <full-calendar class="calendar" [options]="calendarOptions"></full-calendar>
