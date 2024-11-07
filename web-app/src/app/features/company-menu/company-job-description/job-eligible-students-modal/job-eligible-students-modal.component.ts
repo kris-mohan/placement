@@ -1,19 +1,18 @@
 import { AMGModules } from "src/AMG-Module/AMG-module";
-import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { Component, Inject, inject } from "@angular/core";
+import { Component, Inject, inject, signal } from "@angular/core";
 import { ThemePalette } from "@angular/material/core";
-import { MatTableDataSource } from "@angular/material/table";
 import { Router, ActivatedRoute } from "@angular/router";
-import { PeriodicElement } from "src/app/features/customers/customer-list/customer-list.component";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
-import { jobEligibleStudent } from "./job-eligible-students-model";
 import { FormControl } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { StudentdetailsDialogComponent } from "src/app/features/placement-cell/placement-cell/studentdetails-dialog/studentdetails-dialog.component";
 import { Studentacademic } from "src/app/services/types/Studentacademic";
 import { StudentEligibleApiService } from "../JobEligibleApiService";
+import { MatTableDataSource } from "@angular/material/table";
+import { Jobposting } from "src/app/services/types/Jobposting";
+import { JobEligibleStudentApiService } from "./jobEligibleStudentsApiService";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -29,16 +28,13 @@ export interface ODataResponse<T> {
 export class JobEligibleStudentsModalComponent {
   readonly dialog = inject(MatDialog);
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router,
     private route: ActivatedRoute,
-    private sweetAlertService: SweetAlertService,
-    private location: Location,
-    private apiService: StudentEligibleApiService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private location: Location
   ) {}
 
   displayedColumns: string[] = [
-    // "select",
     "StudentID",
     "StudentName",
     "DegreeName",
@@ -78,99 +74,10 @@ export class JobEligibleStudentsModalComponent {
   batchControl = new FormControl<any[] | null>(null);
   searchControl = new FormControl("");
 
-  dataSource = new MatTableDataSource<jobEligibleStudent>([]);
-  selection = new SelectionModel<jobEligibleStudent>(true, []);
+  studentsDetails = new MatTableDataSource<{}>([]);
 
   ngOnInit() {
     this.getAllStudents();
-
-    this.dataSource.filterPredicate = (
-      data: jobEligibleStudent,
-      filter: string
-    ) => {
-      if (!filter) {
-        return true;
-      }
-      const [statusFilter, branchFilter, batchFilter, searchFilter] =
-        filter.split("|");
-      const statusArray = statusFilter ? statusFilter.split(",") : [];
-      const branchArray = branchFilter ? branchFilter.split(",") : [];
-      const batchArray = batchFilter ? batchFilter.split(",") : [];
-      const searchString = searchFilter ? searchFilter.toLowerCase() : "";
-
-      const statusMatch =
-        statusArray.length === 0 || statusArray.includes(data.Status);
-      const branchMatch =
-        branchArray.length === 0 ||
-        branchArray.includes(data.Branch ? data.Branch : "");
-      const batchMatch =
-        batchArray.length === 0 || batchArray.includes(data.Batch);
-      const searchMatch =
-        !searchString || data.StudentName.toLowerCase().includes(searchString);
-
-      return statusMatch && branchMatch && batchMatch && searchMatch;
-    };
-
-    this.statusControl.valueChanges.subscribe(() => {
-      this.applyFilter();
-    });
-
-    this.branchControl.valueChanges.subscribe(() => {
-      this.applyFilter();
-    });
-
-    this.batchControl.valueChanges.subscribe(() => {
-      this.applyFilter();
-    });
-
-    this.searchControl.valueChanges.subscribe(() => {
-      this.applyFilter();
-    });
-
-    // this.applyFilter();
-
-    this.route.paramMap.subscribe((params) => {
-      const companyId = Number(params.get("id"));
-      if (companyId) {
-      }
-    });
-  }
-
-  applyFilter() {
-    const selectedStatuses = this.statusControl.value || [];
-    const selectedBranches = this.branchControl.value || [];
-    const selectedBatch = this.batchControl.value || [];
-    const searchText = this.searchControl.value || "";
-
-    const statusFilter = selectedStatuses.join(",");
-    const branchFilter = selectedBranches.join(",");
-    const batchFilter = selectedBatch.join(",");
-
-    this.dataSource.filter = `${statusFilter}|${branchFilter}|${batchFilter}|${searchText}`;
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  checkboxLabel(row?: jobEligibleStudent): string {
-    if (!row) {
-      return `${this.isAllSelected() ? "deselect" : "select"} all`;
-    }
-    return `${this.selection.isSelected(row) ? "deselect" : "select"} row ${
-      row.StudentID + 1
-    }`;
   }
 
   getChipStyle(action: string): any {
@@ -193,14 +100,14 @@ export class JobEligibleStudentsModalComponent {
   getBadgeColor(action: string): ThemePalette {
     switch (action) {
       case "Invite":
-        return "primary"; // Blue
+        return "primary";
       case "Accepted":
-        return "accent"; // Pink
+        return "accent";
       case "Invited":
-        return "warn"; // Red
+        return "warn";
       case "Rejected":
       case "Blocked":
-        return "warn"; // Red (for Rejected and Blocked)
+        return "warn";
       default:
         return "primary";
     }
@@ -210,35 +117,20 @@ export class JobEligibleStudentsModalComponent {
     this.location.back();
   }
 
-  openStudentDetailsDialog() {
-    this.dialog.open(StudentdetailsDialogComponent, {
-      width: "90vw",
-      height: "90vh",
-      maxWidth: "100vw",
-      panelClass: "custom-dialog-container",
-    });
-  }
-
   getAllStudents = () => {
-    this.apiService.GetAllEligibleStudents().subscribe({
-      next: (response) => {
-        const data: Studentacademic[] = response.value;
-        this.dataSource.data = data.map((studentRecord: Studentacademic) => ({
-          StudentID: studentRecord.StudentId,
-          StudentName: studentRecord.Student.FirstName,
-          DegreeName: studentRecord?.Stream?.Name ?? "",
-          CollegeName: "MSRIT",
-          Branch: studentRecord?.Course?.FullForm ?? "",
-          Batch: studentRecord?.Student?.Batch?.Name,
-          JobeRole: "Developer",
-          CGPA: studentRecord?.Cgpa?.toString(),
-          Status: "Active",
-          resume: "",
-        }));
-      },
-      error: (error) => {
-        console.log("Error fetching rounds: ", error);
-      },
-    });
+    const studentDetails = this.data.value.map((studentRecord: any) => ({
+      StudentID: studentRecord.Id,
+      StudentName: `${studentRecord.FirstName} ${studentRecord.LastName}`,
+      DegreeName: studentRecord.Studentacademics[0]?.Course?.Name ?? "",
+      CollegeName: "MSRIT",
+      Branch: studentRecord.Studentacademics[0]?.Stream?.Name ?? "",
+      Batch: studentRecord.Batch?.Name ?? "",
+      JobeRole: "Developer",
+      CGPA: studentRecord.Studentacademics[0]?.Cgpa ?? "",
+      Status: "Active",
+      resume: "",
+    }));
+
+    this.studentsDetails.data = studentDetails;
   };
 }
