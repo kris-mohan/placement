@@ -266,11 +266,11 @@
               <p class="grid-label">10th Board</p>
               <mat-form-field appearance="outline">
                 <mat-label>Select Board</mat-label>
-                <mat-select (selectionChange)="onBoardChange($event)">
+                <mat-select>
                   <mat-option
-                    *ngFor="let board of Boards"
-                    [value]="board.value">
-                    {{ board.viewValue }}
+                    *ngFor="let board of TenthBoardNames"
+                    [value]="board">
+                    {{ board }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -348,23 +348,24 @@
               </mat-form-field>
             </div>
 
-            <!-- <div
-              fxFlex="100%"
-              fxFlex.gt-md="25%"
-              fxFlex.gt-lg="25%"
-              fxFlex.gt-sm="50%">
-              <p class="grid-label">Select Course</p>
-              <mat-form-field appearance="outline">
-                <mat-label>Select Course</mat-label>
-                <mat-select (selectionChange)="onCourseChange($event)">
-                  <mat-option
-                    *ngFor="let course of Courses"
-                    [value]="course.value">
-                    {{ course.viewValue }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div> -->
+            <div
+            fxFlex="100%"
+            fxFlex.gt-md="25%"
+            fxFlex.gt-lg="25%"
+            fxFlex.gt-sm="50%">
+            <p class="grid-label">2nd PUC/ 12th Board</p>
+            <mat-form-field appearance="outline">
+              <mat-label>Select Board</mat-label>
+              <mat-select>
+                <mat-option
+                  *ngFor="let board of TwelfthBoardNames"
+                  [value]="board">
+                  {{ board }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+            
             <div
               fxFlex="100%"
               fxFlex.gt-md="25%"

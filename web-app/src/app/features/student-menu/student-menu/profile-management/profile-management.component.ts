@@ -15,6 +15,8 @@ import { Course } from 'src/app/services/types/Course';
 import { StudentProfileApiService } from './StudentProfileApiService';
 import { Stream } from 'src/app/services/types/Stream';
 import { Batch } from 'src/app/services/types/Batch';
+import { TenthBoardName } from 'src/app/services/common-dropdowns/TenthBoard';
+import { TwelfthBoardName } from 'src/app/services/common-dropdowns/TwelfthBoard';
 
 @Component({
   selector: 'app-profile-management',
@@ -40,16 +42,12 @@ export class ProfileManagementComponent {
   TenthScoreType: string[] = TenthScoreType;
   TwelfthScoreType: string[] = TwelfthScoreType;
   SemesterScoreType: string[] = SemesterScoreType;
+  TenthBoardNames: string[] = TenthBoardName;
+  TwelfthBoardNames: string[] = TwelfthBoardName;
   BloodGroup: string[] = BloodGroup;
   Courses = signal<Course[]>([]);
   Streams = signal<Stream[]>([]);
   Batches = signal<Batch[]>([]);
-
-  Boards = [
-    { value: 'ICSE', viewValue: 'ICSE' },
-    { value: 'CBSE', viewValue: 'CBSE' },
-    { value: 'State', viewValue: 'State' },
-  ];
 
   constructor(
     private location: Location,
