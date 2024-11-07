@@ -15,6 +15,7 @@
             mat-raised-button
             class="matbutton"
             (click)="handleAddEditRoundsClick(0)"
+            type="button"
           >
             <mat-icon class="maticon">add</mat-icon>
             <p class="matButtonText">Add Rounds</p>
@@ -49,10 +50,15 @@
                 <button
                   mat-icon-button
                   (click)="handleAddEditRoundsClick(element.Id)"
+                  type="button"
                 >
                   <mat-icon> edit </mat-icon>
                 </button>
-                <button mat-icon-button (click)="deleteCompany(element.Id)">
+                <button
+                  mat-icon-button
+                  type="button"
+                  (click)="deleteCompany(element.Id)"
+                >
                   <mat-icon> delete </mat-icon>
                 </button>
               </div>

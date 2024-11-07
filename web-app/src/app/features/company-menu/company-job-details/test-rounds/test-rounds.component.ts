@@ -69,7 +69,7 @@ export class TestRoundsComponent {
   async deleteCompany(id: number) {
     // Confirm deletion with the user
     const confirmed = await this.sweetAlertService.confirmDelete(
-      "Do you really want to delete this Company?"
+      "Do you really want to delete this Round?"
     );
 
     if (confirmed) {

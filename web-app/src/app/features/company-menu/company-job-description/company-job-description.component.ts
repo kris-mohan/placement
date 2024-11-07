@@ -63,10 +63,11 @@ export class CompanyJobDescriptionComponent {
     this.location.back();
   }
 
-  openEligibleStudentsModel(): void {
+  openEligibleStudentsModel(id: number): void {
     this.dialog.open(JobEligibleStudentsModalComponent, {
       width: "90vw",
       height: "80vh",
+      data: id,
     });
   }
 

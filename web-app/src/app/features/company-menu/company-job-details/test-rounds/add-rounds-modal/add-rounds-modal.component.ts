@@ -136,7 +136,7 @@ export class AddRoundsModalComponent {
     const isUpdate = !!this.roundId;
     const actionText = isUpdate ? "update" : "add";
     const confirmed = await this.sweetAlertService.confirm(
-      `Do you want to ${actionText} this company?`
+      `Do you want to ${actionText} this round?`
     );
 
     if (confirmed) {

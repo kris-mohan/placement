@@ -284,7 +284,10 @@ export class InterviewComponent {
     },
   ];
   GetJobInterviewRounds = () => {
-    this.InterviewService.GetJobInterviewRounds().subscribe({
+    const companyId = sessionStorage.getItem("CompanyId");
+    this.InterviewService.GetJobInterviewRoundsByCompanyId(
+      parseInt(companyId ? companyId : "0")
+    ).subscribe({
       next: (response) => {
         console.log(response.value[0], "res");
         const data = response.value;
@@ -292,7 +295,7 @@ export class InterviewComponent {
         data.map((d) => {
           finalData.push({
             ...d,
-            Name: d.JobPosting.JobRole,
+            Name: d.JobPosting?.JobRole,
           });
         });
 
