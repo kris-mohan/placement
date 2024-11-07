@@ -11,6 +11,16 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { InterviewScheduleAPIService } from "./api.interview-schedule";
 import { Colleges, Universities } from "src/app/services/types/Universities";
 import { ODataEntity } from "src/app/services/types/OData";
+import { PostCalendarevent } from "src/app/services/types/Calendarevent";
+import { InterviewScheduleApiService } from "./InterviewScheduleApiService";
+
+type calendarEvent = {
+  // id: string;
+  title: string;
+  start: Date;
+  end: Date;
+  // className: string;
+};
 
 @Component({
   selector: "app-interview-schedule",
@@ -27,11 +37,11 @@ export class InterviewScheduleComponent implements OnInit {
   private eventIDCounter = 0;
   currentEvents: EventApi[] = [];
 
-  universityTypes : WritableSignal<Universities[]> = signal([]);
+  universityTypes: WritableSignal<Universities[]> = signal([]);
   // companiesList: WritableSignal<Companydatum[]> = signal([]);
 
   // colleges : signal<Colleges[]>([]);
-  colleges : WritableSignal<Colleges[]> = signal([]);
+  colleges: WritableSignal<Colleges[]> = signal([]);
 
   events = [
     {
@@ -63,73 +73,75 @@ export class InterviewScheduleComponent implements OnInit {
     },
   ];
 
-  calendarEvents: any[] = [
-    {
-      id: this.eventIDCounter++,
-      title: "Meeting",
-      start: new Date().setDate(new Date().getDate() + 1),
-      end: new Date().setDate(new Date().getDate() + 2),
-      className: "bg-warning text-white",
-    },
-    {
-      id: this.eventIDCounter++,
-      title: "Lunch",
-      start: new Date(),
-      end: new Date(),
-      className: "bg-success text-white",
-    },
-    {
-      id: this.eventIDCounter++,
-      title: "Birthday - party",
-      start: new Date().setDate(new Date().getDate() + 8),
-      className: "bg-info text-white",
-    },
-    {
-      id: this.eventIDCounter++,
-      title: "Long Event",
-      start: new Date().setDate(new Date().getDate() + 7),
-      end: new Date().setDate(new Date().getDate() + 8),
-      className: "bg-primary text-white",
-    },
-  ];
+  // calendarEvents: any[] = [
+  //   {
+  //     id: this.eventIDCounter++,
+  //     title: "Meeting",
+  //     start: new Date().setDate(new Date().getDate() + 1),
+  //     end: new Date().setDate(new Date().getDate() + 2),
+  //     className: "bg-warning text-white",
+  //   },
+  //   {
+  //     id: this.eventIDCounter++,
+  //     title: "Lunch",
+  //     start: new Date(),
+  //     end: new Date(),
+  //     className: "bg-success text-white",
+  //   },
+  //   {
+  //     id: this.eventIDCounter++,
+  //     title: "Birthday - party",
+  //     start: new Date().setDate(new Date().getDate() + 8),
+  //     className: "bg-info text-white",
+  //   },
+  //   {
+  //     id: this.eventIDCounter++,
+  //     title: "Long Event",
+  //     start: new Date().setDate(new Date().getDate() + 7),
+  //     end: new Date().setDate(new Date().getDate() + 8),
+  //     className: "bg-primary text-white",
+  //   },
+  // ];
+
+  calendarEvents = signal<calendarEvent[]>([]);
 
   constructor(
-    private dialog: MatDialog ,
-    private apiInterviewSchedule : InterviewScheduleAPIService
+    private dialog: MatDialog,
+    private interviewScheduleApiService: InterviewScheduleApiService
   ) {}
 
   ngOnInit(): void {
-    this.loadInitialData();
-    this.GetUniversties();
-    this.GetColleges();
+    // this.loadInitialData();
+    // this.GetUniversties();
+    // this.GetColleges();
+    this.getCalendarData();
   }
 
- async GetUniversties() {
-  this.apiInterviewSchedule.getUniversities().subscribe({
-    next: (odataResponse) => {
-      this.universityTypes.set(odataResponse.value);
-    },
-    error: (error) => {
-      console.error("Error fetching companies:", error);
-    },
-  });
-  }
+  // async GetUniversties() {
+  //   this.apiInterviewSchedule.getUniversities().subscribe({
+  //     next: (odataResponse) => {
+  //       this.universityTypes.set(odataResponse.value);
+  //     },
+  //     error: (error) => {
+  //       console.error("Error fetching companies:", error);
+  //     },
+  //   });
+  // }
 
- async GetColleges() {
-  this.apiInterviewSchedule.getColleges().subscribe({
-    next: (odataResponse) => {
-      this.colleges.set(odataResponse.value);
-    },
-    error: (error) => {
-      console.error("Error fetching colleges:", error);
-    },
-  });
-  }
+  // async GetColleges() {
+  //   this.apiInterviewSchedule.getColleges().subscribe({
+  //     next: (odataResponse) => {
+  //       this.colleges.set(odataResponse.value);
+  //     },
+  //     error: (error) => {
+  //       console.error("Error fetching colleges:", error);
+  //     },
+  //   });
+  // }
 
   trackById(index: number, item: any): number {
     return item.Id;
   }
-  
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -137,16 +149,16 @@ export class InterviewScheduleComponent implements OnInit {
       center: "title",
       right: "prevYear,prev,next,nextYear",
     },
-    events: this.calendarEvents.map((event) => ({
+    events: this.calendarEvents().map((event) => ({
       ...event,
-      extendedProps: {
-        jobRoles: event.jobRole, 
-      },
+      // extendedProps: {
+      //   jobRoles: event.jobRole,
+      // },
     })),
     editable: true,
     selectable: true,
     selectMirror: true,
-    initialView: "dayGridMonth", 
+    initialView: "dayGridMonth",
     weekends: true,
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     dateClick: this.handleDateClick.bind(this),
@@ -285,13 +297,21 @@ export class InterviewScheduleComponent implements OnInit {
 
               // endOfDay.setHours(endTime.getHours(), endTime.getMinutes());
 
+              // calendarApi.addEvent({
+              //   id: this.eventIDCounter++,
+              //   title: title,
+              //   start: startTime,
+              //   end: endTime,
+              //   className: className,
+              //   jobRoles: jobRole,
+              // });
+
               calendarApi.addEvent({
                 id: this.eventIDCounter++,
                 title: title,
-                start: startTime,
-                end: endTime,
+                start: new Date(currentDate),
+                end: endOfDay,
                 className: className,
-                jobRoles: jobRole,
               });
 
               console.log(
@@ -376,6 +396,7 @@ export class InterviewScheduleComponent implements OnInit {
       width: "70vw",
       data: {
         eventData: {
+          id: event.event.id,
           title: event.event.title,
           start: event.event.start,
           end: event.event.end ? event.event.end : null,
@@ -396,34 +417,68 @@ export class InterviewScheduleComponent implements OnInit {
   // events: any;
 
   loadInitialData(): void {
-    this.calendarEvents = [
-      // {
-      //   id: 0,
-      //   title: "Meeting",
-      //   start: new Date().setDate(new Date().getDate() + 1),
-      //   end: new Date().setDate(new Date().getDate() + 2),
-      //   className: "bg-warning text-white",
-      // },
-      // {
-      //   id: 1,
-      //   title: "Lunch",
-      //   start: new Date(),
-      //   end: new Date(),
-      //   className: "bg-success text-white",
-      // },
-      // {
-      //   id: 2,
-      //   title: "Birthday - party",
-      //   start: new Date().setDate(new Date().getDate() + 8),
-      //   className: "bg-info text-white",
-      // },
-      // {
-      //   id: 3,
-      //   title: "Long Event",
-      //   start: new Date().setDate(new Date().getDate() + 7),
-      //   end: new Date().setDate(new Date().getDate() + 8),
-      //   className: "bg-primary text-white",
-      // },
-    ];
+    // this.calendarEvents = [
+    //   // {
+    //   //   id: 0,
+    //   //   title: "Meeting",
+    //   //   start: new Date().setDate(new Date().getDate() + 1),
+    //   //   end: new Date().setDate(new Date().getDate() + 2),
+    //   //   className: "bg-warning text-white",
+    //   // },
+    //   // {
+    //   //   id: 1,
+    //   //   title: "Lunch",
+    //   //   start: new Date(),
+    //   //   end: new Date(),
+    //   //   className: "bg-success text-white",
+    //   // },
+    //   // {
+    //   //   id: 2,
+    //   //   title: "Birthday - party",
+    //   //   start: new Date().setDate(new Date().getDate() + 8),
+    //   //   className: "bg-info text-white",
+    //   // },
+    //   // {
+    //   //   id: 3,
+    //   //   title: "Long Event",
+    //   //   start: new Date().setDate(new Date().getDate() + 7),
+    //   //   end: new Date().setDate(new Date().getDate() + 8),
+    //   //   className: "bg-primary text-white",
+    //   // },
+    // ];
   }
+
+  getCalendarData = () => {
+    this.interviewScheduleApiService.GetCalendarData().subscribe({
+      next: (response) => {
+        const responeList: calendarEvent[] = response.value.map((x) => {
+          return {
+            id: x.Id.toString(),
+            title: x.EventType,
+            start: new Date(x.EventStartDateTime),
+            end: new Date(x.EventEndDateTime),
+            className: "bg-warning text-white",
+          };
+        });
+        this.calendarOptions.events = responeList;
+        this.calendarEvents.set(responeList);
+        console.log(this.calendarEvents());
+      },
+      error: (error) => {
+        console.error("Error fetching Student details:", error);
+      },
+    });
+  };
+  saveCalendarEventHandler = (event: PostCalendarevent) => {
+    this.interviewScheduleApiService.saveCalendarEvent(event).subscribe({
+      next: (response) => {
+        console.log("Calendar event saved successfully:", response);
+        // this.calendarEvents();
+        this.getCalendarData();
+      },
+      error: (error) => {
+        console.error("Error saving calendar event:", error);
+      },
+    });
+  };
 }
