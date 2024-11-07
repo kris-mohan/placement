@@ -1,5 +1,5 @@
-import { Jobposting } from "./Jobposting";
-import { Tblstudent } from "./Tblstudent";
+import { Jobposting } from './Jobposting';
+import { Tblstudent } from './Tblstudent';
 
 export type JobpostingSelectedstudent = {
   Id: number;
