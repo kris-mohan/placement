@@ -26,6 +26,7 @@ export class ProfileManagementComponent {
   semesters = [{ score: "", type: "", file: null }];
   showSemester = false;
   fileError: string | null = null;
+  selectedPhoto: string | ArrayBuffer | null | undefined = null;
 
   allSemesters = [{ semester: "", scoreType: "", score: "", file: null }];
 
@@ -36,6 +37,17 @@ export class ProfileManagementComponent {
       score: "",
       file: null,
     });
+  }
+
+  onPhotoSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.selectedPhoto = e.target?.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   removeSemester(index: number) {

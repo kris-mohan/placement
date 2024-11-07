@@ -6,34 +6,57 @@
 </div>
 
 <div class="profile-container">
-  <mat-card class="personal-details-card">
-    <mat-card-header>
-      <mat-card-title class="title">Personal Details</mat-card-title>
-    </mat-card-header>
+  <div class="personal-details-container">
+    <!-- Image Section -->
 
-    <mat-card-content>
-      <div class="details-container">
-        <div class="detail-item">
-          <strong>Name:</strong> {{ profileData.name }}
+    <!-- Personal Details Card -->
+    <mat-card class="personal-details-card">
+      <mat-card-header>
+        <mat-card-title class="title">Personal Details</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="details-container">
+          <!-- Column 1 -->
+          <div class="details-column">
+            <div class="detail-item">
+              <strong>Name:</strong> {{ profileData.name }}
+            </div>
+            <div class="detail-item">
+              <strong>Date of Birth:</strong> {{ profileData.dob | date }}
+            </div>
+          </div>
+
+          <!-- Column 2 -->
+          <div class="details-column">
+            <div class="detail-item">
+              <strong>Blood Group:</strong> {{ profileData.bloodGroup }}
+            </div>
+            <div class="detail-item">
+              <strong>Email:</strong> {{ profileData.email }}
+            </div>
+          </div>
+
+          <!-- Column 3 -->
+          <div class="details-column">
+            <div class="detail-item">
+              <strong>USN:</strong> {{ profileData.usn }}
+            </div>
+            <div class="detail-item">
+              <strong>Branch:</strong> {{ profileData.branch }}
+            </div>
+          </div>
         </div>
-        <div class="detail-item">
-          <strong>Date of Birth:</strong> {{ profileData.dob | date }}
-        </div>
-        <div class="detail-item">
-          <strong>Blood Group:</strong> {{ profileData.bloodGroup }}
-        </div>
-        <div class="detail-item">
-          <strong>Email:</strong> {{ profileData.email }}
-        </div>
-        <div class="detail-item">
-          <strong>USN:</strong> {{ profileData.usn }}
-        </div>
-        <div class="detail-item">
-          <strong>Branch:</strong> {{ profileData.branch }}
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
+      </mat-card-content>
+    </mat-card>
+    <div class="image-container">
+      <img
+        src="../../../../../../assets/images/StudentImage.png"
+        alt="Student Photo"
+        class="student-photo"
+      />
+    </div>
+  </div>
 
   <mat-card class="education-details-card">
     <mat-card-header>

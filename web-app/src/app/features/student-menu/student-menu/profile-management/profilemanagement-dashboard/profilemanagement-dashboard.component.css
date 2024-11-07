@@ -29,18 +29,13 @@
 
 .personal-details-card {
   border-radius: 20px;
-  padding: 20px;
+  padding: 0px;
 }
 
 .details-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-}
-
-.detail-item {
-  flex: 1 1 30%;
-  min-width: 200px;
 }
 
 .education-details-card {
@@ -100,4 +95,53 @@
 
 p {
   margin: 5px 0; /* Adds spacing between the details */
+}
+.details-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.image-container {
+  margin-left: 20px;
+  margin-top: -45px;
+}
+
+.student-photo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.personal-details-container {
+  display: flex;
+  align-items: center;
+}
+
+.image-container {
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.student-photo {
+  width: auto;
+  height: 160px;
+}
+
+.personal-details-card {
+  flex: 1;
+}
+
+.details-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details-column {
+  flex: 1;
+  padding: 20px 10px;
+}
+
+.detail-item {
+  margin-bottom: 10px;
 }

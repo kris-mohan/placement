@@ -1,327 +1,392 @@
-<div class="example-button-container" (click)="goBack()">
-  <mat-icon>keyboard_backspace</mat-icon>
-</div>
-
 <mat-card>
+  <div class="example-button-container" (click)="goBack()">
+    <mat-icon>keyboard_backspace</mat-icon>
+  </div>
   <mat-card-content>
     <!-- Tab Group -->
     <mat-tab-group>
       <!-- Profile Tab -->
+
       <mat-tab label="Profile">
         <!-- Profile content starts here -->
-        <div fxLayout="row wrap" class="row-wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">First Name</p>
-            <mat-form-field appearance="outline">
-              <mat-label>First Name</mat-label>
-              <input matInput />
-            </mat-form-field>
+        <div class="profile-container">
+          <h2>Personal Information</h2>
+          <div fxLayout="row wrap" class="row-wrap">
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">First Name</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>First Name</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Middle Name</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Middle Name</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Last Name</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Last Name</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
           </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Middle Name</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Middle Name</mat-label>
-              <input matInput />
-            </mat-form-field>
+
+          <div fxLayout="row wrap" class="row-wrap">
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Date Of Birth</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>DOB</mat-label>
+                <input matInput [matDatepicker]="picker" />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Blood Group</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Blood Group</mat-label>
+                <mat-select>
+                  <mat-option *ngFor="let blood of Blood" [value]="blood.value">
+                    {{ blood.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Mobile No</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Mobile No</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-md="25%"
+              fxFlex.gt-lg="25%"
+              fxFlex.gt-sm="50%"
+            >
+              <P class="grid-label"> Upload Photo</P>
+              <input type="file" accept="image/png, image/jpeg, image/jpg, " />
+            </div>
           </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Last Name</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Last Name</mat-label>
-              <input matInput />
-            </mat-form-field>
+
+          <h2>Contact Information</h2>
+          <div fxLayout="row wrap" class="row-wrap">
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Email</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Branch</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Branch</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Enter USN No.</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>USN No.</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
           </div>
+
+          <h2>Identification Details</h2>
+          <div fxLayout="row wrap" class="row-wrap">
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Enter Aadhar Number</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Aadhar Number</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Enter PAN Number</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>PAN Number</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Enter Address</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Address</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <h2>Parental Information</h2>
+          <div fxLayout="row wrap" class="row-wrap">
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Enter Father Name</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Father Name</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Enter Father Mobile No</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Father Mobile No</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Enter Father Occupation</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Father Occupation</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row wrap" class="row-wrap">
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Enter Mother Name</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Mother Name</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Enter Mother Mobile No</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Mother Mobile No</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+            >
+              <p class="grid-label">Enter Mother Occupation</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Mother Occupation</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- End of Profile content -->
         </div>
-
-        <div fxLayout="row wrap" class="row-wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Date Of Birth</p>
-            <mat-form-field>
-              <mat-label>DOB</mat-label>
-              <input matInput [matDatepicker]="picker" />
-              <mat-hint>MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Blood Group</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Blood Group</mat-label>
-              <mat-select (selectionChange)="onBloodChange($event)">
-                <mat-option *ngFor="let blood of Blood" [value]="blood.value">
-                  {{ blood.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Mobile No</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Mobile No</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-        </div>
-        <div fxLayout="row wrap" class="row-wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Email</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Email</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Branch</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Branch</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter USN No.</p>
-            <mat-form-field appearance="outline">
-              <mat-label>USN no.</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div fxLayout="row wrap" class="row-wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Aadhar Number</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Aadhar Number</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter PAN Number</p>
-            <mat-form-field appearance="outline">
-              <mat-label>PAN Number</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Address</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Address</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-        </div>
-        <mat-divider></mat-divider>
-
-        <div fxLayout="row wrap" class="row-wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Father Name</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Father Name</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Father Mobile No</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Father Mobile No</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Father Occupation</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Father Occupation</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-        </div>
-        <div fxLayout="row wrap" class="row-wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Mother Name</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Mother Name</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Mother Mobile No</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Mother Mobile No</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="33%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Mother Occupation</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Mother Occupation</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-        </div>
-
-        <!-- End of Profile content -->
       </mat-tab>
 
       <!-- Education Tab -->
+
       <mat-tab label="Education">
-        <div fxLayout="row wrap" class="row-wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">School Name</p>
-            <mat-form-field appearance="outline">
-              <mat-label>School Name</mat-label>
-              <input matInput />
-            </mat-form-field>
+        <div class="Education-container">
+          <div>
+            <h2>School Details</h2>
+
+            <div fxLayout="row wrap" class="row-wrap">
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="25%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">School Name</p>
+                <mat-form-field appearance="outline" class="Education-Fields">
+                  <mat-label>School Name</mat-label>
+                  <input matInput />
+                </mat-form-field>
+              </div>
+
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="25%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">10th Board</p>
+                <mat-form-field appearance="outline" class="Education-Fields">
+                  <mat-label>Select Board</mat-label>
+                  <mat-select (selectionChange)="onBoardChange($event)">
+                    <mat-option
+                      *ngFor="let board of Boards"
+                      [value]="board.value"
+                    >
+                      {{ board.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="25%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">10th Score*</p>
+                <mat-form-field appearance="outline" class="Education-Fields">
+                  <mat-label>Select Score</mat-label>
+                  <mat-select (selectionChange)="onScoreChange($event)">
+                    <mat-option
+                      *ngFor="let score of Scores"
+                      [value]="score.value"
+                    >
+                      {{ score.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="25%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">Enter Score</p>
+                <mat-form-field appearance="outline" class="Education-Fields">
+                  <mat-label>Enter Score</mat-label>
+                  <input matInput />
+                </mat-form-field>
+              </div>
+
+              <div fxLayout="row wrap" class="row-wrap">
+                <div
+                  fxFlex="100%"
+                  fxFlex.gt-md="25%"
+                  fxFlex.gt-lg="25%"
+                  fxFlex.gt-sm="50%"
+                >
+                  <p class="grid-label">Year of Join</p>
+                  <mat-form-field appearance="outline" class="year-fields">
+                    <mat-label>Year of Join</mat-label>
+                    <input matInput />
+                  </mat-form-field>
+                </div>
+
+                <div
+                  fxFlex="100%"
+                  fxFlex.gt-md="25%"
+                  fxFlex.gt-lg="25%"
+                  fxFlex.gt-sm="50%"
+                  style="margin-left: 10rem; width: 190%"
+                >
+                  <p class="grid-label">Year of Pass-out</p>
+                  <mat-form-field appearance="outline" class="year-fields">
+                    <mat-label>Year of Pass-out</mat-label>
+                    <input matInput />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="25%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">Upload File</p>
+                <input type="file" />
+              </div>
+            </div>
           </div>
 
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">10th Board</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Select Board</mat-label>
-              <mat-select (selectionChange)="onBoardChange($event)">
-                <mat-option *ngFor="let board of Boards" [value]="board.value">
-                  {{ board.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">10th Score*</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Select Score</mat-label>
-              <mat-select (selectionChange)="onScoreChange($event)">
-                <mat-option *ngFor="let score of Scores" [value]="score.value">
-                  {{ score.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Score</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Enter Score</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
+          <mat-divider class="collgeDetals"></mat-divider>
+          <h2>College Details</h2>
           <div fxLayout="row wrap" class="row-wrap">
             <div
               fxFlex="100%"
@@ -329,9 +394,9 @@
               fxFlex.gt-lg="25%"
               fxFlex.gt-sm="50%"
             >
-              <p class="grid-label">Year of Join</p>
-              <mat-form-field appearance="outline">
-                <mat-label>Year of Join</mat-label>
+              <p class="grid-label">College Name</p>
+              <mat-form-field appearance="outline" class="Education-Fields">
+                <mat-label>College Name</mat-label>
                 <input matInput />
               </mat-form-field>
             </div>
@@ -342,14 +407,85 @@
               fxFlex.gt-lg="25%"
               fxFlex.gt-sm="50%"
             >
-              <p class="grid-label">Year of Pass-out</p>
-              <mat-form-field appearance="outline">
-                <mat-label>Year of Pass-out</mat-label>
+              <p class="grid-label">Select Course</p>
+              <mat-form-field appearance="outline" class="Education-Fields">
+                <mat-label>Select Course</mat-label>
+                <mat-select (selectionChange)="onCourseChange($event)">
+                  <mat-option
+                    *ngFor="let course of Courses"
+                    [value]="course.value"
+                  >
+                    {{ course.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div
+              fxFlex="100%"
+              fxFlex.gt-md="25%"
+              fxFlex.gt-lg="25%"
+              fxFlex.gt-sm="50%"
+            >
+              <p class="grid-label">Score*</p>
+              <mat-form-field appearance="outline" class="Education-Fields">
+                <mat-label>Select Type</mat-label>
+                <mat-select (selectionChange)="onPuScoreChange($event)">
+                  <mat-option
+                    *ngFor="let PuScore of Scores"
+                    [value]="PuScore.value"
+                  >
+                    {{ PuScore.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div
+              fxFlex="100%"
+              fxFlex.gt-md="25%"
+              fxFlex.gt-lg="25%"
+              fxFlex.gt-sm="50%"
+            >
+              <p class="grid-label">Enter Score</p>
+              <mat-form-field appearance="outline" class="Education-Fields">
+                <mat-label>Enter Score</mat-label>
                 <input matInput />
               </mat-form-field>
             </div>
 
-          
+            <div fxLayout="row wrap" class="row-wrap">
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="25%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">Year of Join</p>
+                <mat-form-field
+                  appearance="outline"
+                  class="Education-Fields"
+                  class="year-fields"
+                >
+                  <mat-label>Year of Join</mat-label>
+                  <input matInput />
+                </mat-form-field>
+              </div>
+
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="25%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+                style="margin-left: 10rem; width: 190%"
+              >
+                <p class="grid-label">Year of Pass-out</p>
+                <mat-form-field appearance="outline" class="year-fields">
+                  <mat-label>Year of Pass-out</mat-label>
+                  <input matInput />
+                </mat-form-field>
+              </div>
+            </div>
             <div
               fxFlex="100%"
               fxFlex.gt-md="25%"
@@ -359,77 +495,10 @@
               <p class="grid-label">Upload File</p>
               <input type="file" />
             </div>
-
-
-          </div>
-        </div>
-        <mat-divider></mat-divider>
-
-        <div fxLayout="row wrap" class="row-wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">College Name</p>
-            <mat-form-field appearance="outline">
-              <mat-label>College Name</mat-label>
-              <input matInput />
-            </mat-form-field>
           </div>
 
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Select Course</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Select Course</mat-label>
-              <mat-select (selectionChange)="onCourseChange($event)">
-                <mat-option
-                  *ngFor="let course of Courses"
-                  [value]="course.value"
-                >
-                  {{ course.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Score*</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Select Type</mat-label>
-              <mat-select (selectionChange)="onPuScoreChange($event)">
-                <mat-option
-                  *ngFor="let PuScore of Scores"
-                  [value]="PuScore.value"
-                >
-                  {{ PuScore.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Enter Score</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Enter Score</mat-label>
-              <input matInput />
-            </mat-form-field>
-          </div>
-
+          <mat-divider></mat-divider>
+          <h2>Degree Details</h2>
           <div fxLayout="row wrap" class="row-wrap">
             <div
               fxFlex="100%"
@@ -437,10 +506,17 @@
               fxFlex.gt-lg="25%"
               fxFlex.gt-sm="50%"
             >
-              <p class="grid-label">Year of Join</p>
-              <mat-form-field appearance="outline">
-                <mat-label>Year of Join</mat-label>
-                <input matInput />
+              <p class="grid-label">Degree</p>
+              <mat-form-field appearance="outline" class="Education-Fields">
+                <mat-label>Select Type</mat-label>
+                <mat-select (selectionChange)="onDegreeChange($event)">
+                  <mat-option
+                    *ngFor="let Degree of degrees"
+                    [value]="Degree.value"
+                  >
+                    {{ Degree.viewValue }}
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
 
@@ -450,69 +526,21 @@
               fxFlex.gt-lg="25%"
               fxFlex.gt-sm="50%"
             >
-              <p class="grid-label">Year of Pass-out</p>
-              <mat-form-field appearance="outline">
-                <mat-label>Year of Pass-out</mat-label>
-                <input matInput />
+              <p class="grid-label">Program</p>
+              <mat-form-field appearance="outline" class="Education-Fields">
+                <mat-label>Select Type</mat-label>
+                <mat-select (selectionChange)="onProgramChange($event)">
+                  <mat-option
+                    *ngFor="let Program of Program"
+                    [value]="Program.value"
+                  >
+                    {{ Program.viewValue }}
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
-            <div
-              fxFlex="100%"
-              fxFlex.gt-md="25%"
-              fxFlex.gt-lg="25%"
-              fxFlex.gt-sm="50%"
-            >
-              <p class="grid-label">Upload File</p>
-              <input type="file" />
-            </div>
-          </div>
-        </div>
-
-        <mat-divider></mat-divider>
-
-        <div fxLayout="row wrap" class="row-wrap">
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Degree</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Select Type</mat-label>
-              <mat-select (selectionChange)="onDegreeChange($event)">
-                <mat-option
-                  *ngFor="let Degree of degrees"
-                  [value]="Degree.value"
-                >
-                  {{ Degree.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
           </div>
 
-          <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%"
-          >
-            <p class="grid-label">Program</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Select Type</mat-label>
-              <mat-select (selectionChange)="onProgramChange($event)">
-                <mat-option
-                  *ngFor="let Program of Program"
-                  [value]="Program.value"
-                >
-                  {{ Program.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div>
           <div
             fxLayout="row wrap"
             class="row-wrap"
@@ -524,8 +552,8 @@
               fxFlex.gt-lg="25%"
               fxFlex.gt-sm="50%"
             >
-              <p class="grid-label">Select Semester{{ i + 1 }}</p>
-              <mat-form-field appearance="outline">
+              <p class="grid-label">Select Semester {{ i + 1 }}</p>
+              <mat-form-field appearance="outline" class="Education-Fields">
                 <mat-label>Select Semester</mat-label>
                 <mat-select (selectionChange)="onSemesterChange($event)">
                   <mat-option *ngFor="let sem of Semesters" [value]="sem.value">
@@ -533,9 +561,8 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-
-              <!-- <p>Selected Semester: {{ selectedSemester }}</p> -->
             </div>
+
             <div
               fxFlex="100%"
               fxFlex.gt-md="25%"
@@ -543,7 +570,7 @@
               fxFlex.gt-sm="50%"
             >
               <p class="grid-label">Semester Score*</p>
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" class="Education-Fields">
                 <mat-label>Select Type</mat-label>
                 <mat-select (selectionChange)="onSemScoreChange($event)">
                   <mat-option
@@ -555,6 +582,7 @@
                 </mat-select>
               </mat-form-field>
             </div>
+
             <div
               fxFlex="100%"
               fxFlex.gt-md="25%"
@@ -562,7 +590,7 @@
               fxFlex.gt-sm="50%"
             >
               <p class="grid-label">Enter Score</p>
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" class="Education-Fields">
                 <mat-label>Enter Score</mat-label>
                 <input matInput />
               </mat-form-field>
@@ -574,35 +602,26 @@
               fxFlex.gt-lg="25%"
               fxFlex.gt-sm="50%"
             >
-              <p class="grid-label">Upload file</p>
+              <p class="grid-label">Upload File</p>
               <input type="file" />
             </div>
-            <div class="example-label">
-              <div fxFlex="100%">
-                <button mat-button color="warn" (click)="removeSemester(i)">
-                  Remove
-                </button>
-              </div>
-            </div>
           </div>
-          <section>
-            <div class="example-button-row">
-              <button mat-button (click)="addDulpicateSemester()">
-                Add semester
-              </button>
-            </div>
-          </section>
         </div>
       </mat-tab>
 
       <!-- Skills Tab -->
+
       <mat-tab label="Skills">
         <div>
           <div>
+            <h2 class="skills-Heading">Skills and Experience</h2>
             <section>
-              <mat-grid-list cols="2" rowHeight="2:1">
+              <mat-grid-list cols="2" rowHeight="3:1">
                 <mat-grid-tile>
-                  <mat-form-field class="example-form-field">
+                  <mat-form-field
+                    class="example-form-field"
+                    appearance="outline"
+                  >
                     <h4>Technical Skill</h4>
                     <mat-chip-grid
                       #templateChipGrid
@@ -630,7 +649,10 @@
                   </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <mat-form-field class="example-form-field">
+                  <mat-form-field
+                    class="example-form-field"
+                    appearance="outline"
+                  >
                     <h4>Soft Skill</h4>
                     <mat-chip-grid
                       #templateGrid
@@ -658,7 +680,10 @@
                   </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <mat-form-field class="example-form-field">
+                  <mat-form-field
+                    class="example-form-field"
+                    appearance="outline"
+                  >
                     <h4>ExtraCurricular Activities</h4>
 
                     <mat-chip-grid
@@ -692,7 +717,10 @@
                   </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <mat-form-field class="example-form-field">
+                  <mat-form-field
+                    class="example-form-field"
+                    appearance="outline"
+                  >
                     <h4>Languages</h4>
                     <mat-chip-grid
                       #LanguageGrid
@@ -722,40 +750,82 @@
               </mat-grid-list>
             </section>
           </div>
-          <section>
-            <mat-grid-list cols="2" rowHeight="2:1">
+
+          <section class="grid-section">
+            <mat-grid-list cols="4" rowHeight="3:1" gutterSize="16px">
+              <!-- LinkedIn Profile Link -->
               <mat-grid-tile>
-                <h3>
-                  <b><p class="grid-label">Linkedin Profile Link</p></b>
-                </h3>
-                <mat-form-field appearance="outline">
-                  <mat-label>Linkedin Profile Link</mat-label>
-                  <input matInput />
-                </mat-form-field>
+                <mat-card>
+                  <mat-card-content>
+                    <h3 class="grid-label">LinkedIn Profile Link</h3>
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>LinkedIn Profile Link</mat-label>
+                      <input
+                        matInput
+                        type="url"
+                        placeholder="https://linkedin.com/in/yourprofile"
+                      />
+                    </mat-form-field>
+                  </mat-card-content>
+                </mat-card>
               </mat-grid-tile>
+
+              <!-- Achievement -->
               <mat-grid-tile>
-                <h3><p class="grid-label">Achievement</p></h3>
-                <mat-form-field>
-                  <mat-label>Achievement</mat-label>
-                  <textarea matInput></textarea>
-                </mat-form-field>
+                <mat-card>
+                  <mat-card-content>
+                    <h3 class="grid-label">Achievement</h3>
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Achievement</mat-label>
+                      <textarea
+                        matInput
+                        placeholder="Describe your achievements"
+                      ></textarea>
+                    </mat-form-field>
+                  </mat-card-content>
+                </mat-card>
               </mat-grid-tile>
+
+              <!-- Project -->
               <mat-grid-tile>
-                <h3><p class="grid-label">Project</p></h3>
-                <mat-form-field>
-                  <mat-label>Project</mat-label>
-                  <textarea matInput></textarea>
-                </mat-form-field>
+                <mat-card>
+                  <mat-card-content>
+                    <h3 class="grid-label">Project</h3>
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Project</mat-label>
+                      <textarea
+                        matInput
+                        placeholder="Describe your project"
+                      ></textarea>
+                    </mat-form-field>
+                  </mat-card-content>
+                </mat-card>
               </mat-grid-tile>
+
+              <!-- Internship -->
               <mat-grid-tile>
-                <h3><p class="grid-label">Internship</p></h3>
-                <mat-form-field>
-                  <mat-label>Internship</mat-label>
-                  <textarea matInput></textarea>
-                </mat-form-field>
+                <mat-card>
+                  <mat-card-content>
+                    <h3 class="grid-label">Internship</h3>
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Internship</mat-label>
+                      <textarea
+                        matInput
+                        placeholder="Describe your internship"
+                      ></textarea>
+                    </mat-form-field>
+                  </mat-card-content>
+                </mat-card>
               </mat-grid-tile>
             </mat-grid-list>
           </section>
+
+          <!-- Right-Aligned Submit Button -->
+          <div class="button-container">
+            <button mat-raised-button color="primary" class="submit-button">
+              Submit
+            </button>
+          </div>
         </div>
       </mat-tab>
     </mat-tab-group>
