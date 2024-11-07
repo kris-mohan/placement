@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Batch;
 using Microsoft.AspNetCore.OData.NewtonsoftJson;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
@@ -72,6 +73,14 @@ app.UseCors(s => s.AllowAnyHeader()
 app.UseStaticFiles();
 //if (app.Environment.IsDevelopment())
 //{
+app.UseStaticFiles();
+app.UseFileServer(new FileServerOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+    RequestPath = "/static",
+    EnableDirectoryBrowsing = true
+});
 app.UseSwagger();
 app.UseSwaggerUI();
 //}
@@ -109,7 +118,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<CampusCompany>("CampusCompany");
     modelBuilder.EntitySet<Role>("Role");
     modelBuilder.EntitySet<Studentacademic>("Studentacademic");
-    modelBuilder.EntitySet<Studentplaced>("Studentplaced");
+    //modelBuilder.EntitySet<Studentplaced>("Studentplaced");
     modelBuilder.EntitySet<Studentregistartion>("Studentregistartion");
     modelBuilder.EntitySet<Tblstudent>("Tblstudent");
     modelBuilder.EntitySet<Technology>("Technology");
@@ -135,7 +144,6 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Placements.DataAccess.Placement.Models.Stream>("Stream");
     modelBuilder.EntitySet<University>("University");
     modelBuilder.EntitySet<CompanyJobStream>("CompanyJobStream");
-
 
     return modelBuilder.GetEdmModel();
 }

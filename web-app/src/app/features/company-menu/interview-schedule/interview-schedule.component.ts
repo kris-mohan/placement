@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, signal, WritableSignal } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { FullCalendarModule } from "@fullcalendar/angular";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -8,6 +8,9 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { CalendarOptions, EventApi } from "@fullcalendar/core";
 import { CalendarModalComponent } from "../calendar-modal/calendar-modal.component";
 import { AMGModules } from "src/AMG-Module/AMG-module";
+import { InterviewScheduleAPIService } from "./api.interview-schedule";
+import { Colleges, Universities } from "src/app/services/types/Universities";
+import { ODataEntity } from "src/app/services/types/OData";
 
 @Component({
   selector: "app-interview-schedule",
@@ -24,27 +27,11 @@ export class InterviewScheduleComponent implements OnInit {
   private eventIDCounter = 0;
   currentEvents: EventApi[] = [];
 
-  universityTypes: string[] = [
-    "Visvesvaraya Technological University (VTU)",
-    "Deemed University",
-    "Autonomous University",
-  ];
+  universityTypes : WritableSignal<Universities[]> = signal([]);
+  // companiesList: WritableSignal<Companydatum[]> = signal([]);
 
-  colleges: string[] = [
-    "East West Institute of Technology",
-    "East West College of Engineering",
-    "East West School of Architecture",
-    "East West First Grade College of Science ",
-    "East West College of Management",
-    "East West College of Management",
-    "St. John’s Pharmacy College",
-    "East West College of Pharmacy",
-    "East West College of Nursing",
-    "East West Institute of Polytechnic",
-    "East West Polytechnic",
-    "East West Pre-University",
-    "East West Pre-University College",
-  ];
+  // colleges : signal<Colleges[]>([]);
+  colleges : WritableSignal<Colleges[]> = signal([]);
 
   events = [
     {
@@ -107,12 +94,42 @@ export class InterviewScheduleComponent implements OnInit {
   ];
 
   constructor(
-    private dialog: MatDialog 
+    private dialog: MatDialog ,
+    private apiInterviewSchedule : InterviewScheduleAPIService
   ) {}
 
   ngOnInit(): void {
     this.loadInitialData();
+    this.GetUniversties();
+    this.GetColleges();
   }
+
+ async GetUniversties() {
+  this.apiInterviewSchedule.getUniversities().subscribe({
+    next: (odataResponse) => {
+      this.universityTypes.set(odataResponse.value);
+    },
+    error: (error) => {
+      console.error("Error fetching companies:", error);
+    },
+  });
+  }
+
+ async GetColleges() {
+  this.apiInterviewSchedule.getColleges().subscribe({
+    next: (odataResponse) => {
+      this.colleges.set(odataResponse.value);
+    },
+    error: (error) => {
+      console.error("Error fetching colleges:", error);
+    },
+  });
+  }
+
+  trackById(index: number, item: any): number {
+    return item.Id;
+  }
+  
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -170,8 +187,6 @@ export class InterviewScheduleComponent implements OnInit {
   }
 
   addNewEvent(result: any) {
-    // const title = prompt("Enter event title:");
-
     if (result) {
       const title = result.eventName;
       const jobRole = result.jobRole;
