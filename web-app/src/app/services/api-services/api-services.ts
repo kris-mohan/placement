@@ -13,6 +13,9 @@ import { Observable } from "rxjs";
 })
 
 export class ApiService {
+  GetInterviewSchedule(id: number) {
+    throw new Error("Method not implemented.");
+  }
   constructor(private http: HttpClient) {}
 
   // Generic GET method

@@ -39,7 +39,7 @@ export class CalendarModalComponent implements OnInit {
 
     this.formDataa = this.formBuilder.group({
       eventName: ["", Validators.required],
-      jobRole: ["", Validators.required],
+      // jobRole: ["", Validators.required],
       // round: ["", Validators.required],
       // panels: ["", Validators.required],
       // venueDetails: ["", Validators.required],
@@ -118,20 +118,6 @@ export class CalendarModalComponent implements OnInit {
       // this.toggle = !!this.data.eventData.endDate;
     }
   }
-
-  // formatTime(date: Date | string): string {
-  //   const time = new Date(date);
-  //   const hours = time.getHours().toString().padStart(2, "0");
-  //   const minutes = time.getMinutes().toString().padStart(2, "0");
-  //   return `${hours}:${minutes}`;
-  // }
-
-  // formatTime(time: string): string {
-  //   const date = new Date(time);
-  //   const hours = date.getHours().toString().padStart(2, "0");
-  //   const minutes = date.getMinutes().toString().padStart(2, "0");
-  //   return `${hours}:${minutes}`;
-  // }
 
   formatTime(time: string): string {
     const date = new Date(time);

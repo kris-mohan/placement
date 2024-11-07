@@ -1,10 +1,12 @@
 export type Calendarevent = {
-    Id: number;
-    EventStartDateTime?: Date;
-    EventEndDateTime?: Date;
-    EventType?: string; 
-    EventDescription?: string; 
-    OrgId?: number;
-    CompanyId?: number;
-    IsDeleted: boolean;
+  Id: number;
+  EventStartDateTime: Date;
+  EventEndDateTime: Date;
+  EventType: string;
+  EventDescription: string;
+  OrgId: number;
+  CompanyId: number;
+  IsDeleted: boolean;
 };
+
+export type PostCalendarevent = Calendarevent | {};

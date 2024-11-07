@@ -480,10 +480,10 @@ export class OfferManagementComponent {
     });
   }
 
-  openOfferManagement(jobPostingId: number) {
+  openOfferManagement(studentId: number) {
     this.router.navigate([
-      "offer-management/offer-management-details",
-      jobPostingId,
+      "/offer-management/offer-management-details",
+      studentId,
     ]);
   }
 
