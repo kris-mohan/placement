@@ -18,11 +18,18 @@ import { University } from "src/app/services/types/University";
 export class OfferManagementDetailsApiService {
   constructor(private apiHttpService: ApiHttpService) {}
 
-  GetAllDetails(id: number): Observable<ODataEntity<Jobinterviewround[]>> {
-    let query = `/Jobinterviewround?$filter=JobPostingId eq ${id}&expand=JobpostStudentrounds`;
-    // if (options.Status) {
-    //   query += `&Status eq ${options.Status}`;
-    // }
-    return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(query);
+  GetInterviewDetails(
+    jobPostingId: number,
+    studentId: number
+  ): Observable<ODataEntity<Jobposting[]>> {
+    let query = `/Jobposting?$filter=Id eq ${jobPostingId} &expand=Jobinterviewrounds($expand=JobpostStudentrounds($filter = StudentId eq ${studentId} ;$expand=Student) )`;
+    return this.apiHttpService.get<ODataEntity<Jobposting[]>>(query);
+  }
+  GetInterviewDetailsbystudent(
+    jobPostingId: number,
+    studentId: number
+  ): Observable<ODataEntity<Jobposting[]>> {
+    let query = `/Jobposting?$filter=Id eq ${jobPostingId} &expand=Jobinterviewrounds($expand=JobpostStudentrounds($filter=StudentId eq${studentId};$expand=Student($expand=Studentacademics($expand=Course,Stream,StudentSemesterMarks),Batch)))`;
+    return this.apiHttpService.get<ODataEntity<Jobposting[]>>(query);
   }
 }
