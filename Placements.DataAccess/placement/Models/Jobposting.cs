@@ -69,6 +69,8 @@ public partial class Jobposting
 
     public virtual ICollection<CompanyJobCourse> CompanyJobCourses { get; set; } = new List<CompanyJobCourse>();
 
+    public virtual ICollection<CompanyJobStream> CompanyJobStreams { get; set; } = new List<CompanyJobStream>();
+
     public virtual ICollection<Jobinterviewpanel> Jobinterviewpanels { get; set; } = new List<Jobinterviewpanel>();
 
     public virtual ICollection<Jobinterviewround> Jobinterviewrounds { get; set; } = new List<Jobinterviewround>();

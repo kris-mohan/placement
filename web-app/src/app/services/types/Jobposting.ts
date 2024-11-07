@@ -9,6 +9,7 @@ import { JobpostingSkill } from "./JobpostingSkill";
 import { CompanyJobBatch } from "./CompanyJobBatch";
 import { CompanyJobCourse } from "./CompanyJobCourse";
 import { Jobinterviewpanel } from "./Jobinterviewpanel";
+import { CompanyJobStream } from "./CompanyJobStream";
 
 export type Jobposting = {
   Id: number;
@@ -49,6 +50,8 @@ export type Jobposting = {
   JobpostingSkills?: JobpostingSkill[];
   CompanyJobBatches?: CompanyJobBatch[];
   CompanyJobCourses?: CompanyJobCourse[];
+  CompanyJobStreams?: CompanyJobStream[];
+
   Jobinterviewpanels: Jobinterviewpanel[];
 };
 
@@ -83,4 +86,5 @@ export type PostJobposting = {
   JobpostingSkills?: { SkillId?: number; JobPostingId?: number }[];
   CompanyJobBatches?: { JobPostingId?: number; BatchId?: number }[];
   CompanyJobCourses?: { JobPostingId?: number; CourseId?: number }[];
+  CompanyJobStreams?: { JobPostingId?: number; StreamId?: number }[];
 };

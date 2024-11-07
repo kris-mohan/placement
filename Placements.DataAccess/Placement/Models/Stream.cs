@@ -9,5 +9,7 @@ public partial class Stream
 
     public string? Name { get; set; }
 
+    public virtual ICollection<CompanyJobStream> CompanyJobStreams { get; set; } = new List<CompanyJobStream>();
+
     public virtual ICollection<Studentacademic> Studentacademics { get; set; } = new List<Studentacademic>();
 }

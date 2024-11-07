@@ -20,6 +20,9 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Jobposting, PostJobposting } from "src/app/services/types/Jobposting";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { AddeditCompanyJobDetailsApiService } from "./add-edit-company-job-details-ApiService";
+import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
+import { ModeOfWorks } from "src/app/services/common-dropdowns/ModeOfWorks";
+import { ShiftTypes } from "src/app/services/common-dropdowns/ShiftTypes";
 
 @Component({
   selector: "app-add-edit-company-job-details",
@@ -45,36 +48,43 @@ export class AddEditCompanyJobDetailsComponent {
 
   selectedSkillTypeIds: number[] = [];
   selectedSkillIds: number[] = [];
+  selectedCollegeIds: number[] = [];
+  selectedBatchIds: number[] = [];
+  selectedCourseIds: number[] = [];
+  selectedStreamIds: number[] = [];
   Id: number | null = null;
   sessionCompanyId: number;
   addEditJobPostingForm: FormGroup;
 
-  JobTypes = [
-    "Full-Time",
-    "Part-Time",
-    "Temporary",
-    "Contract",
-    "Freelance",
-    "Internship",
-    "Apprenticeship",
-    "Consultant",
-    "Remote",
-    "Seasonal",
-  ];
+  JobTypes: string[] = JobTypes;
+  ModeOfWorks: string[] = ModeOfWorks;
+  ShiftTypes: string[] = ShiftTypes;
+  // JobTypes = [
+  //   "Full-Time",
+  //   "Part-Time",
+  //   "Temporary",
+  //   "Contract",
+  //   "Freelance",
+  //   "Internship",
+  //   "Apprenticeship",
+  //   "Consultant",
+  //   "Remote",
+  //   "Seasonal",
+  // ];
 
-  ModeOfWorks = ["On-Site", "Remote", "Hybrid", "Flexible", "Travel-Based"];
+  // ModeOfWorks = ["On-Site", "Remote", "Hybrid", "Flexible", "Travel-Based"];
 
-  ShiftTypes = [
-    "Day Shift",
-    "Night Shift",
-    "Swing Shift",
-    "Rotating Shift",
-    "Split Shift",
-    "Weekend Shift",
-    "On-Call Shift",
-    "Fixed Shift",
-    "Flexible Shift",
-  ];
+  // ShiftTypes = [
+  //   "Day Shift",
+  //   "Night Shift",
+  //   "Swing Shift",
+  //   "Rotating Shift",
+  //   "Split Shift",
+  //   "Weekend Shift",
+  //   "On-Call Shift",
+  //   "Fixed Shift",
+  //   "Flexible Shift",
+  // ];
 
   Months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -119,10 +129,15 @@ export class AddEditCompanyJobDetailsComponent {
       Collegejobpostings: [[]],
       CompanyJobBatches: [[]],
       CompanyJobCourses: [[]],
+      CompanyJobStreams: [[]],
       JobpostingSkillTypes: [[]],
       JobpostingSkills: [[]],
       selectedSkillTypeIds: [[]],
       selectedSkillIds: [[]],
+      selectedCollegeIds: [[]],
+      selectedBatchIds: [[]],
+      selectedCourseIds: [[]],
+      selectedStreamIds: [[]],
     });
   }
 
@@ -237,11 +252,7 @@ export class AddEditCompanyJobDetailsComponent {
               const data: Jobposting = response.value[0];
               if (data) {
                 this.addEditJobPostingForm.patchValue(data);
-                // this.addEditJobPostingForm = this.fb.group({
-                //   selectedSkillTypeIds: data.JobpostingSkills?.map(
-                //     (x) => x.Skill?.SkillTypeId
-                //   ),
-                // });
+
                 this.selectedSkillTypeIds = Array.from(
                   new Set(
                     data.JobpostingSkills?.filter(
@@ -250,14 +261,29 @@ export class AddEditCompanyJobDetailsComponent {
                   )
                 );
 
-                // this.addEditJobPostingForm = this.fb.group({
-                //   selectedSkillIds: data.JobpostingSkills?.map(
-                //     (x) => x.SkillId
-                //   ),
-                // });
                 this.selectedSkillIds =
                   data.JobpostingSkills?.filter((x) => x.SkillId).map(
                     (x) => x.SkillId ?? 0
+                  ) ?? [];
+
+                this.selectedCollegeIds =
+                  data.Collegejobpostings?.filter((x) => x.CollegeId).map(
+                    (x) => x.CollegeId ?? 0
+                  ) ?? [];
+
+                this.selectedBatchIds =
+                  data.CompanyJobBatches?.filter((x) => x.BatchId).map(
+                    (x) => x.BatchId ?? 0
+                  ) ?? [];
+
+                this.selectedCourseIds =
+                  data.CompanyJobCourses?.filter((x) => x.CourseId).map(
+                    (x) => x.CourseId ?? 0
+                  ) ?? [];
+
+                this.selectedStreamIds =
+                  data.CompanyJobStreams?.filter((x) => x.StreamId).map(
+                    (x) => x.StreamId ?? 0
                   ) ?? [];
               }
             },
@@ -329,6 +355,13 @@ export class AddEditCompanyJobDetailsComponent {
           (courseId) => ({
             JobPostingId: this.Id ?? 0,
             CourseId: courseId as number,
+          })
+        ),
+
+        CompanyJobStreams: (jobPosting.CompanyJobStreams ?? []).map(
+          (streamId) => ({
+            JobPostingId: this.Id ?? 0,
+            StreamId: streamId as number,
           })
         ),
       };

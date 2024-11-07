@@ -34,7 +34,11 @@
             <p>College Name</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Select College name</mat-label>
-              <mat-select multiple formControlName="Collegejobpostings">
+              <mat-select
+                multiple
+                formControlName="Collegejobpostings"
+                [(ngModel)]="selectedCollegeIds"
+              >
                 @for (collegeName of collegeNames(); track collegeName) {
                 <mat-option [value]="collegeName.Id">{{
                   collegeName.CollegeName
@@ -53,7 +57,11 @@
             <p>Batch</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Select Batch</mat-label>
-              <mat-select multiple formControlName="CompanyJobBatches">
+              <mat-select
+                multiple
+                formControlName="CompanyJobBatches"
+                [(ngModel)]="selectedBatchIds"
+              >
                 @for (batch of BatchesNames(); track batch) {
                 <mat-option [value]="batch.Id">{{ batch.Name }}</mat-option>
                 }
@@ -70,7 +78,11 @@
             <p>Stream</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Select Stream</mat-label>
-              <mat-select multiple formControlName="CompanyJobCourses">
+              <mat-select
+                multiple
+                formControlName="CompanyJobStreams"
+                [(ngModel)]="selectedStreamIds"
+              >
                 @for (stream of StreamNames(); track stream) {
                 <mat-option [value]="stream.Id">{{ stream.Name }}</mat-option>
                 }
@@ -89,7 +101,11 @@
             <p>Course</p>
             <mat-form-field appearance="outline" class="matFormField">
               <mat-label>Select Course</mat-label>
-              <mat-select multiple formControlName="CompanyJobCourses">
+              <mat-select
+                multiple
+                formControlName="CompanyJobCourses"
+                [(ngModel)]="selectedCourseIds"
+              >
                 @for (course of CoursesNames(); track course) {
                 <mat-option [value]="course.Id">{{ course.Name }}</mat-option>
                 }
@@ -97,7 +113,7 @@
             </mat-form-field>
           </div>
 
-          <!-- <div
+          <div
             fxFlex="100%"
             fxFlex.gt-md="33%"
             fxFlex.gt-lg="25%"
@@ -119,7 +135,7 @@
                 }
               </mat-select>
             </mat-form-field>
-          </div> -->
+          </div>
 
           <div
             fxFlex="100%"
