@@ -30,4 +30,5 @@ export type Tblstudent = {
   Org: Campusregistration;
   Studentacademics: Studentacademic[];
   StudentSkills: StudentSkill[];
+  skills: string;
 };
