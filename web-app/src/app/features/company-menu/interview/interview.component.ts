@@ -289,18 +289,18 @@ export class InterviewComponent {
       parseInt(companyId ? companyId : "0")
     ).subscribe({
       next: (response) => {
-        console.log(response.value[0], "res");
+        console.log(response.value, "res");
         const data = response.value;
         const finalData: Jobinterviewround[] = [];
-        data.map((d) => {
-          finalData.push({
-            ...d,
-            Name: d.JobPosting?.JobRole,
-          });
-        });
+        // data.map((d) => {
+        //   finalData.push({
+        //     ...d,
+        //     Name: d.JobPosting?.JobRole,
+        //   });
+        // });
 
-        this.jobInterviewRounds.set(finalData);
-        console.log(this.jobInterviewRounds);
+        this.jobInterviewRounds.set(data);
+        console.log(this.jobInterviewRounds());
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);
