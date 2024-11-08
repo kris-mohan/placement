@@ -16,7 +16,15 @@ export type columnData = {
   Marks: number | null;
   Feedback: string;
 };
-
+interface InterviewDetails {
+  collegeName: string;
+  studentName: string;
+  branch: string;
+  stream: string;
+  jobId: number;
+  batch: number | string;
+  jobRole: string;
+}
 @Component({
   selector: "app-offer-management-details",
   standalone: true,
@@ -39,12 +47,14 @@ export class OfferManagementDetailsComponent {
 
   JobPostingId: number | null = null;
   StudentId: number | null = null;
-  interviewDetails: any[] = [];
+  interviewDetails: InterviewDetails | null = null;
+  Id: number | null = null;
   ngOnInit() {
     this.getInterviewDetails();
+    this.getInterviewDetailsbystudent();
   }
   isLargeScreen() {
-    return window.innerWidth > 768; // Customize based on your layout
+    return window.innerWidth > 768;
   }
 
   detailsDataSource = new MatTableDataSource<columnData>();
@@ -70,9 +80,15 @@ export class OfferManagementDetailsComponent {
     this.route.paramMap.subscribe((params) => {
       const jobPostingId = params.get("jobPostingId");
       const studentId = params.get("studentId");
+      const id = params.get("id");
       this.JobPostingId = jobPostingId !== null ? +jobPostingId : null;
       this.StudentId = studentId !== null ? +studentId : null;
-      if (this.JobPostingId !== null && this.StudentId !== null) {
+      this.Id = id !== null ? +id : null;
+      if (
+        this.JobPostingId !== null &&
+        this.StudentId !== null &&
+        this.Id !== null
+      ) {
         this.offerManagementDetailsApiService
           .GetInterviewDetails(this.JobPostingId, this.StudentId)
           .subscribe({
@@ -110,37 +126,72 @@ export class OfferManagementDetailsComponent {
     this.route.paramMap.subscribe((params) => {
       const jobPostingId = params.get("jobPostingId");
       const studentId = params.get("studentId");
+      const id = params.get("id");
       this.JobPostingId = jobPostingId !== null ? +jobPostingId : null;
       this.StudentId = studentId !== null ? +studentId : null;
-
-      // if (this.JobPostingId !== null && this.StudentId !== null) {
-      //   this.offerManagementDetailsApiService
-      //     .GetInterviewDetailsbystudent(this.JobPostingId, this.StudentId)
-      //     .subscribe({
-      //       next: (response) => {
-      //         const data: Jobposting[] = response.value;
-      //         const transformedData = response.value.flatMap((jobPosting) =>
-      //           jobPosting.Jobinterviewrounds.flatMap((round) =>
-      //             round.JobpostStudentrounds.map((studentRound) => ({
-      //               CollegeName: studentRound.Student?.OrgId || "N/A",
-      //               StudentName: studentRound.Student?.FirstName,
-      //               Branch:
-      //                 studentRound.Student?.Studentacademics?.[0]?.Course
-      //                   ?.Name || "N/A",
-      //               Batch: studentRound.Student?.Batch?.Name || "N/A",
-      //               JobId: jobPosting.Id,
-      //               JobRole: jobPosting.JobRole,
-      //             }))
-      //           )
-      //         );
-      //         this.interviewDetails = transformedData;
-      //         console.log("Transformed Details", transformedData);
-      //       },
-      //       error: (error) => {
-      //         console.log("Error fetching rounds: ", error);
-      //       },
-      //     });
-      // }
+      this.Id = id !== null ? +id : null;
+      if (
+        this.JobPostingId !== null &&
+        this.StudentId !== null &&
+        this.Id !== null
+      ) {
+        this.offerManagementDetailsApiService
+          .GetInterviewDetailsbystudent(this.JobPostingId, this.StudentId)
+          .subscribe({
+            next: (response) => {
+              const data = response.value[0];
+              if (data) {
+                const student =
+                  data.Jobinterviewrounds[0]?.JobpostStudentrounds[0]?.Student;
+                const collegeName =
+                  data.Collegejobpostings[0]?.College?.CollegeName;
+                this.interviewDetails = {
+                  collegeName: collegeName ?? "",
+                  studentName: student?.FirstName ?? "",
+                  branch: student?.Studentacademics[0]?.Course?.FullForm ?? "",
+                  stream: student?.Studentacademics[0]?.Stream?.Name ?? "",
+                  jobId: data.Id,
+                  batch: student?.Batch?.Name ?? "",
+                  jobRole: data.JobRole ?? "",
+                };
+              }
+              console.log("student Details", this.interviewDetails);
+            },
+            error: (err) => {
+              console.error("Error fetching interview details:", err);
+            },
+          });
+      }
     });
+  };
+
+  acceptOffer = () => {
+    if (this.JobPostingId && this.StudentId && this.Id) {
+      this.offerManagementDetailsApiService
+        .updateOfferStatus(this.JobPostingId, this.StudentId, 1, this.Id)
+        .subscribe({
+          next: (response) => {
+            this.getInterviewDetails();
+          },
+          error: (err) => {
+            console.error("Error accepting the offer:", err);
+          },
+        });
+    }
+  };
+
+  rejectOffer = () => {
+    if (this.JobPostingId && this.StudentId && this.Id) {
+      this.offerManagementDetailsApiService
+        .updateOfferStatus(this.JobPostingId, this.StudentId, 2, this.Id)
+        .subscribe({
+          next: (response) => {
+            this.getInterviewDetails();
+          },
+          error: (err) => {
+            console.error("Error rejecting the offer:", err);
+          },
+        });
+    }
   };
 }

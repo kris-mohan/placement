@@ -6,20 +6,36 @@
           >keyboard_backspace</mat-icon
         ><mat-card-title class="header">Offer Details </mat-card-title>
       </div>
-      <div *ngFor="let detail of interviewDetails">
+      <div>
         <mat-card-subtitle class="flex-container">
-          <span><strong>College Name:</strong>{{ detail.CollegeName }}</span>
-          <span><strong>Student Name:</strong>{{ detail.StudentName }}</span>
+          <span
+            ><strong>College Name:</strong
+            >{{ interviewDetails?.collegeName }}</span
+          >
+          <span
+            ><strong>Student Name:</strong
+            >{{ interviewDetails?.studentName }}</span
+          >
         </mat-card-subtitle>
         <mat-card-subtitle class="flex-container">
-          <span><strong>Branch:</strong>{{ detail.Branch }}</span>
-          <span><strong>Job Id:</strong> {{ detail.JobId }}</span>
+          <span><strong>Branch:</strong>{{ interviewDetails?.branch }}</span>
+          <span><strong>Job Id:</strong>{{ interviewDetails?.jobId }}</span>
         </mat-card-subtitle>
         <mat-card-subtitle class="flex-container">
-          <span><strong>Batch:</strong>{{ detail.Batch }}</span>
-          <span><strong>Job Role:</strong>{{ detail.JobRole }}</span>
+          <span><strong>Batch:</strong>{{ interviewDetails?.batch }}</span>
+          <span><strong>Stream:</strong>{{ interviewDetails?.stream }}</span>
+
+          <span><strong>Job Role:</strong>{{ interviewDetails?.jobRole }}</span>
         </mat-card-subtitle>
       </div>
+    </div>
+    <div class="button-section">
+      <button mat-raised-button color="primary" (click)="acceptOffer()">
+        Accept
+      </button>
+      <button mat-raised-button color="warn" (click)="rejectOffer()">
+        Reject
+      </button>
     </div>
   </mat-card-header>
   <mat-card-content class="table-container">

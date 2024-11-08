@@ -431,7 +431,7 @@ const appRoutes: Routes = [
         component: IndentviewComponent,
       },
       {
-        path: "offer-management/offer-management-details/:jobPostingId/:studentId",
+        path: "offer-management/offer-management-details/:jobPostingId/:studentId/:id",
         component: OfferManagementDetailsComponent,
       },
       {
