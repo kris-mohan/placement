@@ -1,26 +1,38 @@
 <mat-card>
   <mat-card-header>
-    <div mat-card-avatar class="card-header-container">
-      <div>
-        <mat-icon click="goBack()" class="BackIcon">keyboard_backspace</mat-icon
-        ><mat-card-title class="header">Offer Details </mat-card-title>
+    <div class="card-header-container">
+      <div class="header-container">
+        <mat-icon (click)="goBack()" class="back-icon"
+          >keyboard_backspace</mat-icon
+        >
+        <mat-card-title class="header">Offer Details</mat-card-title>
       </div>
-      <div>
-        <mat-card-subtitle class="flex-container">
-          <span><strong>College Name</strong></span>
-          <span><strong>Student Name</strong></span>
-        </mat-card-subtitle>
-        <mat-card-subtitle class="flex-container">
-          <span><strong>Branch</strong></span>
-          <span><strong>Job Id</strong></span>
-        </mat-card-subtitle>
-        <mat-card-subtitle class="flex-container">
-          <span><strong>Batch</strong></span>
-          <span><strong>Job Role</strong></span>
-        </mat-card-subtitle>
+      <div class="button-section">
+        <button mat-raised-button color="primary" class="accept-button">
+          Accept
+        </button>
+        <button mat-raised-button color="warn" class="reject-button">
+          Reject
+        </button>
       </div>
     </div>
   </mat-card-header>
+
+  <div class="student-details-container">
+    <div class="student-column">
+      <div><strong>Student Name:</strong> Ranjtha</div>
+      <div><strong>College Name:</strong> ABC College</div>
+    </div>
+    <div class="student-column">
+      <div><strong>Branch:</strong> Computer Science</div>
+      <div><strong>Job Id:</strong> DV1234</div>
+    </div>
+    <div class="student-column">
+      <div><strong>Batch:</strong> 2023</div>
+      <div><strong>Job Role:</strong> Software Engineer</div>
+    </div>
+  </div>
+
   <mat-card-content class="table-container">
     <table
       mat-table

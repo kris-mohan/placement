@@ -5,11 +5,7 @@
   >
 </div>
 <h2 mat-dialog-title formControlName="Name">
-<<<<<<< Updated upstream
   Company Name: {{ data[0].Name }}
-=======
-  Enter Company Name: {{ CompanyProfileData()[0]?.Name}}
->>>>>>> Stashed changes
 </h2>
 <div mat-dialog-content>
   <form [formGroup]="addEditCompanyProfile">
@@ -124,7 +120,7 @@
           <mat-label>Website</mat-label>
           <input
             matInput
-            placeholder="Ex. www.abc.com"
+            placeholder="Ex. https://www.abc.com"
             type="url"
             formControlName="website"
           />
