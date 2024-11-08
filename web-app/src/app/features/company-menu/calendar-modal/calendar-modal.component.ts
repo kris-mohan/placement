@@ -6,7 +6,10 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { AMGModules } from "src/AMG-Module/AMG-module";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { Jobposting } from "src/app/services/types/Jobposting";
 import { SharedModule } from "src/app/shared/shared.module";
+import { CalendarModalApiService } from "./api.calendar-modal";
 // import { MatDatepickerModule } from "@angular/material/datepicker";
 
 @Component({
@@ -28,14 +31,21 @@ export class CalendarModalComponent implements OnInit {
   roles: any[] = [];
   toggle: boolean = false;
   weekdays: boolean = false;
-  isEdited: boolean;
+  isEdited: boolean = false;
+  jobPostings: Jobposting[] = [];
+  rounds: Jobinterviewround[] = [];
+  CollegeRoleId: number;
 
   constructor(
     public dialogRef: MatDialogRef<CalendarModalComponent>,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private calendarModalApiService: CalendarModalApiService
   ) {
     this.isEdited = this.data.isEdited;
+
+    const storedUserRoleId = sessionStorage.getItem("CompanyId");
+    this.CollegeRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
 
     this.formDataa = this.formBuilder.group({
       eventName: ["", Validators.required],
@@ -47,25 +57,52 @@ export class CalendarModalComponent implements OnInit {
       startTime: ["", Validators.required],
       endDate: [""],
       endTime: ["", Validators.required],
+      jobPosting: ["", Validators.required],
+      rounds: [""],
     });
   }
 
-  loadRoles(): void {
-    this.roles = [
-      {
-        id: 1,
-        name: "Software Engineer",
+  getJobPostings = () => {
+    console.log("HHIIIIII");
+    this.calendarModalApiService
+      .GetAllJobPostings(this.CollegeRoleId)
+      .subscribe({
+        next: (response) => {
+          const data: Jobposting[] = response.value;
+          console.log(data);
+          this.jobPostings = data;
+        },
+        error: (error) => {
+          console.error("Error fetching Job Postings:", error);
+        },
+      });
+  };
+
+  getAllRounds = (jobPostingId: number) => {
+    this.calendarModalApiService.GetAllRounds(this.CollegeRoleId).subscribe({
+      next: (response) => {
+        const data: Jobinterviewround[] = response.value;
+        console.log(data);
       },
-      {
-        id: 2,
-        name: "Data Analyst",
-      },
-      {
-        id: 3,
-        name: "Product Manager",
-      },
-    ];
-  }
+    });
+  };
+
+  // loadRoles(): void {
+  //   this.roles = [
+  //     {
+  //       id: 1,
+  //       name: "Software Engineer",
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "Data Analyst",
+  //     },
+  //     {
+  //       id: 3,
+  //       name: "Product Manager",
+  //     },
+  //   ];
+  // }
 
   onSave(): void {
     if (this.formDataa.valid) {
@@ -75,6 +112,7 @@ export class CalendarModalComponent implements OnInit {
         weekdays: this.weekdays, // Add the weekdays state
         // Add any other specific data you want to send back
       };
+      console.log(returnData);
       this.dialogRef.close(returnData);
     }
   }
@@ -92,7 +130,9 @@ export class CalendarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadRoles();
+    // this.loadRoles();
+    this.getJobPostings();
+
     // Check if the dialog is opened in edit mode
     if (this.data.isEdited && this.data.eventData) {
       // Convert start and end times to 'HH:mm' format
@@ -104,15 +144,16 @@ export class CalendarModalComponent implements OnInit {
       const formattedStartTime = this.formatTime(this.data.eventData.start);
       const formattedEndTime = this.formatTime(this.data.eventData.end);
       console.log(this.data);
-      console.log("Formatted Start Time:", formattedStartTime);
-      console.log("Formatted End Time:", formattedEndTime);
+      // console.log("Formatted Start Time:", formattedStartTime);
+      // console.log("Formatted End Time:", formattedEndTime);
+      console.log("Event End Date", this.data.eventData.endDate);
       // Prefill the form with event data if isEdited is true
       this.formDataa.patchValue({
         eventName: this.data.eventData.title,
         jobRole: this.data.eventData.jobRole || "", // Assuming jobRole is part of eventData
         startTime: formattedStartTime,
         endTime: formattedEndTime,
-        endDate: this.data.eventData.endDate,
+        endDate: null,
       });
 
       // this.toggle = !!this.data.eventData.endDate;

@@ -28,8 +28,8 @@
         </mat-form-field>
       </div>
 
-      <div>
-        <!-- <mat-form-field appearance="outline">
+      <!-- <div>
+        <mat-form-field appearance="outline">
           <mat-label>Job Role</mat-label>
           <mat-select formControlName="jobRole">
             <mat-option *ngFor="let role of roles" [value]="role.id">
@@ -37,7 +37,33 @@
             </mat-option>
           </mat-select>
           <input matInput placeholder="Job Role" formControlName="jobRole" />
-        </mat-form-field> -->
+        </mat-form-field>
+      </div> -->
+
+      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
+        <mat-form-field appearance="outline">
+          <mat-label>Job Posting</mat-label>
+          <mat-select formControlName="jobPosting">
+            <mat-option
+              *ngFor="let posting of jobPostings"
+              [value]="posting.Id"
+            >
+              {{ posting.JobRole }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Rounds Dropdown -->
+      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
+        <mat-form-field appearance="outline">
+          <mat-label>Rounds</mat-label>
+          <mat-select formControlName="rounds">
+            <mat-option *ngFor="let round of rounds" [value]="round.Id">
+              <!-- {{ round.name }} -->
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
     </div>
 
