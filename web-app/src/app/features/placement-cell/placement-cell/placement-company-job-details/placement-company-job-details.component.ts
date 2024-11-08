@@ -92,7 +92,7 @@ export class PlacementCompanyJobDetailsComponent {
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
 
-  Id: number | null = null;
+  CompanyId: number | null = null;
 
   JobPostingsDescriptionData = signal<Companydatum | null>(null);
   jobPostingsData = signal<Jobposting[]>([]);
@@ -100,10 +100,10 @@ export class PlacementCompanyJobDetailsComponent {
   getCompanyJobDescriptionById(): void {
     this.route.paramMap.subscribe((params) => {
       const id = params.get("id");
-      this.Id = id !== null ? +id : null;
-      if (this.Id !== null) {
+      this.CompanyId = id !== null ? +id : null;
+      if (this.CompanyId !== null) {
         this.placementCompanyJobDetailsApiService
-          .GetCompanyById(this.Id)
+          .GetCompanyById(this.CompanyId)
           .subscribe({
             next: (jobPostings) => {
               const data: Companydatum = jobPostings.value[0];
@@ -262,6 +262,7 @@ export class PlacementCompanyJobDetailsComponent {
   openCopmanyJobDescriptionPage(jobId?: number) {
     this.router.navigate([
       "placement-company/placement-company-job-details/placement-job-description/",
+      this.CompanyId,
       jobId,
     ]);
   }

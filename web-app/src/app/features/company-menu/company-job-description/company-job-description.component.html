@@ -54,14 +54,14 @@
               <button
                 *ngIf="UserRoleId !== 3"
                 class="apply-button"
-                (click)="openEligibleStudentsModel(1)"
+                (click)="openEligibleStudentsModel()"
               >
                 Applied Student
               </button>
               <button
-                *ngIf="UserRoleId !== 3"
+                *ngIf="UserRoleId === 1"
                 class="apply-button"
-                (click)="openEligibleStudentsModel(2)"
+                (click)="openEligibleStudentsModel()"
               >
                 Invite Student
               </button>

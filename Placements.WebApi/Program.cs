@@ -64,7 +64,7 @@ builder.Services.AddEntityFrameworkMySQL()
            {
                options.UseMySQL(builder.Configuration.GetConnectionString("PlacementConnectionString"));
            });
-
+//builder.Services.AddSession();
 var app = builder.Build();
 app.UseCors(s => s.AllowAnyHeader()
   .AllowAnyMethod()
@@ -81,6 +81,9 @@ app.UseFileServer(new FileServerOptions
     RequestPath = "/static",
     EnableDirectoryBrowsing = true
 });
+app.UseODataBatching();
+//app.UseSession();
+app.UseRouting();
 app.UseSwagger();
 app.UseSwaggerUI();
 //}
