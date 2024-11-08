@@ -20,4 +20,6 @@ public partial class Calendarevent
     public long? CompanyId { get; set; }
 
     public ulong IsDeleted { get; set; }
+
+    public virtual ICollection<JobpostStudentround> JobpostStudentrounds { get; set; } = new List<JobpostStudentround>();
 }
