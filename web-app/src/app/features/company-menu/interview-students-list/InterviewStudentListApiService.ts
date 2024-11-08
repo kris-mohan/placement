@@ -9,7 +9,7 @@ import { ODataEntity } from 'src/app/services/types/OData';
 @Injectable({
   providedIn: 'root',
 })
-export class IndentRequirementsApiService {
+export class InterviewStudentListApiService {
   constructor(private apiHttpService: ApiHttpService) {}
 
   public GetAllStudentInterviewList(

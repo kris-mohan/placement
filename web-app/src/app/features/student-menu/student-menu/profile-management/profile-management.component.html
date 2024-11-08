@@ -349,23 +349,23 @@
             </div>
 
             <div
-            fxFlex="100%"
-            fxFlex.gt-md="25%"
-            fxFlex.gt-lg="25%"
-            fxFlex.gt-sm="50%">
-            <p class="grid-label">2nd PUC/ 12th Board</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Select Board</mat-label>
-              <mat-select>
-                <mat-option
-                  *ngFor="let board of TwelfthBoardNames"
-                  [value]="board">
-                  {{ board }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-            
+              fxFlex="100%"
+              fxFlex.gt-md="25%"
+              fxFlex.gt-lg="25%"
+              fxFlex.gt-sm="50%">
+              <p class="grid-label">2nd PUC/ 12th Board</p>
+              <mat-form-field appearance="outline">
+                <mat-label>Select Board</mat-label>
+                <mat-select>
+                  <mat-option
+                    *ngFor="let board of TwelfthBoardNames"
+                    [value]="board">
+                    {{ board }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
             <div
               fxFlex="100%"
               fxFlex.gt-md="25%"
@@ -544,151 +544,58 @@
         <mat-tab label="Skills">
           <div>
             <div>
-              <section>
-                <mat-grid-list cols="2" rowHeight="2:1">
-                  <mat-grid-tile>
-                    <mat-form-field class="example-form-field">
-                      <h4>Technical Skill</h4>
-                      <mat-chip-grid
-                        #templateChipGrid
-                        aria-label="Enter Skill"
-                        [(ngModel)]="techSkill">
-                        @for (keyword of techSkill(); track keyword) {
-                        <mat-chip-row
-                          (removed)="removeTemplateKeyword(keyword)">
-                          {{ keyword }}
-                          <button
-                            class="crosslang"
-                            matChipRemove
-                            aria-label="'remove template form' + keyword">
-                            <mat-icon>cancel</mat-icon>
-                          </button>
-                        </mat-chip-row>
-                        }
-                      </mat-chip-grid>
-                      <input
-                        placeholder="New Skill..."
-                        [matChipInputFor]="templateChipGrid"
-                        (matChipInputTokenEnd)="addTemplateKeyword($event)" />
-                    </mat-form-field>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                    <mat-form-field class="example-form-field">
-                      <h4>Soft Skill</h4>
-                      <mat-chip-grid
-                        #templateGrid
-                        aria-label="Enter Skill"
-                        [(ngModel)]="SoftSkill">
-                        @for (keyword of SoftSkill(); track keyword) {
-                        <mat-chip-row (removed)="removeSoftSkill(keyword)">
-                          {{ keyword }}
-                          <button
-                            class="crosslang"
-                            matChipRemove
-                            aria-label="'remove template form' + keyword">
-                            <mat-icon>cancel</mat-icon>
-                          </button>
-                        </mat-chip-row>
-                        }
-                      </mat-chip-grid>
-                      <input
-                        placeholder="New Skill..."
-                        [matChipInputFor]="templateGrid"
-                        (matChipInputTokenEnd)="addSoftSkill($event)" />
-                    </mat-form-field>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                    <mat-form-field class="example-form-field">
-                      <h4>ExtraCurricular Activities</h4>
-
-                      <mat-chip-grid
-                        #templateBoxGrid
-                        aria-label="Enter Skill"
-                        [(ngModel)]="ExtracurricularActivities">
-                        @for (keyword of ExtracurricularActivities(); track
-                        keyword) {
-                        <mat-chip-row
-                          (removed)="removeExtracurricularActivities(keyword)">
-                          {{ keyword }}
-                          <button
-                            class="crosslang"
-                            matChipRemove
-                            aria-label="'remove template form' + keyword">
-                            <mat-icon>cancel</mat-icon>
-                          </button>
-                        </mat-chip-row>
-                        }
-                      </mat-chip-grid>
-                      <input
-                        placeholder="New Skill..."
-                        [matChipInputFor]="templateBoxGrid"
-                        (matChipInputTokenEnd)="
-                          addExtracurricularActivities($event)
-                        " />
-                    </mat-form-field>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                    <mat-form-field class="example-form-field">
-                      <h4>Languages</h4>
-                      <mat-chip-grid
-                        #LanguageGrid
-                        aria-label="Enter Language"
-                        [(ngModel)]="Language">
-                        @for (keyword of Language(); track keyword) {
-                        <mat-chip-row (removed)="removeLanguage(keyword)">
-                          {{ keyword }}
-                          <button
-                            class="crosslang"
-                            matChipRemove
-                            aria-label="'remove template form' + keyword">
-                            <mat-icon>cancel</mat-icon>
-                          </button>
-                        </mat-chip-row>
-                        }
-                      </mat-chip-grid>
-                      <input
-                        placeholder="New Skill..."
-                        [matChipInputFor]="LanguageGrid"
-                        (matChipInputTokenEnd)="addLanguage($event)" />
-                    </mat-form-field>
-                  </mat-grid-tile>
-                </mat-grid-list>
-              </section>
+              <p><strong>Skill Type</strong></p>
+              <mat-form-field class="skills-form-field" appearance="outline">
+                <mat-label>Select Skill Type</mat-label>
+                <mat-select>
+                  <mat-option
+                    *ngFor="let skillType of SkillTypes()"
+                    [value]="skillType.Id">
+                    {{ skillType.Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <p><strong>Skill Name</strong></p>
+              <mat-form-field class="skills-form-field" appearance="outline">
+                <mat-label>Select Skills</mat-label>
+                <mat-select>
+                  <mat-option
+                    *ngFor="let skill of SkillsNames()"
+                    [value]="skill.Id">
+                    {{ skill.Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
-            <section>
-              <mat-grid-list cols="2" rowHeight="2:1">
-                <mat-grid-tile>
-                  <h3>
-                    <b><p class="grid-label">Linkedin Profile Link</p></b>
-                  </h3>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Linkedin Profile Link</mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                  <h3><p class="grid-label">Achievement</p></h3>
-                  <mat-form-field>
-                    <mat-label>Achievement</mat-label>
-                    <textarea matInput></textarea>
-                  </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                  <h3><p class="grid-label">Project</p></h3>
-                  <mat-form-field>
-                    <mat-label>Project</mat-label>
-                    <textarea matInput></textarea>
-                  </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                  <h3><p class="grid-label">Internship</p></h3>
-                  <mat-form-field>
-                    <mat-label>Internship</mat-label>
-                    <textarea matInput></textarea>
-                  </mat-form-field>
-                </mat-grid-tile>
-              </mat-grid-list>
-            </section>
+
+            <h3>
+              <b><p class="grid-label">Linkedin Profile Link</p></b>
+            </h3>
+            <mat-form-field class="skills-form-field" appearance="outline">
+              <mat-label>Linkedin Profile Link</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <h3><p class="grid-label">Achievement</p></h3>
+            <mat-form-field class="skills-form-field" appearance="outline">
+              <mat-label>Achievement</mat-label>
+              <textarea matInput></textarea>
+            </mat-form-field>
+
+            <h3><p class="grid-label">Project</p></h3>
+            <mat-form-field class="skills-form-field" appearance="outline">
+              <mat-label>Project</mat-label>
+              <textarea matInput></textarea>
+            </mat-form-field>
+
+            <h3><p class="grid-label">Internship</p></h3>
+            <mat-form-field class="skills-form-field" appearance="outline">
+              <mat-label>Internship</mat-label>
+              <textarea matInput></textarea>
+            </mat-form-field>
+          </div>
+          <div style="text-align: right; margin-right: 20px">
+            <button mat-raised-button color="primary">Submit</button>
           </div>
         </mat-tab>
       </mat-tab-group>

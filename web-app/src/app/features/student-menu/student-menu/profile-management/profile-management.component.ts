@@ -5,7 +5,12 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MatSelectChange } from '@angular/material/select';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Semester } from 'src/app/services/common-dropdowns/SemesterName';
 import { TenthScoreType } from 'src/app/services/common-dropdowns/TenthScoreType';
 import { TwelfthScoreType } from 'src/app/services/common-dropdowns/TwelfthScoreType';
@@ -17,6 +22,10 @@ import { Stream } from 'src/app/services/types/Stream';
 import { Batch } from 'src/app/services/types/Batch';
 import { TenthBoardName } from 'src/app/services/common-dropdowns/TenthBoard';
 import { TwelfthBoardName } from 'src/app/services/common-dropdowns/TwelfthBoard';
+import { SkillType } from 'src/app/services/types/SkillType';
+import { Observable, of } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { Skill } from 'src/app/services/types/Skill';
 
 @Component({
   selector: 'app-profile-management',
@@ -48,6 +57,12 @@ export class ProfileManagementComponent {
   Courses = signal<Course[]>([]);
   Streams = signal<Stream[]>([]);
   Batches = signal<Batch[]>([]);
+  SkillTypes = signal<SkillType[]>([]);
+  SkillsNames = signal<Skill[]>([]);
+  SkillTypeControl = new FormControl();
+  searchSkillType: string = '';
+  filteredSkillTypes: SkillType[] = [];
+  filteredCompany: Observable<any[]> = of([]);
 
   constructor(
     private location: Location,
@@ -56,6 +71,7 @@ export class ProfileManagementComponent {
   ) {
     this.studentProfileForm = this.fb.group({
       FirstName: ['', [Validators.required]],
+      //MiddleName: [[''], [Validators.required]],
       LastName: [''],
       BatchId: ['', [Validators.required]],
       AadharCardNumber: ['', [Validators.required]],
@@ -75,11 +91,6 @@ export class ProfileManagementComponent {
     });
   }
 
-  degrees = [
-    { value: 'Under-Graduate', viewValue: 'Under-graduate' },
-    { value: 'Post-Graduate', viewValue: 'Post-Graduate' },
-  ];
-
   readonly techSkill = signal(['java', 'c++', 'c']);
   readonly SoftSkill = signal([
     'Communication skill',
@@ -95,6 +106,8 @@ export class ProfileManagementComponent {
     this.GetAllCourseName();
     this.GetAllStreamName();
     this.GetPassedOutYear();
+    this.GetAllSkillTypes();
+    this.GetAllSkills();
   }
 
   onFileSelected(event: Event) {
@@ -287,6 +300,26 @@ export class ProfileManagementComponent {
     });
   };
 
+  GetAllSkillTypes = () => {
+    this.studentApiService.GetAllSkillTypes().subscribe({
+      next: (course) => {
+        const data: SkillType[] = course.value;
+        this.SkillTypes.set(data);
+        console.log('skillType:', data);
+      },
+    });
+  };
+
+  GetAllSkills = () => {
+    this.studentApiService.GetAllSkills().subscribe({
+      next: (skills) => {
+        const data: SkillType[] = skills.value;
+        this.SkillsNames.set(data);
+        console.log('SkillsNames:', data);
+      },
+    });
+  };
+
   goBack(): void {
     this.location.back();
   }
@@ -294,4 +327,55 @@ export class ProfileManagementComponent {
   onSubmit() {
     console.log('submit');
   }
+
+  // get selectedSkillTypes(): string {
+  //   const selected = this.SkillTypeControl.value;
+
+  //   return Array.isArray(selected) ? selected.join(', ') : '';
+  // }
+
+  // resetSkillTypeSelection() {
+  //   this.SkillTypeControl.reset();
+  //   this.searchSkillType = '';
+  //   this.filteredSkillTypes = this.SkillTypes();
+  //   this.dataSource1.data = this.filteredSkillTypes;
+  // }
+
+  // showLocationResults() {
+  //   const selectedCities = this.SkillTypeControl.value;
+  //   if (selectedCities && selectedCities.length > 0) {
+  //     this.filteredSkillTypes = this.SkillTypes().filter((skill) =>
+  //       selectedCities.includes(skill.Name)
+  //     );
+  //   } else {
+  //     this.filteredSkillTypes = this.SkillTypes();
+  //   }
+
+  //   this.dataSource1.data = this.filteredSkillTypes;
+  // }
+
+  // filterSkillTypes(search: string) {
+  //   const filterValue = search.toLowerCase();
+
+  //   const filteredList = this.SkillTypes().filter(
+  //     (skill) =>
+  //       skill && skill.Name && skill.Name.toLowerCase().includes(filterValue)
+  //   );
+
+  //   const selectedSkillTypes = this.SkillTypeControl.value || [];
+  //   this.filteredSkillTypes = [
+  //     ...selectedSkillTypes
+  //       .map((name: any) =>
+  //         this.SkillTypes().find((skill) => skill && skill.Name === name)
+  //       )
+  //       .filter(Boolean),
+  //     ...filteredList.filter(
+  //       (skill) => skill && !selectedSkillTypes.includes(skill.Name)
+  //     ),
+  //   ];
+  // }
+
+  // onSkillTypeDropdownOpen() {
+  //   this.filterSkillTypes(this.searchSkillType);
+  // }
 }
