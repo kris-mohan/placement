@@ -10,6 +10,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { CompanyJobDetailsApiService } from "../company-job-details/company-job-details-apiService";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { StudentJobsApiSerivce } from "../../student-menu/student-menu/student-jobs/studentJobsApiService";
+import { JobEligibleStudentApiService } from "./job-eligible-students-modal/jobEligibleStudentsApiService";
+import { Tblstudent } from "src/app/services/types/Tblstudent";
 @Component({
   selector: "app-company-job-description",
   standalone: true,
@@ -19,9 +21,16 @@ import { StudentJobsApiSerivce } from "../../student-menu/student-menu/student-j
 })
 export class CompanyJobDescriptionComponent {
   Id: number | null = null;
+  CompanyId: number;
+  CompanyRouteId: number | null = null;
+  JobPostRouteId: number | null = null;
   UserRoleId: number;
   selectCollegeControl = new FormControl();
   JobPostingDescription: Jobposting[] = [];
+
+  JobPostingId: number | null = null;
+  JobPostingDetailsById = signal<Jobposting[]>([]);
+  InvitingStudentsList = signal<Tblstudent[]>([]);
 
   JobPostingsDescriptionData = signal<Jobposting[]>([]);
 
@@ -50,12 +59,14 @@ export class CompanyJobDescriptionComponent {
   constructor(
     private location: Location,
     private route: ActivatedRoute,
-    private companyJobDetailsApiService: CompanyJobDetailsApiService,
     private studentJobsApiService: StudentJobsApiSerivce,
-    private router: Router
+    private router: Router,
+    private jobEligibleStudentsApiService: JobEligibleStudentApiService
   ) {
     const storedUserType = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserType ? parseInt(storedUserType) : 0;
+    const storedCompanyId = sessionStorage.getItem("CompanyId");
+    this.CompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
   }
   readonly dialog = inject(MatDialog);
 
@@ -63,20 +74,31 @@ export class CompanyJobDescriptionComponent {
     this.location.back();
   }
 
-  openEligibleStudentsModel(id: number): void {
+  openEligibleStudentsModel(): void {
     this.dialog.open(JobEligibleStudentsModalComponent, {
       width: "90vw",
       height: "80vh",
-      data: id,
+      data: {
+        studentsList: this.InvitingStudentsList(),
+        jobPostRouteId: this.JobPostRouteId,
+      },
     });
   }
 
   getCompanyJobDescriptionById(): void {
     this.route.paramMap.subscribe((params) => {
       const id = params.get("id");
+      const jobPostRouteId = params.get("jobId");
+      const companyRouteId = params.get("companyId");
+      this.CompanyRouteId = companyRouteId !== null ? +companyRouteId : null;
+      this.JobPostRouteId = jobPostRouteId !== null ? +jobPostRouteId : null;
       this.Id = id !== null ? +id : null;
-      if (this.Id !== null) {
-        this.studentJobsApiService.GetJobPostingById(this.Id).subscribe({
+
+      const jobIdToFetch =
+        this.UserRoleId === 1 ? this.JobPostRouteId : this.Id;
+
+      if (jobIdToFetch !== null) {
+        this.studentJobsApiService.GetJobPostingById(jobIdToFetch).subscribe({
           next: (jobPostings) => {
             const data: Jobposting[] = jobPostings.value;
             const mappedData = data.map((jobposting: any) => ({
@@ -96,8 +118,64 @@ export class CompanyJobDescriptionComponent {
     });
   }
 
+  GetJobPostingById = () => {
+    this.route.paramMap.subscribe((params) => {
+      const jobPostRouteId = params.get("jobId");
+      const companyRouteId = params.get("companyId");
+      this.CompanyRouteId = companyRouteId !== null ? +companyRouteId : null;
+      this.JobPostRouteId = jobPostRouteId !== null ? +jobPostRouteId : null;
+      if (this.JobPostRouteId !== null && this.CompanyRouteId !== null) {
+        this.jobEligibleStudentsApiService
+          .GetJobPostingDetailsById(this.CompanyRouteId, this.JobPostRouteId)
+          .subscribe({
+            next: (response) => {
+              const data: Jobposting[] = response.value;
+              this.JobPostingDetailsById.set(data);
+              console.log(this.JobPostingDetailsById());
+              this.GetAllInvitingStudents();
+            },
+            error: (error) => {
+              console.error("Error fetching Job Posting By Id details:", error);
+            },
+          });
+      }
+    });
+  };
+
+  GetAllInvitingStudents = () => {
+    const jobPosting = this.JobPostingDetailsById()[0];
+    const batchIds = jobPosting.CompanyJobBatches?.map((b) => b.BatchId) ?? [];
+    const courseIds =
+      jobPosting.CompanyJobCourses?.map((c) => c.CourseId) ?? [];
+    const streamIds =
+      jobPosting.CompanyJobStreams?.map((s) => s.StreamId) ?? [];
+    const tenthMarks = jobPosting.MinSslcpercentage;
+    const twelthMarks = jobPosting.MinPucpercentage;
+    const cgpa = jobPosting.MinCgpa;
+
+    const query = `/Tblstudent?$expand=Batch,Studentacademics($expand=Course,Stream)&$filter=BatchId in (${batchIds.join(
+      ","
+    )}) and Studentacademics/any(s: (s/CourseId in (${courseIds.join(
+      ","
+    )}) and s/StreamId in (${streamIds.join(
+      ","
+    )}) and s/TenthMarks ge ${tenthMarks} and s/TwelthMarks ge ${twelthMarks} and s/Cgpa ge ${cgpa}))`;
+
+    this.jobEligibleStudentsApiService.GetAllInvitingStudents(query).subscribe({
+      next: (response) => {
+        const data: Tblstudent[] = response.value;
+        this.InvitingStudentsList.set(data);
+        console.log(this.InvitingStudentsList());
+      },
+      error: (error) => {
+        console.error("Error fetching eligible students:", error);
+      },
+    });
+  };
+
   ngOnInit() {
     this.getCompanyJobDescriptionById();
+    this.GetJobPostingById();
   }
 
   convertToDateOnly(dateString: string): string {

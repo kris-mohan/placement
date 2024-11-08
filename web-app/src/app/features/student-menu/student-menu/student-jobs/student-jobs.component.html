@@ -165,7 +165,7 @@
   >
     <div
       *ngFor="let jobPosting of JobPostingsData()"
-      (click)="openCopmanyJobDescriptionPage(jobPosting.Id)"
+      (click)="openCopmanyJobDescriptionPage(jobPosting.JobPosting.Id)"
       fxFlex="100%"
       fxFlex.gt-sm="100%"
       fxFlex.gt-md="45%"
@@ -175,9 +175,9 @@
       <div class="company-details">
         <div class="company-designation">
           <h2 class="heading1">
-            {{ jobPosting.JobRole }} <br />
+            {{ jobPosting.JobPosting.JobRole }} <br />
             <span style="color: slategray; font-size: 0.9rem">
-              {{ jobPosting.Company.Name }}
+              {{ jobPosting.JobPosting.Company.Name }}
             </span>
           </h2>
 
@@ -189,36 +189,50 @@
         </div>
         <div class="job-details-container">
           <div class="job-detail">
-            <!-- <span
-              ><strong>Experience:</strong> {{ jobPosting.Experience }}
-            </span> -->
-            <span><strong>Job Type:</strong> {{ jobPosting.JobType }}</span>
+            <span
+              ><strong>Experience:</strong>
+              {{ jobPosting.JobPosting.MinimumYearExperience }}-{{
+                jobPosting.JobPosting.MaximumYearExperience
+              }}
+              years
+            </span>
+            <span
+              ><strong>Job Type:</strong>
+              {{ jobPosting.JobPosting.JobType }}</span
+            >
             <!-- <span><strong>Skills:</strong> {{ jobPosting.Experience }}</span> -->
-            <span><strong>Salary:</strong>{{ jobPosting.Salary }}</span>
-            <span><strong>Location:</strong> {{ jobPosting.Location }}</span>
+            <span
+              ><strong>Salary:</strong>{{ jobPosting.JobPosting.Salary }}</span
+            >
+            <span
+              ><strong>Location:</strong>
+              {{ jobPosting.JobPosting.Location }}</span
+            >
             <span
               ><strong>No. of vacancies:</strong>
-              {{ jobPosting.Vacancies }}</span
+              {{ jobPosting.JobPosting.Vacancies }}</span
             >
-
-            <!-- <span><strong>Number of applicants submitted:</strong> 10</span> -->
           </div>
           <div class="job-detail">
-            <span><strong>Shift:</strong> {{ jobPosting.Shift }}</span>
             <span
-              ><strong>Mode of Work:</strong> {{ jobPosting.ModeOfWork }}</span
+              ><strong>Shift:</strong> {{ jobPosting.JobPosting.Shift }}</span
             >
             <span
-              ><strong> Drive Date:</strong> {{ jobPosting.DriveDate }}</span
+              ><strong>Mode of Work:</strong>
+              {{ jobPosting.JobPosting.ModeOfWork }}</span
             >
             <span
-              ><strong>Posted Date:</strong> {{ jobPosting.ValidFrom }}</span
+              ><strong> Drive Date:</strong>
+              {{ jobPosting.JobPosting.DriveDate }}</span
+            >
+            <span
+              ><strong>Posted Date:</strong>
+              {{ jobPosting.JobPosting.PostedDate }}</span
             >
             <span
               ><strong>Application last date:</strong
-              >{{ jobPosting.ValidTill }}</span
+              >{{ jobPosting.JobPosting.ValidTill }}</span
             >
-            <!-- <span><strong>Number of interview schedule:</strong> 10</span> -->
           </div>
         </div>
       </div>

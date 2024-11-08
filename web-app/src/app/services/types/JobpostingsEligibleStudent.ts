@@ -11,3 +11,10 @@ export type JobpostingsEligiblestudent = {
   Status?: Jobstudentstatus;
   Student?: Tblstudent;
 };
+
+export type PostJobpostingsEligiblestudent = {
+  Id: number;
+  StudentId?: number;
+  JobPostingId?: number;
+  StatusId?: number;
+};
