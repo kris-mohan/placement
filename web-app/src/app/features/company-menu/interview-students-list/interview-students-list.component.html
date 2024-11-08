@@ -226,7 +226,7 @@
   >
     <!-- Dynamically create steps for each interview round -->
     <mat-step
-      *ngFor="let round of allDetails[0].Jobinterviewrounds; let i = index"
+      *ngFor="let round of allDetails[0]?.Jobinterviewrounds; let i = index"
       [label]="round.Name ? round.Name : 'Undefined'"
     >
       <!-- <div>
