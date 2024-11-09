@@ -31,7 +31,7 @@ export class InterviewStudentsListComponent implements OnInit {
     private location: Location,
     private router: Router,
     private route: ActivatedRoute,
-    private indentRequirementsApiService: IndentRequirementsApiService
+    private interviewStudentListApiService: InterviewStudentListApiService
   ) {
     const breakpointObserver = inject(BreakpointObserver);
 
@@ -54,7 +54,7 @@ export class InterviewStudentsListComponent implements OnInit {
     console.log(this.Id);
     const id = this.Id ? parseInt(this.Id) : 0;
     console.log(id);
-    this.indentRequirementsApiService
+    this.interviewStudentListApiService
       .GetAllStudentsByJobInterviewRounds(id)
       .subscribe({
         next: (response) => {
