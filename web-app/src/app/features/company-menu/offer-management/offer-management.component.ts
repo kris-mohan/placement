@@ -301,31 +301,6 @@ export class OfferManagementComponent {
     }
   }
 
-  // async deleteCompany(id: number) {
-  //   const confirmed = await this.sweetAlertService.confirmDelete(
-  //     "Do you really want to delete this Company?"
-  //   );
-
-  //   if (confirmed) {
-  //     this.apiCompanyService.deleteCompany(id).subscribe({
-  //       next: (response: { success: boolean; message: string }) => {
-  //         if (response.success) {
-  //           this.sweetAlertService.success(response.message);
-  //           this.loadCompanies();
-  //         } else {
-  //           this.sweetAlertService.error(response.message);
-  //         }
-  //       },
-  //       error: (error) => {
-  //         this.sweetAlertService.error(
-  //           "An unexpected error occurred while deleting the Company."
-  //         );
-  //         console.error("Error deleting Company:", error);
-  //       },
-  //     });
-  //   }
-  // }
-
   openJdDetails(id: number) {}
 
   openImportCompanyDialog() {
@@ -334,123 +309,6 @@ export class OfferManagementComponent {
       height: "600px",
     });
   }
-
-  // filterCities(search: string) {
-  //   const filterValue = search.toLowerCase();
-
-  //   const filteredList = this.companies.filter((company) =>
-  //     company.City.toLowerCase().includes(filterValue)
-  //   );
-
-  //   const selectedCompanies = this.CityControl.value || [];
-  //   this.filteredCompanies = [
-  //     ...selectedCompanies
-  //       .map((name: any) =>
-  //         this.companies.find((company) => company.City === name)
-  //       )
-  //       .filter(Boolean),
-  //     ...filteredList.filter(
-  //       (company) => !selectedCompanies.includes(company.City)
-  //     ),
-  //   ];
-  // }
-
-  // filterIndustries(search: string) {
-  //   const filterValue = search.toLowerCase();
-
-  //   const filteredList = this.industries.filter((industry) =>
-  //     industry.Type.toLowerCase().includes(filterValue)
-  //   );
-
-  //   const selectedIndustries = this.industryControl.value || [];
-  //   this.filteredIndustries = [
-  //     ...selectedIndustries
-  //       .map((name: any) =>
-  //         this.industries.find((industry) => industry.Type === name)
-  //       )
-  //       .filter(Boolean),
-  //     ...filteredList.filter(
-  //       (industry) => !selectedIndustries.includes(industry.Type)
-  //     ),
-  //   ];
-  // }
-
-  // get selectedCompanyCities(): string {
-  //   const selected = this.CityControl.value;
-  //   return selected ? selected.join(", ") : "";
-  // }
-
-  // get selectedIndustries(): string {
-  //   const selected = this.industryControl.value;
-  //   return selected ? selected.join(", ") : "";
-  // }
-  // get selectedCompanySize(): string {
-  //   const selected = this.companySizeControl.value;
-  //   return selected ? selected.join(", ") : "";
-  // }
-
-  // onCityDropdownOpen() {
-  //   this.filterCities(this.searchCity);
-  // }
-
-  // onIndustryDropdownOpen() {
-  //   this.filterIndustries(this.searchIndustry);
-  // }
-
-  // _filterCities(value: string): any[] {
-  //   const filterValue = value.toLowerCase();
-  //   return this.companies.filter((option) =>
-  //     option.City.toLowerCase().includes(filterValue)
-  //   );
-  // }
-
-  // _filterIndustries(value: string): any[] {
-  //   const filterValue = value.toLowerCase();
-  //   return this.industries.filter((option) =>
-  //     option.Type.toLowerCase().includes(filterValue)
-  //   );
-  // }
-
-  // resetIndustrySelection() {
-  //   this.industryControl.reset();
-  //   this.searchIndustry = "";
-  //   this.filteredCompanies = this.companies;
-  //   this.dataSource.data = this.filteredCompanies;
-  // }
-
-  // resetLocationSelection() {
-  //   this.CityControl.reset();
-  //   this.searchCity = "";
-  //   this.filteredCompanies = this.companies;
-  //   this.dataSource.data = this.filteredCompanies;
-  // }
-
-  // showIndustryResults() {
-  //   const selectedIndustries = this.industryControl.value;
-  //   if (selectedIndustries && selectedIndustries.length > 0) {
-  //     this.filteredCompanies = this.companies.filter((company) =>
-  //       company.Companyindustries.some((ci: any) =>
-  //         selectedIndustries.includes(ci.Industry.Type)
-  //       )
-  //     );
-  //   } else {
-  //     this.filteredCompanies = this.companies;
-  //   }
-  //   this.dataSource.data = this.filteredCompanies;
-  // }
-
-  // showLocationResults() {
-  //   const selectedCities = this.CityControl.value;
-  //   if (selectedCities && selectedCities.length > 0) {
-  //     this.filteredCompanies = this.companies.filter((company) =>
-  //       selectedCities.includes(company.City)
-  //     );
-  //   } else {
-  //     this.filteredCompanies = this.companies;
-  //   }
-
-  //   this.dataSource.data = this.filteredCompanies;
-  // }
 
   extractIndustriesFromCompanies(companies: any[]): Industry[] {
     const industriesSet = new Set();
@@ -480,33 +338,12 @@ export class OfferManagementComponent {
     });
   }
 
-  openOfferManagement(studentId: number) {
+  openOfferManagement(jobPostingId: number, studentId: number, id: number) {
     this.router.navigate([
-      "/offer-management/offer-management-details",
+      "/offer-management/offer-management-details/",
+      jobPostingId,
       studentId,
+      id,
     ]);
   }
-
-  // filteredCompanies: companyTableList[] = [];
-  // filteredCompany: Observable<any[]> = of([]);
-  // filteredCities: Observable<any[]> = of([]);
-  // filteredCompanySize: Observable<string[]> = of([]);
-  // filteredIndustries: Industry[] = [];
-  // filteredIndutry: Observable<any[]> = of([]);
-
-  // searchCompany: string = "";
-  // searchCity: string = "";
-  // searchIndustry: string = "";
-
-  // CityControl = new FormControl();
-  // industryControl = new FormControl();
-  // companySizeControl = new FormControl();
-  // experienceLevelControl = new FormControl();
-  // companyControl = new FormControl();
-
-  // CityFilterControl = new FormControl();
-  // industryFilterControl = new FormControl();
-  // companySizeFilterControl = new FormControl();
-
-  // dataSource = new MatTableDataSource<companyTableList>([]);
 }
