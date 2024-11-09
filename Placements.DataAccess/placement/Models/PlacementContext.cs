@@ -47,6 +47,10 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Course> Courses { get; set; }
 
+    public virtual DbSet<Document> Documents { get; set; }
+
+    public virtual DbSet<Email> Emails { get; set; }
+
     public virtual DbSet<IndentForm> IndentForms { get; set; }
 
     public virtual DbSet<IndentFormDynamicField> IndentFormDynamicFields { get; set; }
@@ -434,6 +438,36 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(45);
         });
 
+        modelBuilder.Entity<Document>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("documents");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.FileName).HasMaxLength(45);
+            entity.Property(e => e.FilePath).HasMaxLength(45);
+            entity.Property(e => e.FileType).HasMaxLength(45);
+        });
+
+        modelBuilder.Entity<Email>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("email");
+
+            entity.Property(e => e.Bcc)
+                .HasMaxLength(45)
+                .HasColumnName("BCC");
+            entity.Property(e => e.Body).HasMaxLength(250);
+            entity.Property(e => e.Cc)
+                .HasMaxLength(45)
+                .HasColumnName("CC");
+            entity.Property(e => e.IsSent).HasDefaultValueSql("'0'");
+            entity.Property(e => e.Subject).HasMaxLength(45);
+            entity.Property(e => e.To).HasMaxLength(45);
+        });
+
         modelBuilder.Entity<IndentForm>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -538,12 +572,14 @@ public partial class PlacementContext : DbContext
 
             entity.HasIndex(e => e.StudentId, "FK_JobPost_Student_idx");
 
-            entity.Property(e => e.Col)
-                .HasMaxLength(45)
-                .HasColumnName("col");
-            entity.Property(e => e.Feedback).HasMaxLength(45);
+            entity.HasIndex(e => e.EventId, "FK_JobRound_Event_idx");
+
+            entity.Property(e => e.Feedback).HasMaxLength(16000);
             entity.Property(e => e.HasPassed).HasColumnType("bit(1)");
-            entity.Property(e => e.RoundDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Event).WithMany(p => p.JobpostStudentrounds)
+                .HasForeignKey(d => d.EventId)
+                .HasConstraintName("FK_JobRound_Event");
 
             entity.HasOne(d => d.JobPostingRound).WithMany(p => p.JobpostStudentrounds)
                 .HasForeignKey(d => d.JobPostingRoundId)

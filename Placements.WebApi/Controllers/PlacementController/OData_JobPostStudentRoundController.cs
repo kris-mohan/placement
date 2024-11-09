@@ -56,8 +56,6 @@ namespace Placements.WebApi.Controllers.PlacementController
                 original.Feedback = jobpostStudentround.Feedback;
                 original.HasPassed = jobpostStudentround.HasPassed;
                 original.Score = jobpostStudentround.Score;
-                original.RoundDate = jobpostStudentround.RoundDate;
-                original.Col = jobpostStudentround.Col;
 
 
                 _context.JobpostStudentrounds.Update(original);

@@ -17,9 +17,9 @@ public partial class JobpostStudentround
 
     public int? Score { get; set; }
 
-    public DateTime? RoundDate { get; set; }
+    public long? EventId { get; set; }
 
-    public string? Col { get; set; }
+    public virtual Calendarevent? Event { get; set; }
 
     public virtual Jobinterviewround? JobPostingRound { get; set; }
 

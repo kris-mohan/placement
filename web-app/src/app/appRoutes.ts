@@ -383,7 +383,7 @@ const appRoutes: Routes = [
         component: PlacementCompanyJobDetailsComponent,
       },
       {
-        path: "placement-company/placement-company-job-details/placement-job-description/:id",
+        path: "placement-company/placement-company-job-details/placement-job-description/:companyId/:jobId",
         component: CompanyJobDescriptionComponent,
       },
       {

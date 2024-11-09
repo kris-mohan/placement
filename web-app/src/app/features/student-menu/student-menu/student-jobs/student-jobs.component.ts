@@ -24,6 +24,8 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { StudentJobsApiSerivce } from "./studentJobsApiService";
 import { signal } from "@angular/core";
+import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
+import { Companydatum } from "src/app/services/types/Companydatum";
 
 const today = new Date();
 const month = today.getMonth();
@@ -49,6 +51,9 @@ export class StudentJobsComponent {
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
+
+    const storedStudentId = sessionStorage.getItem("StudentId");
+    this.StudentId = storedStudentId ? parseInt(storedStudentId) : 0;
   }
   readonly campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
@@ -63,20 +68,10 @@ export class StudentJobsComponent {
   filteredCompany: Observable<any[]> = of([]);
 
   UserRoleId: number;
+  StudentId: number;
   readonly dialog = inject(MatDialog);
 
   dataSource1 = new MatTableDataSource<companyTableList>([]);
-
-  // displayedColumns: string[] = [
-  //   "slNo",
-  //   "jobId",
-  //   "jobTitle",
-  //   // "companyName",
-  //   "location",
-  //   "jobDescription",
-  //   "postedDate",
-  //   "actions",
-  // ];
 
   companySizes: string[] = [
     "1-10 Employees",
@@ -109,7 +104,7 @@ export class StudentJobsComponent {
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
 
-  JobPostingsData = signal<Jobposting[]>([]);
+  JobPostingsData = signal<JobpostingsEligiblestudent[]>([]);
 
   ngOnInit() {
     this.GetAllJobPosting();
@@ -117,18 +112,13 @@ export class StudentJobsComponent {
   }
 
   GetAllJobPosting = () => {
-    this.studentJobsApiService.GetAllJobPostings().subscribe({
+    this.studentJobsApiService.GetAllJobPostings(this.StudentId).subscribe({
       next: (jobPostings) => {
-        const data: Jobposting[] = jobPostings.value;
-        const mappedData = data.map((jobposting: any) => ({
-          ...jobposting,
-          ValidTill: this.convertToDateOnly(jobposting.ValidTill),
-          ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
-          DriveDate: this.convertToDateOnly(jobposting.DriveDate),
-        }));
-        this.JobPostingsData.set(mappedData);
-        console.log("Company Name:", this.JobPostingsData()[0].Company.Name);
-        // }
+        const data: JobpostingsEligiblestudent[] = jobPostings.value;
+        console.log(data);
+
+        this.JobPostingsData.set(data);
+        console.log(this.JobPostingsData());
       },
       error: (error) => {
         console.error("Error fetching jobPostings:", error);

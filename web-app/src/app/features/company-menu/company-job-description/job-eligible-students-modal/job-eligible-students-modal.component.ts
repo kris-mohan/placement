@@ -7,12 +7,13 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
 import { SharedModule } from "src/app/shared/shared.module";
 import { FormControl } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
-import { StudentdetailsDialogComponent } from "src/app/features/placement-cell/placement-cell/studentdetails-dialog/studentdetails-dialog.component";
-import { Studentacademic } from "src/app/services/types/Studentacademic";
 import { StudentEligibleApiService } from "../JobEligibleApiService";
 import { MatTableDataSource } from "@angular/material/table";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { JobEligibleStudentApiService } from "./jobEligibleStudentsApiService";
+import { PostJobstudentstatus } from "src/app/services/types/Jobstudentstatus";
+import { Tblstudent } from "src/app/services/types/Tblstudent";
+import { PostJobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -26,13 +27,20 @@ export interface ODataResponse<T> {
   styleUrl: "./job-eligible-students-modal.component.css",
 })
 export class JobEligibleStudentsModalComponent {
+  InvitingStudentsList: Tblstudent[] = [];
+  jobPostRouteId: number | null = null;
   readonly dialog = inject(MatDialog);
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location
-  ) {}
+    private location: Location,
+    private jobEligibleStudentApiService: JobEligibleStudentApiService,
+    private sweetAlertService: SweetAlertService
+  ) {
+    this.InvitingStudentsList = data.studentsList;
+    this.jobPostRouteId = data.jobPostRouteId;
+  }
 
   displayedColumns: string[] = [
     "StudentID",
@@ -41,9 +49,10 @@ export class JobEligibleStudentsModalComponent {
     "CollegeName",
     "Branch",
     "Batch",
-    "JobeRole",
+    //"JobeRole",
     "CGPA",
     "Status",
+    "InvitationStatus",
     "resume",
   ];
   columns = [
@@ -56,6 +65,7 @@ export class JobEligibleStudentsModalComponent {
     { key: "JobeRole", label: "Jobe Role" },
     { key: "CGPA", label: "CGPA" },
     { key: "Status", label: "Status" },
+    { key: "InvitationStatus", label: "Invitation Status" },
     { key: "resume", label: "Resume" },
   ];
 
@@ -116,19 +126,56 @@ export class JobEligibleStudentsModalComponent {
   }
 
   getAllStudents = () => {
-    const studentDetails = this.data.value.map((studentRecord: any) => ({
-      StudentID: studentRecord.Id,
-      StudentName: `${studentRecord.FirstName} ${studentRecord.LastName}`,
-      DegreeName: studentRecord.Studentacademics[0]?.Course?.Name ?? "",
-      CollegeName: "MSRIT",
-      Branch: studentRecord.Studentacademics[0]?.Stream?.Name ?? "",
-      Batch: studentRecord.Batch?.Name ?? "",
-      JobeRole: "Developer",
-      CGPA: studentRecord.Studentacademics[0]?.Cgpa ?? "",
-      Status: "Active",
-      resume: "",
-    }));
+    const data = this.InvitingStudentsList;
+    console.log(data);
+    const studentDetails = this.InvitingStudentsList.map(
+      (studentRecord: any) => ({
+        StudentID: studentRecord.Id,
+        StudentName: `${studentRecord.FirstName} ${studentRecord.LastName}`,
+        DegreeName: studentRecord.Studentacademics[0]?.Course?.Name ?? "",
+        CollegeName: "",
+        Branch: studentRecord.Studentacademics[0]?.Stream?.Name ?? "",
+        Batch: studentRecord.Batch?.Name ?? "",
+        JobeRole: "Developer",
+        CGPA: studentRecord.Studentacademics[0]?.Cgpa ?? "",
+        Status: "Active",
+        resume: "",
+      })
+    );
 
     this.studentsDetails.data = studentDetails;
+  };
+
+  InviteJobPostToStudents = () => {
+    const statusId = 6;
+    const confirmed = this.sweetAlertService.confirm(
+      `Do you want to invite all students?`
+    );
+    const students: PostJobpostingsEligiblestudent[] = this.studentsDetails.data
+      .filter((student: any) => student.StudentID)
+      .map((student: any) => {
+        return {
+          Id: 0,
+          StudentId: student.StudentID,
+          JobPostingId: this.jobPostRouteId ?? undefined,
+          StatusId: statusId,
+        };
+      });
+
+    this.jobEligibleStudentApiService
+      .InviteJobPostToStudents(students)
+      .subscribe({
+        next: (response: { success: boolean; message: string }) => {
+          console.log(response);
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: () => {
+          this.sweetAlertService.error("An unexpected error occurred.");
+        },
+      });
   };
 }

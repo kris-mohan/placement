@@ -22,6 +22,8 @@ import { Tblstudent } from "src/app/services/types/Tblstudent";
 export class CompanyJobDescriptionComponent {
   Id: number | null = null;
   CompanyId: number;
+  CompanyRouteId: number | null = null;
+  JobPostRouteId: number | null = null;
   UserRoleId: number;
   selectCollegeControl = new FormControl();
   JobPostingDescription: Jobposting[] = [];
@@ -72,20 +74,31 @@ export class CompanyJobDescriptionComponent {
     this.location.back();
   }
 
-  openEligibleStudentsModel(data: any): void {
+  openEligibleStudentsModel(): void {
     this.dialog.open(JobEligibleStudentsModalComponent, {
       width: "90vw",
       height: "80vh",
-      data: data,
+      data: {
+        studentsList: this.InvitingStudentsList(),
+        jobPostRouteId: this.JobPostRouteId,
+      },
     });
   }
 
   getCompanyJobDescriptionById(): void {
     this.route.paramMap.subscribe((params) => {
       const id = params.get("id");
+      const jobPostRouteId = params.get("jobId");
+      const companyRouteId = params.get("companyId");
+      this.CompanyRouteId = companyRouteId !== null ? +companyRouteId : null;
+      this.JobPostRouteId = jobPostRouteId !== null ? +jobPostRouteId : null;
       this.Id = id !== null ? +id : null;
-      if (this.Id !== null) {
-        this.studentJobsApiService.GetJobPostingById(this.Id).subscribe({
+
+      const jobIdToFetch =
+        this.UserRoleId === 1 ? this.JobPostRouteId : this.Id;
+
+      if (jobIdToFetch !== null) {
+        this.studentJobsApiService.GetJobPostingById(jobIdToFetch).subscribe({
           next: (jobPostings) => {
             const data: Jobposting[] = jobPostings.value;
             const mappedData = data.map((jobposting: any) => ({
@@ -107,11 +120,13 @@ export class CompanyJobDescriptionComponent {
 
   GetJobPostingById = () => {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get("id");
-      this.JobPostingId = id !== null ? +id : null;
-      if (this.JobPostingId !== null) {
+      const jobPostRouteId = params.get("jobId");
+      const companyRouteId = params.get("companyId");
+      this.CompanyRouteId = companyRouteId !== null ? +companyRouteId : null;
+      this.JobPostRouteId = jobPostRouteId !== null ? +jobPostRouteId : null;
+      if (this.JobPostRouteId !== null && this.CompanyRouteId !== null) {
         this.jobEligibleStudentsApiService
-          .GetJobPostingDetailsById(this.CompanyId, this.JobPostingId)
+          .GetJobPostingDetailsById(this.CompanyRouteId, this.JobPostRouteId)
           .subscribe({
             next: (response) => {
               const data: Jobposting[] = response.value;
@@ -150,6 +165,7 @@ export class CompanyJobDescriptionComponent {
       next: (response) => {
         const data: Tblstudent[] = response.value;
         this.InvitingStudentsList.set(data);
+        console.log(this.InvitingStudentsList());
       },
       error: (error) => {
         console.error("Error fetching eligible students:", error);
