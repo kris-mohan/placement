@@ -18,9 +18,9 @@ namespace Placements.WebApi.Controllers.PlacementController
             _context = context;
         }
 
-        [HttpGet, EnableQuery]
-        public IActionResult Get()
-            {
+        [HttpGet, EnableQuery(MaxExpansionDepth = 10)]
+    public IActionResult Get()
+        {
             return Ok(_context.Jobpostings);
         }
 

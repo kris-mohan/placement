@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
 import { Jobposting } from "src/app/services/types/Jobposting";
+import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 import { ODataEntity } from "src/app/services/types/OData";
 
 @Injectable({
@@ -11,9 +12,11 @@ import { ODataEntity } from "src/app/services/types/OData";
 export class StudentJobsApiSerivce {
   constructor(private apiHttpService: ApiHttpService) {}
 
-  GetAllJobPostings(): Observable<ODataEntity<Jobposting[]>> {
-    return this.apiHttpService.get<ODataEntity<Jobposting[]>>(
-      `/Jobposting?expand=Company($select=Name)`
+  GetAllJobPostings(
+    id: number
+  ): Observable<ODataEntity<JobpostingsEligiblestudent[]>> {
+    return this.apiHttpService.get<ODataEntity<JobpostingsEligiblestudent[]>>(
+      `/JobpostingsEligiblestudent?filter =StudentId eq ${id}&expand=JobPosting($expand=Company)`
     );
   }
 

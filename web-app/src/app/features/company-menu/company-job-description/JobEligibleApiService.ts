@@ -12,10 +12,6 @@ export class StudentEligibleApiService {
   GetAllEligibleStudents(): Observable<any> {
     return this.apiHttpService.get<any>(
       `/Studentacademic?$expand=Student($expand=Batch),Course,Stream`
-    );  
+    );
   }
-
-  // GetAllEligibleStudentsById(id: number): Observable<any> {
-  //   return this.apiHttpService.get(`/Studentacademic?filter=Id eq ${id}`);
-  // }
 }

@@ -3,8 +3,10 @@
     <div class="example-button-row">
       <div class="example-flex-container">
         <div class="button-label-container">
-          <div class="example-button-container" >
-            <mat-icon (click)="goBack()" class="BackIcon">keyboard_backspace</mat-icon>
+          <div class="example-button-container">
+            <mat-icon (click)="goBack()" class="BackIcon"
+              >keyboard_backspace</mat-icon
+            >
           </div>
 
           <div class="header-mat-label">
@@ -135,7 +137,7 @@
     </div>
   </mat-card-header>
 
-  <mat-accordion class="mat-accordion">
+  <!-- <mat-accordion class="mat-accordion">
     <mat-expansion-panel
       (opened)="panelOpenState.set(true)"
       (closed)="panelOpenState.set(false)"
@@ -153,7 +155,103 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
     </mat-expansion-panel>
-  </mat-accordion>
+  </mat-accordion> -->
+
+  <!-- <mat-stepper
+    class="example-stepper"
+    [orientation]="(stepperOrientation | async)!"
+  >
+    <mat-step [stepControl]="firstFormGroup" label="Fill out your name">
+      <form [formGroup]="firstFormGroup">
+      <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            placeholder="Last name, First name"
+            formControlName="firstCtrl"
+            required
+          />
+        </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
+      <form [formGroup]="secondFormGroup">
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <input
+          matInput
+          formControlName="secondCtrl"
+          placeholder="Ex. 1 Main St, New York, NY"
+          required
+        />
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup" label="Fill out your phone number">
+      <form [formGroup]="thirdFormGroup">
+      <mat-form-field>
+          <mat-label>Phone number</mat-label>
+          <input
+            matInput
+            formControlName="thirdCtrl"
+            placeholder="Ex. 12345678"
+            required
+          />
+        </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+      </div>
+    </mat-step>
+  </mat-stepper> -->
+
+  <mat-stepper
+    [orientation]="(stepperOrientation | async)!"
+    (selectionChange)="onStepChange($event.selectedIndex)"
+  >
+    <!-- Dynamically create steps for each interview round -->
+    <mat-step
+      *ngFor="let round of allDetails[0]?.Jobinterviewrounds; let i = index"
+      [label]="round.Name ? round.Name : 'Undefined'"
+    >
+      <!-- <div>
+      You can add content to each round here
+      <p>Details for {{ round.Name }} go here</p>
+    </div> -->
+
+      <div>
+        <button mat-button matStepperPrevious *ngIf="i > 0">Back</button>
+        <button
+          mat-button
+          matStepperNext
+          *ngIf="i < allDetails[0].Jobinterviewrounds.length"
+        >
+          Next
+        </button>
+      </div>
+    </mat-step>
+    <!-- <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+      </div>
+    </mat-step> -->
+  </mat-stepper>
 
   <mat-card-content
     fxLayout="row wrap"
@@ -161,7 +259,10 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let students of studentsAttending"
+      *ngFor="
+        let students of allDetails[0].Jobinterviewrounds[currentRoundIndex]
+          .JobpostStudentrounds
+      "
       fxFlex="100%"
       fxFlex.gt-sm="50%"
       fxFlex.gt-md="28%"
@@ -175,27 +276,33 @@
         <div class="company-type">{{ students.studentName }}</div> -->
         <p>
           <strong>Roll Number:</strong>
-          {{ students.studentId }}
+          {{ students?.Student?.RollNo }}
         </p>
         <p>
           <strong>Student Name:</strong>
-          {{ students.studentName }}
+          {{ students?.Student?.FirstName }} {{ students?.Student?.LastName }}
         </p>
         <p>
           <strong>Batch:</strong>
-          {{ students.batch }}
+          {{ students?.Student?.Batch?.Name }}
         </p>
         <p>
           <strong>Branch:</strong>
-          {{ students.branch }}
+          {{ students?.Student?.Studentacademics?.[0]?.Course?.FullForm }}
         </p>
       </div>
       <div class="company">
-        <p><strong>College Name:</strong> {{ students.collegeName }}</p>
-        <p><strong>Status:</strong> {{ students.status }}</p>
+        <p>
+          <strong>College Name:</strong>
+          {{ students?.Student?.Org?.CollegeName }}
+        </p>
+        <p>
+          <strong>Status:</strong>
+          {{ students.HasPassed ? "Ongoing" : "Rejected" }}
+        </p>
         <p>
           <strong>Performance Score:</strong>
-          {{ students.performanceScore }}
+          {{ students.Score }}
         </p>
       </div>
     </div>

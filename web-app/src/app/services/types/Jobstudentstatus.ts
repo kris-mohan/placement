@@ -5,3 +5,11 @@ export type Jobstudentstatus = {
   Name?: string;
   JobpostingsEligiblestudents?: JobpostingsEligiblestudent[];
 };
+
+export type PostJobstudentstatus = {
+  JobpostingsEligiblestudents?: {
+    StudentId?: number;
+    JobPostingId?: number;
+    StatusId?: number;
+  }[];
+};
