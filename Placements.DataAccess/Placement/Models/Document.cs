@@ -13,6 +13,8 @@ public partial class Document
 
     public string? FileType { get; set; }
 
+    public string? ParentType { get; set; }
+
     public long? ParentId { get; set; }
 
     public bool? IsDeleted { get; set; }
