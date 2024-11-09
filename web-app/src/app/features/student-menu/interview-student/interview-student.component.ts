@@ -25,9 +25,11 @@ import { CompanyDetailDialogModalComponent } from "../../company-configuration/c
 import { ImportCompanyDialogComponent } from "../../company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
 import { IndustryAPIService } from "../../company-configuration/company-config/industry/api.industry";
 import { provideNativeDateAdapter } from "@angular/material/core";
-import { InterviewAdditionalFilterComponent } from "./interview-additional-filter/interview-additional-filter.component";
-import { interviewApiService } from "./api.interview";
+
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { InterviewAdditionalFilterComponent } from "../../company-menu/interview/interview-additional-filter/interview-additional-filter.component";
+import { interviewApiService } from "../../company-menu/interview/api.interview";
+import { AppliedJobInterview } from "src/app/services/types/AppliedJobInterview";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -36,23 +38,20 @@ export interface ODataResponse<T> {
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
-
 @Component({
-  selector: "app-interview",
+  selector: "app-interview-student",
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules],
-  templateUrl: "./interview.component.html",
-  styleUrl: "./interview.component.css",
-  providers: [provideNativeDateAdapter()],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: "./interview-student.component.html",
+  styleUrl: "./interview-student.component.css",
 })
-export class InterviewComponent {
+export class InterviewStudentComponent {
   readonly campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
   });
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  jobInterviewRounds = signal<Jobinterviewround[]>([]);
+  jobInterviewRounds = signal<AppliedJobInterview[]>([]);
 
   companies: companyTableList[] = [];
 
@@ -308,11 +307,50 @@ export class InterviewComponent {
     });
   };
 
+  GetAppliedJobInterviewRounds = () => {
+    const StudentId = sessionStorage.getItem("StudentId");
+    this.InterviewService.GetJobInterviewRoundsByStudentId(
+      parseInt(StudentId != null && StudentId != "null" ? StudentId : "0")
+    ).subscribe({
+      next: (response) => {
+        console.log(response.value, "res");
+        const data = response.value;
+
+        const finalData: AppliedJobInterview[] = [];
+        data?.flatMap((s) => {
+          s.JobpostStudentrounds?.flatMap((r: any) => {
+            finalData.push({
+              Id: r.JobPostingRound?.Id,
+              RoundName: r.JobPostingRound?.Name,
+              JobRole: r.JobPostingRound?.JobPosting?.JobRole,
+              Status: "Accepted",
+              Company: r.JobPostingRound?.JobPosting?.Company?.Name,
+            });
+          });
+        });
+
+        // data.map((d) => {
+        //   finalData.push({
+        //     ...d,
+        //     Name: d.JobPosting?.JobRole,
+        //   });
+        // });
+
+        this.jobInterviewRounds.set(finalData);
+        console.log(this.jobInterviewRounds());
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
+
   ngOnInit() {
     // this.loadCompanies();
     // this.loadIndustries();
 
     this.GetJobInterviewRounds();
+    this.GetAppliedJobInterviewRounds();
     this.dataSource.paginator = this.paginator;
 
     this.CityControl.valueChanges.subscribe(() => {

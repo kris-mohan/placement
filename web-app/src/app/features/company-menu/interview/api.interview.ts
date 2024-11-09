@@ -27,7 +27,22 @@ export class interviewApiService {
     //   "/Companydatum?$filter=Id eq 4&expand=Jobpostings(expand=Jobinterviewrounds)"
     // );
     return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
-      `/Jobinterviewround?expand=JobPosting(expand=Company)&filter=JobPosting/CompanyId eq ${companyId}`
+      `/Jobinterviewround?expand=JobPosting(expand=Company)${
+        companyId != 0 ? `&filter=JobPosting/CompanyId eq ${companyId}` : ""
+      }`
+    );
+  }
+
+  GetJobInterviewRoundsByStudentId(
+    studentId: number
+  ): Observable<ODataEntity<any[]>> {
+    // return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
+    //   "/Companydatum?$filter=Id eq 4&expand=Jobpostings(expand=Jobinterviewrounds)"
+    // );
+    return this.apiHttpService.get<ODataEntity<any[]>>(
+      `/Tblstudent?${
+        studentId != 0 ? `$filter=Id eq ${studentId}` : ""
+      }&$expand=JobpostStudentrounds($expand=JobPostingRound($expand=JobPosting($expand=Company)))`
     );
   }
 }

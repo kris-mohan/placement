@@ -1,0 +1,171 @@
+button {
+  margin: 0 8px 8px 0;
+}
+.mat-mdc-card-header {
+  display: unset;
+}
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: end;
+}
+.BackIcon {
+  display: flex;
+  justify-content: end;
+  cursor: pointer;
+}
+.button-label-container {
+  display: flex;
+}
+
+.header-mat-label {
+  margin-left: 1rem;
+  font-weight: bolder;
+  font-size: x-large;
+  color: darkblue;
+}
+table {
+  width: 100%;
+}
+
+.matbutton {
+  background-color: #3f51b5;
+}
+.maticon {
+  color: white;
+}
+.matName {
+  color: white;
+}
+.mdc-checkbox__native-control {
+  border-color: var(--mdc-checkbox-selected-icon-color);
+  background-color: black;
+}
+.td-mat-button {
+  display: flex;
+}
+cdk-overlay-pane {
+  width: auto;
+}
+.mat-dialog-actions {
+  display: flex;
+}
+.custom-dropdown-panel {
+  width: auto;
+}
+
+.mat-grid-tile {
+  border-radius: 0.5rem;
+  background-color: #c3d2f899;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  margin: 1em;
+  border: solid 0.1px #bfbfd4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.mat-grid-tile:hover {
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: scale(1.1);
+  background-color: #c3d2f899;
+  color: black;
+}
+
+.company-details {
+  text-align: left;
+  margin: 0.5rem;
+}
+
+.company {
+  text-align: right;
+  margin: 0.5rem;
+}
+.search-full-width {
+  margin-right: 1rem;
+}
+
+.main-div {
+  padding: 1rem;
+}
+.company p strong {
+  color: #1e1e6ee2;
+}
+.company-details h3 {
+  color: #1e1e6ee2;
+}
+
+.company-details p strong {
+  color: #1e1e6ee2;
+}
+
+.company-type {
+  color: #1e1e6ee2;
+  font-weight: bold;
+}
+.mat-grid-tile {
+  border-radius: 0.5rem;
+  background-color: #c3d2f899;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  margin: 1em;
+  border: solid 0.1px #bfbfd4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* interview.css */
+.main-div {
+  padding: 16px;
+}
+
+.custom-card-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.header-mat-label {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+}
+
+.filter-field {
+  flex: 1 1 200px; /* Each filter takes up equal space and shrinks to a minimum width of 200px */
+  max-width: 250px;
+}
+
+.mat-card-content {
+  padding-top: 16px;
+}
+
+@media (max-width: 768px) {
+  .filter-container {
+    flex-direction: column;
+  }
+
+  .filter-field {
+    max-width: 100%;
+  }
+}

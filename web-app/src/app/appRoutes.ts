@@ -84,6 +84,7 @@ import { TemplateGeneratorComponent } from "./features/template-generator/templa
 
 import { IndentrequirementplacementComponent } from "./features/indentrequirementplacement/indentrequirementplacement.component";
 import { IndentplacementComponent } from "./features/indentplacement/indentplacement.component";
+import { InterviewStudentComponent } from "./features/student-menu/interview-student/interview-student.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -320,6 +321,10 @@ const appRoutes: Routes = [
       {
         path: "interview",
         component: InterviewComponent,
+      },
+      {
+        path: "interview-student",
+        component: InterviewStudentComponent,
       },
       {
         path: "interview/interview-students-list/:id",
