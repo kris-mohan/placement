@@ -113,33 +113,33 @@ export class InterviewScheduleComponent implements OnInit {
     return item.Id;
   }
 
-  // calendarOptions: CalendarOptions = {
-  //   headerToolbar: {
-  //     left: "dayGridMonth,dayGridWeek,dayGridDay",
-  //     center: "title",
-  //     right: "prevYear,prev,next,nextYear",
-  //   },
-  //   events: this.calendarEvents().map((event) => ({
-  //     ...event,
-  //     extendedProps: {
-  //       jobRoles: event.jobRole,
-  //     },
-  //   })),
-  //   editable: true,
-  //   selectable: true,
-  //   selectMirror: true,
-  //   initialView: "dayGridMonth",
-  //   weekends: true,
-  //   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-  //   dateClick: this.handleDateClick.bind(this),
-  //   eventClick: this.handleEventClick.bind(this),
-  //   eventTimeFormat: {
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //     hour12: true,
-  //   },
-  //   eventsSet: this.handleEvents.bind(this),
-  // };
+  calendarOptions: CalendarOptions = {
+    // headerToolbar: {
+    //   left: "dayGridMonth,dayGridWeek,dayGridDay",
+    //   center: "title",
+    //   right: "prevYear,prev,next,nextYear",
+    // },
+    // events: this.calendarEvents().map((event) => ({
+    //   ...event,
+    //   extendedProps: {
+    //     jobRoles: event.jobRole,
+    //   },
+    // })),
+    // editable: true,
+    // selectable: true,
+    // selectMirror: true,
+    // initialView: "dayGridMonth",
+    // weekends: true,
+    // plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    // dateClick: this.handleDateClick.bind(this),
+    // eventClick: this.handleEventClick.bind(this),
+    // eventTimeFormat: {
+    //   hour: "2-digit",
+    //   minute: "2-digit",
+    //   hour12: true,
+    // },
+    // eventsSet: this.handleEvents.bind(this),
+  };
 
   /**
    * Events bind in calander
