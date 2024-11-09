@@ -3,13 +3,11 @@ import { Component, inject, OnInit, signal } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { Router } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
-import { IndentRequirementsApiService } from "./InterviewStudentListApiService";
+import { InterviewStudentListApiService } from "./InterviewStudentListApiService";
 import { Jobposting } from "src/app/services/types/Jobposting";
-import { JobpostStudentround } from "src/app/services/types/JobpostStudentround";
 import { map, Observable } from "rxjs";
 import { StepperOrientation } from "@angular/material/stepper";
 import { BreakpointObserver } from "@angular/cdk/layout";
-import { FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-interview-students-list",
@@ -28,7 +26,7 @@ export class InterviewStudentsListComponent implements OnInit {
   constructor(
     private location: Location,
     private router: Router,
-    private indentRequirementsApiService: IndentRequirementsApiService
+    private interviewStudentListApiService: InterviewStudentListApiService
   ) {
     const breakpointObserver = inject(BreakpointObserver);
 
@@ -47,7 +45,7 @@ export class InterviewStudentsListComponent implements OnInit {
 
   getAllStudents = () => {
     const id = 2;
-    this.indentRequirementsApiService.GetAllStudents(id).subscribe({
+    this.interviewStudentListApiService.GetAllStudents(id).subscribe({
       next: (response) => {
         const data: Jobposting[] = response.value;
         console.log("All Students", data);
