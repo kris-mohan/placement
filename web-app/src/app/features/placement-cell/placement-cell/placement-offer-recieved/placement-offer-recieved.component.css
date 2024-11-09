@@ -71,6 +71,9 @@ cdk-overlay-pane {
   display: flex;
   justify-content: space-between;
   margin: 1em;
+  width: 588px;
+  height: 285px;
+
   border: solid 0.1px #bfbfd4;
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
@@ -80,7 +83,7 @@ cdk-overlay-pane {
   transform: scale(1.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease,
     background-color 0.3s ease, color 0.3s ease;
-    background-color: #c3d2f899;
+  background-color: #c3d2f899;
   color: black;
 }
 

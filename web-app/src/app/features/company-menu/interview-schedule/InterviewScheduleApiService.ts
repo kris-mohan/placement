@@ -29,6 +29,12 @@ export class InterviewScheduleApiService {
       `/Jobposting?$expand=Jobinterviewrounds`
     );
   }
+
+  GetInterviewSchedule1(): Observable<ODataEntity<Jobposting[]>> {
+    return this.apiHttpService.get<ODataEntity<Jobposting[]>>(
+      `/Jobposting?$filter=CompanyId eq 4&$expand=Jobinterviewrounds`
+    );
+  }
   GetCalendarData(): Observable<ODataEntity<Calendarevent[]>> {
     return this.apiHttpService.get<ODataEntity<Calendarevent[]>>(
       `/Calendarevent`

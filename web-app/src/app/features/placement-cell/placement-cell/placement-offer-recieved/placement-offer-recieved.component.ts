@@ -75,9 +75,23 @@ export class PlacementOfferRecievedComponent {
     this.placementOfferRecievedApiService.GetAllOffersRecieved().subscribe({
       next: (response) => {
         const data: JobpostingSelectedstudent[] = response.value;
-        console.log(data);
-        this.JobpostingSelectedstudentData.set(data);
-        console.log(this.JobpostingSelectedstudentData());
+        const newData = data.flatMap((d) => {
+          var skills: string = "";
+          d.Student?.StudentSkills?.flatMap((s) => {
+            skills += s.Skill ? `${s.Skill.Name}, ` : "";
+          });
+
+          return {
+            ...d,
+            Student: {
+              ...d.Student,
+              skills: skills,
+            },
+          };
+        });
+
+        console.log(newData);
+        this.JobpostingSelectedstudentData.set(newData);
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);

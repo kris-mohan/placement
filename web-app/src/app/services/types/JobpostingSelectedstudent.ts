@@ -1,5 +1,6 @@
-import { Jobposting } from './Jobposting';
-import { Tblstudent } from './Tblstudent';
+import { Jobposting } from "./Jobposting";
+import { StudentSkill } from "./StudentSkill";
+import { Tblstudent } from "./Tblstudent";
 
 export type JobpostingSelectedstudent = {
   Id: number;
@@ -11,4 +12,5 @@ export type JobpostingSelectedstudent = {
   OfferLetterExpiryDate: Date;
   JobPosting: Jobposting;
   Student: Tblstudent;
+  StudentSkills: StudentSkill[];
 };

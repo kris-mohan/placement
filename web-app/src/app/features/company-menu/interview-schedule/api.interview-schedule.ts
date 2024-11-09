@@ -9,6 +9,7 @@ import { Colleges, Universities } from "src/app/services/types/Universities";
   providedIn: "root",
 })
 export class InterviewScheduleAPIService {
+  [x: string]: any;
   constructor(private apiHttpService: ApiHttpService) {}
 
   getUniversities(): Observable<ODataEntity<Universities[]>> {

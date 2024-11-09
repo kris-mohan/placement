@@ -71,11 +71,9 @@ export class JobEligibleStudentsModalComponent {
 
   status: string[] = ["Invite", "Accepted", "Invited", "Rejected", "Pending"];
   branches: string[] = [
-    "Computer Science",
+    "Computer Science and Engineering",
     "Mechanical Engineering",
-    "Electrical Engineering",
-    "Civil Engineering",
-    "Information Technology",
+    "Electronics and Communication Engineering",
   ];
   batches: number[] = [2019, 2020, 2021, 2022];
 
