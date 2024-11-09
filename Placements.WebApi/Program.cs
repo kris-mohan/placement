@@ -1,3 +1,5 @@
+using Hangfire;
+using Hangfire.MySql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Batch;
@@ -9,6 +11,7 @@ using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using MySql.EntityFrameworkCore.Extensions;
 using Placements.DataAccess.Placement.Models;
+using Placements.WebApi.Helper;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,7 +60,18 @@ builder.Services.AddAuthentication(opt =>
         };
     });
 
+builder.Services.AddHangfire(config =>
+{
+    var options = new MySqlStorageOptions
+    {
+        TablesPrefix = "Hangfire" // Optional; change as needed
+    };
+    config.UseStorage(new MySqlStorage(builder.Configuration.GetConnectionString("HangfireConnection"), options));
+});
 
+builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<EmailJob>();
+builder.Services.AddHangfireServer();
 
 builder.Services.AddEntityFrameworkMySQL()
            .AddDbContext<PlacementContext>(options =>
@@ -86,6 +100,7 @@ app.UseODataBatching();
 app.UseRouting();
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseHangfireDashboard();
 //}
 app.UseHttpsRedirection();
 app.UseAuthentication();
@@ -93,6 +108,10 @@ app.UseAuthorization();
 app.UseRouting();
 app.UseCors("AllowAngularDevClient");
 app.MapControllers();
+var scope = app.Services.CreateScope();
+var emailJob = scope.ServiceProvider.GetRequiredService<EmailJob>();
+RecurringJob.AddOrUpdate("process-emails-job", () => emailJob.ProcessEmailsAsync(), Cron.Minutely);
+
 
 app.Run();
 

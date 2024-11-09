@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Placements.DataAccess.Placement.Models;
 
@@ -44,6 +46,10 @@ public partial class PlacementContext : DbContext
     public virtual DbSet<Companytechnology> Companytechnologies { get; set; }
 
     public virtual DbSet<Course> Courses { get; set; }
+
+    public virtual DbSet<Document> Documents { get; set; }
+
+    public virtual DbSet<Email> Emails { get; set; }
 
     public virtual DbSet<IndentForm> IndentForms { get; set; }
 
@@ -109,9 +115,9 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Akram@123;database=placement");
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -430,6 +436,36 @@ public partial class PlacementContext : DbContext
 
             entity.Property(e => e.FullForm).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(45);
+        });
+
+        modelBuilder.Entity<Document>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("documents");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.FileName).HasMaxLength(45);
+            entity.Property(e => e.FilePath).HasMaxLength(45);
+            entity.Property(e => e.FileType).HasMaxLength(45);
+        });
+
+        modelBuilder.Entity<Email>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("email");
+
+            entity.Property(e => e.Bcc)
+                .HasMaxLength(45)
+                .HasColumnName("BCC");
+            entity.Property(e => e.Body).HasMaxLength(250);
+            entity.Property(e => e.Cc)
+                .HasMaxLength(45)
+                .HasColumnName("CC");
+            entity.Property(e => e.IsSent).HasDefaultValueSql("'0'");
+            entity.Property(e => e.Subject).HasMaxLength(45);
+            entity.Property(e => e.To).HasMaxLength(45);
         });
 
         modelBuilder.Entity<IndentForm>(entity =>
