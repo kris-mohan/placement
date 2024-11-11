@@ -1,13 +1,13 @@
-import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
-import { observableToBeFn } from "rxjs/internal/testing/TestScheduler";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
 import { Jobposting } from "src/app/services/types/Jobposting";
-import { PostJobstudentstatus } from "src/app/services/types/Jobstudentstatus";
 import { ODataEntity } from "src/app/services/types/OData";
 import { Tblstudent } from "src/app/services/types/Tblstudent";
-import { PostJobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
+import {
+  JobpostingsEligiblestudent,
+  PostJobpostingsEligiblestudent,
+} from "src/app/services/types/JobpostingsEligibleStudent";
 
 @Injectable({
   providedIn: "root",
@@ -52,5 +52,33 @@ export class JobEligibleStudentApiService {
       });
     });
     return this.apiHttpService.post("/$batch", { requests });
+  }
+
+  GetStudentJobPostStatus(
+    studentIds: number[]
+  ): Observable<ODataEntity<JobpostingsEligiblestudent[]>> {
+    const filterQuery = studentIds
+      .map((id) => `StudentId eq ${id}`)
+      .join(" or ");
+    const url = `/JobpostingsEligiblestudent?$filter=${filterQuery}&$expand=Status`;
+
+    return this.apiHttpService.get<ODataEntity<JobpostingsEligiblestudent[]>>(
+      url
+    );
+  }
+
+  GetAllJobPostToStudentToApply(
+    studentId: number,
+    companyId: number
+  ): Observable<ODataEntity<JobpostingsEligiblestudent[]>> {
+    return this.apiHttpService.get<ODataEntity<JobpostingsEligiblestudent[]>>(
+      `/JobpostingsEligiblestudent?filter = StudentId eq ${studentId} and JobPostingId eq ${companyId} &  $expand=Status`
+    );
+  }
+
+  ApplyJobPostByStudent(id: number, statusId: number): Observable<any> {
+    return this.apiHttpService.patch(`/JobpostingsEligiblestudent?key=${id}`, {
+      StatusId: statusId,
+    });
   }
 }

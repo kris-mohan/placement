@@ -13,7 +13,10 @@ import { Jobposting } from "src/app/services/types/Jobposting";
 import { JobEligibleStudentApiService } from "./jobEligibleStudentsApiService";
 import { PostJobstudentstatus } from "src/app/services/types/Jobstudentstatus";
 import { Tblstudent } from "src/app/services/types/Tblstudent";
-import { PostJobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
+import {
+  JobpostingsEligiblestudent,
+  PostJobpostingsEligiblestudent,
+} from "src/app/services/types/JobpostingsEligibleStudent";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -28,6 +31,8 @@ export interface ODataResponse<T> {
 })
 export class JobEligibleStudentsModalComponent {
   InvitingStudentsList: Tblstudent[] = [];
+
+  JobEligibleStudentSatusData = signal<JobpostingsEligiblestudent[]>([]);
   jobPostRouteId: number | null = null;
   readonly dialog = inject(MatDialog);
   constructor(
@@ -38,7 +43,7 @@ export class JobEligibleStudentsModalComponent {
     private jobEligibleStudentApiService: JobEligibleStudentApiService,
     private sweetAlertService: SweetAlertService
   ) {
-    this.InvitingStudentsList = data.studentsList;
+    this.InvitingStudentsList = data.InvitingJobPostStudentsList;
     this.jobPostRouteId = data.jobPostRouteId;
   }
 
@@ -146,35 +151,55 @@ export class JobEligibleStudentsModalComponent {
     this.studentsDetails.data = studentDetails;
   };
 
-  InviteJobPostToStudents = () => {
+  InviteJobPostToStudents = async () => {
     const statusId = 6;
-    const confirmed = this.sweetAlertService.confirm(
+    const confirmed = await this.sweetAlertService.confirm(
       `Do you want to invite all students?`
     );
-    const students: PostJobpostingsEligiblestudent[] = this.studentsDetails.data
-      .filter((student: any) => student.StudentID)
-      .map((student: any) => {
-        return {
-          Id: 0,
-          StudentId: student.StudentID,
-          JobPostingId: this.jobPostRouteId ?? undefined,
-          StatusId: statusId,
-        };
-      });
+    if (confirmed) {
+      const students: PostJobpostingsEligiblestudent[] =
+        this.studentsDetails.data
+          .filter((student: any) => student.StudentID)
+          .map((student: any) => {
+            return {
+              Id: 0,
+              StudentId: student.StudentID,
+              JobPostingId: this.jobPostRouteId ?? undefined,
+              StatusId: statusId,
+            };
+          });
 
+      this.jobEligibleStudentApiService
+        .InviteJobPostToStudents(students)
+        .subscribe({
+          next: (response: { success: boolean; message: string }) => {
+            console.log(response);
+            if (response) {
+              this.sweetAlertService.success(response.message);
+              this.GetStudentJobPostStatus();
+            } else {
+              this.sweetAlertService.error(response);
+            }
+          },
+          error: () => {
+            this.sweetAlertService.error("An unexpected error occurred.");
+          },
+        });
+    }
+  };
+
+  GetStudentJobPostStatus = () => {
+    const studentIds = this.InvitingStudentsList.map((student) => student.Id);
     this.jobEligibleStudentApiService
-      .InviteJobPostToStudents(students)
+      .GetStudentJobPostStatus(studentIds)
       .subscribe({
-        next: (response: { success: boolean; message: string }) => {
-          console.log(response);
-          if (response.success) {
-            this.sweetAlertService.success(response.message);
-          } else {
-            this.sweetAlertService.error(response.message);
-          }
+        next: (response) => {
+          const data: JobpostingsEligiblestudent[] = response.value;
+          this.JobEligibleStudentSatusData.set(data);
+          console.log(this.JobEligibleStudentSatusData());
         },
-        error: () => {
-          this.sweetAlertService.error("An unexpected error occurred.");
+        error: (error) => {
+          console.log("error fetching StudentJobPostStatus ", error);
         },
       });
   };

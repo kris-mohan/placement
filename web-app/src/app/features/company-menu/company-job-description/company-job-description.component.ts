@@ -12,6 +12,8 @@ import { Jobposting } from "src/app/services/types/Jobposting";
 import { StudentJobsApiSerivce } from "../../student-menu/student-menu/student-jobs/studentJobsApiService";
 import { JobEligibleStudentApiService } from "./job-eligible-students-modal/jobEligibleStudentsApiService";
 import { Tblstudent } from "src/app/services/types/Tblstudent";
+import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 @Component({
   selector: "app-company-job-description",
   standalone: true,
@@ -22,6 +24,7 @@ import { Tblstudent } from "src/app/services/types/Tblstudent";
 export class CompanyJobDescriptionComponent {
   Id: number | null = null;
   CompanyId: number;
+  StudentId: number;
   CompanyRouteId: number | null = null;
   JobPostRouteId: number | null = null;
   UserRoleId: number;
@@ -33,6 +36,11 @@ export class CompanyJobDescriptionComponent {
   InvitingStudentsList = signal<Tblstudent[]>([]);
 
   JobPostingsDescriptionData = signal<Jobposting[]>([]);
+
+  JobEligibleStudentSatusData = signal<JobpostingsEligiblestudent[]>([]);
+
+  applyButtonLabel: string = "Apply";
+  applyButtonDisabled: boolean = false;
 
   universityTypes: string[] = [
     "Visvesvaraya Technological University (VTU)",
@@ -61,12 +69,15 @@ export class CompanyJobDescriptionComponent {
     private route: ActivatedRoute,
     private studentJobsApiService: StudentJobsApiSerivce,
     private router: Router,
-    private jobEligibleStudentsApiService: JobEligibleStudentApiService
+    private jobEligibleStudentsApiService: JobEligibleStudentApiService,
+    private sweetAlertService: SweetAlertService
   ) {
     const storedUserType = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserType ? parseInt(storedUserType) : 0;
     const storedCompanyId = sessionStorage.getItem("CompanyId");
     this.CompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
+    const storedStudentId = sessionStorage.getItem("StudentId");
+    this.StudentId = storedStudentId ? parseInt(storedStudentId) : 0;
   }
   readonly dialog = inject(MatDialog);
 
@@ -79,7 +90,7 @@ export class CompanyJobDescriptionComponent {
       width: "90vw",
       height: "80vh",
       data: {
-        studentsList: this.InvitingStudentsList(),
+        InvitingJobPostStudentsList: this.InvitingStudentsList(),
         jobPostRouteId: this.JobPostRouteId,
       },
     });
@@ -176,6 +187,7 @@ export class CompanyJobDescriptionComponent {
   ngOnInit() {
     this.getCompanyJobDescriptionById();
     this.GetJobPostingById();
+    this.GetJobPostStudentStatus();
   }
 
   convertToDateOnly(dateString: string): string {
@@ -193,6 +205,59 @@ export class CompanyJobDescriptionComponent {
       this.router.navigate(["/company-job-details/add-edit-jobPosting/", 0]);
     }
   }
+
+  GetJobPostStudentStatus = async () => {
+    this.route.paramMap.subscribe((params) => {
+      const jobPostRouteId = params.get("id");
+      this.JobPostRouteId = jobPostRouteId !== null ? +jobPostRouteId : null;
+      if (this.JobPostRouteId !== null && this.StudentId !== null)
+        this.jobEligibleStudentsApiService
+          .GetAllJobPostToStudentToApply(this.StudentId, this.JobPostRouteId)
+          .subscribe({
+            next: (response) => {
+              const data: JobpostingsEligiblestudent[] = response.value;
+              this.JobEligibleStudentSatusData.set(data);
+
+              const jobPost = this.JobEligibleStudentSatusData()[0];
+              if (jobPost.StatusId === 5) {
+                this.applyButtonLabel = jobPost?.Status?.Name || "";
+                this.applyButtonDisabled = true;
+              } else {
+                this.applyButtonLabel = "Apply";
+                this.applyButtonDisabled = false;
+              }
+            },
+            error: (err) => {
+              console.log("Error fetching StudentJobPostStatus", err);
+            },
+          });
+    });
+  };
+
+  ApplyJobPostByStudent = async () => {
+    const confirmed = await this.sweetAlertService.confirm(
+      `Do you want to Apply for this job posting?`
+    );
+    if (confirmed) {
+      const id = this.JobEligibleStudentSatusData()[0].Id;
+      const statusId = 5;
+      this.jobEligibleStudentsApiService
+        .ApplyJobPostByStudent(id, statusId)
+        .subscribe({
+          next: (response: { success: boolean; message: string }) => {
+            if (response) {
+              this.sweetAlertService.success(
+                "You have applied for this job post successfully!"
+              );
+            }
+            this.GetJobPostStudentStatus();
+          },
+          error: (err) => {
+            console.log("Error updating job post status", err);
+          },
+        });
+    }
+  };
 
   openAddEditCompanyForm(id: number) {}
 }

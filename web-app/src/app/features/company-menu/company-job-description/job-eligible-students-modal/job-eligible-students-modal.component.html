@@ -6,7 +6,11 @@
           <mat-label class="mat-label">Students List</mat-label>
         </div>
         <div>
-          <button mat-raised-button class="matbutton" (click)="InviteJobPostToStudents()">
+          <button
+            mat-raised-button
+            class="matbutton"
+            (click)="InviteJobPostToStudents()"
+          >
             <mat-icon class="maticon">mail</mat-icon>
             <p class="matButtonText">Invite All</p>
           </button>
@@ -72,30 +76,16 @@
       </div>
     </div>
   </mat-card-header>
-
   <mat-card-content class="mat-card-content">
     <div>
       <table mat-table [dataSource]="studentsDetails" class="mat-elevation-z8">
         <!-- Selection Column -->
         <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <!-- <mat-checkbox
-              (change)="$event ? toggleAllRows() : null"
-              [checked]="selection.hasValue() && isAllSelected()"
-              [indeterminate]="selection.hasValue() && !isAllSelected()"
-              [aria-label]="checkboxLabel()"
-            ></mat-checkbox> -->
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <!-- <mat-checkbox
-              (click)="$event.stopPropagation()"
-              (change)="$event ? selection.toggle(row) : null"
-              [checked]="selection.isSelected(row)"
-              [aria-label]="checkboxLabel(row)"
-            ></mat-checkbox> -->
-          </td>
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row"></td>
         </ng-container>
 
+        <!-- Other Columns -->
         <ng-container
           *ngFor="let column of columns"
           [matColumnDef]="column.key"
@@ -108,37 +98,35 @@
 
           <td mat-cell *matCellDef="let element">
             <ng-container [ngSwitch]="column.key">
+              <!-- Status Column -->
               <ng-container *ngSwitchCase="'Status'">
-                <ng-container
-                  *ngIf="element.Status === 'Invite'; else showChip"
-                >
-                  <button mat-raised-button color="primary">
-                    <mat-icon class="maticon">mail</mat-icon>Invite
-                  </button>
+                <ng-container *ngIf="element.StatusId === 4; else showChip">
+                  <mat-chip color="warn">Pending</mat-chip>
+                  <!-- Status ID 4 is "Pending" -->
                 </ng-container>
 
                 <ng-template #showChip>
-                  <mat-chip [ngStyle]="getChipStyle(element.Status)">
-                    {{ element.Status }}
+                  <mat-chip [ngStyle]="getChipStyle(element.StatusId)">
+                    {{ element.Status?.Name || "Unknown" }}
                   </mat-chip>
                 </ng-template>
               </ng-container>
 
-              <ng-container *ngSwitchCase="'resume'">
-                <ng-container *ngIf="element.resume?.trim(); else noResume">
-                  <a
-                    [href]="element.resume"
-                    target="_blank"
-                    class="resource-link"
-                  >
-                    <mat-icon>visibility</mat-icon>
-                  </a>
+              <!-- Invitation Column -->
+              <ng-container *ngSwitchCase="'Invitation'">
+                <ng-container *ngIf="element.StatusId === 4; else showInvited">
+                  <button mat-raised-button color="primary">
+                    <mat-icon class="maticon">mail</mat-icon> Invite
+                  </button>
                 </ng-container>
-                <ng-template #noResume>
-                  <span>No Resume Available</span>
+
+                <ng-template #showInvited>
+                  <mat-chip color="primary">Invited</mat-chip>
+                  <!-- Status ID 6 for "Invited" -->
                 </ng-template>
               </ng-container>
 
+              <!-- Other Columns -->
               <ng-container *ngSwitchDefault>
                 {{ element[column.key] }}
               </ng-container>
