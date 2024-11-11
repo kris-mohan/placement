@@ -28,7 +28,7 @@
 }
 
 .personal-details-card {
-  border-radius: 20px;
+  /* border-radius: 20px; */
   padding: 0px;
 }
 
@@ -39,12 +39,15 @@
 }
 
 .education-details-card {
-  border-radius: 20px;
+  flex: 1;
+  /* border-radius: 20px; */
+  padding: 0px;
+  height: fit-content;
 }
 
-.skill-details-card {
-  border-radius: 20px;
-  padding: 20px;
+.bottom-cards {
+  display: flex;
+  gap: 20px;
 }
 
 .mat-card {
@@ -67,10 +70,6 @@
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-}
-
-.education-details-card {
-  padding: 20px;
 }
 
 .education-section {
@@ -113,6 +112,7 @@ p {
   object-fit: cover;
   border-radius: 8px;
 }
+
 .personal-details-container {
   display: flex;
   align-items: center;
@@ -144,4 +144,76 @@ p {
 
 .detail-item {
   margin-bottom: 10px;
+}
+
+/* New Css*/
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.top-card {
+  display: flex;
+}
+
+.personal-details-card {
+  width: 100%;
+  padding: 0px;
+  height: fit-content;
+}
+
+.bottom-cards {
+  display: flex;
+  gap: 20px;
+}
+
+.education-details-card {
+  flex: 1;
+  padding: 20px;
+  height: fit-content;
+}
+
+.skill-details-card {
+  flex: 1;
+  padding: 20px;
+  height: fit-content;
+}
+
+.strong {
+  margin-bottom: 10px;
+}
+.details-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.detail-item {
+  flex: 1 1 30%;
+  min-width: 200px;
+}
+
+.matbutton {
+  background-color: #3f51b5;
+  margin-left: 20px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
+}
+
+.AddButton {
+  display: flex;
+  justify-content: end;
+  margin-right: 20px;
+}
+
+.matName,
+.maticon {
+  color: white;
+}
+
+.title {
+  padding-bottom: 10px;
 }
