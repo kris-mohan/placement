@@ -21,5 +21,5 @@ public partial class Calendarevent
 
     public ulong IsDeleted { get; set; }
 
-    public virtual ICollection<JobpostStudentround> JobpostStudentrounds { get; set; } = new List<JobpostStudentround>();
+    public virtual ICollection<Jobinterviewround> Jobinterviewrounds { get; set; } = new List<Jobinterviewround>();
 }
