@@ -39,8 +39,13 @@ export class CompanyJobDescriptionComponent {
 
   JobEligibleStudentSatusData = signal<JobpostingsEligiblestudent[]>([]);
 
+  StudentStatusOfInvitedJobPostData = signal<JobpostingsEligiblestudent[]>([]);
+
   applyButtonLabel: string = "Apply";
   applyButtonDisabled: boolean = false;
+
+  RejectButtonLabel: string = "Reject";
+  RejectButtonDisabled: boolean = false;
 
   universityTypes: string[] = [
     "Visvesvaraya Technological University (VTU)",
@@ -85,13 +90,16 @@ export class CompanyJobDescriptionComponent {
     this.location.back();
   }
 
-  openEligibleStudentsModel(): void {
+  openEligibleStudentsModel(type: string): void {
     this.dialog.open(JobEligibleStudentsModalComponent, {
       width: "90vw",
       height: "80vh",
       data: {
         InvitingJobPostStudentsList: this.InvitingStudentsList(),
         jobPostRouteId: this.JobPostRouteId,
+        StudentStatusOfInvitedJobPostList:
+          this.StudentStatusOfInvitedJobPostData(),
+        buttonType: type,
       },
     });
   }
@@ -164,7 +172,7 @@ export class CompanyJobDescriptionComponent {
     const twelthMarks = jobPosting.MinPucpercentage;
     const cgpa = jobPosting.MinCgpa;
 
-    const query = `/Tblstudent?$expand=Batch,Studentacademics($expand=Course,Stream)&$filter=BatchId in (${batchIds.join(
+    const query = `/Tblstudent?$expand=Batch,JobpostingsEligiblestudents($expand=Status),Studentacademics($expand=Course,Stream)&$filter=BatchId in (${batchIds.join(
       ","
     )}) and Studentacademics/any(s: (s/CourseId in (${courseIds.join(
       ","
@@ -188,6 +196,7 @@ export class CompanyJobDescriptionComponent {
     this.getCompanyJobDescriptionById();
     this.GetJobPostingById();
     this.GetJobPostStudentStatus();
+    this.GetStudentStatusOfInvitedJobPost();
   }
 
   convertToDateOnly(dateString: string): string {
@@ -206,6 +215,69 @@ export class CompanyJobDescriptionComponent {
     }
   }
 
+  async DeleteJobPosting() {
+    const confirmed = await this.sweetAlertService.confirmDelete(
+      "Do you really want to delete this Job posting?"
+    );
+
+    if (confirmed) {
+      this.route.paramMap.subscribe((params) => {
+        const jobId = params.get("id");
+        const JobID = jobId !== null ? +jobId : null;
+        if (JobID !== null) {
+          this.jobEligibleStudentsApiService.deleteJobPosting(JobID).subscribe({
+            next: (response: { success: boolean; message: string }) => {
+              if (response.success) {
+                this.sweetAlertService.success(response.message);
+                this.router.navigate(["/company-job-details/"]);
+              } else {
+                this.sweetAlertService.error(response.message);
+              }
+            },
+            error: (error) => {
+              this.sweetAlertService.error(
+                "An unexpected error occurred while deleting the Trainer."
+              );
+              console.error("Error deleting Trainer:", error);
+            },
+          });
+        }
+      });
+    }
+  }
+
+  GetStudentStatusOfInvitedJobPost = () => {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get("id");
+      const jobPostRouteId = params.get("jobId");
+      const companyRouteId = params.get("companyId");
+      this.CompanyRouteId = companyRouteId !== null ? +companyRouteId : null;
+      this.JobPostRouteId = jobPostRouteId !== null ? +jobPostRouteId : null;
+      this.Id = id !== null ? +id : null;
+
+      const jobIdToFetch =
+        this.UserRoleId === 1 ? this.JobPostRouteId : this.Id;
+      if (jobIdToFetch !== null) {
+        const statusId = 5;
+        this.jobEligibleStudentsApiService
+          .GetstudentStatusOfInvitedJobPost(jobIdToFetch, statusId)
+          .subscribe({
+            next: (response) => {
+              const data: JobpostingsEligiblestudent[] = response.value;
+              this.StudentStatusOfInvitedJobPostData.set(data);
+              console.log(
+                "GetStudentStatusOfInvitedJobPost",
+                this.StudentStatusOfInvitedJobPostData()
+              );
+            },
+            error: (err) => {
+              console.log("Error fetching StudentJobPostStatus", err);
+            },
+          });
+      }
+    });
+  };
+
   GetJobPostStudentStatus = async () => {
     this.route.paramMap.subscribe((params) => {
       const jobPostRouteId = params.get("id");
@@ -221,6 +293,11 @@ export class CompanyJobDescriptionComponent {
               const jobPost = this.JobEligibleStudentSatusData()[0];
               if (jobPost.StatusId === 5) {
                 this.applyButtonLabel = jobPost?.Status?.Name || "";
+                this.applyButtonDisabled = true;
+                this.RejectButtonDisabled = true;
+              } else if (jobPost.StatusId === 8) {
+                this.RejectButtonLabel = jobPost?.Status?.Name || "";
+                this.RejectButtonDisabled = true;
                 this.applyButtonDisabled = true;
               } else {
                 this.applyButtonLabel = "Apply";
@@ -248,6 +325,31 @@ export class CompanyJobDescriptionComponent {
             if (response) {
               this.sweetAlertService.success(
                 "You have applied for this job post successfully!"
+              );
+            }
+            this.GetJobPostStudentStatus();
+          },
+          error: (err) => {
+            console.log("Error updating job post status", err);
+          },
+        });
+    }
+  };
+
+  rejectJobPostByStudent = async () => {
+    const confirmed = await this.sweetAlertService.confirm(
+      `Do you want to Reject for this job posting?`
+    );
+    if (confirmed) {
+      const id = this.JobEligibleStudentSatusData()[0].Id;
+      const statusId = 8;
+      this.jobEligibleStudentsApiService
+        .ApplyJobPostByStudent(id, statusId)
+        .subscribe({
+          next: (response: { success: boolean; message: string }) => {
+            if (response) {
+              this.sweetAlertService.success(
+                "Ohh no!!...You have rejected for this job post"
               );
             }
             this.GetJobPostStudentStatus();

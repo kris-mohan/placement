@@ -81,4 +81,19 @@ export class JobEligibleStudentApiService {
       StatusId: statusId,
     });
   }
+
+  GetstudentStatusOfInvitedJobPost(
+    jobPostId: number,
+    statusId: number
+  ): Observable<ODataEntity<JobpostingsEligiblestudent[]>> {
+    return this.apiHttpService.get<ODataEntity<JobpostingsEligiblestudent[]>>(
+      `/JobpostingsEligiblestudent?$filter=JobPostingId eq ${jobPostId} and StatusId eq ${statusId} & expand = Student(expand=Batch,Studentacademics(expand=Course,Stream),Org),Status,JobPosting`
+    );
+  }
+
+  deleteJobPosting(id: number): Observable<any> {
+    const url = `/JobPosting?key=${id}`;
+    const data = { IsDeleted: 1 };
+    return this.apiHttpService.patch(url, data);
+  }
 }
