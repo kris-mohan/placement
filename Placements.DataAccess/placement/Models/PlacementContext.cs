@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Placements.DataAccess.Placement.Models;
 
@@ -113,9 +115,9 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Akram@123;database=placement");
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -551,7 +553,7 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("jobinterviewrounds");
 
-            entity.HasIndex(e => e.EventId, "FK_JobRound_Event_idx");
+            entity.HasIndex(e => e.EventId, "FK_Round_Event_idx");
 
             entity.HasIndex(e => e.JobPostingId, "FK_Round_JobPosting_idx");
 
@@ -887,10 +889,13 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.Cgpa)
                 .HasPrecision(10)
                 .HasColumnName("CGPA");
+            entity.Property(e => e.DiplomaCollegeName).HasMaxLength(100);
             entity.Property(e => e.TenthBoard).HasMaxLength(145);
             entity.Property(e => e.TenthMarks).HasPrecision(10);
+            entity.Property(e => e.TenthSchoolName).HasMaxLength(100);
             entity.Property(e => e.TwelthBoard).HasMaxLength(145);
             entity.Property(e => e.TwelthMarks).HasPrecision(10);
+            entity.Property(e => e.TwelthSchoolName).HasMaxLength(100);
 
             entity.HasOne(d => d.Course).WithMany(p => p.Studentacademics)
                 .HasForeignKey(d => d.CourseId)
@@ -949,10 +954,16 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.CurrentAddress).HasMaxLength(500);
             entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.FatherName).HasMaxLength(100);
+            entity.Property(e => e.FatherPhoneNumber).HasMaxLength(45);
             entity.Property(e => e.FirstName).HasMaxLength(45);
             entity.Property(e => e.LastName).HasMaxLength(45);
-            entity.Property(e => e.ParentName).HasMaxLength(45);
-            entity.Property(e => e.ParentPhoneNumber).HasMaxLength(45);
+            entity.Property(e => e.MiddleName).HasMaxLength(45);
+            entity.Property(e => e.MotherName).HasMaxLength(100);
+            entity.Property(e => e.MotherPhoneNumber).HasMaxLength(45);
+            entity.Property(e => e.Pannumber)
+                .HasMaxLength(45)
+                .HasColumnName("PANNumber");
             entity.Property(e => e.PermanentAddress).HasMaxLength(500);
             entity.Property(e => e.PhoneNumber).HasMaxLength(45);
             entity.Property(e => e.RollNo).HasMaxLength(45);
