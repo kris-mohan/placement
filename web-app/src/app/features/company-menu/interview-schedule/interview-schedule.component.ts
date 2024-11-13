@@ -15,6 +15,7 @@ import { PostCalendarevent } from "src/app/services/types/Calendarevent";
 import { InterviewScheduleApiService } from "./InterviewScheduleApiService";
 import { GetDate } from "src/app/core/helper/DateHelper";
 import { PatchJobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 
 type calendarEvent = {
   // id: string;
@@ -35,7 +36,8 @@ type calendarEvent = {
 })
 export class InterviewScheduleComponent implements OnInit {
   newEventDate: any;
-
+  //events = signal<Jobposting[]>([]);
+  jobinterviewroundsData = signal<Jobinterviewround[]>([]);
   isEdited: boolean = false;
   editedId: number = 0;
 
@@ -46,10 +48,41 @@ export class InterviewScheduleComponent implements OnInit {
   jobPostingId: number = 0;
 
   universityTypes: WritableSignal<Universities[]> = signal([]);
+  // companiesList: WritableSignal<Companydatum[]> = signal([]);
 
+  // colleges : signal<Colleges[]>([]);
   colleges: WritableSignal<Colleges[]> = signal([]);
 
-  events: any[] = [];
+  events = [
+    {
+      companyName: "Capgemini",
+      jobTitle: "Associate Software Engineer",
+      Round: 3,
+      RoundName: "Technical Round",
+      eventDate: "05-10-2024",
+      timings: "10:00 AM - 12:00 PM",
+      duration: "2 hours",
+    },
+    {
+      companyName: "Accenture",
+      jobTitle: "Software Developer",
+      Round: 1,
+      RoundName: "Test Assesment",
+      eventDate: "05-10-2024",
+      timings: "2:00 PM - 3:30 PM",
+      duration: "1.5 hours",
+    },
+    {
+      companyName: "Google",
+      jobTitle: "QA",
+      Round: 2,
+      RoundName: "Interview-1",
+      eventDate: "05-10-2024",
+      timings: "9:00 AM - 1:00 PM",
+      duration: "4 hours",
+    },
+  ];
+
   // calendarEvents: any[] = [
   //   {
   //     id: this.eventIDCounter++,
@@ -97,7 +130,6 @@ export class InterviewScheduleComponent implements OnInit {
     this.getCalendarData();
     this.GetUniversties();
     this.GetColleges();
-    this.getInterviewSchedule();
   }
 
   async GetUniversties() {
@@ -189,7 +221,9 @@ export class InterviewScheduleComponent implements OnInit {
       const title = result.eventType;
       // const jobRole = result.jobRole;
       const className = "bg-primary text-white";
+
       let startTime: Date | null = null;
+
       if (typeof result.startTime === "string") {
         const timeParts = result.startTime.match(/(\d+):(\d+)\s*(AM|PM)/);
         if (timeParts) {
@@ -272,9 +306,6 @@ export class InterviewScheduleComponent implements OnInit {
         let currentDate = new Date(startTime);
 
         while (currentDate <= endDate) {
-          // const nextDay = new Date(currentDate);
-          // nextDay.setDate(currentDate.getDate() + 1);
-          // console.log(nextDay);
           const dayOfWeek = currentDate.getDay();
           const startOfDay = new Date(currentDate);
           const endOfDay = new Date(currentDate);
@@ -284,7 +315,6 @@ export class InterviewScheduleComponent implements OnInit {
               if (endTime) {
                 endOfDay.setHours(endTime.getHours(), endTime.getMinutes());
               } else {
-                // If endTime is null, set a default end time (e.g., 11:59 PM)
                 endOfDay.setHours(23, 59);
               }
 
@@ -347,7 +377,6 @@ export class InterviewScheduleComponent implements OnInit {
             if (endTime) {
               endOfDay.setHours(endTime.getHours(), endTime.getMinutes());
             } else {
-              // If endTime is null, set a default end time (e.g., 11:59 PM)
               endOfDay.setHours(23, 59);
             }
 
@@ -506,6 +535,13 @@ export class InterviewScheduleComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
+      const calendarData: PostCalendarevent = {
+        Id: event.event.id,
+        EventStartDateTime: result.startTime,
+        EventEndDateTime: result.endTime,
+        EventDescription: result.eventName,
+      };
+      console.log(calendarData);
       if (result) {
         this.addEditNewEvent(result);
       }

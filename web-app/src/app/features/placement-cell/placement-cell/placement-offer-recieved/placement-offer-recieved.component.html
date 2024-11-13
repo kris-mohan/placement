@@ -259,31 +259,6 @@
             </mat-select>
           </mat-form-field>
         </div>
-
-        <!-- <div>
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Select Date Range</mat-label>
-            <mat-date-range-input
-              [formGroup]="campaignOne"
-              [rangePicker]="campaignOnePicker"
-              [comparisonStart]="campaignOne.value.start"
-              [comparisonEnd]="campaignOne.value.end"
-            >
-              <input
-                matStartDate
-                placeholder="Start date"
-                formControlName="start"
-              />
-              <input matEndDate placeholder="End date" formControlName="end" />
-            </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle
-              matIconSuffix
-              [for]="campaignOnePicker"
-            ></mat-datepicker-toggle>
-            <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-          </mat-form-field>
-        </div> -->
       </div>
       <div class="example-button-container">
         <button mat-fab extended class="matbutton-download">
@@ -351,6 +326,7 @@
       fxFlex.gt-md="45%"
       fxFlex.gt-lg="30%"
       class="mat-grid-tile"
+      (click)="openOfferManagement(job.JobPostingId, job.StudentId, job.Id)"
     >
       <div class="company-details">
         <div class="company-designation">
@@ -387,7 +363,7 @@
             </span>
             <span
               ><strong>Company Name:</strong>
-              {{ job.JobPosting.Company.Name }}</span
+              {{ job.JobPosting.Company?.Name }}</span
             >
             <span><strong>Job Role:</strong>{{ job.JobPosting.JobRole }}</span>
           </div>
