@@ -10,9 +10,134 @@
 }
 
 .personal-details-card {
-  width: 100%;
   /* border-radius: 20px; */
+  padding: 0px;
+}
+
+.strong {
+  margin-bottom: 10px;
+}
+.details-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.education-details-card {
+  flex: 1;
+  /* border-radius: 20px; */
+  padding: 0px;
+  height: fit-content;
+}
+
+.bottom-cards {
+  display: flex;
+  gap: 20px;
+}
+
+.mat-card {
+  width: 100%;
+  padding: 10px;
+  border-radius: 40px;
+}
+.card-container {
+  display: flex;
+  justify-content: end;
+}
+
+.education-details-card {
   padding: 20px;
+}
+
+.education-section {
+  margin-bottom: 20px; /* Adds space between each section */
+}
+
+.education-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px; /* Space between row and school details */
+}
+
+.left {
+  flex: 1;
+}
+
+.right {
+  flex: 0 0 150px; /* Adjust the width of the right-side (year) */
+  text-align: right;
+}
+
+p {
+  margin: 5px 0; /* Adds spacing between the details */
+}
+.details-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.image-container {
+  margin-left: 20px;
+  margin-top: -45px;
+}
+
+.student-photo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.personal-details-container {
+  display: flex;
+  align-items: center;
+}
+
+.image-container {
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.student-photo {
+  width: auto;
+  height: 160px;
+}
+
+.personal-details-card {
+  flex: 1;
+}
+
+.details-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details-column {
+  flex: 1;
+  padding: 20px 10px;
+}
+
+.detail-item {
+  margin-bottom: 10px;
+}
+
+/* New Css*/
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.top-card {
+  display: flex;
+}
+
+.personal-details-card {
+  width: 100%;
+  padding: 0px;
   height: fit-content;
 }
 
@@ -23,14 +148,12 @@
 
 .education-details-card {
   flex: 1;
-  /* border-radius: 20px; */
   padding: 20px;
   height: fit-content;
 }
 
 .skill-details-card {
   flex: 1;
-  /* border-radius: 20px; */
   padding: 20px;
   height: fit-content;
 }

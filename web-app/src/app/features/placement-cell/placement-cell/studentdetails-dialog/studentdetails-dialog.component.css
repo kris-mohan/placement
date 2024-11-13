@@ -1,75 +1,66 @@
-/* Dialog Header */
-.dialog-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 8px;
-}
-
-.close-button {
-  position: absolute;
-  right: 16px;
-  top: 16px;
-  background: transparent; /* Optional: make it transparent */
-  border: none; /* Optional: remove default button border */
-  color: #000; /* Change color as needed */
-  font-size: 16px; /* Change size as needed */
-  cursor: pointer; /* Change cursor on hover */
-}
-.student-details {
-  padding: 20px;
+.compact-dialog-content {
+  padding: 8px;
 }
 
 .profile-header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
+}
+
+.Student-Image {
+  height: 120px;
+  width: auto;
+  border-radius: 50%;
 }
 
 .student-info {
-  margin-left: 20px;
-}
-
-.skills {
-  padding: 10px;
-}
-
-mat-chip-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-mat-chip {
-  margin: 5px;
-}
-
-.status {
-  padding: 10px;
-}
-.overview {
-  padding: 10px;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-th {
-  background-color: #f4f4f4;
-}
-
-td {
-  background-color: #fff;
+  margin-left: 12px;
+  font-size: 13px;
 }
 
 .bold-dark-text {
   font-weight: bold;
   color: #333;
+}
+
+.close-button {
+  position: absolute;
+  right: 16px;
+  top: 8px;
+  background: transparent;
+  border: none;
+  color: #555;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.compact-tab-group .mat-tab-labels {
+  margin: 0;
+}
+
+.compact-table-container {
+  padding: 4px;
+}
+
+table.compact-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+th.mat-header-cell,
+td.mat-cell {
+  padding: 4px;
+}
+
+th.mat-header-cell {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: #333;
+}
+
+td.mat-cell {
+  background-color: #fff;
+  color: #555;
 }
