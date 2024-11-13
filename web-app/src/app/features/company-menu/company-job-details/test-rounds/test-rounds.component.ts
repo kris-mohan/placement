@@ -40,6 +40,7 @@ export class TestRoundsComponent {
     "Name",
     "Description",
     "Priority",
+    "ScheduleDate",
     "Actions",
   ];
 
@@ -98,6 +99,7 @@ export class TestRoundsComponent {
     { key: "Name", label: "Name" },
     { key: "Description", label: "Description" },
     { key: "Priority", label: "Priority" },
+    { key: "ScheduleDate", label: "Schedule Date" },
     { key: "Actions", label: "Actions" },
   ];
 
