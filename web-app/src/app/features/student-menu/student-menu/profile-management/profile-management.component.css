@@ -10,6 +10,11 @@
   width: 80%;
 }
 
+.search-form-field {
+  margin-left: 10px;
+  width: 95%;
+}
+
 .example-button-container {
   display: flex;
   /* justify-content: center; */
@@ -20,4 +25,41 @@
   display: flex;
   align-items: center;
   margin-right: 10px;
+}
+.skills-section {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chip-section {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.chip-form-field {
+  width: 100%;
+}
+
+.additional-info {
+  margin-top: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.grid-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.skills-form-field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
 }

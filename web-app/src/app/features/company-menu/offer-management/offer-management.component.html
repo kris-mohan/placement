@@ -209,7 +209,9 @@
       fxFlex.gt-md="28%"
       fxFlex.gt-lg="25%"
       class="grid-item mat-grid-tile"
-      (click)="openOfferManagement(offer.JobPosting.Id)"
+      (click)="
+        openOfferManagement(offer.JobPostingId, offer.StudentId, offer.Id)
+      "
     >
       <div class="company-details">
         <h3>{{ offer.Student.FirstName }} {{ offer.Student.LastName }}</h3>

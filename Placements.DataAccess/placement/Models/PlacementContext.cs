@@ -551,10 +551,16 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("jobinterviewrounds");
 
+            entity.HasIndex(e => e.EventId, "FK_JobRound_Event_idx");
+
             entity.HasIndex(e => e.JobPostingId, "FK_Round_JobPosting_idx");
 
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(45);
+
+            entity.HasOne(d => d.Event).WithMany(p => p.Jobinterviewrounds)
+                .HasForeignKey(d => d.EventId)
+                .HasConstraintName("FK_Round_Event");
 
             entity.HasOne(d => d.JobPosting).WithMany(p => p.Jobinterviewrounds)
                 .HasForeignKey(d => d.JobPostingId)
@@ -571,14 +577,8 @@ public partial class PlacementContext : DbContext
 
             entity.HasIndex(e => e.StudentId, "FK_JobPost_Student_idx");
 
-            entity.HasIndex(e => e.EventId, "FK_JobRound_Event_idx");
-
             entity.Property(e => e.Feedback).HasMaxLength(16000);
             entity.Property(e => e.HasPassed).HasColumnType("bit(1)");
-
-            entity.HasOne(d => d.Event).WithMany(p => p.JobpostStudentrounds)
-                .HasForeignKey(d => d.EventId)
-                .HasConstraintName("FK_JobRound_Event");
 
             entity.HasOne(d => d.JobPostingRound).WithMany(p => p.JobpostStudentrounds)
                 .HasForeignKey(d => d.JobPostingRoundId)

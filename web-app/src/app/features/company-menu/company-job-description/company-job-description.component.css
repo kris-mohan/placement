@@ -51,7 +51,11 @@
 .apply-button:hover {
   background-color: #0056b3;
 }
-
+.apply-button:disabled {
+  background-color: #d3d3d3;
+  color: #a9a9a9;
+  cursor: not-allowed;
+}
 .job-details {
   display: flex;
   justify-content: space-between;

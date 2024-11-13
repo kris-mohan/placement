@@ -8,6 +8,9 @@ export type Jobinterviewround = {
   Name?: string;
   Description?: string;
   Priority?: number;
+  EventId: number;
   JobPosting: Jobposting;
   JobpostStudentrounds: JobpostStudentround[];
 };
+
+export type PatchJobinterviewround = Jobinterviewround | {};

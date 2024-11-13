@@ -12,7 +12,7 @@ export class PlacementCompanyJobDetailsApiService {
 
   GetCompanyById(id: number): Observable<ODataEntity<Companydatum[]>> {
     return this.apiHttpService.get<ODataEntity<Companydatum[]>>(
-      `/Companydatum?$expand=Jobpostings&$filter=id eq ${id}`
+      `/Companydatum?$expand=Jobpostings($filter = IsDeleted eq 0)&$filter=id eq ${id} and IsDeleted eq 0`
     );
   }
 }

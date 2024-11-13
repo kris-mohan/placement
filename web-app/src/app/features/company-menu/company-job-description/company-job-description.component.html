@@ -26,42 +26,56 @@
       <p class="matName">Edit Job Posting</p>
     </button>
     <button
-      *ngIf="UserRoleId !== 3"
+      *ngIf="UserRoleId === 2"
       mat-raised-button
       class="matbutton"
-      (click)="openAddEditCompanyForm(0)"
+      (click)="DeleteJobPosting()"
     >
       <mat-icon class="maticon">delete</mat-icon>
-      <p class="matName">Delete Job Postings</p>
+      <p class="matName">Delete Job Posting</p>
     </button>
   </div>
   <mat-card-content class="matt-card-content">
     <div class="main-content">
       <div class="left-content">
-        <div class="job-card" *ngIf="JobPostingsDescriptionData().length > 0">
+        <div class="job-card">
           <div class="job-header">
             <div class="job-title">
-              <h2>{{ JobPostingsDescriptionData()[0].JobRole }}</h2>
+              <h2>{{ JobPostingsDescriptionData()[0]?.JobRole }}</h2>
               <span class="company">{{
-                JobPostingsDescriptionData()[0].Company.Name
+                JobPostingsDescriptionData()[0]?.Company?.Name
               }}</span>
               <!-- <span class="rating"> 3.9 | 5486 Reviews</span> -->
             </div>
             <div>
-              <button *ngIf="UserRoleId === 3" class="apply-button">
-                Apply
+              <button
+                *ngIf="UserRoleId === 3"
+                class="apply-button"
+                [disabled]="applyButtonDisabled"
+                (click)="ApplyJobPostByStudent()"
+              >
+                {{ applyButtonLabel }}
+              </button>
+
+              <button
+                *ngIf="UserRoleId === 3"
+                class="apply-button"
+                [disabled]="RejectButtonDisabled"
+                (click)="rejectJobPostByStudent()"
+              >
+                {{ RejectButtonLabel }}
               </button>
               <button
                 *ngIf="UserRoleId !== 3"
                 class="apply-button"
-                (click)="openEligibleStudentsModel()"
+                (click)="openEligibleStudentsModel('applied')"
               >
                 Applied Student
               </button>
               <button
                 *ngIf="UserRoleId === 1"
                 class="apply-button"
-                (click)="openEligibleStudentsModel()"
+                (click)="openEligibleStudentsModel('invite')"
               >
                 Invite Student
               </button>
@@ -77,16 +91,16 @@
               > -->
             </div>
             <div class="salary">
-              <span>Salary:{{ JobPostingsDescriptionData()[0].Salary }}</span>
+              <span>Salary:{{ JobPostingsDescriptionData()[0]?.Salary }}</span>
             </div>
             <div class="locations">
               <span
-                >Location:{{ JobPostingsDescriptionData()[0].Location }}</span
+                >Location:{{ JobPostingsDescriptionData()[0]?.Location }}</span
               >
             </div>
             <div class="posted">
               <span
-                >Posted:{{ JobPostingsDescriptionData()[0].ValidFrom }}</span
+                >Posted:{{ JobPostingsDescriptionData()[0]?.ValidFrom }}</span
               >
             </div>
           </div>
@@ -96,7 +110,7 @@
           <h3>Job Description</h3>
           <ul>
             {{
-              JobPostingsDescriptionData()[0].JobDescription
+              JobPostingsDescriptionData()[0]?.JobDescription
             }}
           </ul>
         </div>
@@ -104,24 +118,24 @@
 
       <div class="right-content" *ngIf="UserRoleId !== 2">
         <div class="related-jobs">
-          <h3>{{ JobPostingsDescriptionData()[0].Company.Name }}</h3>
+          <h3>{{ JobPostingsDescriptionData()[0]?.Company?.Name }}</h3>
           <ul>
             <li>
               <h4>About the company</h4>
-              <p>{{ JobPostingsDescriptionData()[0].Company.About }}</p>
+              <p>{{ JobPostingsDescriptionData()[0]?.Company?.About }}</p>
             </li>
             <li>
               <p>
                 Headquarters:
-                {{ JobPostingsDescriptionData()[0].Company.HeadQuarters }}
+                {{ JobPostingsDescriptionData()[0]?.Company?.HeadQuarters }}
               </p>
               <p>
                 Customer service:
-                {{ JobPostingsDescriptionData()[0].Company.PhoneNumber }}
+                {{ JobPostingsDescriptionData()[0]?.Company?.PhoneNumber }}
               </p>
               <p>
                 Number of employees:
-                {{ JobPostingsDescriptionData()[0].Company.CompanySize }}
+                {{ JobPostingsDescriptionData()[0]?.Company?.CompanySize }}
               </p>
               <!-- <p>CEO: Julie Sweet (1 Sept 2019–)</p>
                 <p>Founded: 1989, Hamilton, Bermuda</p>
