@@ -29,11 +29,21 @@
         </mat-card-subtitle>
       </div>
     </div>
-    <div class="button-section">
-      <button mat-raised-button color="primary" (click)="acceptOffer()">
+    <div class="button-section" *ngIf="UserRoleId === 3">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="acceptOffer()"
+        [disabled]="isOfferAccepted()"
+      >
         Accept
       </button>
-      <button mat-raised-button color="warn" (click)="rejectOffer()">
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="rejectOffer()"
+        [disabled]="isOfferAccepted()"
+      >
         Reject
       </button>
     </div>

@@ -18,4 +18,10 @@ export class EligibleStudentsListApiService {
   GetStudentsById(id: number): Observable<any> {
     return this.apiHttpService.get(`/Tblstudent?filter=Id eq ${id}`);
   }
+  GetBatches(): Observable<any> {
+    return this.apiHttpService.get(`/Batch`);
+  }
+  GetBranches(): Observable<any> {
+    return this.apiHttpService.get(`/Course`);
+  }
 }

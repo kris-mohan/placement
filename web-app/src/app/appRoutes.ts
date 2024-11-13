@@ -444,8 +444,16 @@ const appRoutes: Routes = [
         component: StudentOfferRecievedComponent,
       },
       {
+        path: "student-offer-Recieved/offer-management-details/:jobPostingId/:studentId/:id",
+        component: OfferManagementDetailsComponent,
+      },
+      {
         path: "Placement-offer-Recieved",
         component: PlacementOfferRecievedComponent,
+      },
+      {
+        path: "Placement-offer-Recieved/offer-management-details/:jobPostingId/:studentId/:id",
+        component: OfferManagementDetailsComponent,
       },
       {
         path: "template-generator",
