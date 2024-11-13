@@ -68,7 +68,13 @@ export class CalendarModalApiService {
     id: number
   ): Observable<ODataEntity<Jobinterviewround[]>> {
     return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
-      `/Jobinterviewround`
+      `/Jobinterviewround?filter=JobPostingId eq ${id}`
+    );
+  }
+
+  public GetJobPostingById(id: number): Observable<ODataEntity<Jobposting[]>> {
+    return this.apiHttpService.get<ODataEntity<Jobposting[]>>(
+      `/Jobposting?filter=Id eq ${id}`
     );
   }
 }

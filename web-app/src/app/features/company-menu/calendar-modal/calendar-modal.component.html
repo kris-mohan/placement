@@ -19,12 +19,19 @@
     >
       <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
         <mat-form-field appearance="outline">
-          <mat-label>Event Name</mat-label>
-          <input
+          <mat-label>Event Type</mat-label>
+          <!-- <input
             matInput
             placeholder="Insert Event Name"
-            formControlName="eventName"
-          />
+            formControlName="eventType"
+          /> -->
+          <mat-select
+            [(value)]="formDataa.value.eventType"
+            (selectionChange)="onEventTypeChange($event)"
+          >
+            <mat-option value="interview">Interview</mat-option>
+            <mat-option value="training">Training</mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
 
@@ -40,10 +47,18 @@
         </mat-form-field>
       </div> -->
 
-      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
+      <div
+        *ngIf="showJobPostingsAndRounds"
+        fxFlex="100%"
+        fxFlex.gt-sm="48%"
+        fxFlex.gt-md="24%"
+      >
         <mat-form-field appearance="outline">
           <mat-label>Job Posting</mat-label>
-          <mat-select formControlName="jobPosting">
+          <mat-select
+            formControlName="jobPosting"
+            (selectionChange)="onJobPostingChange($event)"
+          >
             <mat-option
               *ngFor="let posting of jobPostings"
               [value]="posting.Id"
@@ -55,12 +70,17 @@
       </div>
 
       <!-- Rounds Dropdown -->
-      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
+      <div
+        *ngIf="showJobPostingsAndRounds"
+        fxFlex="100%"
+        fxFlex.gt-sm="48%"
+        fxFlex.gt-md="24%"
+      >
         <mat-form-field appearance="outline">
           <mat-label>Rounds</mat-label>
           <mat-select formControlName="rounds">
             <mat-option *ngFor="let round of rounds" [value]="round.Id">
-              <!-- {{ round.name }} -->
+              {{ round.Name }}
             </mat-option>
           </mat-select>
         </mat-form-field>

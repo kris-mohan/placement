@@ -14,12 +14,15 @@ import { ODataEntity } from "src/app/services/types/OData";
 import { PostCalendarevent } from "src/app/services/types/Calendarevent";
 import { InterviewScheduleApiService } from "./InterviewScheduleApiService";
 import { GetDate } from "src/app/core/helper/DateHelper";
+import { PatchJobinterviewround } from "src/app/services/types/Jobinterviewround";
 
 type calendarEvent = {
   // id: string;
   title: string;
   start: Date;
   end: Date;
+  jobPostingId?: number;
+  round?: number;
   // className: string;
 };
 
@@ -39,49 +42,59 @@ export class InterviewScheduleComponent implements OnInit {
   private eventIDCounter = 0;
   currentEvents: EventApi[] = [];
 
+  roundsId: number = 0;
+  jobPostingId: number = 0;
+
   universityTypes: WritableSignal<Universities[]> = signal([]);
 
   colleges: WritableSignal<Colleges[]> = signal([]);
 
   events: any[] = [];
-  calendarEvents: any[] = [
-    {
-      id: this.eventIDCounter++,
-      title: "Meeting",
-      start: new Date().setDate(new Date().getDate() + 1),
-      end: new Date().setDate(new Date().getDate() + 2),
-      className: "bg-warning text-white",
-    },
-    {
-      id: this.eventIDCounter++,
-      title: "Lunch",
-      start: new Date(),
-      end: new Date(),
-      className: "bg-success text-white",
-    },
-    {
-      id: this.eventIDCounter++,
-      title: "Birthday - party",
-      start: new Date().setDate(new Date().getDate() + 8),
-      className: "bg-info text-white",
-    },
-    {
-      id: this.eventIDCounter++,
-      title: "Long Event",
-      start: new Date().setDate(new Date().getDate() + 7),
-      end: new Date().setDate(new Date().getDate() + 8),
-      className: "bg-primary text-white",
-    },
-  ];
+  // calendarEvents: any[] = [
+  //   {
+  //     id: this.eventIDCounter++,
+  //     title: "Meeting",
+  //     start: new Date().setDate(new Date().getDate() + 1),
+  //     end: new Date().setDate(new Date().getDate() + 2),
+  //     className: "bg-warning text-white",
+  //   },
+  //   {
+  //     id: this.eventIDCounter++,
+  //     title: "Lunch",
+  //     start: new Date(),
+  //     end: new Date(),
+  //     className: "bg-success text-white",
+  //   },
+  //   {
+  //     id: this.eventIDCounter++,
+  //     title: "Birthday - party",
+  //     start: new Date().setDate(new Date().getDate() + 8),
+  //     className: "bg-info text-white",
+  //   },
+  //   {
+  //     id: this.eventIDCounter++,
+  //     title: "Long Event",
+  //     start: new Date().setDate(new Date().getDate() + 7),
+  //     end: new Date().setDate(new Date().getDate() + 8),
+  //     className: "bg-primary text-white",
+  //   },
+  // ];
+
+  calendarEvents = signal<calendarEvent[]>([]);
+
+  companyId: number = 0;
 
   constructor(
     private dialog: MatDialog,
     private interviewScheduleApiService: InterviewScheduleApiService,
     private APiInterviewScheduleService: APIInterviewScheduleService
-  ) {}
+  ) {
+    const storedCompanyId = sessionStorage.getItem("CompanyId");
+    this.companyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
+  }
 
   ngOnInit(): void {
-    this.loadInitialData();
+    this.getCalendarData();
     this.GetUniversties();
     this.GetColleges();
     this.getInterviewSchedule();
@@ -114,31 +127,32 @@ export class InterviewScheduleComponent implements OnInit {
   }
 
   calendarOptions: CalendarOptions = {
-    // headerToolbar: {
-    //   left: "dayGridMonth,dayGridWeek,dayGridDay",
-    //   center: "title",
-    //   right: "prevYear,prev,next,nextYear",
-    // },
-    // events: this.calendarEvents().map((event) => ({
-    //   ...event,
-    //   extendedProps: {
-    //     jobRoles: event.jobRole,
-    //   },
-    // })),
-    // editable: true,
-    // selectable: true,
-    // selectMirror: true,
-    // initialView: "dayGridMonth",
-    // weekends: true,
-    // plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-    // dateClick: this.handleDateClick.bind(this),
-    // eventClick: this.handleEventClick.bind(this),
-    // eventTimeFormat: {
-    //   hour: "2-digit",
-    //   minute: "2-digit",
-    //   hour12: true,
-    // },
-    // eventsSet: this.handleEvents.bind(this),
+    headerToolbar: {
+      left: "dayGridMonth,dayGridWeek,dayGridDay",
+      center: "title",
+      right: "prevYear,prev,next,nextYear",
+    },
+    events: this.calendarEvents().map((event) => ({
+      ...event,
+      extendedProps: {
+        jobPostingId: event.jobPostingId,
+        round: event.round,
+      },
+    })),
+    editable: true,
+    selectable: true,
+    selectMirror: true,
+    initialView: "dayGridMonth",
+    weekends: true,
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    dateClick: this.handleDateClick.bind(this),
+    eventClick: this.handleEventClick.bind(this),
+    eventTimeFormat: {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    },
+    eventsSet: this.handleEvents.bind(this),
   };
 
   /**
@@ -171,7 +185,8 @@ export class InterviewScheduleComponent implements OnInit {
   addEditNewEvent(result: any) {
     if (result) {
       console.log("New event", result);
-      const title = result.eventName;
+      this.roundsId = result.rounds;
+      const title = result.eventType;
       // const jobRole = result.jobRole;
       const className = "bg-primary text-white";
       let startTime: Date | null = null;
@@ -245,7 +260,7 @@ export class InterviewScheduleComponent implements OnInit {
       //   endDateTime = startTime;
       // }
 
-      const endDate = result.endDate ? new Date(result.endDate) : startTime;
+      const endDate = result.endDate ? new Date(result.endDate) : endTime;
       if (endDate && endTime && !this.isEdited) {
         endDate?.setHours(endTime?.getHours(), endTime?.getMinutes());
       }
@@ -299,7 +314,7 @@ export class InterviewScheduleComponent implements OnInit {
                   EventEndDateTime: endTime,
                   EventDescription: title,
                   OrgId: 1,
-                  CompanyId: 4,
+                  CompanyId: this.companyId,
                 };
                 this.updateCalendarEventHandler(this.editedId, newEventData);
               } else {
@@ -309,7 +324,7 @@ export class InterviewScheduleComponent implements OnInit {
                   EventEndDateTime: endTime,
                   EventDescription: title,
                   OrgId: 1,
-                  CompanyId: 4,
+                  CompanyId: this.companyId,
                 };
                 console.log("New Event Data:", newEventData);
                 this.saveCalendarEventHandler(newEventData);
@@ -354,7 +369,7 @@ export class InterviewScheduleComponent implements OnInit {
                 EventEndDateTime: endOfDay,
                 EventDescription: title,
                 OrgId: 1,
-                CompanyId: 4,
+                CompanyId: this.companyId,
               };
               console.log("Update Event Data", newEventData);
               this.updateCalendarEventHandler(this.editedId, newEventData);
@@ -365,7 +380,7 @@ export class InterviewScheduleComponent implements OnInit {
                 EventEndDateTime: endOfDay,
                 EventDescription: title,
                 OrgId: 1,
-                CompanyId: 4,
+                CompanyId: this.companyId,
               };
               console.log("New Event Data:", newEventData);
               this.saveCalendarEventHandler(newEventData);
@@ -405,7 +420,7 @@ export class InterviewScheduleComponent implements OnInit {
             EventEndDateTime: endTime,
             EventDescription: title,
             OrgId: 1,
-            CompanyId: 4,
+            CompanyId: this.companyId,
           };
           console.log("Update Event Data", newEventData);
           this.updateCalendarEventHandler(this.editedId, newEventData);
@@ -416,7 +431,7 @@ export class InterviewScheduleComponent implements OnInit {
             EventEndDateTime: endTime,
             EventDescription: title,
             OrgId: 1,
-            CompanyId: 4,
+            CompanyId: this.companyId,
           };
           console.log("New Event Data:", newEventData);
           this.saveCalendarEventHandler(newEventData);
@@ -433,6 +448,7 @@ export class InterviewScheduleComponent implements OnInit {
       // });
     }
   }
+
   getInterviewSchedule = () => {
     this.interviewScheduleApiService.GetInterviewSchedule().subscribe({
       next: (response) => {
@@ -480,6 +496,8 @@ export class InterviewScheduleComponent implements OnInit {
           start: event.event.start,
           end: event.event.end ? event.event.end : null,
           jobRole: event.event.extendedProps.jobRoles || "",
+          jobPostingId: event.event.extendedProps.jobPostingId || 0, // Extract jobPostingId from extendedProps
+          roundId: event.event.extendedProps.round || "", // Extract round description from extendedProps
         },
         isEdited: this.isEdited,
         date: event.event.start,
@@ -493,42 +511,75 @@ export class InterviewScheduleComponent implements OnInit {
       }
     });
   }
-  // events: any;
 
   loadInitialData(): void {}
 
   getCalendarData = () => {
-    // this.interviewScheduleApiService.GetCalendarData().subscribe({
-    //   next: (response) => {
-    //     const responeList: calendarEvent[] = response.value.map((x) => {
-    //       return {
-    //         id: x.Id.toString(),
-    //         title: x.EventType,
-    //         start: new Date(x.EventStartDateTime),
-    //         end: new Date(x.EventEndDateTime),
-    //         className: "bg-warning text-white",
-    //       };
-    //     });
-    //     this.calendarOptions.events = responeList;
-    //     this.calendarEvents.set(responeList);
-    //     console.log(this.calendarEvents());
-    //   },
-    //   error: (error) => {
-    //     console.error("Error fetching Student details:", error);
-    //   },
-    // });
+    this.interviewScheduleApiService.GetCalendarData().subscribe({
+      next: (response) => {
+        console.log(response.value);
+        const responeList: calendarEvent[] = response.value.map((x) => {
+          return {
+            id: x.Id.toString(),
+            title: x.EventType,
+            start: new Date(x.EventStartDateTime),
+            end: new Date(x.EventEndDateTime),
+            extendedProps: {
+              jobPostingId: x.Jobinterviewrounds[0]
+                ? x.Jobinterviewrounds[0].JobPostingId
+                : 0,
+              round: x.Jobinterviewrounds[0] ? x.Jobinterviewrounds[0].Id : "",
+            },
+            className: "bg-warning text-white",
+          };
+        });
+        this.calendarOptions.events = responeList;
+        this.calendarEvents.set(responeList);
+        console.log(this.calendarEvents());
+      },
+      error: (error) => {
+        console.error("Error fetching Student details:", error);
+      },
+    });
   };
   saveCalendarEventHandler = (event: PostCalendarevent) => {
     this.interviewScheduleApiService.saveCalendarEvent(event).subscribe({
       next: (response) => {
         console.log("Calendar event saved successfully:", response);
         // this.calendarEvents();
+        console.log(this.roundsId);
+
+        const id = response.id;
+        console.log(id);
+        const updateJobInterviewRoundData = {
+          Id: this.roundsId,
+          EventId: id,
+        };
+        this.updateJobInterviewRoundsHandler(
+          this.roundsId,
+          updateJobInterviewRoundData
+        );
         this.getCalendarData();
       },
       error: (error) => {
         console.error("Error saving calendar event:", error);
       },
     });
+  };
+  updateJobInterviewRoundsHandler = (
+    id: number,
+    event: PatchJobinterviewround
+  ) => {
+    this.interviewScheduleApiService
+      .updateJobinterviewRounds(id, event)
+      .subscribe({
+        next: (response) => {
+          console.log("Job Interview Rounds updated successfully:", response);
+        },
+        error: (error) => {
+          console.error("Error updating Job Interview Rounds:", error);
+        },
+      });
   };
   updateCalendarEventHandler(id: number, event: PostCalendarevent) {
     this.interviewScheduleApiService.updateCalendarEvent(id, event).subscribe({

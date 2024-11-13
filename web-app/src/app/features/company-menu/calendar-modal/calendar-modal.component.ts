@@ -35,6 +35,8 @@ export class CalendarModalComponent implements OnInit {
   jobPostings: Jobposting[] = [];
   rounds: Jobinterviewround[] = [];
   CollegeRoleId: number;
+  showJobPostingsAndRounds = true;
+  jobPostingId: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<CalendarModalComponent>,
@@ -48,13 +50,13 @@ export class CalendarModalComponent implements OnInit {
     this.CollegeRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
 
     this.formDataa = this.formBuilder.group({
-      eventName: ["", Validators.required],
       // jobRole: ["", Validators.required],
       // round: ["", Validators.required],
       // panels: ["", Validators.required],
       // venueDetails: ["", Validators.required],
       // startDate: ["", Validators.required],
       startTime: ["", Validators.required],
+      eventType: ["interview"],
       endDate: [""],
       endTime: ["", Validators.required],
       jobPosting: ["", Validators.required],
@@ -62,8 +64,13 @@ export class CalendarModalComponent implements OnInit {
     });
   }
 
+  onJobPostingChange(event: any): void {
+    console.log("Selected Job Posting Id", event.value);
+    const selectedJobPostingId = event.value;
+    this.getAllRounds(selectedJobPostingId);
+  }
+
   getJobPostings = () => {
-    console.log("HHIIIIII");
     this.calendarModalApiService
       .GetAllJobPostings(this.CollegeRoleId)
       .subscribe({
@@ -78,14 +85,53 @@ export class CalendarModalComponent implements OnInit {
       });
   };
 
+  getJobPostingById = () => {
+    this.calendarModalApiService
+      .GetJobPostingById(this.data.eventData.jobPostingId)
+      .subscribe({
+        next: (response) => {
+          const data: Jobposting[] = response.value;
+          console.log(data[0]);
+          this.jobPostingId = data[0] ? data[0].Id : 0;
+          console.log(this.jobPostingId);
+          this.getAllRounds(this.jobPostingId);
+          this.formatEventData();
+        },
+        error: (error) => {
+          console.error("Error fetching Job Postings:", error);
+        },
+      });
+  };
+
   getAllRounds = (jobPostingId: number) => {
-    this.calendarModalApiService.GetAllRounds(this.CollegeRoleId).subscribe({
+    this.calendarModalApiService.GetAllRounds(jobPostingId).subscribe({
       next: (response) => {
+        console.log(response);
         const data: Jobinterviewround[] = response.value;
         console.log(data);
+        this.rounds = data;
       },
     });
   };
+
+  onEventTypeChange(event: any): void {
+    console.log("HELLLOOOO");
+    const selectedEventType = this.formDataa.value.eventType;
+    console.log(selectedEventType);
+    if (selectedEventType === "interview") {
+      this.showJobPostingsAndRounds = true;
+      // Show the job posting and rounds dropdowns
+      this.formDataa.get("jobPosting")?.setValidators([Validators.required]);
+      // this.formDataa.get("rounds")?.setValidators([Validators.required]);
+    } else {
+      // Hide job posting and rounds
+      this.showJobPostingsAndRounds = false;
+      this.formDataa.get("jobPosting")?.clearValidators();
+      this.formDataa.get("rounds")?.clearValidators();
+    }
+    this.formDataa.get("jobPosting")?.updateValueAndValidity();
+    this.formDataa.get("rounds")?.updateValueAndValidity();
+  }
 
   // loadRoles(): void {
   //   this.roles = [
@@ -105,6 +151,7 @@ export class CalendarModalComponent implements OnInit {
   // }
 
   onSave(): void {
+    console.log(this.formDataa.value);
     if (this.formDataa.valid) {
       const returnData = {
         ...this.formDataa.value, // Spread the form values
@@ -130,11 +177,16 @@ export class CalendarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.loadRoles();
     this.getJobPostings();
 
-    // Check if the dialog is opened in edit mode
     if (this.data.isEdited && this.data.eventData) {
+      this.getJobPostingById();
+    }
+  }
+
+  formatEventData() {
+    // Check if the dialog is opened in edit mode
+    if (this.jobPostingId !== 0 && this.data.eventData.roundId) {
       // Convert start and end times to 'HH:mm' format
       // const formattedStartTime = this.formatTime(this.data.eventData.start);
       // const formattedEndTime = this.formatTime(this.data.eventData.end);
@@ -149,12 +201,15 @@ export class CalendarModalComponent implements OnInit {
       console.log("Event End Date", this.data.eventData.endDate);
       // Prefill the form with event data if isEdited is true
       this.formDataa.patchValue({
-        eventName: this.data.eventData.title,
-        jobRole: this.data.eventData.jobRole || "", // Assuming jobRole is part of eventData
+        eventType: this.data.eventData.title,
+        // jobRole: this.data.eventData.jobRole || "", // Assuming jobRole is part of eventData
         startTime: formattedStartTime,
         endTime: formattedEndTime,
         endDate: null,
+        jobPosting: this.jobPostingId,
+        rounds: this.data.eventData.roundId,
       });
+      console.log(this.formDataa.value);
 
       // this.toggle = !!this.data.eventData.endDate;
     }
