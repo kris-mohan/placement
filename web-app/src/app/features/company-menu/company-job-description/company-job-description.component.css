@@ -10,6 +10,28 @@
   padding: 20px;
   margin: 20px 0;
 }
+.locations {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: "Roboto", "Arial", sans-serif;
+  color: #333;
+  font-size: 1rem;
+}
+
+.locations .location,
+.locations .salary,
+.locations .posted {
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+}
+
+.locations .location mat-icon {
+  font-size: 1.2rem;
+  margin-right: 0.3rem; /* Adds space between the icon and location text */
+  color: #333;
+}
 
 .job-header {
   display: flex;
@@ -20,11 +42,19 @@
 .job-title {
   display: flex;
   flex-direction: column;
+
+  font-size: 1.3em;
+  font-weight: bold;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c3e50;
+  text-transform: capitalize;
 }
 
 .company {
-  font-size: 1.2rem;
-  color: #333;
+  font-size: 1rem;
+  color: #777;
+
+  font-weight: 500; /* Optional: make it semi-bold for slight emphasis */
 }
 .Header {
   font-size: x-large;
@@ -242,4 +272,7 @@ mat-icon {
 .detail-item strong {
   color: #333;
   font-size: 0.9rem;
+}
+.buttons {
+  margin-left: 43rem;
 }
