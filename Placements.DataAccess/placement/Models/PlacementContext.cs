@@ -142,6 +142,10 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("calendarevents");
 
+            entity.HasIndex(e => e.OrgId, "FK_Event_Campus_idx");
+
+            entity.HasIndex(e => e.CompanyId, "FK_Event_Company_idx");
+
             entity.Property(e => e.EventDescription).HasMaxLength(150);
             entity.Property(e => e.EventEndDateTime).HasColumnType("datetime");
             entity.Property(e => e.EventStartDateTime).HasColumnType("datetime");
@@ -149,6 +153,14 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Calendarevents)
+                .HasForeignKey(d => d.CompanyId)
+                .HasConstraintName("FK_Event_Company");
+
+            entity.HasOne(d => d.Org).WithMany(p => p.Calendarevents)
+                .HasForeignKey(d => d.OrgId)
+                .HasConstraintName("FK_Event_Campus");
         });
 
         modelBuilder.Entity<CampusCompany>(entity =>
@@ -641,6 +653,8 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("jobposting");
 
+            entity.HasIndex(e => e.OrgId, "FK_JobPosting_Campus_idx");
+
             entity.HasIndex(e => e.CompanyId, "FK_JobPosting_Company_idx");
 
             entity.HasIndex(e => e.TechnologyId, "FK_JobPosting_Technology_idx");
@@ -673,6 +687,10 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.Company).WithMany(p => p.Jobpostings)
                 .HasForeignKey(d => d.CompanyId)
                 .HasConstraintName("FK_JobPosting_Company");
+
+            entity.HasOne(d => d.Org).WithMany(p => p.Jobpostings)
+                .HasForeignKey(d => d.OrgId)
+                .HasConstraintName("FK_JobPosting_Campus");
 
             entity.HasOne(d => d.Technology).WithMany(p => p.Jobpostings)
                 .HasForeignKey(d => d.TechnologyId)

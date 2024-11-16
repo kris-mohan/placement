@@ -6,6 +6,7 @@ namespace Placements.WebApi.Services
     {
         Task<PlacementCategoryResponse> GetStudentPlacementDataAsync();
         Task<(List<int> BranchPlacementSeries, List<string> BranchLabels)> GetBranchPlacementDataAsync();
-        Task<List<StudentPlacementSeries>> GetYearlyPlacementComparisonAsync();
+        Task<(List<StudentPlacementSeries>, List<string> Labels)> GetYearlyPlacementComparisonAsync();
+        Task<(List<StudentPlacementSeries>, List<string> Labels)> GetJobSkillDemandDataAsync();
     }
 }

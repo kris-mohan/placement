@@ -86,7 +86,7 @@ namespace Placements.WebApi.Services
             return (branchPlacementSeries, branchLabels);
         }
 
-        public async Task<List<StudentPlacementSeries>> GetYearlyPlacementComparisonAsync()
+        public async Task<(List<StudentPlacementSeries>, List<string> Labels)> GetYearlyPlacementComparisonAsync()
         {
             // Querying the data
             var query = await _context.Studentplaceds
@@ -116,7 +116,45 @@ namespace Placements.WebApi.Services
                     .Sum(q => q.Count)).ToList()
             }).ToList();
 
-            return yearlyComparisonData;
+            return (yearlyComparisonData, courses);
+        }
+
+        public async Task<(List<StudentPlacementSeries>, List<string> Labels)> GetJobSkillDemandDataAsync()
+        {
+            var skillDemandDataList = new List<StudentPlacementSeries>();
+
+            // Get all companies
+            var companies = await _context.Companydata
+                .Include(x => x.Jobpostings)
+                .ThenInclude(x => x.JobpostingSkills)
+                .ThenInclude(x => x.Skill)
+                .Where(c => c.IsDeleted == 0 && c.IsActive == 1)
+                .ToListAsync();
+            var skillLabels = companies.SelectMany(x => x.Jobpostings).SelectMany(x => x.JobpostingSkills).Select(x => x.Skill.Name).ToList();
+
+            foreach (var company in companies)
+            {
+                var demandData = new int[skillLabels.Count];
+
+                foreach (var jobPosting in company.Jobpostings)
+                {
+                    for (int i = 0; i < skillLabels.Count; i++)
+                    {
+                        // Match the skill with the skillLabels
+                        var skill = jobPosting.JobpostingSkills.Select(x => x.Skill).Where(s => s.Name == skillLabels[i]).Count();
+                        demandData[i] += skill;
+                    }
+                }
+
+                // Add the result to the list
+                skillDemandDataList.Add(new StudentPlacementSeries
+                {
+                    Name = company.Name,
+                    Data = demandData.ToList()
+                });
+            }
+
+            return (skillDemandDataList, skillLabels);
         }
     }
 }

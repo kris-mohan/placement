@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Placements.DataAccess.Placement.Models;
 using Placements.WebApi.Services;
 
@@ -46,18 +45,24 @@ namespace Placements.WebApi.Controllers
         [HttpGet("yearly-placement-comparison")]
         public async Task<IActionResult> GetYearlyPlacementComparison()
         {
-            var data = await _service.GetYearlyPlacementComparisonAsync();
-
-            // Add course labels for the client-side chart
-            var courseLabels = await _context.Courses
-                .Select(c => c.Name ?? "Unknown")
-                .OrderBy(c => c)
-                .ToListAsync();
+            var (data, courseLabels) = await _service.GetYearlyPlacementComparisonAsync();
 
             return Ok(new
             {
                 YearlyComparisonData = data,
                 CourseLabels = courseLabels
+            });
+        }
+
+        [HttpGet("skill-demand")]
+        public async Task<IActionResult> GetSkillDemandData()
+        {
+            var (skillDemandData, skillLabels) = await _service.GetJobSkillDemandDataAsync();
+
+            return Ok(new
+            {
+                SkillDemandData = skillDemandData,
+                SkillLabels = skillLabels
             });
         }
     }
