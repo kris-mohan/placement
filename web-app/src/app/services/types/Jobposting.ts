@@ -54,6 +54,7 @@ export type Jobposting = {
 
   Jobinterviewpanels: Jobinterviewpanel[];
   Experience?: string;
+  OrgId?: number;
 };
 
 export type PostJobposting = {

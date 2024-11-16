@@ -16,6 +16,7 @@ import { InterviewScheduleApiService } from "./InterviewScheduleApiService";
 import { GetDate } from "src/app/core/helper/DateHelper";
 import { PatchJobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { CalendarModalApiService } from "../calendar-modal/api.calendar-modal";
 
 type calendarEvent = {
   // id: string;
@@ -24,6 +25,7 @@ type calendarEvent = {
   end: Date;
   jobPostingId?: number;
   round?: number;
+  OrgId?: number;
   // className: string;
 };
 
@@ -46,6 +48,9 @@ export class InterviewScheduleComponent implements OnInit {
 
   roundsId: number = 0;
   jobPostingId: number = 0;
+  OrgId: number = 0;
+
+  roundsIdForBatchCall: Jobinterviewround[] = [];
 
   universityTypes: WritableSignal<Universities[]> = signal([]);
   // companiesList: WritableSignal<Companydatum[]> = signal([]);
@@ -53,35 +58,7 @@ export class InterviewScheduleComponent implements OnInit {
   // colleges : signal<Colleges[]>([]);
   colleges: WritableSignal<Colleges[]> = signal([]);
 
-  events = [
-    {
-      companyName: "Capgemini",
-      jobTitle: "Associate Software Engineer",
-      Round: 3,
-      RoundName: "Technical Round",
-      eventDate: "05-10-2024",
-      timings: "10:00 AM - 12:00 PM",
-      duration: "2 hours",
-    },
-    {
-      companyName: "Accenture",
-      jobTitle: "Software Developer",
-      Round: 1,
-      RoundName: "Test Assesment",
-      eventDate: "05-10-2024",
-      timings: "2:00 PM - 3:30 PM",
-      duration: "1.5 hours",
-    },
-    {
-      companyName: "Google",
-      jobTitle: "QA",
-      Round: 2,
-      RoundName: "Interview-1",
-      eventDate: "05-10-2024",
-      timings: "9:00 AM - 1:00 PM",
-      duration: "4 hours",
-    },
-  ];
+  events: any[] = [];
 
   // calendarEvents: any[] = [
   //   {
@@ -120,7 +97,8 @@ export class InterviewScheduleComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private interviewScheduleApiService: InterviewScheduleApiService,
-    private APiInterviewScheduleService: APIInterviewScheduleService
+    private APiInterviewScheduleService: APIInterviewScheduleService,
+    private calendarModalApiService: CalendarModalApiService
   ) {
     const storedCompanyId = sessionStorage.getItem("CompanyId");
     this.companyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
@@ -169,6 +147,7 @@ export class InterviewScheduleComponent implements OnInit {
       extendedProps: {
         jobPostingId: event.jobPostingId,
         round: event.round,
+        OrgId: event.OrgId,
       },
     })),
     editable: true,
@@ -218,6 +197,8 @@ export class InterviewScheduleComponent implements OnInit {
     if (result) {
       console.log("New event", result);
       this.roundsId = result.rounds;
+      this.jobPostingId = result.jobPosting;
+      this.OrgId = result.OrgId;
       const title = result.eventType;
       // const jobRole = result.jobRole;
       const className = "bg-primary text-white";
@@ -343,7 +324,7 @@ export class InterviewScheduleComponent implements OnInit {
                   EventStartDateTime: startTime,
                   EventEndDateTime: endTime,
                   EventDescription: title,
-                  OrgId: 1,
+                  OrgId: this.OrgId,
                   CompanyId: this.companyId,
                 };
                 this.updateCalendarEventHandler(this.editedId, newEventData);
@@ -353,7 +334,7 @@ export class InterviewScheduleComponent implements OnInit {
                   EventStartDateTime: startTime,
                   EventEndDateTime: endTime,
                   EventDescription: title,
-                  OrgId: 1,
+                  OrgId: this.OrgId,
                   CompanyId: this.companyId,
                 };
                 console.log("New Event Data:", newEventData);
@@ -397,7 +378,7 @@ export class InterviewScheduleComponent implements OnInit {
                 EventStartDateTime: new Date(currentDate),
                 EventEndDateTime: endOfDay,
                 EventDescription: title,
-                OrgId: 1,
+                OrgId: this.OrgId,
                 CompanyId: this.companyId,
               };
               console.log("Update Event Data", newEventData);
@@ -408,7 +389,7 @@ export class InterviewScheduleComponent implements OnInit {
                 EventStartDateTime: new Date(currentDate),
                 EventEndDateTime: endOfDay,
                 EventDescription: title,
-                OrgId: 1,
+                OrgId: this.OrgId,
                 CompanyId: this.companyId,
               };
               console.log("New Event Data:", newEventData);
@@ -432,6 +413,7 @@ export class InterviewScheduleComponent implements OnInit {
         }
       } else {
         // Add a single-day event if it doesn't span multiple days
+
         // const calendarApi = this.newEventDate.view.calendar;
         // calendarApi.addEvent({
         //   id: this.eventIDCounter++,
@@ -441,6 +423,7 @@ export class InterviewScheduleComponent implements OnInit {
         //   className: className,
         //   jobRoles: jobRole,
         // });
+
         if (this.isEdited) {
           console.log(this.editedId);
           const newEventData: PostCalendarevent = {
@@ -448,7 +431,7 @@ export class InterviewScheduleComponent implements OnInit {
             EventStartDateTime: startTime,
             EventEndDateTime: endTime,
             EventDescription: title,
-            OrgId: 1,
+            OrgId: this.OrgId,
             CompanyId: this.companyId,
           };
           console.log("Update Event Data", newEventData);
@@ -459,7 +442,7 @@ export class InterviewScheduleComponent implements OnInit {
             EventStartDateTime: startTime,
             EventEndDateTime: endTime,
             EventDescription: title,
-            OrgId: 1,
+            OrgId: this.OrgId,
             CompanyId: this.companyId,
           };
           console.log("New Event Data:", newEventData);
@@ -555,6 +538,11 @@ export class InterviewScheduleComponent implements OnInit {
       next: (response) => {
         console.log(response.value);
         const responeList: calendarEvent[] = response.value.map((x) => {
+          const rounds =
+            x.Jobinterviewrounds.length > 1
+              ? undefined // Do not assign rounds if more than 1 interview round
+              : x.Jobinterviewrounds[0]?.Id; // Assign rounds as the first interview round Id
+
           return {
             id: x.Id.toString(),
             title: x.EventType,
@@ -564,7 +552,10 @@ export class InterviewScheduleComponent implements OnInit {
               jobPostingId: x.Jobinterviewrounds[0]
                 ? x.Jobinterviewrounds[0].JobPostingId
                 : 0,
-              round: x.Jobinterviewrounds[0] ? x.Jobinterviewrounds[0].Id : "",
+              round: rounds,
+              OrgId: x.Jobinterviewrounds[0]?.JobPosting
+                ? x.Jobinterviewrounds[0].JobPosting.OrgId
+                : "",
             },
             className: "bg-warning text-white",
           };
@@ -591,10 +582,14 @@ export class InterviewScheduleComponent implements OnInit {
           Id: this.roundsId,
           EventId: id,
         };
-        this.updateJobInterviewRoundsHandler(
-          this.roundsId,
-          updateJobInterviewRoundData
-        );
+        if (this.roundsId) {
+          this.updateJobInterviewRoundsHandler(
+            this.roundsId,
+            updateJobInterviewRoundData
+          );
+        } else {
+          this.getAllRounds(this.jobPostingId, id);
+        }
         this.getCalendarData();
       },
       error: (error) => {
@@ -617,6 +612,37 @@ export class InterviewScheduleComponent implements OnInit {
         },
       });
   };
+
+  getAllRounds = (jobPostingId: number, eventId: number) => {
+    this.calendarModalApiService.GetAllRounds(jobPostingId).subscribe({
+      next: (response) => {
+        console.log(response);
+        const data: Jobinterviewround[] = response.value;
+        console.log(data);
+        this.roundsIdForBatchCall = data;
+        const eventData = this.roundsIdForBatchCall.map((round) => ({
+          Id: round.Id,
+          EventId: eventId,
+        }));
+        console.log(eventData);
+        this.updateJobInterviewRoundsBatchHandler(eventData);
+      },
+    });
+  };
+
+  updateJobInterviewRoundsBatchHandler = (event: PatchJobinterviewround[]) => {
+    this.interviewScheduleApiService
+      .updateJobInterviewRoundsBatch(event)
+      .subscribe({
+        next: (response) => {
+          console.log("Job Interview Rounds updated succesdfully:", response);
+        },
+        error: (error) => {
+          console.error("Error updating Job Interview Rounds:", error);
+        },
+      });
+  };
+
   updateCalendarEventHandler(id: number, event: PostCalendarevent) {
     this.interviewScheduleApiService.updateCalendarEvent(id, event).subscribe({
       next: (response) => {
