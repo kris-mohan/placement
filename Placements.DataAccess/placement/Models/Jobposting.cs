@@ -81,6 +81,8 @@ public partial class Jobposting
 
     public virtual ICollection<JobpostingsEligiblestudent> JobpostingsEligiblestudents { get; set; } = new List<JobpostingsEligiblestudent>();
 
+    public virtual ICollection<Studentplaced> Studentplaceds { get; set; } = new List<Studentplaced>();
+
     public virtual Technology? Technology { get; set; }
 
     public virtual ICollection<Technology> Technologies { get; set; } = new List<Technology>();

@@ -14,4 +14,12 @@ public partial class Studentplaced
     public long? JobPostingId { get; set; }
 
     public long? BatchId { get; set; }
+
+    public virtual Batch? Batch { get; set; }
+
+    public virtual Jobposting? JobPosting { get; set; }
+
+    public virtual Campusregistration? Org { get; set; }
+
+    public virtual Tblstudent? Student { get; set; }
 }
