@@ -1,0 +1,36 @@
+<div>
+  <h1 class="header" mat-dialog-title>
+    Upload Excel file
+    <mat-icon
+      mat-button
+      mat-dialog-close
+      style="cursor: pointer; margin-right: auto"
+      >cancel</mat-icon
+    >
+  </h1>
+
+  <form [formGroup]="formData" class="form-content" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <mat-card-content>
+        <input
+          type="file"
+          accept=".xlsx"
+          formControlName="file"
+          (change)="onFileSelected($event)"
+        />
+      </mat-card-content>
+    </mat-dialog-content>
+    <div>
+      <mat-dialog-actions class="mat-dialog-actions">
+        <mat-card-actions class="footer-actions">
+          <button mat-raised-button class="matbutton">
+            <p class="matName">Reset</p>
+          </button>
+          <button mat-raised-button class="matbutton" type="submit">
+            <p class="matName">Upload</p>
+          </button>
+        </mat-card-actions>
+      </mat-dialog-actions>
+    </div>
+  </form>
+</div>

@@ -85,6 +85,7 @@ import { TemplateGeneratorComponent } from "./features/template-generator/templa
 import { IndentrequirementplacementComponent } from "./features/indentrequirementplacement/indentrequirementplacement.component";
 import { IndentplacementComponent } from "./features/indentplacement/indentplacement.component";
 import { InterviewStudentComponent } from "./features/student-menu/interview-student/interview-student.component";
+import { PlacementUploadFileComponent } from "./features/placement-cell/placement-cell/company-list-details/placement-upload-file/placement-upload-file.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -462,6 +463,10 @@ const appRoutes: Routes = [
       {
         path: "Indent-view-placement/Indent-requirement/:id",
         component: IndentrequirementplacementComponent,
+      },
+      {
+        path: "placement-upload-file/:?id",
+        component: PlacementUploadFileComponent,
       },
       {
         path: "**",
