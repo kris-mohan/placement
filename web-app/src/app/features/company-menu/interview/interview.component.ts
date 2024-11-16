@@ -286,7 +286,7 @@ export class InterviewComponent {
   GetJobInterviewRounds = () => {
     const companyId = sessionStorage.getItem("CompanyId");
     this.InterviewService.GetJobInterviewRoundsByCompanyId(
-      parseInt(companyId ? companyId : "0")
+      parseInt(companyId != null && companyId != "null" ? companyId : "0")
     ).subscribe({
       next: (response) => {
         console.log(response.value, "res");
@@ -307,12 +307,12 @@ export class InterviewComponent {
       },
     });
   };
+
   ngOnInit() {
     // this.loadCompanies();
     // this.loadIndustries();
 
     this.GetJobInterviewRounds();
-
     this.dataSource.paginator = this.paginator;
 
     this.CityControl.valueChanges.subscribe(() => {

@@ -7,17 +7,167 @@
   width: 100%;
 }
 .example-form-field {
-  width: 80%;
+  width: 90%;
+}
+.year-fields {
+  width: 100%;
+}
+.Semester-Fields {
+  width: 100%;
 }
 
+.search-form-field {
+  margin-left: 10px;
+  width: 95%;
+}
+.AddButton {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px;
+}
+.Custom-button {
+  background-color: #3f51b5;
+  color: white;
+}
 .example-button-container {
   display: flex;
   /* justify-content: center; */
   cursor: pointer;
+  margin-left: 1rem;
+}
+.yearOfPassoutContainer {
+  width: 100%;
+}
+.grid-label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.section-heading {
+  font-size: large;
+  margin-bottom: 16px;
+  color: darkblue;
+}
+.profile-container {
+  margin: 20px;
+}
+
+.profile-container h2 {
+  color: darkblue;
+}
+
+.Education-container h2 {
+  color: darkblue;
+}
+.skills-container h2 {
+  color: darkblue !important;
+}
+.Education-Fields {
+  width: 95% !important;
+}
+
+.Submit-button {
+  background-color: darkblue; /* Primary color */
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+.grid-label {
+  color: black; /* Material primary color */
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-card {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 0px;
+}
+
+mat-card h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+.skillsTab {
+  display: flex;
+  flex-direction: row;
+}
+/* your-component.component.css */
+.grid-section {
+  overflow-x: hidden;
+  padding: 0 16px;
+}
+
+.button-container {
+  text-align: right;
+  margin-top: 16px;
+  padding-right: 16px;
+}
+
+.submit-button {
+  width: 120px;
+  font-weight: bold;
+}
+
+.full-width {
+  width: 100%;
 }
 
 .grid-label {
+  font-size: 16px;
+  font-weight: bold;
+}
+.skills-Heading {
+  color: darkblue;
+  margin-left: 2rem;
+}
+
+.skills-section {
+  padding: 20px;
   display: flex;
-  align-items: center;
-  margin-right: 10px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chip-section {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.chip-form-field {
+  width: 100%;
+}
+
+.additional-info {
+  margin-top: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.grid-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.skills-form-field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
 }

@@ -145,33 +145,7 @@ export class EditProfileComponent implements OnInit {
 
     const selectedIndustryIds = industries.map((sector) => sector.Industry?.Id);
 
-    // return [
-    //   {
-    //     Id: 1,
-    //     Name: "Internet",
-    //   },
-    //   {
-    //     Id: 2,
-    //     Name: "Saas",
-    //   },
-    //   {
-    //     Id: 3,
-    //     Name: "Software Product",
-    //   },
-    //   {
-    //     Id: 4,
-    //     Name: "Unicorn",
-    //   },
-    //   {
-    //     Id: 5,
-    //     Name: "Private",
-    //   },
-    //   {
-    //     Id: 6,
-    //     Name: "Startup",
-    //   },
-    // ];
-
+    
     this.addEditCompanyProfile.patchValue({
       sector: selectedIndustryIds,
       overview: this.data[0].About || "", // Assuming 'About' is in the incoming data
@@ -180,20 +154,94 @@ export class EditProfileComponent implements OnInit {
       headquarters: this.data[0].Address || "", // Assuming 'Address' is the headquarters
       website: this.data[0].Url || "", // Assuming 'Website' is in the incoming data
     });
-
-    // this.types = ["Private", "Public", "Other"];
   }
 
-  selectedIndustryList = [
-    {
-      Id: 1,
-      Name: "",
-    },
-    {
-      Id: 2,
-      Name: "",
-    },
-  ];
+
+  onVideoSelected(event: any): void {
+    this.selectedVideos = Array.from(event.target.files);
+    this.addEditCompanyProfile.patchValue({ video: this.selectedVideos });
+  }
+  onPptSelected(event: any): void {
+    this.selectedPpts = Array.from(event.target.files);
+    this.addEditCompanyProfile.patchValue({ ppt: this.selectedPpts });
+  }
+  onAudioSelected(event: any): void {
+    this.selectedAudios = Array.from(event.target.files);
+    this.addEditCompanyProfile.patchValue({ audio: this.selectedAudios });
+  }
+  onDocumentSelected(event: any): void {
+    this.selectedDocuments = Array.from(event.target.files);
+    this.addEditCompanyProfile.patchValue({ document: this.selectedDocuments });
+  }
+
+  uploadDocument(selectedFiles: File[]): void {
+    if (selectedFiles.length > 0) {
+      const formData = new FormData();
+      selectedFiles.forEach((file) => formData.append("files", file));
+
+      this.editProfileApiService.uploadDocument(formData).subscribe({
+        next: (response) => {
+          if (response.success && response.files) {
+            response.files.flatMap((f: any) => {
+              this.uploadedFiles = [
+                ...this.uploadedFiles,
+                {
+                  ...f,
+                  parentType: "company",
+                  parentId: 1,
+                  isDeleted: false,
+                  createdDate: DateTime.now(),
+                },
+              ];
+            });
+            this.sweetAlertService.success(response.message);
+          }
+        },
+        error: (error) => {
+          console.error("Error uploading documents:", error);
+        },
+      });
+    } else {
+      console.log("No files selected.");
+    }
+  }
+
+  uploadFiles(fileType: string): void {
+    switch (fileType) {
+      case "video":
+        this.uploadDocument(this.selectedVideos);
+        break;
+      case "ppt":
+        this.uploadDocument(this.selectedPpts);
+        break;
+      case "audio":
+        this.uploadDocument(this.selectedAudios);
+        break;
+      case "document":
+        this.uploadDocument(this.selectedDocuments);
+        break;
+      default:
+        break;
+    }
+  }
+
+  saveUploadedFilesData(): void {
+    this.uploadedFiles?.flatMap((doc) => {
+      try {
+        this.editProfileApiService.saveDocumentDetails(doc).subscribe({
+          next: (response: { success: boolean; message: any }) => {
+            if (response.success) {
+              console.log(response.success, 'success');
+            } else {
+            }
+          },
+          error: (error) => {},
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  }
 
   onVideoSelected(event: any): void {
     this.selectedVideos = Array.from(event.target.files);
@@ -282,84 +330,11 @@ export class EditProfileComponent implements OnInit {
   }
 
   async onSubmit() {
-    // const CompanyProfile: Partial<PostCompanydatum> = this.formData.value;
-    //     const confirmed = await this.sweetAlertService.confirm(
-    //       `Do you want to Update this Company Profile?`
-    //     );
-    //     if (confirmed) {
-    //       const companyProfileData: PostCompanydatum = {
-    //         Id: this.data[0].Id ?? 0,
-    //         CompanyId: this.sessionCompanyId ?? 0,
-    //         JobRole: jobPosting.JobRole ?? "",
-    //         JobDescription: jobPosting.JobDescription ?? "",
-    //         ValidFrom: jobPosting.ValidFrom ?? null,
-    //         ValidTill: jobPosting.ValidTill ?? null,
-    //         Positions: jobPosting.Positions ?? 0,
-    //         QuantityFilled: jobPosting.QuantityFilled ?? 0,
-    //         Salary: jobPosting.Salary ?? 0,
-    //         Location: jobPosting.Location ?? "",
-    //         JobType: jobPosting.JobType ?? "",
-    //         Shift: jobPosting.Shift ?? "",
-    //         ModeOfWork: jobPosting.ModeOfWork ?? "",
-    //         DriveDate: jobPosting.DriveDate ?? null,
-    //         Vacancies: jobPosting.Vacancies ?? 0,
-    //         MinSslcpercentage: jobPosting.MinSslcpercentage ?? 0,
-    //         MinPucpercentage: jobPosting.MinPucpercentage ?? 0,
-    //         MinCgpa: jobPosting.MinCgpa ?? 0,
-    //         BacklogsAllowed: jobPosting.BacklogsAllowed ?? 0,
-    //         MinimumYearExperience: jobPosting.MinimumYearExperience ?? 0,
-    //         MaximumYearExperience: jobPosting.MaximumYearExperience ?? 0,
-    //         MinimumMonthExperience: jobPosting.MinimumMonthExperience ?? 0,
-    //         MaximumMonthExperience: jobPosting.MaximumMonthExperience ?? 0,
-    //         IsDeleted: 0,
-    //         IsClosed: 0,
-    //         Collegejobpostings: (jobPosting.Collegejobpostings ?? []).map(
-    //           (collegeId) => ({
-    //             JobPostingId: this.Id ?? 0,
-    //             CollegeId: collegeId as number,
-    //           })
-    //         ),
-    //         JobpostingSkills: (jobPosting.JobpostingSkills ?? []).map(
-    //           (skillId) => ({
-    //             JobPostingId: this.Id ?? 0,
-    //             SkillId: skillId as number,
-    //           })
-    //         ),
-    //         CompanyJobBatches: (jobPosting.CompanyJobBatches ?? []).map(
-    //           (batchId) => ({
-    //             JobPostingId: this.Id ?? 0,
-    //             BatchId: batchId as number,
-    //           })
-    //         ),
-    //         CompanyJobCourses: (jobPosting.CompanyJobCourses ?? []).map(
-    //           (courseId) => ({
-    //             JobPostingId: this.Id ?? 0,
-    //             CourseId: courseId as number,
-    //           })
-    //         ),
-    //       };
-    //       this.addeditCompanyJobDetailsApiService
-    //         .addUpdateJobPosting(this.Id, jobPostingData)
-    //         .subscribe({
-    //           next: (response: { success: boolean; message: any }) => {
-    //             console.log(response);
-    //             if (response.success) {
-    //               this.sweetAlertService.success(response.message);
-    //               this.router.navigate(["/company-job-details"]);
-    //             } else {
-    //               this.sweetAlertService.error(response.message);
-    //             }
-    //           },
-    //           error: (error) => {
-    //             this.sweetAlertService.error("An unexpected error occurred.");
-    //           },
-    //         });
-    //     }
     console.log(this.addEditCompanyProfile.value.overview);
     const confirmed = await this.sweetAlertService.confirm(
       "Do you want to update the Company Profile?"
     );
-    if (confirmed) {
+    if (confirmed) {       
       const companyProfile: PatchCompanyDatum = {
         About: this.addEditCompanyProfile.value.overview,
         CompanySize: +this.addEditCompanyProfile.value.companySize,

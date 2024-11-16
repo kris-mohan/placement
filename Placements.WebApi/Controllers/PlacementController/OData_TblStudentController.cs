@@ -62,10 +62,14 @@ namespace Placements.WebApi.Controllers.PlacementController
                 original.CurrentAddress = tblstudent.CurrentAddress;
                 original.Email = tblstudent.Email;
                 original.PhoneNumber = tblstudent.PhoneNumber;
-                original.ParentName = tblstudent.ParentName;
-                original.ParentPhoneNumber = tblstudent.ParentPhoneNumber;
+                original.FatherName = tblstudent.FatherName;
+                original.FatherPhoneNumber = tblstudent.FatherPhoneNumber;
+                original.MotherName = tblstudent.MotherName;
+                original.MotherPhoneNumber = tblstudent.MotherPhoneNumber;
                 original.DateOfBirth = tblstudent.DateOfBirth;
                 original.RollNo = tblstudent.RollNo;
+                original.MiddleName = tblstudent.MiddleName;
+                original.Pannumber = tblstudent.Pannumber;
 
 
                 _context.Tblstudents.Update(original);

@@ -29,9 +29,9 @@ export class CreateMessageComponent {
 
   sendMessage() {
     if (this.searchQuery && this.messageText) {
-      // Logic to send the message
       console.log('Message sent to:', this.searchQuery);
       console.log('Message content:', this.messageText);
     }
   }
+
 }

@@ -9,7 +9,7 @@ import { ODataEntity } from "src/app/services/types/OData";
 @Injectable({
   providedIn: "root",
 })
-export class IndentRequirementsApiService {
+export class InterviewStudentListApiService {
   constructor(private apiHttpService: ApiHttpService) {}
 
   public GetAllStudentInterviewList(
@@ -20,7 +20,9 @@ export class IndentRequirementsApiService {
     );
   }
 
-  public GetAllStudents(id: number): Observable<ODataEntity<Jobposting[]>> {
+  public GetAllStudentsByJobInterviewRounds(
+    id: number
+  ): Observable<ODataEntity<Jobposting[]>> {
     return this.apiHttpService.get<ODataEntity<Jobposting[]>>(
       `/Jobposting?$expand=Jobinterviewrounds($expand=JobpostStudentrounds($expand=Student($expand=Org,Batch,Studentacademics($expand=Course))))&$filter=Id eq ${id}`
     );

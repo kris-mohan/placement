@@ -17,7 +17,6 @@ namespace Placements.WebApi.Controllers.PlacementController
             _context = context;
         }
 
-
         [HttpGet, EnableQuery]
         public IActionResult Get()
         {

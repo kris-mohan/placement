@@ -271,15 +271,24 @@
             <span><strong>Skills:</strong> {{ jobposting.JobRole }}</span>
             <span><strong>Salary:</strong> {{ jobposting.Salary }}</span>
             <span><strong>Location:</strong> {{ jobposting.Location }}</span>
+
+            <span><strong>Shift:</strong> {{ jobposting.Shift }}</span>
+            <span
+              ><strong>Mode of Work:</strong> {{ jobposting.ModeOfWork }}</span
+            >
+          </div>
+          <div class="job-detail">
             <span
               ><strong>No. of vacancies:</strong>
               {{ jobposting.Vacancies }}</span
             >
-          </div>
-          <div class="job-detail">
-            <span><strong>Shift:</strong> {{ jobposting.Shift }}</span>
             <span
-              ><strong>Mode of Work:</strong> {{ jobposting.ModeOfWork }}</span
+              ><strong>Number of applicants Applied:</strong>
+              {{ jobposting.ApplicantsApplied }}</span
+            >
+            <span
+              ><strong>Number of applicants Rejected:</strong>
+              {{ jobposting.ApplicantsRejected }}</span
             >
             <span
               ><strong> Drive Date:</strong> {{ jobposting.DriveDate }}</span

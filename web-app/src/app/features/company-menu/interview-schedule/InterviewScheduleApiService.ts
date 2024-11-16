@@ -6,6 +6,7 @@ import {
   Calendarevent,
   PostCalendarevent,
 } from "src/app/services/types/Calendarevent";
+import { PatchJobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { ODataEntity } from "src/app/services/types/OData";
 
@@ -29,14 +30,18 @@ export class InterviewScheduleApiService {
       `/Jobposting?$expand=Jobinterviewrounds`
     );
   }
-  GetCalendarData(): Observable<ODataEntity<Calendarevent[]>> {
-    return this.apiHttpService.get<ODataEntity<Calendarevent[]>>(
-      `/Calendarevent`
+
+  GetInterviewSchedule1(): Observable<ODataEntity<Jobposting[]>> {
+    return this.apiHttpService.get<ODataEntity<Jobposting[]>>(
+      `/Jobposting?$filter=CompanyId eq 4&$expand=Jobinterviewrounds`
     );
   }
-  saveCalendarEvent(
-    event: PostCalendarevent
-  ): Observable<ODataEntity<Calendarevent>> {
+  GetCalendarData(): Observable<ODataEntity<Calendarevent[]>> {
+    return this.apiHttpService.get<ODataEntity<Calendarevent[]>>(
+      `/Calendarevent?$expand=Jobinterviewrounds`
+    );
+  }
+  saveCalendarEvent(event: PostCalendarevent): Observable<any> {
     return this.apiHttpService.post<ODataEntity<Calendarevent>>(
       `/Calendarevent`,
       event
@@ -56,5 +61,11 @@ export class InterviewScheduleApiService {
   // }
   updateCalendarEvent(id: number, event: PostCalendarevent): Observable<any> {
     return this.apiHttpService.patch(`/Calendarevent?key=${id}`, event);
+  }
+  updateJobinterviewRounds(
+    id: number,
+    event: PatchJobinterviewround
+  ): Observable<ODataEntity<any>> {
+    return this.apiHttpService.patch(`/Jobinterviewround?key=${id}`, event);
   }
 }

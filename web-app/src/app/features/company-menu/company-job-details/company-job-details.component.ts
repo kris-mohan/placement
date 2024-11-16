@@ -26,6 +26,11 @@ const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
 
+export interface JobpostingWithApplicants extends Jobposting {
+  ApplicantsApplied: number;
+  ApplicantsRejected: number;
+}
+
 @Component({
   selector: "app-company-job-details",
   standalone: true,
@@ -76,7 +81,7 @@ export class CompanyJobDetailsComponent {
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
 
-  JobPostingsData = signal<Jobposting[]>([]);
+  JobPostingsData = signal<JobpostingWithApplicants[]>([]);
 
   ngOnInit() {
     this.GetAllJobPosting(this.sessionCompanyId);
@@ -87,13 +92,25 @@ export class CompanyJobDetailsComponent {
   GetAllJobPosting = (id: number) => {
     this.companyJobDetailsApiService.GetAllJobPostings(id).subscribe({
       next: (jobPostings) => {
-        const data: Jobposting[] = jobPostings.value;
-        const mappedData = data.map((jobposting: any) => ({
-          ...jobposting,
-          ValidTill: this.convertToDateOnly(jobposting.ValidTill),
-          ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
-          DriveDate: this.convertToDateOnly(jobposting.DriveDate),
-        }));
+        const data: JobpostingWithApplicants[] = jobPostings.value;
+        const mappedData = data.map((jobposting: any) => {
+          const applicantsApplied =
+            jobposting.JobpostingsEligiblestudents.filter(
+              (student: any) => student.StatusId === 5
+            ).length;
+          const applicantsRejected =
+            jobposting.JobpostingsEligiblestudents.filter(
+              (student: any) => student.StatusId === 8
+            ).length;
+          return {
+            ...jobposting,
+            ApplicantsApplied: applicantsApplied,
+            ApplicantsRejected: applicantsRejected,
+            ValidTill: this.convertToDateOnly(jobposting.ValidTill),
+            ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
+            DriveDate: this.convertToDateOnly(jobposting.DriveDate),
+          };
+        });
         this.JobPostingsData.set(mappedData);
         console.log("jobPosting", this.JobPostingsData);
       },

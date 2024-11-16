@@ -258,53 +258,64 @@
     fxLayoutAlign="start stretch"
     class="mat-card-content"
   >
-    <div
-      *ngFor="
-        let students of allDetails[0].Jobinterviewrounds[currentRoundIndex]
-          .JobpostStudentrounds
+    <ng-container
+      *ngIf="
+        allDetails[0].Jobinterviewrounds[currentRoundIndex].JobpostStudentrounds
+          .length > 0;
+        else noStudents
       "
-      fxFlex="100%"
-      fxFlex.gt-sm="50%"
-      fxFlex.gt-md="28%"
-      fxFlex.gt-lg="25%"
-      class="grid-item"
-      class="mat-grid-tile"
-      (click)="openInterviewMarksDetails(1)"
     >
-      <div class="company-details">
-        <!-- <h3>{{ students.studentId }}</h3>
-        <div class="company-type">{{ students.studentName }}</div> -->
-        <p>
-          <strong>Roll Number:</strong>
-          {{ students?.Student?.RollNo }}
-        </p>
-        <p>
-          <strong>Student Name:</strong>
-          {{ students?.Student?.FirstName }} {{ students?.Student?.LastName }}
-        </p>
-        <p>
-          <strong>Batch:</strong>
-          {{ students?.Student?.Batch?.Name }}
-        </p>
-        <p>
-          <strong>Branch:</strong>
-          {{ students?.Student?.Studentacademics?.[0]?.Course?.FullForm }}
-        </p>
+      <div
+        *ngFor="
+          let students of allDetails[0].Jobinterviewrounds[currentRoundIndex]
+            .JobpostStudentrounds
+        "
+        fxFlex="100%"
+        fxFlex.gt-sm="50%"
+        fxFlex.gt-md="28%"
+        fxFlex.gt-lg="25%"
+        class="grid-item"
+        class="mat-grid-tile"
+        (click)="openInterviewMarksDetails(1)"
+      >
+        <div class="company-details">
+          <!-- <h3>{{ students.studentId }}</h3>
+            <div class="company-type">{{ students.studentName }}</div> -->
+          <p>
+            <strong>Roll Number:</strong>
+            {{ students?.Student?.RollNo }}
+          </p>
+          <p>
+            <strong>Student Name:</strong>
+            {{ students?.Student?.FirstName }} {{ students?.Student?.LastName }}
+          </p>
+          <p>
+            <strong>Batch:</strong>
+            {{ students?.Student?.Batch?.Name }}
+          </p>
+          <p>
+            <strong>Branch:</strong>
+            {{ students?.Student?.Studentacademics?.[0]?.Course?.FullForm }}
+          </p>
+        </div>
+        <div class="company">
+          <p>
+            <strong>College Name:</strong>
+            {{ students?.Student?.Org?.CollegeName }}
+          </p>
+          <p>
+            <strong>Status:</strong>
+            {{ students.HasPassed ? "Ongoing" : "Rejected" }}
+          </p>
+          <p>
+            <strong>Performance Score:</strong>
+            {{ students.Score }}
+          </p>
+        </div>
       </div>
-      <div class="company">
-        <p>
-          <strong>College Name:</strong>
-          {{ students?.Student?.Org?.CollegeName }}
-        </p>
-        <p>
-          <strong>Status:</strong>
-          {{ students.HasPassed ? "Ongoing" : "Rejected" }}
-        </p>
-        <p>
-          <strong>Performance Score:</strong>
-          {{ students.Score }}
-        </p>
-      </div>
-    </div>
+    </ng-container>
+    <ng-template #noStudents>
+      <p>No students have passed.</p>
+    </ng-template>
   </mat-card-content>
 </mat-card>

@@ -32,7 +32,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 _context.Calendarevents.Add(calendarevent);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Calendar Event Added Successfully" });
+                return Ok(new { success = true, message = "Calendar Event Added Successfully", id = calendarevent.Id });
             }
             catch (Exception ex)
             {

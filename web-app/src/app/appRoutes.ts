@@ -84,6 +84,7 @@ import { TemplateGeneratorComponent } from "./features/template-generator/templa
 
 import { IndentrequirementplacementComponent } from "./features/indentrequirementplacement/indentrequirementplacement.component";
 import { IndentplacementComponent } from "./features/indentplacement/indentplacement.component";
+import { InterviewStudentComponent } from "./features/student-menu/interview-student/interview-student.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -322,6 +323,10 @@ const appRoutes: Routes = [
         component: InterviewComponent,
       },
       {
+        path: "interview-student",
+        component: InterviewStudentComponent,
+      },
+      {
         path: "interview/interview-students-list/:id",
         component: InterviewStudentsListComponent,
       },
@@ -431,7 +436,7 @@ const appRoutes: Routes = [
         component: IndentviewComponent,
       },
       {
-        path: "offer-management/offer-management-details/:id",
+        path: "offer-management/offer-management-details/:jobPostingId/:studentId/:id",
         component: OfferManagementDetailsComponent,
       },
       {
@@ -439,8 +444,16 @@ const appRoutes: Routes = [
         component: StudentOfferRecievedComponent,
       },
       {
+        path: "student-offer-Recieved/offer-management-details/:jobPostingId/:studentId/:id",
+        component: OfferManagementDetailsComponent,
+      },
+      {
         path: "Placement-offer-Recieved",
         component: PlacementOfferRecievedComponent,
+      },
+      {
+        path: "Placement-offer-Recieved/offer-management-details/:jobPostingId/:studentId/:id",
+        component: OfferManagementDetailsComponent,
       },
       {
         path: "template-generator",

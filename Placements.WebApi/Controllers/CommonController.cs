@@ -207,8 +207,8 @@ namespace Placements.WebApi.Controllers
                                 CurrentAddress = currentAddress,
                                 Email = email,
                                 PhoneNumber = phoneNumber,
-                                ParentName = parentName,
-                                ParentPhoneNumber = parentPhoneNumber,
+                                //ParentName = parentName,
+                                //ParentPhoneNumber = parentPhoneNumber,
                                 DateOfBirth = ParseDate(dobString),
                                 RollNo = rollNo
                             };

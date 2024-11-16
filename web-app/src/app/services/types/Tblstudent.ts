@@ -1,11 +1,11 @@
-import { Batch } from "./Batch";
-import { Campusregistration } from "./Campusregistration";
-import { JobpostingSelectedstudent } from "./JobpostingSelectedstudent";
-import { JobpostingsEligiblestudent } from "./JobpostingsEligibleStudent";
-import { JobpostStudentround } from "./JobpostStudentround";
-import { Login } from "./Login";
-import { Studentacademic } from "./Studentacademic";
-import { StudentSkill } from "./StudentSkill";
+import { Batch } from './Batch';
+import { Campusregistration } from './Campusregistration';
+import { JobpostingSelectedstudent } from './JobpostingSelectedstudent';
+import { JobpostingsEligiblestudent } from './JobpostingsEligibleStudent';
+import { JobpostStudentround } from './JobpostStudentround';
+import { Login } from './Login';
+import { Studentacademic } from './Studentacademic';
+import { StudentSkill } from './StudentSkill';
 
 export type Tblstudent = {
   Id: number;
@@ -28,6 +28,27 @@ export type Tblstudent = {
   JobpostingsEligiblestudents: JobpostingsEligiblestudent[];
   Logins: Login[];
   Org: Campusregistration;
+  Studentacademics: Studentacademic[];
+  StudentSkills: StudentSkill[];
+  skills: string;
+};
+
+export type PostTblstudent = {
+  Id: number;
+  OrgId: number;
+  FirstName: string;
+  LastName: string;
+  BatchId: number;
+  AadharCardNumber: string;
+  PermanentAddress: string;
+  CurrentAddress: string;
+  Email: string;
+  PhoneNumber: string;
+  ParentName: string;
+  ParentPhoneNumber: string;
+  DateOfBirth: Date;
+  RollNo: string;
+  Batch: Batch;
   Studentacademics: Studentacademic[];
   StudentSkills: StudentSkill[];
 };

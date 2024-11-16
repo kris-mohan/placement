@@ -53,6 +53,7 @@ export type Jobposting = {
   CompanyJobStreams?: CompanyJobStream[];
 
   Jobinterviewpanels: Jobinterviewpanel[];
+  Experience?: string;
 };
 
 export type PostJobposting = {

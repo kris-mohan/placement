@@ -8,17 +8,17 @@ import { Colleges, Universities } from "src/app/services/types/Universities";
 @Injectable({
   providedIn: "root",
 })
-export class InterviewScheduleAPIService {
+export class APIInterviewScheduleService {
+  [x: string]: any;
   constructor(private apiHttpService: ApiHttpService) {}
 
   getUniversities(): Observable<ODataEntity<Universities[]>> {
-    return this.apiHttpService.get<ODataEntity<Universities[]>>(
-      `/University`
-    );
+    return this.apiHttpService.get<ODataEntity<Universities[]>>(`/University`);
   }
 
   getColleges(): Observable<ODataEntity<Colleges[]>> {
-    return this.apiHttpService.get<ODataEntity<Colleges[]>>(`/Campusregistration?$select=Id,CollegeName`)
+    return this.apiHttpService.get<ODataEntity<Colleges[]>>(
+      `/Campusregistration?$select=Id,CollegeName`
+    );
   }
-
 }

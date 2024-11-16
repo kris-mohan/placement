@@ -14,7 +14,7 @@ export class PlacementOfferRecievedApiService {
 
   GetAllOffersRecieved(): Observable<ODataEntity<JobpostingSelectedstudent[]>> {
     return this.apiHttpService.get<ODataEntity<JobpostingSelectedstudent[]>>(
-      "/JobpostingSelectedstudent?$expand=JobPosting($select=Id,JobRole,Salary,Location;$expand=Company($select=Name)),Student($select=Id,FirstName,LastName;$expand=Batch,StudentSkills,Studentacademics($expand=Course))"
+      "/JobpostingSelectedstudent?$expand=JobPosting($select=Id,JobRole,Salary,Location;$expand=Company($select=Name)),Student($select=Id,FirstName,LastName;$expand=Batch,StudentSkills($expand=Skill),Studentacademics($expand=Course))"
     );
   }
 }

@@ -5,15 +5,38 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { MatSelectChange } from "@angular/material/select";
 import { LiveAnnouncer } from "@angular/cdk/a11y";
 import { MatChipInputEvent } from "@angular/material/chips";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { Semester } from "src/app/services/common-dropdowns/SemesterName";
+import { TenthScoreType } from "src/app/services/common-dropdowns/TenthScoreType";
+import { TwelfthScoreType } from "src/app/services/common-dropdowns/TwelfthScoreType";
+import { SemesterScoreType } from "src/app/services/common-dropdowns/SemesterScoreType";
+import { BloodGroup } from "src/app/services/common-dropdowns/BloodGroup";
+import { Course } from "src/app/services/types/Course";
+import { StudentProfileApiService } from "./StudentProfileApiService";
+import { Stream } from "src/app/services/types/Stream";
+import { Batch } from "src/app/services/types/Batch";
+import { TenthBoardName } from "src/app/services/common-dropdowns/TenthBoard";
+import { TwelfthBoardName } from "src/app/services/common-dropdowns/TwelfthBoard";
+import { SkillType } from "src/app/services/types/SkillType";
+import { Observable, of } from "rxjs";
+import { MatTableDataSource } from "@angular/material/table";
+import { Skill } from "src/app/services/types/Skill";
 
 @Component({
-  selector: "app-profile-management",
+  selector: 'app-profile-management',
   standalone: true,
   imports: [AMGModules, CommonModule, SharedModule],
-  templateUrl: "./profile-management.component.html",
-  styleUrl: "./profile-management.component.css",
+  templateUrl: './profile-management.component.html',
+  styleUrl: './profile-management.component.css',
 })
 export class ProfileManagementComponent {
+  selectedPhoto: string | ArrayBuffer | null | undefined = null;
+
   selectedSemester: string = "";
   selectedBoard: string = "";
   selectedScore: string = "";
@@ -21,192 +44,149 @@ export class ProfileManagementComponent {
   selectedPuScore: string = "";
   selectedSemScore: string = "";
   selectedBlood: string = "";
-  selectedDegree: string = "";
-  selectedProgram: string = "";
   semesters = [{ score: "", type: "", file: null }];
   showSemester = false;
   fileError: string | null = null;
+  studentProfileForm: FormGroup;
+  allSemesters = [{ semester: '', scoreType: '', score: '', file: null }];
+  Semester: string[] = Semester;
+  TenthScoreType: string[] = TenthScoreType;
+  TwelfthScoreType: string[] = TwelfthScoreType;
+  SemesterScoreType: string[] = SemesterScoreType;
+  TenthBoardNames: string[] = TenthBoardName;
+  TwelfthBoardNames: string[] = TwelfthBoardName;
+  BloodGroup: string[] = BloodGroup;
+  Courses = signal<Course[]>([]);
+  Streams = signal<Stream[]>([]);
+  Batches = signal<Batch[]>([]);
+  SkillTypes = signal<SkillType[]>([]);
+  SkillsNames = signal<Skill[]>([]);
+  SkillTypeControl = new FormControl();
+  searchSkillType: string = '';
+  filteredSkillTypes: SkillType[] = [];
+  filteredCompany: Observable<any[]> = of([]);
 
-  allSemesters = [{ semester: "", scoreType: "", score: "", file: null }];
+  constructor(
+    private location: Location,
+    private fb: FormBuilder,
+    private studentApiService: StudentProfileApiService
+  ) {
+    this.studentProfileForm = this.fb.group({
+      FirstName: ['', [Validators.required]],
+      //MiddleName: [[''], [Validators.required]],
+      LastName: [''],
+      BatchId: ['', [Validators.required]],
+      AadharCardNumber: ['', [Validators.required]],
+      DateOfBirth: ['', [Validators.required]],
+      BloodGroup: ['', [Validators.required]],
+      PermanentAddress: ['', [Validators.required]],
+      CurrentAddress: [''],
+      Email: ['', [Validators.required]],
+      PhoneNumber: ['', [Validators.required]],
+      ParentName: ['', [Validators.required]],
+      ParentPhoneNumber: ['', [Validators.required]],
+      RollNo: ['', [Validators.required]],
+      StudentSkills: [[]],
+      Studentacademics: [[]],
+      Batch: [[]],
+      Course: [[]],
+    });
+  }
+
+  readonly techSkill = signal(['java', 'c++', 'c']);
+  readonly SoftSkill = signal([
+    'Communication skill',
+    'Leadership skill',
+    'Team management',
+  ]);
+  readonly ExtracurricularActivities = signal(['sports', 'music', 'dance']);
+  readonly Language = signal(['English', 'Hindi', 'Tamil']);
+
+  announcer = inject(LiveAnnouncer);
+
+  ngOnInit() {
+    this.GetAllCourseName();
+    this.GetAllStreamName();
+    this.GetPassedOutYear();
+    this.GetAllSkillTypes();
+    this.GetAllSkills();
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.fileError = null;
+    } else {
+      this.fileError = 'Please select a file.';
+    }
+  }
 
   addDulpicateSemester() {
     this.allSemesters.push({
-      semester: "",
-      scoreType: "",
-      score: "",
+      semester: '',
+      scoreType: '',
+      score: '',
       file: null,
     });
+  }
+
+  onPhotoSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.selectedPhoto = e.target?.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   removeSemester(index: number) {
     if (this.allSemesters.length > 1) {
       this.allSemesters.splice(index, 1);
     } else {
-      alert("At least one semester is required.");
-    }
-  }
-  Semesters = [
-    { value: "Sem 1", viewValue: "Sem 1" },
-    { value: "Sem 2", viewValue: "Sem 2" },
-    { value: "Sem 3", viewValue: "Sem 3" },
-    { value: "Sem 4", viewValue: "Sem 4" },
-    { value: "Sem 5", viewValue: "Sem 5" },
-    { value: "Sem 6", viewValue: "Sem 6" },
-    { value: "Sem 7", viewValue: "Sem 7" },
-    { value: "Sem 8", viewValue: "Sem 8" },
-  ];
-  Boards = [
-    { value: "ICSE", viewValue: "ICSE" },
-    { value: "CBSE", viewValue: "CBSE" },
-    { value: "State", viewValue: "State" },
-  ];
-  Scores = [
-    { value: "Percentage", viewValue: "Percentage" },
-    { value: "CGPA", viewValue: "CGPA" },
-  ];
-  Courses = [
-    { value: "PUC", viewValue: "PUC" },
-    { value: "Diploma", viewValue: "Diploma" },
-  ];
-  PuScore = [
-    { value: "Percentage", viewValue: "Percentage" },
-    { value: "CGPA", viewValue: "CGPA" },
-  ];
-  SemScore = [
-    { value: "Percentage", viewValue: "Percentage" },
-    { value: "CGPA", viewValue: "CGPA" },
-  ];
-
-  constructor(private location: Location) {}
-  Blood = [
-    { value: "A+", viewValue: "A+" },
-    { value: "A-", viewValue: "A-" },
-    { value: "B+", viewValue: "B+" },
-    { value: "B-", viewValue: "B-" },
-    { value: "O+", viewValue: "O+" },
-    { value: "O-", viewValue: "O-" },
-    { value: "AB+", viewValue: "AB+" },
-    { value: "AB-", viewValue: "AB-" },
-  ];
-  degrees = [
-    { value: "Under-Graduate", viewValue: "Under-graduate" },
-    { value: "Post-Graduate", viewValue: "Post-Graduate" },
-  ];
-  Program = [
-    { value: "B.A. (Bachelor of Arts)", viewValue: "B.A. (Bachelor of Arts)" },
-    {
-      value: "B.Sc. (Bachelor of Science)",
-      viewValue: "B.Sc. (Bachelor of Science)",
-    },
-    {
-      value: "B.Com. (Bachelor of Commerce)",
-      viewValue: "B.Com. (Bachelor of Commerce)",
-    },
-    {
-      value: "B.E./B.Tech (Bachelor of Engineering/Technology)",
-      viewValue: "B.E./B.Tech (Bachelor of Engineering/Technology)",
-    },
-    {
-      value: "BBA (Bachelor of Business Administration)",
-      viewValue: "BBA (Bachelor of Business Administration)",
-    },
-    {
-      value: "BCA (Bachelor of Computer Applications)",
-      viewValue: "BCA (Bachelor of Computer Applications)",
-    },
-    {
-      value: "LL.B. (Bachelor of Laws)",
-      viewValue: "LL.B. (Bachelor of Laws)",
-    },
-    { value: "M.A. (Master of Arts)", viewValue: "M.A. (Master of Arts)" },
-    {
-      value: "M.Sc. (Master of Science)",
-      viewValue: "M.Sc. (Master of Science)",
-    },
-    {
-      value: "MBA (Master of Business Administration)",
-      viewValue: "MBA (Master of Business Administration)",
-    },
-    {
-      value: "M.Tech (Master of Technology)",
-      viewValue: "M.Tech (Master of Technology)",
-    },
-    {
-      value: "Diploma in Engineering (Polytechnic)",
-      viewValue: "Diploma in Engineering (Polytechnic)",
-    },
-    {
-      value: "MBBS (Bachelor of Medicine and Bachelor of Surgery)",
-      viewValue: "MBBS (Bachelor of Medicine and Bachelor of Surgery)",
-    },
-  ];
-  readonly techSkill = signal(["java", "c++", "c"]);
-  readonly SoftSkill = signal([
-    "Conmmunication skill",
-    "Leadership skill",
-    "team managment",
-  ]);
-  readonly ExtracurricularActivities = signal(["sports", "music", "dance"]);
-  readonly Language = signal(["English", "Hindi", "Tamil"]);
-
-  announcer = inject(LiveAnnouncer);
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      // Add any validation for the file here (type, size, etc.)
-      this.fileError = null; // Reset error if valid
-    } else {
-      this.fileError = "Please select a file.";
+      alert('At least one semester is required.');
     }
   }
 
   addSemester() {
-    this.semesters.push({ score: "", type: "", file: null });
+    this.semesters.push({ score: '', type: '', file: null });
   }
 
   onSemesterChange(event: any) {
     this.selectedSemester = event.value;
-    console.log("Selected semester:", this.selectedSemester);
+    console.log('Selected semester:', this.selectedSemester);
   }
 
   onBoardChange(event: any) {
     this.selectedBoard = event.value;
-    console.log("Selected Board:", this.selectedBoard);
+    console.log('Selected Board:', this.selectedBoard);
   }
 
   onScoreChange(event: any) {
     this.selectedScore = event.value;
-    console.log("Selected Score:", this.selectedScore);
+    console.log('Selected Score:', this.selectedScore);
   }
 
   onCourseChange(event: any) {
     this.selectedCourse = event.value;
-    console.log("Selected course:", this.selectedCourse);
+    console.log('Selected course:', this.selectedCourse);
   }
 
   onPuScoreChange(event: any) {
     this.selectedPuScore = event.value;
-    console.log("Selected puscore:", this.selectedPuScore);
+    console.log('Selected puscore:', this.selectedPuScore);
   }
 
   onSemScoreChange(event: any) {
     this.selectedSemScore = event.value;
-    console.log("Selected semscore:", this.selectedSemScore);
+    console.log('Selected semscore:', this.selectedSemScore);
   }
 
   onBloodChange(event: any) {
     this.selectedBlood = event.value;
     console.log("Selected Blood:", this.selectedBlood);
-  }
-  onDegreeChange(event: any) {
-    this.selectedDegree = event.value;
-    console.log("Selected Degree:", this.selectedDegree);
-  }
-  onProgramChange(event: any) {
-    this.selectedProgram = event.value;
-    console.log("Selected Program:", this.selectedProgram);
   }
 
   removeTemplateKeyword(keyword: string) {
@@ -224,14 +204,11 @@ export class ProfileManagementComponent {
 
   addTemplateKeyword(event: MatChipInputEvent): void {
     const value = (event.value || "").trim();
-
-    // Add our keyword
     if (value) {
       this.techSkill.update((keywords) => [...keywords, value]);
       this.announcer.announce(`added ${value} to template form`);
     }
 
-    // Clear the input value
     event.chipInput!.clear();
   }
 
@@ -251,13 +228,11 @@ export class ProfileManagementComponent {
   addSoftSkill(event: MatChipInputEvent): void {
     const value = (event.value || "").trim();
 
-    // Add our keyword
     if (value) {
       this.SoftSkill.update((keywords) => [...keywords, value]);
       this.announcer.announce(`added ${value} to template form`);
     }
 
-    // Clear the input value
     event.chipInput!.clear();
   }
 
@@ -275,7 +250,7 @@ export class ProfileManagementComponent {
   }
 
   addExtracurricularActivities(event: MatChipInputEvent): void {
-    const value = (event.value || "").trim();
+    const value = (event.value || '').trim();
 
     // Add our keyword
     if (value) {
@@ -301,19 +276,121 @@ export class ProfileManagementComponent {
   }
 
   addLanguage(event: MatChipInputEvent): void {
-    const value = (event.value || "").trim();
+    const value = (event.value || '').trim();
 
-    // Add our keyword
     if (value) {
       this.Language.update((keywords) => [...keywords, value]);
       this.announcer.announce(`added ${value} to template form`);
     }
-
-    // Clear the input value
     event.chipInput!.clear();
   }
+
+  GetPassedOutYear = () => {
+    this.studentApiService.GetAllBatches().subscribe({
+      next: (batch) => {
+        const data: Batch[] = batch.value;
+        this.Batches.set(data);
+        // console.log('course:', data);
+      },
+    });
+  };
+
+  GetAllCourseName = () => {
+    this.studentApiService.GetAllCourse().subscribe({
+      next: (course) => {
+        const data: Course[] = course.value;
+        this.Courses.set(data);
+        // console.log('course:', data);
+      },
+    });
+  };
+
+  GetAllStreamName = () => {
+    this.studentApiService.GetAllStream().subscribe({
+      next: (course) => {
+        const data: Stream[] = course.value;
+        this.Streams.set(data);
+        // console.log('stream:', data);
+      },
+    });
+  };
+
+  GetAllSkillTypes = () => {
+    this.studentApiService.GetAllSkillTypes().subscribe({
+      next: (course) => {
+        const data: SkillType[] = course.value;
+        this.SkillTypes.set(data);
+        console.log("skillType:", data);
+      },
+    });
+  };
+
+  GetAllSkills = () => {
+    this.studentApiService.GetAllSkills().subscribe({
+      next: (skills) => {
+        const data: SkillType[] = skills.value;
+        this.SkillsNames.set(data);
+        console.log("SkillsNames:", data);
+      },
+    });
+  };
 
   goBack(): void {
     this.location.back();
   }
+
+  onSubmit() {
+    console.log('submit');
+  }
+
+  // get selectedSkillTypes(): string {
+  //   const selected = this.SkillTypeControl.value;
+
+  //   return Array.isArray(selected) ? selected.join(', ') : '';
+  // }
+
+  // resetSkillTypeSelection() {
+  //   this.SkillTypeControl.reset();
+  //   this.searchSkillType = '';
+  //   this.filteredSkillTypes = this.SkillTypes();
+  //   this.dataSource1.data = this.filteredSkillTypes;
+  // }
+
+  // showLocationResults() {
+  //   const selectedCities = this.SkillTypeControl.value;
+  //   if (selectedCities && selectedCities.length > 0) {
+  //     this.filteredSkillTypes = this.SkillTypes().filter((skill) =>
+  //       selectedCities.includes(skill.Name)
+  //     );
+  //   } else {
+  //     this.filteredSkillTypes = this.SkillTypes();
+  //   }
+
+  //   this.dataSource1.data = this.filteredSkillTypes;
+  // }
+
+  // filterSkillTypes(search: string) {
+  //   const filterValue = search.toLowerCase();
+
+  //   const filteredList = this.SkillTypes().filter(
+  //     (skill) =>
+  //       skill && skill.Name && skill.Name.toLowerCase().includes(filterValue)
+  //   );
+
+  //   const selectedSkillTypes = this.SkillTypeControl.value || [];
+  //   this.filteredSkillTypes = [
+  //     ...selectedSkillTypes
+  //       .map((name: any) =>
+  //         this.SkillTypes().find((skill) => skill && skill.Name === name)
+  //       )
+  //       .filter(Boolean),
+  //     ...filteredList.filter(
+  //       (skill) => skill && !selectedSkillTypes.includes(skill.Name)
+  //     ),
+  //   ];
+  // }
+
+  // onSkillTypeDropdownOpen() {
+  //   this.filterSkillTypes(this.searchSkillType);
+  // }
 }
