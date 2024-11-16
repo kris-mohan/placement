@@ -9,12 +9,16 @@ import {
 } from "src/app/services/types/Companydatum";
 import { Industry } from "src/app/services/types/Industry";
 import { ODataEntity } from "src/app/services/types/OData";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root",
 })
 export class EditProfileApiService {
-  constructor(private apiHttpService: ApiHttpService) {}
+  constructor(
+    private apiHttpService: ApiHttpService,
+    private http: HttpClient
+  ) {}
 
   public GetAllIndustries(): Observable<ODataEntity<Industry[]>> {
     return this.apiHttpService.get<ODataEntity<Industry[]>>(`/Industry`);
@@ -25,5 +29,16 @@ export class EditProfileApiService {
     profileData: PatchCompanyDatum
   ): Observable<any> {
     return this.apiHttpService.patch(`/Companydatum?key=${id}`, profileData);
+  }
+
+  uploadDocument(formData: FormData): Observable<any> {
+    return this.http.post<any>(
+      `https://localhost:44304/api/Files/UploadFiles`,
+      formData
+    );
+  }
+
+  saveDocumentDetails(doc: any): Observable<any> {
+    return this.apiHttpService.post(`/Document`, doc);
   }
 }

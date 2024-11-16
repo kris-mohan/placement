@@ -165,7 +165,10 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<StudentSemesterMark>("StudentSemesterMark");
     modelBuilder.EntitySet<Placements.DataAccess.Placement.Models.Stream>("Stream");
     modelBuilder.EntitySet<University>("University");
-    modelBuilder.EntitySet<CompanyJobStream>("CompanyJobStream");
+    modelBuilder.EntitySet<Groupmember>("Groupmembers");
+    modelBuilder.EntitySet<Group>("Groups");
+    modelBuilder.EntitySet<Message>("Messages");
+    modelBuilder.EntitySet<Messagestatus>("Messagestatuses");
 
     return modelBuilder.GetEdmModel();
 }

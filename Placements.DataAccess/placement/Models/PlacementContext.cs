@@ -51,6 +51,10 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Email> Emails { get; set; }
 
+    public virtual DbSet<Group> Groups { get; set; }
+
+    public virtual DbSet<Groupmember> Groupmembers { get; set; }
+
     public virtual DbSet<IndentForm> IndentForms { get; set; }
 
     public virtual DbSet<IndentFormDynamicField> IndentFormDynamicFields { get; set; }
@@ -78,6 +82,10 @@ public partial class PlacementContext : DbContext
     public virtual DbSet<Jobstudentstatus> Jobstudentstatuses { get; set; }
 
     public virtual DbSet<Login> Logins { get; set; }
+
+    public virtual DbSet<Message> Messages { get; set; }
+
+    public virtual DbSet<Messagestatus> Messagestatuses { get; set; }
 
     public virtual DbSet<Paatashalaregistration> Paatashalaregistrations { get; set; }
 
@@ -469,6 +477,44 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.To).HasMaxLength(45);
         });
 
+        modelBuilder.Entity<Group>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("groups");
+
+            entity.HasIndex(e => e.CreatedBy, "FK_User_Groups_idx");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.GroupName).HasMaxLength(45);
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Groups)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("FK_User_Groups");
+        });
+
+        modelBuilder.Entity<Groupmember>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("groupmembers");
+
+            entity.HasIndex(e => e.GroupId, "FK_Group_GroupMember_idx");
+
+            entity.HasIndex(e => e.UserId, "FK_User_GroupMember_idx");
+
+            entity.Property(e => e.JoinedDate).HasColumnType("datetime");
+            entity.Property(e => e.Role).HasColumnType("enum('Admin','Member')");
+
+            entity.HasOne(d => d.Group).WithMany(p => p.Groupmembers)
+                .HasForeignKey(d => d.GroupId)
+                .HasConstraintName("FK_Group_GroupMember");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Groupmembers)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_User_GroupMember");
+        });
+
         modelBuilder.Entity<IndentForm>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -778,6 +824,33 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.Student).WithMany(p => p.Logins)
                 .HasForeignKey(d => d.StudentId)
                 .HasConstraintName("FK_Login_Student");
+        });
+
+        modelBuilder.Entity<Message>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("messages");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.MessageText).HasMaxLength(1000);
+            entity.Property(e => e.MessageType).HasColumnType("enum('Text','Image','Video','File')");
+        });
+
+        modelBuilder.Entity<Messagestatus>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("messagestatus");
+
+            entity.HasIndex(e => e.MessageId, "FK_Message_MessageStatus_idx");
+
+            entity.Property(e => e.Status).HasColumnType("enum('Delivered','Read')");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Message).WithMany(p => p.Messagestatuses)
+                .HasForeignKey(d => d.MessageId)
+                .HasConstraintName("FK_Message_MessageStatus");
         });
 
         modelBuilder.Entity<Paatashalaregistration>(entity =>
