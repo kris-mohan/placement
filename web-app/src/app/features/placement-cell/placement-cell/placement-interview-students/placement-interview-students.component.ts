@@ -1,146 +1,78 @@
-import { CommonModule, Location } from '@angular/common';
-import { Component, signal } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { Router } from '@angular/router';
-import { AMGModules } from 'src/AMG-Module/AMG-module';
-import { Tblstudent } from 'src/app/services/types/Tblstudent';
-import { InterviewPlacementApiservice } from './placementInterviewApiService';
-import { MatTableDataSource } from '@angular/material/table';
+import { CommonModule, Location } from "@angular/common";
+import { Component, inject, signal } from "@angular/core";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { Tblstudent } from "src/app/services/types/Tblstudent";
+import { InterviewPlacementApiservice } from "./placementInterviewApiService";
+import { MatTableDataSource } from "@angular/material/table";
+import { Jobposting } from "src/app/services/types/Jobposting";
+import { StepperOrientation } from "@angular/material/stepper";
+import { map, Observable } from "rxjs";
+import { BreakpointObserver } from "@angular/cdk/layout";
 
 @Component({
-  selector: 'app-placement-interview-students-list',
+  selector: "app-placement-interview-students-list",
   standalone: true,
   imports: [AMGModules, CommonModule, FlexLayoutModule],
-  templateUrl: './placement-interview-students.component.html',
-  styleUrl: './placement-interview-students.component.css',
+  templateUrl: "./placement-interview-students.component.html",
+  styleUrl: "./placement-interview-students.component.css",
 })
 export class PlacementInterviewStudentsComponent {
-  readonly panelOpenState = signal(false);
+  Id: string | null = "0";
+
+  currentRoundIndex: number = 0;
+
+  stepperOrientation: Observable<StepperOrientation>;
+
+  allDetails: Jobposting[] = [];
 
   constructor(
     private location: Location,
     private router: Router,
+    private route: ActivatedRoute,
     private interviewPlacementApiservice: InterviewPlacementApiservice
-  ) {}
+  ) {
+    const breakpointObserver = inject(BreakpointObserver);
 
-  studentsAttending = [
-    {
-      studentId: 101,
-      studentName: 'John Doe',
-      status: 'Ongoing',
-      performanceScore: 85,
-      remarks: 'Good in problem-solving, needs to improve communication',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 102,
-      studentName: 'Jane Smith',
-      status: 'Rejected',
-      performanceScore: 65,
-      remarks: 'Struggled with technical concepts',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 103,
-      studentName: 'Michael Johnson',
-      status: 'Ongoing',
-      performanceScore: 90,
-      remarks: 'Excellent performance, good problem-solving skills',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 101,
-      studentName: 'John Doe',
-      status: 'Ongoing',
-      performanceScore: 85,
-      remarks: 'Good in problem-solving, needs to improve communication',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 102,
-      studentName: 'Jane Smith',
-      status: 'Rejected',
-      performanceScore: 65,
-      remarks: 'Struggled with technical concepts',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 103,
-      studentName: 'Michael Johnson',
-      status: 'Ongoing',
-      performanceScore: 90,
-      remarks: 'Excellent performance, good problem-solving skills',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 101,
-      studentName: 'John Doe',
-      status: 'Ongoing',
-      performanceScore: 85,
-      remarks: 'Good in problem-solving, needs to improve communication',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 102,
-      studentName: 'Jane Smith',
-      status: 'Rejected',
-      performanceScore: 65,
-      remarks: 'Struggled with technical concepts',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 103,
-      studentName: 'Michael Johnson',
-      status: 'Ongoing',
-      performanceScore: 90,
-      remarks: 'Excellent performance, good problem-solving skills',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 101,
-      studentName: 'John Doe',
-      status: 'Ongoing',
-      performanceScore: 85,
-      remarks: 'Good in problem-solving, needs to improve communication',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 102,
-      studentName: 'Jane Smith',
-      status: 'Rejected',
-      performanceScore: 65,
-      remarks: 'Struggled with technical concepts',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-    {
-      studentId: 103,
-      studentName: 'Michael Johnson',
-      status: 'Ongoing',
-      performanceScore: 90,
-      remarks: 'Excellent performance, good problem-solving skills',
-      batch: 2021,
-      branch: 'Electronics and communication',
-    },
-  ];
-  studentDataSource = new MatTableDataSource<Tblstudent>([]);
+    this.stepperOrientation = breakpointObserver
+      .observe("(min-width: 800px)")
+      .pipe(map(({ matches }) => (matches ? "horizontal" : "vertical")));
+  }
 
   goBack(): void {
     this.location.back();
   }
 
   ngOnInit() {
+    this.Id = this.route.snapshot.paramMap.get("id");
     this.getAllStudents();
+  }
+
+  onStepChange(index: number): void {
+    this.currentRoundIndex = index;
+    console.log(this.currentRoundIndex);
+    console.log(
+      this.allDetails[0].Jobinterviewrounds[this.currentRoundIndex]
+        .JobpostStudentrounds
+    );
+  }
+
+  getAllStudents() {
+    console.log(this.Id);
+    const id = this.Id ? parseInt(this.Id) : 0;
+    console.log(id);
+    this.interviewPlacementApiservice.GetAllStudents(id).subscribe({
+      next: (response) => {
+        const data: Jobposting[] = response.value;
+        console.log("Interview students", data);
+        this.allDetails = data;
+        console.log(this.allDetails);
+      },
+      error: (error) => {
+        console.log("Error fetching students: ", error);
+      },
+    });
   }
   // openInterviewMarksDetails(id?: number) {
   //   this.router.navigate([
@@ -149,17 +81,17 @@ export class PlacementInterviewStudentsComponent {
   //   ]);
   // }
 
-  getAllStudents = () => {
-    this.interviewPlacementApiservice.GetAllStudents().subscribe({
-      next: (response) => {
-        const data: Tblstudent[] = response.value;
-        console.log('Interview students', data);
-        this.studentDataSource.data = data;
-        console.log(this.studentDataSource);
-      },
-      error: (error) => {
-        console.log('Error fetching rounds: ', error);
-      },
-    });
-  };
+  // getAllStudents = () => {
+  //   this.interviewPlacementApiservice.GetAllStudents().subscribe({
+  //     next: (response) => {
+  //       const data: Tblstudent[] = response.value;
+  //       console.log('Interview students', data);
+  //       this.studentDataSource.data = data;
+  //       console.log(this.studentDataSource);
+  //     },
+  //     error: (error) => {
+  //       console.log('Error fetching rounds: ', error);
+  //     },
+  //   });
+  // };
 }

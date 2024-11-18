@@ -240,7 +240,11 @@
       fxFlex.gt-lg="25%"
       class="grid-item"
       class="mat-grid-tile"
-      (click)="goToInterviewStudentsDetails(scheduledInterview.Id)"
+      (click)="
+        goToInterviewStudentsDetails(
+          scheduledInterview.JobPostingId ? scheduledInterview.JobPostingId : 0
+        )
+      "
     >
       <div class="company-details">
         <h3>{{ scheduledInterview.Name }}</h3>
