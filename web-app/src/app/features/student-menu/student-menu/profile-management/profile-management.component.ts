@@ -1,31 +1,31 @@
-import { CommonModule, Location } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
-import { AMGModules } from 'src/AMG-Module/AMG-module';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { MatSelectChange } from '@angular/material/select';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { CommonModule, Location } from "@angular/common";
+import { Component, inject, signal } from "@angular/core";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { SharedModule } from "src/app/shared/shared.module";
+import { MatSelectChange } from "@angular/material/select";
+import { LiveAnnouncer } from "@angular/cdk/a11y";
+import { MatChipInputEvent } from "@angular/material/chips";
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
-} from '@angular/forms';
-import { Semester } from 'src/app/services/common-dropdowns/SemesterName';
-import { TenthScoreType } from 'src/app/services/common-dropdowns/TenthScoreType';
-import { TwelfthScoreType } from 'src/app/services/common-dropdowns/TwelfthScoreType';
-import { SemesterScoreType } from 'src/app/services/common-dropdowns/SemesterScoreType';
-import { BloodGroup } from 'src/app/services/common-dropdowns/BloodGroup';
-import { Course } from 'src/app/services/types/Course';
-import { StudentProfileApiService } from './StudentProfileApiService';
-import { Stream } from 'src/app/services/types/Stream';
-import { Batch } from 'src/app/services/types/Batch';
-import { TenthBoardName } from 'src/app/services/common-dropdowns/TenthBoard';
-import { TwelfthBoardName } from 'src/app/services/common-dropdowns/TwelfthBoard';
-import { SkillType } from 'src/app/services/types/SkillType';
-import { Observable, of } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
-import { Skill } from 'src/app/services/types/Skill';
+} from "@angular/forms";
+import { Semester } from "src/app/services/common-dropdowns/SemesterName";
+import { TenthScoreType } from "src/app/services/common-dropdowns/TenthScoreType";
+import { TwelfthScoreType } from "src/app/services/common-dropdowns/TwelfthScoreType";
+import { SemesterScoreType } from "src/app/services/common-dropdowns/SemesterScoreType";
+import { BloodGroup } from "src/app/services/common-dropdowns/BloodGroup";
+import { Course } from "src/app/services/types/Course";
+import { StudentProfileApiService } from "./StudentProfileApiService";
+import { Stream } from "src/app/services/types/Stream";
+import { Batch } from "src/app/services/types/Batch";
+import { TenthBoardName } from "src/app/services/common-dropdowns/TenthBoard";
+import { TwelfthBoardName } from "src/app/services/common-dropdowns/TwelfthBoard";
+import { SkillType } from "src/app/services/types/SkillType";
+import { Observable, of } from "rxjs";
+import { MatTableDataSource } from "@angular/material/table";
+import { Skill } from "src/app/services/types/Skill";
 
 @Component({
   selector: 'app-profile-management',
@@ -35,14 +35,16 @@ import { Skill } from 'src/app/services/types/Skill';
   styleUrl: './profile-management.component.css',
 })
 export class ProfileManagementComponent {
-  selectedSemester: string = '';
-  selectedBoard: string = '';
-  selectedScore: string = '';
-  selectedCourse: string = '';
-  selectedPuScore: string = '';
-  selectedSemScore: string = '';
-  selectedBlood: string = '';
-  semesters = [{ score: '', type: '', file: null }];
+  selectedPhoto: string | ArrayBuffer | null | undefined = null;
+
+  selectedSemester: string = "";
+  selectedBoard: string = "";
+  selectedScore: string = "";
+  selectedCourse: string = "";
+  selectedPuScore: string = "";
+  selectedSemScore: string = "";
+  selectedBlood: string = "";
+  semesters = [{ score: "", type: "", file: null }];
   showSemester = false;
   fileError: string | null = null;
   studentProfileForm: FormGroup;
@@ -129,6 +131,17 @@ export class ProfileManagementComponent {
     });
   }
 
+  onPhotoSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.selectedPhoto = e.target?.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   removeSemester(index: number) {
     if (this.allSemesters.length > 1) {
       this.allSemesters.splice(index, 1);
@@ -173,7 +186,7 @@ export class ProfileManagementComponent {
 
   onBloodChange(event: any) {
     this.selectedBlood = event.value;
-    console.log('Selected Blood:', this.selectedBlood);
+    console.log("Selected Blood:", this.selectedBlood);
   }
 
   removeTemplateKeyword(keyword: string) {
@@ -190,11 +203,12 @@ export class ProfileManagementComponent {
   }
 
   addTemplateKeyword(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+    const value = (event.value || "").trim();
     if (value) {
       this.techSkill.update((keywords) => [...keywords, value]);
       this.announcer.announce(`added ${value} to template form`);
     }
+
     event.chipInput!.clear();
   }
 
@@ -212,7 +226,8 @@ export class ProfileManagementComponent {
   }
 
   addSoftSkill(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+    const value = (event.value || "").trim();
+
     if (value) {
       this.SoftSkill.update((keywords) => [...keywords, value]);
       this.announcer.announce(`added ${value} to template form`);
@@ -305,7 +320,7 @@ export class ProfileManagementComponent {
       next: (course) => {
         const data: SkillType[] = course.value;
         this.SkillTypes.set(data);
-        console.log('skillType:', data);
+        console.log("skillType:", data);
       },
     });
   };
@@ -315,7 +330,7 @@ export class ProfileManagementComponent {
       next: (skills) => {
         const data: SkillType[] = skills.value;
         this.SkillsNames.set(data);
-        console.log('SkillsNames:', data);
+        console.log("SkillsNames:", data);
       },
     });
   };

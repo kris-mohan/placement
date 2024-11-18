@@ -95,6 +95,26 @@
                 <input matInput formControlName="Priority" />
               </mat-form-field>
             </div>
+            <div
+              fxFlex="100%"
+              fxFlex.gt-md="33%"
+              fxFlex.gt-lg="25%"
+              fxFlex.gt-sm="50%"
+            >
+              <p>Round Date</p>
+              <mat-form-field appearance="fill" appearance="outline">
+                <input
+                  matInput
+                  [matDatepicker]="startDatePicker"
+                  formControlName="ValidTill"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="startDatePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker></mat-datepicker>
+              </mat-form-field>
+            </div>
           </div>
         </mat-card-content>
       </div>

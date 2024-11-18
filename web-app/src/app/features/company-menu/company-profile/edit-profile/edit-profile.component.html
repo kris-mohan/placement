@@ -120,7 +120,7 @@
           <mat-label>Website</mat-label>
           <input
             matInput
-            placeholder="Ex. www.abc.com"
+            placeholder="Ex. https://www.abc.com"
             type="url"
             formControlName="website"
           />
@@ -137,8 +137,15 @@
         fxFlex.gt-sm="50%"
       >
         <p class="grid-label">Upload Video</p>
-        <input type="file" accept="video" />
-        <button class="UploadButton">Upload</button>
+        <input
+          type="file"
+          accept="video"
+          formControlName="video"
+          (change)="onVideoSelected($event)"
+        />
+        <button class="UploadButton" (click)="uploadFiles('video')">
+          Upload
+        </button>
       </div>
       <div
         fxFlex="100%"
@@ -147,8 +154,15 @@
         fxFlex.gt-sm="50%"
       >
         <p class="grid-label">Upload PPT</p>
-        <input type="file" accept=".ppt , .pptx" />
-        <button class="UploadButton">Upload</button>
+        <input
+          type="file"
+          accept=".ppt , .pptx"
+          formControlName="ppt"
+          (change)="onPptSelected($event)"
+        />
+        <button class="UploadButton" (click)="uploadFiles('ppt')">
+          Upload
+        </button>
       </div>
       <div
         fxFlex="100%"
@@ -157,8 +171,15 @@
         fxFlex.gt-sm="50%"
       >
         <p class="grid-label">Upload Audio</p>
-        <input type="file" accept="audio" />
-        <button class="UploadButton">Upload</button>
+        <input
+          type="file"
+          accept="audio"
+          formControlName="audio"
+          (change)="onAudioSelected($event)"
+        />
+        <button class="UploadButton" (click)="uploadFiles('audio')">
+          Upload
+        </button>
       </div>
       <div
         fxFlex="100%"
@@ -167,8 +188,15 @@
         fxFlex.gt-sm="50%"
       >
         <p class="grid-label">Upload Document</p>
-        <input type="file" accept=".pdf,.doc,.docx" />
-        <button class="UploadButton">Upload</button>
+        <input
+          type="file"
+          accept=".pdf,.doc,.docx"
+          formControlName="document"
+          (change)="onDocumentSelected($event)"
+        />
+        <button class="UploadButton" (click)="uploadFiles('document')">
+          Upload
+        </button>
       </div>
     </div>
     <div class="footer-actions">

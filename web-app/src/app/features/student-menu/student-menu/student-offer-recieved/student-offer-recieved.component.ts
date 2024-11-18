@@ -55,15 +55,15 @@ export class StudentOfferRecievedComponent {
 
   studentId: number;
 
-  getAllSelectedStudents = () => {
+  getAllOfferRecieved = () => {
     this.studentOfferRecievedApiService
-      .GetAllSelectedStudents(this.studentId)
+      .GetAllOfferRecieved(this.studentId)
       .subscribe({
         next: (response) => {
-          const data: Tblstudent[] = response.value;
+          const data: JobpostingSelectedstudent[] = response.value;
           console.log("Selected Students", data);
-          const StudentData = data[0].JobpostingSelectedstudents;
-          this.JobpostingSelectedstudentData.set(StudentData);
+          //const StudentData = data[0].JobpostingSelectedstudents;
+          this.JobpostingSelectedstudentData.set(data);
           console.log(this.JobpostingSelectedstudentData());
         },
         error: (error) => {
@@ -128,53 +128,6 @@ export class StudentOfferRecievedComponent {
   companySizeFilterControl = new FormControl();
 
   readonly dialog = inject(MatDialog);
-  jobsCard = [
-    {
-      Id: 1,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "Software Engineer",
-      experience: "0 - 2 years",
-      salary: "₹6 - 8 LPA",
-      location: "Bengaluru",
-      shift: "Day Shift",
-      modeOfWork: "Hybrid",
-      numberOfOpenings: 10,
-      // applicants: 100,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 2,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "Data Analyst",
-      experience: "1 - 3 years",
-      salary: "₹4 - 6 LPA",
-      location: "Hyderabad",
-      shift: "Day Shift",
-      modeOfWork: "Remote",
-      numberOfOpenings: 5,
-      // applicants: 80,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 3,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "Product Manager",
-      experience: "3 - 5 years",
-      salary: "₹12 - 15 LPA",
-      location: "Mumbai",
-      shift: "Day Shift",
-      modeOfWork: "On-site",
-      numberOfOpenings: 3,
-      // applicants: 50,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-  ];
 
   salaryOptions: string[] = [
     "₹3 - 5 LPA",
@@ -194,7 +147,7 @@ export class StudentOfferRecievedComponent {
 
     this.getAllIndustries();
 
-    this.getAllSelectedStudents();
+    this.getAllOfferRecieved();
 
     this.dataSource.paginator = this.paginator;
 
@@ -462,87 +415,6 @@ export class StudentOfferRecievedComponent {
     }
   }
 
-  scheduledInterviews = [
-    {
-      id: 1,
-      jobTitle: "Software Engineer",
-      company: "Google",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      status: "Upcoming",
-      jobDescription:
-        "We are seeking an experienced project manager to oversee our projects.",
-
-      roundName: "Test Assesment 1",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 2,
-      jobTitle: "Data Scientist",
-      company: "Facebook",
-      date: "2024-09-28",
-      status: "Upcoming",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "This is the first assessment to test the candidate's programming and problem-solving skills.",
-      roundName: "Test Assesment 2",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 3,
-      jobTitle: "Product Manager",
-      company: "Amazon",
-      date: "2024-09-27",
-      status: "Completed",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "The second assessment focuses on data science challenges and machine learning algorithms.",
-
-      roundName: "Test Assesment 3",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 4,
-      jobTitle: "Web Developer",
-      company: "Microsoft",
-      date: "2024-09-29",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "This assessment evaluates the candidate's ability to manage products and handle business cases.",
-
-      roundName: "Technical Interview",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 5,
-      jobTitle: "UI/UX Designer",
-      company: "Apple",
-      date: "2024-09-26",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "A technical interview to assess coding skills, system design, and problem-solving ability.",
-
-      roundName: "HR Interview",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-  ];
-
   jobSummary = [
     { jobTitle: "Software Engineer", studentsCount: 1 },
     { jobTitle: "Data Scientist", studentsCount: 1 },
@@ -554,5 +426,13 @@ export class StudentOfferRecievedComponent {
   viewInterviewDetails(id: number) {
     // Navigate to interview details page (to be implemented)
     console.log("View details for interview ID:", id);
+  }
+  openOfferManagement(jobPostingId: number, studentId: number, id: number) {
+    this.router.navigate([
+      "/student-offer-Recieved/offer-management-details/",
+      jobPostingId,
+      studentId,
+      id,
+    ]);
   }
 }

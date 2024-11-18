@@ -1,5 +1,5 @@
 import { CommonModule, Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatTableDataSource } from "@angular/material/table";
@@ -8,6 +8,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { OfferManagementDetailsApiService } from "./api.offer-management-details";
 import { ActivatedRoute } from "@angular/router";
 import { Jobposting } from "src/app/services/types/Jobposting";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 
 export type columnData = {
   SlNo: number;
@@ -39,20 +40,51 @@ interface InterviewDetails {
   styleUrl: "./offer-management-details.component.css",
 })
 export class OfferManagementDetailsComponent {
+  UserRoleId: number;
+  isOfferAccepted = signal(false);
   constructor(
     private location: Location,
     private offerManagementDetailsApiService: OfferManagementDetailsApiService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private sweetAlertService: SweetAlertService
+  ) {
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
+    this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
+  }
 
   JobPostingId: number | null = null;
   StudentId: number | null = null;
   interviewDetails: InterviewDetails | null = null;
   Id: number | null = null;
   ngOnInit() {
+    this.getStudentOfferStatus();
     this.getInterviewDetails();
     this.getInterviewDetailsbystudent();
   }
+
+  getStudentOfferStatus() {
+    this.route.paramMap.subscribe((params) => {
+      const jobPostingId = params.get("jobPostingId");
+      const studentId = params.get("studentId");
+      if (jobPostingId && studentId) {
+        this.offerManagementDetailsApiService
+          .GetStudentJobOfferStatus(+jobPostingId, +studentId)
+          .subscribe({
+            next: (response) => {
+              const data = response.value[0];
+              if (data) {
+                this.isOfferAccepted.set(data.HasAcceptedOffer === 1);
+              }
+              console.log("student Details", this.interviewDetails);
+            },
+            error: (err) => {
+              console.error("Error fetching interview details:", err);
+            },
+          });
+      }
+    });
+  }
+
   isLargeScreen() {
     return window.innerWidth > 768;
   }
@@ -165,31 +197,58 @@ export class OfferManagementDetailsComponent {
     });
   };
 
-  acceptOffer = () => {
-    if (this.JobPostingId && this.StudentId && this.Id) {
+  acceptOffer = async () => {
+    const confirmed = await this.sweetAlertService.confirm(
+      "Do you want to accept this offer?"
+    );
+    if (confirmed && this.JobPostingId && this.StudentId && this.Id) {
       this.offerManagementDetailsApiService
         .updateOfferStatus(this.JobPostingId, this.StudentId, 1, this.Id)
         .subscribe({
-          next: (response) => {
+          next: (response: { success: boolean; message: any }) => {
             this.getInterviewDetails();
+            if (response.success) {
+              this.isOfferAccepted.set(true);
+              this.sweetAlertService.success("Offer accepted successfully.");
+            } else {
+              this.sweetAlertService.error(
+                response.message || "Error accepting the offer."
+              );
+            }
           },
           error: (err) => {
             console.error("Error accepting the offer:", err);
+            this.sweetAlertService.error(
+              "An unexpected error occurred while accepting the offer."
+            );
           },
         });
     }
   };
 
-  rejectOffer = () => {
-    if (this.JobPostingId && this.StudentId && this.Id) {
+  rejectOffer = async () => {
+    const confirmed = await this.sweetAlertService.confirm(
+      "Do you want to reject this offer?"
+    );
+    if (confirmed && this.JobPostingId && this.StudentId && this.Id) {
       this.offerManagementDetailsApiService
         .updateOfferStatus(this.JobPostingId, this.StudentId, 2, this.Id)
         .subscribe({
-          next: (response) => {
+          next: (response: { success: boolean; message: any }) => {
             this.getInterviewDetails();
+            if (response.success) {
+              this.sweetAlertService.success("Offer rejected successfully.");
+            } else {
+              this.sweetAlertService.error(
+                response.message || "Error rejecting the offer."
+              );
+            }
           },
           error: (err) => {
             console.error("Error rejecting the offer:", err);
+            this.sweetAlertService.error(
+              "An unexpected error occurred while rejecting the offer."
+            );
           },
         });
     }

@@ -20,12 +20,68 @@
 .example-button-container {
   cursor: pointer;
 }
-.BackIcon {
-  cursor: pointer;
+
+.card-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+
+  border-bottom: 1px solid #ddd;
 }
+
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-icon {
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+}
+
 .header {
-  font-size: x-large;
-  font-weight: bolder;
+  font-size: 1.8rem;
+  font-weight: bold;
   color: darkblue;
-  margin-left: 30px;
+}
+
+.button-section {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.accept-button,
+.reject-button {
+  padding: 6px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  gap: normal;
+}
+
+.student-details-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.student-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.student-column strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.student-details-container > div:not(:last-child) {
+  margin-right: 20px;
 }

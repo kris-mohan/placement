@@ -169,7 +169,7 @@
 
     <!-- Inside the Accordion for Mobile View -->
     <mat-accordion *ngIf="!isLargeScreen()">
-      <mat-expansion-panel *ngFor="let row of dataSource.filteredData">
+      <mat-expansion-panel *ngFor="let row of StudentDataSource.filteredData">
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ row.StudentName }}

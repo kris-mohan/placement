@@ -27,6 +27,12 @@ public partial class Studentacademic
 
     public int? TwelthPassedOutYear { get; set; }
 
+    public string? TenthSchoolName { get; set; }
+
+    public string? TwelthSchoolName { get; set; }
+
+    public string? DiplomaCollegeName { get; set; }
+
     public virtual Course? Course { get; set; }
 
     public virtual Stream? Stream { get; set; }

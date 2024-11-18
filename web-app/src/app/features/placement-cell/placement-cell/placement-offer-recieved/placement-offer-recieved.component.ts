@@ -26,20 +26,6 @@ const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
 
-// export interface Job {
-//   logo: string; // URL to the company logo (add this to your data source if available)
-//   name: string; // Company name
-//   title: string; // Job role
-//   skills: string; // Skills required
-//   salary: number; // Salary
-//   location: string; // Job location
-//   batch: string; // Batch year
-//   branch: string; // Branch (if available)
-//   joiningDate: string; // Joining date
-//   inductionDate: string; // Induction date
-//   trainingPeriod: string; // Training period
-// }
-
 @Component({
   selector: "app-placement-offer-recieved",
   standalone: true,
@@ -64,13 +50,7 @@ export class PlacementOfferRecievedComponent {
     end: new FormControl(new Date(year, month, 16)),
   });
 
-  // jobsCard = signal<JobpostingSelectedstudent[]>([]);
-
-  // jobsCard = [];
-
   JobpostingSelectedstudentData = signal<JobpostingSelectedstudent[]>([]);
-  // studentAcademics = signal<>();
-
   getAllSelectedStudents = () => {
     this.placementOfferRecievedApiService.GetAllOffersRecieved().subscribe({
       next: (response) => {
@@ -141,159 +121,6 @@ export class PlacementOfferRecievedComponent {
   companySizeFilterControl = new FormControl();
 
   readonly dialog = inject(MatDialog);
-  jobsCard = [
-    {
-      Id: 1,
-      logo: "../../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "Software Engineer",
-      experience: "0 - 2 years",
-      salary: "₹6 - 8 LPA",
-      location: "Bengaluru",
-      shift: "Day Shift",
-      modeOfWork: "Hybrid",
-      numberOfOpenings: 10,
-      // applicants: 100,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 2,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "Data Analyst",
-      experience: "1 - 3 years",
-      salary: "₹4 - 6 LPA",
-      location: "Hyderabad",
-      shift: "Day Shift",
-      modeOfWork: "Remote",
-      numberOfOpenings: 5,
-      // applicants: 80,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 3,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "Product Manager",
-      experience: "3 - 5 years",
-      salary: "₹12 - 15 LPA",
-      location: "Mumbai",
-      shift: "Day Shift",
-      modeOfWork: "On-site",
-      numberOfOpenings: 3,
-      // applicants: 50,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 4,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "HR Executive",
-      experience: "0 - 1 year",
-      salary: "₹3 - 5 LPA",
-      location: "Delhi",
-      shift: "Day Shift",
-      modeOfWork: "Hybrid",
-      numberOfOpenings: 7,
-      // applicants: 120,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 5,
-      logo: "../../../../assets/images/Softserve-logo1black.png",
-      name: "Samsung Tech",
-      title: "Marketing Specialist",
-      experience: "2 - 4 years",
-      salary: "₹7 - 9 LPA",
-      location: "Pune",
-      shift: "Day Shift",
-      modeOfWork: "On-site",
-      numberOfOpenings: 5,
-      // applicants: 60,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 6,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "Sales Manager",
-      experience: "4 - 6 years",
-      salary: "₹10 - 12 LPA",
-      location: "Chennai",
-      shift: "Day Shift",
-      modeOfWork: "Remote",
-      numberOfOpenings: 4,
-      // applicants: 70,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 7,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "Cloud Engineer",
-      experience: "2 - 4 years",
-      salary: "₹8 - 10 LPA",
-      location: "Bengaluru",
-      shift: "Night Shift",
-      modeOfWork: "On-site",
-      numberOfOpenings: 6,
-      // applicants: 150,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 8,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "UI/UX Designer",
-      experience: "1 - 3 years",
-      salary: "₹5 - 7 LPA",
-      location: "Gurugram",
-      shift: "Day Shift",
-      modeOfWork: "Hybrid",
-      numberOfOpenings: 5,
-      // applicants: 90,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 9,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "DevOps Engineer",
-      experience: "3 - 5 years",
-      salary: "₹10 - 14 LPA",
-      location: "Noida",
-      shift: "Night Shift",
-      modeOfWork: "Remote",
-      numberOfOpenings: 4,
-      // applicants: 85,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-    {
-      Id: 10,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Samsung Tech",
-      title: "Cybersecurity Specialist",
-      experience: "5+ years",
-      salary: "₹15 - 18 LPA",
-      location: "Bengaluru",
-      shift: "Day Shift",
-      modeOfWork: "On-site",
-      numberOfOpenings: 2,
-      // applicants: 40,
-      type: "MNC",
-      Skills: "Node, React",
-    },
-  ];
-
   dataSource = new MatTableDataSource<companyTableList>([]);
 
   ngOnInit() {
@@ -567,88 +394,6 @@ export class PlacementOfferRecievedComponent {
       ]);
     }
   }
-
-  scheduledInterviews = [
-    {
-      id: 1,
-      jobTitle: "Software Engineer",
-      company: "Google",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      status: "Upcoming",
-      jobDescription:
-        "We are seeking an experienced project manager to oversee our projects.",
-
-      roundName: "Test Assesment 1",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 2,
-      jobTitle: "Data Scientist",
-      company: "Facebook",
-      date: "2024-09-28",
-      status: "Upcoming",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "This is the first assessment to test the candidate's programming and problem-solving skills.",
-      roundName: "Test Assesment 2",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 3,
-      jobTitle: "Product Manager",
-      company: "Amazon",
-      date: "2024-09-27",
-      status: "Completed",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "The second assessment focuses on data science challenges and machine learning algorithms.",
-
-      roundName: "Test Assesment 3",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 4,
-      jobTitle: "Web Developer",
-      company: "Microsoft",
-      date: "2024-09-29",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "This assessment evaluates the candidate's ability to manage products and handle business cases.",
-
-      roundName: "Technical Interview",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-    {
-      id: 5,
-      jobTitle: "UI/UX Designer",
-      company: "Apple",
-      date: "2024-09-26",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "A technical interview to assess coding skills, system design, and problem-solving ability.",
-
-      roundName: "HR Interview",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-    },
-  ];
-
   jobSummary = [
     { jobTitle: "Software Engineer", studentsCount: 1 },
     { jobTitle: "Data Scientist", studentsCount: 1 },
@@ -660,5 +405,13 @@ export class PlacementOfferRecievedComponent {
   viewInterviewDetails(id: number) {
     // Navigate to interview details page (to be implemented)
     console.log("View details for interview ID:", id);
+  }
+  openOfferManagement(jobPostingId: number, studentId: number, id: number) {
+    this.router.navigate([
+      "/Placement-offer-Recieved/offer-management-details/",
+      jobPostingId,
+      studentId,
+      id,
+    ]);
   }
 }

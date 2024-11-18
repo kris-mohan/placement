@@ -213,3 +213,33 @@ mat-icon {
 .matName {
   color: white;
 }
+.job-highlights {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.job-highlights h3 {
+  font-size: 1.5rem;
+  color: black;
+  margin-bottom: 15px;
+}
+
+.job-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.detail-item {
+  font-size: 0.9rem;
+  padding: 8px;
+  background-color: #ffffff;
+  /* border: 1px solid #e0e0e0; */
+  border-radius: 4px;
+}
+
+.detail-item strong {
+  color: #333;
+  font-size: 0.9rem;
+}

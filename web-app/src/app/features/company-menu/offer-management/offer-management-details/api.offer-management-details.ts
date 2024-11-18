@@ -32,6 +32,17 @@ export class OfferManagementDetailsApiService {
     let query = `/Jobposting?$filter=Id eq ${jobPostingId}&$expand=Jobinterviewrounds($expand=JobpostStudentrounds($filter=StudentId eq ${studentId};$expand=Student($expand=Studentacademics($expand=Course,Stream),Batch))),Collegejobpostings($expand=College)`;
     return this.apiHttpService.get<ODataEntity<Jobposting[]>>(query);
   }
+
+  GetStudentJobOfferStatus(
+    jobPostingId: number,
+    studentId: number
+  ): Observable<ODataEntity<JobpostingSelectedstudent[]>> {
+    let query = `/JobpostingSelectedstudent?$filter=JobPostingId eq ${jobPostingId} and StudentId eq ${studentId}&$select=HasAcceptedOffer`;
+    return this.apiHttpService.get<ODataEntity<JobpostingSelectedstudent[]>>(
+      query
+    );
+  }
+
   updateOfferStatus(
     jobPostingId: number,
     studentId: number,

@@ -25,15 +25,25 @@ public partial class Tblstudent
 
     public string? PhoneNumber { get; set; }
 
-    public string? ParentName { get; set; }
+    public string? FatherName { get; set; }
 
-    public string? ParentPhoneNumber { get; set; }
+    public string? FatherPhoneNumber { get; set; }
 
     public DateTime? DateOfBirth { get; set; }
 
     public string? RollNo { get; set; }
 
     public string? BloodGroup { get; set; }
+
+    public string? MiddleName { get; set; }
+
+    public string? Pannumber { get; set; }
+
+    public string? MotherName { get; set; }
+
+    public string? MotherPhoneNumber { get; set; }
+
+    public string? Gender { get; set; }
 
     public virtual Batch? Batch { get; set; }
 
@@ -50,4 +60,6 @@ public partial class Tblstudent
     public virtual ICollection<StudentSkill> StudentSkills { get; set; } = new List<StudentSkill>();
 
     public virtual ICollection<Studentacademic> Studentacademics { get; set; } = new List<Studentacademic>();
+
+    public virtual ICollection<Studentplaced> Studentplaceds { get; set; } = new List<Studentplaced>();
 }

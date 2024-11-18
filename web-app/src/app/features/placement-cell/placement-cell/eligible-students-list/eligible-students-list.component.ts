@@ -17,54 +17,6 @@ import { Tblstudent } from "src/app/services/types/Tblstudent";
 import { EligibleStudentsListApiService } from "./EligibleStudentsListApiService";
 import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
 
-export const EMPLOYEEDATA: employeeDataList[] = [
-  {
-    StudentID: 1,
-    StudentName: "John Doe",
-    Branch: "Computer Science",
-    Batch: "2021",
-    CGPA: "9.2",
-    Status: "Invite",
-    ApplicationApprovalStatus: "Verify",
-  },
-  {
-    StudentID: 2,
-    StudentName: "Jane Smith",
-    Branch: "Civil Engineering",
-    Batch: "2020",
-    CGPA: "8.7",
-    Status: "Accepted",
-    ApplicationApprovalStatus: "Verify",
-  },
-  {
-    StudentID: 3,
-    StudentName: "Michael Johnson",
-    Branch: "Electrical Engineering",
-    Batch: "2019",
-    CGPA: "8.9",
-    Status: "Invited",
-    ApplicationApprovalStatus: "Verify",
-  },
-  {
-    StudentID: 4,
-    StudentName: "Emily Davis",
-    Branch: "Civil Engineering",
-    Batch: "2022",
-    CGPA: "9.1",
-    Status: "Rejected",
-    ApplicationApprovalStatus: "Verify",
-  },
-  {
-    StudentID: 5,
-    StudentName: "William Brown",
-    Branch: "Information Technology",
-    Batch: "2021",
-    CGPA: "9.4",
-    Status: "Pending",
-    ApplicationApprovalStatus: "Verify",
-  },
-];
-
 export interface ODataResponse<T> {
   value: T[];
 }
@@ -93,7 +45,14 @@ export class EligibleStudentsListComponent {
 
   displayedColumns: string[] = [
     "select",
+    "select",
     // "StudentID",
+    "StudentName",
+    "Branch",
+    "Batch",
+    "CGPA",
+    "Status",
+    "ApplicationApprovalStatus",
     "StudentName",
     "Branch",
     "Batch",
@@ -109,31 +68,32 @@ export class EligibleStudentsListComponent {
     { key: "CGPA", label: "CGPA" },
     { key: "Status", label: "Registration Status" },
     { key: "ApplicationApprovalStatus", label: "Application Approval Status" },
+    { key: "StudentID", label: "Student ID" },
+    { key: "StudentName", label: "Student Name" },
+    { key: "Branch", label: "Branch" },
+    { key: "Batch", label: "Batch" },
+    { key: "CGPA", label: "CGPA" },
+    { key: "Status", label: "Registration Status" },
+    { key: "ApplicationApprovalStatus", label: "Application Approval Status" },
   ];
 
   status: string[] = ["Invite", "Accepted", "Invited", "Rejected", "Pending"];
-  branches: string[] = [
-    "Computer Science",
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Civil Engineering",
-    "Information Technology",
-  ];
-  batches: number[] = [2019, 2020, 2021, 2022];
+  branches: string[] = [];
+  batches: number[] = [];
   // Inject BreakpointObserver
   private breakpointObserver = inject(BreakpointObserver);
-  statusControl = new FormControl<string[]>(["Accepted"]);
+  statusControl = new FormControl<string[]>([]);
   branchControl = new FormControl<string[] | null>(null);
   batchControl = new FormControl<any[] | null>(null);
   searchControl = new FormControl("");
 
-  dataSource = new MatTableDataSource<employeeDataList>(EMPLOYEEDATA);
   selection = new SelectionModel<employeeDataList>(true, []);
 
   ngOnInit() {
     this.getAllStudents();
-
-    this.dataSource.filterPredicate = (
+    this.getBatches();
+    this.getBranches();
+    this.StudentDataSource.filterPredicate = (
       data: employeeDataList,
       filter: string
     ) => {
@@ -194,12 +154,12 @@ export class EligibleStudentsListComponent {
     const branchFilter = selectedBranches.join(",");
     const batchFilter = selectedBatch.join(",");
 
-    this.dataSource.filter = `${statusFilter}|${branchFilter}|${batchFilter}|${searchText}`;
+    this.StudentDataSource.filter = `${statusFilter}|${branchFilter}|${batchFilter}|${searchText}`;
   }
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.StudentDataSource.data.length;
     return numSelected === numRows;
   }
 
@@ -209,7 +169,7 @@ export class EligibleStudentsListComponent {
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.selection.select(...this.StudentDataSource.data);
   }
 
   checkboxLabel(row?: employeeDataList): string {
@@ -327,6 +287,29 @@ export class EligibleStudentsListComponent {
       data: id,
       width: "500px",
       height: "600px",
+    });
+  }
+  getBatches(): void {
+    this.eligibleStudentsListApiService.GetBatches().subscribe({
+      next: (batchData) => {
+        this.batches = batchData.value.map((batch: any) => batch.Name);
+        console.log("Available batches:", this.batches);
+      },
+      error: (error) => {
+        console.error("Error fetching batches:", error);
+      },
+    });
+  }
+
+  getBranches(): void {
+    this.eligibleStudentsListApiService.GetBranches().subscribe({
+      next: (branchData) => {
+        this.branches = branchData.value.map((branch: any) => branch.FullForm);
+        console.log("Available branches:", this.branches);
+      },
+      error: (error) => {
+        console.error("Error fetching branches:", error);
+      },
     });
   }
 }

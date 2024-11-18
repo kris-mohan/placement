@@ -122,11 +122,12 @@
       fxFlex.gt-md="45%"
       fxFlex.gt-lg="30%"
       class="mat-grid-tile"
+      (click)="openOfferManagement(job.JobPostingId, job.StudentId, job.Id)"
     >
       <div class="company-details">
         <div class="company-designation">
           <h3 class="heading1">
-            {{ job.JobPosting.Company.Name }} <br />
+            {{ job.JobPosting.Company?.Name }} <br />
             <span style="color: slategray; font-size: 0.9rem">
               {{ job.JobPosting.JobRole }}
             </span>
@@ -134,7 +135,7 @@
 
           <div>
             <img
-              [src]="job.JobPosting.Company.LogoPath"
+              [src]="job.JobPosting.Company?.LogoPath"
               alt="Company Logo"
               class="company-logo"
               height="70%"
@@ -157,7 +158,6 @@
               ><strong>Mode of Work :</strong>
               {{ job.JobPosting.ModeOfWork }}</span
             >
-
             <span><strong>Joining Date :</strong> 14/11/2024</span>
             <!-- <span><strong>Induction Program Date :</strong> 17/11/2024</span>
             <span

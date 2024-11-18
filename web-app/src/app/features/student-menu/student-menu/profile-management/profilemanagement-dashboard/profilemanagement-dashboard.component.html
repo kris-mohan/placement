@@ -6,44 +6,59 @@
 </div>
 
 <div class="profile-container">
-  <div class="top-card">
+  <div class="personal-details-container">
     <mat-card class="personal-details-card">
       <mat-card-header>
         <mat-card-title class="title">Personal Details</mat-card-title>
       </mat-card-header>
+
       <mat-card-content>
         <div class="details-container">
-          <div class="detail-item" *ngIf="StudentDataSource()[0]">
-            <strong>Name:</strong>
-            <p>
-              {{ StudentDataSource()[0].FirstName }}
-              {{ StudentDataSource()[0].LastName }}
-            </p>
+          <div class="details-column">
+            <div class="detail-item" *ngIf="StudentDataSource()[0]">
+              <strong>Name:</strong>
+              <p>
+                {{ StudentDataSource()[0].FirstName }}
+                {{ StudentDataSource()[0].LastName }}
+              </p>
+            </div>
+            <div class="detail-item">
+              <strong>Date of Birth:</strong>
+              <p>{{ StudentDataSource()[0]?.DateOfBirth | date }}</p>
+            </div>
           </div>
-          <div class="detail-item">
-            <strong>Date of Birth:</strong>
-            <p>{{ StudentDataSource()[0]?.DateOfBirth | date }}</p>
+
+          <div class="details-column">
+            <div class="detail-item">
+              <strong>Blood Group:</strong>
+            </div>
+            <div class="detail-item">
+              <strong>Email:</strong>
+              <p>{{ StudentDataSource()[0]?.Email }}</p>
+            </div>
           </div>
-          <div class="detail-item">
-            <strong>Blood Group:</strong>
-          </div>
-          <div class="detail-item">
-            <strong>Email:</strong>
-            <p>{{ StudentDataSource()[0]?.Email }}</p>
-          </div>
-          <div class="detail-item">
-            <strong>USN:</strong>
-            <p>{{ StudentDataSource()[0]?.RollNo }}</p>
-          </div>
-          <div class="detail-item">
-            <strong>Branch:</strong>
-            <p>{{ StudentCourseDataSource()[0]?.FullForm }}</p>
+
+          <div class="details-column">
+            <div class="detail-item">
+              <strong>USN:</strong>
+              <p>{{ StudentDataSource()[0]?.RollNo }}</p>
+            </div>
+            <div class="detail-item">
+              <strong>Branch:</strong>
+              <p>{{ StudentCourseDataSource()[0]?.FullForm }}</p>
+            </div>
           </div>
         </div>
       </mat-card-content>
     </mat-card>
+    <div class="image-container">
+      <img
+        src="../../../../../../assets/images/StudentImage.png"
+        alt="Student Photo"
+        class="student-photo"
+      />
+    </div>
   </div>
-
   <div class="bottom-cards">
     <mat-card class="education-details-card">
       <mat-card-header>
