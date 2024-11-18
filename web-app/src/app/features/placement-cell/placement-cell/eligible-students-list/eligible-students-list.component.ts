@@ -45,14 +45,7 @@ export class EligibleStudentsListComponent {
 
   displayedColumns: string[] = [
     "select",
-    "select",
     // "StudentID",
-    "StudentName",
-    "Branch",
-    "Batch",
-    "CGPA",
-    "Status",
-    "ApplicationApprovalStatus",
     "StudentName",
     "Branch",
     "Batch",
@@ -61,13 +54,6 @@ export class EligibleStudentsListComponent {
     "ApplicationApprovalStatus",
   ];
   columns = [
-    { key: "StudentID", label: "Student ID" },
-    { key: "StudentName", label: "Student Name" },
-    { key: "Branch", label: "Branch" },
-    { key: "Batch", label: "Batch" },
-    { key: "CGPA", label: "CGPA" },
-    { key: "Status", label: "Registration Status" },
-    { key: "ApplicationApprovalStatus", label: "Application Approval Status" },
     { key: "StudentID", label: "Student ID" },
     { key: "StudentName", label: "Student Name" },
     { key: "Branch", label: "Branch" },

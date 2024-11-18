@@ -23,6 +23,7 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { PlacementCompanyJobDetailsApiService } from "./placement-company-job-details-apiService";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { Jobposting } from "src/app/services/types/Jobposting";
+import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
@@ -265,5 +266,18 @@ export class PlacementCompanyJobDetailsComponent {
       this.CompanyId,
       jobId,
     ]);
+  }
+  openUploadExcel(id?: number) {
+    // if (id !== undefined) {
+    //   this.router.navigate(["/placement-upload-file", id]);
+    // } else {
+    //   this.router.navigate(["/placement-upload-file", ""]);
+    // }
+
+    this.dialog.open(PlacementUploadFileComponent, {
+      data: id,
+      width: "500px",
+      height: "600px",
+    });
   }
 }
