@@ -23,6 +23,7 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { PlacementCompanyJobDetailsApiService } from "./placement-company-job-details-apiService";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { Jobposting } from "src/app/services/types/Jobposting";
+import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
@@ -265,5 +266,9 @@ export class PlacementCompanyJobDetailsComponent {
       this.CompanyId,
       jobId,
     ]);
+  }
+
+  getDateLabel(date: Date) {
+    return GetDateDDMMYYYY(date);
   }
 }

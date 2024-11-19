@@ -209,11 +209,23 @@
               <span><strong>Number of applicants Applied:</strong> </span>
               <span><strong>Number of applicants Rejected:</strong> </span>
 
-              <span><strong> Drive Date:</strong> {{ company.DriveDate }}</span>
-              <span><strong>Posted Date:</strong> {{ company.ValidFrom }}</span>
+              <span
+                ><strong> Drive Date:</strong>
+                {{
+                  company.DriveDate ? getDateLabel(company.DriveDate) : ""
+                }}</span
+              >
+              <span
+                ><strong>Posted Date:</strong>
+                {{
+                  company.ValidFrom ? getDateLabel(company.ValidFrom) : ""
+                }}</span
+              >
               <span
                 ><strong>Application last date:</strong
-                >{{ company.ValidTill }}</span
+                >{{
+                  company.ValidTill ? getDateLabel(company.ValidTill) : ""
+                }}</span
               >
               <!-- <span><strong>Number of interview schedule:</strong> 10</span> -->
             </div>
