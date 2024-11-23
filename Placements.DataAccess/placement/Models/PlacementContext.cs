@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Placements.DataAccess.Placement.Models;
 
@@ -20,6 +22,8 @@ public partial class PlacementContext : DbContext
     public virtual DbSet<CampusCompany> CampusCompanies { get; set; }
 
     public virtual DbSet<Campusregistration> Campusregistrations { get; set; }
+
+    public virtual DbSet<Chat> Chats { get; set; }
 
     public virtual DbSet<Collegejobposting> Collegejobpostings { get; set; }
 
@@ -121,9 +125,9 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Akram@123;database=placement");
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -216,6 +220,27 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.University).WithMany(p => p.Campusregistrations)
                 .HasForeignKey(d => d.UniversityId)
                 .HasConstraintName("FK_Campus_University");
+        });
+
+        modelBuilder.Entity<Chat>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("chat");
+
+            entity.HasIndex(e => e.ReceiverId, "FK_Receiver_Login_idx");
+
+            entity.HasIndex(e => e.SenderId, "FK_Sender_Login_idx");
+
+            entity.Property(e => e.IsDeleted).HasMaxLength(45);
+
+            entity.HasOne(d => d.Receiver).WithMany(p => p.ChatReceivers)
+                .HasForeignKey(d => d.ReceiverId)
+                .HasConstraintName("FK_Receiver_Login");
+
+            entity.HasOne(d => d.Sender).WithMany(p => p.ChatSenders)
+                .HasForeignKey(d => d.SenderId)
+                .HasConstraintName("FK_Sender_Login");
         });
 
         modelBuilder.Entity<Collegejobposting>(entity =>
@@ -848,9 +873,27 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("messages");
 
+            entity.HasIndex(e => e.ChatId, "FK_Chat_Messages_idx");
+
+            entity.HasIndex(e => e.SenderId, "FK_Login_Messages_idx");
+
+            entity.HasIndex(e => e.ReceiverId, "Fk_Login_ReceiverMessage_idx");
+
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.MessageText).HasMaxLength(1000);
             entity.Property(e => e.MessageType).HasColumnType("enum('Text','Image','Video','File')");
+
+            entity.HasOne(d => d.Chat).WithMany(p => p.Messages)
+                .HasForeignKey(d => d.ChatId)
+                .HasConstraintName("FK_Chat_Messages");
+
+            entity.HasOne(d => d.Receiver).WithMany(p => p.MessageReceivers)
+                .HasForeignKey(d => d.ReceiverId)
+                .HasConstraintName("Fk_Login_ReceiverMessage");
+
+            entity.HasOne(d => d.Sender).WithMany(p => p.MessageSenders)
+                .HasForeignKey(d => d.SenderId)
+                .HasConstraintName("FK_Login_SenderMessages");
         });
 
         modelBuilder.Entity<Messagestatus>(entity =>

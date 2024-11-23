@@ -75,6 +75,7 @@ namespace Placements.WebApi.Controllers
 
                 return Ok(new AuthenticatedResponse
                 {
+                    Id = loginUser.Id,
                     UserName = user.UserName,
                     UserRoleId = loginUser.RoleId,
                     AccessToken = accessToken,
