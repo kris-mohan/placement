@@ -20,9 +20,11 @@ export class CommunicationComponent {
   loginId = sessionStorage.getItem("LoginId");
   chats = signal<Messages[]>([]);
   recentChats = signal<TransformedChat[]>([]);
+  recentgroups = signal<TransformedChat[]>([]);
 
   ngOnInit() {
     this.recentCommunication();
+    this.fetchGroups();
   }
 
   recentCommunication() {
@@ -70,26 +72,96 @@ export class CommunicationComponent {
     }
   }
 
+  fetchGroups() {
+    const LogId = this.loginId;
+  
+    // Handle missing login ID
+    if (!LogId) {
+      console.error("Login ID is missing.");
+      return;
+    }
+  
+    this.communicationApiService.GetGroups(LogId).subscribe(
+      (groups) => {
+        if (groups?.value) {
+          const transformedChats = groups.value.map((grp: any) => ({
+            id: grp?.Id || 0,
+            name: grp?.GroupName || "",
+            photo: "", // Add logic here if photos are available.
+            messages: grp?.Messages?.map((msg: any) => ({
+              id: msg?.Id || 0,
+              sender: msg?.SenderId === +LogId ? "You" : msg?.Sender?.UserName || "Unknown",
+              text: msg?.MessageText || "",
+              time: msg?.CreatedDate
+                ? new Date(msg.CreatedDate).toLocaleTimeString()
+                : "Unknown",
+              receiver: msg?.ReceiverId || null,
+              CreatedDate: msg?.CreatedDate || null,
+            })) || [],
+            lastMessage: grp?.Messages?.length
+              ? grp.Messages[grp.Messages.length - 1]?.MessageText || ""
+              : "",
+            lastMessageTime: grp?.Messages?.length
+              ? new Date(grp.Messages[grp.Messages.length - 1]?.CreatedDate).toLocaleTimeString()
+              : "Unknown",
+          }));
+  
+          // Update recent groups
+          this.recentgroups.set([...transformedChats]);
+        }
+      },
+      (error) => {
+        console.error("Error fetching groups:", error);
+      }
+    );
+  }
+  
+
+  sendGroupMessage() {
+    if (this.newMessage.trim() && this.selectedGroup) {
+      const messageData = {
+        senderId: this.loginId,
+        groupId: this.selectedGroup.id,
+        messageText: this.newMessage,
+        createdDate: new Date().toISOString(),
+      };
+
+      // this.communicationApiService.SendGroupMessage(messageData).subscribe(
+      //   (response) => {
+      //     this.selectedGroup.messages.push({
+      //       sender: "You",
+      //       text: this.newMessage,
+      //       time: new Date().toLocaleTimeString(),
+      //     });
+      //     this.newMessage = "";
+      //   },
+      //   (error) => console.error("Error sending group message:", error)
+      // );
+    }
+  }
+
+
+
   getChatKey(senderId: number, receiverId: number): string {
     return senderId < receiverId
       ? `${senderId}-${receiverId}`
       : `${receiverId}-${senderId}`;
   }
 
-  groups = [
-    {
-      name: "Group 1",
-      lastMessage: "Last message in Group 1",
-      photo: "",
-      time: "10:00 AM",
-    },
-    {
-      name: "Group 2",
-      lastMessage: "Last message in Group 2",
-      photo: "",
-      time: "10:01 AM",
-    },
-  ];
+  // groups = [
+  //   {
+  //     name: "Group 1",
+  //     lastMessage: "Last message in Group 1",
+  //     photo: "",
+  //     time: "10:00 AM",
+  //   },
+  //   {
+  //     name: "Group 2",
+  //     lastMessage: "Last message in Group 2",
+  //     photo: "",
+  //     time: "10:01 AM",
+  //   },
+  // ];
 
   selectedTab = "chats";
   searchQuery = "";
@@ -97,6 +169,8 @@ export class CommunicationComponent {
   selectedChat: any;
   selectedGroup: any;
   newMessage: string = "";
+  activeChat : boolean = false;
+  activeGroup : boolean = false;
 
   readonly dialog = inject(MatDialog);
 
@@ -125,45 +199,83 @@ export class CommunicationComponent {
   }
 
   get filteredGroups() {
-    return this.groups.filter(
+    const groups = this.recentgroups();
+    return groups.filter(
       (group) =>
         group.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         group.lastMessage.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
   }
 
-  selectChat(chat: any) {
+  selectChat(chat: TransformedChat) {
     this.selectedChat = chat;
+    this.selectedGroup = null; // Reset selected group
   }
-
-  selectGroup(group: any) {
+  
+  selectGroup(group: TransformedChat) {
     this.selectedGroup = group;
-    console.log("Selected group:", group);
+    this.selectedChat = null; // Reset selected chat
   }
-  async sendMessage() {
-    if (this.newMessage.trim() && this.selectedChat) {
-      const uiMessage = {
-        sender: "You",
-        text: this.newMessage,
-        time: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        receiver:this.selectedChat.receiver
-      };
+  
 
+  async sendMessage() {
+    const uiMessage = {
+      sender: "You",
+      text: this.newMessage,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      receiver:this.selectedChat?.receiver
+    };
+    if (this.newMessage.trim() && this.selectedChat) {
       this.selectedChat.messages.push(uiMessage);
       this.selectedChat.lastMessageTime = uiMessage.time;
-
       this.newMessage = "";
-
       await this.UpdateMessages();
+    }else if(this.newMessage.trim() &&  this.selectedGroup){
+      this.selectedGroup.messages.push(uiMessage);
+      this.selectedGroup.lastMessageTime = uiMessage.time;
+      this.newMessage = "";
+      await this.SendGroupMessages();
+    }
+  }
+
+  SendGroupMessages(){
+    const SenderId = this.loginId;
+    if(this.selectedGroup && SenderId){
+      const apiMessages = this.selectedGroup.messages.map((msg: any) => {
+        return {
+          Id : msg.id ? msg.id : 0,
+          SenderId: msg.sender === "You" ? +SenderId : msg.sender, 
+          ChatId: this.selectedGroup.id,
+          MessageText: msg.text,
+          CreatedDate: msg.CreatedDate ? msg.CreatedDate : new Date().toISOString(),
+        };
+      });
+
+      const updateData = {
+        Id: this.selectedGroup.id,
+        Messages: apiMessages,
+      };
+
+      this.communicationApiService
+        .SendGroupMessages(updateData.Id, updateData)
+        .subscribe(
+          (response) => {
+            console.log("Messages updated successfully:", response);
+          },
+          (error) => {
+            console.error("Error updating messages:", error);
+          }
+        );
+  
     }
   }
 
   UpdateMessages() {
     const SenderId = this.loginId;
-    if (this.selectedChat && SenderId) { 
+    if ( this.selectedChat && SenderId) { 
       const apiMessages = this.selectedChat.messages.map((msg: any) => {
         return {
           Id : msg.id ? msg.id : 0,

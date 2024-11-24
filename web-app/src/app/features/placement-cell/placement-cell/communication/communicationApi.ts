@@ -36,11 +36,27 @@ export class CommuicationApiService {
       `/Chats?$expand=Messages($filter=(SenderId eq ${userId} or ReceiverId eq ${userId});$orderby=CreatedDate desc;$expand=Sender($select=UserName),Receiver($select=UserName))`
     );
   }
+  GetGroups(loginId: any): Observable<any> {
+    return this.apiHttpService.get<any>(
+      `/Groups?$filter=(Groupmembers/any(m:m/UserId eq ${loginId})) or (CreatedBy eq ${loginId} and CreatedByNavigation/RoleId eq 1)&$expand=Messages($orderby=CreatedDate desc;$expand=Sender($select=UserName),Receiver($select=UserName))`
+    );
+  }
 
   SendNewMessages(chatId: number, data: any): Observable<any> {
     return this.apiHttpService.patch<any>(`/Chats?key=${chatId}`, data);
   }
-  
 
-  
+  SendGroupMessages(grpId: number, data:any):Observable<any>{
+    return this.apiHttpService.patch<any>( `/Groups?key=${grpId}`, data);
+  }
+
+  GetStudentDetails(): Observable<ODataEntity<Tblstudent[]>> {
+    return this.apiHttpService.get<ODataEntity<Tblstudent[]>>(
+      `/Tblstudent?expand=Studentacademics($expand = Course)`
+    );
+  }
+
+  createGroup(group: any): Observable<any> {
+    return this.apiHttpService.post<any>(`/Groups`, group);
+  }
 }

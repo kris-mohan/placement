@@ -33,8 +33,6 @@ public partial class Login
 
     public virtual Companydatum? Company { get; set; }
 
-    public virtual ICollection<Groupmember> Groupmembers { get; set; } = new List<Groupmember>();
-
     public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
 
     public virtual ICollection<Message> MessageReceivers { get; set; } = new List<Message>();

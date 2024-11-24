@@ -27,6 +27,8 @@ public partial class Message
 
     public virtual Chat? Chat { get; set; }
 
+    public virtual Group? Group { get; set; }
+
     public virtual ICollection<Messagestatus> Messagestatuses { get; set; } = new List<Messagestatus>();
 
     public virtual Login? Receiver { get; set; }

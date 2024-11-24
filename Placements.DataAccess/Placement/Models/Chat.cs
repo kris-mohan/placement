@@ -11,7 +11,7 @@ public partial class Chat
 
     public long? ReceiverId { get; set; }
 
-    public string? IsDeleted { get; set; }  
+    public string? IsDeleted { get; set; }
 
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
