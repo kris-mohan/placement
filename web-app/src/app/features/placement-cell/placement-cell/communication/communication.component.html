@@ -5,101 +5,116 @@
       <mat-icon class="maticon">add</mat-icon>Create new message
     </button>
   </div>
+
   <div class="columns-container">
+    <!-- Sidebar: Recent Chats and Groups -->
     <div class="recent-chats-column">
       <div class="header-container">
-        <h3 class="header-title">Recent Chats</h3>      
-        <!-- Create Group Button -->
+        <h3 class="header-title">Recent Chats</h3>
         <mat-icon class="icon-clickable" (click)="openCreateGroup()">group_add</mat-icon>
       </div>
-      
+
+      <!-- Search Bar -->
       <div class="search-container">
-        <input 
-          type="text" 
-          class="search-input" 
-          (input)="filterItems()" 
-          placeholder="Search..." 
-          [(ngModel)]="searchQuery" />
+        <input
+          type="text"
+          class="search-input"
+          (input)="filterItems()"
+          placeholder="Search..."
+          [(ngModel)]="searchQuery"
+        />
       </div>
-      
 
+      <!-- Tabs for Chats and Groups -->
       <mat-tab-group class="chat-items-container">
-        <mat-tab label="Chats"><div
-          class="chat-item"
-          *ngFor="let chat of filteredChats"
-          (click)="selectChat(chat)">
-          <div class="chat-card">
-            <div class="chat-photo-container">
-              <div class="chat-photo">
-                <mat-icon *ngIf="!chat.photo" class="chat-initials">
-                  {{ chat.name.charAt(0) }}
-                </mat-icon>
-                <img *ngIf="chat.photo" [src]="chat.photo" alt="User Photo" class="chat-avatar" />
+        <!-- Chats Tab -->
+        <mat-tab label="Chats">
+          <div
+            class="chat-item"
+            *ngFor="let chat of filteredChats"
+            (click)="selectChat(chat)"
+          >
+            <div class="chat-card">
+              <div class="chat-photo-container">
+                <div class="chat-photo">
+                  <mat-icon *ngIf="!chat.photo" class="chat-initials">
+                    {{ chat.name.charAt(0) }}
+                  </mat-icon>
+                  <img *ngIf="chat.photo" [src]="chat.photo" alt="User Photo" class="chat-avatar" />
+                </div>
               </div>
-            </div>
-  
-            <div class="chat-info">
-              <div class="chat-header">
-                <div class="chat-name">{{ chat.name }}</div>
-                <div class="chat-time">{{ chat.time }}</div>
+              <div class="chat-info">
+                <div class="chat-header">
+                  <div class="chat-name">{{ chat.name }}</div>
+                  <div class="chat-time">{{ chat.time }}</div>
+                </div>
+                <div class="chat-last-message">{{ chat.lastMessage }}</div>
               </div>
-              <div class="chat-last-message">{{ chat.lastMessage }}</div>
             </div>
           </div>
-        </div> </mat-tab>
-        <mat-tab label="Groups">           <div
-          class="chat-item"
-          *ngFor="let chat of filteredGroups"
-          (click)="selectGroup(chat)">
-          <div class="chat-card">
-            <div class="chat-photo-container">
-              <div class="chat-photo">
-                <mat-icon *ngIf="!chat.photo" class="chat-initials">
-                  {{ chat.name.charAt(0) }}
-                </mat-icon>
-                <img *ngIf="chat.photo" [src]="chat.photo" alt="User Photo" class="chat-avatar" />
-              </div>
-            </div>
-  
-            <div class="chat-info">
-              <div class="chat-header">
-                <div class="chat-name">{{ chat.name }}</div>
-                <div class="chat-time">{{ chat.time }}</div>
-              </div>
-              <div class="chat-last-message">{{ chat.lastMessage }}</div>
-            </div>
-          </div>
-        </div></mat-tab>
-      </mat-tab-group>
-      
-    </div>
-    
-    <div class="active-chat-column">
-      <ng-container *ngIf="selectedChat; else noChatSelected">
-        <div class="chat-container">
-          <div class="chat-header">
-            <p><strong>{{ selectedChat.name }}</strong></p>
-            <p>Last message at {{ selectedChat.lastMessageTime }}</p>
-          </div>
+        </mat-tab>
 
+        <!-- Groups Tab -->
+        <mat-tab label="Groups">
+          <div
+            class="chat-item"
+            *ngFor="let group of filteredGroups"
+            (click)="selectGroup(group)"
+          >
+            <div class="chat-card">
+              <div class="chat-photo-container">
+                <div class="chat-photo">
+                  <mat-icon *ngIf="!group.photo" class="chat-initials">
+                    {{ group.name.charAt(0) }}
+                  </mat-icon>
+                  <img *ngIf="group.photo" [src]="group.photo" alt="Group Photo" class="chat-avatar" />
+                </div>
+              </div>
+              <div class="chat-info">
+                <div class="chat-header">
+                  <div class="chat-name">{{ group.name }}</div>
+                  <div class="chat-time">{{ group.time }}</div>
+                </div>
+                <div class="chat-last-message">{{ group.lastMessage }}</div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <!-- Active Chat Column -->
+    <div class="active-chat-column">
+      <ng-container *ngIf="selectedChat || selectedGroup; else noChatSelected">
+        <div class="chat-container">
+          <!-- Chat Header -->
+          <div class="chat-header">
+            <p><strong>{{ selectedChat?.name || selectedGroup?.name || 'Unnamed Chat' }}</strong></p>
+            <p>
+              Last message at {{ selectedChat?.lastMessageTime || selectedGroup?.lastMessageTime || 'N/A' }}
+            </p>
+          </div>
+    
+          <!-- Messages List -->
           <div class="messages-list-container">
             <div
               class="message-card"
-              *ngFor="let msg of selectedChat.messages"
+              *ngFor="let msg of selectedChat?.messages || selectedGroup?.messages || []"
               [ngClass]="{
                 'chat-bubblesender': msg.sender === 'You',
                 'chat-bubblereceiver': msg.sender !== 'You'
               }"
-              >
+            >
               <mat-card>
-                <mat-card-content >
-                  {{ msg.text }}
-                  <span class="message-time">{{ msg.time }}</span>
+                <mat-card-content>
+                  {{ msg.text || 'Empty message' }}
+                  <span class="message-time">{{ msg.time || 'Unknown time' }}</span>
                 </mat-card-content>
               </mat-card>
             </div>
           </div>
-                                    
+    
+          <!-- Message Input -->
           <div class="message-input">
             <div class="input-container">
               <input
@@ -109,30 +124,39 @@
                 [(ngModel)]="newMessage"
                 (keydown.enter)="sendMessage()"
               />
-              
-              <button mat-icon-button class="attachment-btn" (click)="openFileDialog()">
-                <mat-icon>attach_file</mat-icon> 
+              <button
+                mat-icon-button
+                class="attachment-btn"
+                (click)="openFileDialog()"
+                [disabled]="!selectedChat && !selectedGroup"
+              >
+                <mat-icon>attach_file</mat-icon>
               </button>
             </div>
-          
-            <button mat-icon-button class="send-btn" (click)="sendMessage()">
-              <mat-icon>send</mat-icon> 
+            <button
+              mat-icon-button
+              class="send-btn"
+              (click)="sendMessage()"
+              [disabled]="!newMessage.trim() || (!selectedChat && !selectedGroup)"
+            >
+              <mat-icon>send</mat-icon>
             </button>
           </div>
-          
-          <input 
-            type="file" 
-            id="fileInput" 
-            style="display: none;" 
-            (change)="onFileSelected($event)" 
-            accept="audio/*,image/*,.pdf,.docx" />
-          
-          
+    
+          <!-- Hidden File Input -->
+          <input
+            type="file"
+            id="fileInput"
+            style="display: none;"
+            (change)="onFileSelected($event)"
+            accept="audio/*,image/*,.pdf,.docx"
+          />
         </div>
       </ng-container>
       <ng-template #noChatSelected>
         <p>Select a chat to start messaging.</p>
       </ng-template>
     </div>
+    
   </div>
 </div>

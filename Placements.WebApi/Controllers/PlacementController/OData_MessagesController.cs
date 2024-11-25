@@ -31,7 +31,9 @@ namespace Placements.WebApi.Controllers.PlacementController
         {
             try
             {
+                message.CreatedDate = DateTime.Now;
                 _context.Messages.Add(message);
+
                 await _context.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Message Added Successfully" });

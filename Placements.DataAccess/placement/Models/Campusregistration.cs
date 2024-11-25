@@ -39,8 +39,6 @@ public partial class Campusregistration
 
     public long? ParentCampusId { get; set; }
 
-    public virtual ICollection<Calendarevent> Calendarevents { get; set; } = new List<Calendarevent>();
-
     public virtual ICollection<CampusCompany> CampusCompanies { get; set; } = new List<CampusCompany>();
 
     public virtual ICollection<Collegejobposting> Collegejobpostings { get; set; } = new List<Collegejobposting>();
@@ -48,8 +46,6 @@ public partial class Campusregistration
     public virtual ICollection<Collegejobpostingschedule> Collegejobpostingschedules { get; set; } = new List<Collegejobpostingschedule>();
 
     public virtual ICollection<Campusregistration> InverseParentCampus { get; set; } = new List<Campusregistration>();
-
-    public virtual ICollection<Jobposting> Jobpostings { get; set; } = new List<Jobposting>();
 
     public virtual ICollection<Login> Logins { get; set; } = new List<Login>();
 

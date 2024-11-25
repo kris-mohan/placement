@@ -2,6 +2,7 @@ namespace Placements.WebApi.Models
 {
   public class AuthenticatedResponse
   {
+    public long? Id { get; set; }
     public long? UserRoleId { get; set; }
     public string? UserName { get; set; }
     public string? CollegeName { get; set; }

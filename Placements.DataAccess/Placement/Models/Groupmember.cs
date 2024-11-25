@@ -13,9 +13,7 @@ public partial class Groupmember
 
     public DateTime? JoinedDate { get; set; }
 
-    public string? Role { get; set; }
-
     public virtual Group? Group { get; set; }
 
-    public virtual Login? User { get; set; }
+    public virtual Tblstudent? User { get; set; }
 }

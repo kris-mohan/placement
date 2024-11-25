@@ -61,8 +61,6 @@ public partial class Companydatum
 
     public string? CompanyType { get; set; }
 
-    public virtual ICollection<Calendarevent> Calendarevents { get; set; } = new List<Calendarevent>();
-
     public virtual ICollection<CampusCompany> CampusCompanies { get; set; } = new List<CampusCompany>();
 
     public virtual ICollection<Companydesignation> Companydesignations { get; set; } = new List<Companydesignation>();

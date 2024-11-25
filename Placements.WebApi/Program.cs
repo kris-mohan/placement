@@ -171,6 +171,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Group>("Groups");
     modelBuilder.EntitySet<Message>("Messages");
     modelBuilder.EntitySet<Messagestatus>("Messagestatuses");
+    modelBuilder.EntitySet<Chat>("Chats");
 
     return modelBuilder.GetEdmModel();
 }
