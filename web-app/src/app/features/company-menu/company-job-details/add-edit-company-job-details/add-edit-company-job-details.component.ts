@@ -295,14 +295,17 @@ export class AddEditCompanyJobDetailsComponent {
     });
   }
 
-  async onSubmit() {
+  async onSubmit(action: string) {
     const jobPosting: Partial<PostJobposting> =
       this.addEditJobPostingForm.value;
-    const isUpdate = !!this.Id;
+    const isUpdate = action === "reset";
+    console.log(isUpdate, "Is Update ");
     const actionText = isUpdate ? "update" : "add";
+    console.log(actionText, "Action Text");
     const confirmed = await this.sweetAlertService.confirm(
       `Do you want to ${actionText} this JobPosting?`
     );
+
     if (confirmed) {
       const jobPostingData: PostJobposting = {
         Id: this.Id ?? 0,
