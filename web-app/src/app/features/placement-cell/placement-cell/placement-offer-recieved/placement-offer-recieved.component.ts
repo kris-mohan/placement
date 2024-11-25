@@ -21,6 +21,8 @@ import { PlacementInterviewAdditionalFilterComponent } from "../placement-interv
 import { MatTableDataSource } from "@angular/material/table";
 import { JobpostingSelectedstudent } from "src/app/services/types/JobpostingSelectedstudent";
 import { PlacementOfferRecievedApiService } from "./api.placement-offer-recieved";
+import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
+import { PlacementOfferRecievedUploadFileComponent } from "./placement-offer-recieved-upload-file/placement-offer-recieved-upload-file.component";
 
 const today = new Date();
 const month = today.getMonth();
@@ -413,5 +415,18 @@ export class PlacementOfferRecievedComponent {
       studentId,
       id,
     ]);
+  }
+  openUploadExcel(id?: number) {
+    // if (id !== undefined) {
+    //   this.router.navigate(["/placement-upload-file", id]);
+    // } else {
+    //   this.router.navigate(["/placement-upload-file", ""]);
+    // }
+
+    this.dialog.open(PlacementOfferRecievedUploadFileComponent, {
+      data: id,
+      width: "500px",
+      height: "600px",
+    });
   }
 }

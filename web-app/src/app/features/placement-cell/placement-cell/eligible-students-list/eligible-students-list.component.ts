@@ -15,6 +15,7 @@ import { StudentdetailsDialogComponent } from "../studentdetails-dialog/studentd
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Tblstudent } from "src/app/services/types/Tblstudent";
 import { EligibleStudentsListApiService } from "./EligibleStudentsListApiService";
+import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -261,6 +262,19 @@ export class EligibleStudentsListComponent {
       },
     });
   };
+  openUploadExcel(id?: number) {
+    // if (id !== undefined) {
+    //   this.router.navigate(["/placement-upload-file", id]);
+    // } else {
+    //   this.router.navigate(["/placement-upload-file", ""]);
+    // }
+
+    this.dialog.open(PlacementUploadFileComponent, {
+      data: id,
+      width: "500px",
+      height: "600px",
+    });
+  }
   getBatches(): void {
     this.eligibleStudentsListApiService.GetBatches().subscribe({
       next: (batchData) => {

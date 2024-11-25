@@ -76,15 +76,17 @@ import { OfferManagementComponent } from "./features/company-menu/offer-manageme
 import { OfferManagementDetailsComponent } from "./features/company-menu/offer-management/offer-management-details/offer-management-details.component";
 import { FunnelChartComponent } from "./features/charts/funnel chart/funnel-chart/funnel-chart.component";
 import { OfferRecievedComponent } from "./features/student-menu/student-menu/offer-recieved/offer-recieved.component";
-import { PlacementOffersRecievedComponent } from "./features/placement-cell/placement-cell/placement-offers-recieved/placement-offers-recieved.component";
-import { StudentOfferRecievedComponent } from "./features/student-menu/student-menu/student-offer-recieved/student-offer-recieved.component";
+// import { PlacementOffersRecievedComponent } from "./features/placement-cell/placement-cell/placement-offers-recieved/placement-offers-recieved.component";
 import { PlacementOfferRecievedComponent } from "./features/placement-cell/placement-cell/placement-offer-recieved/placement-offer-recieved.component";
+import { StudentOfferRecievedComponent } from "./features/student-menu/student-menu/student-offer-recieved/student-offer-recieved.component";
+
 import { AddRoundsModalComponent } from "./features/company-menu/company-job-details/test-rounds/add-rounds-modal/add-rounds-modal.component";
 import { TemplateGeneratorComponent } from "./features/template-generator/template-generator.component";
 
 import { IndentrequirementplacementComponent } from "./features/indentrequirementplacement/indentrequirementplacement.component";
 import { IndentplacementComponent } from "./features/indentplacement/indentplacement.component";
 import { InterviewStudentComponent } from "./features/student-menu/interview-student/interview-student.component";
+import { PlacementUploadFileComponent } from "./features/placement-cell/placement-cell/company-list-details/placement-upload-file/placement-upload-file.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -470,6 +472,10 @@ const appRoutes: Routes = [
       {
         path: "Indent-view-placement/Indent-requirement/:id",
         component: IndentrequirementplacementComponent,
+      },
+      {
+        path: "placement-upload-file/:?id",
+        component: PlacementUploadFileComponent,
       },
       {
         path: "**",

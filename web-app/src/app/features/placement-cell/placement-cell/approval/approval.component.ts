@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,7 +22,7 @@ import { AMGModules } from 'src/AMG-Module/AMG-module';
   templateUrl: './approval.component.html',
   styleUrls: ['./approval.component.css']
 })
-export class ApprovalComponent {
+export class ApprovalComponent implements OnInit {
   approvalForm: FormGroup;
   sgpaValues = [8.5, 9.0, 7.5, 8.0, 8.25, 7.9, 8.55, 9.0]; // Example SGPA values for eight semesters
 
