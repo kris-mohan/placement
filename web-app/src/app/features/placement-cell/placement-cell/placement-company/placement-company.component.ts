@@ -30,6 +30,7 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { PlacementCompanyApiService } from "./PlacementCompanyApiService";
 import { getCompanyIndustryTypes } from "./placement-company-module";
+import { Companyindustry } from "src/app/services/types/Companyindustry";
 
 const today = new Date();
 const month = today.getMonth();
@@ -60,21 +61,31 @@ export class PlacementCompanyComponent {
   companyData: [] = [];
 
   companiesList = signal<Companydatum[]>([]);
-  filteredCompanyData: Observable<Companydatum[]> = of([]);
+  filteredCompanyData = signal<Companydatum[]>([]);
 
   companies: companyTableList[] = [];
 
   industries: Industry[] = [];
 
-  companySizes: string[] = [
-    "1-10 Employees",
-    "11-50 Employees",
-    "51-200 Employees",
-    "201-500 Employees",
-    "501-1000 Employees",
-    "1001-5000 Employees",
-    "5001-10000 Employees",
-    "10001+ Employees",
+  // companySizes: string[] = [
+  //   "1-10 Employees",
+  //   "11-50 Employees",
+  //   "51-200 Employees",
+  //   "201-500 Employees",
+  //   "501-1000 Employees",
+  //   "1001-5000 Employees",
+  //   "5001-10000 Employees",
+  //   "10001+ Employees",
+  // ];
+  companySizes: { label: string; min: number; max: number }[] = [
+    { label: "1-10 Employees", min: 1, max: 10 },
+    { label: "11-50 Employees", min: 11, max: 50 },
+    { label: "51-200 Employees", min: 51, max: 200 },
+    { label: "201-500 Employees", min: 201, max: 500 },
+    { label: "501-1000 Employees", min: 501, max: 1000 },
+    { label: "1001-5000 Employees", min: 1001, max: 5000 },
+    { label: "5001-10000 Employees", min: 5001, max: 10000 },
+    { label: "10001+ Employees", min: 10001, max: Infinity },
   ];
 
   experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
@@ -100,6 +111,10 @@ export class PlacementCompanyComponent {
   CityFilterControl = new FormControl();
   industryFilterControl = new FormControl();
   companySizeFilterControl = new FormControl();
+
+  searchLocation = new FormControl();
+  searchLocationValue: string = "";
+  filteredLocations: string[] = [];
 
   readonly dialog = inject(MatDialog);
   constructor(
@@ -152,32 +167,35 @@ export class PlacementCompanyComponent {
 
   ngOnInit() {
     this.getAllCompanies();
+    this.getAllIndustries();
     // this.loadCompanies();
     // this.loadIndustries();
-
+    this.searchLocation.valueChanges.subscribe(() => this.applyFilters());
+    this.industryControl.valueChanges.subscribe(() => this.applyFilters());
+    this.companySizeControl.valueChanges.subscribe(() => this.applyFilters());
     this.dataSource.paginator = this.paginator;
 
-    this.CityControl.valueChanges.subscribe(() => {
-      this.filterCities(this.searchCity);
-    });
+    // this.CityControl.valueChanges.subscribe(() => {
+    //   this.filterCities(this.searchCity);
+    // });
 
-    this.industryControl.valueChanges.subscribe(() => {
-      this.filterIndustries(this.searchIndustry);
-    });
+    // this.industryControl.valueChanges.subscribe(() => {
+    //   this.filterIndustries(this.searchIndustry);
+    // });
 
-    this.filteredCities = this.CityFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCities(value))
-    );
-    this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterIndustries(value))
-    );
+    // this.filteredCities = this.CityFilterControl.valueChanges.pipe(
+    //   startWith(""),
+    //   map((value) => this._filterCities(value))
+    // );
+    // this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
+    //   startWith(""),
+    //   map((value) => this._filterIndustries(value))
+    // );
 
-    this.filteredCompany = this.companyControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCompanies(value))
-    );
+    // this.filteredCompany = this.companyControl.valueChanges.pipe(
+    //   startWith(""),
+    //   map((value) => this._filterCompanies(value))
+    // );
 
     this.placementCompanyApiService.GetAllCompanies().subscribe((companies) => {
       this.companiesList.set(companies.value);
@@ -188,19 +206,101 @@ export class PlacementCompanyComponent {
       );
     });
   }
+  getIndustryTypes(company: Companydatum): string {
+    if (!company?.Jobpostings?.length) return "";
 
+    const industries = company.Jobpostings.flatMap(
+      (posting) => posting.Company?.Companyindustries || []
+    )
+      .map((ci) => ci.Industry?.Type)
+      .filter((type) => type);
+
+    return Array.from(new Set(industries)).join(", ");
+  }
+
+  filterIndustries(searchTerm: string) {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    this.filteredIndustries = this.industries.filter((industry) =>
+      industry.Type.toLowerCase().includes(lowerSearchTerm)
+    );
+  }
   getAllCompanies = () => {
     this.placementCompanyApiService.GetAllCompanies().subscribe({
       next: (odataResponse) => {
         console.log("companies", odataResponse.value);
         this.companiesList.set(odataResponse.value);
+        this.applyFilters();
       },
       error: (error) => {
         console.error("Error fetching companies:", error);
       },
     });
   };
+  applyFilters() {
+    const locationFilter = this.searchLocation.value || "";
+    const selectedIndustries = this.industryControl.value || [];
+    const selectedSizes = this.companySizeControl.value || [];
+    const filtered = this.companiesList().filter((company: any) => {
+      const matchesLocation =
+        !locationFilter.length ||
+        locationFilter.includes(company.Address || "");
+      // jobposting.Address?.toLowerCase().includes(locationFilter);
+      const industryMatches =
+        !selectedIndustries.length ||
+        company?.Jobpostings?.some((jobposting: any) =>
+          jobposting?.Company?.Companyindustries?.some((ci: any) =>
+            selectedIndustries.includes(ci.Industry?.Type)
+          )
+        );
+      const matchesCompanySize =
+        !selectedSizes.length ||
+        selectedSizes.some((size: string) => {
+          const sizeRange = this.companySizes.find(
+            (range) => range.label === size
+          );
+          if (!sizeRange) return false;
 
+          // Check if the company size is within the range
+          const companySize = company.CompanySize || 0;
+          return companySize >= sizeRange.min && companySize <= sizeRange.max;
+        });
+      return matchesLocation && industryMatches && matchesCompanySize;
+    });
+    this.filteredCompanyData.set(filtered);
+  }
+  getAllIndustries = () => {
+    this.placementCompanyApiService.GetAllIndustries().subscribe({
+      next: (response) => {
+        const data: Industry[] = response.value.map((industry: any) => ({
+          ...industry,
+          Type: industry.Type ?? "Unknown",
+        }));
+        console.log("All Industries", data);
+        this.industries = data;
+      },
+      error: (error) => {
+        console.log("Error fetching industries: ", error);
+      },
+    });
+  };
+  filterCities(search: string) {
+    const filterValue = search.toLowerCase();
+    this.filteredLocations = Array.from(
+      new Set(
+        this.companiesList()
+          .map((student) => student.Address || "")
+          .filter(
+            (location): location is string =>
+              location !== undefined &&
+              location.toLowerCase().includes(filterValue)
+          )
+      )
+    );
+  }
+
+  get selectedLocations(): string {
+    return this.searchLocation.value || "";
+  }
   private _filterCompanies(value: string): Companydatum[] {
     const filterValue = value.toLowerCase();
     return this.companiesList().filter((company) =>
@@ -299,45 +399,45 @@ export class PlacementCompanyComponent {
     });
   }
 
-  filterCities(search: string) {
-    const filterValue = search.toLowerCase();
+  // filterCities(search: string) {
+  //   const filterValue = search.toLowerCase();
 
-    const filteredList = this.companies.filter((company) =>
-      company.City.toLowerCase().includes(filterValue)
-    );
+  //   const filteredList = this.companies.filter((company) =>
+  //     company.City.toLowerCase().includes(filterValue)
+  //   );
 
-    const selectedCompanies = this.CityControl.value || [];
-    this.filteredCompanies = [
-      ...selectedCompanies
-        .map((name: any) =>
-          this.companies.find((company) => company.City === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (company) => !selectedCompanies.includes(company.City)
-      ),
-    ];
-  }
+  //   const selectedCompanies = this.CityControl.value || [];
+  //   this.filteredCompanies = [
+  //     ...selectedCompanies
+  //       .map((name: any) =>
+  //         this.companies.find((company) => company.City === name)
+  //       )
+  //       .filter(Boolean),
+  //     ...filteredList.filter(
+  //       (company) => !selectedCompanies.includes(company.City)
+  //     ),
+  //   ];
+  // }
 
-  filterIndustries(search: string) {
-    const filterValue = search.toLowerCase();
+  // filterIndustries(search: string) {
+  //   const filterValue = search.toLowerCase();
 
-    const filteredList = this.industries.filter((industry) =>
-      industry.Type.toLowerCase().includes(filterValue)
-    );
+  //   const filteredList = this.industries.filter((industry) =>
+  //     industry.Type.toLowerCase().includes(filterValue)
+  //   );
 
-    const selectedIndustries = this.industryControl.value || [];
-    this.filteredIndustries = [
-      ...selectedIndustries
-        .map((name: any) =>
-          this.industries.find((industry) => industry.Type === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (industry) => !selectedIndustries.includes(industry.Type)
-      ),
-    ];
-  }
+  //   const selectedIndustries = this.industryControl.value || [];
+  //   this.filteredIndustries = [
+  //     ...selectedIndustries
+  //       .map((name: any) =>
+  //         this.industries.find((industry) => industry.Type === name)
+  //       )
+  //       .filter(Boolean),
+  //     ...filteredList.filter(
+  //       (industry) => !selectedIndustries.includes(industry.Type)
+  //     ),
+  //   ];
+  // }
 
   get selectedCompanyCities(): string {
     const selected = this.CityControl.value;

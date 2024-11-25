@@ -64,7 +64,6 @@ export class StudentJobsComponent {
   filteredCompanies: companyTableList[] = [];
   companyId: number | undefined = undefined;
   companies: companyTableList[] = [];
-  experienceLevelControl = new FormControl();
   filteredCompany: Observable<any[]> = of([]);
 
   UserRoleId: number;
@@ -93,7 +92,6 @@ export class StudentJobsComponent {
     { key: "postedDate", label: "posted Date" },
     { key: "actions", label: "Actions" },
   ];
-  experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
   //dataSource = new MatTableDataSource<JobPostingList>(StudentJobPostingList);
   selection = new SelectionModel<JobPostingList>(true, []);
 
@@ -104,13 +102,31 @@ export class StudentJobsComponent {
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
 
-  JobPostingsData = signal<JobpostingsEligiblestudent[]>([]);
+  searchControl = new FormControl("");
+  searchName = new FormControl("");
+  searchLocation = new FormControl("");
+  searchJobType = new FormControl("");
+  experienceLevelControl = new FormControl<string[]>([]);
 
+  searchLocationValue: string = "";
+  searchJobTypeValue: string = "";
+  searchExperiencelevel: string[] = [];
+  filteredLocations: string[] = [];
+  filteredJobTypes: string[] = [];
+  experienceLevel: string[] = [];
+
+  JobPostingsData = signal<JobpostingsEligiblestudent[]>([]);
+  filteredStudents = signal<JobpostingsEligiblestudent[]>([]);
   ngOnInit() {
     this.GetAllJobPosting();
     console.log(this.JobPostingsData);
+    this.searchName.valueChanges.subscribe(() => this.applyFilters());
+    this.searchLocation.valueChanges.subscribe(() => this.applyFilters());
+    this.searchJobType.valueChanges.subscribe(() => this.applyFilters());
+    this.experienceLevelControl.valueChanges.subscribe(() =>
+      this.applyFilters()
+    );
   }
-
   GetAllJobPosting = () => {
     this.studentJobsApiService.GetAllJobPostings(this.StudentId).subscribe({
       next: (jobPostings) => {
@@ -118,14 +134,54 @@ export class StudentJobsComponent {
         console.log(data);
 
         this.JobPostingsData.set(data);
+        this.filteredJobTypes = Array.from(
+          new Set(
+            data
+              .map((student) => student.JobPosting?.JobType)
+              .filter((jobType): jobType is string => jobType !== undefined)
+          )
+        );
+        const experiences = data.map(
+          (student) =>
+            `${student.JobPosting?.MinimumYearExperience}-${student.JobPosting?.MaximumYearExperience} years`
+        );
+        this.experienceLevel = Array.from(new Set(experiences));
+        this.searchExperiencelevel = [...this.experienceLevel];
         console.log(this.JobPostingsData());
+        this.applyFilters();
       },
       error: (error) => {
         console.error("Error fetching jobPostings:", error);
       },
     });
   };
-
+  applyFilters() {
+    const filtered = this.JobPostingsData().filter((student) => {
+      const nameFilter = this.searchName.value?.toLowerCase() || "";
+      const locationFilter = this.searchLocation.value || "";
+      const jobtypeFilter = this.searchJobType.value || "";
+      const experienceFilter = this.experienceLevelControl.value || [];
+      const matchesName =
+        !nameFilter ||
+        student.JobPosting?.JobRole?.toLowerCase().includes(nameFilter) ||
+        student.JobPosting?.Company?.Name?.toLowerCase().includes(nameFilter);
+      const matchesLocation =
+        !locationFilter.length ||
+        locationFilter.includes(student.JobPosting.Location || "");
+      const matchesJobType =
+        !jobtypeFilter.length ||
+        jobtypeFilter.includes(student.JobPosting.JobType || "");
+      const matchesExperience =
+        !experienceFilter.length ||
+        experienceFilter.includes(
+          `${student.JobPosting?.MinimumYearExperience}-${student.JobPosting?.MaximumYearExperience} years`
+        );
+      return (
+        matchesName && matchesLocation && matchesJobType && matchesExperience
+      );
+    });
+    this.filteredStudents.set(filtered);
+  }
   convertToDateOnly(dateString: string): string {
     const date = new Date(dateString);
     return date.toISOString().split("T")[0];
@@ -185,25 +241,63 @@ export class StudentJobsComponent {
 
     this.dataSource1.data = this.filteredCompanies;
   }
+  // filterCities(search: string) {
+  //   const filterValue = search.toLowerCase();
+
+  //   const filteredList = this.companies.filter((company) =>
+  //     company.City.toLowerCase().includes(filterValue)
+  //   );
+
+  //   const selectedCompanies = this.CityControl.value || [];
+  //   this.filteredCompanies = [
+  //     ...selectedCompanies
+  //       .map((name: any) =>
+  //         this.companies.find((company) => company.City === name)
+  //       )
+  //       .filter(Boolean),
+  //     ...filteredList.filter(
+  //       (company) => !selectedCompanies.includes(company.City)
+  //     ),
+  //   ];
+  // }
   filterCities(search: string) {
     const filterValue = search.toLowerCase();
-
-    const filteredList = this.companies.filter((company) =>
-      company.City.toLowerCase().includes(filterValue)
+    this.filteredLocations = Array.from(
+      new Set(
+        this.JobPostingsData()
+          .map((student) => student.JobPosting.Location)
+          .filter(
+            (location): location is string =>
+              location !== undefined &&
+              location.toLowerCase().includes(filterValue)
+          )
+      )
     );
-
-    const selectedCompanies = this.CityControl.value || [];
-    this.filteredCompanies = [
-      ...selectedCompanies
-        .map((name: any) =>
-          this.companies.find((company) => company.City === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (company) => !selectedCompanies.includes(company.City)
-      ),
-    ];
   }
+  get selectedLocations(): string {
+    return this.searchLocation.value || "";
+  }
+  filterJobTypes(search: string) {
+    const filterValue = search.toLowerCase();
+    this.filteredJobTypes = Array.from(
+      new Set(
+        this.JobPostingsData()
+          .map((student) => student.JobPosting.JobType)
+          .filter(
+            (jobType): jobType is string =>
+              jobType !== undefined &&
+              jobType.toLowerCase().includes(filterValue)
+          )
+      )
+    );
+  }
+  filterExperienceLevels(search: string) {
+    const filterValue = search.toLowerCase();
+    this.searchExperiencelevel = this.experienceLevel.filter((level) =>
+      level.toLowerCase().includes(filterValue)
+    );
+  }
+
   onIndustryDropdownOpen() {
     this.filterIndustries(this.searchIndustry);
   }
@@ -261,6 +355,7 @@ export class StudentJobsComponent {
 
   openStudentJobAdditionalFiltersModal() {
     this.dialog.open(StudentJobAdditionalFilterModalComponent, {
+      data: this.JobPostingsData(),
       width: "500px",
     });
   }

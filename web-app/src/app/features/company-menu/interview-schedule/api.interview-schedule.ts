@@ -12,8 +12,8 @@ export class APIInterviewScheduleService {
   [x: string]: any;
   constructor(private apiHttpService: ApiHttpService) {}
 
-  getUniversities(): Observable<ODataEntity<Universities[]>> {
-    return this.apiHttpService.get<ODataEntity<Universities[]>>(`/University`);
+  getUniversities(): Observable<any> {
+    return this.apiHttpService.get(`/University`);
   }
 
   getColleges(): Observable<ODataEntity<Colleges[]>> {

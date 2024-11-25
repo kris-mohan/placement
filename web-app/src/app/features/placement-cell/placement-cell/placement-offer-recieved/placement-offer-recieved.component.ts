@@ -23,6 +23,7 @@ import { JobpostingSelectedstudent } from "src/app/services/types/JobpostingSele
 import { PlacementOfferRecievedApiService } from "./api.placement-offer-recieved";
 import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
 import { PlacementOfferRecievedUploadFileComponent } from "./placement-offer-recieved-upload-file/placement-offer-recieved-upload-file.component";
+import { Companyindustry } from "src/app/services/types/Companyindustry";
 
 const today = new Date();
 const month = today.getMonth();
@@ -53,6 +54,7 @@ export class PlacementOfferRecievedComponent {
   });
 
   JobpostingSelectedstudentData = signal<JobpostingSelectedstudent[]>([]);
+  filteredStudents = signal<JobpostingSelectedstudent[]>([]);
   getAllSelectedStudents = () => {
     this.placementOfferRecievedApiService.GetAllOffersRecieved().subscribe({
       next: (response) => {
@@ -74,13 +76,38 @@ export class PlacementOfferRecievedComponent {
 
         console.log(newData);
         this.JobpostingSelectedstudentData.set(newData);
+        this.applyFilters();
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);
       },
     });
   };
-
+  getAllIndustries = () => {
+    this.placementOfferRecievedApiService.GetAllIndustries().subscribe({
+      next: (response) => {
+        const data: Industry[] = response.value.map((industry: any) => ({
+          ...industry,
+          Type: industry.Type ?? "Unknown",
+        }));
+        console.log("All Industries", data);
+        this.industries = data;
+      },
+      error: (error) => {
+        console.log("Error fetching industries: ", error);
+      },
+    });
+  };
+  getIndustryTypes(job: any): string {
+    if (!job?.JobPosting?.Company?.Companyindustries) {
+      return "";
+    }
+    return job.JobPosting.Company.Companyindustries.filter(
+      (x: Companyindustry) => x.Industry?.Type
+    )
+      .map((x: Companyindustry) => x.Industry?.Type)
+      .join(", ");
+  }
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   companies: companyTableList[] = [];
@@ -125,37 +152,226 @@ export class PlacementOfferRecievedComponent {
   readonly dialog = inject(MatDialog);
   dataSource = new MatTableDataSource<companyTableList>([]);
 
+  // ngOnInit() {
+  //   // this.loadCompanies();
+  //   // this.loadIndustries();
+
+  //   this.getAllSelectedStudents();
+
+  //   this.dataSource.paginator = this.paginator;
+
+  //   this.CityControl.valueChanges.subscribe(() => {
+  //     this.filterCities(this.searchCity);
+  //   });
+
+  //   this.industryControl.valueChanges.subscribe(() => {
+  //     this.filterIndustries(this.searchIndustry);
+  //   });
+
+  //   this.filteredCities = this.CityFilterControl.valueChanges.pipe(
+  //     startWith(""),
+  //     map((value) => this._filterCities(value))
+  //   );
+  //   this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
+  //     startWith(""),
+  //     map((value) => this._filterIndustries(value))
+  //   );
+
+  //   this.filteredCompany = this.companyControl.valueChanges.pipe(
+  //     startWith(""),
+  //     map((value) => this._filterCompanies(value))
+  //   );
+  // }
+  searchControl = new FormControl("");
+  searchName = new FormControl("");
+  // searchBranch = new FormControl("");
+  // searchBatch = new FormControl("");
+  searchSalary = new FormControl("");
+
+  // searchBranchValue: string = "";
+  // searchBatchValue: string = "";
+
+  // filteredBranches: string[] = [];
+  // filteredBatches: string[] = [];
+  branches: string[] = [];
+  batches: number[] = [];
+  branchControl = new FormControl<string[] | null>(null);
+  batchControl = new FormControl<any[] | null>(null);
+  salaryOptions: string[] = [
+    "₹0 - 3 LPA",
+    "₹3 - 5 LPA",
+    "₹6 - 8 LPA",
+    "₹9 - 12 LPA",
+    "₹12 - 15 LPA",
+    "₹15 LPA and above",
+  ];
+  salaryRanges = [
+    { label: "₹0 - 3 LPA", min: 0, max: 300000 },
+    { label: "₹3 - 5 LPA", min: 300000, max: 500000 },
+    { label: "₹6 - 8 LPA", min: 600000, max: 800000 },
+    { label: "₹9 - 12 LPA", min: 900000, max: 1200000 },
+    { label: "₹12 - 15 LPA", min: 1200000, max: 1500000 },
+    { label: "₹15 LPA and above", min: 1500000, max: Infinity },
+  ];
+  salaryControl = new FormControl<string[]>([]);
+
   ngOnInit() {
-    // this.loadCompanies();
-    // this.loadIndustries();
-
     this.getAllSelectedStudents();
+    this.getAllIndustries();
+    this.getBranches();
+    this.getBatches();
+    // Listen to changes in search fields and filter data accordingly
+    this.searchName.valueChanges.subscribe(() => this.applyFilters());
+    this.branchControl.valueChanges.subscribe(() => this.applyFilters());
+    this.batchControl.valueChanges.subscribe(() => this.applyFilters());
+    this.searchSalary.valueChanges.subscribe(() => this.applyFilters());
+    this.industryControl.valueChanges.subscribe(() => this.applyFilters());
+    this.salaryControl.valueChanges.subscribe(() => this.filterBySalaryRange());
+  }
+  // filterBranches(search: string): void {
+  //   const filterValue = search.toLowerCase();
 
-    this.dataSource.paginator = this.paginator;
+  //   this.filteredBranches = Array.from(
+  //     new Set(
+  //       this.JobpostingSelectedstudentData()
+  //         .map(
+  //           (student) =>
+  //             student.Student?.Studentacademics?.[0]?.Course?.FullForm
+  //         )
+  //         .filter((branch): branch is string => branch !== undefined)
+  //     )
+  //   ).filter((branch) => branch.toLowerCase().includes(filterValue));
+  // }
+  // filterBatches(search: string): void {
+  //   const filterValue = search.toLowerCase();
 
-    this.CityControl.valueChanges.subscribe(() => {
-      this.filterCities(this.searchCity);
-    });
-
-    this.industryControl.valueChanges.subscribe(() => {
-      this.filterIndustries(this.searchIndustry);
-    });
-
-    this.filteredCities = this.CityFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCities(value))
+  //   this.filteredBatches = Array.from(
+  //     new Set(
+  //       this.JobpostingSelectedstudentData()
+  //         .map((student) => student.Student?.Batch?.Name)
+  //         .filter((batch): batch is string => batch !== undefined)
+  //     )
+  //   ).filter((batch) => batch.toLowerCase().includes(filterValue));
+  // }
+  // get selectedBranches(): string {
+  //   return this.searchBranch.value || "";
+  // }
+  // get selectedBatches(): string {
+  //   return this.searchBatch.value || "";
+  // }
+  filterBySalaryRange() {
+    const selectedRanges = this.salaryControl.value || [];
+    if (!selectedRanges.length) {
+      this.filteredStudents.set(this.JobpostingSelectedstudentData());
+      return;
+    }
+    const filteredData = this.JobpostingSelectedstudentData().filter(
+      (student) => {
+        const salary = student.JobPosting?.Salary || 0;
+        return selectedRanges.some((rangeLabel) => {
+          const range = this.salaryRanges.find((r) => r.label === rangeLabel);
+          return range && salary >= range.min && salary <= range.max;
+        });
+      }
     );
-    this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterIndustries(value))
-    );
-
-    this.filteredCompany = this.companyControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCompanies(value))
+    this.filteredStudents.set(filteredData);
+  }
+  filterIndustries(searchTerm: string) {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    this.filteredIndustries = this.industries.filter((industry) =>
+      industry.Type?.toLowerCase().includes(lowerSearchTerm)
     );
   }
+  resetFilters(): void {
+    this.applyFilters();
+  }
+  getBatches(): void {
+    this.placementOfferRecievedApiService.GetBatches().subscribe({
+      next: (batchData) => {
+        this.batches = batchData.value.map((batch: any) => batch.Name);
+        console.log("Available batches:", this.batches);
+      },
+      error: (error) => {
+        console.error("Error fetching batches:", error);
+      },
+    });
+  }
 
+  getBranches(): void {
+    this.placementOfferRecievedApiService.GetBranches().subscribe({
+      next: (branchData) => {
+        this.branches = branchData.value.map((branch: any) => branch.FullForm);
+        console.log("Available branches:", this.branches);
+      },
+      error: (error) => {
+        console.error("Error fetching branches:", error);
+      },
+    });
+  }
+
+  showResults(): void {
+    this.applyFilters();
+    console.log(this.filteredStudents());
+  }
+  applyFilters() {
+    const filtered = this.JobpostingSelectedstudentData().filter((student) => {
+      const nameFilter = this.searchName.value?.toLowerCase() || "";
+      // const branchFilter = Array.isArray(this.searchBranch.value)
+      //   ? this.searchBranch.value.map((branch) => branch.toLowerCase())
+      //   : [];
+      // const batchFilter = this.searchBatch.value || "";
+      const selectedBranches = this.branchControl.value || [];
+      const selectedBatches = this.batchControl.value || [];
+      const salaryFilter = this.searchSalary.value || "";
+      0;
+      const selectedIndustries = this.industryControl.value || [];
+      const industryMatches =
+        !selectedIndustries.length ||
+        student.JobPosting?.Company?.Companyindustries?.some(
+          (companyIndustry) =>
+            selectedIndustries.includes(companyIndustry.Industry?.Type)
+        );
+      const matchesName =
+        !nameFilter ||
+        `${student.Student?.FirstName ?? ""} ${student.Student?.LastName ?? ""}`
+          .toLowerCase()
+          .includes(nameFilter) ||
+        student.JobPosting?.Company?.Name?.toLowerCase().includes(nameFilter) ||
+        student.Student.RollNo.toLowerCase().includes(nameFilter);
+
+      // const matchesBranch =
+      //   !branchFilter.length ||
+      //   branchFilter.some((branchFilter) =>
+      //     student.Student?.Studentacademics?.[0]?.Course?.FullForm?.toLowerCase().includes(
+      //       branchFilter
+      //     )
+      //   );
+      // const matchesBatch =
+      //   batchFilter.length === 0 ||
+      //   batchFilter.includes(student.Student?.Batch?.Name || "");
+      const branchMatch =
+        selectedBranches.length === 0 ||
+        selectedBranches.includes(
+          student.Student?.Studentacademics?.[0]?.Course?.FullForm || ""
+        );
+      const batchMatch =
+        selectedBatches.length === 0 ||
+        selectedBatches.includes(student.Student?.Batch?.Name || "");
+      const matchesSalary =
+        !salaryFilter ||
+        (student.JobPosting?.Salary ?? 0) >= parseInt(salaryFilter);
+
+      return (
+        matchesName &&
+        branchMatch &&
+        batchMatch &&
+        matchesSalary &&
+        industryMatches
+      );
+    });
+
+    this.filteredStudents.set(filtered);
+  }
   onCompanySelected(event: MatAutocompleteSelectedEvent) {
     const selectedCompanyName = event.option.value;
     const selectedCompany = this.companies.find(
@@ -281,25 +497,25 @@ export class PlacementOfferRecievedComponent {
     ];
   }
 
-  filterIndustries(search: string) {
-    const filterValue = search.toLowerCase();
+  // filterIndustries(search: string) {
+  //   const filterValue = search.toLowerCase();
 
-    const filteredList = this.industries.filter((industry) =>
-      industry.Type.toLowerCase().includes(filterValue)
-    );
+  //   const filteredList = this.industries.filter((industry) =>
+  //     industry.Type.toLowerCase().includes(filterValue)
+  //   );
 
-    const selectedIndustries = this.industryControl.value || [];
-    this.filteredIndustries = [
-      ...selectedIndustries
-        .map((name: any) =>
-          this.industries.find((industry) => industry.Type === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (industry) => !selectedIndustries.includes(industry.Type)
-      ),
-    ];
-  }
+  //   const selectedIndustries = this.industryControl.value || [];
+  //   this.filteredIndustries = [
+  //     ...selectedIndustries
+  //       .map((name: any) =>
+  //         this.industries.find((industry) => industry.Type === name)
+  //       )
+  //       .filter(Boolean),
+  //     ...filteredList.filter(
+  //       (industry) => !selectedIndustries.includes(industry.Type)
+  //     ),
+  //   ];
+  // }
 
   get selectedCompanyCities(): string {
     const selected = this.CityControl.value;

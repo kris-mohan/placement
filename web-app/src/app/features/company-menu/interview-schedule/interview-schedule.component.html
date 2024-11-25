@@ -9,9 +9,9 @@
     >
       <mat-label>University</mat-label>
       <mat-select multiple>
-        <!-- <ng-container *ngFor="let uni of universityTypes(); trackBy: trackById">
-          <mat-option [value]="uni.Id">{{ uni.Name }}</mat-option>
-        </ng-container> -->
+        <mat-option *ngFor="let uni of universityTypes" [value]="uni">
+          {{ uni }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
 

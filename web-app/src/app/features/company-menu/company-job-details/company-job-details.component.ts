@@ -29,6 +29,8 @@ const year = today.getFullYear();
 export interface JobpostingWithApplicants extends Jobposting {
   ApplicantsApplied: number;
   ApplicantsRejected: number;
+  MinimumYearExperience: number;
+  MaximumYearExperience: number;
 }
 
 @Component({
@@ -64,15 +66,17 @@ export class CompanyJobDetailsComponent {
   filteredCompanies: companyTableList[] = [];
   companyId: number | undefined = undefined;
   companies: companyTableList[] = [];
-  experienceLevelControl = new FormControl();
+
+  experienceLevelControl = new FormControl<string[]>([]);
+  searchExperiencelevel: string[] = [];
+  experienceLevel: string[] = [];
+
   filteredCompany: Observable<any[]> = of([]);
 
   UserRoleId: number;
   readonly dialog = inject(MatDialog);
 
   dataSource1 = new MatTableDataSource<companyTableList>([]);
-
-  experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
 
   CityControl = new FormControl();
   industryControl = new FormControl();
@@ -82,11 +86,24 @@ export class CompanyJobDetailsComponent {
   companySizeControl = new FormControl();
 
   JobPostingsData = signal<JobpostingWithApplicants[]>([]);
+  filteredJobPostings = signal<JobpostingWithApplicants[]>([]);
+  jobroles: string[] = [];
+
+  searchControl = new FormControl("");
+  searchJob = new FormControl("");
+  searchLocation = new FormControl("");
+
+  searchLocationValue: string = "";
+  filteredLocations: string[] = [];
 
   ngOnInit() {
     this.GetAllJobPosting(this.sessionCompanyId);
-
     console.log(this.JobPostingsData);
+    this.searchJob.valueChanges.subscribe(() => this.applyFilters());
+    this.searchLocation.valueChanges.subscribe(() => this.applyFilters());
+    this.experienceLevelControl.valueChanges.subscribe(() =>
+      this.applyFilters()
+    );
   }
 
   GetAllJobPosting = (id: number) => {
@@ -113,13 +130,66 @@ export class CompanyJobDetailsComponent {
         });
         this.JobPostingsData.set(mappedData);
         console.log("jobPosting", this.JobPostingsData);
+        const experiences = data.map(
+          (student) =>
+            `${student.MinimumYearExperience}-${student.MaximumYearExperience} years`
+        );
+        this.experienceLevel = Array.from(new Set(experiences));
+        this.searchExperiencelevel = [...this.experienceLevel];
+        this.applyFilters();
       },
       error: (error) => {
         console.error("Error fetching jobPostings:", error);
       },
     });
   };
+  applyFilters() {
+    const roleFilter = this.searchJob.value
+      ? this.searchJob.value.toLowerCase()
+      : "";
+    const locationFilter = this.searchLocation.value || "";
+    const experienceFilter = this.experienceLevelControl.value || [];
+    const filtered = this.JobPostingsData().filter((jobposting: any) => {
+      const matchesRole =
+        jobposting.JobRole?.toLowerCase().includes(roleFilter);
+      const matchesLocation =
+        !locationFilter.length ||
+        locationFilter.includes(jobposting.Location || "");
+      const matchesExperience =
+        !experienceFilter.length ||
+        experienceFilter.includes(
+          `${jobposting?.MinimumYearExperience}-${jobposting?.MaximumYearExperience} years`
+        );
+      return matchesRole && matchesLocation && matchesExperience;
+    });
 
+    this.filteredJobPostings.set(filtered);
+  }
+
+  filterCities(search: string) {
+    const filterValue = search.toLowerCase();
+    this.filteredLocations = Array.from(
+      new Set(
+        this.JobPostingsData()
+          .map((student) => student.Location)
+          .filter(
+            (location): location is string =>
+              location !== undefined &&
+              location.toLowerCase().includes(filterValue)
+          )
+      )
+    );
+  }
+
+  get selectedLocations(): string {
+    return this.searchLocation.value || "";
+  }
+  filterExperienceLevels(search: string) {
+    const filterValue = search.toLowerCase();
+    this.searchExperiencelevel = this.experienceLevel.filter((level) =>
+      level.toLowerCase().includes(filterValue)
+    );
+  }
   convertToDateOnly(dateString: string): string {
     const date = new Date(dateString);
     return date.toISOString().split("T")[0];
@@ -179,25 +249,25 @@ export class CompanyJobDetailsComponent {
 
     this.dataSource1.data = this.filteredCompanies;
   }
-  filterCities(search: string) {
-    const filterValue = search.toLowerCase();
+  // filterCities(search: string) {
+  //   const filterValue = search.toLowerCase();
 
-    const filteredList = this.companies.filter((company) =>
-      company.City.toLowerCase().includes(filterValue)
-    );
+  //   const filteredList = this.companies.filter((company) =>
+  //     company.City.toLowerCase().includes(filterValue)
+  //   );
 
-    const selectedCompanies = this.CityControl.value || [];
-    this.filteredCompanies = [
-      ...selectedCompanies
-        .map((name: any) =>
-          this.companies.find((company) => company.City === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (company) => !selectedCompanies.includes(company.City)
-      ),
-    ];
-  }
+  //   const selectedCompanies = this.CityControl.value || [];
+  //   this.filteredCompanies = [
+  //     ...selectedCompanies
+  //       .map((name: any) =>
+  //         this.companies.find((company) => company.City === name)
+  //       )
+  //       .filter(Boolean),
+  //     ...filteredList.filter(
+  //       (company) => !selectedCompanies.includes(company.City)
+  //     ),
+  //   ];
+  // }
   onIndustryDropdownOpen() {
     this.filterIndustries(this.searchIndustry);
   }

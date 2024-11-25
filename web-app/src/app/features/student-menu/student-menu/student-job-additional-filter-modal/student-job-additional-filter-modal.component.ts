@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, Inject, OnInit } from "@angular/core";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import {
+  MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
@@ -16,6 +17,8 @@ import { IndustryAPIService } from "src/app/features/company-configuration/compa
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { FormControl } from "@angular/forms";
 import { map, Observable, of, startWith } from "rxjs";
+import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
+
 @Component({
   selector: "app-student-job-additional-filter-modal",
   standalone: true,
@@ -72,12 +75,15 @@ export class StudentJobAdditionalFilterModalComponent {
 
   constructor(
     private apiCompanyService: CompanyAPIService,
-    private apiIndustryService: IndustryAPIService
+    private apiIndustryService: IndustryAPIService,
+    @Inject(MAT_DIALOG_DATA) public data: JobpostingsEligiblestudent[]
   ) {}
 
   ngOnInit() {
-    this.loadCompanies();
-    this.loadIndustries();
+    console.log(this.data);
+
+    // this.loadCompanies();
+    // this.loadIndustries();
 
     this.companyControl.valueChanges.subscribe(() => {
       this.filterCompanies(this.searchCompany);

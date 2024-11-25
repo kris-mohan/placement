@@ -98,9 +98,8 @@ export class JobsComponent {
   constructor(
     private router: Router,
     private sweetAlertService: SweetAlertService,
-    private location: Location // private apiCompanyService: CompanyAPIService,
-  ) // private apiIndustryService: IndustryAPIService
-  {
+    private location: Location // private apiCompanyService: CompanyAPIService, // private apiIndustryService: IndustryAPIService
+  ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }

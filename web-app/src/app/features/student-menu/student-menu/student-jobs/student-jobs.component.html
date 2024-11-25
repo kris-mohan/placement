@@ -43,31 +43,31 @@
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Location</mat-label>
             <mat-select
-              [formControl]="CityControl"
+              [formControl]="searchLocation"
               multiple
               (openedChange)="onCityDropdownOpen()"
               panelClass="custom-dropdown-panel"
             >
               <mat-select-trigger>
-                {{ selectedCompanyCities }}
+                {{ selectedLocations }}
               </mat-select-trigger>
               <mat-form-field appearance="outline">
                 <input
                   class="full-width"
                   matInput
-                  [(ngModel)]="searchCity"
+                  [(ngModel)]="searchLocationValue"
                   (ngModelChange)="filterCities($event)"
                   placeholder="Search"
                 />
               </mat-form-field>
-              <mat-option *ngIf="!filteredCompanies.length" disabled
+              <mat-option *ngIf="!filteredLocations.length" disabled
                 >No options</mat-option
               >
               <mat-option
-                *ngFor="let company of filteredCompanies"
-                [value]="company.City"
+                *ngFor="let location of filteredLocations"
+                [value]="location"
               >
-                {{ company.City }}
+                {{ location }}
               </mat-option>
               <mat-dialog-actions class="mat-dialog-actions">
                 <button
@@ -93,9 +93,12 @@
           <mat-form-field appearance="outline">
             <mat-label>Experience Level</mat-label>
             <mat-select [formControl]="experienceLevelControl" multiple>
-              @for (expLevel of experienceLevel; track expLevel) {
-              <mat-option [value]="expLevel">{{ expLevel }}</mat-option>
-              }
+              <mat-option
+                *ngFor="let expLevel of searchExperiencelevel"
+                [value]="expLevel"
+              >
+                {{ expLevel }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -103,10 +106,13 @@
         <div>
           <mat-form-field appearance="outline">
             <mat-label>Job Type</mat-label>
-            <mat-select [formControl]="experienceLevelControl" multiple>
-              @for (expLevel of experienceLevel; track expLevel) {
-              <mat-option [value]="expLevel">{{ expLevel }}</mat-option>
-              }
+            <mat-select [formControl]="searchJobType" multiple>
+              <mat-option
+                *ngFor="let jobType of filteredJobTypes"
+                [value]="jobType"
+              >
+                {{ jobType }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -118,11 +124,13 @@
             <mat-label>Search Job Title, Company</mat-label>
             <input
               type="text"
-              aria-label="Number"
+              [(ngModel)]="searchName.value"
+              (input)="applyFilters()"
+              aria-label="Search"
               matInput
-              [matAutocomplete]="auto"
+              [formControl]="searchControl"
             />
-            <mat-autocomplete
+            <!-- <mat-autocomplete
               autoActiveFirstOption
               #auto="matAutocomplete"
               (optionSelected)="onCompanySelected($event)"
@@ -133,7 +141,7 @@
               >
                 {{ company.Name }}
               </mat-option>
-            </mat-autocomplete>
+            </mat-autocomplete> -->
           </mat-form-field>
         </div>
         <div class="example-button-container">
@@ -164,7 +172,7 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let jobPosting of JobPostingsData()"
+      *ngFor="let jobPosting of filteredStudents()"
       (click)="openCopmanyJobDescriptionPage(jobPosting.JobPosting.Id)"
       fxFlex="100%"
       fxFlex.gt-sm="100%"
@@ -177,7 +185,7 @@
           <h2 class="heading1">
             {{ jobPosting.JobPosting.JobRole }} <br />
             <span style="color: slategray; font-size: 0.9rem">
-              {{ jobPosting.JobPosting.Company.Name }}
+              {{ jobPosting.JobPosting.Company?.Name }}
             </span>
           </h2>
 

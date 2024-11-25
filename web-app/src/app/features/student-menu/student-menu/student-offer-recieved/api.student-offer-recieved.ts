@@ -20,7 +20,7 @@ export class StudentOfferRecievedApiService {
     return this.apiHttpService.get<ODataEntity<JobpostingSelectedstudent[]>>(
       //`/Tblstudent?select=Id,BatchId&filter=id eq ${id} & expand=JobpostingSelectedstudents(expand=JobPosting($select=JobRole,Salary,Location,Shift,ModeOfWork;$expand=Company($select=Name,LogoPath)))`
       // `/JobpostStudentround?$filter=StudentId eq ${studentId}& expand = JobPostingRound(expand=JobPosting($expand=Company)),Student($expand=Studentacademics)`
-      `/JobpostingSelectedstudent?$filter=StudentId eq ${id} & expand =JobPosting(expand= Company),Student`
+      `/JobpostingSelectedstudent?$filter=StudentId eq ${id} & expand =JobPosting(expand= Company(expand=Companyindustries(expand= Industry))),Student`
     );
   }
 

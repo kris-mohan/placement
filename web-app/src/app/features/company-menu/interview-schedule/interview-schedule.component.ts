@@ -52,7 +52,8 @@ export class InterviewScheduleComponent implements OnInit {
 
   roundsIdForBatchCall: Jobinterviewround[] = [];
 
-  universityTypes: WritableSignal<Universities[]> = signal([]);
+  // universityTypes: WritableSignal<Universities[]> = signal([]);
+  universityTypes: string[] = [];
   // companiesList: WritableSignal<Companydatum[]> = signal([]);
 
   // colleges : signal<Colleges[]>([]);
@@ -106,17 +107,28 @@ export class InterviewScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCalendarData();
-    this.GetUniversties();
+    this.loadUniversities();
     this.GetColleges();
   }
 
-  async GetUniversties() {
+  // async GetUniversties() {
+  //   this.APiInterviewScheduleService.getUniversities().subscribe({
+  //     next: (odataResponse) => {
+  //       this.universityTypes.set(odataResponse.value);
+  //     },
+  //     error: (error) => {
+  //       console.error("Error fetching companies:", error);
+  //     },
+  //   });
+  // }
+  loadUniversities(): void {
     this.APiInterviewScheduleService.getUniversities().subscribe({
-      next: (odataResponse) => {
-        this.universityTypes.set(odataResponse.value);
+      next: (response) => {
+        console.log(response.value, "Universities fetched");
+        this.universityTypes = response.value.map((uni: any) => uni.Name);
       },
       error: (error) => {
-        console.error("Error fetching companies:", error);
+        console.error("Error fetching universities: ", error);
       },
     });
   }

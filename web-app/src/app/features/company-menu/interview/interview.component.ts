@@ -28,6 +28,7 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { InterviewAdditionalFilterComponent } from "./interview-additional-filter/interview-additional-filter.component";
 import { interviewApiService } from "./api.interview";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { Campusregistration } from "src/app/services/types/Campusregistration";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -53,7 +54,7 @@ export class InterviewComponent {
   });
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   jobInterviewRounds = signal<Jobinterviewround[]>([]);
-
+  filteredJobInterviewRounds = signal<Jobinterviewround[]>([]);
   companies: companyTableList[] = [];
 
   industries: Industry[] = [];
@@ -71,27 +72,9 @@ export class InterviewComponent {
 
   experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
 
-  universityTypes: string[] = [
-    "Visvesvaraya Technological University (VTU)",
-    "Deemed University",
-    "Autonomous University",
-  ];
+  universityTypes: string[] = [];
 
-  colleges: string[] = [
-    "East West Institute of Technology",
-    "East West College of Engineering",
-    "East West School of Architecture",
-    "East West First Grade College of Science ",
-    "East West College of Management",
-    "East West College of Management",
-    "St. John’s Pharmacy College",
-    "East West College of Pharmacy",
-    "East West College of Nursing",
-    "East West Institute of Polytechnic",
-    "East West Polytechnic",
-    "East West Pre-University",
-    "East West Pre-University College",
-  ];
+  colleges: Campusregistration[] = [];
 
   filteredCompanies: companyTableList[] = [];
   filteredCompany: Observable<any[]> = of([]);
@@ -114,7 +97,14 @@ export class InterviewComponent {
   CityFilterControl = new FormControl();
   industryFilterControl = new FormControl();
   companySizeFilterControl = new FormControl();
-
+  statuses: string[] = ["Pending", "Ongoing", "Completed"];
+  statusFilterControl = new FormControl([]);
+  searchControl = new FormControl("");
+  searchName = new FormControl("");
+  branches: string[] = [];
+  batches: number[] = [];
+  branchControl = new FormControl<string[] | null>(null);
+  batchControl = new FormControl<any[] | null>(null);
   readonly dialog = inject(MatDialog);
   constructor(
     private router: Router,
@@ -171,118 +161,118 @@ export class InterviewComponent {
   //     },
   //   });
   // };
-  companiesCard = [
-    {
-      Id: 1,
-      logo: "company-logo-1.png",
-      name: "Haier Appliances",
-      rating: 4.1,
-      reviews: "1.3K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 4,
-      registeredStudents: 120,
-      placedStudents: 80,
-    },
-    {
-      Id: 2,
-      logo: "company-logo-2.png",
-      name: "Sony Electronics",
-      rating: 4.5,
-      reviews: "2K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 5,
-      registeredStudents: 100,
-      placedStudents: 60,
-    },
-    {
-      Id: 3,
-      logo: "company-logo-3.png",
-      name: "Samsung Tech",
-      rating: 4.2,
-      reviews: "1.5K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 3,
-      registeredStudents: 200,
-      placedStudents: 150,
-    },
-    {
-      Id: 4,
-      logo: "company-logo-4.png",
-      name: "LG Electronics",
-      rating: 4.3,
-      reviews: "1.8K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 6,
-      registeredStudents: 140,
-      placedStudents: 110,
-    },
-    {
-      Id: 5,
-      logo: "company-logo-5.png",
-      name: "Apple Inc.",
-      rating: 4.8,
-      reviews: "3K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 7,
-      registeredStudents: 250,
-      placedStudents: 200,
-    },
-    {
-      Id: 6,
-      logo: "company-logo-6.png",
-      name: "Microsoft Corp.",
-      rating: 4.7,
-      reviews: "2.7K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 5,
-      registeredStudents: 180,
-      placedStudents: 160,
-    },
-    {
-      Id: 7,
-      logo: "company-logo-7.png",
-      name: "Google LLC",
-      rating: 4.9,
-      reviews: "5K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 8,
-      registeredStudents: 300,
-      placedStudents: 250,
-    },
-    {
-      Id: 8,
-      logo: "company-logo-8.png",
-      name: "Facebook Inc.",
-      rating: 4.6,
-      reviews: "2.2K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 4,
-      registeredStudents: 170,
-      placedStudents: 130,
-    },
-    {
-      Id: 9,
-      logo: "company-logo-9.png",
-      name: "Amazon Web Services",
-      rating: 4.4,
-      reviews: "2.5K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 6,
-      registeredStudents: 220,
-      placedStudents: 180,
-    },
-    {
-      Id: 10,
-      logo: "company-logo-10.png",
-      name: "Tesla Inc.",
-      rating: 4.7,
-      reviews: "2.8K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 5,
-      registeredStudents: 160,
-      placedStudents: 140,
-    },
-  ];
+  // companiesCard = [
+  //   {
+  //     Id: 1,
+  //     logo: "company-logo-1.png",
+  //     name: "Haier Appliances",
+  //     rating: 4.1,
+  //     reviews: "1.3K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 4,
+  //     registeredStudents: 120,
+  //     placedStudents: 80,
+  //   },
+  //   {
+  //     Id: 2,
+  //     logo: "company-logo-2.png",
+  //     name: "Sony Electronics",
+  //     rating: 4.5,
+  //     reviews: "2K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 5,
+  //     registeredStudents: 100,
+  //     placedStudents: 60,
+  //   },
+  //   {
+  //     Id: 3,
+  //     logo: "company-logo-3.png",
+  //     name: "Samsung Tech",
+  //     rating: 4.2,
+  //     reviews: "1.5K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 3,
+  //     registeredStudents: 200,
+  //     placedStudents: 150,
+  //   },
+  //   {
+  //     Id: 4,
+  //     logo: "company-logo-4.png",
+  //     name: "LG Electronics",
+  //     rating: 4.3,
+  //     reviews: "1.8K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 6,
+  //     registeredStudents: 140,
+  //     placedStudents: 110,
+  //   },
+  //   {
+  //     Id: 5,
+  //     logo: "company-logo-5.png",
+  //     name: "Apple Inc.",
+  //     rating: 4.8,
+  //     reviews: "3K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 7,
+  //     registeredStudents: 250,
+  //     placedStudents: 200,
+  //   },
+  //   {
+  //     Id: 6,
+  //     logo: "company-logo-6.png",
+  //     name: "Microsoft Corp.",
+  //     rating: 4.7,
+  //     reviews: "2.7K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 5,
+  //     registeredStudents: 180,
+  //     placedStudents: 160,
+  //   },
+  //   {
+  //     Id: 7,
+  //     logo: "company-logo-7.png",
+  //     name: "Google LLC",
+  //     rating: 4.9,
+  //     reviews: "5K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 8,
+  //     registeredStudents: 300,
+  //     placedStudents: 250,
+  //   },
+  //   {
+  //     Id: 8,
+  //     logo: "company-logo-8.png",
+  //     name: "Facebook Inc.",
+  //     rating: 4.6,
+  //     reviews: "2.2K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 4,
+  //     registeredStudents: 170,
+  //     placedStudents: 130,
+  //   },
+  //   {
+  //     Id: 9,
+  //     logo: "company-logo-9.png",
+  //     name: "Amazon Web Services",
+  //     rating: 4.4,
+  //     reviews: "2.5K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 6,
+  //     registeredStudents: 220,
+  //     placedStudents: 180,
+  //   },
+  //   {
+  //     Id: 10,
+  //     logo: "company-logo-10.png",
+  //     name: "Tesla Inc.",
+  //     rating: 4.7,
+  //     reviews: "2.8K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 5,
+  //     registeredStudents: 160,
+  //     placedStudents: 140,
+  //   },
+  // ];
   GetJobInterviewRounds = () => {
     const companyId = sessionStorage.getItem("CompanyId");
     this.InterviewService.GetJobInterviewRoundsByCompanyId(
@@ -300,6 +290,7 @@ export class InterviewComponent {
         // });
 
         this.jobInterviewRounds.set(data);
+        this.applyFilters();
         console.log(this.jobInterviewRounds());
       },
       error: (error) => {
@@ -307,14 +298,29 @@ export class InterviewComponent {
       },
     });
   };
+  calculateStatus(driveDate: Date | null | undefined): string {
+    if (!driveDate) return "";
 
+    const today = new Date();
+    const driveDateObj = new Date(driveDate);
+
+    if (driveDateObj.toDateString() === today.toDateString()) {
+      return "Ongoing";
+    } else if (driveDateObj > today) {
+      return "Pending";
+    } else {
+      return "Completed";
+    }
+  }
   ngOnInit() {
-    // this.loadCompanies();
-    // this.loadIndustries();
-
+    this.loadUniversities();
+    this.getAllColleges();
     this.GetJobInterviewRounds();
+    this.getBranches();
+    this.getBatches();
+    this.statusFilterControl.valueChanges.subscribe(() => this.applyFilters());
+    this.searchName.valueChanges.subscribe(() => this.applyFilters());
     this.dataSource.paginator = this.paginator;
-
     this.CityControl.valueChanges.subscribe(() => {
       this.filterCities(this.searchCity);
     });
@@ -337,6 +343,65 @@ export class InterviewComponent {
       map((value) => this._filterCompanies(value))
     );
   }
+  applyFilters() {
+    const selectedStatuses: string[] = this.statusFilterControl.value || [];
+    const nameFilter = this.searchName.value?.toLowerCase() || "";
+
+    const filteredData = this.jobInterviewRounds().filter((round) => {
+      const matchesName =
+        !nameFilter ||
+        round.JobPosting?.Company?.Name.toLowerCase().includes(nameFilter);
+      const status = this.calculateStatus(round.JobPosting?.DriveDate);
+      const matchesStatus =
+        selectedStatuses.length === 0 || selectedStatuses.includes(status);
+      return matchesName && matchesStatus;
+    });
+
+    this.filteredJobInterviewRounds.set(filteredData);
+  }
+  getBatches(): void {
+    this.InterviewService.GetBatches().subscribe({
+      next: (batchData) => {
+        this.batches = batchData.value.map((batch: any) => batch.Name);
+        console.log("Available batches:", this.batches);
+      },
+      error: (error) => {
+        console.error("Error fetching batches:", error);
+      },
+    });
+  }
+
+  getBranches(): void {
+    this.InterviewService.GetBranches().subscribe({
+      next: (branchData) => {
+        this.branches = branchData.value.map((branch: any) => branch.FullForm);
+        console.log("Available branches:", this.branches);
+      },
+      error: (error) => {
+        console.error("Error fetching branches:", error);
+      },
+    });
+  }
+  loadUniversities(): void {
+    this.InterviewService.GetUniversities().subscribe({
+      next: (response) => {
+        console.log(response.value, "Universities fetched");
+        this.universityTypes = response.value.map((uni: any) => uni.Name);
+      },
+      error: (error) => {
+        console.error("Error fetching universities: ", error);
+      },
+    });
+  }
+  getAllColleges = () => {
+    this.InterviewService.GetAllColleges().subscribe({
+      next: (response) => {
+        const data: Campusregistration[] = response.value;
+        console.log("College Types", data);
+        if (data) this.colleges = data;
+      },
+    });
+  };
 
   onCompanySelected(event: MatAutocompleteSelectedEvent) {
     const selectedCompanyName = event.option.value;
@@ -575,87 +640,6 @@ export class InterviewComponent {
       this.router.navigate(["interview/interview-students-list", id]);
     }
   }
-
-  scheduledInterviews = [
-    {
-      id: 1,
-      jobTitle: "Software Engineer",
-      company: "Google",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      status: "Upcoming",
-      jobDescription:
-        "We are seeking an experienced project manager to oversee our projects.",
-
-      roundName: "Test Assesment 1",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png..",
-    },
-    {
-      id: 2,
-      jobTitle: "Data Scientist",
-      company: "Facebook",
-      date: "2024-09-28",
-      status: "Upcoming",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "This is the first assessment to test the candidate's programming and problem-solving skills.",
-      roundName: "Test Assesment 2",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png..",
-    },
-    {
-      id: 3,
-      jobTitle: "Product Manager",
-      company: "Amazon",
-      date: "2024-09-27",
-      status: "Completed",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "The second assessment focuses on data science challenges and machine learning algorithms.",
-
-      roundName: "Test Assesment 3",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png..",
-    },
-    {
-      id: 4,
-      jobTitle: "Web Developer",
-      company: "Microsoft",
-      date: "2024-09-29",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "This assessment evaluates the candidate's ability to manage products and handle business cases.",
-
-      roundName: "Technical Interview",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png..",
-    },
-    {
-      id: 5,
-      jobTitle: "UI/UX Designer",
-      company: "Apple",
-      date: "2024-09-26",
-      status: "Ongoing",
-      postedDate: "2024-07-01",
-      applicationDeadline: new Date("2024-08-01"),
-      jobDescription:
-        "A technical interview to assess coding skills, system design, and problem-solving ability.",
-
-      roundName: "HR Interview",
-      studentsCleared: 12,
-      studentsRejected: 15,
-      logo: "../../../../assets/images/Softserve-logo1.png..",
-    },
-  ];
 
   jobSummary = [
     { jobTitle: "Software Engineer", studentsCount: 1 },

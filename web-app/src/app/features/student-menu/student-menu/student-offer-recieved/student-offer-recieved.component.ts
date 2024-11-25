@@ -20,6 +20,7 @@ import { JobpostingSelectedstudent } from "src/app/services/types/JobpostingSele
 import { StudentOfferRecievedApiService } from "./api.student-offer-recieved";
 import { Tblstudent } from "src/app/services/types/Tblstudent";
 import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
+import { Companyindustry } from "src/app/services/types/Companyindustry";
 
 const today = new Date();
 const month = today.getMonth();
@@ -65,6 +66,7 @@ export class StudentOfferRecievedComponent {
           //const StudentData = data[0].JobpostingSelectedstudents;
           this.JobpostingSelectedstudentData.set(data);
           console.log(this.JobpostingSelectedstudentData());
+          this.filterOfferData();
         },
         error: (error) => {
           console.log("Error fetching rounds: ", error);
@@ -121,7 +123,6 @@ export class StudentOfferRecievedComponent {
   companySizeControl = new FormControl();
   experienceLevelControl = new FormControl();
   companyControl = new FormControl();
-  salaryControl = new FormControl();
 
   CityFilterControl = new FormControl();
   industryFilterControl = new FormControl();
@@ -130,63 +131,130 @@ export class StudentOfferRecievedComponent {
   readonly dialog = inject(MatDialog);
 
   salaryOptions: string[] = [
+    "₹0 - 3 LPA",
     "₹3 - 5 LPA",
     "₹6 - 8 LPA",
     "₹9 - 12 LPA",
     "₹12 - 15 LPA",
     "₹15 LPA and above",
   ];
+  salaryRanges = [
+    { label: "₹0 - 3 LPA", min: 0, max: 300000 },
+    { label: "₹3 - 5 LPA", min: 300000, max: 500000 },
+    { label: "₹6 - 8 LPA", min: 600000, max: 800000 },
+    { label: "₹9 - 12 LPA", min: 900000, max: 1200000 },
+    { label: "₹12 - 15 LPA", min: 1200000, max: 1500000 },
+    { label: "₹15 LPA and above", min: 1500000, max: Infinity },
+  ];
+  salaryControl = new FormControl<string[]>([]);
 
   JobpostingSelectedstudentData = signal<JobpostingSelectedstudent[]>([]);
-
+  filterOfferRecievedData = signal<JobpostingSelectedstudent[]>([]);
   dataSource = new MatTableDataSource<companyTableList>([]);
 
   ngOnInit() {
-    // this.loadCompanies();
-    // this.loadIndustries();
-
     this.getAllIndustries();
 
     this.getAllOfferRecieved();
-
-    this.dataSource.paginator = this.paginator;
-
-    this.CityControl.valueChanges.subscribe(() => {
-      this.filterCities(this.searchCity);
-    });
-
-    this.industryControl.valueChanges.subscribe(() => {
-      this.filterIndustries(this.searchIndustry);
-    });
-
-    this.filteredCities = this.CityFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCities(value))
-    );
-    this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterIndustries(value))
-    );
-
-    this.filteredCompany = this.companyControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCompanies(value))
-    );
+    this.salaryControl.valueChanges.subscribe(() => this.filterOfferData());
+    this.industryControl.valueChanges.subscribe(() => this.filterOfferData());
   }
 
-  onCompanySelected(event: MatAutocompleteSelectedEvent) {
-    const selectedCompanyName = event.option.value;
-    const selectedCompany = this.companies.find(
-      (company) => company.Name === selectedCompanyName
-    );
-    if (selectedCompany) {
-      this.apiCompanyService
-        .getCompanyDataById(selectedCompany.Id)
-        .subscribe((response) => {
-          const companyData = response.value[0];
-          this.openCompanyModalPopup(companyData);
-        });
+  getIndustryTypes(job: any): string {
+    if (!job?.JobPosting?.Company?.Companyindustries) {
+      return "";
     }
+    return job.JobPosting.Company.Companyindustries.filter(
+      (x: Companyindustry) => x.Industry?.Type
+    )
+      .map((x: Companyindustry) => x.Industry?.Type)
+      .join(", ");
+  }
+
+  // filterByIndustry(): void {
+  //   const selectedIndustries = this.industryControl.value || [];
+  //   if (!selectedIndustries.length) {
+  //     this.filterOfferRecievedData.set(this.JobpostingSelectedstudentData());
+  //     return;
+  //   }
+
+  //   const filteredData = this.JobpostingSelectedstudentData().filter((job) =>
+  //     job.JobPosting?.Company?.Companyindustries?.some((companyIndustry) =>
+  //       selectedIndustries.includes(companyIndustry.Industry?.Type)
+  //     )
+  //   );
+
+  //   this.filterOfferRecievedData.set(filteredData);
+  // }
+
+  filterIndustries(searchTerm: string) {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    this.filteredIndustries = this.industries.filter((industry) =>
+      industry.Type?.toLowerCase().includes(lowerSearchTerm)
+    );
+  }
+  // filterBySalaryRange() {
+  //   const selectedRanges = this.salaryControl.value || [];
+  //   if (!selectedRanges.length) {
+  //     this.filterOfferRecievedData.set(this.JobpostingSelectedstudentData());
+  //     return;
+  //   }
+
+  //   const filteredData = this.JobpostingSelectedstudentData().filter(
+  //     (student) => {
+  //       const salary = student.JobPosting?.Salary || 0;
+  //       return selectedRanges.some((rangeLabel) => {
+  //         const range = this.salaryRanges.find((r) => r.label === rangeLabel);
+  //         return range && salary >= range.min && salary <= range.max;
+  //       });
+  //     }
+  //   );
+  //   this.filterOfferRecievedData.set(filteredData);
+  // }
+
+  // onCompanySelected(event: MatAutocompleteSelectedEvent) {
+  //   const selectedCompanyName = event.option.value;
+  //   const selectedCompany = this.companies.find(
+  //     (company) => company.Name === selectedCompanyName
+  //   );
+  //   if (selectedCompany) {
+  //     this.apiCompanyService
+  //       .getCompanyDataById(selectedCompany.Id)
+  //       .subscribe((response) => {
+  //         const companyData = response.value[0];
+  //         this.openCompanyModalPopup(companyData);
+  //       });
+  //   }
+  // }
+  filterOfferData() {
+    const selectedIndustries = this.industryControl.value || [];
+    const selectedSalaryRanges = this.salaryControl.value || [];
+
+    if (!selectedIndustries.length && !selectedSalaryRanges.length) {
+      // No filters applied
+      this.filterOfferRecievedData.set(this.JobpostingSelectedstudentData());
+      return;
+    }
+
+    const filteredData = this.JobpostingSelectedstudentData().filter((job) => {
+      const industryMatches =
+        !selectedIndustries.length ||
+        job.JobPosting?.Company?.Companyindustries?.some((companyIndustry) =>
+          selectedIndustries.includes(companyIndustry.Industry?.Type)
+        );
+
+      const salaryMatches =
+        !selectedSalaryRanges.length ||
+        selectedSalaryRanges.some((rangeLabel) => {
+          const range = this.salaryRanges.find((r) => r.label === rangeLabel);
+          const salary = job.JobPosting?.Salary || 0;
+          return range && salary >= range.min && salary <= range.max;
+        });
+
+      return industryMatches && salaryMatches; // Match both conditions
+    });
+
+    this.filterOfferRecievedData.set(filteredData);
   }
 
   openCompanyModalPopup(company: any): void {
@@ -197,42 +265,42 @@ export class StudentOfferRecievedComponent {
     });
   }
 
-  _filterCompanies(value: string): companyTableList[] {
-    const filterValue = value.toLowerCase();
-    if (filterValue.length < 2) {
-      return [];
-    }
-    return this.companies.filter((company) =>
-      company.Name.toLowerCase().includes(filterValue)
-    );
-  }
+  // _filterCompanies(value: string): companyTableList[] {
+  //   const filterValue = value.toLowerCase();
+  //   if (filterValue.length < 2) {
+  //     return [];
+  //   }
+  //   return this.companies.filter((company) =>
+  //     company.Name.toLowerCase().includes(filterValue)
+  //   );
+  // }
 
-  loadCompanies() {
-    this.apiCompanyService.loadCompanyData().subscribe({
-      next: (response: ODataResponse<companyTableList>) => {
-        console.log("API Response:", response);
-        this.dataSource.data = response.value;
-        this.companies = response.value;
-        this.industries = this.extractIndustriesFromCompanies(this.companies);
-        this.filteredIndustries = this.industries;
-      },
-      error: (error) => {
-        console.error("Error loading companies", error);
-      },
-    });
-  }
+  // loadCompanies() {
+  //   this.apiCompanyService.loadCompanyData().subscribe({
+  //     next: (response: ODataResponse<companyTableList>) => {
+  //       console.log("API Response:", response);
+  //       this.dataSource.data = response.value;
+  //       this.companies = response.value;
+  //       this.industries = this.extractIndustriesFromCompanies(this.companies);
+  //       this.filteredIndustries = this.industries;
+  //     },
+  //     error: (error) => {
+  //       console.error("Error loading companies", error);
+  //     },
+  //   });
+  // }
 
-  loadIndustries() {
-    this.apiIndustryService.loadIndustryData().subscribe({
-      next: (response: ODataResponse<any>) => {
-        console.log("API Response:", response);
-        this.industries = response.value;
-      },
-      error: (error) => {
-        console.error("Error loading Industries", error);
-      },
-    });
-  }
+  // loadIndustries() {
+  //   this.apiIndustryService.loadIndustryData().subscribe({
+  //     next: (response: ODataResponse<any>) => {
+  //       console.log("API Response:", response);
+  //       this.industries = response.value;
+  //     },
+  //     error: (error) => {
+  //       console.error("Error loading Industries", error);
+  //     },
+  //   });
+  // }
   openAddEditCompanyForm(id?: number) {
     if (id !== null && id !== undefined) {
       this.router.navigate(["/company-configuration/company", id]);
@@ -241,30 +309,30 @@ export class StudentOfferRecievedComponent {
     }
   }
 
-  async deleteCompany(id: number) {
-    const confirmed = await this.sweetAlertService.confirmDelete(
-      "Do you really want to delete this Company?"
-    );
+  // async deleteCompany(id: number) {
+  //   const confirmed = await this.sweetAlertService.confirmDelete(
+  //     "Do you really want to delete this Company?"
+  //   );
 
-    if (confirmed) {
-      this.apiCompanyService.deleteCompany(id).subscribe({
-        next: (response: { success: boolean; message: string }) => {
-          if (response.success) {
-            this.sweetAlertService.success(response.message);
-            this.loadCompanies();
-          } else {
-            this.sweetAlertService.error(response.message);
-          }
-        },
-        error: (error) => {
-          this.sweetAlertService.error(
-            "An unexpected error occurred while deleting the Company."
-          );
-          console.error("Error deleting Company:", error);
-        },
-      });
-    }
-  }
+  //   if (confirmed) {
+  //     this.apiCompanyService.deleteCompany(id).subscribe({
+  //       next: (response: { success: boolean; message: string }) => {
+  //         if (response.success) {
+  //           this.sweetAlertService.success(response.message);
+  //           this.loadCompanies();
+  //         } else {
+  //           this.sweetAlertService.error(response.message);
+  //         }
+  //       },
+  //       error: (error) => {
+  //         this.sweetAlertService.error(
+  //           "An unexpected error occurred while deleting the Company."
+  //         );
+  //         console.error("Error deleting Company:", error);
+  //       },
+  //     });
+  //   }
+  // }
 
   openJdDetails(id: number) {}
 
@@ -299,39 +367,39 @@ export class StudentOfferRecievedComponent {
     ];
   }
 
-  filterIndustries(search: string) {
-    const filterValue = search.toLowerCase();
+  // filterIndustries(search: string) {
+  //   const filterValue = search.toLowerCase();
 
-    const filteredList = this.industries.filter((industry) =>
-      industry.Type?.toLowerCase().includes(filterValue)
-    );
+  //   const filteredList = this.industries.filter((industry) =>
+  //     industry.Type?.toLowerCase().includes(filterValue)
+  //   );
 
-    const selectedIndustries = this.industryControl.value || [];
-    this.filteredIndustries = [
-      ...selectedIndustries
-        .map((name: any) =>
-          this.industries.find((industry) => industry.Type === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (industry) => !selectedIndustries.includes(industry.Type)
-      ),
-    ];
-  }
+  //   const selectedIndustries = this.industryControl.value || [];
+  //   this.filteredIndustries = [
+  //     ...selectedIndustries
+  //       .map((name: any) =>
+  //         this.industries.find((industry) => industry.Type === name)
+  //       )
+  //       .filter(Boolean),
+  //     ...filteredList.filter(
+  //       (industry) => !selectedIndustries.includes(industry.Type)
+  //     ),
+  //   ];
+  // }
 
-  get selectedCompanyCities(): string {
-    const selected = this.CityControl.value;
-    return selected ? selected.join(", ") : "";
-  }
+  // get selectedCompanyCities(): string {
+  //   const selected = this.CityControl.value;
+  //   return selected ? selected.join(", ") : "";
+  // }
 
   get selectedIndustries(): string {
     const selected = this.industryControl.value;
     return selected ? selected.join(", ") : "";
   }
-  get selectedCompanySize(): string {
-    const selected = this.companySizeControl.value;
-    return selected ? selected.join(", ") : "";
-  }
+  // get selectedCompanySize(): string {
+  //   const selected = this.companySizeControl.value;
+  //   return selected ? selected.join(", ") : "";
+  // }
 
   onCityDropdownOpen() {
     this.filterCities(this.searchCity);
@@ -341,19 +409,19 @@ export class StudentOfferRecievedComponent {
     this.filterIndustries(this.searchIndustry);
   }
 
-  _filterCities(value: string): any[] {
-    const filterValue = value.toLowerCase();
-    return this.companies.filter((option) =>
-      option.City.toLowerCase().includes(filterValue)
-    );
-  }
+  // _filterCities(value: string): any[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.companies.filter((option) =>
+  //     option.City.toLowerCase().includes(filterValue)
+  //   );
+  // }
 
-  _filterIndustries(value: string): any[] {
-    const filterValue = value.toLowerCase();
-    return this.industries.filter((option) =>
-      option.Type?.toLowerCase().includes(filterValue)
-    );
-  }
+  // _filterIndustries(value: string): any[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.industries.filter((option) =>
+  //     option.Type?.toLowerCase().includes(filterValue)
+  //   );
+  // }
 
   resetIndustrySelection() {
     this.industryControl.reset();
@@ -362,12 +430,12 @@ export class StudentOfferRecievedComponent {
     this.dataSource.data = this.filteredCompanies;
   }
 
-  resetLocationSelection() {
-    this.CityControl.reset();
-    this.searchCity = "";
-    this.filteredCompanies = this.companies;
-    this.dataSource.data = this.filteredCompanies;
-  }
+  // resetLocationSelection() {
+  //   this.CityControl.reset();
+  //   this.searchCity = "";
+  //   this.filteredCompanies = this.companies;
+  //   this.dataSource.data = this.filteredCompanies;
+  // }
 
   showIndustryResults() {
     const selectedIndustries = this.industryControl.value;
@@ -383,28 +451,28 @@ export class StudentOfferRecievedComponent {
     this.dataSource.data = this.filteredCompanies;
   }
 
-  showLocationResults() {
-    const selectedCities = this.CityControl.value;
-    if (selectedCities && selectedCities.length > 0) {
-      this.filteredCompanies = this.companies.filter((company) =>
-        selectedCities.includes(company.City)
-      );
-    } else {
-      this.filteredCompanies = this.companies;
-    }
+  // showLocationResults() {
+  //   const selectedCities = this.CityControl.value;
+  //   if (selectedCities && selectedCities.length > 0) {
+  //     this.filteredCompanies = this.companies.filter((company) =>
+  //       selectedCities.includes(company.City)
+  //     );
+  //   } else {
+  //     this.filteredCompanies = this.companies;
+  //   }
 
-    this.dataSource.data = this.filteredCompanies;
-  }
+  //   this.dataSource.data = this.filteredCompanies;
+  // }
 
-  extractIndustriesFromCompanies(companies: any[]): Industry[] {
-    const industriesSet = new Set();
-    companies.forEach((company) => {
-      company.Companyindustries.forEach((ci: any) => {
-        industriesSet.add(ci.Industry);
-      });
-    });
-    return Array.from(industriesSet) as Industry[];
-  }
+  // extractIndustriesFromCompanies(companies: any[]): Industry[] {
+  //   const industriesSet = new Set();
+  //   companies.forEach((company) => {
+  //     company.Companyindustries.forEach((ci: any) => {
+  //       industriesSet.add(ci.Industry);
+  //     });
+  //   });
+  //   return Array.from(industriesSet) as Industry[];
+  // }
 
   goToInterviewStudentsDetails(id: number) {
     if (this.UserRoleId === 1 || this.UserRoleId === 2) {
@@ -415,13 +483,13 @@ export class StudentOfferRecievedComponent {
     }
   }
 
-  jobSummary = [
-    { jobTitle: "Software Engineer", studentsCount: 1 },
-    { jobTitle: "Data Scientist", studentsCount: 1 },
-    { jobTitle: "Product Manager", studentsCount: 1 },
-    { jobTitle: "Web Developer", studentsCount: 1 },
-    { jobTitle: "UI/UX Designer", studentsCount: 1 },
-  ];
+  // jobSummary = [
+  //   { jobTitle: "Software Engineer", studentsCount: 1 },
+  //   { jobTitle: "Data Scientist", studentsCount: 1 },
+  //   { jobTitle: "Product Manager", studentsCount: 1 },
+  //   { jobTitle: "Web Developer", studentsCount: 1 },
+  //   { jobTitle: "UI/UX Designer", studentsCount: 1 },
+  // ];
 
   viewInterviewDetails(id: number) {
     // Navigate to interview details page (to be implemented)

@@ -58,7 +58,7 @@ export class PlacementInterviewComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   jobInterviewRounds = signal<Jobinterviewround[]>([]);
-
+  filteredStudents = signal<Jobinterviewround[]>([]);
   companies: companyTableList[] = [];
 
   industries: Industry[] = [];
@@ -98,6 +98,12 @@ export class PlacementInterviewComponent {
   industryFilterControl = new FormControl();
   companySizeFilterControl = new FormControl();
 
+  searchControl = new FormControl("");
+  searchName = new FormControl("");
+  branches: string[] = [];
+  batches: number[] = [];
+  branchControl = new FormControl<string[] | null>(null);
+  batchControl = new FormControl<any[] | null>(null);
   readonly dialog = inject(MatDialog);
   constructor(
     private router: Router,
@@ -142,118 +148,118 @@ export class PlacementInterviewComponent {
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
 
-  companiesCard = [
-    {
-      Id: 1,
-      logo: "../../../../assets/images/Softserve-logo1.png",
-      name: "Haier Appliances",
-      rating: 4.1,
-      reviews: "1.3K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 4,
-      registeredStudents: 120,
-      placedStudents: 80,
-    },
-    {
-      Id: 2,
-      logo: "company-logo-2.png",
-      name: "Sony Electronics",
-      rating: 4.5,
-      reviews: "2K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 5,
-      registeredStudents: 100,
-      placedStudents: 60,
-    },
-    {
-      Id: 3,
-      logo: "company-logo-3.png",
-      name: "Samsung Tech",
-      rating: 4.2,
-      reviews: "1.5K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 3,
-      registeredStudents: 200,
-      placedStudents: 150,
-    },
-    {
-      Id: 4,
-      logo: "company-logo-4.png",
-      name: "LG Electronics",
-      rating: 4.3,
-      reviews: "1.8K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 6,
-      registeredStudents: 140,
-      placedStudents: 110,
-    },
-    {
-      Id: 5,
-      logo: "company-logo-5.png",
-      name: "Apple Inc.",
-      rating: 4.8,
-      reviews: "3K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 7,
-      registeredStudents: 250,
-      placedStudents: 200,
-    },
-    {
-      Id: 6,
-      logo: "company-logo-6.png",
-      name: "Microsoft Corp.",
-      rating: 4.7,
-      reviews: "2.7K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 5,
-      registeredStudents: 180,
-      placedStudents: 160,
-    },
-    {
-      Id: 7,
-      logo: "company-logo-7.png",
-      name: "Google LLC",
-      rating: 4.9,
-      reviews: "5K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 8,
-      registeredStudents: 300,
-      placedStudents: 250,
-    },
-    {
-      Id: 8,
-      logo: "company-logo-8.png",
-      name: "Facebook Inc.",
-      rating: 4.6,
-      reviews: "2.2K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 4,
-      registeredStudents: 170,
-      placedStudents: 130,
-    },
-    {
-      Id: 9,
-      logo: "company-logo-9.png",
-      name: "Amazon Web Services",
-      rating: 4.4,
-      reviews: "2.5K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 6,
-      registeredStudents: 220,
-      placedStudents: 180,
-    },
-    {
-      Id: 10,
-      logo: "company-logo-10.png",
-      name: "Tesla Inc.",
-      rating: 4.7,
-      reviews: "2.8K+ reviews",
-      type: "Foreign MNC",
-      numberOfJobs: 5,
-      registeredStudents: 160,
-      placedStudents: 140,
-    },
-  ];
+  // companiesCard = [
+  //   {
+  //     Id: 1,
+  //     logo: "../../../../assets/images/Softserve-logo1.png",
+  //     name: "Haier Appliances",
+  //     rating: 4.1,
+  //     reviews: "1.3K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 4,
+  //     registeredStudents: 120,
+  //     placedStudents: 80,
+  //   },
+  //   {
+  //     Id: 2,
+  //     logo: "company-logo-2.png",
+  //     name: "Sony Electronics",
+  //     rating: 4.5,
+  //     reviews: "2K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 5,
+  //     registeredStudents: 100,
+  //     placedStudents: 60,
+  //   },
+  //   {
+  //     Id: 3,
+  //     logo: "company-logo-3.png",
+  //     name: "Samsung Tech",
+  //     rating: 4.2,
+  //     reviews: "1.5K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 3,
+  //     registeredStudents: 200,
+  //     placedStudents: 150,
+  //   },
+  //   {
+  //     Id: 4,
+  //     logo: "company-logo-4.png",
+  //     name: "LG Electronics",
+  //     rating: 4.3,
+  //     reviews: "1.8K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 6,
+  //     registeredStudents: 140,
+  //     placedStudents: 110,
+  //   },
+  //   {
+  //     Id: 5,
+  //     logo: "company-logo-5.png",
+  //     name: "Apple Inc.",
+  //     rating: 4.8,
+  //     reviews: "3K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 7,
+  //     registeredStudents: 250,
+  //     placedStudents: 200,
+  //   },
+  //   {
+  //     Id: 6,
+  //     logo: "company-logo-6.png",
+  //     name: "Microsoft Corp.",
+  //     rating: 4.7,
+  //     reviews: "2.7K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 5,
+  //     registeredStudents: 180,
+  //     placedStudents: 160,
+  //   },
+  //   {
+  //     Id: 7,
+  //     logo: "company-logo-7.png",
+  //     name: "Google LLC",
+  //     rating: 4.9,
+  //     reviews: "5K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 8,
+  //     registeredStudents: 300,
+  //     placedStudents: 250,
+  //   },
+  //   {
+  //     Id: 8,
+  //     logo: "company-logo-8.png",
+  //     name: "Facebook Inc.",
+  //     rating: 4.6,
+  //     reviews: "2.2K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 4,
+  //     registeredStudents: 170,
+  //     placedStudents: 130,
+  //   },
+  //   {
+  //     Id: 9,
+  //     logo: "company-logo-9.png",
+  //     name: "Amazon Web Services",
+  //     rating: 4.4,
+  //     reviews: "2.5K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 6,
+  //     registeredStudents: 220,
+  //     placedStudents: 180,
+  //   },
+  //   {
+  //     Id: 10,
+  //     logo: "company-logo-10.png",
+  //     name: "Tesla Inc.",
+  //     rating: 4.7,
+  //     reviews: "2.8K+ reviews",
+  //     type: "Foreign MNC",
+  //     numberOfJobs: 5,
+  //     registeredStudents: 160,
+  //     placedStudents: 140,
+  //   },
+  // ];
 
   GetDateLabelByDate = (date?: Date) => {
     return date ? GetDateForLabel(date) : "NA";
@@ -264,7 +270,8 @@ export class PlacementInterviewComponent {
       next: (response) => {
         const data: Jobinterviewround[] = response.value;
         this.jobInterviewRounds.set(data);
-        console.log(this.jobInterviewRounds());
+        console.log(this.jobInterviewRounds);
+        this.applyFilters();
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);
@@ -276,9 +283,10 @@ export class PlacementInterviewComponent {
     // this.loadCompanies();
     // this.loadIndustries();
     this.GetJobInterviewRounds();
-
+    this.getBranches();
+    this.getBatches();
     this.dataSource.paginator = this.paginator;
-
+    this.searchName.valueChanges.subscribe(() => this.applyFilters());
     this.CityControl.valueChanges.subscribe(() => {
       this.filterCities(this.searchCity);
     });
@@ -301,7 +309,39 @@ export class PlacementInterviewComponent {
       map((value) => this._filterCompanies(value))
     );
   }
+  applyFilters() {
+    const filtered = this.jobInterviewRounds().filter((student) => {
+      const nameFilter = this.searchName.value?.toLowerCase() || "";
+      const matchesName =
+        !nameFilter ||
+        student.JobPosting.Company.Name.toLowerCase().includes(nameFilter);
+      return matchesName;
+    });
+    this.filteredStudents.set(filtered);
+  }
+  getBatches(): void {
+    this.InterviewService.GetBatches().subscribe({
+      next: (batchData) => {
+        this.batches = batchData.value.map((batch: any) => batch.Name);
+        console.log("Available batches:", this.batches);
+      },
+      error: (error) => {
+        console.error("Error fetching batches:", error);
+      },
+    });
+  }
 
+  getBranches(): void {
+    this.InterviewService.GetBranches().subscribe({
+      next: (branchData) => {
+        this.branches = branchData.value.map((branch: any) => branch.FullForm);
+        console.log("Available branches:", this.branches);
+      },
+      error: (error) => {
+        console.error("Error fetching branches:", error);
+      },
+    });
+  }
   onCompanySelected(event: MatAutocompleteSelectedEvent) {
     const selectedCompanyName = event.option.value;
     const selectedCompany = this.companies.find(

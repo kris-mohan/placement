@@ -3,6 +3,7 @@ import { StudentSkill } from "./StudentSkill";
 import { Tblstudent } from "./Tblstudent";
 
 export type JobpostingSelectedstudent = {
+  industriesWithCompanyId: any;
   Id: number;
   JobPostingId: number;
   StudentId: number;

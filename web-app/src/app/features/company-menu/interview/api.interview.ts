@@ -45,4 +45,16 @@ export class interviewApiService {
       }&$expand=JobpostStudentrounds($expand=JobPostingRound($expand=JobPosting($expand=Company)))`
     );
   }
+  GetBatches(): Observable<any> {
+    return this.apiHttpService.get(`/Batch`);
+  }
+  GetBranches(): Observable<any> {
+    return this.apiHttpService.get(`/Course`);
+  }
+  GetUniversities(): Observable<any> {
+    return this.apiHttpService.get(`/University`);
+  }
+  GetAllColleges(): Observable<any> {
+    return this.apiHttpService.get("/Campusregistration");
+  }
 }

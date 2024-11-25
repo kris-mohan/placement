@@ -16,6 +16,4 @@ export class interviewApiService {
       "/Jobinterviewround?$expand=JobPosting($select=JobRole,JobDescription,ValidFrom,ValidTill;$expand=Company($select=Name,LogoPath)),JobpostStudentrounds"
     );
   }
-
-
 }
