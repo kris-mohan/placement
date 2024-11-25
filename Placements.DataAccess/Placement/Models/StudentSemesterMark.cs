@@ -15,5 +15,11 @@ public partial class StudentSemesterMark
 
     public string? Status { get; set; }
 
+    public decimal? MarkaPercentage { get; set; }
+
+    public int? ClosedBacklogs { get; set; }
+
+    public int? LiveBacklogs { get; set; }
+
     public virtual Studentacademic? StudentAcademic { get; set; }
 }

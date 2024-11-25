@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Placements.DataAccess.Placement.Models;
 
@@ -121,9 +123,9 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Akram@123;database=placement");
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -936,6 +938,7 @@ public partial class PlacementContext : DbContext
 
             entity.HasIndex(e => e.StudentAcademicId, "FK_StudentSemMarks_StudentAcademic_idx");
 
+            entity.Property(e => e.MarkaPercentage).HasPrecision(10);
             entity.Property(e => e.Sgpa).HasPrecision(10);
             entity.Property(e => e.Status).HasMaxLength(45);
 

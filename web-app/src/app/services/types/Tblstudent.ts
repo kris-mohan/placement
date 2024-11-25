@@ -1,11 +1,15 @@
-import { Batch } from './Batch';
-import { Campusregistration } from './Campusregistration';
-import { JobpostingSelectedstudent } from './JobpostingSelectedstudent';
-import { JobpostingsEligiblestudent } from './JobpostingsEligibleStudent';
-import { JobpostStudentround } from './JobpostStudentround';
-import { Login } from './Login';
-import { Studentacademic } from './Studentacademic';
-import { StudentSkill } from './StudentSkill';
+import { Batch } from "./Batch";
+import { Campusregistration } from "./Campusregistration";
+import { JobpostingSelectedstudent } from "./JobpostingSelectedstudent";
+import { JobpostingsEligiblestudent } from "./JobpostingsEligibleStudent";
+import { JobpostStudentround } from "./JobpostStudentround";
+import { Login } from "./Login";
+import { Skill } from "./Skill";
+import { Studentacademic } from "./Studentacademic";
+import { Studentplaced } from "./Studentplaced";
+import { StudentSkill } from "./StudentSkill";
+
+export type PatchTblStudent = Tblstudent | {};
 
 export type Tblstudent = {
   Id: number;
@@ -18,10 +22,16 @@ export type Tblstudent = {
   CurrentAddress: string;
   Email: string;
   PhoneNumber: string;
-  ParentName: string;
-  ParentPhoneNumber: string;
+  FatherName: string;
+  FatherPhoneNumber: string;
   DateOfBirth: Date;
   RollNo: string;
+  BloodGroup: string;
+  MiddleName: string;
+  Pannumber: string;
+  MotherName: string;
+  MotherPhoneNumber: string;
+  Gender: string;
   Batch: Batch;
   JobpostStudentrounds: JobpostStudentround[];
   JobpostingSelectedstudents: JobpostingSelectedstudent[];
@@ -30,12 +40,12 @@ export type Tblstudent = {
   Org: Campusregistration;
   Studentacademics: Studentacademic[];
   StudentSkills: StudentSkill[];
+  Studentplaceds: Studentplaced[];
   skills: string;
 };
 
 export type PostTblstudent = {
   Id: number;
-  OrgId: number;
   FirstName: string;
   LastName: string;
   BatchId: number;
@@ -44,10 +54,16 @@ export type PostTblstudent = {
   CurrentAddress: string;
   Email: string;
   PhoneNumber: string;
-  ParentName: string;
-  ParentPhoneNumber: string;
+  FatherName: string;
+  FatherPhoneNumber: string;
   DateOfBirth: Date;
   RollNo: string;
+  BloodGroup: string;
+  MiddleName: string;
+  Pannumber: string;
+  MotherName: string;
+  MotherPhoneNumber: string;
+  Gender: string;
   Batch: Batch;
   Studentacademics: Studentacademic[];
   StudentSkills: StudentSkill[];
