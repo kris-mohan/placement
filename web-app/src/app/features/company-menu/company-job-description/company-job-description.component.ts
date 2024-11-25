@@ -22,7 +22,6 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
   templateUrl: "./company-job-description.component.html",
   styleUrl: "./company-job-description.component.css",
 })
-
 export class CompanyJobDescriptionComponent {
   Id: number | null = null;
   CompanyId: number;
@@ -207,14 +206,18 @@ export class CompanyJobDescriptionComponent {
   }
 
   openAddEditJobPostingForm() {
-    if (this.Id !== undefined) {
-      this.router.navigate([
-        "/company-job-details/add-edit-jobPosting/",
-        this.Id,
-      ]);
-    } else {
-      this.router.navigate(["/company-job-details/add-edit-jobPosting/", 0]);
-    }
+    this.route.paramMap.subscribe((params) => {
+      const jobPostRouteId = params.get("jobId");
+      const jobPostId = params.get("id");
+      const jobPostID = jobPostRouteId !== null ? +jobPostRouteId : null;
+      const JobID = jobPostId !== null ? +jobPostId : null;
+      const Id = this.UserRoleId == 1 ? jobPostID : JobID;
+      if (Id !== undefined) {
+        this.router.navigate(["/company-job-details/add-edit-jobPosting/", Id]);
+      } else {
+        this.router.navigate(["/company-job-details/add-edit-jobPosting/", 0]);
+      }
+    });
   }
 
   async DeleteJobPosting() {
@@ -224,14 +227,17 @@ export class CompanyJobDescriptionComponent {
 
     if (confirmed) {
       this.route.paramMap.subscribe((params) => {
-        const jobId = params.get("id");
+        const jobId = params.get("jobId");
+        const jobPostId = params.get("id");
+        const jobPostID = jobPostId !== null ? +jobPostId : null;
         const JobID = jobId !== null ? +jobId : null;
-        if (JobID !== null) {
-          this.jobEligibleStudentsApiService.deleteJobPosting(JobID).subscribe({
+        const Id = this.UserRoleId == 1 ? JobID : jobPostID;
+        if (Id !== null) {
+          this.jobEligibleStudentsApiService.deleteJobPosting(Id).subscribe({
             next: (response: { success: boolean; message: string }) => {
               if (response.success) {
                 this.sweetAlertService.success(response.message);
-                this.router.navigate(["/company-job-details/"]);
+                this.goBack();
               } else {
                 this.sweetAlertService.error(response.message);
               }

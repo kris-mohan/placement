@@ -295,12 +295,11 @@ export class AddEditCompanyJobDetailsComponent {
     });
   }
 
-  async onSubmit(action: string) {
+  async onSubmit(Id: number) {
     const jobPosting: Partial<PostJobposting> =
       this.addEditJobPostingForm.value;
-    const isUpdate = action === "reset";
-    console.log(isUpdate, "Is Update ");
-    const actionText = isUpdate ? "update" : "add";
+    console.log(Id, "Is Update ");
+    const actionText = Id ? "update" : "add";
     console.log(actionText, "Action Text");
     const confirmed = await this.sweetAlertService.confirm(
       `Do you want to ${actionText} this JobPosting?`
@@ -375,7 +374,7 @@ export class AddEditCompanyJobDetailsComponent {
             console.log(response);
             if (response.success) {
               this.sweetAlertService.success(response.message);
-              this.router.navigate(["/company-job-details"]);
+              this.goBack();
             } else {
               this.sweetAlertService.error(response.message);
             }
