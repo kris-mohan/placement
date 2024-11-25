@@ -1,10 +1,15 @@
 .header {
+}
+.Heading {
+  display: flex;
+  justify-content: space-between;
   background-color: #e1e1e9;
 }
 
 .panels_input {
   width: 100%;
 }
+
 .matbutton {
   background-color: #3f51b5;
 }
@@ -15,10 +20,26 @@
 
 .button-container {
   display: flex;
-  justify-content: flex-end; /* Aligns the buttons to the right */
-  gap: 10px; /* Adds space between buttons */
+  justify-content: flex-end;
+  gap: 10px;
   margin-top: 10px;
 }
+
 .mat-dialog-actions {
-  justify-content: end;
+  justify-content: flex-end;
+}
+
+.grid-label {
+  font-weight: bold;
+}
+
+.matFormField {
+  width: 100%;
+}
+
+.rounds_input {
+  margin-bottom: 20px;
+}
+.dateTime-fields {
+  gap: 20px;
 }

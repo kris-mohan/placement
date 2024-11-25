@@ -37,3 +37,13 @@
   right: 16px;
   top: 16px;
 }
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  gap: 16px; /* Adjust spacing as needed */
+}
+
+.col {
+  flex: 1; /* This makes the columns take equal space */
+  min-width: 200px; /* Optional: set a minimum width for each column */
+}

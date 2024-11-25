@@ -14,27 +14,28 @@
         </div>
       </div>
     </div>
+    <div class="buttons" style="text-align: end">
+      <button
+        *ngIf="UserRoleId !== 3"
+        mat-raised-button
+        class="matbutton"
+        (click)="openAddEditJobPostingForm()"
+      >
+        <mat-icon class="maticon">edit</mat-icon>
+        <p class="matName">Edit Job Posting</p>
+      </button>
+      <button
+        *ngIf="UserRoleId !== 3"
+        mat-raised-button
+        class="matbutton"
+        (click)="openAddEditCompanyForm(0)"
+      >
+        <mat-icon class="maticon">delete</mat-icon>
+        <p class="matName">Delete Job Postings</p>
+      </button>
+    </div>
   </mat-card-header>
-  <div class="example-button-container filter_items" style="text-align: end">
-    <button
-      *ngIf="UserRoleId !== 3"
-      mat-raised-button
-      class="matbutton"
-      (click)="openAddEditJobPostingForm()"
-    >
-      <mat-icon class="maticon">edit</mat-icon>
-      <p class="matName">Edit Job Posting</p>
-    </button>
-    <button
-      *ngIf="UserRoleId === 2"
-      mat-raised-button
-      class="matbutton"
-      (click)="DeleteJobPosting()"
-    >
-      <mat-icon class="maticon">delete</mat-icon>
-      <p class="matName">Delete Job Posting</p>
-    </button>
-  </div>
+
   <mat-card-content class="matt-card-content">
     <div class="main-content">
       <div class="left-content">
@@ -51,7 +52,6 @@
               <button
                 *ngIf="UserRoleId === 3"
                 class="apply-button"
-                [disabled]="applyButtonDisabled"
                 (click)="ApplyJobPostByStudent()"
               >
                 {{ applyButtonLabel }}
@@ -60,7 +60,6 @@
               <button
                 *ngIf="UserRoleId === 3"
                 class="apply-button"
-                [disabled]="RejectButtonDisabled"
                 (click)="rejectJobPostByStudent()"
               >
                 {{ RejectButtonLabel }}
@@ -90,29 +89,84 @@
                 }}</span
               > -->
             </div>
-            <div class="salary">
-              <span>Salary:{{ JobPostingsDescriptionData()[0]?.Salary }}</span>
-            </div>
+            <div class="salary"></div>
+
             <div class="locations">
-              <span
-                >Location:{{ JobPostingsDescriptionData()[0]?.Location }}</span
+              <span class="location">
+                <mat-icon>location_on</mat-icon>
+                {{ JobPostingsDescriptionData()[0]?.Location }}
+              </span>
+              <span class="salary"
+                ><strong> Salary :</strong>
+                {{ JobPostingsDescriptionData()[0]?.Salary }}</span
+              >
+              <span class="posted"
+                ><strong>Posted on:</strong>
+                {{ JobPostingsDescriptionData()[0]?.ValidFrom }}</span
               >
             </div>
-            <div class="posted">
-              <span
-                >Posted:{{ JobPostingsDescriptionData()[0]?.ValidFrom }}</span
-              >
-            </div>
+
+            <div class="posted"></div>
           </div>
         </div>
 
         <div class="job-highlights">
           <h3>Job Description</h3>
-          <ul>
-            {{
-              JobPostingsDescriptionData()[0]?.JobDescription
-            }}
-          </ul>
+          <div class="job-details">
+            <div class="detail-item">
+              This role requires proficiency in automation testing, knowledge of
+              Python, and attention to detail to ensure software quality.
+            </div>
+          </div>
+        </div>
+
+        <div class="job-highlights">
+          <h3>Job Details</h3>
+          <div class="job-details">
+            <div class="detail-item">
+              <strong>College Name:</strong> ABC College
+            </div>
+            <div class="detail-item"><strong>Batch:</strong> 2023</div>
+            <div class="detail-item">
+              <strong>Stream:</strong> Computer Science
+            </div>
+            <div class="detail-item"><strong>Course:</strong> B.Tech</div>
+            <div class="detail-item">
+              <strong>Skills:</strong> Python, Automation Testing, SQL
+            </div>
+            <div class="detail-item">
+              <strong>Job Role:</strong> Software Tester
+            </div>
+            <div class="detail-item"><strong>No of Posts:</strong> 5</div>
+            <div class="detail-item">
+              <strong>Min Experience:</strong> 1 year 6 months
+            </div>
+            <div class="detail-item">
+              <strong>Max Experience:</strong> 3 years 0 months
+            </div>
+            <div class="detail-item">
+              <strong>Min 10th Percentage:</strong> 70%
+            </div>
+            <div class="detail-item">
+              <strong>Min PUC Percentage:</strong> 65%
+            </div>
+            <div class="detail-item"><strong>Min CGPA:</strong> 7.0</div>
+            <div class="detail-item"><strong>CTC:</strong> 18 LPA</div>
+            <div class="detail-item">
+              <strong>Mode of Work:</strong> On-Site
+            </div>
+            <div class="detail-item"><strong>Location:</strong> Bangalore</div>
+            <div class="detail-item"><strong>Job Type:</strong> Full-Time</div>
+            <div class="detail-item">
+              <strong>Shift Type:</strong> Day Shift
+            </div>
+            <div class="detail-item">
+              <strong>No of Backlogs Allowed:</strong> 1
+            </div>
+            <div class="detail-item">
+              <strong>Last Date to Apply:</strong> 2024-11-20
+            </div>
+          </div>
         </div>
       </div>
 

@@ -133,41 +133,45 @@ mat-form-field {
   color: darkblue;
   margin-left: 2rem;
 }
-
-.skills-section {
-  padding: 20px;
+.skillsField {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.chip-section {
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.chip-form-field {
+  gap: 10px;
   width: 100%;
 }
-
-.additional-info {
-  margin-top: 20px;
+.AddSkillButton {
+  size: 10pc;
 }
-
-.full-width {
-  width: 100%;
-}
-
-.grid-label {
-  font-weight: bold;
-  margin-bottom: 5px;
+.SkillsFieldContainer {
+  display: flex;
 }
 
 .skills-form-field {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 16px;
+  width: 100%;
 }
+
+.highlighted-fields {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.column {
+  flex: 1;
+  margin-right: 10px; /* Spacing between columns */
+}
+
+.column:last-child {
+  margin-right: 0; /* Remove margin on the last column */
+}
+
+.icon {
+  vertical-align: middle;
+  color: #3f51b5;
+}
+

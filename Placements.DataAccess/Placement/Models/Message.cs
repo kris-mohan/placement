@@ -7,6 +7,8 @@ public partial class Message
 {
     public long Id { get; set; }
 
+    public long? ChatId { get; set; }
+
     public long? SenderId { get; set; }
 
     public long? GroupId { get; set; }
@@ -23,5 +25,13 @@ public partial class Message
 
     public bool? IsDeleted { get; set; }
 
+    public virtual Chat? Chat { get; set; }
+
+    public virtual Group? Group { get; set; }
+
     public virtual ICollection<Messagestatus> Messagestatuses { get; set; } = new List<Messagestatus>();
+
+    public virtual Login? Receiver { get; set; }
+
+    public virtual Login? Sender { get; set; }
 }

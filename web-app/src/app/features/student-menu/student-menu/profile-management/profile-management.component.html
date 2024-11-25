@@ -596,7 +596,10 @@
                 </mat-form-field>
               </div>
 
-              <div class="Semester-Fields">
+              <div
+                *ngFor="let field of fields; let i = index"
+                class="Semester-Fields"
+              >
                 <div
                   fxFlex="100%"
                   fxFlex.gt-md="25%"
@@ -605,7 +608,7 @@
                   fxLayout="row wrap"
                   *ngFor="let sem of allSemesters; let i = index"
                 >
-                  <p class="grid-label">Select Semester {{ i + 1 }}</p>
+                  <p class="grid-label">Select Semester</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <mat-label>Select Semester</mat-label>
                     <mat-select (selectionChange)="onSemesterChange($event)">
@@ -648,6 +651,7 @@
                     <input matInput />
                   </mat-form-field>
                 </div>
+
                 <div
                   fxFlex="100%"
                   fxFlex.gt-md="25%"
@@ -656,22 +660,28 @@
                 >
                   <p class="grid-label">Upload File</p>
                   <input type="file" />
+                  <button *ngIf="fields.length > 1" (click)="removeField(i)">
+                    <mat-icon> remove</mat-icon>
+                  </button>
                 </div>
               </div>
             </div>
             <div class="AddButton">
-              <button class="Custom-button">Add</button>
+              <button (click)="addField()"><mat-icon> add</mat-icon></button>
             </div>
           </div>
         </mat-tab>
 
         <!-- Skills Tab -->
+
         <mat-tab label="Skills">
           <div>
             <h3>Skill Type and Skill Name</h3>
-            <div class="skill-selection-container">
+            <div
+              *ngFor="let field of fields; let i = index"
+              class="skillsField"
+            >
               <div>
-                <!-- <h4>Skill Type</h4> -->
                 <mat-form-field
                   class="skillType-form-field"
                   appearance="outline"
@@ -689,13 +699,12 @@
               </div>
 
               <div>
-                <!-- <h4>Skill Name</h4> -->
                 <mat-form-field
                   class="skillName-form-field"
                   appearance="outline"
                 >
                   <mat-label>Select Skills</mat-label>
-                  <mat-select>
+                  <mat-select multiple>
                     <mat-option
                       *ngFor="let skill of SkillsNames()"
                       [value]="skill.Id"
@@ -705,35 +714,98 @@
                   </mat-select>
                 </mat-form-field>
               </div>
+
+              <div *ngIf="fields.length > 1">
+                <button (click)="removeField(i)">
+                  <mat-icon>remove</mat-icon>
+                </button>
+              </div>
+
+              <div class="AddSkillButton">
+                <button *ngIf="i === fields.length - 1" (click)="addField()">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
             </div>
 
-            <!-- Remaining form fields -->
-            <h3>
-              <b><p class="grid-label">LinkedIn Profile Link</p></b>
-            </h3>
-            <mat-form-field class="skills-form-field" appearance="outline">
-              <mat-label>Linkedin Profile Link</mat-label>
-              <input matInput />
-            </mat-form-field>
+            <!-- Modified LinkedIn, Achievement, Project, and Internship fields in two-column layout -->
+            <div class="highlighted-fields">
+              <div class="row">
+                <div class="column">
+                  <h3>
+                    <b
+                      ><p class="grid-label">
+                        <mat-icon class="icon">link</mat-icon>LinkedIn Profile
+                        Link
+                      </p></b
+                    >
+                  </h3>
+                  <mat-form-field
+                    class="skills-form-field highlighted-form-field"
+                    appearance="outline"
+                  >
+                    <mat-label>LinkedIn Profile Link</mat-label>
+                    <input matInput />
+                  </mat-form-field>
+                </div>
 
-            <h3><p class="grid-label">Achievement</p></h3>
-            <mat-form-field class="skills-form-field" appearance="outline">
-              <mat-label>Achievement</mat-label>
-              <textarea matInput></textarea>
-            </mat-form-field>
+                <div class="column">
+                  <h3>
+                    <b
+                      ><p class="grid-label">
+                        <mat-icon class="icon">emoji_events</mat-icon
+                        >Achievement
+                      </p></b
+                    >
+                  </h3>
+                  <mat-form-field
+                    class="skills-form-field highlighted-form-field"
+                    appearance="outline"
+                  >
+                    <mat-label>Achievement</mat-label>
+                    <textarea matInput></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
 
-            <h3><p class="grid-label">Project</p></h3>
-            <mat-form-field class="skills-form-field" appearance="outline">
-              <mat-label>Project</mat-label>
-              <textarea matInput></textarea>
-            </mat-form-field>
+              <div class="row">
+                <div class="column">
+                  <h3>
+                    <b
+                      ><p class="grid-label">
+                        <mat-icon class="icon">folder</mat-icon>Project
+                      </p></b
+                    >
+                  </h3>
+                  <mat-form-field
+                    class="skills-form-field highlighted-form-field"
+                    appearance="outline"
+                  >
+                    <mat-label>Project</mat-label>
+                    <textarea matInput></textarea>
+                  </mat-form-field>
+                </div>
 
-            <h3><p class="grid-label">Internship</p></h3>
-            <mat-form-field class="skills-form-field" appearance="outline">
-              <mat-label>Internship</mat-label>
-              <textarea matInput></textarea>
-            </mat-form-field>
+                <div class="column">
+                  <h3>
+                    <b
+                      ><p class="grid-label">
+                        <mat-icon class="icon">work</mat-icon>Internship
+                      </p></b
+                    >
+                  </h3>
+                  <mat-form-field
+                    class="skills-form-field highlighted-form-field"
+                    appearance="outline"
+                  >
+                    <mat-label>Internship</mat-label>
+                    <textarea matInput></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
           </div>
+
           <div style="text-align: right; margin-right: 20px">
             <button mat-raised-button color="primary">Submit</button>
           </div>

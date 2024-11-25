@@ -21,9 +21,5 @@ public partial class Calendarevent
 
     public ulong IsDeleted { get; set; }
 
-    public virtual Companydatum? Company { get; set; }
-
     public virtual ICollection<Jobinterviewround> Jobinterviewrounds { get; set; } = new List<Jobinterviewround>();
-
-    public virtual Campusregistration? Org { get; set; }
 }

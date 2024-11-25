@@ -55,8 +55,8 @@ export class AddEditPanelModalComponent {
       PanelName: "",
       Description: "",
       Designation: "",
-    }); 
-    this.panelId = this.PanelId;
+    });
+     this.panelId = this.PanelId;
   }
 
   ngOnInit(): void {

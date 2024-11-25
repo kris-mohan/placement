@@ -57,6 +57,7 @@ export class LoginAuthComponent {
               sessionStorage.setItem("CampusId", response.campusId);
               sessionStorage.setItem("CompanyId", response.companyId);
               sessionStorage.setItem("StudentId", response.studentId);
+              sessionStorage.setItem("LoginId", response.id);
 
               const storedUserRoleId = sessionStorage.getItem("userRoleId");
               this.storedUserRoleId = storedUserRoleId!;
