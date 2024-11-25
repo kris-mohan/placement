@@ -1,59 +1,167 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AMGModules } from 'src/AMG-Module/AMG-module';
+import { CommuicationApiService } from '../communicationApi';
+import { Tblstudent } from 'src/app/services/types/Tblstudent';
+import { Batch } from 'src/app/services/types/Batch';
+import { Course } from 'src/app/services/types/Course';
+import { CreateMessageComponent } from '../create-message/create-message.component';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-group',
   standalone: true,
   imports: [AMGModules, CommonModule, FormsModule],
   templateUrl: './create-group.component.html',
-  styleUrl: './create-group.component.css',
+  styleUrls: ['./create-group.component.css'],
 })
 export class CreateGroupComponent {
+  // Signals for data binding
+  students = signal<Tblstudent[]>([]);
+  batches = signal<Batch[]>([]);
+  branches = signal<Course[]>([]);
+  selectedStudents = signal<Set<string>>(new Set()); // Track selected students by IDs
+
+  // Form-related variables
   groupName: string = '';
   groupDescription: string = '';
-  batches = ['2023-24', '2022-23', '2021-22'];
-  branches = ['CS', 'ISE', 'EC', 'ME', 'CV'];
-  students = [
-    { name: 'John Doe', batch: '2023-24', branch: 'CS', selected: false },
-    { name: 'Jane Smith', batch: '2022-23', branch: 'ISE', selected: false },
-    { name: 'Alice Brown', batch: '2021-22', branch: 'EC', selected: false },
-    { name: 'Chris Brown', batch: '2021-22', branch: 'EC', selected: false },
-    { name: 'John Brown', batch: '2023-24', branch: 'EC', selected: false },
-    { name: 'William Brown', batch: '2022-23', branch: 'EC', selected: false },
-    { name: 'Elli Brown', batch: '2021-22', branch: 'EC', selected: false },
-    { name: 'Emily Brown', batch: '2022-23', branch: 'EC', selected: false },
-    { name: 'Alice Brown', batch: '2023-24', branch: 'EC', selected: false },
-    { name: 'Matt Brown', batch: '2022-23', branch: 'EC', selected: false },
-    { name: 'Ian Brown', batch: '2021-22', branch: 'EC', selected: false },
-  ];
-  filteredStudents = [...this.students];
-  selectedBatches: string[] = [];
-  selectedBranches: string[] = [];
+  selectedBatches: number[] = [];
+  selectedBranches: number[] = [];
+  filteredStudents: Tblstudent[] = [];
+
+  constructor(private communicationApiService: CommuicationApiService,
+    public dialogRef: MatDialogRef<CreateMessageComponent>
+  ) {}
+
+  ngOnInit() {
+    this.loadInitialData();
+  }
+
+  // Load data from APIs
+  private loadInitialData() {
+    this.fetchStudentDetails();
+    this.fetchBatches();
+    this.fetchBranches();
+  }
+
+  private fetchStudentDetails() {
+    this.communicationApiService.GetStudentDetails().subscribe(
+      (response) => {
+        this.students.set(response.value);
+        this.filteredStudents = this.students(); // Initially, show all students
+      },
+      (error) => {
+        console.error('Error fetching student details:', error || 'Unknown error');
+      }
+    );
+  }
+
+  private fetchBatches() {
+    this.communicationApiService.GetAllBatches().subscribe(
+      (response) => this.batches.set(response.value),
+      (error) => {
+        console.error('Error fetching batches:', error || 'Unknown error');
+      }
+    );
+  }
+
+  private fetchBranches() {
+    this.communicationApiService.GetAllCourses().subscribe(
+      (response) => this.branches.set(response.value),
+      (error) => {
+        console.error('Error fetching branches:', error || 'Unknown error');
+      }
+    );
+  }
 
   filterStudents() {
-    this.filteredStudents = this.students.filter((student) => {
+    this.filteredStudents = this.students().filter((student) => {
+      // Check if student matches selected batches
       const matchesBatch = this.selectedBatches.length
-        ? this.selectedBatches.includes(student.batch)
+        ? this.selectedBatches.some((batchId) => batchId === student?.BatchId)
         : true;
+  
+      // Check if student matches selected branches (courses)
       const matchesBranch = this.selectedBranches.length
-        ? this.selectedBranches.includes(student.branch)
+        ? student.Studentacademics.some((academic) =>
+            this.selectedBranches.includes(academic?.CourseId))
         : true;
-      return matchesBatch && matchesBranch;
+  
+      // If both are selected, ensure student matches both batch and branch
+      if (this.selectedBatches.length > 0 && this.selectedBranches.length > 0) {
+        return matchesBatch && matchesBranch;
+      }
+  
+      // If only batch is selected, return students that match the batch
+      if (this.selectedBatches.length > 0) {
+        return matchesBatch;
+      }
+  
+      // If only branch is selected, return students that match the branch
+      if (this.selectedBranches.length > 0) {
+        return matchesBranch;
+      }
+  
+      // If neither batch nor branch is selected, show all students
+      return true;
     });
   }
+  
+  
   selectAllStudents(selected: boolean) {
-    this.filteredStudents.forEach((student) => {
-      student.selected = selected;
-    });
+    const currentSelections = new Set(
+      selected ? this.filteredStudents.map((s) => s.Id.toString()) : []
+    );
+    this.selectedStudents.set(currentSelections);
   }
 
-  createGroup() {
-    const selectedMembers = this.students.filter((student) => student.selected);
-    console.log('Group Name:', this.groupName);
-    console.log('Group Description:', this.groupDescription);
-    console.log('Selected members for the group:', selectedMembers);
-    // Logic to create the group and add it to recent chats
+  // Handle individual student selection
+  toggleStudentSelection(studentId: string, selected: boolean) {
+    const currentSelections = new Set(this.selectedStudents());
+    if (selected) {
+      currentSelections.add(studentId);
+    } else {
+      currentSelections.delete(studentId);
+    }
+    this.selectedStudents.set(currentSelections);
   }
+
+  // Create group logic
+  createGroup() {
+    const selectedMembers = Array.from(this.selectedStudents());
+  
+    if (!this.groupName.trim() || !this.groupDescription.trim() || selectedMembers.length === 0) {
+      console.warn('Please provide all required inputs and select members.');
+      return;
+    }
+  
+    const groupMembers = selectedMembers.map((studentId) => ({
+      Id: 0, 
+      GroupId: 0, 
+      UserId: +studentId, 
+    }));
+
+    const groupData = {
+      GroupName: this.groupName,
+      GroupDescription: this.groupDescription,
+      Groupmembers: groupMembers
+    };
+  
+    this.communicationApiService.createGroup(groupData).subscribe(
+      {
+        next: (response) => {
+          if (response.success) {
+            this.dialogRef.close();
+          }
+        },
+        error: (err) => {
+          console.error("Error sending message:", err);
+        },
+      }
+    );
+  }
+  
+
+
 }

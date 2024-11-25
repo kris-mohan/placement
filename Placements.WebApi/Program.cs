@@ -12,6 +12,7 @@ using Microsoft.OData.ModelBuilder;
 using MySql.EntityFrameworkCore.Extensions;
 using Placements.DataAccess.Placement.Models;
 using Placements.WebApi.Helper;
+using Placements.WebApi.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -78,6 +79,7 @@ builder.Services.AddEntityFrameworkMySQL()
            {
                options.UseMySQL(builder.Configuration.GetConnectionString("PlacementConnectionString"));
            });
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 //builder.Services.AddSession();
 var app = builder.Build();
 app.UseCors(s => s.AllowAnyHeader()
@@ -169,6 +171,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Group>("Groups");
     modelBuilder.EntitySet<Message>("Messages");
     modelBuilder.EntitySet<Messagestatus>("Messagestatuses");
+    modelBuilder.EntitySet<Chat>("Chats");
 
     return modelBuilder.GetEdmModel();
 }

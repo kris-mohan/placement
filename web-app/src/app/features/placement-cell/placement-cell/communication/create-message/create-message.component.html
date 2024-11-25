@@ -1,37 +1,90 @@
 <div class="dialog-container">
-  <!-- Dialog header with title and close button -->
   <div class="dialog-header">
-    <h2>Send a message</h2>
+    <h2>Send a Message</h2>
     <button mat-button class="close-button" mat-dialog-close>X</button>
   </div>
 
-  <!-- Input for selecting recipient -->
-  <p><strong>To</strong></p>
-  <mat-form-field class="input-send-to">
-    <mat-label>Select member</mat-label>
-    <input
-      type="text"
-      matInput
-      placeholder="Search recipient"
-      [(ngModel)]="searchQuery"
-      (input)="filterRecipients()" />
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option
-        *ngFor="let recipient of filteredRecipients"
-        [value]="recipient">
-        {{ recipient }}
-      </mat-option>
-    </mat-autocomplete> 
-  </mat-form-field>
+  <div>
+    <div class="row flex-container">
+      <div class="col">
+        <mat-form-field class="input-send-to">
+          <mat-label>Select Batch</mat-label>
+          <input
+            type="text"
+            matInput
+            [matAutocomplete]="batchAuto"
+            [(ngModel)]="batchSearchQuery"
+            [value]="getSelectedBatchName()"
+            (ngModelChange)="onBatchSelected($event)"
+          />
+          <mat-autocomplete #batchAuto="matAutocomplete">
+            <mat-option
+              *ngFor="let recipient of filteredBatches()"
+              [value]="recipient.Id"
+            >
+              {{ recipient.Name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
 
-  <!-- Input for entering the message -->
+      <div class="col">
+        <mat-form-field class="input-send-to">
+          <mat-label>Select Course</mat-label>
+          <input
+            type="text"
+            matInput
+            [matAutocomplete]="courseAuto"
+            [(ngModel)]="courseSearchQuery"
+            [value]="getSelectedCourseName()"
+            (ngModelChange)="onCourseSelected($event)"
+          />
+          <mat-autocomplete #courseAuto="matAutocomplete">
+            <mat-option
+              *ngFor="let recipient of filteredCourses()"
+              [value]="recipient.Id"
+            >
+              {{ recipient.Name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="col">
+      <mat-form-field class="input-send-to">
+        <mat-label>Select Student</mat-label>
+        <input
+          type="text"
+          matInput
+          [matAutocomplete]="studentAuto"
+          [(ngModel)]="studentSearchQuery"
+          [value]="getSelectedStudentName()"
+          (ngModelChange)="filteredStudents()"
+        />
+        <mat-autocomplete
+          #studentAuto="matAutocomplete"
+          (optionSelected)="onStudentSelected($event.option.value)"
+        >
+          <mat-option
+            *ngFor="let recipient of filteredStudents()"
+            [value]="recipient.Id"
+          >
+            {{ recipient.FirstName }} {{ recipient.LastName }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </div>
+
   <p><strong>Enter Message</strong></p>
   <mat-form-field class="input-text">
     <mat-label>Enter your message</mat-label>
     <textarea
       matInput
       placeholder="Type your message..."
-      [(ngModel)]="messageText"></textarea>
+      [(ngModel)]="messageText"
+    ></textarea>
   </mat-form-field>
 
   <div class="submit-button-container">

@@ -14,6 +14,7 @@ import { JobEligibleStudentApiService } from "./job-eligible-students-modal/jobE
 import { Tblstudent } from "src/app/services/types/Tblstudent";
 import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+
 @Component({
   selector: "app-company-job-description",
   standalone: true,
@@ -21,6 +22,7 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
   templateUrl: "./company-job-description.component.html",
   styleUrl: "./company-job-description.component.css",
 })
+
 export class CompanyJobDescriptionComponent {
   Id: number | null = null;
   CompanyId: number;

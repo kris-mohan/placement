@@ -43,7 +43,11 @@ public partial class Tblstudent
 
     public string? MotherPhoneNumber { get; set; }
 
+    public string? Gender { get; set; }
+
     public virtual Batch? Batch { get; set; }
+
+    public virtual ICollection<Groupmember> Groupmembers { get; set; } = new List<Groupmember>();
 
     public virtual ICollection<JobpostStudentround> JobpostStudentrounds { get; set; } = new List<JobpostStudentround>();
 
@@ -58,4 +62,6 @@ public partial class Tblstudent
     public virtual ICollection<StudentSkill> StudentSkills { get; set; } = new List<StudentSkill>();
 
     public virtual ICollection<Studentacademic> Studentacademics { get; set; } = new List<Studentacademic>();
+
+    public virtual ICollection<Studentplaced> Studentplaceds { get; set; } = new List<Studentplaced>();
 }

@@ -51,6 +51,8 @@ public partial class Campusregistration
 
     public virtual Campusregistration? ParentCampus { get; set; }
 
+    public virtual ICollection<Studentplaced> Studentplaceds { get; set; } = new List<Studentplaced>();
+
     public virtual ICollection<Tblstudent> Tblstudents { get; set; } = new List<Tblstudent>();
 
     public virtual University? University { get; set; }
