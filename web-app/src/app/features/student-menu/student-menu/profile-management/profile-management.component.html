@@ -140,10 +140,55 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-                <p class="grid-label">Branch</p>
+                <p class="grid-label">Batch</p>
                 <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Branch</mat-label>
-                  <input matInput formControlName="Course" />
+                  <mat-label>Batch</mat-label>
+                  <mat-select formControlName="Batch">
+                    <mat-option
+                      *ngFor="let batch of Batches()"
+                      [value]="batch.Id"
+                    >
+                      {{ batch.Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="33%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">Stream</p>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Stream</mat-label>
+                  <mat-select formControlName="Stream">
+                    <mat-option
+                      *ngFor="let stream of Streams()"
+                      [value]="stream.Id"
+                    >
+                      {{ stream.Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="33%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">Course</p>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Course</mat-label>
+                  <mat-select formControlName="Course">
+                    <mat-option
+                      *ngFor="let course of Courses()"
+                      [value]="course.Id"
+                    >
+                      {{ course.FullForm }}
+                    </mat-option>
+                  </mat-select>
                 </mat-form-field>
               </div>
               <div

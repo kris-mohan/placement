@@ -11,6 +11,7 @@ export type Jobinterviewround = {
   EventId: number;
   JobPosting: Jobposting;
   JobpostStudentrounds: JobpostStudentround[];
+  OrgId: number;
 };
 
 export type PatchJobinterviewround = Jobinterviewround | {};

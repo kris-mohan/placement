@@ -28,11 +28,11 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Skill } from "src/app/services/types/Skill";
 
 @Component({
-  selector: 'app-profile-management',
+  selector: "app-profile-management",
   standalone: true,
   imports: [AMGModules, CommonModule, SharedModule],
-  templateUrl: './profile-management.component.html',
-  styleUrl: './profile-management.component.css',
+  templateUrl: "./profile-management.component.html",
+  styleUrl: "./profile-management.component.css",
 })
 export class ProfileManagementComponent {
   selectedPhoto: string | ArrayBuffer | null | undefined = null;
@@ -48,7 +48,7 @@ export class ProfileManagementComponent {
   showSemester = false;
   fileError: string | null = null;
   studentProfileForm: FormGroup;
-  allSemesters = [{ semester: '', scoreType: '', score: '', file: null }];
+  allSemesters = [{ semester: "", scoreType: "", score: "", file: null }];
   Semester: string[] = Semester;
   TenthScoreType: string[] = TenthScoreType;
   TwelfthScoreType: string[] = TwelfthScoreType;
@@ -62,7 +62,7 @@ export class ProfileManagementComponent {
   SkillTypes = signal<SkillType[]>([]);
   SkillsNames = signal<Skill[]>([]);
   SkillTypeControl = new FormControl();
-  searchSkillType: string = '';
+  searchSkillType: string = "";
   filteredSkillTypes: SkillType[] = [];
   filteredCompany: Observable<any[]> = of([]);
 
@@ -72,41 +72,44 @@ export class ProfileManagementComponent {
     private studentApiService: StudentProfileApiService
   ) {
     this.studentProfileForm = this.fb.group({
-      FirstName: ['', [Validators.required]],
+      FirstName: ["", [Validators.required]],
       //MiddleName: [[''], [Validators.required]],
-      LastName: [''],
-      BatchId: ['', [Validators.required]],
-      AadharCardNumber: ['', [Validators.required]],
-      DateOfBirth: ['', [Validators.required]],
-      BloodGroup: ['', [Validators.required]],
-      PermanentAddress: ['', [Validators.required]],
-      CurrentAddress: [''],
-      Email: ['', [Validators.required]],
-      PhoneNumber: ['', [Validators.required]],
-      ParentName: ['', [Validators.required]],
-      ParentPhoneNumber: ['', [Validators.required]],
-      RollNo: ['', [Validators.required]],
+      LastName: [""],
+      BatchId: ["", [Validators.required]],
+      AadharCardNumber: ["", [Validators.required]],
+      DateOfBirth: ["", [Validators.required]],
+      BloodGroup: ["", [Validators.required]],
+      PermanentAddress: ["", [Validators.required]],
+      CurrentAddress: [""],
+      Email: ["", [Validators.required]],
+      PhoneNumber: ["", [Validators.required]],
+      ParentName: ["", [Validators.required]],
+      ParentPhoneNumber: ["", [Validators.required]],
+      RollNo: ["", [Validators.required]],
       StudentSkills: [[]],
       Studentacademics: [[]],
       Batch: [[]],
       Course: [[]],
+      Stream: [[]],
     });
   }
 
-  readonly techSkill = signal(['java', 'c++', 'c']);
+  readonly techSkill = signal(["java", "c++", "c"]);
   readonly SoftSkill = signal([
-    'Communication skill',
-    'Leadership skill',
-    'Team management',
+    "Communication skill",
+    "Leadership skill",
+    "Team management",
   ]);
-  readonly ExtracurricularActivities = signal(['sports', 'music', 'dance']);
-  readonly Language = signal(['English', 'Hindi', 'Tamil']);
+  readonly ExtracurricularActivities = signal(["sports", "music", "dance"]);
+  readonly Language = signal(["English", "Hindi", "Tamil"]);
 
   announcer = inject(LiveAnnouncer);
 
   ngOnInit() {
-    this.GetAllCourseName();
+    this.GetAllBatchName();
     this.GetAllStreamName();
+    this.GetAllCourseName();
+
     this.GetPassedOutYear();
     this.GetAllSkillTypes();
     this.GetAllSkills();
@@ -118,15 +121,15 @@ export class ProfileManagementComponent {
       const file = input.files[0];
       this.fileError = null;
     } else {
-      this.fileError = 'Please select a file.';
+      this.fileError = "Please select a file.";
     }
   }
 
   addDulpicateSemester() {
     this.allSemesters.push({
-      semester: '',
-      scoreType: '',
-      score: '',
+      semester: "",
+      scoreType: "",
+      score: "",
       file: null,
     });
   }
@@ -146,42 +149,42 @@ export class ProfileManagementComponent {
     if (this.allSemesters.length > 1) {
       this.allSemesters.splice(index, 1);
     } else {
-      alert('At least one semester is required.');
+      alert("At least one semester is required.");
     }
   }
 
   addSemester() {
-    this.semesters.push({ score: '', type: '', file: null });
+    this.semesters.push({ score: "", type: "", file: null });
   }
 
   onSemesterChange(event: any) {
     this.selectedSemester = event.value;
-    console.log('Selected semester:', this.selectedSemester);
+    console.log("Selected semester:", this.selectedSemester);
   }
 
   onBoardChange(event: any) {
     this.selectedBoard = event.value;
-    console.log('Selected Board:', this.selectedBoard);
+    console.log("Selected Board:", this.selectedBoard);
   }
 
   onScoreChange(event: any) {
     this.selectedScore = event.value;
-    console.log('Selected Score:', this.selectedScore);
+    console.log("Selected Score:", this.selectedScore);
   }
 
   onCourseChange(event: any) {
     this.selectedCourse = event.value;
-    console.log('Selected course:', this.selectedCourse);
+    console.log("Selected course:", this.selectedCourse);
   }
 
   onPuScoreChange(event: any) {
     this.selectedPuScore = event.value;
-    console.log('Selected puscore:', this.selectedPuScore);
+    console.log("Selected puscore:", this.selectedPuScore);
   }
 
   onSemScoreChange(event: any) {
     this.selectedSemScore = event.value;
-    console.log('Selected semscore:', this.selectedSemScore);
+    console.log("Selected semscore:", this.selectedSemScore);
   }
 
   onBloodChange(event: any) {
@@ -250,7 +253,7 @@ export class ProfileManagementComponent {
   }
 
   addExtracurricularActivities(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+    const value = (event.value || "").trim();
 
     // Add our keyword
     if (value) {
@@ -276,7 +279,7 @@ export class ProfileManagementComponent {
   }
 
   addLanguage(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+    const value = (event.value || "").trim();
 
     if (value) {
       this.Language.update((keywords) => [...keywords, value]);
@@ -300,7 +303,7 @@ export class ProfileManagementComponent {
       next: (course) => {
         const data: Course[] = course.value;
         this.Courses.set(data);
-        // console.log('course:', data);
+        console.log("course:", data);
       },
     });
   };
@@ -310,7 +313,17 @@ export class ProfileManagementComponent {
       next: (course) => {
         const data: Stream[] = course.value;
         this.Streams.set(data);
-        // console.log('stream:', data);
+        console.log("stream:", data);
+      },
+    });
+  };
+
+  GetAllBatchName = () => {
+    this.studentApiService.GetAllBatches().subscribe({
+      next: (course) => {
+        const data: Batch[] = course.value;
+        this.Batches.set(data);
+        console.log("batch:", data);
       },
     });
   };

@@ -37,6 +37,7 @@ export class CalendarModalComponent implements OnInit {
   CollegeRoleId: number;
   showJobPostingsAndRounds = true;
   jobPostingId: number = 0;
+  OrgId: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<CalendarModalComponent>,
@@ -78,6 +79,7 @@ export class CalendarModalComponent implements OnInit {
           const data: Jobposting[] = response.value;
           console.log(data);
           this.jobPostings = data;
+          this.OrgId = data[0].OrgId || 0;
         },
         error: (error) => {
           console.error("Error fetching Job Postings:", error);
@@ -157,6 +159,7 @@ export class CalendarModalComponent implements OnInit {
         ...this.formDataa.value, // Spread the form values
         // toggle: this.toggle,
         weekdays: this.weekdays, // Add the weekdays state
+        OrgId: this.OrgId,
         // Add any other specific data you want to send back
       };
       console.log(returnData);

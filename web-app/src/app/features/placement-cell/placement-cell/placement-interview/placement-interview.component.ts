@@ -264,7 +264,7 @@ export class PlacementInterviewComponent {
       next: (response) => {
         const data: Jobinterviewround[] = response.value;
         this.jobInterviewRounds.set(data);
-        console.log(this.jobInterviewRounds);
+        console.log(this.jobInterviewRounds());
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);

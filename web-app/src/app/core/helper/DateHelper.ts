@@ -12,6 +12,10 @@ export const GetDate = (date: Date): string => {
   return format(date, "dd-MM-yyyy");
 };
 
-export const GetDateDDMMYYYY = (date:Date):string =>{
-    return format(date, "yyyy-MMM-dd");
-}
+export const GetDateDDMMYYYY = (date: Date): string => {
+  return format(date, "yyyy-MMM-dd");
+};
+
+export const GetDateDDMMYYYYTT = (date: Date): string => {
+  return format(date, "yyyy-MMM-dd hh:mm a");
+};

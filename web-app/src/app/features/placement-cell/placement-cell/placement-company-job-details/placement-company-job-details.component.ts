@@ -23,6 +23,7 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { PlacementCompanyJobDetailsApiService } from "./placement-company-job-details-apiService";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { Jobposting } from "src/app/services/types/Jobposting";
+import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
 import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
 const today = new Date();
 const month = today.getMonth();
@@ -266,6 +267,10 @@ export class PlacementCompanyJobDetailsComponent {
       this.CompanyId,
       jobId,
     ]);
+  }
+
+  getDateLabel(date: Date) {
+    return GetDateDDMMYYYY(date);
   }
   openUploadExcel(id?: number) {
     // if (id !== undefined) {
