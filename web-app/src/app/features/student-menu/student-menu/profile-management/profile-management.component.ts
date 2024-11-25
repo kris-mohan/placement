@@ -339,58 +339,13 @@ export class ProfileManagementComponent {
     this.location.back();
   }
 
-  onSubmit() {
-    console.log('submit');
+  fields: any[] = [{ id: 1 }];
+
+  addField() {
+    this.fields.push({ id: this.fields.length + 1 });
   }
 
-  // get selectedSkillTypes(): string {
-  //   const selected = this.SkillTypeControl.value;
-
-  //   return Array.isArray(selected) ? selected.join(', ') : '';
-  // }
-
-  // resetSkillTypeSelection() {
-  //   this.SkillTypeControl.reset();
-  //   this.searchSkillType = '';
-  //   this.filteredSkillTypes = this.SkillTypes();
-  //   this.dataSource1.data = this.filteredSkillTypes;
-  // }
-
-  // showLocationResults() {
-  //   const selectedCities = this.SkillTypeControl.value;
-  //   if (selectedCities && selectedCities.length > 0) {
-  //     this.filteredSkillTypes = this.SkillTypes().filter((skill) =>
-  //       selectedCities.includes(skill.Name)
-  //     );
-  //   } else {
-  //     this.filteredSkillTypes = this.SkillTypes();
-  //   }
-
-  //   this.dataSource1.data = this.filteredSkillTypes;
-  // }
-
-  // filterSkillTypes(search: string) {
-  //   const filterValue = search.toLowerCase();
-
-  //   const filteredList = this.SkillTypes().filter(
-  //     (skill) =>
-  //       skill && skill.Name && skill.Name.toLowerCase().includes(filterValue)
-  //   );
-
-  //   const selectedSkillTypes = this.SkillTypeControl.value || [];
-  //   this.filteredSkillTypes = [
-  //     ...selectedSkillTypes
-  //       .map((name: any) =>
-  //         this.SkillTypes().find((skill) => skill && skill.Name === name)
-  //       )
-  //       .filter(Boolean),
-  //     ...filteredList.filter(
-  //       (skill) => skill && !selectedSkillTypes.includes(skill.Name)
-  //     ),
-  //   ];
-  // }
-
-  // onSkillTypeDropdownOpen() {
-  //   this.filterSkillTypes(this.searchSkillType);
-  // }
+  removeField(index: number) {
+    this.fields.splice(index, 1);
+  }
 }
