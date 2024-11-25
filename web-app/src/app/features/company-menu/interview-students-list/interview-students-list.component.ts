@@ -21,7 +21,7 @@ import { N } from "@angular/cdk/keycodes";
 export class InterviewStudentsListComponent implements OnInit {
   allDetails: Jobposting[] = [];
 
-  Id: string | null = "0";
+  JobPostingId: string | null = "0";
 
   currentRoundIndex: number = 0;
 
@@ -41,8 +41,8 @@ export class InterviewStudentsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.Id = this.route.snapshot.paramMap.get("id");
-    console.log(this.Id);
+    this.JobPostingId = this.route.snapshot.paramMap.get("id");
+    console.log(this.JobPostingId);
     this.getAllStudents();
   }
 
@@ -51,8 +51,8 @@ export class InterviewStudentsListComponent implements OnInit {
   }
 
   getAllStudents = () => {
-    console.log(this.Id);
-    const id = this.Id ? parseInt(this.Id) : 0;
+    console.log(this.JobPostingId);
+    const id = this.JobPostingId ? parseInt(this.JobPostingId) : 0;
     console.log(id);
     this.interviewStudentListApiService
       .GetAllStudentsByJobInterviewRounds(id)
@@ -77,10 +77,12 @@ export class InterviewStudentsListComponent implements OnInit {
     );
   }
 
-  openInterviewMarksDetails(id?: number) {
+  openInterviewMarksDetails(studentId?: number, JobPostingRoundId?: number) {
     this.router.navigate([
       "/interview/interview-students-list/student-result-information",
-      id,
+      this.JobPostingId,
+      JobPostingRoundId,
+      studentId,
     ]);
   }
 }

@@ -333,7 +333,7 @@ const appRoutes: Routes = [
         component: InterviewStudentsListComponent,
       },
       {
-        path: "interview/interview-students-list/student-result-information/:id",
+        path: "interview/interview-students-list/student-result-information/:jobPostingId/:roundId/:studentId",
         component: StudentResultInformation,
       },
       {
@@ -398,8 +398,8 @@ const appRoutes: Routes = [
         component: PlacementInterviewComponent,
       },
       {
-        path: "placement-interview/placement-interview-students/:id",
-        component: PlacementInterviewStudentsComponent,
+        path: "placement-interview/interview-students-list/:id",
+        component: InterviewStudentsListComponent,
       },
 
       //student

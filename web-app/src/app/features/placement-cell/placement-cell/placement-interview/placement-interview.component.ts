@@ -148,119 +148,6 @@ export class PlacementInterviewComponent {
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
 
-  // companiesCard = [
-  //   {
-  //     Id: 1,
-  //     logo: "../../../../assets/images/Softserve-logo1.png",
-  //     name: "Haier Appliances",
-  //     rating: 4.1,
-  //     reviews: "1.3K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 4,
-  //     registeredStudents: 120,
-  //     placedStudents: 80,
-  //   },
-  //   {
-  //     Id: 2,
-  //     logo: "company-logo-2.png",
-  //     name: "Sony Electronics",
-  //     rating: 4.5,
-  //     reviews: "2K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 5,
-  //     registeredStudents: 100,
-  //     placedStudents: 60,
-  //   },
-  //   {
-  //     Id: 3,
-  //     logo: "company-logo-3.png",
-  //     name: "Samsung Tech",
-  //     rating: 4.2,
-  //     reviews: "1.5K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 3,
-  //     registeredStudents: 200,
-  //     placedStudents: 150,
-  //   },
-  //   {
-  //     Id: 4,
-  //     logo: "company-logo-4.png",
-  //     name: "LG Electronics",
-  //     rating: 4.3,
-  //     reviews: "1.8K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 6,
-  //     registeredStudents: 140,
-  //     placedStudents: 110,
-  //   },
-  //   {
-  //     Id: 5,
-  //     logo: "company-logo-5.png",
-  //     name: "Apple Inc.",
-  //     rating: 4.8,
-  //     reviews: "3K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 7,
-  //     registeredStudents: 250,
-  //     placedStudents: 200,
-  //   },
-  //   {
-  //     Id: 6,
-  //     logo: "company-logo-6.png",
-  //     name: "Microsoft Corp.",
-  //     rating: 4.7,
-  //     reviews: "2.7K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 5,
-  //     registeredStudents: 180,
-  //     placedStudents: 160,
-  //   },
-  //   {
-  //     Id: 7,
-  //     logo: "company-logo-7.png",
-  //     name: "Google LLC",
-  //     rating: 4.9,
-  //     reviews: "5K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 8,
-  //     registeredStudents: 300,
-  //     placedStudents: 250,
-  //   },
-  //   {
-  //     Id: 8,
-  //     logo: "company-logo-8.png",
-  //     name: "Facebook Inc.",
-  //     rating: 4.6,
-  //     reviews: "2.2K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 4,
-  //     registeredStudents: 170,
-  //     placedStudents: 130,
-  //   },
-  //   {
-  //     Id: 9,
-  //     logo: "company-logo-9.png",
-  //     name: "Amazon Web Services",
-  //     rating: 4.4,
-  //     reviews: "2.5K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 6,
-  //     registeredStudents: 220,
-  //     placedStudents: 180,
-  //   },
-  //   {
-  //     Id: 10,
-  //     logo: "company-logo-10.png",
-  //     name: "Tesla Inc.",
-  //     rating: 4.7,
-  //     reviews: "2.8K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 5,
-  //     registeredStudents: 160,
-  //     placedStudents: 140,
-  //   },
-  // ];
-
   GetDateLabelByDate = (date?: Date) => {
     return date ? GetDateForLabel(date) : "NA";
   };
@@ -574,22 +461,11 @@ export class PlacementInterviewComponent {
     return Array.from(industriesSet) as Industry[];
   }
 
-  goToInterviewStudentsDetails(id: number) {
-    if (this.UserRoleId === 1 || this.UserRoleId === 2) {
-      this.router.navigate([
-        "placement-interview/placement-interview-students/",
-        id,
-      ]);
-    }
+  goToInterviewStudentsDetails(id?: number) {
+    // if (this.UserRoleId === 1 || this.UserRoleId === 2) {
+    this.router.navigate(["placement-interview/interview-students-list/", id]);
+    // }
   }
-
-  jobSummary = [
-    { jobTitle: "Software Engineer", studentsCount: 1 },
-    { jobTitle: "Data Scientist", studentsCount: 1 },
-    { jobTitle: "Product Manager", studentsCount: 1 },
-    { jobTitle: "Web Developer", studentsCount: 1 },
-    { jobTitle: "UI/UX Designer", studentsCount: 1 },
-  ];
 
   viewInterviewDetails(id: number) {
     // Navigate to interview details page (to be implemented)

@@ -242,13 +242,17 @@
       "
     >
       <div class="company-details">
-        <h3>{{ scheduledInterview.Name }}</h3>
         <div class="company-type">
           {{ scheduledInterview.JobPosting.Company.Name }}
         </div>
+        <div style="color: slategray; font-size: 0.9rem">
+          {{ scheduledInterview.JobPosting.JobRole }}
+        </div>
+        <h3>{{ scheduledInterview.Name }}</h3>
+
         <p>
-          <strong>Duration:</strong>
-          {{
+          <strong>Date:</strong>
+          <!-- {{
             GetDateLabelByDate(
               scheduledInterview.JobPosting.ValidFrom || undefined
             )
@@ -258,7 +262,7 @@
             GetDateLabelByDate(
               scheduledInterview.JobPosting.ValidTill || undefined
             )
-          }}
+          }} -->
         </p>
       </div>
 

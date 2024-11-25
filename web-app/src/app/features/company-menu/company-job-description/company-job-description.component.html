@@ -114,8 +114,11 @@
           <h3>Job Description</h3>
           <div class="job-details">
             <div class="detail-item">
-              This role requires proficiency in automation testing, knowledge of
-              Python, and attention to detail to ensure software quality.
+              <ul>
+                {{
+                  JobPostingsDescriptionData()[0]?.JobDescription
+                }}
+              </ul>
             </div>
           </div>
         </div>

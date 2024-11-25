@@ -6,7 +6,7 @@
           >keyboard_backspace</mat-icon
         ><mat-card-title class="header">Offer Details </mat-card-title>
       </div>
-      <div>
+      <!-- <div>
         <mat-card-subtitle class="flex-container">
           <span
             ><strong>College Name:</strong
@@ -27,7 +27,7 @@
 
           <span><strong>Job Role:</strong>{{ interviewDetails?.jobRole }}</span>
         </mat-card-subtitle>
-      </div>
+      </div> -->
     </div>
     <div class="button-section" *ngIf="UserRoleId === 3">
       <button
@@ -51,16 +51,20 @@
 
   <div class="student-details-container">
     <div class="student-column">
-      <div><strong>Student Name:</strong> Ranjtha</div>
-      <div><strong>College Name:</strong> ABC College</div>
+      <div>
+        <strong>Student Name:</strong> {{ interviewDetails?.studentName }}
+      </div>
+      <div>
+        <strong>College Name:</strong> {{ interviewDetails?.collegeName }}
+      </div>
     </div>
     <div class="student-column">
-      <div><strong>Branch:</strong> Computer Science</div>
-      <div><strong>Job Id:</strong> DV1234</div>
+      <div><strong>Branch:</strong> {{ interviewDetails?.branch }}</div>
+      <div><strong>Job Id:</strong> {{ interviewDetails?.jobId }}</div>
     </div>
     <div class="student-column">
-      <div><strong>Batch:</strong> 2023</div>
-      <div><strong>Job Role:</strong> Software Engineer</div>
+      <div><strong>Batch:</strong> {{ interviewDetails?.batch }}</div>
+      <div><strong>Job Role:</strong> {{ interviewDetails?.jobRole }}</div>
     </div>
   </div>
 
