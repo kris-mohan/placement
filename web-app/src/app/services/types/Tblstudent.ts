@@ -15,6 +15,7 @@ export type Tblstudent = {
   Id: number;
   OrgId: number;
   FirstName: string;
+  MiddleName: string;
   LastName: string;
   BatchId: number;
   AadharCardNumber: string;
@@ -24,15 +25,14 @@ export type Tblstudent = {
   PhoneNumber: string;
   FatherName: string;
   FatherPhoneNumber: string;
-  DateOfBirth: Date;
+  DateOfBirth: Date | null;
   RollNo: string;
-  BloodGroup: string;
-  MiddleName: string;
-  Pannumber: string;
   MotherName: string;
   MotherPhoneNumber: string;
   Gender: string;
   Batch: Batch;
+  Pannumber: string;
+  BloodGroup: string;
   JobpostStudentrounds: JobpostStudentround[];
   JobpostingSelectedstudents: JobpostingSelectedstudent[];
   JobpostingsEligiblestudents: JobpostingsEligiblestudent[];
@@ -47,6 +47,7 @@ export type Tblstudent = {
 export type PostTblstudent = {
   Id: number;
   FirstName: string;
+  MiddleName: string;
   LastName: string;
   BatchId: number;
   AadharCardNumber: string;
@@ -56,15 +57,33 @@ export type PostTblstudent = {
   PhoneNumber: string;
   FatherName: string;
   FatherPhoneNumber: string;
-  DateOfBirth: Date;
-  RollNo: string;
-  BloodGroup: string;
-  MiddleName: string;
-  Pannumber: string;
   MotherName: string;
   MotherPhoneNumber: string;
-  Gender: string;
-  Batch: Batch;
-  Studentacademics: Studentacademic[];
-  StudentSkills: StudentSkill[];
+  DateOfBirth: Date | null;
+  RollNo: string;
+  Pannumber: string;
+  BloodGroup: string;
+  Batch: { Id: number; Name: string };
+  Studentacademics: {
+    StudentId: number;
+    CourseId: number;
+    StreamId: number;
+    Cgpa: number;
+    TenthMarks: number;
+    TwelthMarks: number;
+    TenthBoard: string;
+    TwelthBoard: string;
+    TenthPassedOutYear: number;
+    TwelthPassedOutYear: number;
+    TenthSchoolName: string;
+    TwelthSchoolName: string;
+    DiplomaCollegeName: string;
+    StudentSemesterMarks: {
+      StudentAcademicId?: number;
+      Semester?: number;
+      Sgpa?: number;
+    }[];
+  };
+  StudentSkills: { SkillId?: number; StudentId?: number }[];
+  skills: string;
 };

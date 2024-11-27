@@ -161,17 +161,29 @@ mat-form-field {
   margin-bottom: 5px;
 }
 
-.column {
-  flex: 1;
-  margin-right: 10px; /* Spacing between columns */
+.skill-selection-container {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  width: 100%; /* Make the container full width */
 }
 
-.column:last-child {
-  margin-right: 0; /* Remove margin on the last column */
+.skillName-form-field,
+.skillType-form-field {
+  flex: 1; /* Allow each form field to grow equally */
 }
 
-.icon {
-  vertical-align: middle;
-  color: #3f51b5;
+.skills-form-field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
 }
+
+/* mat-form-field {
+  appearance: none;
+  box-shadow: none;
+  border: none;
+  width: 100%;
+} */
 
