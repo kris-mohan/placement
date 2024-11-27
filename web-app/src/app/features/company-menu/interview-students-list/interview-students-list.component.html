@@ -151,79 +151,158 @@
         <button
           mat-button
           matStepperNext
-          *ngIf="i < allDetails[0].Jobinterviewrounds.length"
+          *ngIf="i < allDetails[0].Jobinterviewrounds.length - 1"
         >
           Next
         </button>
       </div>
+      <div *ngIf="i === 0; else otherStepsContent">
+        <ng-container
+          *ngIf="JobpostingsAcceptedStudentData().length > 0; else noStudents"
+        >
+          <div
+            *ngFor="let students of JobpostingsAcceptedStudentData()"
+            fxFlex="100%"
+            fxFlex.gt-sm="50%"
+            fxFlex.gt-md="28%"
+            fxFlex.gt-lg="25%"
+            class="grid-item mat-grid-tile"
+            (click)="
+              openInterviewMarksDetails(
+                students.StudentId,
+                students.JobPosting.Jobinterviewrounds[0].Id
+              )
+            "
+          >
+            <div class="company-details">
+              <p>
+                <strong>Roll Number:</strong> {{ students?.Student?.RollNo }}
+              </p>
+              <p>
+                <strong>Student Name:</strong>
+                {{ students?.Student?.FirstName }}
+                {{ students?.Student?.LastName }}
+              </p>
+              <p>
+                <strong>Batch:</strong> {{ students?.Student?.Batch?.Name }}
+              </p>
+              <p>
+                <strong>Branch:</strong>
+                {{
+                students?.Student?.Studentacademics?.[0]?.Course?.FullForm
+                }}
+              </p>
+            </div>
+            <div class="company">
+              <p>
+                <strong>College Name:</strong>
+                {{ students?.Student?.Org?.CollegeName }}
+              </p>
+              <p>
+                <strong>Status:</strong>
+                {{
+                students?.JobPosting?.Jobinterviewrounds?.[0]
+                  ?.JobpostStudentrounds?.[0]?.HasPassed === true
+                  ? "Selected"
+                  : students?.JobPosting?.Jobinterviewrounds?.[0]
+                      ?.JobpostStudentrounds?.[0]?.HasPassed === false
+                  ? "Rejected"
+                  : "Ongoing"
+                }}
+              </p>
+              <p
+                *ngIf="
+                students?.JobPosting?.Jobinterviewrounds?.[0]
+                  ?.JobpostStudentrounds?.[0] as round
+              "
+              >
+                <strong>Performance Score:</strong>
+                {{ round.Score ?? "Not Available" }}
+              </p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <ng-template #otherStepsContent>
+        <div>
+          <ng-container
+            *ngIf="
+              JobpostingsInterviewStudentData().length > 0;
+              else noStudents
+            "
+          >
+            <div
+              *ngFor="let students of JobpostingsInterviewStudentData()"
+              fxFlex="100%"
+              fxFlex.gt-sm="50%"
+              fxFlex.gt-md="28%"
+              fxFlex.gt-lg="25%"
+              class="grid-item mat-grid-tile"
+              (click)="
+                openInterviewMarksDetails(
+                  students.JobpostStudentrounds[0].StudentId,
+                  students.Id
+                )
+              "
+            >
+              <div class="company-details">
+                <p>
+                  <strong>Roll Number:</strong>
+                  {{ students?.JobpostStudentrounds?.[0]?.Student?.RollNo??'Not Available'}}
+                </p>
+                <p>
+                  <strong>Student Name:</strong>
+                  {{ students?.JobpostStudentrounds?.[0]?.Student?.FirstName??'Not Available' }}
+                  {{ students?.JobpostStudentrounds?.[0]?.Student?.LastName?? 'Not Available'}}
+                </p>
+                <p>
+                  <strong>Batch:</strong>
+                  {{ students?.JobpostStudentrounds?.[0]?.Student?.Batch?.Name??'Not Available' }}
+                </p>
+                <p>
+                  <strong>Branch:</strong>
+                  {{
+    students?.JobpostStudentrounds?.[0]?.Student?.Studentacademics?.[0]?.Course
+      ?.Name ?? 'Not Available'
+                  }}
+                </p>
+              </div>
+              <div class="company">
+                <p>
+                  <strong>College Name:</strong>
+                  {{ students?.JobpostStudentrounds?.[0]?.Student?.Org?.CollegeName ??"Not Available" }}
+                </p>
+                <p>
+                  <strong>Status:</strong>
+                  {{
+                students?.JobPosting?.Jobinterviewrounds?.[0]
+                  ?.JobpostStudentrounds?.[0]?.HasPassed === true
+                  ? "Selected"
+                  : students?.JobPosting?.Jobinterviewrounds?.[0]
+                      ?.JobpostStudentrounds?.[0]?.HasPassed === false
+                  ? "Rejected"
+                  : "Ongoing"
+                  }}
+                </p>
+                <p
+                  *ngIf="
+                students?.JobPosting?.Jobinterviewrounds?.[0]
+                  ?.JobpostStudentrounds?.[0] as round
+              "
+                >
+                  <strong>Performance Score:</strong>
+                  {{ round.Score ?? "Not Available" }}
+                </p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-template>
+
+      <ng-template #noStudents>
+        <p>No students have passed.</p>
+      </ng-template>
     </mat-step>
   </mat-stepper>
-
-  <mat-card-content
-    fxLayout="row wrap"
-    fxLayoutAlign="start stretch"
-    class="mat-card-content"
-  >
-    <ng-container
-      *ngIf="
-        allDetails[0].Jobinterviewrounds[currentRoundIndex].JobpostStudentrounds
-          .length > 0;
-        else noStudents
-      "
-    >
-      <div
-        *ngFor="
-          let students of allDetails[0].Jobinterviewrounds[currentRoundIndex]
-            .JobpostStudentrounds
-        "
-        fxFlex="100%"
-        fxFlex.gt-sm="50%"
-        fxFlex.gt-md="28%"
-        fxFlex.gt-lg="25%"
-        class="grid-item"
-        class="mat-grid-tile"
-        (click)="
-          openInterviewMarksDetails(students.Id, students.JobPostingRoundId)
-        "
-      >
-        <div class="company-details">
-          <!-- <h3>{{ students.studentId }}</h3>
-            <div class="company-type">{{ students.studentName }}</div> -->
-          <p>
-            <strong>Roll Number:</strong>
-            {{ students?.Student?.RollNo }}
-          </p>
-          <p>
-            <strong>Student Name:</strong>
-            {{ students?.Student?.FirstName }} {{ students?.Student?.LastName }}
-          </p>
-          <p>
-            <strong>Batch:</strong>
-            {{ students?.Student?.Batch?.Name }}
-          </p>
-          <p>
-            <strong>Branch:</strong>
-            {{ students?.Student?.Studentacademics?.[0]?.Course?.FullForm }}
-          </p>
-        </div>
-        <div class="company">
-          <p>
-            <strong>College Name:</strong>
-            {{ students?.Student?.Org?.CollegeName }}
-          </p>
-          <p>
-            <strong>Status:</strong>
-            {{ students.HasPassed ? "Ongoing" : "Rejected" }}
-          </p>
-          <p>
-            <strong>Performance Score:</strong>
-            {{ students.Score }}
-          </p>
-        </div>
-      </div>
-    </ng-container>
-    <ng-template #noStudents>
-      <p>No students have passed.</p>
-    </ng-template>
-  </mat-card-content>
 </mat-card>

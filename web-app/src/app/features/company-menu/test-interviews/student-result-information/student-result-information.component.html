@@ -5,7 +5,7 @@
 
   <mat-stepper
     [orientation]="(stepperOrientation | async)!"
-    [selectedIndex]="currentRoundIndex"
+    [selectedIndex]="currentRoundIndex()"
     (selectionChange)="onStepChange($event.selectedIndex)"
   >
     <mat-step
@@ -20,8 +20,6 @@
         <button
           mat-button
           matStepperNext
-          mat-button
-          matStepperNext
           *ngIf="i < JobInterviewRoundsData()[0].Jobinterviewrounds.length"
         >
           Next
@@ -31,7 +29,7 @@
   </mat-stepper>
 
   <mat-card-content>
-    <form class="form-content">
+    <form class="form-content" [formGroup]="studentResultInformationForm">
       <div class="form-container">
         <mat-card-content>
           <div fxLayout="row wrap">
@@ -41,10 +39,10 @@
               fxFlex.gt-lg="25%"
               fxFlex.gt-sm="50%"
             >
-              <p class="grid-label">Assesment Name</p>
+              <p class="grid-label">Score</p>
               <mat-form-field appearance="outline" class="matFormField">
-                <mat-label>Assesment Name</mat-label>
-                <input matInput placeholder="Assesment Name" />
+                <mat-label> Score</mat-label>
+                <input matInput formControlName="Score" type="number" />
               </mat-form-field>
             </div>
             <div
@@ -53,45 +51,33 @@
               fxFlex.gt-lg="25%"
               fxFlex.gt-sm="50%"
             >
-              <p class="grid-label">Score</p>
+              <p class="grid-label">Feedback</p>
               <mat-form-field appearance="outline" class="matFormField">
-                <mat-label> Score</mat-label>
-                <input matInput placeholder="Score" />
+                <mat-label> Feedback</mat-label>
+                <textarea matInput formControlName="Feedback"></textarea>
               </mat-form-field>
             </div>
           </div>
         </mat-card-content>
-
-        <mat-card-actions class="footer-actions">
-          <button mat-raised-button class="matbutton">
-            <p class="matName">Reset</p>
-          </button>
-          <button mat-raised-button class="matbutton" type="submit">
-            <p class="matName">
-              Add
-              <!-- {{ TrainerId ? "Update" : "Add" }} -->
-            </p>
-          </button>
-        </mat-card-actions>
       </div>
-    </form>
 
-    <mat-card-actions class="footer-actions">
-      <button
-        mat-raised-button
-        class="matbutton"
-        (click)="openMoveToNextRound()"
-      >
-        <p class="matName">Move to next Round</p>
-      </button>
-      <button
-        mat-raised-button
-        class="matbutton"
-        type="submit"
-        (click)="openReject()"
-      >
-        <p class="matName">Reject</p>
-      </button>
-    </mat-card-actions>
+      <mat-card-actions class="footer-actions">
+        <button
+          mat-raised-button
+          class="matbutton"
+          (click)="openMoveToNextRoundOrReject(1)"
+        >
+          <p class="matName">Move to next Round</p>
+        </button>
+        <button
+          mat-raised-button
+          class="matbutton"
+          type="submit"
+          (click)="openMoveToNextRoundOrReject(0)"
+        >
+          <p class="matName">Reject</p>
+        </button>
+      </mat-card-actions>
+    </form>
   </mat-card-content>
 </mat-card>

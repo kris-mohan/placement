@@ -5,6 +5,7 @@ import { ApiHttpService } from "src/app/services/api-services/api-http-services"
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { ODataEntity } from "src/app/services/types/OData";
+import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 
 @Injectable({
   providedIn: "root",
@@ -28,8 +29,19 @@ export class InterviewStudentListApiService {
     );
   }
 
+  public GetJobpostingsAcceptedStudents(
+    id: number
+  ): Observable<ODataEntity<JobpostingsEligiblestudent[]>> {
+    return this.apiHttpService.get<ODataEntity<JobpostingsEligiblestudent[]>>(
+      `/JobpostingsEligiblestudent?filter=JobPostingId eq ${id} & expand=JobPosting(expand=Jobinterviewrounds(expand=JobpostStudentrounds)),Status,Student(expand=Batch,Studentacademics(expand=Course))`
+    );
+  }
 
-  //   public GetAllIndentsDynamicField(): Observable<ODataEntity<Jobposting[]>> {
-  //     return this.apiHttpService.get<any>('/IndentFormDynamicField');
-  //   }
+  public GetAllJobInterviewStudentsData(
+    id: number
+  ): Observable<ODataEntity<Jobinterviewround[]>> {
+    return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
+      `/Jobinterviewround?$filter=Id eq ${id} & expand = JobPosting, JobpostStudentrounds(expand =Student(expand=Batch,Org,Studentacademics(expand=Course,Stream)))`
+    );
+  }
 }

@@ -13,3 +13,12 @@ export type JobpostStudentround = {
   JobPostingRound?: Jobinterviewround;
   Student?: Tblstudent;
 };
+
+export type PostJobpostStudentround = {
+  Id: number;
+  StudentId?: number;
+  JobPostingRoundId?: number;
+  Feedback?: string;
+  HasPassed?: number;
+  Score?: number;
+};

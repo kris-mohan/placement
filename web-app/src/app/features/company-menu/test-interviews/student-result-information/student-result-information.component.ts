@@ -15,6 +15,8 @@ import { map, Observable } from "rxjs";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { StudentResultInformationApiService } from "./StudentResultInformationApiService";
 import { Jobposting } from "src/app/services/types/Jobposting";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { PostJobpostStudentround } from "src/app/services/types/JobpostStudentround";
 
 @Component({
   selector: "app-student-result-information",
@@ -40,14 +42,16 @@ export class StudentResultInformation {
   studentId: number | null = 0;
   jobPostingInterviewRoundId: number | null = 0;
   JobInterviewRoundsData = signal<Jobposting[]>([]);
-  currentRoundIndex: number = 0;
+  currentRoundIndex = signal<number>(0);
   stepperOrientation: Observable<StepperOrientation>;
+  studentResultInformationForm: FormGroup;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private sweetAlertService: SweetAlertService,
     private location: Location,
+    private fb: FormBuilder,
     private studentResultInformationApiService: StudentResultInformationApiService
   ) {
     const breakpointObserver = inject(BreakpointObserver);
@@ -55,6 +59,11 @@ export class StudentResultInformation {
     this.stepperOrientation = breakpointObserver
       .observe("(min-width: 800px)")
       .pipe(map(({ matches }) => (matches ? "horizontal" : "vertical")));
+
+    this.studentResultInformationForm = this.fb.group({
+      Score: "",
+      Feedback: "",
+    });
   }
 
   ngOnInit() {
@@ -76,25 +85,64 @@ export class StudentResultInformation {
         next: (res) => {
           const data: Jobposting[] = res.value;
           this.JobInterviewRoundsData.set(data);
-          const currentRoundIndex = this.JobInterviewRoundsData().findIndex(
-            (round) => round.Id === this.jobPostingInterviewRoundId
+          console.log(this.JobInterviewRoundsData());
+          console.log(this.jobPostingInterviewRoundId);
+          const currentRoundIndex =
+            this.JobInterviewRoundsData()[0].Jobinterviewrounds.findIndex(
+              (round) => round.Id === this.jobPostingInterviewRoundId
+            );
+          this.currentRoundIndex.set(
+            currentRoundIndex !== -1 ? currentRoundIndex : 0
           );
-          this.currentRoundIndex =
-            currentRoundIndex !== -1 ? currentRoundIndex : 0;
+        },
+        error: (error) => {
+          console.error(error);
         },
       });
   };
 
   onStepChange(index: number): void {
-    this.currentRoundIndex = index;
-    this.JobInterviewRoundsData()[0].Jobinterviewrounds[this.currentRoundIndex];
+    this.currentRoundIndex.set(index);
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  openMoveToNextRound() {}
+  openMoveToNextRoundOrReject = async (action: number) => {
+    const postJobpostStudentroundForm: Partial<PostJobpostStudentround> =
+      this.studentResultInformationForm.value;
+    const confirmationMessage =
+      action === 1
+        ? "Do you want to move this student to the next round?"
+        : "Do you want to reject this student?";
 
-  openReject() {}
+    const confirmed = await this.sweetAlertService.confirm(confirmationMessage);
+    if (confirmed) {
+      const postJobpostStudentround: PostJobpostStudentround = {
+        Id: 0,
+        StudentId: this.studentId ?? 0,
+        JobPostingRoundId: this.jobPostingInterviewRoundId ?? 0,
+        Feedback: postJobpostStudentroundForm.Feedback,
+        HasPassed: action,
+        Score: postJobpostStudentroundForm.Score,
+      };
+      this.studentResultInformationApiService
+        .MoveToNextRoundOrReject(postJobpostStudentround)
+        .subscribe({
+          next: (response: { success: boolean; message: any }) => {
+            console.log(response);
+            if (response.success) {
+              this.sweetAlertService.success(response.message);
+              this.goBack();
+            } else {
+              this.sweetAlertService.error(response.message);
+            }
+          },
+          error: (error) => {
+            this.sweetAlertService.error("An unexpected error occurred.");
+          },
+        });
+    }
+  };
 }
