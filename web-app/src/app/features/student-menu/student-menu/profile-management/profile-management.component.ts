@@ -6,6 +6,7 @@ import { MatSelectChange } from "@angular/material/select";
 import { LiveAnnouncer } from "@angular/cdk/a11y";
 import { MatChipInputEvent } from "@angular/material/chips";
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -26,6 +27,18 @@ import { SkillType } from "src/app/services/types/SkillType";
 import { Observable, of } from "rxjs";
 import { MatTableDataSource } from "@angular/material/table";
 import { Skill } from "src/app/services/types/Skill";
+import {
+  PatchTblStudent,
+  PostTblstudent,
+  Tblstudent,
+} from "src/app/services/types/Tblstudent";
+import { ActivatedRoute } from "@angular/router";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import {
+  PatchStudentAcademic,
+  Studentacademic,
+} from "src/app/services/types/Studentacademic";
+import { StudentSemesterMark } from "src/app/services/types/StudentSemesterMark";
 
 @Component({
   selector: "app-profile-management",
@@ -48,6 +61,8 @@ export class ProfileManagementComponent {
   showSemester = false;
   fileError: string | null = null;
   studentProfileForm: FormGroup;
+  studentEducationForm: FormGroup;
+  studentSkillsForm: FormGroup;
   allSemesters = [{ semester: "", scoreType: "", score: "", file: null }];
   Semester: string[] = Semester;
   TenthScoreType: string[] = TenthScoreType;
@@ -59,40 +74,145 @@ export class ProfileManagementComponent {
   Courses = signal<Course[]>([]);
   Streams = signal<Stream[]>([]);
   Batches = signal<Batch[]>([]);
-  SkillTypes = signal<SkillType[]>([]);
+  SkillTypes: SkillType[] = [];
   SkillsNames = signal<Skill[]>([]);
   SkillTypeControl = new FormControl();
   searchSkillType: string = "";
-  filteredSkillTypes: SkillType[] = [];
+  selectedSkillTypes = signal<number[]>([]);
+  filteredSkillTypes = signal<SkillType[]>([]);
   filteredCompany: Observable<any[]> = of([]);
+  studentId: number;
+  studentAcademicId: number = 0;
+  semesterData: StudentSemesterMark[] = [];
 
   constructor(
     private location: Location,
     private fb: FormBuilder,
-    private studentApiService: StudentProfileApiService
+    private studentApiService: StudentProfileApiService,
+    private route: ActivatedRoute,
+    private sweetAlertService: SweetAlertService
   ) {
     this.studentProfileForm = this.fb.group({
       FirstName: ["", [Validators.required]],
-      //MiddleName: [[''], [Validators.required]],
       LastName: [""],
-      BatchId: ["", [Validators.required]],
+      BatchId: [{ value: "", disabled: true }, [Validators.required]],
       AadharCardNumber: ["", [Validators.required]],
       DateOfBirth: ["", [Validators.required]],
       BloodGroup: ["", [Validators.required]],
       PermanentAddress: ["", [Validators.required]],
       CurrentAddress: [""],
-      Email: ["", [Validators.required]],
+      Email: [{ value: "", disabled: true }, [Validators.required]],
       PhoneNumber: ["", [Validators.required]],
-      ParentName: ["", [Validators.required]],
-      ParentPhoneNumber: ["", [Validators.required]],
-      RollNo: ["", [Validators.required]],
-      StudentSkills: [[]],
-      Studentacademics: [[]],
-      Batch: [[]],
-      Course: [[]],
-      Stream: [[]],
+      FatherName: ["", [Validators.required]],
+      FatherPhoneNumber: ["", [Validators.required]],
+      MotherName: ["", [Validators.required]],
+      MotherPhoneNumber: ["", [Validators.required]],
+      RollNo: [{ value: "", disabled: true }, [Validators.required]],
+      CourseId: [{ value: "", disabled: true }, [Validators.required]],
+      StreamId: [{ value: "", disabled: true }, [Validators.required]],
+    });
+    this.studentEducationForm = this.fb.group({
+      TenthSchoolName: ["", [Validators.required]],
+      TenthBoard: ["", [Validators.required]],
+      TenthMarks: ["", [Validators.required]],
+      TenthPassedOutYear: ["", [Validators.required]],
+      TenthFile: [null],
+      TwelfthSchoolName: ["", [Validators.required]],
+      TwelfthBoard: ["", [Validators.required]],
+      TwelfthMarks: ["", [Validators.required]],
+      TwelfthPassedOutYear: ["", [Validators.required]],
+      TwelfthFile: [null],
+      semester1: this.createSemesterGroup(),
+      semester2: this.createSemesterGroup(),
+      semester3: this.createSemesterGroup(),
+      semester4: this.createSemesterGroup(),
+      semester5: this.createSemesterGroup(),
+      semester6: this.createSemesterGroup(),
+      semester7: this.createSemesterGroup(),
+      semester8: this.createSemesterGroup(),
+    });
+    this.studentSkillsForm = this.fb.group({
+      LinkedInLink: [""],
+      Achievement: [""],
+      Project: [""],
+      Internship: [""],
+      // fields: this.fb.array([]), // Initialize with an empty FormArray
+    });
+    const id = this.route.snapshot.paramMap.get("id");
+    this.studentId = id ? parseInt(id) : 0;
+  }
+
+  createSemesterGroup() {
+    return this.fb.group({
+      sgpa: [],
+      closedBacklogs: [0],
+      liveBacklogs: [0],
+      file: [null],
     });
   }
+
+  getStudentEducationDetails = () => {
+    this.studentApiService
+      .GetStudentEducationDetails(this.studentId)
+      .subscribe({
+        next: (student) => {
+          const data: Studentacademic[] = student.value;
+          console.log(data);
+
+          if (data[0]) {
+            // Access StudentSemesterMarks directly
+            this.semesterData = data[0]?.StudentSemesterMarks;
+            console.log(this.semesterData); // Log all semester data
+            this.studentAcademicId = data[0].Id;
+
+            // If you want to iterate through the semesters and log each
+            const studentDetails = data[0];
+
+            // Patch the main student education details fields
+            if (studentDetails) {
+              this.studentEducationForm.patchValue({
+                TenthSchoolName: studentDetails.TenthSchoolName || "",
+                TenthBoard: studentDetails.TenthBoard || "",
+                TenthMarks: studentDetails.TenthMarks || "",
+                TenthPassedOutYear: studentDetails.TenthPassedOutYear || "",
+                TwelfthSchoolName: studentDetails.TwelthSchoolName || "",
+                TwelfthBoard: studentDetails.TwelthBoard || "",
+                TwelfthMarks: studentDetails.TwelthMarks || "",
+                TwelfthPassedOutYear: studentDetails.TwelthPassedOutYear || "",
+              });
+
+              // If you have file or other fields to patch, do so here as needed
+              // Example for Tenth and Twelfth file:
+              // this.studentEducationForm.patchValue({
+              //   TenthFile: studentDetails.TenthFile || null,
+              //   TwelfthFile: studentDetails.TwelfthFile || null,
+              // });
+            }
+
+            this.semesterData.forEach((semester) => {
+              console.log(
+                `Semester ${semester.Semester}: SGPA = ${semester.Sgpa}`
+              );
+              const semesterKey = `semester${semester.Semester}`;
+              if (this.studentEducationForm.get(semesterKey)) {
+                this.studentEducationForm.get(semesterKey)?.patchValue({
+                  sgpa: semester.Sgpa,
+                  closedBacklogs: semester.ClosedBacklogs,
+                  liveBacklogs: semester.LiveBacklogs,
+                  // file: semester.MarkaPercentage,
+                });
+                console.log(`Patched data for ${semesterKey}:`, {
+                  sgpa: semester.Sgpa,
+                  closedBacklogs: semester.ClosedBacklogs,
+                  liveBacklogs: semester.LiveBacklogs,
+                  // file: semester.MarkaPercentage,
+                });
+              }
+            });
+          }
+        },
+      });
+  };
 
   readonly techSkill = signal(["java", "c++", "c"]);
   readonly SoftSkill = signal([
@@ -106,13 +226,15 @@ export class ProfileManagementComponent {
   announcer = inject(LiveAnnouncer);
 
   ngOnInit() {
+    this.getStudentDataById();
+    this.getStudentEducationDetails();
+
     this.GetAllBatchName();
     this.GetAllStreamName();
     this.GetAllCourseName();
 
     this.GetPassedOutYear();
     this.GetAllSkillTypes();
-    this.GetAllSkills();
   }
 
   onFileSelected(event: Event) {
@@ -123,6 +245,58 @@ export class ProfileManagementComponent {
     } else {
       this.fileError = "Please select a file.";
     }
+  }
+
+  onSkillTypeChange(event: any, index: number) {
+    // Get selected skill type Id
+
+    const selectedSkillTypeId = event.value;
+    this.GetAllSkills(selectedSkillTypeId);
+
+    const selectedSkillTypes = [...this.selectedSkillTypes()];
+    selectedSkillTypes[index] = selectedSkillTypeId;
+
+    this.selectedSkillTypes.set(selectedSkillTypes);
+
+    this.updateFilteredSkillTypes();
+
+    this.clearSkillsForField(index);
+
+    console.log("onSkillTypeChange:", this.filteredSkillTypes());
+
+    // Filter skills based on selected skill type
+    // const skillsForSelectedType = this.SkillsList.filter(
+    //   (skill) => skill.SkillTypeId === selectedSkillTypeId
+    // );
+
+    // // Update filtered skills for the current field
+    // this.filteredSkills[index] = skillsForSelectedType;
+
+    // // Reset skills array for the current field
+    // const skillsControl = (this.studentSkillsForm.get("fields") as FormArray)
+    //   .at(index)
+    //   .get("skills");
+    // skillsControl?.setValue([]);
+  }
+
+  updateFilteredSkillTypes() {
+    const selectedIds = this.selectedSkillTypes(); // Get current selected skill types
+    this.filteredSkillTypes.set(
+      this.SkillTypes.filter((skillType) => !selectedIds.includes(skillType.Id))
+    );
+  }
+
+  clearSkillsForField(index: number) {
+    // console.log("index", index);
+    // const skillsControl = (this.studentSkillsForm.get("fields") as FormArray)
+    //   .at(index)
+    //   .get("skills");
+    // skillsControl?.setValue([]); // Clear the selected skills for this field
+    this.fields[index].skills = [];
+  }
+
+  getYear(index: number): number {
+    return Math.ceil(index / 2); // Calculates the year based on the semester
   }
 
   addDulpicateSemester() {
@@ -332,33 +506,241 @@ export class ProfileManagementComponent {
     this.studentApiService.GetAllSkillTypes().subscribe({
       next: (course) => {
         const data: SkillType[] = course.value;
-        this.SkillTypes.set(data);
+        this.SkillTypes = data;
+        this.filteredSkillTypes.set(this.SkillTypes);
         console.log("skillType:", data);
       },
     });
   };
 
-  GetAllSkills = () => {
-    this.studentApiService.GetAllSkills().subscribe({
+  GetAllSkills = (id: number) => {
+    this.studentApiService.GetAllSkills(id).subscribe({
       next: (skills) => {
         const data: SkillType[] = skills.value;
+        console.log(skills.value);
         this.SkillsNames.set(data);
         console.log("SkillsNames:", data);
       },
     });
   };
 
+  // onSkillTypeChange(event: any, index: number) {
+  //   // Get selected skill type Id
+  //   const selectedSkillTypeId = event.value;
+
+  //   // Filter skills based on selected skill type
+  //   const skillsForSelectedType = this.SkillsList.filter(
+  //     (skill) => skill.SkillTypeId === selectedSkillTypeId
+  //   );
+
+  //   // Update filtered skills for the current field
+  //   this.filteredSkills[index] = skillsForSelectedType;
+
+  //   // Reset skills array for the current field
+  //   const skillsControl = (this.studentSkillsForm.get("fields") as FormArray)
+  //     .at(index)
+  //     .get("skills");
+  //   skillsControl?.setValue([]);
+  // }
+
+  getStudentDataById = () => {
+    this.studentApiService.GetStudentDataById(this.studentId).subscribe({
+      next: (student) => {
+        const data: Tblstudent[] = student.value;
+        console.log(data);
+        if (data) {
+          const flattenedData = {
+            ...data[0],
+            StreamId: data[0].Studentacademics[0].StreamId,
+            CourseId: data[0].Studentacademics[0].CourseId,
+          };
+          console.log(flattenedData);
+          this.studentProfileForm.patchValue(flattenedData);
+        }
+      },
+    });
+  };
+
+  SaveStudentDetails(tab: number, studentData: PatchTblStudent) {
+    this.studentApiService
+      .SaveStudentDetails(tab, this.studentId, studentData)
+      .subscribe({
+        next: (response: { success: boolean; message: any }) => {
+          console.log(response);
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error("An unexpected error occurred:");
+        },
+      });
+  }
+
   goBack(): void {
     this.location.back();
   }
 
-  fields: any[] = [{ id: 1 }];
+  async onSave(tab: number) {
+    if (tab === 1) {
+      if (this.studentProfileForm.valid) {
+        const confirmed = await this.sweetAlertService.confirm(
+          `Do you want to save your details?`
+        );
+        console.log(this.studentProfileForm);
+        if (confirmed) {
+          const studentData = {
+            FirstName: this.studentProfileForm.value.FirstName,
+            LastName: this.studentProfileForm.value.LastName,
+            MiddleName: this.studentProfileForm.value.MiddleName,
+            DateOfBirth: this.studentProfileForm.value.DateOfBirth,
+            BloodGroup: this.studentProfileForm.value.BloodGroup,
+            PhoneNumber: this.studentProfileForm.value.PhoneNumber,
+            Email: this.studentProfileForm.value.Email,
+            AadharCardNumber: this.studentProfileForm.value.AadharCardNumber,
+            PermanentAddress: this.studentProfileForm.value.PermanentAddress,
+            FatherName: this.studentProfileForm.value.FatherName,
+            FatherPhoneNumber: this.studentProfileForm.value.FatherPhoneNumber,
+            MotherName: this.studentProfileForm.value.MotherName,
+            MotherPhoneNumber: this.studentProfileForm.value.MotherPhoneNumber,
+            BatchId: this.studentProfileForm.value.BatchId,
+            RollNo: this.studentProfileForm.value.RollNo,
+            Studentacademics: [
+              {
+                StudentId: this.studentId,
+                CourseId: this.studentProfileForm.value.CourseId,
+                StreamId: this.studentProfileForm.value.StreamId,
+              },
+            ],
+          };
+          console.log(studentData);
+          this.SaveStudentDetails(tab, studentData);
+        }
+      }
+    }
+    if (tab === 2) {
+      if (this.studentEducationForm.valid) {
+        const confirmed = await this.sweetAlertService.confirm(
+          `Do you want to save your details?`
+        );
+        if (confirmed) {
+          const studentEducationData: PatchStudentAcademic = {
+            Id: this.studentAcademicId,
+            TenthMarks: this.studentEducationForm.value.TenthMarks || null,
+            TwelthMarks: this.studentEducationForm.value.TwelfthMarks,
+            TenthBoard: this.studentEducationForm.value.TenthBoard,
+            TwelthBoard: this.studentEducationForm.value.TwelfthBoard,
+            TenthPassedOutYear:
+              this.studentEducationForm.value.TenthPassedOutYear,
+            TwelthPassedOutYear:
+              this.studentEducationForm.value.TwelfthPassedOutYear,
+            TenthSchoolName: this.studentEducationForm.value.TenthSchoolName,
+            TwelthSchoolName: this.studentEducationForm.value.TwelfthSchoolName,
+            StudentSemesterMarks: Array.from({ length: 8 }, (_, index) => {
+              const semesterKey = `semester${index + 1}`;
+              const semesterFormGroup =
+                this.studentEducationForm.get(semesterKey);
+              // Check if we have the corresponding semester data from the API
+              const existingSemesterData = this.semesterData.find(
+                (semester) => semester.Semester === index + 1
+              );
+
+              if (semesterFormGroup) {
+                return {
+                  Id: existingSemesterData?.Id || 0,
+                  Semester: index + 1,
+                  StudentAcademicId: this.studentAcademicId,
+                  Sgpa: +semesterFormGroup.value.sgpa || null,
+                  ClosedBacklogs: +semesterFormGroup.value.closedBacklogs || 0,
+                  LiveBacklogs: +semesterFormGroup.value.liveBacklogs || 0,
+                  // MarkaPercentage: semesterFormGroup.value.file || null, // Assuming file maps to MarkaPercentage
+                };
+              }
+              return null; // Return null for any missing semester data
+            }).filter((semester) => semester !== null), // Remove any null values if a semester form is empty
+          };
+          console.log(studentEducationData);
+          // for (let i = 1; i <= 8; i++) {
+          //   const semesterKey = `semester${i}`;
+          //   const semesterFormGroup =
+          //     this.studentEducationForm.get(semesterKey);
+
+          //   if (semesterFormGroup) {
+          //     // Map each semester data into the StudentSemesterMarks array
+          //     studentEducationData.StudentSemesterMarks.push({
+          //       Semester: i, // We add the semester number
+          //       Sgpa: semesterFormGroup.value.sgpa || null,
+          //       ClosedBacklogs: semesterFormGroup.value.closedBacklogs || 0,
+          //       LiveBacklogs: semesterFormGroup.value.liveBacklogs || 0,
+          //       MarkaPercentage: semesterFormGroup.value.file || null, // Assuming file maps to MarkaPercentage
+          //     });
+          //   }
+          // }
+          this.SaveEducationDetails(
+            this.studentAcademicId,
+            studentEducationData
+          );
+        }
+      }
+    }
+  }
+
+  SaveEducationDetails(id: number, studentData: PatchStudentAcademic) {
+    this.studentApiService
+      .addUpdateStudentEducationDetails(id, studentData)
+      .subscribe({
+        next: (response: { success: boolean; message: any }) => {
+          console.log(response);
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error("An unexpected error occurred:");
+        },
+      });
+  }
+
+  // fields: any[] = [{ id: 1 }];
+
+  fields: { skillType: string; skills: string[] }[] = [
+    {
+      skillType: "",
+      skills: [],
+    },
+  ];
 
   addField() {
-    this.fields.push({ id: this.fields.length + 1 });
+    // Add a new FormGroup to the FormArray
+    // const newField = this.fb.group({
+    //   skillType: "", // Skill Type initially empty
+    //   skills: [], // Empty skill list for the new field
+    // });
+    // this.fields.push(newField); // Push the new field to the form array
+
+    this.fields.push({
+      skillType: "", // Skill Type initially empty
+      skills: [], // Empty skill list for the new field
+    });
+
+    // this.fields.push({ id: this.fields.length + 1 });
   }
 
   removeField(index: number) {
+    // Remove the field from the form array
+    (this.studentSkillsForm.get("fields") as FormArray).removeAt(index);
+
+    // Remove the skill type from the selectedSkillTypes signal
+    const selectedSkillTypes = [...this.selectedSkillTypes()];
+    selectedSkillTypes.splice(index, 1);
+    this.selectedSkillTypes.set(selectedSkillTypes);
+
+    // Update filtered skill types again after removal
+    this.updateFilteredSkillTypes();
     this.fields.splice(index, 1);
   }
 }

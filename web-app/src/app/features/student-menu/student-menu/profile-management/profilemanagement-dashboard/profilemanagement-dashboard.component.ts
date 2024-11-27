@@ -8,11 +8,11 @@ import { Tblstudent } from "src/app/services/types/Tblstudent";
 import { Stream } from "src/app/services/types/Stream";
 import { StudentProfileApiService } from "../StudentProfileApiService";
 @Component({
-  selector: 'app-profilemanagement-dashboard',
+  selector: "app-profilemanagement-dashboard",
   standalone: true,
   imports: [AMGModules, CommonModule],
-  templateUrl: './profilemanagement-dashboard.component.html',
-  styleUrl: './profilemanagement-dashboard.component.css',
+  templateUrl: "./profilemanagement-dashboard.component.html",
+  styleUrl: "./profilemanagement-dashboard.component.css",
 })
 export class ProfilemanagementDashboardComponent {
   companyID: string = "";
@@ -38,14 +38,15 @@ export class ProfilemanagementDashboardComponent {
     this.getStudentProfileId();
   }
 
-  openAddEditProfile(id: number) {
+  openAddEditProfile() {
     // if (id !== null && id !== undefined) {
     //   this.router.navigate(['/company-configuration/company', id]);
     // } else {
     //   this.router.navigate(['/company-configuration/company', 0]);
     // }
+    const id = this.StudentAcademicData()[0].StudentId;
     this.router.navigate([
-      'profile-management-dashboard/profile-management',
+      "profile-management-dashboard/profile-management",
       id,
     ]);
   }
@@ -54,7 +55,7 @@ export class ProfilemanagementDashboardComponent {
     this.studentApiService
       .GetStudentProfileDataById(this.sessionStudentId)
       .subscribe({
-        next: (studentProfile: { value: Studentacademic[]; }) => {
+        next: (studentProfile: { value: Studentacademic[] }) => {
           const data: Studentacademic[] = studentProfile.value;
           this.StudentAcademicData.set(data);
           this.StudentDataSource.set([data[0].Student]);

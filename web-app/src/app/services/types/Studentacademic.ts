@@ -1,7 +1,9 @@
-import { Course } from './Course';
-import { Stream } from './Stream';
-import { StudentSemesterMark } from './StudentSemesterMark';
-import { Tblstudent } from './Tblstudent';
+import { Course } from "./Course";
+import { Stream } from "./Stream";
+import { StudentSemesterMark } from "./StudentSemesterMark";
+import { Tblstudent } from "./Tblstudent";
+
+export type PatchStudentAcademic = Studentacademic | {};
 
 export type Studentacademic = {
   length: number;
@@ -16,9 +18,11 @@ export type Studentacademic = {
   TwelthBoard: string;
   TenthPassedOutYear: number;
   TwelthPassedOutYear: number;
+  TenthSchoolName: string;
+  TwelthSchoolName: string;
+  DiplomaCollegeName: string;
   Course: Course;
   Stream: Stream;
-  Batch: Stream;
   Student: Tblstudent;
   StudentSemesterMarks: StudentSemesterMark[];
 };
