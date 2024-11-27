@@ -14,6 +14,7 @@ import { JobEligibleStudentApiService } from "./job-eligible-students-modal/jobE
 import { Tblstudent } from "src/app/services/types/Tblstudent";
 import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import { CompanyjobdescriptionApiService } from "../company-job-description/company-job-description-ApiService";
 
 @Component({
   selector: "app-company-job-description",
@@ -22,7 +23,6 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
   templateUrl: "./company-job-description.component.html",
   styleUrl: "./company-job-description.component.css",
 })
-
 export class CompanyJobDescriptionComponent {
   Id: number | null = null;
   CompanyId: number;
@@ -36,6 +36,8 @@ export class CompanyJobDescriptionComponent {
   JobPostingId: number | null = null;
   JobPostingDetailsById = signal<Jobposting[]>([]);
   InvitingStudentsList = signal<Tblstudent[]>([]);
+
+  JobPostingsData = signal<Jobposting[]>([]);
 
   JobPostingsDescriptionData = signal<Jobposting[]>([]);
 
@@ -77,6 +79,7 @@ export class CompanyJobDescriptionComponent {
     private studentJobsApiService: StudentJobsApiSerivce,
     private router: Router,
     private jobEligibleStudentsApiService: JobEligibleStudentApiService,
+    private companyjobdescriptionApiService: CompanyjobdescriptionApiService,
     private sweetAlertService: SweetAlertService
   ) {
     const storedUserType = sessionStorage.getItem("userRoleId");
@@ -105,6 +108,18 @@ export class CompanyJobDescriptionComponent {
       },
     });
   }
+  getjobDescription = () => {
+    this.companyjobdescriptionApiService.Getjobdescription().subscribe({
+      next: (response) => {
+        const data: Jobposting[] = response.value;
+        // this.JobPostingsData.set([data[0]]);
+        // console.log(this.JobPostingsData());
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
 
   getCompanyJobDescriptionById(): void {
     this.route.paramMap.subscribe((params) => {
@@ -129,6 +144,7 @@ export class CompanyJobDescriptionComponent {
               DriveDate: this.convertToDateOnly(jobposting.DriveDate),
             }));
             this.JobPostingsDescriptionData.set(mappedData);
+            this.JobPostingsData.set([mappedData[0]]);
             console.log("Company Name:", this.JobPostingsDescriptionData());
           },
           error: (error) => {
@@ -199,6 +215,7 @@ export class CompanyJobDescriptionComponent {
     this.GetJobPostingById();
     this.GetJobPostStudentStatus();
     this.GetStudentStatusOfInvitedJobPost();
+    this.getjobDescription();
   }
 
   convertToDateOnly(dateString: string): string {

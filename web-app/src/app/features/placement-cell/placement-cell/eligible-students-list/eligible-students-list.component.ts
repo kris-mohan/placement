@@ -10,7 +10,7 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
 import { SharedModule } from "src/app/shared/shared.module";
 import { employeeDataList } from "./eligible-students-list-model";
 import { FormControl } from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { StudentdetailsDialogComponent } from "../studentdetails-dialog/studentdetails-dialog.component";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Tblstudent } from "src/app/services/types/Tblstudent";
@@ -269,10 +269,19 @@ export class EligibleStudentsListComponent {
     //   this.router.navigate(["/placement-upload-file", ""]);
     // }
 
-    this.dialog.open(PlacementUploadFileComponent, {
-      data: id,
-      width: "500px",
-      height: "600px",
+    const dialogRef: MatDialogRef<PlacementUploadFileComponent> =
+      this.dialog.open(PlacementUploadFileComponent, {
+        data: id,
+        width: "500px",
+        height: "600px",
+      });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getAllStudents();
+        this.getBatches();
+        this.getBranches();
+      }
     });
   }
   getBatches(): void {

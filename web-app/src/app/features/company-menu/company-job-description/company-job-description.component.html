@@ -42,7 +42,7 @@
         <div class="job-card">
           <div class="job-header">
             <div class="job-title">
-              <h2>{{ JobPostingsDescriptionData()[0]?.JobRole }}</h2>
+              <h2>{{ JobPostingsData()[0]?.JobRole }}</h2>
               <span class="company">{{
                 JobPostingsDescriptionData()[0]?.Company?.Name
               }}</span>
@@ -80,7 +80,78 @@
               </button>
             </div>
           </div>
+          <mat-card-content
+            fxLayout="row wrap"
+            fxLayoutAlign="start stretch"
+            class="mat-card-content"
+          >
+            <div
+              *ngFor="let jobposting of JobPostingsData()"
+              fxFlex="100%"
+              fxFlex.gt-sm="100%"
+              fxFlex.gt-md="45%"
+              fxFlex.gt-lg="30%"
+              class="mat-grid-tile"
+            >
+              <div class="company-details">
+                <div class="company-designation"></div>
 
+                <div class="job-details-container">
+                  <div class="job-detail">
+                    <!-- <span
+              ><strong>Experience:</strong> {{ jobposting.Experience }}</span
+            > -->
+                    <!-- <span
+                      ><strong>Job Type:</strong> {{ jobposting.JobType }}</span
+                    > -->
+                    <!-- <span
+                      ><strong>Skills:</strong> {{ jobposting.JobRole }}</span
+                    > -->
+                    <!-- <span
+                      ><strong>Salary:</strong> {{ jobposting.Salary }}</span -->
+
+                    <!-- <span
+                      ><strong>Location:</strong>
+                      {{ jobposting.Location }}</span
+                    > -->
+
+                    <!-- <span><strong>Shift:</strong> {{ jobposting.Shift }}</span> -->
+                    <!-- <span
+                      ><strong>Mode of Work:</strong>
+                      {{ jobposting.ModeOfWork }}</span
+                    > -->
+                    <!-- </div>
+                  <div class="job-detail">
+                    <span
+                      ><strong>No. of vacancies:</strong>
+                      {{ jobposting.Vacancies }}</span
+                    > -->
+                    <!-- <span
+                      ><strong>Number of applicants Applied:</strong>
+                      {{ jobposting.ApplicantsApplied }}</span
+                    > -->
+                    <!-- <span
+                      ><strong>Number of applicants Rejected:</strong>
+                      {{ jobposting.ApplicantsRejected }}</span
+                    > -->
+                    <!-- <span
+                      ><strong> Drive Date:</strong>
+                      {{ jobposting.DriveDate }}</span
+                    >
+                    <span
+                      ><strong>Posted Date:</strong>
+                      {{ jobposting.ValidFrom }}</span
+                    > -->
+                    <!-- <span
+                      ><strong>Application last date:</strong
+                      >{{ jobposting.ValidTill }}</span -->
+
+                    <!-- <span><strong>Number of interview schedule:</strong> 10</span> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
           <div class="job-details">
             <div class="experience">
               <!-- <span
@@ -94,78 +165,95 @@
             <div class="locations">
               <span class="location">
                 <mat-icon>location_on</mat-icon>
-                {{ JobPostingsDescriptionData()[0]?.Location }}
+                {{ JobPostingsData()[0]?.Location }}
               </span>
               <span class="salary"
                 ><strong> Salary :</strong>
-                {{ JobPostingsDescriptionData()[0]?.Salary }}</span
+                {{ JobPostingsData()[0]?.Salary }}</span
               >
-              <span class="posted"
+              <span class="posted on"
                 ><strong>Posted on:</strong>
-                {{ JobPostingsDescriptionData()[0]?.ValidFrom }}</span
+                {{ JobPostingsData()[0]?.PostedDate }}</span
               >
             </div>
-
-            <div class="posted"></div>
           </div>
         </div>
 
         <div class="job-highlights">
           <h3>Job Description</h3>
-          <div class="job-details">
-            <div class="detail-item">
-              This role requires proficiency in automation testing, knowledge of
-              Python, and attention to detail to ensure software quality.
-            </div>
-          </div>
+          <span class="Job Description"
+            ><strong>Job Description:</strong>
+            {{ JobPostingsData()[0]?.JobDescription }}</span
+          >
         </div>
 
         <div class="job-highlights">
           <h3>Job Details</h3>
           <div class="job-details">
-            <div class="detail-item">
-              <strong>College Name:</strong> ABC College
-            </div>
+            <span class="Collage Name"
+              ><strong> Collage Name : abc college</strong>
+            </span>
             <div class="detail-item"><strong>Batch:</strong> 2023</div>
             <div class="detail-item">
               <strong>Stream:</strong> Computer Science
             </div>
             <div class="detail-item"><strong>Course:</strong> B.Tech</div>
-            <div class="detail-item">
-              <strong>Skills:</strong> Python, Automation Testing, SQL
-            </div>
-            <div class="detail-item">
-              <strong>Job Role:</strong> Software Tester
-            </div>
+            <span class="Skills"
+              ><strong> Skills :</strong>
+              {{ JobPostingsData()[0]?.JobRole }}</span
+            >
+            <span class="Job Role"
+              ><strong> Job Role :</strong>
+              {{ JobPostingsData()[0]?.JobRole }}</span
+            >
             <div class="detail-item"><strong>No of Posts:</strong> 5</div>
-            <div class="detail-item">
-              <strong>Min Experience:</strong> 1 year 6 months
-            </div>
-            <div class="detail-item">
-              <strong>Max Experience:</strong> 3 years 0 months
-            </div>
-            <div class="detail-item">
-              <strong>Min 10th Percentage:</strong> 70%
-            </div>
-            <div class="detail-item">
-              <strong>Min PUC Percentage:</strong> 65%
-            </div>
-            <div class="detail-item"><strong>Min CGPA:</strong> 7.0</div>
+            <span class="Min Experience"
+              ><strong> Min Experience :</strong>
+              {{ JobPostingsData()[0]?.MinimumYearExperience }}</span
+            >
+            <span class="Max Experience"
+              ><strong> Max Experience :</strong>
+              {{ JobPostingsData()[0]?.MaximumYearExperience }}</span
+            >
+            <span class="Min PUC Percentage"
+              ><strong>Min PUC Percentage :</strong>
+              {{ JobPostingsData()[0]?.MinPucpercentage }}</span
+            >
+            <span class="Min SSLC Percentage"
+              ><strong>Min SSLC Percentage :</strong>
+              {{ JobPostingsData()[0]?.MinSslcpercentage }}</span
+            >
+            <span class="Min CGPA"
+              ><strong>Min CGPA :</strong>
+              {{ JobPostingsData()[0]?.MinCgpa }}</span
+            >
             <div class="detail-item"><strong>CTC:</strong> 18 LPA</div>
-            <div class="detail-item">
-              <strong>Mode of Work:</strong> On-Site
-            </div>
+            <span class="CTC"
+              ><strong>CTC :</strong> {{ JobPostingsData()[0]?.Salary }}</span
+            >
+            <span class="Mode of Work"
+              ><strong> Mode of Work :</strong>
+              {{ JobPostingsData()[0]?.ModeOfWork }}</span
+            >
             <div class="detail-item"><strong>Location:</strong> Bangalore</div>
-            <div class="detail-item"><strong>Job Type:</strong> Full-Time</div>
-            <div class="detail-item">
-              <strong>Shift Type:</strong> Day Shift
-            </div>
-            <div class="detail-item">
-              <strong>No of Backlogs Allowed:</strong> 1
-            </div>
-            <div class="detail-item">
+            <span class="Job Type"
+              ><strong> Job Type :</strong>
+              {{ JobPostingsData()[0]?.JobType }}</span
+            >
+            <span class="Shift"
+              ><strong> Shift :</strong> {{ JobPostingsData()[0]?.Shift }}</span
+            >
+            <span class="No of Backlogs Allowed"
+              ><strong> No of Backlogs Allowed :</strong>
+              {{ JobPostingsData()[0]?.BacklogsAllowed }}</span
+            >
+            <!-- <div class="detail-item">
               <strong>Last Date to Apply:</strong> 2024-11-20
-            </div>
+            </div> -->
+            <span
+              ><strong>Last Date to Apply:</strong
+              >{{ JobPostingsData()[0]?.ValidTill }}</span
+            >
           </div>
         </div>
       </div>
