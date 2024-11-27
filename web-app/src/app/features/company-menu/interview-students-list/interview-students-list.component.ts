@@ -10,6 +10,8 @@ import { StepperOrientation } from "@angular/material/stepper";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { FormBuilder, Validators } from "@angular/forms";
 import { N } from "@angular/cdk/keycodes";
+import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 
 @Component({
   selector: "app-interview-students-list",
@@ -23,7 +25,9 @@ export class InterviewStudentsListComponent implements OnInit {
 
   JobPostingId: string | null = "0";
   JobInterviewRoundId: string | null = "0";
-
+  JobpostingsEligiblestudentData = signal<JobpostingsEligiblestudent[]>([]);
+  JobpostingsAcceptedStudentData = signal<JobpostingsEligiblestudent[]>([]);
+  JobpostingsInterviewStudentData = signal<Jobinterviewround[]>([]);
   currentRoundIndex: number = 0;
 
   stepperOrientation: Observable<StepperOrientation>;
@@ -47,6 +51,8 @@ export class InterviewStudentsListComponent implements OnInit {
       this.route.snapshot.paramMap.get("interviewRoundId");
     console.log(this.JobPostingId);
     this.getAllStudents();
+    this.GetJobpostingsAcceptedStudents();
+    this.GetAllJobInterviewStudentsData();
   }
 
   goBack(): void {
@@ -64,6 +70,7 @@ export class InterviewStudentsListComponent implements OnInit {
           const data: Jobposting[] = response.value;
           console.log("All Students", data);
           this.allDetails = data;
+          console.log(this.allDetails);
           const currentRoundIndex =
             this.allDetails[0]?.Jobinterviewrounds.findIndex(
               (round) =>
@@ -81,13 +88,37 @@ export class InterviewStudentsListComponent implements OnInit {
       });
   };
 
+  GetJobpostingsAcceptedStudents = () => {
+    const id = this.JobPostingId ? parseInt(this.JobPostingId) : 0;
+    this.interviewStudentListApiService
+      .GetJobpostingsAcceptedStudents(id)
+      .subscribe({
+        next: (response) => {
+          const data: JobpostingsEligiblestudent[] = response.value;
+          this.JobpostingsEligiblestudentData.set(data);
+          this.JobpostingsAcceptedStudentData.set(
+            data.filter((d) => d.Status?.Id === 5)
+          );
+        },
+      });
+  };
+
+  GetAllJobInterviewStudentsData = () => {
+    const id = this.JobInterviewRoundId
+      ? parseInt(this.JobInterviewRoundId)
+      : 0;
+    this.interviewStudentListApiService
+      .GetAllJobInterviewStudentsData(id)
+      .subscribe({
+        next: (response) => {
+          const data: Jobinterviewround[] = response.value;
+          this.JobpostingsInterviewStudentData.set(data);
+        },
+      });
+  };
+
   onStepChange(index: number): void {
     this.currentRoundIndex = index;
-    console.log(this.currentRoundIndex);
-    console.log(
-      this.allDetails[0].Jobinterviewrounds[this.currentRoundIndex]
-        .JobpostStudentrounds
-    );
   }
 
   openInterviewMarksDetails(studentId?: number, JobPostingRoundId?: number) {
