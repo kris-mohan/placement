@@ -190,14 +190,19 @@
         <div class="job-highlights">
           <h3>Job Details</h3>
           <div class="job-details">
-            <span class="Collage Name"
-              ><strong> Collage Name : abc college</strong>
-            </span>
-            <div class="detail-item"><strong>Batch:</strong> 2023</div>
             <div class="detail-item">
-              <strong>Stream:</strong> Computer Science
+              <strong>College:</strong>{{ JobPostingsData()[0]?.CollegeName }}
             </div>
-            <div class="detail-item"><strong>Course:</strong> B.Tech</div>
+
+            <div class="detail-item">
+              <strong>Batch:</strong> {{ JobPostingsData()[0]?.BatchName }}
+            </div>
+            <div class="detail-item">
+              <strong>Stream:</strong> {{ JobPostingsData()[0]?.StreamName }}
+            </div>
+            <div class="detail-item">
+              <strong>Course:</strong> {{ JobPostingsData()[0]?.CourseName }}
+            </div>
             <span class="Skills"
               ><strong> Skills :</strong>
               {{ JobPostingsData()[0]?.JobRole }}</span

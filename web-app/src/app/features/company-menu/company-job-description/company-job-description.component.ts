@@ -134,23 +134,30 @@ export class CompanyJobDescriptionComponent {
         this.UserRoleId === 1 ? this.JobPostRouteId : this.Id;
 
       if (jobIdToFetch !== null) {
-        this.studentJobsApiService.GetJobPostingById(jobIdToFetch).subscribe({
-          next: (jobPostings) => {
-            const data: Jobposting[] = jobPostings.value;
-            const mappedData = data.map((jobposting: any) => ({
-              ...jobposting,
-              ValidTill: this.convertToDateOnly(jobposting.ValidTill),
-              ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
-              DriveDate: this.convertToDateOnly(jobposting.DriveDate),
-            }));
-            this.JobPostingsDescriptionData.set(mappedData);
-            this.JobPostingsData.set([mappedData[0]]);
-            console.log("Company Name:", this.JobPostingsDescriptionData());
-          },
-          error: (error) => {
-            console.error("Error fetching jobPostings:", error);
-          },
-        });
+        this.companyjobdescriptionApiService
+          .getCompanyJobDescriptionById(jobIdToFetch)
+          .subscribe({
+            next: (jobPostings) => {
+              const data: Jobposting[] = jobPostings.value;
+              const mappedData = data.map((jobposting: any) => ({
+                ...jobposting,
+                ValidTill: this.convertToDateOnly(jobposting.ValidTill),
+                ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
+                DriveDate: this.convertToDateOnly(jobposting.DriveDate),
+                CollegeName:
+                  jobposting.Collegejobpostings[0]?.College?.CollegeName,
+                BatchName: jobposting.CompanyJobBatches[0]?.Batch?.Name,
+                StreamName: jobposting.CompanyJobStreams[0]?.Stream?.Name,
+                CourseName: jobposting.CompanyJobCourses[0]?.Course?.Name,
+              }));
+              this.JobPostingsDescriptionData.set(mappedData);
+              this.JobPostingsData.set([mappedData[0]]);
+              console.log("Company Name:", this.JobPostingsDescriptionData());
+            },
+            error: (error) => {
+              console.error("Error fetching jobPostings:", error);
+            },
+          });
       }
     });
   }
@@ -215,7 +222,7 @@ export class CompanyJobDescriptionComponent {
     this.GetJobPostingById();
     this.GetJobPostStudentStatus();
     this.GetStudentStatusOfInvitedJobPost();
-    this.getjobDescription();
+    // this.getjobDescription();
   }
 
   convertToDateOnly(dateString: string): string {
