@@ -1,31 +1,33 @@
-import { CommonModule, Location } from "@angular/common";
-import { Component, inject, signal } from "@angular/core";
-import { AMGModules } from "src/AMG-Module/AMG-module";
-import { SharedModule } from "src/app/shared/shared.module";
-import { MatSelectChange } from "@angular/material/select";
-import { LiveAnnouncer } from "@angular/cdk/a11y";
-import { MatChipInputEvent } from "@angular/material/chips";
+import { CommonModule, Location } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
+import { AMGModules } from 'src/AMG-Module/AMG-module';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { MatSelectChange } from '@angular/material/select';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatChipInputEvent } from '@angular/material/chips';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
-} from "@angular/forms";
-import { Semester } from "src/app/services/common-dropdowns/SemesterName";
-import { TenthScoreType } from "src/app/services/common-dropdowns/TenthScoreType";
-import { TwelfthScoreType } from "src/app/services/common-dropdowns/TwelfthScoreType";
-import { SemesterScoreType } from "src/app/services/common-dropdowns/SemesterScoreType";
-import { BloodGroup } from "src/app/services/common-dropdowns/BloodGroup";
-import { Course } from "src/app/services/types/Course";
-import { StudentProfileApiService } from "./StudentProfileApiService";
-import { Stream } from "src/app/services/types/Stream";
-import { Batch } from "src/app/services/types/Batch";
-import { TenthBoardName } from "src/app/services/common-dropdowns/TenthBoard";
-import { TwelfthBoardName } from "src/app/services/common-dropdowns/TwelfthBoard";
-import { SkillType } from "src/app/services/types/SkillType";
-import { Observable, of } from "rxjs";
-import { MatTableDataSource } from "@angular/material/table";
-import { Skill } from "src/app/services/types/Skill";
+} from '@angular/forms';
+import { Semester } from 'src/app/services/common-dropdowns/SemesterName';
+import { TenthScoreType } from 'src/app/services/common-dropdowns/TenthScoreType';
+import { TwelfthScoreType } from 'src/app/services/common-dropdowns/TwelfthScoreType';
+import { SemesterScoreType } from 'src/app/services/common-dropdowns/SemesterScoreType';
+import { BloodGroup } from 'src/app/services/common-dropdowns/BloodGroup';
+import { Course } from 'src/app/services/types/Course';
+import { StudentProfileApiService } from './StudentProfileApiService';
+import { Stream } from 'src/app/services/types/Stream';
+import { Batch } from 'src/app/services/types/Batch';
+import { TenthBoardName } from 'src/app/services/common-dropdowns/TenthBoard';
+import { TwelfthBoardName } from 'src/app/services/common-dropdowns/TwelfthBoard';
+import { SkillType } from 'src/app/services/types/SkillType';
+import { Observable, of } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { Skill } from 'src/app/services/types/Skill';
+import { PostTblstudent, Tblstudent } from 'src/app/services/types/Tblstudent';
+import { SweetAlertService } from 'src/app/services/sweet-alert-service/sweet-alert-service';
 
 @Component({
   selector: "app-profile-management",
@@ -36,15 +38,16 @@ import { Skill } from "src/app/services/types/Skill";
 })
 export class ProfileManagementComponent {
   selectedPhoto: string | ArrayBuffer | null | undefined = null;
-
-  selectedSemester: string = "";
-  selectedBoard: string = "";
-  selectedScore: string = "";
-  selectedCourse: string = "";
-  selectedPuScore: string = "";
-  selectedSemScore: string = "";
-  selectedBlood: string = "";
-  semesters = [{ score: "", type: "", file: null }];
+  selectedSkillTypeIds: number[] = [];
+  selectedSkillIds: number[] = [];
+  selectedSemester: string = '';
+  selectedBoard: string = '';
+  selectedScore: string = '';
+  selectedCourse: string = '';
+  selectedPuScore: string = '';
+  selectedSemScore: string = '';
+  selectedBlood: string = '';
+  semesters = [{ score: '', type: '', file: null }];
   showSemester = false;
   fileError: string | null = null;
   studentProfileForm: FormGroup;
@@ -63,34 +66,46 @@ export class ProfileManagementComponent {
   SkillsNames = signal<Skill[]>([]);
   SkillTypeControl = new FormControl();
   searchSkillType: string = "";
+  Id: number | null = null;
   filteredSkillTypes: SkillType[] = [];
   filteredCompany: Observable<any[]> = of([]);
+  sessionStudentId: number;
+  fields: any[] = [{ id: 1 }];
 
   constructor(
     private location: Location,
     private fb: FormBuilder,
-    private studentApiService: StudentProfileApiService
+    private studentApiService: StudentProfileApiService,
+    private sweetAlertService: SweetAlertService
   ) {
+    const storedStudentId = sessionStorage.getItem('CompanyId');
+    this.sessionStudentId = storedStudentId ? parseInt(storedStudentId) : 0;
+
     this.studentProfileForm = this.fb.group({
-      FirstName: ["", [Validators.required]],
-      //MiddleName: [[''], [Validators.required]],
-      LastName: [""],
-      BatchId: ["", [Validators.required]],
-      AadharCardNumber: ["", [Validators.required]],
-      DateOfBirth: ["", [Validators.required]],
-      BloodGroup: ["", [Validators.required]],
-      PermanentAddress: ["", [Validators.required]],
-      CurrentAddress: [""],
-      Email: ["", [Validators.required]],
-      PhoneNumber: ["", [Validators.required]],
-      ParentName: ["", [Validators.required]],
-      ParentPhoneNumber: ["", [Validators.required]],
-      RollNo: ["", [Validators.required]],
+      FirstName: ['', [Validators.required]],
+      MiddleName: [[''], [Validators.required]],
+      LastName: [''],
+      BatchId: ['', [Validators.required]],
+      AadharCardNumber: ['', [Validators.required]],
+      DateOfBirth: ['', [Validators.required]],
+      BloodGroup: ['', [Validators.required]],
+      PermanentAddress: ['', [Validators.required]],
+      CurrentAddress: [''],
+      Email: ['', [Validators.required]],
+      PhoneNumber: ['', [Validators.required]],
+      FatherName: ['', [Validators.required]],
+      FatherPhoneNumber: ['', [Validators.required]],
+      MotherName: ['', Validators.required],
+      MotherPhoneNumber: ['', Validators.required],
+      Pannumber: ['', Validators.required],
+      RollNo: ['', [Validators.required]],
       StudentSkills: [[]],
       Studentacademics: [[]],
       Batch: [[]],
       Course: [[]],
       Stream: [[]],
+      selectedSkillTypeIds: [[]],
+      selectedSkillIds: [[]],
     });
   }
 
@@ -189,7 +204,7 @@ export class ProfileManagementComponent {
 
   onBloodChange(event: any) {
     this.selectedBlood = event.value;
-    console.log("Selected Blood:", this.selectedBlood);
+    console.log('Selected Blood:', this.selectedBlood);
   }
 
   removeTemplateKeyword(keyword: string) {
@@ -206,7 +221,7 @@ export class ProfileManagementComponent {
   }
 
   addTemplateKeyword(event: MatChipInputEvent): void {
-    const value = (event.value || "").trim();
+    const value = (event.value || '').trim();
     if (value) {
       this.techSkill.update((keywords) => [...keywords, value]);
       this.announcer.announce(`added ${value} to template form`);
@@ -333,7 +348,7 @@ export class ProfileManagementComponent {
       next: (course) => {
         const data: SkillType[] = course.value;
         this.SkillTypes.set(data);
-        console.log("skillType:", data);
+        console.log('skillType:', data);
       },
     });
   };
@@ -343,16 +358,31 @@ export class ProfileManagementComponent {
       next: (skills) => {
         const data: SkillType[] = skills.value;
         this.SkillsNames.set(data);
-        console.log("SkillsNames:", data);
+        console.log('SkillsNames:', data);
       },
     });
   };
 
+  GetSkillsBySkillTypeId = (ids: number[]) => {
+    this.studentApiService.GetSkillsByIds(ids).subscribe({
+      next: (skill) => {
+        const data: SkillType[] = skill.value;
+        console.log('Fetched Skills:', data);
+        const allSkills = data.flatMap((skillType) => skillType.Skills || []);
+        this.SkillsNames.set(allSkills);
+      },
+      error: (error) => console.error('Error fetching skills:', error),
+    });
+  };
+
+  onSkillTypeSelectionChange(event: MatSelectChange) {
+    const selectedIds = event.value as number[];
+    this.GetSkillsBySkillTypeId(selectedIds);
+  }
+
   goBack(): void {
     this.location.back();
   }
-
-  fields: any[] = [{ id: 1 }];
 
   addField() {
     this.fields.push({ id: this.fields.length + 1 });
@@ -361,4 +391,155 @@ export class ProfileManagementComponent {
   removeField(index: number) {
     this.fields.splice(index, 1);
   }
+
+  async onSubmit() {
+    const studentProfile: Partial<PostTblstudent> =
+      this.studentProfileForm.value;
+    const isUpdate = !!this.Id;
+    const actionText = isUpdate ? 'update' : 'add';
+
+    const confirmed = await this.sweetAlertService.confirm(
+      `Do you want to ${actionText} your Profile?`
+    );
+
+    if (confirmed) {
+      const studentProfileData: PostTblstudent = {
+        Id: this.sessionStudentId ?? 0,
+        // OrgId: studentProfile.OrgId ?? 0,
+        FirstName: studentProfile.FirstName ?? '',
+        MiddleName: studentProfile.MiddleName ?? '',
+        LastName: studentProfile.LastName ?? '',
+        BatchId: studentProfile.BatchId ?? 0,
+        AadharCardNumber: studentProfile.AadharCardNumber ?? '',
+        PermanentAddress: studentProfile.PermanentAddress ?? '',
+        CurrentAddress: studentProfile.CurrentAddress ?? '',
+        Email: studentProfile.Email ?? '',
+        PhoneNumber: studentProfile.PhoneNumber ?? '',
+        FatherName: studentProfile.FatherName ?? '',
+        FatherPhoneNumber: studentProfile.FatherPhoneNumber ?? '',
+        MotherName: studentProfile.MotherName ?? '',
+        MotherPhoneNumber: studentProfile.MotherPhoneNumber ?? '',
+        DateOfBirth: studentProfile.DateOfBirth ?? null,
+        RollNo: studentProfile.RollNo ?? '',
+        BloodGroup: studentProfile.BloodGroup ?? '',
+        Pannumber: studentProfile.Pannumber ?? '',
+        skills: studentProfile.skills ?? '',
+
+        Batch: {
+          Id: studentProfile.Batch?.Id ?? 0,
+          Name: studentProfile.Batch?.Name ?? '',
+        },
+
+        Studentacademics: {
+          StudentId: this.sessionStudentId ?? 0,
+          CourseId: studentProfile.Studentacademics?.CourseId ?? 0,
+          StreamId: studentProfile.Studentacademics?.StreamId ?? 0,
+          Cgpa: studentProfile.Studentacademics?.Cgpa ?? 0,
+          TenthMarks: studentProfile.Studentacademics?.TenthMarks ?? 0,
+          TwelthMarks: studentProfile.Studentacademics?.TwelthMarks ?? 0,
+          TenthBoard: studentProfile.Studentacademics?.TenthBoard ?? '',
+          TwelthBoard: studentProfile.Studentacademics?.TwelthBoard ?? '',
+          TenthPassedOutYear:
+            studentProfile.Studentacademics?.TenthPassedOutYear ?? 0,
+          TwelthPassedOutYear:
+            studentProfile.Studentacademics?.TwelthPassedOutYear ?? 0,
+          TenthSchoolName:
+            studentProfile.Studentacademics?.TenthSchoolName ?? '',
+          TwelthSchoolName:
+            studentProfile.Studentacademics?.TwelthSchoolName ?? '',
+          DiplomaCollegeName:
+            studentProfile.Studentacademics?.DiplomaCollegeName ?? '',
+
+          StudentSemesterMarks:
+            studentProfile.Studentacademics?.StudentSemesterMarks?.map(
+              (mark) => ({
+                StudentAcademicId: mark.StudentAcademicId ?? 0,
+                Semester: mark.Semester ?? 0,
+                Sgpa: mark.Sgpa ?? 0.0,
+              })
+            ) ?? [],
+        },
+
+        StudentSkills:
+          studentProfile.StudentSkills?.map((skill) => ({
+            SkillId: skill.SkillId ?? 0,
+            StudentId: this.sessionStudentId ?? 0,
+          })) ?? [],
+      };
+
+      try {
+        if (isUpdate) {
+          await this.studentApiService.addUpdateCompany(
+            this.Id,
+            studentProfileData
+          );
+        } else {
+          await this.studentApiService.addUpdateCompany(
+            this.Id,
+            studentProfileData
+          );
+        }
+        this.sweetAlertService.success(
+          `${
+            actionText.charAt(0).toUpperCase() + actionText.slice(1)
+          } successful!`
+        );
+      } catch (error) {
+        this.sweetAlertService.error(
+          'An error occurred while saving the profile. Please try again.'
+        );
+      }
+    }
+  }
+
+  // get selectedSkillTypes(): string {
+  //   const selected = this.SkillTypeControl.value;
+
+  //   return Array.isArray(selected) ? selected.join(', ') : '';
+  // }
+
+  // resetSkillTypeSelection() {
+  //   this.SkillTypeControl.reset();
+  //   this.searchSkillType = '';
+  //   this.filteredSkillTypes = this.SkillTypes();
+  //   this.dataSource1.data = this.filteredSkillTypes;
+  // }
+
+  // showLocationResults() {
+  //   const selectedCities = this.SkillTypeControl.value;
+  //   if (selectedCities && selectedCities.length > 0) {
+  //     this.filteredSkillTypes = this.SkillTypes().filter((skill) =>
+  //       selectedCities.includes(skill.Name)
+  //     );
+  //   } else {
+  //     this.filteredSkillTypes = this.SkillTypes();
+  //   }
+
+  //   this.dataSource1.data = this.filteredSkillTypes;
+  // }
+
+  // filterSkillTypes(search: string) {
+  //   const filterValue = search.toLowerCase();
+
+  //   const filteredList = this.SkillTypes().filter(
+  //     (skill) =>
+  //       skill && skill.Name && skill.Name.toLowerCase().includes(filterValue)
+  //   );
+
+  //   const selectedSkillTypes = this.SkillTypeControl.value || [];
+  //   this.filteredSkillTypes = [
+  //     ...selectedSkillTypes
+  //       .map((name: any) =>
+  //         this.SkillTypes().find((skill) => skill && skill.Name === name)
+  //       )
+  //       .filter(Boolean),
+  //     ...filteredList.filter(
+  //       (skill) => skill && !selectedSkillTypes.includes(skill.Name)
+  //     ),
+  //   ];
+  // }
+
+  // onSkillTypeDropdownOpen() {
+  //   this.filterSkillTypes(this.searchSkillType);
+  // }
 }

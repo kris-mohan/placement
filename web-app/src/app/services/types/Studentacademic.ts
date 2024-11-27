@@ -1,10 +1,10 @@
+import { Batch } from './Batch';
 import { Course } from './Course';
 import { Stream } from './Stream';
 import { StudentSemesterMark } from './StudentSemesterMark';
 import { Tblstudent } from './Tblstudent';
 
 export type Studentacademic = {
-  length: number;
   Id: number;
   StudentId: number;
   CourseId: number;
@@ -16,15 +16,17 @@ export type Studentacademic = {
   TwelthBoard: string;
   TenthPassedOutYear: number;
   TwelthPassedOutYear: number;
+  TenthSchoolName: string;
+  TwelthSchoolName: string;
+  DiplomaCollegeName: string;
   Course: Course;
   Stream: Stream;
-  Batch: Stream;
+  Batch: Batch;
   Student: Tblstudent;
   StudentSemesterMarks: StudentSemesterMark[];
 };
 
 export type PostStudentacademic = {
-  length: number;
   Id: number;
   StudentId: number;
   CourseId: number;
@@ -36,6 +38,9 @@ export type PostStudentacademic = {
   TwelthBoard: string;
   TenthPassedOutYear: number;
   TwelthPassedOutYear: number;
+  TenthSchoolName: string;
+  TwelthSchoolName: string;
+  DiplomaCollegeName: string;
   Course?: { Id?: number; FullForm?: string };
   Stream?: { Id?: number; Name?: string };
   Student: Tblstudent;
