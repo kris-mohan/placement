@@ -28,6 +28,7 @@ export class InterviewStudentListApiService {
     );
   }
 
+
   //   public GetAllIndentsDynamicField(): Observable<ODataEntity<Jobposting[]>> {
   //     return this.apiHttpService.get<any>('/IndentFormDynamicField');
   //   }

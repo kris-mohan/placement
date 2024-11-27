@@ -139,6 +139,7 @@
 
   <mat-stepper
     [orientation]="(stepperOrientation | async)!"
+    [selectedIndex]="currentRoundIndex"
     (selectionChange)="onStepChange($event.selectedIndex)"
   >
     <mat-step

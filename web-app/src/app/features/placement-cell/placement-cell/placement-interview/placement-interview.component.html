@@ -237,13 +237,14 @@
       class="mat-grid-tile"
       (click)="
         goToInterviewStudentsDetails(
-          scheduledInterview.JobPostingId ? scheduledInterview.JobPostingId : 0
+          scheduledInterview.JobPostingId ? scheduledInterview.JobPostingId : 0,
+          scheduledInterview.Id
         )
       "
     >
       <div class="company-details">
         <div class="company-type">
-          {{ scheduledInterview.JobPosting.Company.Name }}
+          {{ scheduledInterview.JobPosting.Company?.Name }}
         </div>
         <div style="color: slategray; font-size: 0.9rem">
           {{ scheduledInterview.JobPosting.JobRole }}

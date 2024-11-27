@@ -22,6 +22,7 @@ export class InterviewStudentsListComponent implements OnInit {
   allDetails: Jobposting[] = [];
 
   JobPostingId: string | null = "0";
+  JobInterviewRoundId: string | null = "0";
 
   currentRoundIndex: number = 0;
 
@@ -41,7 +42,9 @@ export class InterviewStudentsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.JobPostingId = this.route.snapshot.paramMap.get("id");
+    this.JobPostingId = this.route.snapshot.paramMap.get("jobId");
+    this.JobInterviewRoundId =
+      this.route.snapshot.paramMap.get("interviewRoundId");
     console.log(this.JobPostingId);
     this.getAllStudents();
   }
@@ -61,6 +64,16 @@ export class InterviewStudentsListComponent implements OnInit {
           const data: Jobposting[] = response.value;
           console.log("All Students", data);
           this.allDetails = data;
+          const currentRoundIndex =
+            this.allDetails[0]?.Jobinterviewrounds.findIndex(
+              (round) =>
+                round.Id ===
+                (this.JobInterviewRoundId
+                  ? parseInt(this.JobInterviewRoundId)
+                  : 0)
+            );
+          this.currentRoundIndex =
+            currentRoundIndex !== -1 ? currentRoundIndex : 0;
         },
         error: (error) => {
           console.error(error);

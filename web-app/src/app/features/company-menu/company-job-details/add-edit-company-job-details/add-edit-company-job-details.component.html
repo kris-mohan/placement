@@ -20,7 +20,7 @@
   <form
     class="form-content"
     [formGroup]="addEditJobPostingForm"
-    (ngSubmit)="onSubmit('reset')"
+    (ngSubmit)="onSubmit(Id ?? 0)"
   >
     <div class="form-container">
       <mat-card-content>
@@ -460,7 +460,9 @@
             <p class="matName">Reset</p>
           </button>
           <button mat-raised-button class="matbutton" type="submit">
-            <p class="matName">Add Job Posting</p>
+            <p class="matName">
+              {{ Id ? "Update Job Posting" : "Add Job Posting" }}
+            </p>
           </button>
         </div>
 

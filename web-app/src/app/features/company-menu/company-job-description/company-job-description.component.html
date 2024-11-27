@@ -14,28 +14,27 @@
         </div>
       </div>
     </div>
-    <div class="buttons" style="text-align: end">
-      <button
-        *ngIf="UserRoleId !== 3"
-        mat-raised-button
-        class="matbutton"
-        (click)="openAddEditJobPostingForm()"
-      >
-        <mat-icon class="maticon">edit</mat-icon>
-        <p class="matName">Edit Job Posting</p>
-      </button>
-      <button
-        *ngIf="UserRoleId !== 3"
-        mat-raised-button
-        class="matbutton"
-        (click)="openAddEditCompanyForm(0)"
-      >
-        <mat-icon class="maticon">delete</mat-icon>
-        <p class="matName">Delete Job Postings</p>
-      </button>
-    </div>
   </mat-card-header>
-
+  <div class="example-button-container filter_items" style="text-align: end">
+    <button
+      *ngIf="UserRoleId !== 3"
+      mat-raised-button
+      class="matbutton"
+      (click)="openAddEditJobPostingForm()"
+    >
+      <mat-icon class="maticon">edit</mat-icon>
+      <p class="matName">Edit Job Posting</p>
+    </button>
+    <button
+      *ngIf="UserRoleId !== 3"
+      mat-raised-button
+      class="matbutton"
+      (click)="DeleteJobPosting()"
+    >
+      <mat-icon class="maticon">delete</mat-icon>
+      <p class="matName">Delete Job Posting</p>
+    </button>
+  </div>
   <mat-card-content class="matt-card-content">
     <div class="main-content">
       <div class="left-content">
