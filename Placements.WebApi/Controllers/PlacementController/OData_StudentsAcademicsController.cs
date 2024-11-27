@@ -69,11 +69,11 @@ namespace Placements.WebApi.Controllers.PlacementController
         }
 
         [HttpPatch]
-        public async Task<IActionResult> Patch(long key, Delta<Calendarevent> delta)
+        public async Task<IActionResult> Patch(long key, Delta<Studentacademic>? delta)
         {
             try
             {
-                Calendarevent? original = await _context.Calendarevents.FirstOrDefaultAsync(x => x.Id == key);
+                Studentacademic? original = await _context.Studentacademics.FirstOrDefaultAsync(x => x.Id == key);
                 if (original == null)
                 {
                     return Ok(new { success = false, message = "Student academic Not Found" });

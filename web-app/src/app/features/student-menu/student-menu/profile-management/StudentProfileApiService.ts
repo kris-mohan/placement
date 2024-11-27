@@ -1,16 +1,29 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
+import {
+  catchError,
+  firstValueFrom,
+  Observable,
+  ObservableLike,
+  throwError,
+} from "rxjs";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
 // import { IndentForm } from 'src/app/services/types/IndentForm';
-import { ODataEntity } from 'src/app/services/types/OData';
-import { Studentacademic } from 'src/app/services/types/Studentacademic';
-import { Stream } from 'src/app/services/types/Stream';
-import { Course } from 'src/app/services/types/Course';
-import { Batch } from 'src/app/services/types/Batch';
-import { SkillType } from 'src/app/services/types/SkillType';
-import { Skill } from 'src/app/services/types/Skill';
-import { Tblstudent, PostTblstudent } from 'src/app/services/types/Tblstudent';
+import { ODataEntity } from "src/app/services/types/OData";
+import {
+  PatchStudentAcademic,
+  Studentacademic,
+} from "src/app/services/types/Studentacademic";
+import { Stream } from "src/app/services/types/Stream";
+import { Course } from "src/app/services/types/Course";
+import { Batch } from "src/app/services/types/Batch";
+import { SkillType } from "src/app/services/types/SkillType";
+import { Skill } from "src/app/services/types/Skill";
+import {
+  PatchTblStudent,
+  PostTblstudent,
+  Tblstudent,
+} from "src/app/services/types/Tblstudent";
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +35,7 @@ export class StudentProfileApiService {
     id: number
   ): Observable<ODataEntity<Studentacademic[]>> {
     return this.apiHttpService.get<ODataEntity<Studentacademic[]>>(
-      `/Studentacademic?$expand=Student,Course,Stream&$filter=id eq ${id}`
+      `/Studentacademic?$expand=Student,Course,Stream&$filter=StudentId eq ${id}`
     );
   }
 
@@ -48,18 +61,10 @@ export class StudentProfileApiService {
     return this.apiHttpService.get<ODataEntity<SkillType[]>>("/SkillType");
   }
 
-  public GetAllSkills(): Observable<ODataEntity<Skill[]>> {
-    return this.apiHttpService.get<ODataEntity<Skill[]>>('/Skill');
-  }
-
-  public GetSkillsByIds(ids: number[]): Observable<ODataEntity<SkillType[]>> {
-    const filterQuery =
-      ids.length > 0 ? ids.map((id) => `Id eq ${id}`).join(" or ") : "";
-    const odataUrl = filterQuery
-      ? `/SkillType?$filter=${filterQuery}&$expand=Skills`
-      : `/SkillType?$expand=Skills`;
-
-    return this.apiHttpService.get<ODataEntity<SkillType[]>>(odataUrl);
+  public GetAllSkills(id: number): Observable<ODataEntity<Skill[]>> {
+    return this.apiHttpService.get<ODataEntity<Skill[]>>(
+      `/Skill?$filter=SkillTypeId eq ${id}`
+    );
   }
 
   public deleteStudentProfileData(
@@ -72,11 +77,54 @@ export class StudentProfileApiService {
 
   public addUpdateCompany(
     id: number | null,
-    Tblstudent: Tblstudent | PostTblstudent
-  ): Observable<ODataEntity<Tblstudent[]>> {
-    const url = `/Studentacademic${id ? `?key=${id}` : ''}`;
+    Studentacademic: Studentacademic
+  ): Observable<ODataEntity<Studentacademic[]>> {
+    const url = `/Studentacademic${id ? `?key=${id}` : ""}`;
     return id
-      ? this.apiHttpService.patch(url, Tblstudent)
-      : this.apiHttpService.post(url, Tblstudent);
+      ? this.apiHttpService.patch(url, Studentacademic)
+      : this.apiHttpService.post(url, Studentacademic);
+  }
+
+  public GetStudentDataById = (
+    id: number
+  ): Observable<ODataEntity<Tblstudent[]>> => {
+    return this.apiHttpService.get(
+      `/Tblstudent?$expand=Studentacademics&$filter=Id eq ${id}`
+    );
+  };
+
+  public SaveStudentDetails(
+    tab: number | null,
+    id: number | null,
+    studentDetails: PostTblstudent | PatchTblStudent
+  ): Observable<any> {
+    console.log("Hiiii");
+    return this.apiHttpService.patch(
+      `/Tblstudent${id ? `?key=${id}` : ""}`,
+      studentDetails
+    );
+
+    // const url = `/Companydatum${id ? `?key=${id}` : ""}`;
+    // return id
+    //   ? this.apiHttpService.patch(url, companydatum)
+    //   : this.apiHttpService.post(url, companydatum);
+  }
+
+  public GetStudentEducationDetails(
+    id: number
+  ): Observable<ODataEntity<Studentacademic[]>> {
+    return this.apiHttpService.get<ODataEntity<Studentacademic[]>>(
+      `/Studentacademic?$expand=StudentSemesterMarks&filter=StudentId eq ${id}`
+    );
+  }
+
+  public addUpdateStudentEducationDetails(
+    id: number | null,
+    Studentacademic: PatchStudentAcademic
+  ): Observable<any> {
+    const url = `/Studentacademic${id ? `?key=${id}` : ""}`;
+    return id
+      ? this.apiHttpService.patch(url, Studentacademic)
+      : this.apiHttpService.post(url, Studentacademic);
   }
 }

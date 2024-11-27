@@ -1,11 +1,11 @@
 <mat-card>
-  <div class="example-button-container" (click)="goBack()">
-    <mat-icon>keyboard_backspace</mat-icon>
+  <div class="example-button-container">
+    <mat-icon (click)="goBack()">keyboard_backspace</mat-icon>
   </div>
   <mat-card-content>
-    <form [formGroup]="studentProfileForm">
-      <mat-tab-group>
-        <mat-tab label="Profile">
+    <mat-tab-group>
+      <mat-tab label="Profile">
+        <form [formGroup]="studentProfileForm">
           <!-- Profile content starts here -->
           <div class="profile-container">
             <h2>Personal Information</h2>
@@ -21,17 +21,18 @@
                   <input matInput formControlName="FirstName" />
                 </mat-form-field>
               </div>
-              <div
-                fxFlex="100%"
-                fxFlex.gt-md="33%"
-                fxFlex.gt-lg="25%"
-                fxFlex.gt-sm="50%">
-                <p class="grid-label">Middle Name</p>
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Middle Name</mat-label>
-                  <input matInput formControlName="MiddleName" />
-                </mat-form-field>
-              </div>
+              <!-- <div
+                  fxFlex="100%"
+                  fxFlex.gt-md="33%"
+                  fxFlex.gt-lg="25%"
+                  fxFlex.gt-sm="50%"
+                >
+                  <p class="grid-label">Middle Name</p>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Middle Name</mat-label>
+                    <input matInput formControlName="LastName" />
+                  </mat-form-field>
+                </div> -->
               <div
                 fxFlex="100%"
                 fxFlex.gt-md="33%"
@@ -118,18 +119,57 @@
                 <p class="grid-label">Email</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Email</mat-label>
-                  <input matInput formControlName="Email" />
+                  <input matInput [disabled]="true" formControlName="Email" />
                 </mat-form-field>
               </div>
               <div
                 fxFlex="100%"
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
-                fxFlex.gt-sm="50%">
-                <p class="grid-label">Branch</p>
-                <mat-form-field appearance="outline" class="Education-Fields">
-                  <mat-label>Select Branch Name</mat-label>
-                  <mat-select>
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">Batch</p>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Batch</mat-label>
+                  <mat-select formControlName="BatchId" [disabled]="true">
+                    <mat-option
+                      *ngFor="let batch of Batches()"
+                      [value]="batch.Id"
+                    >
+                      {{ batch.Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="33%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">Stream</p>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Stream</mat-label>
+                  <mat-select formControlName="StreamId" [disabled]="true">
+                    <mat-option
+                      *ngFor="let stream of Streams()"
+                      [value]="stream.Id"
+                    >
+                      {{ stream.Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="33%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">Course</p>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Course</mat-label>
+                  <mat-select formControlName="CourseId" [disabled]="true">
                     <mat-option
                       *ngFor="let course of Courses()"
                       [value]="course.Id">
@@ -146,7 +186,7 @@
                 <p class="grid-label">Enter USN No.</p>
                 <mat-form-field appearance="outline">
                   <mat-label>USN no.</mat-label>
-                  <input matInput formControlName="RollNo" />
+                  <input matInput formControlName="RollNo" [disabled]="true" />
                 </mat-form-field>
               </div>
             </div>
@@ -166,16 +206,16 @@
                 </mat-form-field>
               </div>
               <!-- <div
-              fxFlex="100%"
-              fxFlex.gt-md="33%"
-              fxFlex.gt-lg="25%"
-              fxFlex.gt-sm="50%">
-              <p class="grid-label">Enter PAN Number</p>
-              <mat-form-field appearance="outline">
-                <mat-label>PAN Number</mat-label>
-                <input matInput formControlName="" />
-              </mat-form-field>
-            </div> -->
+                fxFlex="100%"
+                fxFlex.gt-md="33%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%">
+                <p class="grid-label">Enter PAN Number</p>
+                <mat-form-field appearance="outline">
+                  <mat-label>PAN Number</mat-label>
+                  <input matInput formControlName="" />
+                </mat-form-field>
+              </div> -->
               <div
                 fxFlex="100%"
                 fxFlex.gt-md="33%"
@@ -200,7 +240,7 @@
                 <p class="grid-label">Enter Father Name</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Father Name</mat-label>
-                  <input matInput formControlName="ParentName" />
+                  <input matInput formControlName="FatherName" />
                 </mat-form-field>
               </div>
               <div
@@ -211,21 +251,21 @@
                 <p class="grid-label">Enter Father Mobile No</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Father Mobile No</mat-label>
-                  <input matInput formControlName="ParentPhoneNumber" />
+                  <input matInput formControlName="FatherPhoneNumber" />
                 </mat-form-field>
               </div>
 
               <!-- <div
-                fxFlex="100%"
-                fxFlex.gt-md="33%"
-                fxFlex.gt-lg="25%"
-                fxFlex.gt-sm="50%">
-                <p class="grid-label">Enter Father Occupation</p>
-                <mat-form-field appearance="outline">
-                  <mat-label>Father Occupation</mat-label>
-                  <input matInput />
-                </mat-form-field>
-              </div> -->
+                  fxFlex="100%"
+                  fxFlex.gt-md="33%"
+                  fxFlex.gt-lg="25%"
+                  fxFlex.gt-sm="50%">
+                  <p class="grid-label">Enter Father Occupation</p>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Father Occupation</mat-label>
+                    <input matInput />
+                  </mat-form-field>
+                </div> -->
             </div>
 
             <div fxLayout="row wrap" class="row-wrap">
@@ -237,7 +277,7 @@
                 <p class="grid-label">Enter Mother Name</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Mother Name</mat-label>
-                  <input matInput formControlName="ParentName" />
+                  <input matInput formControlName="MotherName" />
                 </mat-form-field>
               </div>
               <div
@@ -248,25 +288,32 @@
                 <p class="grid-label">Enter Mother Mobile No</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Mother Mobile No</mat-label>
-                  <input matInput formControlName="ParentPhoneNumber" />
+                  <input matInput formControlName="MotherPhoneNumber" />
                 </mat-form-field>
               </div>
               <!-- <div
-              fxFlex="100%"
-              fxFlex.gt-md="33%"
-              fxFlex.gt-lg="25%"
-              fxFlex.gt-sm="50%">
-              <p class="grid-label">Enter Mother Occupation</p>
-              <mat-form-field appearance="outline">
-                <mat-label>Mother Occupation</mat-label>
-                <input matInput />
-              </mat-form-field>
-            </div> -->
+                fxFlex="100%"
+                fxFlex.gt-md="33%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%">
+                <p class="grid-label">Enter Mother Occupation</p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Mother Occupation</mat-label>
+                  <input matInput />
+                </mat-form-field>
+              </div> -->
             </div>
           </div>
-        </mat-tab>
+          <div style="position: fixed; bottom: 2%; right: 5%">
+            <button mat-raised-button color="primary" (click)="onSave(1)">
+              Save
+            </button>
+          </div>
+        </form>
+      </mat-tab>
 
-        <mat-tab label="Education">
+      <mat-tab label="Education">
+        <form [formGroup]="studentEducationForm">
           <div class="Education-container">
             <!-- School Details Section -->
             <div>
@@ -280,7 +327,7 @@
                   <p class="grid-label">School Name</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <mat-label>School Name</mat-label>
-                    <input matInput />
+                    <input matInput formControlName="TenthSchoolName" />
                   </mat-form-field>
                 </div>
 
@@ -292,7 +339,7 @@
                   <p class="grid-label">10th Board</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <mat-label>Select Board</mat-label>
-                    <mat-select>
+                    <mat-select formControlName="TenthBoard">
                       <mat-option
                         *ngFor="let board of TenthBoardNames"
                         [value]="board">
@@ -302,7 +349,7 @@
                   </mat-form-field>
                 </div>
 
-                <div
+                <!-- <div
                   fxFlex="100%"
                   fxFlex.gt-md="25%"
                   fxFlex.gt-lg="25%"
@@ -310,7 +357,10 @@
                   <p class="grid-label">10th Score*</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <mat-label>Select Score</mat-label>
-                    <mat-select (selectionChange)="onScoreChange($event)">
+                    <mat-select
+                      formControlName="TenthBoardScoreType"
+                      (selectionChange)="onScoreChange($event)"
+                    >
                       <mat-option
                         *ngFor="let scoreType of TenthScoreType"
                         [value]="scoreType">
@@ -318,7 +368,7 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                </div>
+                </div> -->
 
                 <div
                   fxFlex="100%"
@@ -328,11 +378,11 @@
                   <p class="grid-label">Score</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <mat-label>Enter Score</mat-label>
-                    <input matInput />
+                    <input matInput formControlName="TenthMarks" />
                   </mat-form-field>
                 </div>
 
-                <div
+                <!-- <div
                   fxFlex="100%"
                   fxFlex.gt-md="25%"
                   fxFlex.gt-lg="25%"
@@ -340,13 +390,26 @@
                   <p class="grid-label">Year of Pass-out</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <mat-label>Select Year</mat-label>
-                    <mat-select>
+                    <mat-select formControlName="TenthPassedOutYear">
                       <mat-option
                         *ngFor="let batch of Batches()"
                         [value]="batch.Id">
                         {{ batch.Name }}
                       </mat-option>
                     </mat-select>
+                  </mat-form-field>
+                </div> -->
+
+                <div
+                  fxFlex="100%"
+                  fxFlex.gt-md="25%"
+                  fxFlex.gt-lg="25%"
+                  fxFlex.gt-sm="50%"
+                >
+                  <p class="grid-label">Year of Pass-out</p>
+                  <mat-form-field appearance="outline" class="Education-Fields">
+                    <mat-label>Select Year</mat-label>
+                    <input matInput formControlName="TenthPassedOutYear" />
                   </mat-form-field>
                 </div>
 
@@ -356,7 +419,7 @@
                   fxFlex.gt-lg="25%"
                   fxFlex.gt-sm="50%">
                   <p class="grid-label">Upload File</p>
-                  <input type="file" />
+                  <input type="file" formControlName="TenthFile" />
                 </div>
               </div>
             </div>
@@ -374,7 +437,7 @@
                 <p class="grid-label">College Name</p>
                 <mat-form-field appearance="outline" class="Education-Fields">
                   <mat-label>College Name</mat-label>
-                  <input matInput />
+                  <input matInput formControlName="TwelfthSchoolName" />
                 </mat-form-field>
               </div>
 
@@ -386,7 +449,7 @@
                 <p class="grid-label">2nd PUC/ 12th Board</p>
                 <mat-form-field appearance="outline" class="Education-Fields">
                   <mat-label>Select Board</mat-label>
-                  <mat-select>
+                  <mat-select formControlName="TwelfthBoard">
                     <mat-option
                       *ngFor="let board of TwelfthBoardNames"
                       [value]="board">
@@ -396,7 +459,7 @@
                 </mat-form-field>
               </div>
 
-              <div
+              <!-- <div
                 fxFlex="100%"
                 fxFlex.gt-md="25%"
                 fxFlex.gt-lg="25%"
@@ -404,7 +467,10 @@
                 <p class="grid-label">Score*</p>
                 <mat-form-field appearance="outline" class="Education-Fields">
                   <mat-label>Select Score Type</mat-label>
-                  <mat-select (selectionChange)="onPuScoreChange($event)">
+                  <mat-select
+                    formControlName="TwelfthBoardScoreType"
+                    (selectionChange)="onPuScoreChange($event)"
+                  >
                     <mat-option
                       *ngFor="let PuScoreType of TwelfthScoreType"
                       [value]="PuScoreType">
@@ -412,7 +478,7 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
-              </div>
+              </div> -->
 
               <div
                 fxFlex="100%"
@@ -422,11 +488,11 @@
                 <p class="grid-label">Enter Score</p>
                 <mat-form-field appearance="outline" class="Education-Fields">
                   <mat-label>Enter Score</mat-label>
-                  <input matInput />
+                  <input matInput formControlName="TwelfthMarks" />
                 </mat-form-field>
               </div>
 
-              <div
+              <!-- <div
                 fxFlex="100%"
                 fxFlex.gt-md="25%"
                 fxFlex.gt-lg="25%"
@@ -434,13 +500,26 @@
                 <p class="grid-label">Year of Pass-out</p>
                 <mat-form-field appearance="outline" class="year-fields">
                   <mat-label>Select Year</mat-label>
-                  <mat-select>
+                  <mat-select formControlName="TwelfthPassedOutYear">
                     <mat-option
                       *ngFor="let batch of Batches()"
                       [value]="batch.Id">
                       {{ batch.Name }}
                     </mat-option>
                   </mat-select>
+                </mat-form-field>
+              </div> -->
+
+              <div
+                fxFlex="100%"
+                fxFlex.gt-md="25%"
+                fxFlex.gt-lg="25%"
+                fxFlex.gt-sm="50%"
+              >
+                <p class="grid-label">Year of Pass-out</p>
+                <mat-form-field appearance="outline" class="Education-Fields">
+                  <mat-label>Select Year</mat-label>
+                  <input matInput formControlName="TwelfthPassedOutYear" />
                 </mat-form-field>
               </div>
 
@@ -450,7 +529,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%">
                 <p class="grid-label">Upload File</p>
-                <input type="file" />
+                <input type="file" formControlName="TwelfthFile" />
               </div>
             </div>
 
@@ -458,79 +537,95 @@
 
             <!-- Degree Details Section -->
             <h2>Degree Details</h2>
-            <div fxLayout="row wrap" class="row-wrap">
-              <div
-                fxFlex="100%"
-                fxFlex.gt-md="25%"
-                fxFlex.gt-lg="25%"
-                fxFlex.gt-sm="50%">
-                <p class="grid-label">Stream</p>
-                <mat-form-field appearance="outline" class="Education-Fields">
-                  <mat-label>Select Stream Name</mat-label>
-                  <mat-select>
-                    <mat-option
-                      *ngFor="let stream of Streams()"
-                      [value]="stream.Id">
-                      {{ stream.Name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+            <div
+              fxLayout="row wrap"
+              class="row-wrap"
+              *ngFor="
+                let semester of [
+                  'semester1',
+                  'semester2',
+                  'semester3',
+                  'semester4',
+                  'semester5',
+                  'semester6',
+                  'semester7',
+                  'semester8'
+                ];
+                let i = index
+              "
+            >
+              <div class="Semester-Fields">
+                <div
+                  fxFlex="10%"
+                  fxFlex.gt-md="25%"
+                  fxFlex.gt-lg="25%"
+                  fxFlex.gt-sm="50%"
+                >
+                  <p class="grid-label">Year {{ getYear(i + 1) }}</p>
+                </div>
+                <div
+                  fxFlex="1o%"
+                  fxFlex.gt-md="25%"
+                  fxFlex.gt-lg="25%"
+                  fxFlex.gt-sm="50%"
+                >
+                  <p class="grid-label">Semester {{ i + 1 }}</p>
+                </div>
+                <!-- <div
+                    fxFlex="100%"
+                    fxFlex.gt-md="25%"
+                    fxFlex.gt-lg="25%"
+                    fxFlex.gt-sm="50%"
+                    fxLayout="row wrap"
+                  >
+                    <p class="grid-label">Select Semester {{ i + 1 }}</p>
+                    <mat-form-field appearance="outline" class="Education-Fields">
+                      <mat-label>Select Semester</mat-label>
+                      <mat-select
+                        formControlName="Semester"
+                        (selectionChange)="onSemesterChange($event)"
+                      >
+                        <mat-option *ngFor="let sem of Semester" [value]="sem">
+                          {{ sem }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div> -->
 
-              <div
-                fxFlex="100%"
-                fxFlex.gt-md="25%"
-                fxFlex.gt-lg="25%"
-                fxFlex.gt-sm="50%">
-                <p class="grid-label">Course Name</p>
-                <mat-form-field appearance="outline" class="Education-Fields">
-                  <mat-label>Select Course Name</mat-label>
-                  <mat-select>
-                    <mat-option
-                      *ngFor="let course of Courses()"
-                      [value]="course.Id">
-                      {{ course.Name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div
-                fxFlex="100%"
-                fxFlex.gt-md="25%"
-                fxFlex.gt-lg="25%"
-                fxFlex.gt-sm="50%">
-                <p class="grid-label">Year of Pass-out</p>
-                <mat-form-field appearance="outline" class="Education-Fields">
-                  <mat-label>Select Year</mat-label>
-                  <mat-select>
-                    <mat-option
-                      *ngFor="let batch of Batches()"
-                      [value]="batch.Id">
-                      {{ batch.Name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+                <!-- <div
+                    fxFlex="100%"
+                    fxFlex.gt-md="25%"
+                    fxFlex.gt-lg="25%"
+                    fxFlex.gt-sm="50%"
+                  >
+                    <p class="grid-label">Semester Score*</p>
+                    <mat-form-field appearance="outline" class="Education-Fields">
+                      <mat-label>Select Type</mat-label>
+                      <mat-select
+                        formControlName="SemesterScoreType  "
+                        (selectionChange)="onSemScoreChange($event)"
+                      >
+                        <mat-option
+                          *ngFor="let SemScoreType of SemesterScoreType"
+                          [value]="SemScoreType"
+                        >
+                          {{ SemScoreType }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div> -->
 
-              <div
-                *ngFor="let field of fields; let i = index"
-                class="Semester-Fields"
-              >
                 <div
                   fxFlex="100%"
                   fxFlex.gt-md="25%"
                   fxFlex.gt-lg="25%"
                   fxFlex.gt-sm="50%"
-                  fxLayout="row wrap"
-                  *ngFor="let sem of allSemesters; let i = index">
-                  <p class="grid-label">Select Semester</p>
+                  [formGroupName]="semester"
+                >
+                  <p class="grid-label">SGPA</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
-                    <mat-label>Select Semester</mat-label>
-                    <mat-select (selectionChange)="onSemesterChange($event)">
-                      <mat-option *ngFor="let sem of Semester" [value]="sem">
-                        {{ sem }}
-                      </mat-option>
-                    </mat-select>
+                    <!-- <mat-label>Enter SGPA</mat-label> -->
+                    <input matInput formControlName="sgpa" />
                   </mat-form-field>
                 </div>
 
@@ -538,17 +633,13 @@
                   fxFlex="100%"
                   fxFlex.gt-md="25%"
                   fxFlex.gt-lg="25%"
-                  fxFlex.gt-sm="50%">
-                  <p class="grid-label">Semester Score*</p>
+                  fxFlex.gt-sm="50%"
+                  [formGroupName]="semester"
+                >
+                  <p class="grid-label">Closed Backlogs</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
-                    <mat-label>Select Type</mat-label>
-                    <mat-select (selectionChange)="onSemScoreChange($event)">
-                      <mat-option
-                        *ngFor="let SemScoreType of SemesterScoreType"
-                        [value]="SemScoreType">
-                        {{ SemScoreType }}
-                      </mat-option>
-                    </mat-select>
+                    <!-- <mat-label>Enter Closed Backlogs</mat-label> -->
+                    <input matInput formControlName="closedBacklogs" />
                   </mat-form-field>
                 </div>
 
@@ -556,11 +647,13 @@
                   fxFlex="100%"
                   fxFlex.gt-md="25%"
                   fxFlex.gt-lg="25%"
-                  fxFlex.gt-sm="50%">
-                  <p class="grid-label">Enter Score</p>
+                  fxFlex.gt-sm="50%"
+                  [formGroupName]="semester"
+                >
+                  <p class="grid-label">Live Backlogs</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
-                    <mat-label>Enter Score</mat-label>
-                    <input matInput />
+                    <!-- <mat-label>Enter Live Backlogs</mat-label> -->
+                    <input matInput formControlName="liveBacklogs" />
                   </mat-form-field>
                 </div>
 
@@ -568,24 +661,33 @@
                   fxFlex="100%"
                   fxFlex.gt-md="25%"
                   fxFlex.gt-lg="25%"
-                  fxFlex.gt-sm="50%">
+                  fxFlex.gt-sm="50%"
+                  [formGroupName]="semester"
+                >
                   <p class="grid-label">Upload File</p>
-                  <input type="file" />
-                  <button *ngIf="fields.length > 1" (click)="removeField(i)">
-                    <mat-icon> remove</mat-icon>
-                  </button>
+                  <!-- <button *ngIf="fields.length > 1" (click)="removeField(i)">
+                      <mat-icon> remove</mat-icon>
+                    </button> -->
+                  <input type="file" formControlName="file" />
                 </div>
               </div>
             </div>
-            <div class="AddButton">
-              <button (click)="addField()"><mat-icon> add</mat-icon></button>
-            </div>
           </div>
-        </mat-tab>
+          <div style="position: fixed; bottom: 2%; right: 5%">
+            <button mat-raised-button color="primary" (click)="onSave(2)">
+              Save
+            </button>
+            <!-- <div class="AddButton">
+                <button (click)="addField()"><mat-icon> add</mat-icon></button>
+              </div> -->
+          </div>
+        </form>
+      </mat-tab>
 
-        <!-- Skills Tab -->
+      <!-- Skills Tab -->
 
-        <mat-tab label="Skills">
+      <mat-tab label="Skills">
+        <form [formGroup]="studentSkillsForm">
           <div>
             <h3>Skill Type and Skill Name</h3>
             <div
@@ -593,24 +695,24 @@
               class="skillsField"
             >
               <div>
-                <!-- <h4>Skill Type</h4> -->
-                <mat-form-field appearance="outline" class="matFormField">
-                  <mat-label>Select Skill Types</mat-label>
-                  <mat-select
-                    multiple
-                    [(ngModel)]="selectedSkillTypeIds"
-                    (selectionChange)="onSkillTypeSelectionChange($event)"
-                    formControlName="JobpostingSkillTypes">
-                    @for (skillType of SkillTypes(); track skillType) {
-                    <mat-option [value]="skillType.Id">{{
-                      skillType.Name
-                    }}</mat-option>
-                    }
+                <mat-form-field
+                  class="skillType-form-field"
+                  appearance="outline"
+                >
+                  <mat-label>Select Skill Type</mat-label>
+                  <mat-select (selectionChange)="onSkillTypeChange($event, i)">
+                    <mat-option
+                      *ngFor="let skillType of filteredSkillTypes()"
+                      [value]="skillType.Id"
+                    >
+                      {{ skillType.Name }}
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
 
               <div>
+                <!-- <h4>Skill Name</h4> -->
                 <mat-form-field
                   class="skillName-form-field"
                   appearance="outline">
@@ -624,7 +726,6 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-
               <div *ngIf="fields.length > 1">
                 <button (click)="removeField(i)">
                   <mat-icon>remove</mat-icon>
@@ -655,7 +756,7 @@
                     appearance="outline"
                   >
                     <mat-label>LinkedIn Profile Link</mat-label>
-                    <input matInput />
+                    <input matInput formControlName="LinkedInLink" />
                   </mat-form-field>
                 </div>
 
@@ -673,7 +774,7 @@
                     appearance="outline"
                   >
                     <mat-label>Achievement</mat-label>
-                    <textarea matInput></textarea>
+                    <textarea matInput formControlName="Achievement"></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -692,7 +793,7 @@
                     appearance="outline"
                   >
                     <mat-label>Project</mat-label>
-                    <textarea matInput></textarea>
+                    <textarea matInput formControlName="Project"></textarea>
                   </mat-form-field>
                 </div>
 
@@ -709,7 +810,7 @@
                     appearance="outline"
                   >
                     <mat-label>Internship</mat-label>
-                    <textarea matInput></textarea>
+                    <textarea matInput formControlName="Internship"></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -721,8 +822,8 @@
               Submit
             </button>
           </div>
-        </mat-tab>
-      </mat-tab-group>
-    </form>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
   </mat-card-content>
 </mat-card>

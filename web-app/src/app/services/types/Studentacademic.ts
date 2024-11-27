@@ -1,8 +1,9 @@
-import { Batch } from './Batch';
-import { Course } from './Course';
-import { Stream } from './Stream';
-import { StudentSemesterMark } from './StudentSemesterMark';
-import { Tblstudent } from './Tblstudent';
+import { Course } from "./Course";
+import { Stream } from "./Stream";
+import { StudentSemesterMark } from "./StudentSemesterMark";
+import { Tblstudent } from "./Tblstudent";
+
+export type PatchStudentAcademic = Studentacademic | {};
 
 export type Studentacademic = {
   Id: number;
@@ -21,7 +22,6 @@ export type Studentacademic = {
   DiplomaCollegeName: string;
   Course: Course;
   Stream: Stream;
-  Batch: Batch;
   Student: Tblstudent;
   StudentSemesterMarks: StudentSemesterMark[];
 };

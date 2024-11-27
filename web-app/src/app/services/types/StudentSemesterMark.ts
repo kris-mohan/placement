@@ -6,5 +6,8 @@ export type StudentSemesterMark = {
   Semester?: number;
   Sgpa?: number;
   Status?: string;
+  MarkaPercentage: number;
+  ClosedBacklogs: number;
+  LiveBacklogs: number;
   StudentAcademic?: Studentacademic;
 };
