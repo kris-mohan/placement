@@ -188,6 +188,9 @@
               {{ jobPosting.JobPosting.Company?.Name }}
             </span>
           </h2>
+          <span class="job-status status-applied">
+            <strong>Status:</strong> <span class="Status">Applied </span>
+          </span>
 
           <!-- 
         <div class="company-type">{{ job.applicants }}</div> -->
@@ -195,6 +198,7 @@
             <img [src]="job.logo" alt="Company Logo" class="company-logo" />
           </div> -->
         </div>
+
         <div class="job-details-container">
           <div class="job-detail">
             <span
@@ -221,6 +225,7 @@
               {{ jobPosting.JobPosting.Vacancies }}</span
             >
           </div>
+
           <div class="job-detail">
             <span
               ><strong>Shift:</strong> {{ jobPosting.JobPosting.Shift }}</span

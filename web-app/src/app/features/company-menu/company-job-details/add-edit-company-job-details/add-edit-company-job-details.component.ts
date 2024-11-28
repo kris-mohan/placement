@@ -306,6 +306,12 @@ export class AddEditCompanyJobDetailsComponent {
     );
 
     if (confirmed) {
+      // if (isReset) {
+      //   this.addEditJobPostingForm.reset();
+      //   this.sweetAlertService.success("Job Posting reset successfully!");
+      //   return;
+      // }
+
       const jobPostingData: PostJobposting = {
         Id: this.Id ?? 0,
         CompanyId: this.sessionCompanyId ?? 0,
@@ -338,28 +344,24 @@ export class AddEditCompanyJobDetailsComponent {
             CollegeId: collegeId as number,
           })
         ),
-
         JobpostingSkills: (jobPosting.JobpostingSkills ?? []).map(
           (skillId) => ({
             JobPostingId: this.Id ?? 0,
             SkillId: skillId as number,
           })
         ),
-
         CompanyJobBatches: (jobPosting.CompanyJobBatches ?? []).map(
           (batchId) => ({
             JobPostingId: this.Id ?? 0,
             BatchId: batchId as number,
           })
         ),
-
         CompanyJobCourses: (jobPosting.CompanyJobCourses ?? []).map(
           (courseId) => ({
             JobPostingId: this.Id ?? 0,
             CourseId: courseId as number,
           })
         ),
-
         CompanyJobStreams: (jobPosting.CompanyJobStreams ?? []).map(
           (streamId) => ({
             JobPostingId: this.Id ?? 0,
@@ -367,11 +369,11 @@ export class AddEditCompanyJobDetailsComponent {
           })
         ),
       };
+
       this.addeditCompanyJobDetailsApiService
         .addUpdateJobPosting(this.Id, jobPostingData)
         .subscribe({
           next: (response: { success: boolean; message: any }) => {
-            console.log(response);
             if (response.success) {
               this.sweetAlertService.success(response.message);
               this.goBack();
@@ -379,7 +381,7 @@ export class AddEditCompanyJobDetailsComponent {
               this.sweetAlertService.error(response.message);
             }
           },
-          error: (error) => {
+          error: () => {
             this.sweetAlertService.error("An unexpected error occurred.");
           },
         });
