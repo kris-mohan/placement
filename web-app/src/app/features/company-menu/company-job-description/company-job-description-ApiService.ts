@@ -14,12 +14,13 @@ export class CompanyjobdescriptionApiService {
   Getjobdescription(): Observable<any> {
     return this.apiHttpService.get<any>("/Jobposting?");
   }
-  
+
   public getCompanyJobDescriptionById(
     id: number
   ): Observable<ODataResponse<any>> {
     return this.apiHttpService.get(
-      `/Jobposting?filter=Id eq ${id}&$expand=Company($select=Name),Collegejobpostings($expand=College($select=CollegeName)),CompanyJobStreams($expand=Stream($select=Name)),CompanyJobBatches($expand=Batch($select=Name)),CompanyJobCourses($expand=Course($select=Name))`
+      //`/Jobposting?filter=Id eq ${id}&$expand=Company($select=Name),Collegejobpostings($expand=College($select=CollegeName)),CompanyJobStreams($expand=Stream($select=Name)),CompanyJobBatches($expand=Batch($select=Name)),CompanyJobCourses($expand=Course($select=Name))`
+      `/Jobposting?$filter= Id eq ${id} & expand = CompanyJobBatches(expand=Batch),CompanyJobCourses(expand=Course),CompanyJobStreams(expand=Stream),JobpostingSkills(expand =Skill(expand=SkillType))`
     );
   }
 }
