@@ -139,6 +139,7 @@ export class CompanyJobDescriptionComponent {
           .subscribe({
             next: (jobPostings) => {
               const data: Jobposting[] = jobPostings.value;
+              console.log(data);
               const mappedData = data.map((jobposting: any) => ({
                 ...jobposting,
                 ValidTill: this.convertToDateOnly(jobposting.ValidTill),
@@ -151,7 +152,7 @@ export class CompanyJobDescriptionComponent {
                 CourseName: jobposting.CompanyJobCourses[0]?.Course?.Name,
               }));
               this.JobPostingsDescriptionData.set(mappedData);
-              this.JobPostingsData.set([mappedData[0]]);
+              this.JobPostingsData.set(data);
               console.log("Company Name:", this.JobPostingsDescriptionData());
             },
             error: (error) => {

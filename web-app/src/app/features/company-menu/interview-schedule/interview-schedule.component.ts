@@ -565,9 +565,9 @@ export class InterviewScheduleComponent implements OnInit {
                 ? x.Jobinterviewrounds[0].JobPostingId
                 : 0,
               round: rounds,
-              OrgId: x.Jobinterviewrounds[0]?.JobPosting
-                ? x.Jobinterviewrounds[0].JobPosting.OrgId
-                : "",
+              // OrgId: x.Jobinterviewrounds[0]?.JobPosting
+              //   ? x.Jobinterviewrounds[0].JobPosting.OrgId
+              //   : "",
             },
             className: "bg-warning text-white",
           };
