@@ -190,76 +190,78 @@
           <h3>Job Details</h3>
           <div class="job-details">
             <div class="detail-item">
-              <strong>College:</strong>{{ JobPostingsData()[0]?.CollegeName }}
-            </div>
-
-            <div class="detail-item">
-              <strong>Batch:</strong> {{ JobPostingsData()[0]?.BatchName }}
+              <strong>Batch:</strong>
+              {{JobPostingsData()[0]?.CompanyJobBatches?.[0]?.Batch?.Name}}
             </div>
             <div class="detail-item">
-              <strong>Stream:</strong> {{ JobPostingsData()[0]?.StreamName }}
+              <strong>Stream:</strong>
+              {{ streams() }}
             </div>
             <div class="detail-item">
-              <strong>Course:</strong> {{ JobPostingsData()[0]?.CourseName }}
+              <strong>Course:</strong>{{ courses() }}
             </div>
-            <span class="Skills"
-              ><strong> Skills :</strong>
-              {{ JobPostingsData()[0]?.JobRole }}</span
-            >
-            <span class="Job Role"
+            <span class="detail-item"
               ><strong> Job Role :</strong>
               {{ JobPostingsData()[0]?.JobRole }}</span
             >
-            <div class="detail-item"><strong>No of Posts:</strong> 5</div>
-            <span class="Min Experience"
-              ><strong> Min Experience :</strong>
-              {{ JobPostingsData()[0]?.MinimumYearExperience }}</span
-            >
-            <span class="Max Experience"
-              ><strong> Max Experience :</strong>
-              {{ JobPostingsData()[0]?.MaximumYearExperience }}</span
-            >
-            <span class="Min PUC Percentage"
+            <div class="detail-item">
+              <strong>No of Posts:</strong>
+              {{ JobPostingsData()[0]?.Vacancies }}
+            </div>
+            <span class="detail-item"
+              ><strong>Experience:</strong>
+              {{ JobPostingsData()[0]?.MinimumYearExperience }}-{{
+                JobPostingsData()[0]?.MaximumYearExperience
+              }}
+              years
+            </span>
+
+            <span class="detail-item"
               ><strong>Min PUC Percentage :</strong>
               {{ JobPostingsData()[0]?.MinPucpercentage }}</span
             >
-            <span class="Min SSLC Percentage"
+            <span class="detail-item"
               ><strong>Min SSLC Percentage :</strong>
               {{ JobPostingsData()[0]?.MinSslcpercentage }}</span
             >
-            <span class="Min CGPA"
+            <span class="detail-item"
               ><strong>Min CGPA :</strong>
               {{ JobPostingsData()[0]?.MinCgpa }}</span
             >
-            <div class="detail-item"><strong>CTC:</strong> 18 LPA</div>
-            <span class="CTC"
+            <span class="detail-item"
               ><strong>CTC :</strong> {{ JobPostingsData()[0]?.Salary }}</span
             >
-            <span class="Mode of Work"
+            <span class="detail-item"
               ><strong> Mode of Work :</strong>
               {{ JobPostingsData()[0]?.ModeOfWork }}</span
             >
-            <div class="detail-item"><strong>Location:</strong> Bangalore</div>
-            <span class="Job Type"
+            <div class="detail-item">
+              <strong>Location:</strong> {{ JobPostingsData()[0]?.Location }}
+            </div>
+            <span class="detail-item"
               ><strong> Job Type :</strong>
               {{ JobPostingsData()[0]?.JobType }}</span
             >
-            <span class="Shift"
+            <span class="detail-item"
               ><strong> Shift :</strong> {{ JobPostingsData()[0]?.Shift }}</span
             >
-            <span class="No of Backlogs Allowed"
+            <span class="detail-item"
               ><strong> No of Backlogs Allowed :</strong>
               {{ JobPostingsData()[0]?.BacklogsAllowed }}</span
             >
-            <!-- <div class="detail-item">
-              <strong>Last Date to Apply:</strong> 2024-11-20
-            </div> -->
-            <span
+            <span class="detail-item"
               ><strong>Last Date to Apply:</strong
               >{{ JobPostingsData()[0]?.ValidTill }}</span
             >
+            <span class="detail-item"
+              ><strong> Skills :</strong>
+              <div class="detail-item">
+                <pre>{{ skills() }}</pre>
+              </div>
+            </span>
           </div>
         </div>
+        
       </div>
 
       <div class="right-content" *ngIf="UserRoleId !== 2">

@@ -125,7 +125,7 @@
           <button
             mat-fab
             extended
-            class="matbutton-download"
+            class="matbutton-download"    
             (click)="openUploadExcel()"
           >
             <mat-icon>cloud_upload</mat-icon>
@@ -246,12 +246,15 @@
 
     <div class="right-content">
       <div class="related-jobs">
-        <h3>{{ JobPostingsDescriptionData()?.Name }}</h3>
-        <img
-          src="{{ JobPostingsDescriptionData()?.LogoPath }}"
-          alt="image"
-          class="image"
-        />
+        <div class="Headers">
+          <h3>{{ JobPostingsDescriptionData()?.Name }}</h3>
+          <img
+            src="{{ JobPostingsDescriptionData()?.LogoPath }}"
+            alt="image"
+            class="image"
+          />
+        </div>
+       
         <ul>
           <li>
             <h4>About the company</h4>

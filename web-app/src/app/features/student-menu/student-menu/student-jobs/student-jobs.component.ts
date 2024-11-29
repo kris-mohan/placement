@@ -40,6 +40,8 @@ const year = today.getFullYear();
   templateUrl: "./student-jobs.component.html",
   styleUrl: "./student-jobs.component.css",
 })
+
+
 export class StudentJobsComponent {
   constructor(
     private router: Router,

@@ -56,7 +56,7 @@ export class AddEditPanelModalComponent {
       Description: "",
       Designation: "",
     });
-     this.panelId = this.PanelId;
+    this.panelId = this.PanelId;
   }
 
   ngOnInit(): void {
@@ -70,19 +70,19 @@ export class AddEditPanelModalComponent {
   }
   RoundDataSource: Jobinterviewround[] = [];
 
-  GetAllRounds = () => {
-    this.testRoundsApiService.GetAllRounds().subscribe({
-      next: (response) => {
-        const data: Jobinterviewround[] = response.value;
-        console.log("rounds", data);
-        this.RoundDataSource = data;
-        console.log(this.RoundDataSource);
-      },
-      error: (error) => {
-        console.log("Error fetching rounds: ", error);
-      },
-    });
-  };
+  // GetAllRounds = () => {
+  //   this.testRoundsApiService.GetAllRounds().subscribe({
+  //     next: (response) => {
+  //       const data: Jobinterviewround[] = response.value;
+  //       console.log("rounds", data);
+  //       this.RoundDataSource = data;
+  //       console.log(this.RoundDataSource);
+  //     },
+  //     error: (error) => {
+  //       console.log("Error fetching rounds: ", error);
+  //     },
+  //   });
+  // };
 
   getRoundsById(id: number | null) {
     this.apiPanelRounds.GetPanelDataById(id).subscribe({

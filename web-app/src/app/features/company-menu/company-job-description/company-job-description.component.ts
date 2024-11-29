@@ -15,7 +15,6 @@ import { Tblstudent } from "src/app/services/types/Tblstudent";
 import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { CompanyjobdescriptionApiService } from "../company-job-description/company-job-description-ApiService";
-
 @Component({
   selector: "app-company-job-description",
   standalone: true,
@@ -37,6 +36,9 @@ export class CompanyJobDescriptionComponent {
   JobPostingDetailsById = signal<Jobposting[]>([]);
   InvitingStudentsList = signal<Tblstudent[]>([]);
 
+  courses = signal<string>("");
+  skills = signal<string>("");
+  streams = signal<string>("");
   JobPostingsData = signal<Jobposting[]>([]);
 
   JobPostingsDescriptionData = signal<Jobposting[]>([]);
@@ -145,11 +147,6 @@ export class CompanyJobDescriptionComponent {
                 ValidTill: this.convertToDateOnly(jobposting.ValidTill),
                 ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
                 DriveDate: this.convertToDateOnly(jobposting.DriveDate),
-                CollegeName:
-                  jobposting.Collegejobpostings[0]?.College?.CollegeName,
-                BatchName: jobposting.CompanyJobBatches[0]?.Batch?.Name,
-                StreamName: jobposting.CompanyJobStreams[0]?.Stream?.Name,
-                CourseName: jobposting.CompanyJobCourses[0]?.Course?.Name,
               }));
               this.JobPostingsDescriptionData.set(mappedData);
               this.JobPostingsData.set(data);
@@ -230,7 +227,38 @@ export class CompanyJobDescriptionComponent {
     const date = new Date(dateString);
     return date.toISOString().split("T")[0];
   }
+  getJobPostingData() {
+    const jobData = this.JobPostingsData()[0];
 
+    if (jobData) {
+      this.courses.set(
+        jobData?.CompanyJobCourses?.map(
+          (course: any) => course.Course.FullForm
+        ).join(" ,") ?? ""
+      );
+      const groupedSkills: { [key: string]: string[] } = {};
+      jobData?.JobpostingSkills?.forEach((skill: any) => {
+        const skillTypeName = skill.Skill.SkillType.Name.trim();
+        if (!groupedSkills[skillTypeName]) {
+          groupedSkills[skillTypeName] = [];
+        }
+        groupedSkills[skillTypeName].push(skill.Skill.Name);
+      });
+      const skillsFormatted = Object.entries(groupedSkills)
+        .map(
+          ([skillTypeName, skillNames]) =>
+            `${skillTypeName}: ${skillNames.join(", ")}`
+        )
+        .join("\n");
+
+      this.skills.set(skillsFormatted);
+      this.streams.set(
+        jobData?.CompanyJobStreams?.map(
+          (stream: any) => stream.Stream.Name
+        ).join(" ,") ?? ""
+      );
+    }
+  }
   openAddEditJobPostingForm() {
     this.route.paramMap.subscribe((params) => {
       const jobPostRouteId = params.get("jobId");

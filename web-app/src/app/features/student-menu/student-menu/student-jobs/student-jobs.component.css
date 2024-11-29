@@ -163,8 +163,8 @@ table {
 }
 .logo-container {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   width: 100%;
   padding: 10px;
   margin: 0 auto;
@@ -172,26 +172,38 @@ table {
 
 .company-logo {
   max-width: 55%;
-  height: auto; 
-  max-height: 150px; 
-  transition: transform 0.3s ease-in-out; 
+  height: auto;
+  max-height: 150px;
+  transition: transform 0.3s ease-in-out;
   margin-left: 170px;
   margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
   .company-logo {
-    max-height: 40px; 
+    max-height: 40px;
   }
 }
 
 @media (max-width: 480px) {
   .company-logo {
-    max-height: 40px; 
+    max-height: 40px;
   }
 }
 
-
 body {
-  overflow-x: hidden; 
+  overflow-x: hidden;
+}
+.job-status {
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+/* .status-applied {
+  color: white;
+} */
+.Status {
+  color: green;
 }

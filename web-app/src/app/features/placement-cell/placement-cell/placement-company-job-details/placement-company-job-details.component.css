@@ -188,3 +188,7 @@ cdk-overlay-pane {
   color: #007bff;
   font-weight: 500;
 }
+.Headers {
+  display: flex;
+  justify-content: space-between;
+}
