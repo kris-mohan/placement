@@ -52,39 +52,14 @@ export class AddEditCompanyJobDetailsComponent {
   selectedBatchIds: number[] = [];
   selectedCourseIds: number[] = [];
   selectedStreamIds: number[] = [];
-  Id: number | null = null;
+  CompanyRouteId: number | null = null;
+  JObPostRouteId: number | null = null;
   sessionCompanyId: number;
   addEditJobPostingForm: FormGroup;
 
   JobTypes: string[] = JobTypes;
   ModeOfWorks: string[] = ModeOfWorks;
   ShiftTypes: string[] = ShiftTypes;
-  // JobTypes = [
-  //   "Full-Time",
-  //   "Part-Time",
-  //   "Temporary",
-  //   "Contract",
-  //   "Freelance",
-  //   "Internship",
-  //   "Apprenticeship",
-  //   "Consultant",
-  //   "Remote",
-  //   "Seasonal",
-  // ];
-
-  // ModeOfWorks = ["On-Site", "Remote", "Hybrid", "Flexible", "Travel-Based"];
-
-  // ShiftTypes = [
-  //   "Day Shift",
-  //   "Night Shift",
-  //   "Swing Shift",
-  //   "Rotating Shift",
-  //   "Split Shift",
-  //   "Weekend Shift",
-  //   "On-Call Shift",
-  //   "Fixed Shift",
-  //   "Flexible Shift",
-  // ];
 
   Months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -242,11 +217,13 @@ export class AddEditCompanyJobDetailsComponent {
 
   GetJobPostingById(): void {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get("id");
-      this.Id = id !== null ? +id : null;
-      if (this.Id) {
+      const companyId = params.get("companyId");
+      this.CompanyRouteId = companyId !== null ? +companyId : null;
+      const jobId = params.get("jobId");
+      this.JObPostRouteId = jobId !== null ? +jobId : null;
+      if (this.JObPostRouteId) {
         this.addeditCompanyJobDetailsApiService
-          .GetJobPostingById(this.Id)
+          .GetJobPostingById(this.JObPostRouteId)
           .subscribe({
             next: (response) => {
               const data: Jobposting = response.value[0];
@@ -288,7 +265,10 @@ export class AddEditCompanyJobDetailsComponent {
               }
             },
             error: (error) => {
-              console.error(`Error fetching company data by ${this.Id}`, error);
+              console.error(
+                `Error fetching company data by ${this.JObPostRouteId}`,
+                error
+              );
             },
           });
       }
@@ -313,8 +293,10 @@ export class AddEditCompanyJobDetailsComponent {
       // }
 
       const jobPostingData: PostJobposting = {
-        Id: this.Id ?? 0,
-        CompanyId: this.sessionCompanyId ?? 0,
+        Id: this.JObPostRouteId ?? 0,
+        CompanyId: this.sessionCompanyId
+          ? this.sessionCompanyId
+          : this.CompanyRouteId || 0,
         JobRole: jobPosting.JobRole ?? "",
         JobDescription: jobPosting.JobDescription ?? "",
         ValidFrom: jobPosting.ValidFrom ?? null,
@@ -340,42 +322,43 @@ export class AddEditCompanyJobDetailsComponent {
         IsClosed: 0,
         Collegejobpostings: (jobPosting.Collegejobpostings ?? []).map(
           (collegeId) => ({
-            JobPostingId: this.Id ?? 0,
+            JobPostingId: this.JObPostRouteId ?? 0,
             CollegeId: collegeId as number,
           })
         ),
         JobpostingSkills: (jobPosting.JobpostingSkills ?? []).map(
           (skillId) => ({
-            JobPostingId: this.Id ?? 0,
+            JobPostingId: this.JObPostRouteId ?? 0,
             SkillId: skillId as number,
           })
         ),
         CompanyJobBatches: (jobPosting.CompanyJobBatches ?? []).map(
           (batchId) => ({
-            JobPostingId: this.Id ?? 0,
+            JobPostingId: this.JObPostRouteId ?? 0,
             BatchId: batchId as number,
           })
         ),
         CompanyJobCourses: (jobPosting.CompanyJobCourses ?? []).map(
           (courseId) => ({
-            JobPostingId: this.Id ?? 0,
+            JobPostingId: this.JObPostRouteId ?? 0,
             CourseId: courseId as number,
           })
         ),
         CompanyJobStreams: (jobPosting.CompanyJobStreams ?? []).map(
           (streamId) => ({
-            JobPostingId: this.Id ?? 0,
+            JobPostingId: this.JObPostRouteId ?? 0,
             StreamId: streamId as number,
           })
         ),
       };
 
       this.addeditCompanyJobDetailsApiService
-        .addUpdateJobPosting(this.Id, jobPostingData)
+        .addUpdateJobPosting(this.JObPostRouteId, jobPostingData)
         .subscribe({
           next: (response: { success: boolean; message: any }) => {
             if (response.success) {
               this.sweetAlertService.success(response.message);
+              //this.GetJobPostingById();
               this.goBack();
             } else {
               this.sweetAlertService.error(response.message);

@@ -9,9 +9,11 @@ import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 })
 export class TestRoundsApiService {
   constructor(private apiHttpService: ApiHttpService) {}
- 
-  GetAllRounds(): Observable<any> {
-    return this.apiHttpService.get<any>("/Jobinterviewround");
+
+  GetAllRounds(id: number | null): Observable<any> {
+    return this.apiHttpService.get<any>(
+      `/Jobinterviewround?filter=JobPostingId eq ${id}`
+    );
   }
 
   GetRoundsById(id: number): Observable<any> {
