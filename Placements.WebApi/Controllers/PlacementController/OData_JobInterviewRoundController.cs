@@ -53,7 +53,6 @@ namespace Placements.WebApi.Controllers.PlacementController
 
                 original.JobPostingId = jobinterviewround.JobPostingId;
                 original.Description = jobinterviewround.Description;
-                original.Priority = jobinterviewround.Priority;
 
 
                 _context.Jobinterviewrounds.Update(original);

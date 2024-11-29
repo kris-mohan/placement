@@ -59,6 +59,8 @@ public partial class Jobposting
 
     public int? MaximumMonthExperience { get; set; }
 
+    public long? OrgId { get; set; }
+
     public virtual ICollection<Collegejobposting> Collegejobpostings { get; set; } = new List<Collegejobposting>();
 
     public virtual ICollection<Collegejobpostingschedule> Collegejobpostingschedules { get; set; } = new List<Collegejobpostingschedule>();
@@ -80,6 +82,8 @@ public partial class Jobposting
     public virtual ICollection<JobpostingSkill> JobpostingSkills { get; set; } = new List<JobpostingSkill>();
 
     public virtual ICollection<JobpostingsEligiblestudent> JobpostingsEligiblestudents { get; set; } = new List<JobpostingsEligiblestudent>();
+
+    public virtual Campusregistration? Org { get; set; }
 
     public virtual ICollection<Studentplaced> Studentplaceds { get; set; } = new List<Studentplaced>();
 
