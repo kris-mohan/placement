@@ -1,30 +1,17 @@
-<mat-card>
-  <mat-card-header class="custom-card-header">
-    <div class="example-header-row">
-      <!-- Back Icon -->
-      <mat-icon (click)="goBack()" class="BackIcon"
-        >keyboard_backspace</mat-icon
-      >
-
-      <!-- Header Title -->
-      <p class="matHeaderName">
-        {{ Id ? "Edit Job Posting" : "Add Job Posting" }}
-      </p>
-    </div>
-
-    <!-- Job Details: Displayed Only for Edit Job Posting -->
-    <div class="job-details" *ngIf="Id">
-      <div class="job-info">
-        <strong>Company Name:</strong>
-        <span> ABC College </span>
-      </div>
-      <div class="job-info">
-        <strong>Job Role:</strong>
-        <span>Software Engineer</span>
-      </div>
-      <div class="job-info">
-        <strong>Job ID:</strong>
-        <span>1234</span>
+<mat-card
+  ><mat-card-header class="custom-card-header">
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="example-button-container">
+          <mat-icon (click)="goBack()" class="BackIcon"
+            >keyboard_backspace</mat-icon
+          >
+        </div>
+        <div>
+          <p class="matHeaderName">
+            {{ JObPostRouteId ? "Edit Job Posting" : "Add Job Posting" }}
+          </p>
+        </div>
       </div>
     </div>
   </mat-card-header>
