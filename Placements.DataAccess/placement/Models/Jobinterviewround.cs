@@ -13,9 +13,9 @@ public partial class Jobinterviewround
 
     public string? Description { get; set; }
 
-    public int? Priority { get; set; }
-
     public long? EventId { get; set; }
+
+    public virtual ICollection<Calendarevent> Calendarevents { get; set; } = new List<Calendarevent>();
 
     public virtual Calendarevent? Event { get; set; }
 

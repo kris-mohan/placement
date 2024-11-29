@@ -55,6 +55,8 @@ namespace Placements.WebApi.Controllers.PlacementController
                 original.EventEndDateTime = calendarevent.EventEndDateTime;
                 original.EventType = calendarevent.EventType;
                 original.EventDescription = calendarevent.EventDescription;
+                original.IsDeleted = calendarevent.IsDeleted;
+                original.JobInterviewRoundId = calendarevent.JobInterviewRoundId;
 
 
                 _context.Calendarevents.Update(original);

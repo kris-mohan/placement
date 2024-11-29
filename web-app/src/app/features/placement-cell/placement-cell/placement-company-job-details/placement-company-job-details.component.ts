@@ -143,11 +143,13 @@ export class PlacementCompanyJobDetailsComponent {
     if (id !== undefined) {
       this.router.navigate([
         "/placement-company/placement-company-job-details/add-edit-jobPosting/",
+        this.CompanyId,
         id,
       ]);
     } else {
       this.router.navigate([
         "/placement-company/placement-company-job-details/add-edit-jobPosting/",
+        this.CompanyId,
         0,
       ]);
     }

@@ -65,5 +65,55 @@ namespace Placements.WebApi.Controllers
                 SkillLabels = skillLabels
             });
         }
+        [HttpGet("monthly-placement-trends")]
+        public async Task<IActionResult> GetMonthlyPlacementTrends()
+        {
+            var (data, monthLabels) = await _service.GetMonthlyPlacementTrendsAsync();
+            return Ok(new
+            {
+                MonthlyTrendsData = data,
+                MonthLabels = monthLabels
+            });
+        }
+        [HttpGet("top-companies")]
+        public async Task<IActionResult> GetTopHiringCompanies()
+        {
+            var (data, companyLabels) = await _service.GetTopHiringCompaniesAsync();
+            return Ok(new
+            {
+                TopHiringCompaniesData = data,
+                CompanyLabels = companyLabels
+            });
+        }
+        [HttpGet("batch-wise-placements")]
+        public async Task<IActionResult> GetBatchWisePlacements()
+        {
+            var (data, batchLabels) = await _service.GetBatchWisePlacementDataAsync();
+            return Ok(new
+            {
+                BatchPlacementData = data,
+                BatchLabels = batchLabels
+            });
+        }
+        [HttpGet("unplaced-students-by-branch")]
+        public async Task<IActionResult> GetUnplacedStudentsByBranch()
+        {
+            var (data, branchLabels) = await _service.GetUnplacedStudentsByBranchAsync();
+            return Ok(new
+            {
+                UnplacedStudentsData = data,
+                BranchLabels = branchLabels
+            });
+        }
+        [HttpGet("placement-status")]
+        public async Task<IActionResult> GetPlacementStatusSummary()
+        {
+            var (data, statusLabels) = await _service.GetPlacementStatusSummaryAsync();
+            return Ok(new
+            {
+                PlacementStatusData = data,
+                StatusLabels = statusLabels
+            });
+        }
     }
 }

@@ -156,5 +156,112 @@ namespace Placements.WebApi.Services
 
             return (skillDemandDataList, skillLabels);
         }
+        public async Task<(List<int> Data, List<string> Labels)> GetMonthlyPlacementTrendsAsync()
+        {
+            var query = await _context.Studentplaceds
+                .Where(sp => sp.JobPosting.DriveDate.HasValue)
+                .GroupBy(sp => sp.JobPosting.DriveDate.Value.Month)
+                .Select(g => new
+                {
+                    Month = g.Key,
+                    Count = g.Count()
+                })
+                .ToListAsync();
+
+            var monthLabels = Enumerable.Range(1, 12).Select(i => new DateTime(1, i, 1).ToString("MMMM")).ToList();
+            var data = monthLabels.Select((_, index) => query.FirstOrDefault(q => q.Month == index + 1)?.Count ?? 0).ToList();
+
+            return (data, monthLabels);
+        }
+        public async Task<(List<int> Data, List<string> Labels)> GetTopHiringCompaniesAsync()
+        {
+            var query = await _context.Studentplaceds
+                .Include(sp => sp.JobPosting)
+                .ThenInclude(jp => jp.Company)
+                .GroupBy(sp => sp.JobPosting!.Company!.Name)
+                .Select(g => new
+                {
+                    CompanyName = g.Key,
+                    Count = g.Count()
+                })
+                .OrderByDescending(g => g.Count)
+                .Take(10)
+                .ToListAsync();
+
+            var data = query.Select(q => q.Count).ToList();
+            var labels = query.Select(q => q.CompanyName ?? "Unknown").ToList();
+
+            return (data, labels);
+        }
+        public async Task<(List<int> Data, List<string> Labels)> GetBatchWisePlacementDataAsync()
+        {
+            var query = await _context.Studentplaceds
+                .Include(sp => sp.Batch)
+                .GroupBy(sp => sp.Batch!.Name)
+                .Select(g => new
+                {
+                    BatchName = g.Key,
+                    Count = g.Count()
+                })
+                .ToListAsync();
+
+            var data = query.Select(q => q.Count).ToList();
+            var labels = query.Select(q => q.BatchName ?? "Unknown").ToList();
+
+            return (data, labels);
+        }
+        public async Task<(List<int> Data, List<string> Labels)> GetUnplacedStudentsByBranchAsync()
+        {
+            var totalStudents = await _context.Tblstudents
+                .Include(s => s.Studentacademics)
+                .ThenInclude(sa => sa.Course)
+                .GroupBy(s => s.Studentacademics.FirstOrDefault()!.Course!.Name)
+                .Select(g => new
+                {
+                    BranchName = g.Key,
+                    TotalCount = g.Count()
+                })
+                .ToListAsync();
+
+            var placedStudents = await _context.Studentplaceds
+                .Include(sp => sp.Student)
+                .ThenInclude(s => s.Studentacademics)
+                .ThenInclude(sa => sa.Course)
+                .GroupBy(sp => sp.Student!.Studentacademics.FirstOrDefault()!.Course!.Name)
+                .Select(g => new
+                {
+                    BranchName = g.Key,
+                    Count = g.Count()
+                })
+                .ToListAsync();
+
+            var unplacedData = totalStudents.Select(ts => new
+            {
+                BranchName = ts.BranchName,
+                UnplacedCount = ts.TotalCount - (placedStudents.FirstOrDefault(ps => ps.BranchName == ts.BranchName)?.Count ?? 0)
+            }).ToList();
+
+            var data = unplacedData.Select(q => q.UnplacedCount).ToList();
+            var labels = unplacedData.Select(q => q.BranchName ?? "Unknown").ToList();
+
+            return (data, labels);
+        }
+        public async Task<(List<int> Data, List<string> Labels)> GetPlacementStatusSummaryAsync()
+        {
+            var totalStudents = await _context.Tblstudents.CountAsync();
+            var placedStudents = await _context.Studentplaceds.CountAsync();
+            var inProcessStudents = await _context.JobpostStudentrounds
+                .Where(x => x.HasPassed == null || x.HasPassed == 1)
+                .Select(x => x.StudentId)
+                .Distinct()
+                .CountAsync();
+
+            var notPlacedStudents = totalStudents - placedStudents - inProcessStudents;
+
+            var data = new List<int> { placedStudents, inProcessStudents, notPlacedStudents };
+            var labels = new List<string> { "Placed", "In Process", "Not Placed" };
+
+            return (data, labels);
+        }
     }
 }

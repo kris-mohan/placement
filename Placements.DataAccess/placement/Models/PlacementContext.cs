@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -113,6 +113,12 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Technology> Technologies { get; set; }
 
+    public virtual DbSet<Template> Templates { get; set; }
+
+    public virtual DbSet<TemplateCategory> TemplateCategories { get; set; }
+
+    public virtual DbSet<TemplatePlaceholder> TemplatePlaceholders { get; set; }
+
     public virtual DbSet<Trainer> Trainers { get; set; }
 
     public virtual DbSet<Trainerschedule> Trainerschedules { get; set; }
@@ -125,9 +131,9 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -146,6 +152,12 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("calendarevents");
 
+            entity.HasIndex(e => e.OrgId, "FK_Event_Campus_idx");
+
+            entity.HasIndex(e => e.CompanyId, "FK_Event_Company_idx");
+
+            entity.HasIndex(e => e.JobInterviewRoundId, "FK_Event_JobInterviewRound_idx");
+
             entity.Property(e => e.EventDescription).HasMaxLength(150);
             entity.Property(e => e.EventEndDateTime).HasColumnType("datetime");
             entity.Property(e => e.EventStartDateTime).HasColumnType("datetime");
@@ -153,6 +165,18 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Calendarevents)
+                .HasForeignKey(d => d.CompanyId)
+                .HasConstraintName("FK_Event_Company");
+
+            entity.HasOne(d => d.JobInterviewRound).WithMany(p => p.Calendarevents)
+                .HasForeignKey(d => d.JobInterviewRoundId)
+                .HasConstraintName("FK_Event_JobInterviewRound");
+
+            entity.HasOne(d => d.Org).WithMany(p => p.Calendarevents)
+                .HasForeignKey(d => d.OrgId)
+                .HasConstraintName("FK_Event_Campus");
         });
 
         modelBuilder.Entity<CampusCompany>(entity =>
@@ -508,14 +532,12 @@ public partial class PlacementContext : DbContext
 
             entity.HasIndex(e => e.CreatedBy, "FK_User_Groups_idx");
 
-            entity.Property(e => e.AllowStudentMessages).HasDefaultValueSql("'0'");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.GroupDescription).HasMaxLength(200);
             entity.Property(e => e.GroupName).HasMaxLength(45);
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Groups)
                 .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK_Created_Login");
+                .HasConstraintName("FK_User_Groups");
         });
 
         modelBuilder.Entity<Groupmember>(entity =>
@@ -529,6 +551,7 @@ public partial class PlacementContext : DbContext
             entity.HasIndex(e => e.UserId, "FK_User_GroupMember_idx");
 
             entity.Property(e => e.JoinedDate).HasColumnType("datetime");
+            entity.Property(e => e.Role).HasColumnType("enum('Admin','Member')");
 
             entity.HasOne(d => d.Group).WithMany(p => p.Groupmembers)
                 .HasForeignKey(d => d.GroupId)
@@ -667,6 +690,8 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("jobposting");
 
+            entity.HasIndex(e => e.OrgId, "FK_JobPosting_Campus_idx");
+
             entity.HasIndex(e => e.CompanyId, "FK_JobPosting_Company_idx");
 
             entity.HasIndex(e => e.TechnologyId, "FK_JobPosting_Technology_idx");
@@ -699,6 +724,10 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.Company).WithMany(p => p.Jobpostings)
                 .HasForeignKey(d => d.CompanyId)
                 .HasConstraintName("FK_JobPosting_Company");
+
+            entity.HasOne(d => d.Org).WithMany(p => p.Jobpostings)
+                .HasForeignKey(d => d.OrgId)
+                .HasConstraintName("FK_JobPosting_Campus");
 
             entity.HasOne(d => d.Technology).WithMany(p => p.Jobpostings)
                 .HasForeignKey(d => d.TechnologyId)
@@ -856,33 +885,9 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("messages");
 
-            entity.HasIndex(e => e.ChatId, "FK_Chat_Messages_idx");
-
-            entity.HasIndex(e => e.GroupId, "FK_Group_Messages_idx");
-
-            entity.HasIndex(e => e.SenderId, "FK_Login_Messages_idx");
-
-            entity.HasIndex(e => e.ReceiverId, "Fk_Login_ReceiverMessage_idx");
-
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.MessageText).HasMaxLength(1000);
             entity.Property(e => e.MessageType).HasColumnType("enum('Text','Image','Video','File')");
-
-            entity.HasOne(d => d.Chat).WithMany(p => p.Messages)
-                .HasForeignKey(d => d.ChatId)
-                .HasConstraintName("FK_Chat_Messages");
-
-            entity.HasOne(d => d.Group).WithMany(p => p.Messages)
-                .HasForeignKey(d => d.GroupId)
-                .HasConstraintName("FK_Group_Messages");
-
-            entity.HasOne(d => d.Receiver).WithMany(p => p.MessageReceivers)
-                .HasForeignKey(d => d.ReceiverId)
-                .HasConstraintName("Fk_Login_ReceiverMessage");
-
-            entity.HasOne(d => d.Sender).WithMany(p => p.MessageSenders)
-                .HasForeignKey(d => d.SenderId)
-                .HasConstraintName("FK_Login_SenderMessages");
         });
 
         modelBuilder.Entity<Messagestatus>(entity =>
@@ -1135,6 +1140,53 @@ public partial class PlacementContext : DbContext
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
             entity.Property(e => e.Name).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Template>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("template");
+
+            entity.HasIndex(e => e.CategoryId, "FK_Template_Category_idx");
+
+            entity.Property(e => e.Body).HasColumnType("text");
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.Name).HasMaxLength(145);
+            entity.Property(e => e.Subject).HasMaxLength(245);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Templates)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("FK_Template_Category");
+        });
+
+        modelBuilder.Entity<TemplateCategory>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("template_category");
+
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(245);
+            entity.Property(e => e.Name).HasMaxLength(105);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<TemplatePlaceholder>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("template_placeholder");
+
+            entity.HasIndex(e => e.TemplateId, "FK_TemplatePlaceholder_Template_idx");
+
+            entity.Property(e => e.Description).HasMaxLength(245);
+            entity.Property(e => e.Name).HasMaxLength(145);
+
+            entity.HasOne(d => d.Template).WithMany(p => p.TemplatePlaceholders)
+                .HasForeignKey(d => d.TemplateId)
+                .HasConstraintName("FK_TemplatePlaceholder_Template");
         });
 
         modelBuilder.Entity<Trainer>(entity =>
