@@ -32,6 +32,7 @@ export class TestRoundsComponent {
   RoundDataById = new MatTableDataSource<Jobinterviewround>([]);
 
   jobId: number | undefined = undefined;
+  JobPostId: number | null = null;
   readonly dialog = inject(MatDialog);
 
   displayedColumns: string[] = [
@@ -45,28 +46,21 @@ export class TestRoundsComponent {
   ];
 
   getAllRounds = () => {
-    this.testRoundsApiService.GetAllRounds().subscribe({
-      next: (response) => {
-        const data: Jobinterviewround[] = response.value;
-        this.RoundDataSource.data = data;
-      },
-      error: (error) => {
-        console.log("Error fetching rounds: ", error);
-      },
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get("jobId");
+      this.JobPostId = id !== null ? +id : null;
+      this.testRoundsApiService.GetAllRounds(this.JobPostId).subscribe({
+        next: (response) => {
+          const data: Jobinterviewround[] = response.value;
+          this.RoundDataSource.data = data;
+        },
+        error: (error) => {
+          console.log("Error fetching rounds: ", error);
+        },
+      });
     });
   };
 
-  loadRounds() {
-    this.testRoundsApiService.GetAllRounds().subscribe({
-      next: (response) => {
-        const data: Jobinterviewround[] = response.value;
-        this.RoundDataSource.data = data;
-      },
-      error: (error) => {
-        console.log("Error fetching rounds: ", error);
-      },
-    });
-  }
   async deleteCompany(id: number) {
     // Confirm deletion with the user
     const confirmed = await this.sweetAlertService.confirmDelete(
@@ -78,7 +72,7 @@ export class TestRoundsComponent {
         next: (response: { success: boolean; message: string }) => {
           if (response.success) {
             this.sweetAlertService.success(response.message);
-            this.loadRounds();
+            this.getAllRounds();
           } else {
             this.sweetAlertService.error(response.message);
           }

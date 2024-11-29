@@ -63,8 +63,6 @@ import { PlacementDashboardComponent } from "./features/placement-cell/placement
 import { StudentDashboardComponent } from "./features/student-menu/student-menu/student-dashboard/student-dashboard.component";
 import { PlacementCompanyComponent } from "./features/placement-cell/placement-cell/placement-company/placement-company.component";
 import { PlacementCompanyJobDetailsComponent } from "./features/placement-cell/placement-cell/placement-company-job-details/placement-company-job-details.component";
-import { PlacementJobDescriptionComponent } from "./features/placement-cell/placement-cell/placement-job-description/placement-job-description.component";
-import { CompanyCommunicationComponent } from "./features/company-menu/company-communication/company-communication.component";
 import { PlacementInterviewComponent } from "./features/placement-cell/placement-cell/placement-interview/placement-interview.component";
 import { PlacementInterviewStudentsComponent } from "./features/placement-cell/placement-cell/placement-interview-students/placement-interview-students.component";
 import { StudentCompanyComponent } from "./features/student-menu/student-menu/student-company/student-company.component";
@@ -230,7 +228,7 @@ const appRoutes: Routes = [
         component: CompanyJobDetailsComponent,
       },
       {
-        path: "company-job-details/add-edit-jobPosting/:id",
+        path: "company-job-details/add-edit-jobPosting/:jobId",
         component: AddEditCompanyJobDetailsComponent,
       },
       {
@@ -238,7 +236,7 @@ const appRoutes: Routes = [
         component: CompanyJobDetailsComponent,
       },
       {
-        path: "placement-company/placement-company-job-details/add-edit-jobPosting/:id",
+        path: "placement-company/placement-company-job-details/add-edit-jobPosting/:companyId/:jobId",
         component: AddEditCompanyJobDetailsComponent,
       },
       {
