@@ -7,6 +7,8 @@ import { Studentacademic } from "src/app/services/types/Studentacademic";
 import { Tblstudent } from "src/app/services/types/Tblstudent";
 import { Stream } from "src/app/services/types/Stream";
 import { StudentProfileApiService } from "../StudentProfileApiService";
+import { StudentSkill } from "src/app/services/types/StudentSkill";
+import { MatTableDataSource } from "@angular/material/table";
 @Component({
   selector: "app-profilemanagement-dashboard",
   standalone: true,
@@ -23,6 +25,11 @@ export class ProfilemanagementDashboardComponent {
   StudentDataSource = signal<Tblstudent[]>([]);
   StudentCourseDataSource = signal<Course[]>([]);
   StudentStreamDataSource = signal<Stream[]>([]);
+  studentSkillsData = new MatTableDataSource<{
+    skillType: string;
+    skills: string;
+  }>([]);
+  displayedSkillsColumns: string[] = ["skillType", "skills"];
 
   constructor(
     private router: Router,
@@ -36,6 +43,7 @@ export class ProfilemanagementDashboardComponent {
 
   ngOnInit() {
     this.getStudentProfileId();
+    this.GetStudentSkillsByStudentId();
   }
 
   openAddEditProfile() {
@@ -66,6 +74,28 @@ export class ProfilemanagementDashboardComponent {
 
         error: (error) => {
           console.error("Error fetching Company Data", error);
+        },
+      });
+  }
+  GetStudentSkillsByStudentId(): void {
+    this.studentApiService
+      .GetStudentSkillsByStudentId(this.sessionStudentId)
+      .subscribe({
+        next: (skills) => {
+          const data: StudentSkill[] = skills.value;
+          const groupedData: { [key: string]: string[] } = {};
+          data.forEach((item) => {
+            const skillTypeName = item.Skill?.SkillType?.Name || "";
+            const skillName = item.Skill?.Name || "";
+            if (!groupedData[skillTypeName]) {
+              groupedData[skillTypeName] = [];
+            }
+            groupedData[skillTypeName].push(skillName);
+          });
+          this.studentSkillsData.data = Object.keys(groupedData).map((key) => ({
+            skillType: key,
+            skills: groupedData[key].join(", "),
+          }));
         },
       });
   }

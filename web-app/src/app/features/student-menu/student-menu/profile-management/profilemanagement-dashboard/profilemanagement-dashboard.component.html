@@ -69,9 +69,14 @@
           <h3>10th Grade</h3>
           <div class="education-row">
             <div class="strong">
-              <p><strong>Board: </strong></p>
-              <p><strong class="strong">CGPA/Percentage:</strong></p>
-              <p><strong>Pass-out Year: </strong></p>
+              <strong>Board:</strong> {{ StudentAcademicData()[0].TenthBoard }}
+              <div>
+                <strong>12th Percentage/Marks:</strong>
+                {{ StudentAcademicData()[0].TenthMarks }}
+              </div>
+
+              <strong>Pass out year:</strong>
+              {{ StudentAcademicData()[0].TenthPassedOutYear }}
             </div>
           </div>
         </div>
@@ -81,9 +86,17 @@
           <h3>12th Grade</h3>
           <div class="education-row">
             <div class="strong">
-              <p><strong>Board:</strong></p>
-              <p><strong>CGPA/Percentage:</strong></p>
-              <p><strong>Pass-out Year:</strong></p>
+              <strong>Board:</strong>
+              {{ StudentAcademicData()[0].TwelthBoard }}
+              <div>
+                <strong>12 percentage/marks:</strong>
+                {{ StudentAcademicData()[0].TwelthMarks }}
+              </div>
+              <div>
+                <strong>Pass out year:</strong>
+                {{ StudentAcademicData()[0].TwelthPassedOutYear }}
+              </div>
+              <!-- <p><strong>Pass-out Year:</strong></p> -->
             </div>
           </div>
         </div>
@@ -98,7 +111,7 @@
           </div>
           <p>
             <strong>College Name:</strong>
-            {{ StudentCourseDataSource()[0]?.Name }}
+            {{ StudentAcademicData()[0]?.DiplomaCollegeName }}
           </p>
         </div>
       </mat-card-content>
@@ -109,10 +122,36 @@
         <mat-card-title>Skills</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>
-          <!-- Skills content here -->
-        </p>
-      </mat-card-content>
-    </mat-card>
+        <!-- Skills content here -->
+        <!-- <div class="Skills" *ngIf="StudentDataSource()[0]"></div>
+        <div class="Skill">
+          <h3>Skill Type</h3>
+      
+        </div> -->
+
+        <div class="skills compact-table-container">
+          <table
+            mat-table
+            [dataSource]="studentSkillsData"
+            class="compact-table"
+          >
+            <ng-container matColumnDef="skillType">
+              <th mat-header-cell *matHeaderCellDef>Skill Type</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.skillType }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="skills">
+              <th mat-header-cell *matHeaderCellDef>Skills</th>
+              <td mat-cell *matCellDef="let element">{{ element.skills }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedSkillsColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedSkillsColumns"
+            ></tr>
+          </table>
+        </div> </mat-card-content
+    ></mat-card>
   </div>
 </div>

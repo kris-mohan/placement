@@ -24,6 +24,7 @@ import {
   PostTblstudent,
   Tblstudent,
 } from "src/app/services/types/Tblstudent";
+import { StudentSkill } from "src/app/services/types/StudentSkill";
 
 @Injectable({
   providedIn: "root",
@@ -126,5 +127,13 @@ export class StudentProfileApiService {
     return id
       ? this.apiHttpService.patch(url, Studentacademic)
       : this.apiHttpService.post(url, Studentacademic);
+  }
+  
+  GetStudentSkillsByStudentId(
+    studentId: number
+  ): Observable<ODataEntity<StudentSkill[]>> {
+    return this.apiHttpService.get<ODataEntity<StudentSkill[]>>(
+      `/StudentSkill?$filter=StudentId eq ${studentId}&expand=Skill(expand=SkillType)`
+    );
   }
 }

@@ -79,7 +79,7 @@ export class CalendarModalComponent implements OnInit {
           const data: Jobposting[] = response.value;
           console.log(data);
           this.jobPostings = data;
-          this.OrgId = data[0].OrgId || 0;
+          // this.OrgId = data[0].OrgId || 0;
         },
         error: (error) => {
           console.error("Error fetching Job Postings:", error);
