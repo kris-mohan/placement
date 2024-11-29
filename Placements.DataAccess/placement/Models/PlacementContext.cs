@@ -113,6 +113,12 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Technology> Technologies { get; set; }
 
+    public virtual DbSet<Template> Templates { get; set; }
+
+    public virtual DbSet<TemplateCategory> TemplateCategories { get; set; }
+
+    public virtual DbSet<TemplatePlaceholder> TemplatePlaceholders { get; set; }
+
     public virtual DbSet<Trainer> Trainers { get; set; }
 
     public virtual DbSet<Trainerschedule> Trainerschedules { get; set; }
@@ -1134,6 +1140,53 @@ public partial class PlacementContext : DbContext
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
             entity.Property(e => e.Name).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Template>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("template");
+
+            entity.HasIndex(e => e.CategoryId, "FK_Template_Category_idx");
+
+            entity.Property(e => e.Body).HasColumnType("text");
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.Name).HasMaxLength(145);
+            entity.Property(e => e.Subject).HasMaxLength(245);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Templates)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("FK_Template_Category");
+        });
+
+        modelBuilder.Entity<TemplateCategory>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("template_category");
+
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(245);
+            entity.Property(e => e.Name).HasMaxLength(105);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<TemplatePlaceholder>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("template_placeholder");
+
+            entity.HasIndex(e => e.TemplateId, "FK_TemplatePlaceholder_Template_idx");
+
+            entity.Property(e => e.Description).HasMaxLength(245);
+            entity.Property(e => e.Name).HasMaxLength(145);
+
+            entity.HasOne(d => d.Template).WithMany(p => p.TemplatePlaceholders)
+                .HasForeignKey(d => d.TemplateId)
+                .HasConstraintName("FK_TemplatePlaceholder_Template");
         });
 
         modelBuilder.Entity<Trainer>(entity =>
