@@ -47,8 +47,6 @@ public partial class Tblstudent
 
     public virtual Batch? Batch { get; set; }
 
-    public virtual ICollection<Groupmember> Groupmembers { get; set; } = new List<Groupmember>();
-
     public virtual ICollection<JobpostStudentround> JobpostStudentrounds { get; set; } = new List<JobpostStudentround>();
 
     public virtual ICollection<JobpostingSelectedstudent> JobpostingSelectedstudents { get; set; } = new List<JobpostingSelectedstudent>();
