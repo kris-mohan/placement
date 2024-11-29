@@ -23,6 +23,8 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Campusregistration> Campusregistrations { get; set; }
 
+    public virtual DbSet<Chat> Chats { get; set; }
+
     public virtual DbSet<Collegejobposting> Collegejobpostings { get; set; }
 
     public virtual DbSet<CollegejobpostingScheduledetail> CollegejobpostingScheduledetails { get; set; }
@@ -224,6 +226,27 @@ public partial class PlacementContext : DbContext
             entity.HasOne(d => d.University).WithMany(p => p.Campusregistrations)
                 .HasForeignKey(d => d.UniversityId)
                 .HasConstraintName("FK_Campus_University");
+        });
+
+        modelBuilder.Entity<Chat>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("chat");
+
+            entity.HasIndex(e => e.ReceiverId, "FK_Receiver_Login_idx");
+
+            entity.HasIndex(e => e.SenderId, "FK_Sender_Login_idx");
+
+            entity.Property(e => e.IsDeleted).HasMaxLength(45);
+
+            entity.HasOne(d => d.Receiver).WithMany(p => p.ChatReceivers)
+                .HasForeignKey(d => d.ReceiverId)
+                .HasConstraintName("FK_Receiver_Login");
+
+            entity.HasOne(d => d.Sender).WithMany(p => p.ChatSenders)
+                .HasForeignKey(d => d.SenderId)
+                .HasConstraintName("FK_Sender_Login");
         });
 
         modelBuilder.Entity<Collegejobposting>(entity =>

@@ -27,6 +27,10 @@ public partial class Login
 
     public virtual Campusregistration? Campus { get; set; }
 
+    public virtual ICollection<Chat> ChatReceivers { get; set; } = new List<Chat>();
+
+    public virtual ICollection<Chat> ChatSenders { get; set; } = new List<Chat>();
+
     public virtual Companydatum? Company { get; set; }
 
     public virtual ICollection<Groupmember> Groupmembers { get; set; } = new List<Groupmember>();
