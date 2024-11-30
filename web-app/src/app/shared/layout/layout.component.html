@@ -198,6 +198,19 @@
         <a
           *ngIf="UserRoleId === 1"
           mat-list-item
+          [routerLink]="['interview-schedule']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="sidebar-list-items">
+            <mat-icon>work_history</mat-icon>
+            <div><mat-label>Schedule Interview</mat-label></div>
+          </div>
+        </a>
+
+        <a
+          *ngIf="UserRoleId === 1"
+          mat-list-item
           [routerLink]="['/training-configuration']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"

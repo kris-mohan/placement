@@ -6,6 +6,7 @@ import {
   Calendarevent,
   PostCalendarevent,
 } from "src/app/services/types/Calendarevent";
+import { Companydatum } from "src/app/services/types/Companydatum";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { ODataEntity } from "src/app/services/types/OData";
@@ -75,6 +76,12 @@ export class CalendarModalApiService {
   public GetJobPostingById(id: number): Observable<ODataEntity<Jobposting[]>> {
     return this.apiHttpService.get<ODataEntity<Jobposting[]>>(
       `/Jobposting?filter=Id eq ${id}`
+    );
+  }
+
+  public GetAllCompanies(): Observable<ODataEntity<Companydatum[]>> {
+    return this.apiHttpService.get<ODataEntity<Companydatum[]>>(
+      "/Companydatum"
     );
   }
 }
