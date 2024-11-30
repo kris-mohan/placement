@@ -172,6 +172,9 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Message>("Messages");
     modelBuilder.EntitySet<Messagestatus>("Messagestatuses");
     modelBuilder.EntitySet<Chat>("Chats");
+    modelBuilder.EntitySet<TemplateCategory>("TemplateCategory");
+    modelBuilder.EntitySet<Template>("Template");
+    modelBuilder.EntitySet<TemplatePlaceholder>("TemplatePlaceholder");
 
     return modelBuilder.GetEdmModel();
 }
