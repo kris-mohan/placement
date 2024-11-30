@@ -88,26 +88,116 @@ export class JobEligibleStudentsModalComponent {
   ];
 
   status: string[] = ["Invite", "Accepted", "Invited", "Rejected", "Pending"];
-  branches: string[] = [
-    "Computer Science and Engineering",
-    "Mechanical Engineering",
-    "Electronics and Communication Engineering",
-  ];
-  batches: number[] = [2019, 2020, 2021, 2022];
+  // branches: string[] = [
+  //   "Computer Science and Engineering",
+  //   "Mechanical Engineering",
+  //   "Electronics and Communication Engineering",
+  // ];
+  // batches: number[] = [2019, 2020, 2021, 2022];
 
-  statusControl = new FormControl<string[]>(["Accepted"]);
-  branchControl = new FormControl<string[] | null>(null);
-  batchControl = new FormControl<any[] | null>(null);
   searchControl = new FormControl("");
+  branches: string[] = [];
+  batches: number[] = [];
+  branchControl = new FormControl<string[]>([]);
+  batchControl = new FormControl<any[] | null>(null);
+  statusControl = new FormControl<string[]>([]);
 
   EligibleStudentsDetails = new MatTableDataSource<{}>([]);
   appliedStudentsDetails = new MatTableDataSource<{}>([]);
-
+  filteredEligibleStudents = new MatTableDataSource<{}>([]);
+  filteredAppliedStudents = new MatTableDataSource<{}>([]);
   ngOnInit() {
     this.getAllEligibleStudents();
     this.GetAppliedStudentList();
+    this.getBranches();
+    this.getBatches();
+    this.filteredEligibleStudents = new MatTableDataSource(
+      this.EligibleStudentsDetails.data
+    );
+    this.filteredAppliedStudents = new MatTableDataSource(
+      this.appliedStudentsDetails.data
+    );
+    this.searchControl.valueChanges.subscribe(() => {
+      this.applyFilters();
+    });
+
+    this.batchControl.valueChanges.subscribe(() => {
+      this.applyFilters();
+    });
+
+    this.branchControl.valueChanges.subscribe(() => {
+      this.applyFilters();
+    });
+
+    this.statusControl.valueChanges.subscribe(() => {
+      this.applyFilters();
+    });
+  }
+  applyFilters() {
+    const searchName = this.searchControl.value?.toLowerCase() || "";
+    const selectedBranches = this.branchControl.value || [];
+    const selectedBatches = this.batchControl.value || [];
+    const selectedStatuses = this.statusControl.value || [];
+    const eligibleFiltered = this.EligibleStudentsDetails.data.filter(
+      (student: any) => {
+        const matchesSearch =
+          student.StudentName.toLowerCase().includes(searchName);
+        const matchesBatch =
+          selectedBatches.length === 0 ||
+          selectedBatches.includes(student.Batch);
+        const matchesBranch =
+          selectedBranches.length === 0 ||
+          selectedBranches.includes(student.Branch);
+        const matchesStatus =
+          selectedStatuses.length === 0 ||
+          selectedStatuses.includes(student.Status);
+        return matchesSearch && matchesBatch && matchesBranch && matchesStatus;
+      }
+    );
+    this.filteredEligibleStudents.data = eligibleFiltered;
+
+    const appliedFiltered = this.appliedStudentsDetails.data.filter(
+      (student: any) => {
+        const matchesSearch =
+          student.StudentName.toLowerCase().includes(searchName);
+        const matchesBatch =
+          selectedBatches.length === 0 ||
+          selectedBatches.includes(student.Batch);
+        const matchesBranch =
+          selectedBranches.length === 0 ||
+          selectedBranches.includes(student.Branch);
+        const matchesStatus =
+          selectedStatuses.length === 0 ||
+          selectedStatuses.includes(student.Status);
+        return matchesSearch && matchesBatch && matchesBranch && matchesStatus;
+      }
+    );
+    this.filteredAppliedStudents.data = appliedFiltered;
   }
 
+  getBatches(): void {
+    this.jobEligibleStudentApiService.GetBatches().subscribe({
+      next: (batchData) => {
+        this.batches = batchData.value.map((batch: any) => batch.Name);
+        console.log("Available batches:", this.batches);
+      },
+      error: (error) => {
+        console.error("Error fetching batches:", error);
+      },
+    });
+  }
+
+  getBranches(): void {
+    this.jobEligibleStudentApiService.GetBranches().subscribe({
+      next: (branchData) => {
+        this.branches = branchData.value.map((branch: any) => branch.FullForm);
+        console.log("Available branches:", this.branches);
+      },
+      error: (error) => {
+        console.error("Error fetching branches:", error);
+      },
+    });
+  }
   getChipStyle(action: string): any {
     switch (action) {
       case "Job Post Invited":

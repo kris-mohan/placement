@@ -6,7 +6,7 @@
         >cancel</mat-icon
       >
     </div>
-    <br>
+    <br />
     <mat-form-field class="example-full-width full-width" appearance="outline">
       <mat-label>Skills</mat-label>
       <input
@@ -34,10 +34,10 @@
   <div>
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Salary Range</mat-label>
-      <mat-select [formControl]="salaryRangeControl" multiple>
-        @for (salaryRange of salaryRanges; track salaryRange) {
-        <mat-option [value]="salaryRange">{{ salaryRange }}</mat-option>
-        }
+      <mat-select [formControl]="salaryControl" multiple>
+        <mat-option *ngFor="let salary of salaryOptions" [value]="salary">
+          {{ salary }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
   </div>

@@ -31,6 +31,7 @@ export interface JobpostingWithApplicants extends Jobposting {
   ApplicantsRejected: number;
   MinimumYearExperience: number;
   MaximumYearExperience: number;
+  SkillTypes?: string;
 }
 
 @Component({
@@ -58,8 +59,8 @@ export class CompanyJobDetailsComponent {
     this.sessionCompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
   }
   readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
+    start: new FormControl(new Date(year, month - 1, today.getDate())),
+    end: new FormControl(new Date()),
   });
 
   searchCity: string = "";
@@ -119,10 +120,21 @@ export class CompanyJobDetailsComponent {
             jobposting.JobpostingsEligiblestudents.filter(
               (student: any) => student.StatusId === 8
             ).length;
+          const skillTypes =
+            Array.from(
+              new Set(
+                jobposting.JobpostingSkills?.map(
+                  (skill: any) => skill.Skill?.SkillType?.Name
+                )
+              )
+            )
+              .filter((name: any) => name)
+              .join(", ") || "NA";
           return {
             ...jobposting,
             ApplicantsApplied: applicantsApplied,
             ApplicantsRejected: applicantsRejected,
+            SkillTypes: skillTypes,
             ValidTill: this.convertToDateOnly(jobposting.ValidTill),
             ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
             DriveDate: this.convertToDateOnly(jobposting.DriveDate),
@@ -329,6 +341,10 @@ export class CompanyJobDetailsComponent {
   openStudentJobAdditionalFiltersModal() {
     this.dialog.open(CompanyJobAdditionalfiltersModalComponent, {
       width: "500px",
+      data: {
+        JobPostingsData: this.JobPostingsData(),
+        FilteredJobPostings: this.filteredJobPostings(),
+      },
     });
   }
 }

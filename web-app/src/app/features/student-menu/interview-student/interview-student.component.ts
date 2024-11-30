@@ -48,8 +48,8 @@ const year = today.getFullYear();
 })
 export class InterviewStudentComponent {
   readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
+    start: new FormControl(new Date(year, month - 1, today.getDate())),
+    end: new FormControl(new Date()),
   });
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   jobInterviewRounds = signal<AppliedJobInterview[]>([]);
@@ -359,7 +359,7 @@ export class InterviewStudentComponent {
     this.getAllColleges();
     this.getBranches();
     this.getBatches();
-    this.GetJobInterviewRounds();
+    //this.GetJobInterviewRounds();
     this.GetAppliedJobInterviewRounds();
     this.dataSource.paginator = this.paginator;
 

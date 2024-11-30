@@ -49,8 +49,8 @@ const year = today.getFullYear();
 })
 export class InterviewComponent {
   readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
+    start: new FormControl(new Date(year, month - 1, today.getDate())),
+    end: new FormControl(new Date()),
   });
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   jobInterviewRounds = signal<Jobinterviewround[]>([]);
@@ -209,6 +209,8 @@ export class InterviewComponent {
     this.getBatches();
     this.statusFilterControl.valueChanges.subscribe(() => this.applyFilters());
     this.searchName.valueChanges.subscribe(() => this.applyFilters());
+    this.branchControl.valueChanges.subscribe(() => this.applyFilters());
+    this.batchControl.valueChanges.subscribe(() => this.applyFilters());
     this.dataSource.paginator = this.paginator;
     this.CityControl.valueChanges.subscribe(() => {
       this.filterCities(this.searchCity);
@@ -235,6 +237,8 @@ export class InterviewComponent {
   applyFilters() {
     const selectedStatuses: string[] = this.statusFilterControl.value || [];
     const nameFilter = this.searchName.value?.toLowerCase() || "";
+    const selectedBranches = this.branchControl.value || [];
+    const selectedBatches = this.batchControl.value || [];
 
     const filteredData = this.jobInterviewRounds().filter((round) => {
       const matchesName =
@@ -243,7 +247,19 @@ export class InterviewComponent {
       const status = this.calculateStatus(round.JobPosting?.DriveDate);
       const matchesStatus =
         selectedStatuses.length === 0 || selectedStatuses.includes(status);
-      return matchesName && matchesStatus;
+      const branchMatch =
+        selectedBranches.length === 0 ||
+        selectedBranches.includes(
+          round.JobpostStudentrounds?.[0]?.Student?.Studentacademics?.[0]
+            ?.Course?.FullForm || ""
+        );
+      const batchMatch =
+        selectedBatches.length === 0 ||
+        selectedBatches.includes(
+          round.JobpostStudentrounds?.[0]?.Student?.Batch?.Name || ""
+        );
+
+      return matchesName && matchesStatus && branchMatch && batchMatch;
     });
 
     this.filteredJobInterviewRounds.set(filteredData);

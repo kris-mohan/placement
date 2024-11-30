@@ -53,12 +53,7 @@ export type Jobposting = {
   CompanyJobStreams?: CompanyJobStream[];
 
   Jobinterviewpanels: Jobinterviewpanel[];
-  Experience?: string;
   OrgId?: number;
-  CollegeName?: string;
-  BatchName?: string;
-  StreamName?: string;
-  CourseName?: string;
 };
 
 export type PostJobposting = {

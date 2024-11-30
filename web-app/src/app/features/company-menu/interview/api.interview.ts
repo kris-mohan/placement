@@ -16,7 +16,8 @@ export class interviewApiService {
     //   "/Companydatum?$filter=Id eq 4&expand=Jobpostings(expand=Jobinterviewrounds)"
     // );
     return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
-      `/Jobinterviewround?expand=JobPosting(expand=Company)`
+      //`/Jobinterviewround?expand=JobPosting(expand=Company)`
+      `/Jobinterviewround?expand=JobPosting(expand=Company),JobpostStudentrounds($expand=Student($expand=Studentacademics($expand=Course),Batch))`
     );
   }
 

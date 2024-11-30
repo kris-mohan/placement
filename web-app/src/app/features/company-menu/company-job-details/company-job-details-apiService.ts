@@ -15,7 +15,7 @@ export class CompanyJobDetailsApiService {
     id: number
   ): Observable<ODataEntity<JobpostingWithApplicants[]>> {
     return this.apiHttpService.get<ODataEntity<JobpostingWithApplicants[]>>(
-      `/Jobposting?$filter=CompanyId eq ${id} and IsDeleted eq 0 &expand=JobpostingsEligiblestudents`
+      `/Jobposting?$filter=CompanyId eq ${id} and IsDeleted eq 0 &expand=JobpostingsEligiblestudents,JobpostingSkills(expand=Skill(expand=SkillType))`
     );
   }
 

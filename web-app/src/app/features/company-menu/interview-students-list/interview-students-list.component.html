@@ -27,7 +27,6 @@
               >
                 {{ industry.Type }}
               </mat-option> -->
-
               <mat-dialog-actions class="mat-dialog-actions">
                 <button mat-button mat-dialog-close>Reset</button>
                 <button mat-raised-button class="matbutton">
@@ -39,49 +38,23 @@
         </div>
 
         <div>
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Branch</mat-label>
-            <mat-select multiple>
-              <mat-select-trigger> </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input class="full-width" matInput placeholder="Search" />
-              </mat-form-field>
-              <mat-option disabled>No options</mat-option>
-              <!-- <mat-option
-              >
-                {{ industry.Type }}
-              </mat-option> -->
-
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button mat-button mat-dialog-close>Reset</button>
-                <button mat-raised-button class="matbutton">
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field class="full-width" appearance="outline">
+          <mat-form-field appearance="outline" class="filter-field">
             <mat-label>Batch</mat-label>
-            <mat-select multiple>
-              <mat-select-trigger> </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input class="full-width" matInput placeholder="Search" />
-              </mat-form-field>
-              <mat-option disabled>No options</mat-option>
-              <!-- <mat-option
-              >
-                {{ industry.Type }}
-              </mat-option> -->
+            <mat-select [formControl]="batchControl" multiple>
+              <mat-option *ngFor="let batch of batches" [value]="batch">{{
+                batch
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button mat-button mat-dialog-close>Reset</button>
-                <button mat-raised-button class="matbutton">
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
+        <div>
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Branch</mat-label>
+            <mat-select [formControl]="branchControl" multiple>
+              <mat-option *ngFor="let branch of branches" [value]="branch">{{
+                branch
+              }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -92,7 +65,11 @@
             <mat-select multiple>
               <mat-select-trigger> </mat-select-trigger>
               <mat-form-field appearance="outline">
-                <input class="full-width" matInput placeholder="Search" />
+                <input
+                  matInput
+                  [formControl]="studentNameControl"
+                  placeholder="Search by name"
+                />
               </mat-form-field>
               <mat-option disabled>No options</mat-option>
               <!-- <mat-option
@@ -116,7 +93,11 @@
             <mat-select multiple>
               <mat-select-trigger> </mat-select-trigger>
               <mat-form-field appearance="outline">
-                <input class="full-width" matInput placeholder="Search" />
+                <input
+                  matInput
+                  [formControl]="usnControl"
+                  placeholder="Search by USN"
+                />
               </mat-form-field>
               <mat-option disabled>No options</mat-option>
               <!-- <mat-option
@@ -137,14 +118,14 @@
     </div>
   </mat-card-header>
 
-  <mat-stepper
+  <!-- <mat-stepper
     [orientation]="(stepperOrientation | async)!"
     [selectedIndex]="currentRoundIndex"
     (selectionChange)="onStepChange($event.selectedIndex)"
   >
     <mat-step
-      *ngFor="let round of allDetails[0]?.Jobinterviewrounds; let i = index"
-      [label]="round.Name ? round.Name : 'Undefined'"
+      *ngFor="let round of roundDetails?.JobpostStudentrounds; let i = index"
+      [label]="round.ROu ? round.Name : 'Undefined'"
     >
       <div>
         <button mat-button matStepperPrevious *ngIf="i > 0">Back</button>
@@ -304,5 +285,66 @@
         <p>No students have passed.</p>
       </ng-template>
     </mat-step>
-  </mat-stepper>
+  </mat-stepper> -->
+
+  <mat-card-content
+    fxLayout="row wrap"
+    fxLayoutAlign="start stretch"
+    class="mat-card-content"
+  >
+    <ng-container
+      *ngIf="filteredInterviewStudents().length > 0; else noStudents"
+    >
+      <div
+        *ngFor="let students of filteredInterviewStudents()"
+        fxFlex="100%"
+        fxFlex.gt-sm="50%"
+        fxFlex.gt-md="28%"
+        fxFlex.gt-lg="25%"
+        class="grid-item"
+        class="mat-grid-tile"
+        (click)="
+          openInterviewMarksDetails(students.Id, students.JobPostingRoundId)
+        "
+      >
+        <div class="company-details">
+          <!-- <h3>{{ students.studentId }}</h3>
+            <div class="company-type">{{ students.studentName }}</div> -->
+          <p>
+            <strong>Roll Number:</strong>
+            {{ students?.Student?.RollNo }}
+          </p>
+          <p>
+            <strong>Student Name:</strong>
+            {{ students?.Student?.FirstName }} {{ students?.Student?.LastName }}
+          </p>
+          <p>
+            <strong>Batch:</strong>
+            {{ students?.Student?.Batch?.Name }}
+          </p>
+          <p>
+            <strong>Branch:</strong>
+            {{ students?.Student?.Studentacademics?.[0]?.Course?.FullForm }}
+          </p>
+        </div>
+        <div class="company">
+          <p>
+            <strong>College Name:</strong>
+            {{ students?.Student?.Org?.CollegeName }}
+          </p>
+          <p>
+            <strong>Status:</strong>
+            {{ students.HasPassed ? "Ongoing" : "Rejected" }}
+          </p>
+          <p>
+            <strong>Performance Score:</strong>
+            {{ students.Score }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noStudents>
+      <p>No students have passed.</p>
+    </ng-template>
+  </mat-card-content>
 </mat-card>

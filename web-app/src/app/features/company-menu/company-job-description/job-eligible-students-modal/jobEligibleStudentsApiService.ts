@@ -90,7 +90,12 @@ export class JobEligibleStudentApiService {
       `/JobpostingsEligiblestudent?$filter=JobPostingId eq ${jobPostId} and StatusId eq ${statusId} & expand = Student(expand=Batch,Studentacademics(expand=Course,Stream),Org),Status,JobPosting`
     );
   }
-
+  GetBatches(): Observable<any> {
+    return this.apiHttpService.get(`/Batch`);
+  }
+  GetBranches(): Observable<any> {
+    return this.apiHttpService.get(`/Course`);
+  }
   deleteJobPosting(id: number): Observable<any> {
     const url = `/JobPosting?key=${id}`;
     const data = { IsDeleted: 1 };

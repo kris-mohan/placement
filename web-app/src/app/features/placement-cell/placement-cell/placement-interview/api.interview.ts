@@ -13,7 +13,7 @@ export class interviewApiService {
 
   GetJobInterviewRounds(): Observable<ODataEntity<Jobinterviewround[]>> {
     return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
-      "/Jobinterviewround?$expand=JobPosting($select=JobRole,JobDescription,ValidFrom,ValidTill;$expand=Company($select=Name,LogoPath)),JobpostStudentrounds"
+      `/Jobinterviewround?$expand=JobPosting($select=JobRole,JobDescription,ValidFrom,ValidTill;$expand=Company($select=Name,LogoPath)),JobpostStudentrounds($expand=Student($expand=Org,Batch,Studentacademics($expand=Course)))`
     );
   }
 }

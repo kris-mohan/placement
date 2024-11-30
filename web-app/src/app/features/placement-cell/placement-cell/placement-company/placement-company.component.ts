@@ -130,8 +130,8 @@ export class PlacementCompanyComponent {
   }
 
   readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
+    start: new FormControl(new Date(year, month - 1, today.getDate())),
+    end: new FormControl(new Date()),
   });
   displayedColumns: string[] = [
     // "Url",
