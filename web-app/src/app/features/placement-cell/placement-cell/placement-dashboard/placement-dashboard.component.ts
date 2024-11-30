@@ -9,6 +9,7 @@ import { HpStackedColumnchartComponent } from 'src/app/features/charts/column ch
 import { SimplePieChartComponent } from 'src/app/features/charts/pie chart/simple-pie-chart/simple-pie-chart.component';
 import { SimpleDonutChartComponent } from 'src/app/features/charts/pie chart/simple-donut-chart/simple-donut-chart.component';
 import { BasicLineChartComponent } from 'src/app/features/charts/line chart/basic-line-chart/basic-line-chart.component';
+import { PlacementDashboardApiService } from './PlacementDashboardApiService';
 
 @Component({
   selector: 'app-placement-dashboard',
@@ -51,8 +52,11 @@ export class PlacementDashboardComponent implements OnInit {
   topCompanyYearLabels: string[] = [];
   skillDemandData: any[] = [];
   skillLabels: string[] = [];
+  courseLabels: string[] = [];
   placementTrendData: any[] = [];
   timeLabels: string[] = [];
+
+  constructor(private placementApiService: PlacementDashboardApiService) {}
 
   notifications = [
     {
@@ -132,203 +136,179 @@ export class PlacementDashboardComponent implements OnInit {
     console.log('Invite sent to companies');
   }
   ngOnInit(): void {
-    const apiCall = async () => {
-      this.studentYearlySeries = [
-        {
-          name: 'High - 2023',
-          data: [30, 32, 35, 38, 36, 34, 32],
-        },
-        {
-          name: 'Low - 2023',
-          data: [25, 16, 18, 20, 19, 17, 16],
-        },
-      ];
-      this.yearsLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-    };
-    apiCall();
+    this.apiCall();
+    this.genderWisePlacedStudents();
+    this.interviewDataByCompanies();
+    this.companyWisePlacementData();
+    this.yearlyComparisonDataSetup();
+    this.setupTopHiringCompaniesData();
+    this.setupSkillDemandData();
+    this.branchWisePlacementStatus();
+  }
 
-    const genderWisePlacedStudents = async () => {
-      this.studentPlacementData = [
-        {
-          name: 'Male',
-          data: [120, 80, 100, 90, 75],
-        },
-        {
-          name: 'Female',
-          data: [30, 50, 40, 60, 55],
-        },
-      ];
-      this.branchLabels = ['CS', 'IS', 'EC', 'ME', 'CV'];
-    };
-    genderWisePlacedStudents();
+  apiCall = async () => {
+    this.studentYearlySeries = [
+      {
+        name: 'High - 2023',
+        data: [30, 32, 35, 38, 36, 34, 32],
+      },
+      {
+        name: 'Low - 2023',
+        data: [25, 16, 18, 20, 19, 17, 16],
+      },
+    ];
+    this.yearsLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+  };
 
-    const interviewDataByCompanies = async () => {
-      this.interviewData = [
-        {
-          name: 'Aptitude Round',
-          data: [50, 30, 45, 55, 40],
-        },
-        {
-          name: 'Group Discussion',
-          data: [20, 30, 25, 35, 40],
-        },
-        {
-          name: 'Technical Round 1',
-          data: [40, 50, 30, 60, 45],
-        },
-        {
-          name: 'Technical Round 2',
-          data: [10, 35, 12, 16, 15],
-        },
-        {
-          name: 'HR Interview',
-          data: [20, 30, 25, 35, 40],
-        },
-      ];
-      this.companyLabels = [
-        'Softserve Global',
-        'TCS',
-        'Wipro',
-        'Capgemini',
-        'Accenture',
-      ];
-    };
-    interviewDataByCompanies();
+  // genderWisePlacedStudents = async () => {
+  //   this.studentPlacementData = [
+  //     {
+  //       name: 'Male',
+  //       data: [120, 80, 100, 90, 75],
+  //     },
+  //     {
+  //       name: 'Female',
+  //       data: [30, 50, 40, 60, 55],
+  //     },
+  //   ];
+  //   this.branchLabels = ['CS', 'IS', 'EC', 'ME', 'CV'];
+  // };
 
-    const companyWisePlacementData = async () => {
-      this.studentPlacementSeries = [
-        {
-          name: 'IT',
-          data: [10, 20, 30, 40, 50, 60],
-        },
-        {
-          name: 'EC-core',
-          data: [15, 25, 35, 45, 55, 65],
-        },
-        {
-          name: 'Mech-core',
-          data: [20, 30, 40, 50, 60, 70],
-        },
-        {
-          name: 'Non-Tech',
-          data: [20, 30, 10, 15, 15],
-        },
-        {
-          name: 'Sales',
-          data: [20, 30, 10, 15, 15, 10],
-        },
-      ];
+  genderWisePlacedStudents(): void {
+    this.placementApiService.GetPlacementsByGender().subscribe({
+      next: (response: any) => {
+        this.studentPlacementData = response.studentPlacementData || [];
+        this.branchLabels = response.branchLabels || [];
+      },
+      error: (err: any) => {
+        console.error('Error fetching Gender-Wise Placement', err);
+      },
+    });
+  }
 
-      this.placementCategories = [
-        'Company A',
-        'Company B',
-        'Company C',
-        'Company D',
-        'Company E',
-        'Company F',
-      ];
-    };
-    companyWisePlacementData();
+  interviewDataByCompanies = async () => {
+    this.interviewData = [
+      {
+        name: 'Aptitude Round',
+        data: [50, 30, 45, 55, 40],
+      },
+      {
+        name: 'Group Discussion',
+        data: [20, 30, 25, 35, 40],
+      },
+      {
+        name: 'Technical Round 1',
+        data: [40, 50, 30, 60, 45],
+      },
+      {
+        name: 'Technical Round 2',
+        data: [10, 35, 12, 16, 15],
+      },
+      {
+        name: 'HR Interview',
+        data: [20, 30, 25, 35, 40],
+      },
+    ];
+    this.companyLabels = [
+      'Softserve Global',
+      'TCS',
+      'Wipro',
+      'Capgemini',
+      'Accenture',
+    ];
+  };
 
-    const yearlyComparisonDataSetup = async () => {
-      this.yearlyComparisonData = [
-        {
-          name: '2020-21',
-          data: [100, 90, 80, 120, 110, 66],
-        },
-        {
-          name: '2021-22',
-          data: [110, 85, 90, 115, 120, 51],
-        },
-        {
-          name: '2022-23',
-          data: [130, 55, 50, 15, 20, 20],
-        },
-        {
-          name: '2023-24',
-          data: [70, 95, 60, 45, 30, 79],
-        },
-        {
-          name: '2024-25',
-          data: [60, 65, 67, 35, 105, 19],
-        },
-      ];
+  companyWisePlacementData = async () => {
+    this.placementApiService.GetStudentPlacementData().subscribe({
+      next: (response: any) => {
+        this.placementCategories = response.placementCategories || [];
+        this.studentPlacementSeries = response.studentPlacementSeries || [];
+      },
+      error: (err: any) => {
+        console.error('Error fetching branch placements:', err);
+      },
+    });
+  };
 
-      this.yearLabels = ['CS', 'IS', 'EC', 'ME', 'CV', 'MBA'];
-    };
-    yearlyComparisonDataSetup();
+  yearlyComparisonDataSetup = async () => {
+    this.placementApiService.GetYearlyPlacements().subscribe({
+      next: (response: any) => {
+        this.yearlyComparisonData = response.yearlyComparisonData || [];
+        this.courseLabels = response.courseLabels || [];
+      },
+      error: (err: any) => {
+        console.error('Error fetching yearly data:', err);
+      },
+    });
+  };
 
-    const setupTopHiringCompaniesData = async () => {
-      this.topHiringCompaniesData = [
-        {
-          name: 'Microsoft',
-          data: [120, 110, 90, 95, 85],
-        },
-        {
-          name: 'TCS',
-          data: [150, 50, 60, 120, 40],
-        },
-        {
-          name: 'Accenture',
-          data: [90, 10, 90, 95, 85],
-        },
-        {
-          name: 'Google',
-          data: [200, 100, 110, 35, 50],
-        },
-        {
-          name: 'Wipro',
-          data: [180, 30, 87, 54, 43],
-        },
-      ];
+  setupTopHiringCompaniesData = async () => {
+    this.topHiringCompaniesData = [
+      {
+        name: 'Microsoft',
+        data: [120, 110, 90, 95, 85],
+      },
+      {
+        name: 'TCS',
+        data: [150, 50, 60, 120, 40],
+      },
+      {
+        name: 'Accenture',
+        data: [90, 10, 90, 95, 85],
+      },
+      {
+        name: 'Google',
+        data: [200, 100, 110, 35, 50],
+      },
+      {
+        name: 'Wipro',
+        data: [180, 30, 87, 54, 43],
+      },
+    ];
 
-      this.topCompanyYearLabels = ['2020', '2021', '2022', '2023', '2024'];
-    };
-    setupTopHiringCompaniesData();
+    this.topCompanyYearLabels = ['2020', '2021', '2022', '2023', '2024'];
+  };
 
-    const setupSkillDemandData = async () => {
-      this.skillDemandData = [
-        {
-          name: 'Softserve Global',
-          data: [100, 100, 100, 100, 100], // Demand for each skill
-        },
-        {
-          name: 'TCS',
-          data: [60, 75, 85, 95, 70],
-        },
-        {
-          name: 'Wipro',
-          data: [50, 60, 70, 85, 90],
-        },
-      ];
+  setupSkillDemandData(): void {
+    this.placementApiService.GetSkillDemand().subscribe({
+      next: (response: any) => {
+        this.skillDemandData = response.skillDemandData || [];
+        this.skillLabels = response.skillLabels || [];
+      },
+      error: (err: any) => {
+        console.error('Error fetching skill:', err);
+      },
+    });
+  }
 
-      this.skillLabels = ['JavaScript', 'Python', 'Java', 'Angular', 'SQL'];
-    };
-    setupSkillDemandData();
+  // setupPlacementTrendData = async () => {
+  //   this.placementTrendData = [
+  //     {
+  //       name: 'Drives Conducted',
+  //       data: [5, 7, 10, 8, 15, 12, 17], // Example monthly data
+  //     },
+  //     {
+  //       name: 'Students Registered',
+  //       data: [200, 250, 300, 280, 350, 400, 420],
+  //     },
+  //     {
+  //       name: 'Students Placed',
+  //       data: [150, 180, 220, 200, 250, 290, 310],
+  //     },
+  //   ];
 
-    const setupPlacementTrendData = async () => {
-      this.placementTrendData = [
-        {
-          name: 'Drives Conducted',
-          data: [5, 7, 10, 8, 15, 12, 17], // Example monthly data
-        },
-        {
-          name: 'Students Registered',
-          data: [200, 250, 300, 280, 350, 400, 420],
-        },
-        {
-          name: 'Students Placed',
-          data: [150, 180, 220, 200, 250, 290, 310],
-        },
-      ];
+  //   this.timeLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+  // };
 
-      this.timeLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-    };
-
-    const branchWisePlacementStatus = async () => {
-      this.branchPlacementSeries = [120, 150, 80, 90, 50];
-      this.branchLabels = ['CS', 'IS', 'EC', 'ME', 'CV'];
-    };
-    branchWisePlacementStatus();
+  branchWisePlacementStatus(): void {
+    this.placementApiService.GetBranchPlacements().subscribe({
+      next: (response: any) => {
+        this.branchPlacementSeries = response.branchPlacementSeries || [];
+        this.branchLabels = response.branchLabels || [];
+      },
+      error: (err: any) => {
+        console.error('Error fetching branch placements:', err);
+      },
+    });
   }
 }

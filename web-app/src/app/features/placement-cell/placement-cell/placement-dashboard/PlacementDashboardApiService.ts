@@ -1,14 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, Observable, throwError } from 'rxjs';
-import { ApiHttpService } from 'src/app/services/api-services/api-http-services';
+import { ApiServiceDashboard } from 'src/app/services/api-services/api-service-dashboard';
 import { ODataEntity } from 'src/app/services/types/OData';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlacementDashboardApiService {
-  constructor(private apiHttpService: ApiHttpService) {}
+  constructor(private apiHttpService: ApiServiceDashboard) {}
 
   GetPlacementsByGender(): Observable<any> {
     return this.apiHttpService.get<any>('/placements-by-gender');
