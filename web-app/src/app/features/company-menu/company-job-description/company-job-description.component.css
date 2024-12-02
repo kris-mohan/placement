@@ -29,7 +29,7 @@
 
 .locations .location mat-icon {
   font-size: 1.2rem;
-  margin-right: 0.3rem; /* Adds space between the icon and location text */
+  margin-right: 0.3rem; 
   color: #333;
 }
 

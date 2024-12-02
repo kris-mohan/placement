@@ -251,12 +251,18 @@
 
     <div class="right-content">
       <div class="related-jobs">
-        <h3>{{ JobPostingsDescriptionData()[0]?.Name }}</h3>
+        <div class="headers">
+          <h3>{{ JobPostingsDescriptionData()[0]?.Name }}</h3>
+          <div>
+            <button mat-raised-button class="matbutton">Invite Company</button>
+          </div>
+        </div>
         <img
           src="{{ JobPostingsDescriptionData()[0]?.LogoPath }}"
           alt="image"
           class="image"
         />
+
         <ul>
           <li>
             <h4>About the company</h4>

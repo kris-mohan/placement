@@ -321,8 +321,8 @@ export class PlacementCompanyComponent {
 
   openCompanyModalPopup(company: any): void {
     this.dialog.open(CompanyDetailDialogModalComponent, {
-      width: "500px",
-      height: "600px",
+      width: "1200px",
+      height: "620px",
       data: company,
     });
   }
@@ -393,10 +393,7 @@ export class PlacementCompanyComponent {
   }
 
   openImportCompanyDialog() {
-    this.dialog.open(ImportCompanyDialogComponent, {
-      width: "500px",
-      height: "600px",
-    });
+    this.dialog.open(ImportCompanyDialogComponent);
   }
 
   // filterCities(search: string) {

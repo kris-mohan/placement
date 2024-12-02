@@ -1,3 +1,113 @@
+/* Table Styling */
+.state-colors-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.state-colors-table td {
+  text-align: left;
+  padding: 8px 16px;
+  border-bottom: 1px solid #e1e1e9;
+}
+
+.state-colors-table td strong {
+  font-weight: bold;
+}
+
+.state-colors-table td a {
+  color: #3f51b5;
+  text-decoration: none;
+}
+
+.state-colors-table td a:hover {
+  text-decoration: underline;
+}
+
+/* Dialog Container */
+.custom-dialog-container {
+  position: relative;
+  padding: 16px;
+  max-width: 100%; /* Remove max-width to take full width */
+  max-height: 100vh; /* Use full available height */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: auto; /* Ensure no overflow issue */
+}
+
+/* Header Styling */
 .header {
   background-color: #e1e1e9;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* Close Icon Styling */
+.close-icon {
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  z-index: 1;
+}
+
+/* Dialog Layout */
+.Dialog {
+  border-radius: 10px;
+  display: flex;
+  justify-content: center; /* Center the dialog */
+  align-items: center; /* Center the content */
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%; /* Ensure it takes the full width */
+  height: calc(100% - 70px); /* Adjust height below header */
+}
+
+/* Column for Second Half */
+.column2 {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.secondHalfContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.secondHalfContent h2,
+.secondHalfContent h3 {
+  font-weight: bold;
+  margin: 8px 0;
+  color: #3f51b5;
+}
+
+.secondHalfContent p {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.secondHalfContent a {
+  color: #3f51b5;
+  text-decoration: none;
+}
+
+.secondHalfContent a:hover {
+  text-decoration: underline;
+}
+
+
+.Dialog::before {
+  display: none; 
+}
+
+mat-dialog-content {
+  max-height: 60vh;
+  overflow-y: auto;
 }

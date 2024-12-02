@@ -56,7 +56,7 @@ export class AddEditCompanyJobDetailsComponent {
   JObPostRouteId: number | null = null;
   sessionCompanyId: number;
   addEditJobPostingForm: FormGroup;
-
+  userRoleId :number;
   JobTypes: string[] = JobTypes;
   ModeOfWorks: string[] = ModeOfWorks;
   ShiftTypes: string[] = ShiftTypes;
@@ -75,6 +75,9 @@ export class AddEditCompanyJobDetailsComponent {
   ) {
     const storedCompanyId = sessionStorage.getItem("CompanyId");
     this.sessionCompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
+
+    const userRoleId = sessionStorage.getItem("userRoleId");
+    this.userRoleId = userRoleId ? parseInt(userRoleId) : 0;
 
     this.addEditJobPostingForm = this.fb.group({
       JobRole: ["", [Validators.required]],

@@ -1,39 +1,102 @@
-<div>
-  <h1 class="header" mat-dialog-title>{{ data.Name }}</h1>
-
-  <mat-dialog-content>
-    <p><strong>Address:</strong> {{ data.Address }}</p>
-    <p><strong>Phone Number:</strong> {{ data.PhoneNumber }}</p>
-    <p><strong>Email:</strong></p>
-    <!-- <p><strong>GST Number:</strong> {{ data.Gstnumber }}</p> -->
-    <p><strong>Contact Person:</strong> {{ data.ContactPerson }}</p>
-    <p><strong>Address Line 1:</strong> {{ data.AddressLine1 }}</p>
-    <p><strong>City:</strong> {{ data.City }}</p>
-    <p><strong>State:</strong> {{ data.State }}</p>
-    <!-- <p><strong>Zip Code:</strong> {{ data.ZipCode }}</p> -->
-    <p><strong>Country:</strong> {{ data.Country }}</p>
-    <!-- <p><strong>Parent Company ID:</strong> {{ data.ParentCompanyId }}</p> -->
-    <p><strong>Industries:</strong></p>
-    <p>
-      <strong>Company Website:</strong>
-      <a [href]="data.Url" target="_blank" rel="noopener noreferrer">{{
-        data.Url
-      }}</a>
-    </p>
-
-    <!-- <ul>
-    <li *ngFor="let industry of data.Companyindustries">
-      {{ industry.Name }}
-    </li>
-  </ul> -->
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-button (click)="onClose()">Close</button>
-    <button *ngIf="UserRoleId !== 3" mat-button (click)="clickKnowMore()">
-      Add Company
+<div class="Dialog">
+  <div class="custom-dialog-container">
+    <button mat-icon-button class="close-icon" (click)="onClose()">
+      <mat-icon>close</mat-icon>
     </button>
-    <button *ngIf="UserRoleId === 3" mat-button (click)="clickKnowMore()">
-      Apply now
-    </button>
-  </mat-dialog-actions>
+
+    <h1 class="header" mat-dialog-title>{{ data.Name }}</h1>
+    <div class="dialog-content">
+      <mat-dialog-content>
+        <table class="state-colors-table">
+          <tbody>
+            <tr>
+              <td><strong>Address </strong></td>
+              <td>{{ data.Address }}</td>
+            </tr>
+            <tr>
+              <td><strong>Phone Number </strong></td>
+              <td>{{ data.PhoneNumber }}</td>
+            </tr>
+            <tr>
+              <td><strong>Email </strong></td>
+              <td>company$gmail.com</td>
+            </tr>
+            <tr>
+              <td><strong>Contact Person </strong></td>
+              <td>{{ data.ContactPerson }}</td>
+            </tr>
+            <tr>
+              <td><strong>Industry Type </strong></td>
+              <td>Service</td>
+            </tr>
+            <tr>
+              <td><strong>Vacancies </strong></td>
+              <td>100</td>
+            </tr>
+            <tr>
+              <td><strong>Company Size </strong></td>
+              <td>500</td>
+            </tr>
+            <tr>
+              <td><strong>City </strong></td>
+              <td>{{ data.City }}</td>
+            </tr>
+            <tr>
+              <td><strong>State </strong></td>
+              <td>{{ data.State }}</td>
+            </tr>
+            <tr>
+              <td><strong>Country </strong></td>
+              <td>{{ data.Country }}</td>
+            </tr>
+            <tr>
+              <td><strong>Company Website </strong></td>
+              <td>
+                <a [href]="data.Url" target="_blank" rel="noopener noreferrer">
+                  {{ data.Url }}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </mat-dialog-content>
+
+      <div class="column2">
+        <div class="secondHalfContent">
+          <h2>About</h2>
+          <p>
+            This is a brief description about the company. We are leaders in the
+            industry, providing top-notch services to our clients across the
+            globe. Our mission is to innovate and lead in the ever-evolving
+            market.
+          </p>
+
+          <!-- Additional Fields -->
+          <h3>Headquarters</h3>
+          <p>Bangalore , hyderabad , Mumbai</p>
+
+          <h3>Video Path</h3>
+          <p>
+            <a href="https//example.com/video-path" target="_blank"
+              >Click to view video</a
+            >
+          </p>
+
+          <h3>Presentation Path</h3>
+          <p>
+            <a href="https//example.com/presentation-path" target="_blank"
+              >Click to view presentation</a
+            >
+          </p>
+
+          <h3>Documentation Path</h3>
+          <p>
+            <a href="https//example.com/documentation-path" target="_blank"
+              >Click to view documentation</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
