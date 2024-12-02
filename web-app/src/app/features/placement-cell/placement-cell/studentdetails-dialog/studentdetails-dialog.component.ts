@@ -42,6 +42,16 @@ export class StudentdetailsDialogComponent {
     sgpa: number;
   }>();
 
+  class12thMarksData = new MatTableDataSource<{
+    semesterName: string;
+    sgpa: number;
+  }>();
+
+  class10thMarksData = new MatTableDataSource<{
+    semesterName: string;
+    sgpa: number;
+  }>();
+
   displayedSkillsColumns: string[] = ["skillType", "skills"];
 
   displayedStatusColumns: string[] = [
@@ -133,12 +143,31 @@ export class StudentdetailsDialogComponent {
       next: (response) => {
         const data = response.value.flatMap((item: any) =>
           (item.StudentSemesterMarks || []).map((mark: any) => ({
-            semesterName: mark.Semester || 0,
+            semesterName: `Sem ${mark.Semester || 0}`,
             sgpa: mark.Sgpa || 0,
           }))
         );
+        let class12thDataSet = {
+          semesterName: "12th",
+          sgpa: response.value[0].TwelthMarks,
+        };
+         const class12thData: { semesterName: string; sgpa: number }[] = [];
+         class12thData.push(class12thDataSet);
+        
+        let class10thDataset={
+          semesterName:"10th",
+          sgpa:response.value[0].TenthMarks,
+        };
+        const class10thData:{ semesterName: string; sgpa: number }[] = [];
+        class10thData.push(class10thDataset);
+        
+
         this.studentSemWiseMarksData.data = data;
+        this.class12thMarksData.data = class12thData;
+        this.class10thMarksData.data = class10thData;
         console.log("Mapped Semester Data:", data);
+        console.log("class 12th marks Data:", class12thData);
+        console.log("class 10th marks Data:", class10thData);
       },
       error: (error) => {
         console.error("Error fetching status data:", error);

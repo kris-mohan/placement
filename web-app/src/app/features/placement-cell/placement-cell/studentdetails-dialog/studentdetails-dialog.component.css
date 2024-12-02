@@ -51,7 +51,9 @@ table.compact-table {
 
 th.mat-header-cell,
 td.mat-cell {
-  padding: 4px;
+  padding: 4px 8px;
+  text-align: left;
+  vertical-align: middle;
 }
 
 th.mat-header-cell {
@@ -63,4 +65,39 @@ th.mat-header-cell {
 td.mat-cell {
   background-color: #fff;
   color: #555;
+}
+
+th.mat-mdc-header-cell.mdc-data-table__header-cell.cdk-header-cell.cdk-column-sgpa.mat-column-sgpa.ng-star-inserted {
+  text-align: left;
+  
+}
+.compact-tab-group {
+  margin-top: 16px;
+}
+
+.compact-table-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.semester-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-mdc-card-content:last-child {
+    padding-bottom: 16px;
+    padding-left: 24px;
+}
+.mat-mdc-card-title {
+    display: block;
+    margin: 0;
+    padding-left: 14px;
+}
+td.mat-mdc-cell {
+    padding-left: 28px;
 }
