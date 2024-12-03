@@ -160,3 +160,12 @@ mat-icon {
 .AddDetails {
   text-align: end;
 }
+
+.file_links {
+  cursor: pointer;
+}
+
+.file_links:hover {
+  text-decoration: underline;
+  color: #007bff;
+}

@@ -1,20 +1,22 @@
-import { Component, signal } from '@angular/core';
-import { AMGModules } from 'src/AMG-Module/AMG-module';
-import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EditProfileComponent } from './edit-profile/edit-profile.component';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, signal } from "@angular/core";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { MatDialog } from "@angular/material/dialog";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { EditProfileComponent } from "./edit-profile/edit-profile.component";
+import { MatTableDataSource } from "@angular/material/table";
 import {
   Companydatum,
   PostCompanydatum,
-} from 'src/app/services/types/Companydatum';
-import { CompanyProfileApiService } from './CompanyProfileApiService';
-import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Companyindustry } from 'src/app/services/types/Companyindustry';
-import { Jobposting } from 'src/app/services/types/Jobposting';
-import { SweetAlertService } from 'src/app/services/sweet-alert-service/sweet-alert-service';
+} from "src/app/services/types/Companydatum";
+import { CompanyProfileApiService } from "./CompanyProfileApiService";
+import { CommonModule } from "@angular/common";
+import { SharedModule } from "src/app/shared/shared.module";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Companyindustry } from "src/app/services/types/Companyindustry";
+import { Jobposting } from "src/app/services/types/Jobposting";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import { Documents } from "src/app/services/types/Documents";
+import { EditProfileApiService } from "./edit-profile/api.edit-profile";
 
 @Component({
   selector: "app-company-profile",
@@ -33,6 +35,8 @@ export class CompanyProfileComponent {
   Id: number | null = null;
   dataSource = new MatTableDataSource<Companydatum>([]);
   CompanyProfileData = signal<Companydatum[]>([]);
+  CompanyProfileDocumentData = signal<Documents[]>([]);
+
   JobPostingData = signal<Jobposting[]>([]);
   CompanyIndustriesData = signal<Companyindustry[]>([]);
 
@@ -42,6 +46,7 @@ export class CompanyProfileComponent {
     private router: Router,
     private apiService: CompanyProfileApiService,
     private sweetAlertService: SweetAlertService,
+    private editProfileApiService: EditProfileApiService,
     private route: ActivatedRoute
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
@@ -50,30 +55,30 @@ export class CompanyProfileComponent {
     this.sessionCompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
 
     this.addEditCompanyProfile = this.fb.group({
-      Url: ['', [Validators.required]],
-      Name: ['', [Validators.required]],
-      Email: ['', [Validators.required, Validators.email]],
-      Address: ['', [Validators.required]],
-      PhoneNumber: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      Gstnumber: ['', [Validators.required]],
-      ContactPerson: ['', [Validators.required]],
-      AddressLine1: ['', [Validators.required]],
-      City: ['', [Validators.required]],
-      State: ['', [Validators.required]],
-      ZipCode: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      Country: ['', [Validators.required]],
+      Url: ["", [Validators.required]],
+      Name: ["", [Validators.required]],
+      Email: ["", [Validators.required, Validators.email]],
+      Address: ["", [Validators.required]],
+      PhoneNumber: ["", [Validators.required, Validators.pattern(/^\d+$/)]],
+      Gstnumber: ["", [Validators.required]],
+      ContactPerson: ["", [Validators.required]],
+      AddressLine1: ["", [Validators.required]],
+      City: ["", [Validators.required]],
+      State: ["", [Validators.required]],
+      ZipCode: ["", [Validators.required, Validators.pattern(/^\d+$/)]],
+      Country: ["", [Validators.required]],
       ParentCompanyId: [null],
       IsDeleted: [false],
       IsActive: [true],
       DateOfRegistration: [null, [Validators.required]],
       CompanySize: [null, [Validators.required, Validators.min(1)]],
-      LogoPath: [''],
-      About: [''],
-      HeadQuarters: [''],
-      VideoPath: [''],
-      PresentationPath: [''],
-      DocumentPath: [''],
-      AudioPath: [''],
+      LogoPath: [""],
+      About: [""],
+      HeadQuarters: [""],
+      VideoPath: [""],
+      PresentationPath: [""],
+      DocumentPath: [""],
+      AudioPath: [""],
     });
   }
 
@@ -87,6 +92,7 @@ export class CompanyProfileComponent {
 
   ngOnInit() {
     this.getCompanyProfileById(this.sessionCompanyId);
+    this.GetCompanyProfileDocuments();
   }
 
   getCompanyProfileById(id: number): void {
@@ -106,10 +112,46 @@ export class CompanyProfileComponent {
     });
   }
 
+  GetCompanyProfileDocuments(): void {
+    this.apiService.GetCompanyProfileDocuments().subscribe({
+      next: (companyProfile) => {
+        const data: Documents[] = companyProfile.value;
+        this.CompanyProfileDocumentData.set(data);
+        console.log(
+          this.CompanyProfileDocumentData(),
+          "Company Profile document Data"
+        );
+      },
+    });
+  }
+
+  openDocument(FilePath: string) {
+    this.editProfileApiService.downloadDocument(FilePath);
+    // .subscribe({
+    //   next: (response) => {
+    //     debugger;
+    //     const blob = new Blob([response], { type: response.type });
+
+    //     const downloadURL = window.URL.createObjectURL(blob);
+    //     const link = document.createElement("a");
+    //     link.href = downloadURL;
+
+    //     const fileName = FilePath.split("/").pop() || "downloaded-file";
+    //     link.download = fileName;
+
+    //     link.click();
+    //     window.URL.revokeObjectURL(downloadURL);
+    //   },
+    //   error: (error) => {
+    //     console.error("Error downloading documents:", error);
+    //   },
+    // });
+  }
+
   async onSubmit() {
     const companyData: Partial<Companydatum> = this.addEditCompanyProfile.value;
     const isUpdate = !!this.Id;
-    const actionText = isUpdate ? 'update' : 'add';
+    const actionText = isUpdate ? "update" : "add";
     const confirmed = await this.sweetAlertService.confirm(
       `Do you want to ${actionText} this company?`
     );
@@ -117,32 +159,32 @@ export class CompanyProfileComponent {
     if (confirmed) {
       const companydatum: PostCompanydatum = {
         Id: this.Id ?? 0,
-        Url: companyData.Url ?? '',
-        Name: companyData.Name ?? '',
-        Email: companyData.Email ?? '',
-        Address: companyData.Address ?? '',
-        PhoneNumber: companyData.PhoneNumber ?? '',
-        Gstnumber: companyData.Gstnumber ?? '',
-        ContactPerson: companyData.ContactPerson ?? '',
-        AddressLine1: '',
-        City: companyData.City ?? '',
-        State: companyData.State ?? '',
-        ZipCode: companyData.ZipCode ?? '',
-        Country: companyData.Country ?? '',
+        Url: companyData.Url ?? "",
+        Name: companyData.Name ?? "",
+        Email: companyData.Email ?? "",
+        Address: companyData.Address ?? "",
+        PhoneNumber: companyData.PhoneNumber ?? "",
+        Gstnumber: companyData.Gstnumber ?? "",
+        ContactPerson: companyData.ContactPerson ?? "",
+        AddressLine1: "",
+        City: companyData.City ?? "",
+        State: companyData.State ?? "",
+        ZipCode: companyData.ZipCode ?? "",
+        Country: companyData.Country ?? "",
         ParentCompanyId: 0,
         IsDeleted: 0,
         IsActive: 0,
         DateOfRegistration: companyData.DateOfRegistration ?? null,
         CompanySize: companyData.CompanySize ?? 0,
-        LogoPath: companyData.LogoPath ?? '',
-        About: companyData.About ?? '',
-        HeadQuarters: companyData.HeadQuarters ?? '',
-        VideoPath: companyData.VideoPath ?? '',
-        PresentationPath: companyData.PresentationPath ?? '',
-        DocumentPath: companyData.DocumentPath ?? '',
-        AudioPath: companyData.AudioPath ?? '',
+        LogoPath: companyData.LogoPath ?? "",
+        About: companyData.About ?? "",
+        HeadQuarters: companyData.HeadQuarters ?? "",
+        VideoPath: companyData.VideoPath ?? "",
+        PresentationPath: companyData.PresentationPath ?? "",
+        DocumentPath: companyData.DocumentPath ?? "",
+        AudioPath: companyData.AudioPath ?? "",
         UserRoleId: 0,
-        Password: '',
+        Password: "",
       };
       this.apiService.addUpdateCompany(this.Id, companydatum).subscribe({
         next: (response: any) => {
@@ -152,13 +194,13 @@ export class CompanyProfileComponent {
           };
           if (success) {
             this.sweetAlertService.success(message);
-            this.router.navigate(['/company-profile']);
+            this.router.navigate(["/company-profile"]);
           } else {
             this.sweetAlertService.error(message);
           }
         },
         error: (error) => {
-          this.sweetAlertService.error('An unexpected error occurred.');
+          this.sweetAlertService.error("An unexpected error occurred.");
         },
       });
     }

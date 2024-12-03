@@ -175,6 +175,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<TemplateCategory>("TemplateCategory");
     modelBuilder.EntitySet<Template>("Template");
     modelBuilder.EntitySet<TemplatePlaceholder>("TemplatePlaceholder");
+    modelBuilder.EntitySet<Document>("Document");
 
     return modelBuilder.GetEdmModel();
 }
