@@ -29,7 +29,7 @@
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button (click)="onClose()">Close</button>
-    <button *ngIf="UserRoleId !== 3" mat-button (click)="clickKnowMore()">
+    <button *ngIf="UserRoleId !== 3" mat-button (click)="AddCompany()">
       Add Company
     </button>
     <button *ngIf="UserRoleId === 3" mat-button (click)="clickKnowMore()">
