@@ -483,7 +483,7 @@ export class ProfileManagementComponent {
         const data: Course[] = course.value;
         this.Courses.set(data);
         console.log("course:", data);
-      },
+      }, 
     });
   };
 
@@ -631,6 +631,36 @@ export class ProfileManagementComponent {
           `Do you want to save your details?`
         );
         if (confirmed) {
+          const semesterMarks = Array.from({ length: 8 }, (_, index) => {
+            const semesterKey = `semester${index + 1}`;
+            const semesterFormGroup =
+              this.studentEducationForm.get(semesterKey);
+            const existingSemesterData = this.semesterData.find(
+              (semester) => semester.Semester === index + 1
+            );
+
+            if (semesterFormGroup) {
+              return {
+                Id: existingSemesterData?.Id || 0,
+                Semester: index + 1,
+                StudentAcademicId: this.studentAcademicId,
+                Sgpa: +semesterFormGroup.value.sgpa || null,
+                ClosedBacklogs: +semesterFormGroup.value.closedBacklogs || 0,
+                LiveBacklogs: +semesterFormGroup.value.liveBacklogs || 0,
+                // MarkaPercentage: semesterFormGroup.value.file || null, // Assuming file maps to MarkaPercentage
+              };
+            }
+            return null;
+          }).filter((semester) => semester !== null);
+
+          // Calculate CGPA (average of all SGPAs)
+          const totalSgpa = semesterMarks.reduce(
+            (acc, semester) => acc + (semester.Sgpa || 0),
+            0
+          );
+          const averageSgpa = totalSgpa / semesterMarks.length;
+          const CGPA = averageSgpa; // Store the average as CGPA
+          console.log("CGPA", CGPA);
           const studentEducationData: PatchStudentAcademic = {
             Id: this.studentAcademicId,
             TenthMarks: this.studentEducationForm.value.TenthMarks || null,
@@ -643,46 +673,12 @@ export class ProfileManagementComponent {
               this.studentEducationForm.value.TwelfthPassedOutYear,
             TenthSchoolName: this.studentEducationForm.value.TenthSchoolName,
             TwelthSchoolName: this.studentEducationForm.value.TwelfthSchoolName,
-            StudentSemesterMarks: Array.from({ length: 8 }, (_, index) => {
-              const semesterKey = `semester${index + 1}`;
-              const semesterFormGroup =
-                this.studentEducationForm.get(semesterKey);
-              // Check if we have the corresponding semester data from the API
-              const existingSemesterData = this.semesterData.find(
-                (semester) => semester.Semester === index + 1
-              );
-
-              if (semesterFormGroup) {
-                return {
-                  Id: existingSemesterData?.Id || 0,
-                  Semester: index + 1,
-                  StudentAcademicId: this.studentAcademicId,
-                  Sgpa: +semesterFormGroup.value.sgpa || null,
-                  ClosedBacklogs: +semesterFormGroup.value.closedBacklogs || 0,
-                  LiveBacklogs: +semesterFormGroup.value.liveBacklogs || 0,
-                  // MarkaPercentage: semesterFormGroup.value.file || null, // Assuming file maps to MarkaPercentage
-                };
-              }
-              return null; // Return null for any missing semester data
-            }).filter((semester) => semester !== null), // Remove any null values if a semester form is empty
+            StudentSemesterMarks: semesterMarks,
+            Cgpa: CGPA,
           };
-          console.log(studentEducationData);
-          // for (let i = 1; i <= 8; i++) {
-          //   const semesterKey = `semester${i}`;
-          //   const semesterFormGroup =
-          //     this.studentEducationForm.get(semesterKey);
 
-          //   if (semesterFormGroup) {
-          //     // Map each semester data into the StudentSemesterMarks array
-          //     studentEducationData.StudentSemesterMarks.push({
-          //       Semester: i, // We add the semester number
-          //       Sgpa: semesterFormGroup.value.sgpa || null,
-          //       ClosedBacklogs: semesterFormGroup.value.closedBacklogs || 0,
-          //       LiveBacklogs: semesterFormGroup.value.liveBacklogs || 0,
-          //       MarkaPercentage: semesterFormGroup.value.file || null, // Assuming file maps to MarkaPercentage
-          //     });
-          //   }
-          // }
+          console.log(studentEducationData);
+
           this.SaveEducationDetails(
             this.studentAcademicId,
             studentEducationData

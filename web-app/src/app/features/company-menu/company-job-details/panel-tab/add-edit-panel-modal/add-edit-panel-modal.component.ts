@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Inject } from "@angular/core";
+import { Component, EventEmitter, Inject, Output } from "@angular/core";
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -35,8 +35,9 @@ import { Jobinterviewpanel } from "src/app/services/types/Jobinterviewpanel";
 })
 export class AddEditPanelModalComponent {
   UserRoleId: number;
-  panelId: number | null = null;
-  //HiringRound: any;
+  panelId: number;
+  jobPostingId: number;
+  @Output() panelsUpdated = new EventEmitter<void>();
   panelAddEditForm: FormGroup;
   constructor(
     public dialogRef: MatDialogRef<AddEditPanelModalComponent>,
@@ -47,7 +48,7 @@ export class AddEditPanelModalComponent {
     private fb: FormBuilder,
 
     private testRoundsApiService: TestRoundsApiService,
-    @Inject(MAT_DIALOG_DATA) public PanelId: any
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -56,17 +57,23 @@ export class AddEditPanelModalComponent {
       Description: "",
       Designation: "",
     });
-    this.panelId = this.PanelId;
+    this.panelId = this.data?.PanelId;
+    this.jobPostingId = this.data?.JobPostingId;
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get("roundId");
-      this.panelId = id !== null ? +id : null;
-      if (this.panelId) {
-      }
+      console.log("Params", params.get("jobId"));
     });
-    if (this.PanelId != 0) this.getRoundsById(this.PanelId);
+    // this.route.paramMap.subscribe((params) => {
+    //   const id = params.get("roundId");
+    //   this.panelId = id !== null ? +id : null;
+    //   if (this.panelId) {
+    //   }
+    // });
+    if (this.panelId) {
+      this.getRoundsById(this.panelId);
+    }
   }
   RoundDataSource: Jobinterviewround[] = [];
 
@@ -83,8 +90,10 @@ export class AddEditPanelModalComponent {
   //     },
   //   });
   // };
-
-  getRoundsById(id: number | null) {
+  onClose(): void {
+    this.dialogRef.close();
+  }
+  getRoundsById(id: number) {
     this.apiPanelRounds.GetPanelDataById(id).subscribe({
       next: (response) => {
         const data: any = response.value;
@@ -111,7 +120,7 @@ export class AddEditPanelModalComponent {
     if (confirmed) {
       const companydatum: any = {
         Id: this.panelId ?? 0,
-        JobPostingId: 1,
+        JobPostingId: this.jobPostingId ?? 0,
         PanelName: companyData.PanelName ?? "",
         Description: companyData.Description ?? "",
         Designation: companyData.Designation ?? "",
@@ -120,9 +129,10 @@ export class AddEditPanelModalComponent {
         next: (response: { success: boolean; message: any }) => {
           console.log(response);
           if (response.success) {
+            this.panelsUpdated.emit();
             this.sweetAlertService.success(response.message);
-            this.router.navigate(["company-job-details/add-edit-jobPosting/0"]);
-            this.onClose();
+            //this.router.navigate(["company-job-details/add-edit-jobPosting/0"]);
+            this.dialogRef.close();
           } else {
             this.sweetAlertService.error(response.message);
           }
@@ -132,8 +142,5 @@ export class AddEditPanelModalComponent {
         },
       });
     }
-  }
-  onClose(): void {
-    this.dialogRef.close();
   }
 }
