@@ -25,6 +25,7 @@ import { Companydatum } from "src/app/services/types/Companydatum";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
 import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
+import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
@@ -50,18 +51,20 @@ export class PlacementCompanyJobDetailsComponent {
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
+    start: new FormControl(new Date(year, month - 1, today.getDate())),
+    end: new FormControl(new Date()),
   });
   searchCity: string = "";
   filteredCompanies: companyTableList[] = [];
   companyId: number | undefined = undefined;
   companies: companyTableList[] = [];
-  experienceLevelControl = new FormControl();
+  jobTypeControl = new FormControl();
+  filteredJobTypes = JobTypes;
   filteredCompany: Observable<any[]> = of([]);
   readonly dialog = inject(MatDialog);
 
   UserRoleId: number;
+  campusCompanyId: number = 0;
 
   dataSource1 = new MatTableDataSource<companyTableList>([]);
 
@@ -85,7 +88,7 @@ export class PlacementCompanyJobDetailsComponent {
     { key: "postedDate", label: "posted Date" },
     { key: "actions", label: "Actions" },
   ];
-  experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
+  //experienceLevel: string[] = [];
 
   CityControl = new FormControl();
   industryControl = new FormControl();
@@ -95,8 +98,12 @@ export class PlacementCompanyJobDetailsComponent {
   companySizeControl = new FormControl();
 
   CompanyId: number | null = null;
-
-  JobPostingsDescriptionData = signal<Companydatum | null>(null);
+  searchName = new FormControl("");
+  searchLocation = new FormControl();
+  searchLocationValue: string = "";
+  filteredLocations: string[] = [];
+  JobPostingsDescriptionData = signal<Companydatum[]>([]);
+  filteredJobpostingData = signal<Jobposting[]>([]);
   jobPostingsData = signal<Jobposting[]>([]);
 
   getCompanyJobDescriptionById(): void {
@@ -108,11 +115,12 @@ export class PlacementCompanyJobDetailsComponent {
           .GetCompanyById(this.CompanyId)
           .subscribe({
             next: (jobPostings) => {
-              const data: Companydatum = jobPostings.value[0];
+              const data: Companydatum[] = jobPostings.value;
               console.log(data);
-              this.jobPostingsData.set(data.Jobpostings);
+              this.jobPostingsData.set(data[0].Jobpostings);
               this.JobPostingsDescriptionData.set(data);
               console.log("Company Name:", this.JobPostingsDescriptionData());
+              this.applyFilters();
               // }
             },
             error: (error) => {
@@ -125,6 +133,90 @@ export class PlacementCompanyJobDetailsComponent {
 
   ngOnInit() {
     this.getCompanyJobDescriptionById();
+    this.searchName.valueChanges.subscribe(() => this.applyFilters());
+    this.searchLocation.valueChanges.subscribe(() => this.applyFilters());
+    this.jobTypeControl.valueChanges.subscribe(() => this.applyFilters());
+  }
+  applyFilters(): void {
+    const nameFilter = this.searchName.value?.toLowerCase() || "";
+    const locationFilter = this.searchLocation.value || [];
+    const jobtypeFilter = this.jobTypeControl.value || [];
+    const filtered = this.jobPostingsData().filter((company) => {
+      const matchesName =
+        !nameFilter || company.JobRole?.toLowerCase().includes(nameFilter);
+      const matchesLocation =
+        !locationFilter.length || locationFilter.includes(company.Location);
+      const matchesJobType =
+        !jobtypeFilter.length ||
+        jobtypeFilter.some((jobType: string) =>
+          company.JobType?.toLowerCase().includes(jobType.toLowerCase())
+        );
+      return matchesName && matchesLocation && matchesJobType;
+    });
+
+    this.filteredJobpostingData.set(filtered);
+    console.log("Filtered Data:", filtered);
+  }
+
+  removeJobPosting() {
+    this.getAllCompanyCampuses();
+  }
+
+  getAllCompanyCampuses = () => {
+    this.placementCompanyJobDetailsApiService
+      .GetCampusCompanyById(this.CompanyId)
+      .subscribe({
+        next: (odataResponse) => {
+          console.log("Company", odataResponse.value);
+          this.campusCompanyId = odataResponse.value[0].Id;
+          console.log(this.campusCompanyId);
+          this.deleteCompanyById();
+        },
+        error: (error) => {
+          console.error("Error fetching companies:", error);
+        },
+      });
+  };
+
+  deleteCompanyById = () => {
+    this.placementCompanyJobDetailsApiService
+      .DeleteCompanyById(this.campusCompanyId)
+      .subscribe({
+        next: (response: { success: boolean; message: string }) => {
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+            this.router.navigate(["/placement-company"]);
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error(
+            "An unexpected error occurred while deleting the Company."
+          );
+          console.error("Error deleting Company:", error);
+        },
+      });
+  };
+
+  filterCities(search: string) {
+    const filterValue = search.toLowerCase();
+    this.filteredLocations = Array.from(
+      new Set(
+        this.jobPostingsData()
+          .map((job) => job.Location || "")
+          .filter(
+            (location): location is string =>
+              location !== undefined &&
+              location.toLowerCase().includes(filterValue)
+          )
+      )
+    );
+  }
+
+  get selectedLocations(): string {
+    const selected = this.CityControl.value;
+    return selected ? selected.join(", ") : "";
   }
 
   convertToDateOnly(dateString: string): string {
@@ -164,6 +256,11 @@ export class PlacementCompanyJobDetailsComponent {
   openStudentJobAdditionalFiltersModal() {
     this.dialog.open(CompanyJobAdditionalfiltersModalComponent, {
       width: "500px",
+      data: {
+        JobPostingsData: this.jobPostingsData(),
+        JobPostingsDescriptionData: this.JobPostingsDescriptionData(),
+        FilteredJobpostingData: this.filteredJobpostingData(),
+      },
     });
   }
   goBack(): void {
@@ -196,25 +293,25 @@ export class PlacementCompanyJobDetailsComponent {
 
     this.dataSource1.data = this.filteredCompanies;
   }
-  filterCities(search: string) {
-    const filterValue = search.toLowerCase();
+  // filterCities(search: string) {
+  //   const filterValue = search.toLowerCase();
 
-    const filteredList = this.companies.filter((company) =>
-      company.City.toLowerCase().includes(filterValue)
-    );
+  //   const filteredList = this.companies.filter((company) =>
+  //     company.City.toLowerCase().includes(filterValue)
+  //   );
 
-    const selectedCompanies = this.CityControl.value || [];
-    this.filteredCompanies = [
-      ...selectedCompanies
-        .map((name: any) =>
-          this.companies.find((company) => company.City === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (company) => !selectedCompanies.includes(company.City)
-      ),
-    ];
-  }
+  //   const selectedCompanies = this.CityControl.value || [];
+  //   this.filteredCompanies = [
+  //     ...selectedCompanies
+  //       .map((name: any) =>
+  //         this.companies.find((company) => company.City === name)
+  //       )
+  //       .filter(Boolean),
+  //     ...filteredList.filter(
+  //       (company) => !selectedCompanies.includes(company.City)
+  //     ),
+  //   ];
+  // }
   onIndustryDropdownOpen() {
     this.filterIndustries(this.searchIndustry);
   }

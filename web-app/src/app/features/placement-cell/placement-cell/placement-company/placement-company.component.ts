@@ -32,6 +32,7 @@ import { PlacementCompanyApiService } from "./PlacementCompanyApiService";
 import { getCompanyIndustryTypes } from "./placement-company-module";
 import { Companyindustry } from "src/app/services/types/Companyindustry";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { CampusCompany } from "src/app/services/types/CampusCompany";
 
 const today = new Date();
 const month = today.getMonth();
@@ -60,9 +61,12 @@ export interface ODataResponse<T> {
 export class PlacementCompanyComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  OrgId: number;
+
   companyData: [] = [];
 
   companiesList = signal<Companydatum[]>([]);
+  campusCompanyList = signal<Companydatum[]>([]);
   filteredCompanyData = signal<Companydatum[]>([]);
   filteredCompanyData1 = signal<Companydatum[]>([]);
 
@@ -131,11 +135,13 @@ export class PlacementCompanyComponent {
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
+    const storedCampusId = sessionStorage.getItem("CampusId");
+    this.OrgId = storedCampusId ? parseInt(storedCampusId) : 0;
   }
 
   readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
+    start: new FormControl(new Date(year, month - 1, today.getDate())),
+    end: new FormControl(new Date()),
   });
   displayedColumns: string[] = [
     // "Url",
@@ -170,8 +176,9 @@ export class PlacementCompanyComponent {
   dataSource = new MatTableDataSource<companyTableList>([]);
 
   ngOnInit() {
-    this.getAllCompanies();
+    // this.getAllCompanies();
     this.getAllIndustries();
+    this.getAllCompanyCampuses();
     // this.loadCompanies();
     // this.loadIndustries();
     this.searchLocation.valueChanges.subscribe(() => this.applyFilters());
@@ -204,6 +211,8 @@ export class PlacementCompanyComponent {
     this.placementCompanyApiService.GetAllCompanies().subscribe((companies) => {
       this.companiesList.set(companies.value);
 
+      console.log(this.companyControl);
+
       this.filteredCompany = this.companyControl.valueChanges.pipe(
         startWith(""),
         map((value) => this._filterCompanies(value))
@@ -234,7 +243,7 @@ export class PlacementCompanyComponent {
     this.placementCompanyApiService.GetAllCompanies().subscribe({
       next: (odataResponse) => {
         console.log("companies", odataResponse.value);
-        this.companiesList.set(odataResponse.value);
+        // this.companiesList.set(odataResponse.value);
         this.applyFilters();
       },
       error: (error) => {
@@ -242,11 +251,37 @@ export class PlacementCompanyComponent {
       },
     });
   };
+
+  getAllCompanyCampuses = () => {
+    this.placementCompanyApiService
+      .GetAllCompanyCampuses(this.OrgId)
+      .subscribe({
+        next: (odataResponse) => {
+          console.log("Campus Company Mapped", odataResponse.value);
+
+          // Extract only the company data from each record in the response
+          const companies = odataResponse.value.map(
+            (campus: CampusCompany) => campus.Company
+          );
+          console.log(companies);
+          this.campusCompanyList.set(companies);
+          this.applyFilters();
+          // this.filteredCompany = this.companyControl.valueChanges.pipe(
+          //   startWith(""),
+          //   map((value) => this._filterCompanies(value))
+          // );
+        },
+        error: (error) => {
+          console.error("Error fetching companies:", error);
+        },
+      });
+  };
+
   applyFilters() {
     const locationFilter = this.searchLocation.value || "";
     const selectedIndustries = this.industryControl.value || [];
     const selectedSizes = this.companySizeControl.value || [];
-    const filtered = this.companiesList().filter((company: any) => {
+    const filtered = this.campusCompanyList().filter((company: any) => {
       const matchesLocation =
         !locationFilter.length ||
         locationFilter.includes(company.Address || "");
@@ -308,10 +343,20 @@ export class PlacementCompanyComponent {
   get selectedLocations(): string {
     return this.searchLocation.value || "";
   }
+
   private _filterCompanies(value: string): Companydatum[] {
     const filterValue = value.toLowerCase();
-    return this.companiesList().filter((company) =>
-      company.Name.toLowerCase().includes(filterValue)
+    return this.companiesList().filter(
+      (company) =>
+        company.Name.toLowerCase().includes(filterValue) &&
+        !this._isCompanyInCampusList(company)
+    );
+  }
+
+  // Helper function to check if the company is in campusCompanyList
+  private _isCompanyInCampusList(company: Companydatum): boolean {
+    return this.campusCompanyList().some(
+      (campusCompany) => campusCompany.Id === company.Id // Assuming each company has a unique Id
     );
   }
 
@@ -327,6 +372,7 @@ export class PlacementCompanyComponent {
   }
 
   openCompanyModalPopup(company: any): void {
+    console.log(company);
     this.dialog.open(CompanyDetailDialogModalComponent, {
       width: "500px",
       height: "600px",

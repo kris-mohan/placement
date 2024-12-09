@@ -106,7 +106,7 @@
         <div>
           <mat-form-field appearance="outline">
             <mat-label>Job Type</mat-label>
-            <mat-select [formControl]="searchJobType" multiple>
+            <mat-select [formControl]="jobTypeControl" multiple>
               <mat-option
                 *ngFor="let jobType of filteredJobTypes"
                 [value]="jobType"

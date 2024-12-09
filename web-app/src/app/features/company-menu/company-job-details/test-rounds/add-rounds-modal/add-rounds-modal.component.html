@@ -21,8 +21,8 @@
     <mat-dialog-content>
       <div class="form-container">
         <mat-card-content>
-          <div fxLayout="row wrap">
-            <div fxFlex="50%">
+          <div fxLayout="row wrap" fxLayoutGap="50px">
+            <div fxFlex="40%">
               <p class="grid-label">Round Name</p>
               <mat-form-field
                 appearance="outline"
@@ -33,7 +33,7 @@
               </mat-form-field>
             </div>
 
-            <div fxFlex="50%">
+            <div fxFlex="40%">
               <p class="grid-label">Description</p>
               <mat-form-field
                 appearance="outline"
@@ -44,7 +44,7 @@
               </mat-form-field>
             </div>
 
-            <div fxFlex="50%" class="dateTime-fields">
+            <div fxFlex="40%" class="dateTime-fields">
               <p class="grid-label">Start Date</p>
               <mat-form-field
                 appearance="outline"
@@ -64,7 +64,7 @@
               </mat-form-field>
             </div>
 
-            <div fxFlex="50%" class="dateTime-fields">
+            <div fxFlex="40%" class="dateTime-fields">
               <p class="grid-label">End Date</p>
               <mat-form-field
                 appearance="outline"
@@ -84,25 +84,41 @@
               </mat-form-field>
             </div>
 
-            <div fxFlex="50%">
+            <div fxFlex="40%">
               <p class="grid-label">Start Time</p>
               <mat-form-field
                 appearance="outline"
                 class="matFormField rounds_input"
               >
                 <mat-label>Start Time</mat-label>
-                <input matInput type="time" formControlName="startTime" />
+                <input
+                  formControlName="startTime"
+                  id="StartTimePicker"
+                  matInput
+                  [ngxTimepicker]="startTimePicker"
+                />
+                <ngx-material-timepicker
+                  #startTimePicker
+                ></ngx-material-timepicker>
               </mat-form-field>
             </div>
 
-            <div fxFlex="50%">
+            <div fxFlex="40%">
               <p class="grid-label">End Time</p>
               <mat-form-field
                 appearance="outline"
                 class="matFormField rounds_input"
               >
                 <mat-label>End Time</mat-label>
-                <input matInput type="time" formControlName="endTime" />
+                <input
+                  formControlName="endTime"
+                  id="EndTimePicker"
+                  matInput
+                  [ngxTimepicker]="endTimePicker"
+                />
+                <ngx-material-timepicker
+                  #endTimePicker
+                ></ngx-material-timepicker>
               </mat-form-field>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnInit, signal } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import { provideNativeDateAdapter } from "@angular/material/core";
@@ -10,6 +10,7 @@ import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { SharedModule } from "src/app/shared/shared.module";
 import { CalendarModalApiService } from "./api.calendar-modal";
+import { Companydatum } from "src/app/services/types/Companydatum";
 // import { MatDatepickerModule } from "@angular/material/datepicker";
 
 @Component({
@@ -34,10 +35,13 @@ export class CalendarModalComponent implements OnInit {
   isEdited: boolean = false;
   jobPostings: Jobposting[] = [];
   rounds: Jobinterviewround[] = [];
-  CollegeRoleId: number;
+  // CollegeRoleId: number;
+  userRole: number;
+  CompanyId: number;
   showJobPostingsAndRounds = true;
   jobPostingId: number = 0;
   OrgId: number = 0;
+  allCompanies = signal<Companydatum[]>([]);
 
   constructor(
     public dialogRef: MatDialogRef<CalendarModalComponent>,
@@ -47,8 +51,14 @@ export class CalendarModalComponent implements OnInit {
   ) {
     this.isEdited = this.data.isEdited;
 
-    const storedUserRoleId = sessionStorage.getItem("CompanyId");
-    this.CollegeRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
+    // const storedCollegeId = sessionStorage.getItem("CompanyId");
+    // this.CollegeRoleId = storedCollegeId ? parseInt(storedCollegeId) : 0;
+    const userRoleId = sessionStorage.getItem("userRoleId");
+    this.userRole = !!userRoleId ? parseInt(userRoleId) : 0;
+    const storedCompanyId = sessionStorage.getItem("CompanyId");
+    console.log(storedCompanyId);
+    this.CompanyId = !!storedCompanyId ? parseInt(storedCompanyId) : 0;
+    console.log(this.CompanyId);
 
     this.formDataa = this.formBuilder.group({
       // jobRole: ["", Validators.required],
@@ -58,6 +68,7 @@ export class CalendarModalComponent implements OnInit {
       // startDate: ["", Validators.required],
       startTime: ["", Validators.required],
       eventType: ["interview"],
+      companyId: ["", Validators.required],
       endDate: [""],
       endTime: ["", Validators.required],
       jobPosting: ["", Validators.required],
@@ -68,23 +79,27 @@ export class CalendarModalComponent implements OnInit {
   onJobPostingChange(event: any): void {
     console.log("Selected Job Posting Id", event.value);
     const selectedJobPostingId = event.value;
+
+    const currentCompanyId = this.formDataa.value.companyId;
     this.getAllRounds(selectedJobPostingId);
+
+    if (currentCompanyId) {
+      this.formDataa.patchValue({ companyId: currentCompanyId });
+    }
   }
 
   getJobPostings = () => {
-    this.calendarModalApiService
-      .GetAllJobPostings(this.CollegeRoleId)
-      .subscribe({
-        next: (response) => {
-          const data: Jobposting[] = response.value;
-          console.log(data);
-          this.jobPostings = data;
-          // this.OrgId = data[0].OrgId || 0;
-        },
-        error: (error) => {
-          console.error("Error fetching Job Postings:", error);
-        },
-      });
+    this.calendarModalApiService.GetAllJobPostings(this.CompanyId).subscribe({
+      next: (response) => {
+        const data: Jobposting[] = response.value;
+        console.log(data);
+        this.jobPostings = data;
+        this.OrgId = data[0].OrgId || 0;
+      },
+      error: (error) => {
+        console.error("Error fetching Job Postings:", error);
+      },
+    });
   };
 
   getJobPostingById = () => {
@@ -116,8 +131,28 @@ export class CalendarModalComponent implements OnInit {
     });
   };
 
+  getCompanies() {
+    this.calendarModalApiService.GetAllCompanies().subscribe({
+      next: (response) => {
+        console.log(response.value);
+        const data: Companydatum[] = response.value;
+        console.log(data);
+        this.allCompanies.set(data);
+        console.log(this.allCompanies());
+        this.setCompanyField();
+      },
+    });
+  }
+
+  onCompanySelected(event: any): void {
+    console.log(event.value);
+    this.CompanyId = event.value;
+    if (this.userRole !== 2) {
+      this.getJobPostings();
+    }
+  }
+
   onEventTypeChange(event: any): void {
-    console.log("HELLLOOOO");
     const selectedEventType = this.formDataa.value.eventType;
     console.log(selectedEventType);
     if (selectedEventType === "interview") {
@@ -180,10 +215,22 @@ export class CalendarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getJobPostings();
+    this.getCompanies();
 
+    if (!!this.CompanyId) {
+      console.log(this.CompanyId);
+      this.getJobPostings();
+    }
     if (this.data.isEdited && this.data.eventData) {
       this.getJobPostingById();
+    }
+  }
+
+  setCompanyField() {
+    if (this.CompanyId) {
+      console.log(this.CompanyId);
+      this.formDataa.patchValue({ companyId: this.CompanyId });
+      // this.formDataa.get("companyId")?.disable(); // Disable the companyId field if CompanyId exists
     }
   }
 

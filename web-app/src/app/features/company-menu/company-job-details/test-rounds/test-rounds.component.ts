@@ -1,6 +1,6 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule, Location } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -28,7 +28,7 @@ export class TestRoundsComponent {
     private testRoundsApiService: TestRoundsApiService
   ) {}
 
-  RoundDataSource = new MatTableDataSource<Jobinterviewround>([]);
+  RoundDataSource = signal<Jobinterviewround[]>([]);
   RoundDataById = new MatTableDataSource<Jobinterviewround>([]);
 
   jobId: number | undefined = undefined;
@@ -47,12 +47,26 @@ export class TestRoundsComponent {
 
   getAllRounds = () => {
     this.route.paramMap.subscribe((params) => {
+      console.log("Params in Rounds", params);
       const id = params.get("jobId");
+      console.log("Job Id", id);
       this.JobPostId = id !== null ? +id : null;
       this.testRoundsApiService.GetAllRounds(this.JobPostId).subscribe({
         next: (response) => {
-          const data: Jobinterviewround[] = response.value;
-          this.RoundDataSource.data = data;
+          const data: Jobinterviewround[] = response.value.map((round: any) => {
+            const startDateTime = round.Event?.EventStartDateTime
+              ? new Date(round.Event.EventStartDateTime)
+              : null;
+            const endDateTime = round.Event?.EventEndDateTime
+              ? new Date(round.Event.EventEndDateTime)
+              : null;
+            round.ScheduleDate =
+              startDateTime && endDateTime
+                ? `${startDateTime.toLocaleString()} - ${endDateTime.toLocaleString()}`
+                : "N/A";
+            return round;
+          });
+          this.RoundDataSource.set(data);
         },
         error: (error) => {
           console.log("Error fetching rounds: ", error);
@@ -108,10 +122,13 @@ export class TestRoundsComponent {
   handleAddEditRoundsClick(roundsId: number): void {
     console.log(roundsId);
 
-    this.dialog.open(AddRoundsModalComponent, {
-      data: roundsId,
+    const dialogRef = this.dialog.open(AddRoundsModalComponent, {
+      data: { roundsId, JobPostingId: this.JobPostId },
       width: "500px",
       height: "600px",
+    });
+    dialogRef.componentInstance.roundsUpdated.subscribe(() => {
+      this.getAllRounds();
     });
   }
 

@@ -26,6 +26,7 @@ import { StudentJobsApiSerivce } from "./studentJobsApiService";
 import { signal } from "@angular/core";
 import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 import { Companydatum } from "src/app/services/types/Companydatum";
+import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
 
 const today = new Date();
 const month = today.getMonth();
@@ -58,8 +59,8 @@ export class StudentJobsComponent {
     this.StudentId = storedStudentId ? parseInt(storedStudentId) : 0;
   }
   readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
+    start: new FormControl(new Date(year, month - 1, today.getDate())),
+    end: new FormControl(new Date()),
   });
 
   searchCity: string = "";
@@ -107,15 +108,17 @@ export class StudentJobsComponent {
   searchControl = new FormControl("");
   searchName = new FormControl("");
   searchLocation = new FormControl("");
-  searchJobType = new FormControl("");
+  //searchJobType = new FormControl("");
   experienceLevelControl = new FormControl<string[]>([]);
 
   searchLocationValue: string = "";
-  searchJobTypeValue: string = "";
+  //searchJobTypeValue: string = "";
   searchExperiencelevel: string[] = [];
   filteredLocations: string[] = [];
-  filteredJobTypes: string[] = [];
+  //filteredJobTypes: string[] = [];
   experienceLevel: string[] = [];
+  jobTypeControl = new FormControl();
+  filteredJobTypes = JobTypes;
 
   JobPostingsData = signal<JobpostingsEligiblestudent[]>([]);
   filteredStudents = signal<JobpostingsEligiblestudent[]>([]);
@@ -124,7 +127,7 @@ export class StudentJobsComponent {
     console.log(this.JobPostingsData);
     this.searchName.valueChanges.subscribe(() => this.applyFilters());
     this.searchLocation.valueChanges.subscribe(() => this.applyFilters());
-    this.searchJobType.valueChanges.subscribe(() => this.applyFilters());
+    this.jobTypeControl.valueChanges.subscribe(() => this.applyFilters());
     this.experienceLevelControl.valueChanges.subscribe(() =>
       this.applyFilters()
     );
@@ -136,13 +139,13 @@ export class StudentJobsComponent {
         console.log(data);
 
         this.JobPostingsData.set(data);
-        this.filteredJobTypes = Array.from(
-          new Set(
-            data
-              .map((student) => student.JobPosting?.JobType)
-              .filter((jobType): jobType is string => jobType !== undefined)
-          )
-        );
+        // this.filteredJobTypes = Array.from(
+        //   new Set(
+        //     data
+        //       .map((student) => student.JobPosting?.JobType)
+        //       .filter((jobType): jobType is string => jobType !== undefined)
+        //   )
+        // );
         const experiences = data.map(
           (student) =>
             `${student.JobPosting?.MinimumYearExperience}-${student.JobPosting?.MaximumYearExperience} years`
@@ -161,7 +164,7 @@ export class StudentJobsComponent {
     const filtered = this.JobPostingsData().filter((student) => {
       const nameFilter = this.searchName.value?.toLowerCase() || "";
       const locationFilter = this.searchLocation.value || "";
-      const jobtypeFilter = this.searchJobType.value || "";
+      const jobtypeFilter = this.jobTypeControl.value || [];
       const experienceFilter = this.experienceLevelControl.value || [];
       const matchesName =
         !nameFilter ||
@@ -170,9 +173,17 @@ export class StudentJobsComponent {
       const matchesLocation =
         !locationFilter.length ||
         locationFilter.includes(student.JobPosting.Location || "");
+      // const matchesJobType =
+      //   !jobtypeFilter.length ||
+      //   jobtypeFilter.includes(student.JobPosting.JobType || "");
       const matchesJobType =
         !jobtypeFilter.length ||
-        jobtypeFilter.includes(student.JobPosting.JobType || "");
+        jobtypeFilter.some((jobType: string) =>
+          student.JobPosting.JobType?.toLowerCase().includes(
+            jobType.toLowerCase()
+          )
+        );
+
       const matchesExperience =
         !experienceFilter.length ||
         experienceFilter.includes(
@@ -357,8 +368,11 @@ export class StudentJobsComponent {
 
   openStudentJobAdditionalFiltersModal() {
     this.dialog.open(StudentJobAdditionalFilterModalComponent, {
-      data: this.JobPostingsData(),
       width: "500px",
+      data: {
+        JobPostingData: this.JobPostingsData(),
+        FilteredStudents: this.filteredStudents(),
+      },
     });
   }
 }

@@ -52,8 +52,8 @@ const year = today.getFullYear();
 })
 export class PlacementInterviewComponent {
   readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
+    start: new FormControl(new Date(year, month - 1, today.getDate())),
+    end: new FormControl(new Date()),
   });
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -174,6 +174,9 @@ export class PlacementInterviewComponent {
     this.getBatches();
     this.dataSource.paginator = this.paginator;
     this.searchName.valueChanges.subscribe(() => this.applyFilters());
+    this.branchControl.valueChanges.subscribe(() => this.applyFilters());
+    this.batchControl.valueChanges.subscribe(() => this.applyFilters());
+
     this.CityControl.valueChanges.subscribe(() => {
       this.filterCities(this.searchCity);
     });
@@ -199,10 +202,25 @@ export class PlacementInterviewComponent {
   applyFilters() {
     const filtered = this.jobInterviewRounds().filter((student) => {
       const nameFilter = this.searchName.value?.toLowerCase() || "";
+      const selectedBranches = this.branchControl.value || [];
+      const selectedBatches = this.batchControl.value || [];
+
       const matchesName =
         !nameFilter ||
-        student.JobPosting.Company.Name.toLowerCase().includes(nameFilter);
-      return matchesName;
+        student.JobPosting?.Company?.Name.toLowerCase().includes(nameFilter);
+      const branchMatch =
+        selectedBranches.length === 0 ||
+        selectedBranches.includes(
+          student.JobpostStudentrounds?.[0]?.Student?.Studentacademics?.[0]
+            ?.Course?.FullForm || ""
+        );
+      const batchMatch =
+        selectedBatches.length === 0 ||
+        selectedBatches.includes(
+          student.JobpostStudentrounds?.[0]?.Student?.Batch?.Name || ""
+        );
+
+      return matchesName && branchMatch && batchMatch;
     });
     this.filteredStudents.set(filtered);
   }
@@ -229,6 +247,7 @@ export class PlacementInterviewComponent {
       },
     });
   }
+
   onCompanySelected(event: MatAutocompleteSelectedEvent) {
     const selectedCompanyName = event.option.value;
     const selectedCompany = this.companies.find(

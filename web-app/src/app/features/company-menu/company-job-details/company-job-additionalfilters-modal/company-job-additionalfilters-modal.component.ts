@@ -1,21 +1,18 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, inject, signal } from "@angular/core";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
-import {
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle,
-} from "@angular/material/dialog";
 import { CompanyAPIService } from "src/app/features/company-configuration/company-config/companies/api.companies";
 import { companyTableList } from "src/app/features/company-configuration/company-config/companies/companies-model";
-import { ODataResponse } from "../../interview/interview.component";
 import { Industry } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { FormControl } from "@angular/forms";
-import { map, Observable, of, startWith } from "rxjs";
+import { Observable, of } from "rxjs";
+import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
+import { Jobposting } from "src/app/services/types/Jobposting";
+import { ModeOfWorks } from "src/app/services/common-dropdowns/ModeOfWorks";
+import { Companydatum } from "src/app/services/types/Companydatum";
 @Component({
   selector: "app-company-job-additionalfilters-modal",
   standalone: true,
@@ -26,6 +23,10 @@ import { map, Observable, of, startWith } from "rxjs";
 export class CompanyJobAdditionalfiltersModalComponent {
   companies: companyTableList[] = [];
   industries: Industry[] = [];
+  jobPostingsData: Jobposting[] = [];
+  filteredJobpostingData: Jobposting[] = [];
+
+  JobPostingsDescriptionData: Companydatum[] = [];
   companySizes: string[] = [
     "1-10 employees",
     "11-50 employees",
@@ -37,7 +38,7 @@ export class CompanyJobAdditionalfiltersModalComponent {
     "10001+ employees",
   ];
 
-  salaryRanges: string[] = [
+  salaryOptions: string[] = [
     "0 - 2 LPA",
     "2 - 4 LPA",
     "4 - 6 LPA",
@@ -47,7 +48,18 @@ export class CompanyJobAdditionalfiltersModalComponent {
     "15 - 20 LPA",
     "20+ LPA",
   ];
-
+  salaryRanges = [
+    { label: "0 - 2 LPA", min: 0, max: 200000 },
+    { label: "2 - 4 LPA", min: 200000, max: 400000 },
+    { label: "4 - 6 LPA", min: 400000, max: 600000 },
+    { label: "8 - 10 LPA", min: 800000, max: 1000000 },
+    { label: "10 - 15 LPA", min: 1000000, max: 1500000 },
+    { label: "15 - 20 LPA", min: 1500000, max: 2000000 },
+    { label: "20+ LPA", min: 2000000, max: Infinity },
+  ];
+  salaryControl = new FormControl<string[]>([]);
+  modeOfWorksControl = new FormControl();
+  filteredModeOfWorks = ModeOfWorks;
   filteredCompanies: companyTableList[] = [];
   filteredCities: Observable<any[]> = of([]);
   filteredIndustries: Industry[] = [];
@@ -69,163 +81,41 @@ export class CompanyJobAdditionalfiltersModalComponent {
   industryFilterControl = new FormControl();
   companySizeFilterControl = new FormControl();
   salaryRangeFilterControl = new FormControl();
-
+  readonly dialog = inject(MatDialog);
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService
-  ) {}
+  ) {
+    this.jobPostingsData = data?.JobPostingsData ?? [];
+    this.filteredJobpostingData = data?.FilteredJobpostingData ?? [];
+  }
 
   ngOnInit() {
-    this.loadCompanies();
-    this.loadIndustries();
-
-    this.companyControl.valueChanges.subscribe(() => {
-      this.filterCompanies(this.searchCompany);
-    });
-
-    this.CityControl.valueChanges.subscribe(() => {
-      this.filterCities(this.searchCity);
-    });
-
-    this.industryControl.valueChanges.subscribe(() => {
-      this.filterIndustries(this.searchIndustry);
-    });
-
-    this.filteredCities = this.locationFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCities(value))
-    );
-    this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterIndustries(value))
-    );
-  }
-
-  filterCompanies(search: string) {
-    const filterValue = search.toLowerCase();
-
-    const filteredList = this.companies.filter((company) =>
-      company.Name.toLowerCase().includes(filterValue)
-    );
-
-    const selectedCompanies = this.companyControl.value || [];
-    this.filteredCompanies = [
-      ...selectedCompanies
-        .map((name: any) =>
-          this.companies.find((company) => company.Name === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (company) => !selectedCompanies.includes(company.Name)
-      ),
-    ];
-  }
-
-  filterCities(search: string) {
-    const filterValue = search.toLowerCase();
-
-    const filteredList = this.companies.filter((company) =>
-      company.City.toLowerCase().includes(filterValue)
-    );
-
-    const selectedCompanies = this.CityControl.value || [];
-    this.filteredCompanies = [
-      ...selectedCompanies
-        .map((name: any) =>
-          this.companies.find((company) => company.City === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (company) => !selectedCompanies.includes(company.City)
-      ),
-    ];
-  }
-
-  filterIndustries(search: string) {
-    const filterValue = search.toLowerCase();
-
-    const filteredList = this.industries.filter((industry) =>
-      industry.Type.toLowerCase().includes(filterValue)
-    );
-
-    const selectedIndustries = this.industryControl.value || [];
-    this.filteredIndustries = [
-      ...selectedIndustries
-        .map((name: any) =>
-          this.industries.find((industry) => industry.Type === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (industry) => !selectedIndustries.includes(industry.Type)
-      ),
-    ];
-  }
-
-  get selectedCompanyNames(): string {
-    const selected = this.companyControl.value;
-    return selected ? selected.join(", ") : "";
-  }
-
-  get selectedCompanyCities(): string {
-    const selected = this.CityControl.value;
-    return selected ? selected.join(", ") : "";
-  }
-  get selectedIndustries(): string {
-    const selected = this.industryControl.value;
-    return selected ? selected.join(", ") : "";
-  }
-  onCompanyDropdownOpen() {
-    this.filterCompanies(this.searchCompany);
-  }
-  onCityDropdownOpen() {
-    this.filterCities(this.searchCity);
-  }
-
-  onIndustryDropdownOpen() {
-    this.filterIndustries(this.searchIndustry);
-  }
-
-  private _filterCities(value: string): any[] {
-    const filterValue = value.toLowerCase();
-    return this.companies.filter((option) =>
-      option.City.toLowerCase().includes(filterValue)
-    );
-  }
-
-  private _filterIndustries(value: string): any[] {
-    const filterValue = value.toLowerCase();
-    return this.industries.filter((option) =>
-      option.Type.toLowerCase().includes(filterValue)
-    );
-  }
-
-  loadCompanies() {
-    this.apiCompanyService.loadCompanyData().subscribe({
-      next: (response: ODataResponse<companyTableList>) => {
-        console.log("API Response:", response);
-        this.companies = response.value;
-        // this.filteredCompanies = this.companies;
-        // this.filteredCities = this.companies;
-      },
-      error: (error) => {
-        console.error("Error loading companies", error);
-      },
-    });
-  }
-
-  loadIndustries() {
-    this.apiIndustryService.loadIndustryData().subscribe({
-      next: (response: ODataResponse<any>) => {
-        console.log("API Response:", response);
-        this.industries = response.value;
-        // this.filteredIndustries = response.value;
-      },
-      error: (error) => {
-        console.error("Error loading Industries", error);
-      },
-    });
+    if (this.data && this.data.JobPostingsData) {
+      console.log(
+        "ngOnInit: Received JobPostingsData in modal:",
+        this.jobPostingsData,
+        this.filteredJobpostingData
+      );
+    } else {
+      console.error("Error: JobPostingsData is missing from dialog data!");
+    }
+    //   this.modeOfWorksControl.valueChanges.subscribe(() => this.applyFilters());
+    // }
+    // applyFilters(): void {
+    //   const jobtypeFilter = this.modeOfWorksControl.value || [];
+    //   const filtered = this.jobPostingsData().filter((company) => {
+    //     const matchesJobType =
+    //       !jobtypeFilter.length ||
+    //       jobtypeFilter.some((jobType: string) =>
+    //         company.JobType?.toLowerCase().includes(jobType.toLowerCase())
+    //       );
+    //     return matchesJobType;
+    //   });
+    //   this.filteredJobpostingData.set(filtered);
+    //   console.log("Filtered Data:", filtered);
   }
   onCompanySelected(e: any) {}
-
   openAddEditCompanyForm() {}
 }

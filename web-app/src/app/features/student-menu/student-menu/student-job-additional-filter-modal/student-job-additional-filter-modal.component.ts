@@ -18,6 +18,8 @@ import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { FormControl } from "@angular/forms";
 import { map, Observable, of, startWith } from "rxjs";
 import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
+import { ModeOfWorks } from "src/app/services/common-dropdowns/ModeOfWorks";
+import { PlacementCompanyApiService } from "src/app/features/placement-cell/placement-cell/placement-company/PlacementCompanyApiService";
 
 @Component({
   selector: "app-student-job-additional-filter-modal",
@@ -29,6 +31,12 @@ import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEl
 export class StudentJobAdditionalFilterModalComponent {
   companies: companyTableList[] = [];
   industries: Industry[] = [];
+  searchIndustry: string = "";
+  industryControl = new FormControl();
+  filteredIndustries: Industry[] = [];
+
+  JobPostingsData: JobpostingsEligiblestudent[] = [];
+  filteredStudents: JobpostingsEligiblestudent[] = [];
   companySizes: string[] = [
     "1-10 employees",
     "11-50 employees",
@@ -40,7 +48,7 @@ export class StudentJobAdditionalFilterModalComponent {
     "10001+ employees",
   ];
 
-  salaryRanges: string[] = [
+  salaryOptions: string[] = [
     "0 - 2 LPA",
     "2 - 4 LPA",
     "4 - 6 LPA",
@@ -50,41 +58,55 @@ export class StudentJobAdditionalFilterModalComponent {
     "15 - 20 LPA",
     "20+ LPA",
   ];
+  salaryRanges = [
+    { label: "0 - 2 LPA", min: 0, max: 200000 },
+    { label: "2 - 4 LPA", min: 200000, max: 400000 },
+    { label: "4 - 6 LPA", min: 400000, max: 600000 },
+    { label: "8 - 10 LPA", min: 800000, max: 1000000 },
+    { label: "10 - 15 LPA", min: 1000000, max: 1500000 },
+    { label: "15 - 20 LPA", min: 1500000, max: 2000000 },
+    { label: "20+ LPA", min: 2000000, max: Infinity },
+  ];
+  salaryControl = new FormControl<string[]>([]);
+  modeOfWorksControl = new FormControl();
+  filteredModeOfWorks = ModeOfWorks;
+  skillsControl = new FormControl("");
 
   filteredCompanies: companyTableList[] = [];
   filteredCities: Observable<any[]> = of([]);
-  filteredIndustries: Industry[] = [];
   filteredIndutry: Observable<any[]> = of([]);
   filteredCompany: Observable<any[]> = of([]);
   searchCompany: string = "";
   searchCity: string = "";
-  searchIndustry: string = "";
 
   CityControl = new FormControl();
   companyControl = new FormControl();
   locationControl = new FormControl();
-  industryControl = new FormControl();
   companySizeControl = new FormControl();
   salaryRangeControl = new FormControl();
 
   companyFilterControl = new FormControl();
   locationFilterControl = new FormControl();
-  industryFilterControl = new FormControl();
   companySizeFilterControl = new FormControl();
   salaryRangeFilterControl = new FormControl();
 
   constructor(
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService,
-    @Inject(MAT_DIALOG_DATA) public data: JobpostingsEligiblestudent[]
-  ) {}
+    private placementCompanyApiService: PlacementCompanyApiService,
+
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.JobPostingsData = data.JobPostingData;
+    this.filteredStudents = data.FilteredStudents;
+  }
 
   ngOnInit() {
-    console.log(this.data);
-
+    this.JobPostingsData, this.filteredStudents, this.getAllIndustries();
     // this.loadCompanies();
     // this.loadIndustries();
-
+    this.skillsControl.valueChanges.subscribe(() => this.applyFilters());
+    this.industryControl.valueChanges.subscribe(() => this.applyFilters());
     this.companyControl.valueChanges.subscribe(() => {
       this.filterCompanies(this.searchCompany);
     });
@@ -93,17 +115,9 @@ export class StudentJobAdditionalFilterModalComponent {
       this.filterCities(this.searchCity);
     });
 
-    this.industryControl.valueChanges.subscribe(() => {
-      this.filterIndustries(this.searchIndustry);
-    });
-
     this.filteredCities = this.locationFilterControl.valueChanges.pipe(
       startWith(""),
       map((value) => this._filterCities(value))
-    );
-    this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterIndustries(value))
     );
   }
 
@@ -126,7 +140,60 @@ export class StudentJobAdditionalFilterModalComponent {
       ),
     ];
   }
-
+  applyFilters() {
+    const skillFilter = this.skillsControl.value?.toLowerCase() || "";
+    const selectedIndustries = this.industryControl.value || [];
+    const modeofworkFilter = this.modeOfWorksControl.value || [];
+    const selectedSalaryRanges = this.salaryControl.value || [];
+    const filtered = this.filteredStudents.filter((company: any) => {
+      const industryMatches =
+        !selectedIndustries.length ||
+        company?.Jobpostings?.some((jobposting: any) =>
+          jobposting?.Company?.Companyindustries?.some((ci: any) =>
+            selectedIndustries.includes(ci.Industry?.Type)
+          )
+        );
+      const matchesmodeofwork =
+        !modeofworkFilter.length ||
+        modeofworkFilter.some((jobType: string) =>
+          company.ModeOfWork?.toLowerCase().includes(jobType.toLowerCase())
+        );
+      const matchesSalary =
+        !selectedSalaryRanges.length ||
+        selectedSalaryRanges.some((rangeLabel) => {
+          const range = this.salaryRanges.find((r) => r.label === rangeLabel);
+          return (
+            company.Salary >= (range?.min || 0) &&
+            company.Salary <= (range?.max || Infinity)
+          );
+        });
+      // const matchesSkills =
+      // !skillFilter || company.skills.some((skill) => skill.toLowerCase().includes(skillFilter));
+      return industryMatches && matchesmodeofwork && matchesSalary;
+    });
+    this.filteredStudents = filtered;
+  }
+  filterIndustries(searchTerm: string) {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    this.filteredIndustries = this.industries.filter((industry) =>
+      industry.Type.toLowerCase().includes(lowerSearchTerm)
+    );
+  }
+  getAllIndustries = () => {
+    this.placementCompanyApiService.GetAllIndustries().subscribe({
+      next: (response) => {
+        const data: Industry[] = response.value.map((industry: any) => ({
+          ...industry,
+          Type: industry.Type ?? "Unknown",
+        }));
+        console.log("All Industries", data);
+        this.industries = data;
+      },
+      error: (error) => {
+        console.log("Error fetching industries: ", error);
+      },
+    });
+  };
   filterCities(search: string) {
     const filterValue = search.toLowerCase();
 
@@ -143,26 +210,6 @@ export class StudentJobAdditionalFilterModalComponent {
         .filter(Boolean),
       ...filteredList.filter(
         (company) => !selectedCompanies.includes(company.City)
-      ),
-    ];
-  }
-
-  filterIndustries(search: string) {
-    const filterValue = search.toLowerCase();
-
-    const filteredList = this.industries.filter((industry) =>
-      industry.Type.toLowerCase().includes(filterValue)
-    );
-
-    const selectedIndustries = this.industryControl.value || [];
-    this.filteredIndustries = [
-      ...selectedIndustries
-        .map((name: any) =>
-          this.industries.find((industry) => industry.Type === name)
-        )
-        .filter(Boolean),
-      ...filteredList.filter(
-        (industry) => !selectedIndustries.includes(industry.Type)
       ),
     ];
   }
@@ -231,6 +278,14 @@ export class StudentJobAdditionalFilterModalComponent {
       },
     });
   }
+  resetFilters() {
+    this.skillsControl.setValue("");
+    this.salaryControl.setValue([]);
+    this.modeOfWorksControl.setValue([]);
+    this.industryControl.setValue([]);
+    this.filteredStudents = [...this.JobPostingsData];
+  }
+
   onCompanySelected(e: any) {}
 
   openAddEditCompanyForm() {}

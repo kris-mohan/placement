@@ -9,7 +9,7 @@
         </div>
         <div>
           <p class="matHeaderName">
-            {{ JObPostRouteId ? "Edit Job Posting" : "Add Job Posting" }}
+            {{ JObPostRouteId() ? "Edit Job Posting" : "Add Job Posting" }}
           </p>
         </div>
       </div>
@@ -21,7 +21,7 @@
   <form
     class="form-content"
     [formGroup]="addEditJobPostingForm"
-    (ngSubmit)="onSubmit(JObPostRouteId ?? 0)"
+    (ngSubmit)="onSubmit(JObPostRouteId() ?? 0)"
   >
     <div class="form-container">
       <mat-card-content>
@@ -462,12 +462,12 @@
           </button>
           <button mat-raised-button class="matbutton" type="submit">
             <p class="matName">
-              {{ JObPostRouteId ? "Update Job Posting" : "Add Job Posting" }}
+              {{ JObPostRouteId() ? "Update Job Posting" : "Add Job Posting" }}
             </p>
           </button>
         </div>
 
-        <div *ngIf="JObPostRouteId">
+        <div *ngIf="JObPostRouteId()">
           <mat-card>
             <mat-tab-group
               animationDuration="0ms"

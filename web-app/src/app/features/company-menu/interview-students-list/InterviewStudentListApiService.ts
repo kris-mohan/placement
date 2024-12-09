@@ -6,6 +6,7 @@ import { Jobposting } from "src/app/services/types/Jobposting";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { ODataEntity } from "src/app/services/types/OData";
 import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
+import { JobpostStudentround } from "src/app/services/types/JobpostStudentround";
 
 @Injectable({
   providedIn: "root",
@@ -42,6 +43,13 @@ export class InterviewStudentListApiService {
   ): Observable<ODataEntity<Jobinterviewround[]>> {
     return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
       `/Jobinterviewround?$filter=Id eq ${id} & expand = JobPosting, JobpostStudentrounds(expand =Student(expand=Batch,Org,Studentacademics(expand=Course,Stream)))`
+    );
+  }
+  public GetAllStudentsByRoundId(
+    Id: number
+  ): Observable<ODataEntity<Jobinterviewround[]>> {
+    return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
+      `/Jobinterviewround?$expand=JobpostStudentrounds($expand=Student($expand=Batch,Studentacademics($expand=Course)))&$filter=Id eq ${Id}`
     );
   }
 }
