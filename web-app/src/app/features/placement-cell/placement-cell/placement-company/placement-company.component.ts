@@ -31,6 +31,7 @@ import { Companydatum } from "src/app/services/types/Companydatum";
 import { PlacementCompanyApiService } from "./PlacementCompanyApiService";
 import { getCompanyIndustryTypes } from "./placement-company-module";
 import { Companyindustry } from "src/app/services/types/Companyindustry";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 const today = new Date();
 const month = today.getMonth();
@@ -49,6 +50,7 @@ export interface ODataResponse<T> {
     SharedModule,
     MatPaginatorModule,
     MatDatepickerModule,
+    MatSlideToggleModule,
   ],
   templateUrl: "./placement-company.component.html",
   styleUrl: "./placement-company.component.css",
@@ -62,6 +64,7 @@ export class PlacementCompanyComponent {
 
   companiesList = signal<Companydatum[]>([]);
   filteredCompanyData = signal<Companydatum[]>([]);
+  filteredCompanyData1 = signal<Companydatum[]>([]);
 
   companies: companyTableList[] = [];
 
@@ -100,6 +103,7 @@ export class PlacementCompanyComponent {
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
+  toggleValue: boolean = false;
   UserRoleId: number;
 
   CityControl = new FormControl();
@@ -205,6 +209,8 @@ export class PlacementCompanyComponent {
         map((value) => this._filterCompanies(value))
       );
     });
+
+    this.showVacantCompaniesOnly();
   }
   getIndustryTypes(company: Companydatum): string {
     if (!company?.Jobpostings?.length) return "";
@@ -267,6 +273,7 @@ export class PlacementCompanyComponent {
       return matchesLocation && industryMatches && matchesCompanySize;
     });
     this.filteredCompanyData.set(filtered);
+    this.filteredCompanyData1.set(filtered);
   }
   getAllIndustries = () => {
     this.placementCompanyApiService.GetAllIndustries().subscribe({
@@ -545,4 +552,25 @@ export class PlacementCompanyComponent {
   getCompanyIndustryTypesString = (company: Companydatum): string => {
     return getCompanyIndustryTypes(company);
   };
+  handletogglechange(event: MouseEvent): void {
+    if (event) {
+      this.filteredCompanyData.set(this.filteredCompanyData1());
+    } else {
+      const filteredCompanies = this.companiesList().filter(
+        (company) =>
+          company.Jobpostings &&
+          company.Jobpostings.some((job) => (job?.Vacancies || 0) > 0)
+      );
+      this.filteredCompanyData.set(filteredCompanies);
+    }
+  }
+
+  showVacantCompaniesOnly(): void {
+    const filteredCompanies = this.companiesList().filter(
+      (company) =>
+        company.Jobpostings &&
+        company.Jobpostings.some((job) => (job?.Vacancies || 0) > 0)
+    );
+    this.filteredCompanyData.set(filteredCompanies);
+  }
 }

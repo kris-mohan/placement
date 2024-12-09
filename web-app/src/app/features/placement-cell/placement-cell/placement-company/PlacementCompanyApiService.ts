@@ -16,7 +16,7 @@ export class PlacementCompanyApiService {
     return this.apiHttpService.get<ODataEntity<Companydatum[]>>(
       `/Companydatum?$expand=Jobpostings($filter=ValidTill ge ${GetDateInYYYYMMDD(
         new Date()
-      )};$select=Id;$expand=Company($expand=Companyindustries($expand= Industry)))`
+      )};$select=Id,Vacancies;$expand=Company($expand=Companyindustries($expand= Industry)))`
     );
   }
 

@@ -197,6 +197,13 @@
           <mat-icon class="maticon">add</mat-icon>
           <p class="matName">Company</p>
         </button>
+        <p>
+          <mat-slide-toggle
+            [(ngModel)]="toggleValue"
+            (ngModelChange)="handletogglechange($event)"
+            >Show all</mat-slide-toggle
+          >
+        </p>
       </div>
     </div>
   </mat-card-header>

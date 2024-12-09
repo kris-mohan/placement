@@ -13,7 +13,7 @@ import { InterviewRoundsAPIService } from "./api-add-rounds-modal";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { TestRoundsApiService } from "../TestRoundsApiService";
 import { MatTableDataSource } from "@angular/material/table";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { interviewRounds } from "./add-rounds-modal.model";
 
@@ -47,14 +47,24 @@ export class AddRoundsModalComponent {
     this.jobPostingId = this.RoundId;
 
     this.roundAddEditForm = this.fb.group({
-      Name: "",
-      Description: "",
-      Priority: "",
-      startDate: null,
-      endDate: null,
+      Name: ["", Validators.required],
+      Description: ["", Validators.required],
+      Priority: ["", Validators.required],
+      startDate: ["", Validators.required],
+      endDate: ["", Validators.required],
+      startTime: ["", Validators.required],
+      endTime: ["", Validators.required],
     });
   }
-
+  RoundEditData = {
+    Name: "",
+    Description: "",
+    // Priority: "",
+    startDate: null,
+    endDate: null,
+    startTime: null,
+    endTime: null,
+  };
   ngOnInit(): void {
     this.getRoundsById(this.RoundId);
 
@@ -84,7 +94,7 @@ export class AddRoundsModalComponent {
         //   { value: "1", viewValue: String(data[0].Priority) },
         // ];
 
-        const selectedPriority = String(data[0].Priority);
+        // const selectedPriority = String(data[0].Priority);
 
         // console.log(preFilledPriority);
         // console.log(this.Priority);
@@ -93,8 +103,17 @@ export class AddRoundsModalComponent {
           Description: data[0].Description,
           startDate: data.startDate ? new Date(data.startDate) : null,
           endDate: data.endDate ? new Date(data.endDate) : null,
-          Priority: selectedPriority,
+          // Priority: selectedPriority,
         });
+        this.RoundEditData = {
+          Name: data[0].Name,
+          Description: data[0].Description,
+          startDate: data.startDate || null,
+          endDate: data.endDate || null,
+          // Priority: selectedPriority,
+          startTime: null,
+          endTime: null,
+        };
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);
@@ -132,6 +151,10 @@ export class AddRoundsModalComponent {
     });
   }
   async onSubmit() {
+    if (this.roundAddEditForm.invalid) {
+      this.sweetAlertService.error("All fields are required.");
+      return;
+    }
     const companyData: Partial<interviewRounds> = this.roundAddEditForm.value;
     const isUpdate = !!this.roundId;
     const actionText = isUpdate ? "update" : "add";
@@ -166,5 +189,8 @@ export class AddRoundsModalComponent {
           },
         });
     }
+  }
+  handleResetRounds(): void {
+    this.roundAddEditForm.patchValue(this.RoundEditData);
   }
 }

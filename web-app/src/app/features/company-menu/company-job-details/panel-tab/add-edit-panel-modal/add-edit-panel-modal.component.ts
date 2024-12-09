@@ -15,7 +15,7 @@ import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { TestRoundsApiService } from "../../test-rounds/TestRoundsApiService";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { PanelAPIService } from "../panel.apiservice";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Jobinterviewpanel } from "src/app/services/types/Jobinterviewpanel";
 
 @Component({
@@ -52,12 +52,18 @@ export class AddEditPanelModalComponent {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
     this.panelAddEditForm = this.fb.group({
-      PanelName: "",
-      Description: "",
-      Designation: "",
+      PanelName: ["", Validators.required],
+      Description: ["", Validators.required],
+      Designation: ["", Validators.required],
     });
     this.panelId = this.PanelId;
   }
+
+  panelEditData = {
+    PanelName: "",
+    Description: "",
+    Designation: "",
+  };
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -93,6 +99,11 @@ export class AddEditPanelModalComponent {
           Description: data[0].Description,
           Designation: data[0].Designation,
         });
+        this.panelEditData = {
+          PanelName: data[0].PanelName,
+          Description: data[0].Description,
+          Designation: data[0].Designation,
+        };
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);
@@ -101,6 +112,10 @@ export class AddEditPanelModalComponent {
   }
 
   async onSubmit() {
+    if (this.panelAddEditForm.invalid) {
+      this.sweetAlertService.error("All fields are required.");
+      return;
+    }
     const companyData: Partial<Jobinterviewpanel> = this.panelAddEditForm.value;
     const isUpdate = !!this.panelId;
     const actionText = isUpdate ? "update" : "add";
@@ -135,5 +150,9 @@ export class AddEditPanelModalComponent {
   }
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  handleResetPanel(): void {
+    this.panelAddEditForm.patchValue(this.panelEditData);
   }
 }

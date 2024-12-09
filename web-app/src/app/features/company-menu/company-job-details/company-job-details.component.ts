@@ -21,6 +21,7 @@ import { CompanyJobAdditionalfiltersModalComponent } from "./company-job-additio
 import { provideNativeDateAdapter } from "@angular/material/core";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { CompanyJobDetailsApiService } from "./company-job-details-apiService";
+import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
 
 const today = new Date();
 const month = today.getMonth();
@@ -123,9 +124,9 @@ export class CompanyJobDetailsComponent {
             ...jobposting,
             ApplicantsApplied: applicantsApplied,
             ApplicantsRejected: applicantsRejected,
-            ValidTill: this.convertToDateOnly(jobposting.ValidTill),
-            ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
-            DriveDate: this.convertToDateOnly(jobposting.DriveDate),
+            ValidTill: GetDateDDMMYYYY(jobposting.ValidTill),
+            ValidFrom: GetDateDDMMYYYY(jobposting.ValidFrom),
+            DriveDate: GetDateDDMMYYYY(jobposting.DriveDate),
           };
         });
         this.JobPostingsData.set(mappedData);
