@@ -242,7 +242,7 @@ export class AddRoundsModalComponent {
       this.sweetAlertService.error("All fields are required.");
       return;
     }
-    const companyData: Partial<interviewRounds> = this.roundAddEditForm.value;
+    // const companyData: Partial<interviewRounds> = this.roundAddEditForm.value;
     const isUpdate = !!this.roundId;
     const actionText = isUpdate ? "update" : "add";
     const confirmed = await this.sweetAlertService.confirm(
@@ -367,9 +367,10 @@ export class AddRoundsModalComponent {
             console.error("Error saving Calendarevent:", error);
           },
         });
+      }
     }
   }
-  handleResetRounds(): void {
-    this.roundAddEditForm.patchValue(this.RoundEditData);
-  }
+  // handleResetRounds(): void {
+  //   this.roundAddEditForm.patchValue(this.RoundEditData);
+  // }
 }

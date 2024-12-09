@@ -35,8 +35,8 @@ import { Jobinterviewpanel } from "src/app/services/types/Jobinterviewpanel";
 })
 export class AddEditPanelModalComponent {
   UserRoleId: number;
-  panelId: number;
-  jobPostingId: number;
+  panelId!: number;
+  jobPostingId!: number;
   @Output() panelsUpdated = new EventEmitter<void>();
   panelAddEditForm: FormGroup;
   constructor(
@@ -57,7 +57,7 @@ export class AddEditPanelModalComponent {
       Description: ["", Validators.required],
       Designation: ["", Validators.required],
     });
-    this.panelId = this.PanelId;
+    // this.panelId = this.PanelId;
   }
 
   panelEditData = {
@@ -95,9 +95,9 @@ export class AddEditPanelModalComponent {
   //     },
   //   });
   // };
-  onClose(): void {
-    this.dialogRef.close();
-  }
+  // onClose(): void {
+  //   this.dialogRef.close();
+  // }
   getRoundsById(id: number) {
     this.apiPanelRounds.GetPanelDataById(id).subscribe({
       next: (response) => {
