@@ -6,12 +6,12 @@
         >keyboard_backspace</mat-icon
       >
       <p class="matHeaderName">
-        {{ JObPostRouteId ? "Edit Job Posting" : "Add Job Posting" }}
+        {{ JObPostRouteId() ? "Edit Job Posting" : "Add Job Posting" }}
       </p>
     </div>
 
     <!-- Job Details: Displayed Only for Edit Job Posting -->
-    <div class="job-details" *ngIf="JObPostRouteId">
+    <div class="job-details" *ngIf="JObPostRouteId()">
       <div class="job-info" *ngIf="userRoleId === 1">
         <strong>Company Name:</strong>
         <span> ABC College </span>
@@ -32,7 +32,7 @@
   <form
     class="form-content"
     [formGroup]="addEditJobPostingForm"
-    (ngSubmit)="onSubmit(JObPostRouteId ?? 0)"
+    (ngSubmit)="onSubmit(JObPostRouteId() ?? 0)"
   >
     <div class="form-container">
       <mat-card-content>
@@ -473,12 +473,12 @@
           </button>
           <button mat-raised-button class="matbutton" type="submit">
             <p class="matName">
-              {{ JObPostRouteId ? "Update Job Posting" : "Add Job Posting" }}
+              {{ JObPostRouteId() ? "Update Job Posting" : "Add Job Posting" }}
             </p>
           </button>
         </div>
 
-        <div *ngIf="JObPostRouteId">
+        <div *ngIf="JObPostRouteId()">
           <mat-card>
             <mat-tab-group
               animationDuration="0ms"

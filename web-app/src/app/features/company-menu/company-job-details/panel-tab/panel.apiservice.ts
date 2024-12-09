@@ -9,8 +9,10 @@ export class PanelAPIService {
   [x: string]: any;
   constructor(private apiHttpService: ApiHttpService) {}
 
-  public GetAllPanelData(): Observable<any> {
-    return this.apiHttpService.get("/Jobinterviewpanel");
+  public GetAllPanelData(id: number | null): Observable<any> {
+    return this.apiHttpService.get(
+      `/Jobinterviewpanel?filter=JobPostingId eq ${id}`
+    );
   }
 
   public GetPanelDataById(id: number | null): Observable<any> {

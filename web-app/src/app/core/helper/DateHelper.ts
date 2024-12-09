@@ -5,7 +5,7 @@ export const GetDateInYYYYMMDD = (date: Date): string => {
 };
 
 export const GetDateForLabel = (date: Date): string => {
-  return format(date, "yyyy-MMM-dd");
+  return format(date, "dd-MMM-yyyy");
 };
 
 export const GetDate = (date: Date): string => {
@@ -13,9 +13,9 @@ export const GetDate = (date: Date): string => {
 };
 
 export const GetDateDDMMYYYY = (date: Date): string => {
-  return format(date, "yyyy-MMM-dd");
+  return format(date, "dd-MMM-yyyy");
 };
 
 export const GetDateDDMMYYYYTT = (date: Date): string => {
-  return format(date, "yyyy-MMM-dd hh:mm a");
+  return format(date, "dd-MMM-yyyy hh:mm a");
 };

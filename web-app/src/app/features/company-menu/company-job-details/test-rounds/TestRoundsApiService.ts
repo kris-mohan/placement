@@ -2,7 +2,9 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
+import { Calendarevent } from "src/app/services/types/Calendarevent";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { ODataEntity } from "src/app/services/types/OData";
 
 @Injectable({
   providedIn: "root",
@@ -12,12 +14,12 @@ export class TestRoundsApiService {
 
   GetAllRounds(id: number | null): Observable<any> {
     return this.apiHttpService.get<any>(
-      `/Jobinterviewround?filter=JobPostingId eq ${id}`
+      `/Jobinterviewround?filter=JobPostingId eq ${id}&expand=Event`
     );
   }
 
   GetRoundsById(id: number): Observable<any> {
-    return this.apiHttpService.get(`/Jobinterviewround?filter=Id eq ${id}`);
+    return this.apiHttpService.get(`/Jobinterviewround?filter=Id eq ${id}&expand=Event`);
   }
   CreateRound(data: any): Observable<any> {
     return this.apiHttpService.post("/Jobinterviewround", data);
@@ -36,5 +38,20 @@ export class TestRoundsApiService {
     const url = `/Trainingcourse?key=${id ? id : ""}`;
     const method = id ? "patch" : "post";
     return this.apiHttpService[method](url, TrainingcourseData);
+  }
+  GetCalendarData(): Observable<ODataEntity<Calendarevent[]>> {
+    return this.apiHttpService.get<ODataEntity<Calendarevent[]>>(
+      `/Calendarevent`
+    );
+  }
+  saveCalendarEvent(calendarEvent: any): Observable<any> {
+    console.log("calendarEvent",calendarEvent)
+    return this.apiHttpService.post<ODataEntity<Calendarevent>>(
+      `/Calendarevent`,
+      calendarEvent
+    );
+  }
+  updateCalendarEvent(id: number, calendarEvent: any): Observable<any> {
+    return this.apiHttpService.patch(`/Calendarevent?key=${id}`, calendarEvent);
   }
 }

@@ -31,6 +31,8 @@ import { Companydatum } from "src/app/services/types/Companydatum";
 import { PlacementCompanyApiService } from "./PlacementCompanyApiService";
 import { getCompanyIndustryTypes } from "./placement-company-module";
 import { Companyindustry } from "src/app/services/types/Companyindustry";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { CampusCompany } from "src/app/services/types/CampusCompany";
 
 const today = new Date();
 const month = today.getMonth();
@@ -49,6 +51,7 @@ export interface ODataResponse<T> {
     SharedModule,
     MatPaginatorModule,
     MatDatepickerModule,
+    MatSlideToggleModule,
   ],
   templateUrl: "./placement-company.component.html",
   styleUrl: "./placement-company.component.css",
@@ -58,10 +61,14 @@ export interface ODataResponse<T> {
 export class PlacementCompanyComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  OrgId: number;
+
   companyData: [] = [];
 
   companiesList = signal<Companydatum[]>([]);
+  campusCompanyList = signal<Companydatum[]>([]);
   filteredCompanyData = signal<Companydatum[]>([]);
+  filteredCompanyData1 = signal<Companydatum[]>([]);
 
   companies: companyTableList[] = [];
 
@@ -100,6 +107,7 @@ export class PlacementCompanyComponent {
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
+  toggleValue: boolean = false;
   UserRoleId: number;
 
   CityControl = new FormControl();
@@ -127,6 +135,8 @@ export class PlacementCompanyComponent {
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
+    const storedCampusId = sessionStorage.getItem("CampusId");
+    this.OrgId = storedCampusId ? parseInt(storedCampusId) : 0;
   }
 
   readonly campaignOne = new FormGroup({
@@ -166,8 +176,9 @@ export class PlacementCompanyComponent {
   dataSource = new MatTableDataSource<companyTableList>([]);
 
   ngOnInit() {
-    this.getAllCompanies();
+    // this.getAllCompanies();
     this.getAllIndustries();
+    this.getAllCompanyCampuses();
     // this.loadCompanies();
     // this.loadIndustries();
     this.searchLocation.valueChanges.subscribe(() => this.applyFilters());
@@ -200,11 +211,15 @@ export class PlacementCompanyComponent {
     this.placementCompanyApiService.GetAllCompanies().subscribe((companies) => {
       this.companiesList.set(companies.value);
 
+      console.log(this.companyControl);
+
       this.filteredCompany = this.companyControl.valueChanges.pipe(
         startWith(""),
         map((value) => this._filterCompanies(value))
       );
     });
+
+    this.showVacantCompaniesOnly();
   }
   getIndustryTypes(company: Companydatum): string {
     if (!company?.Jobpostings?.length) return "";
@@ -228,7 +243,7 @@ export class PlacementCompanyComponent {
     this.placementCompanyApiService.GetAllCompanies().subscribe({
       next: (odataResponse) => {
         console.log("companies", odataResponse.value);
-        this.companiesList.set(odataResponse.value);
+        // this.companiesList.set(odataResponse.value);
         this.applyFilters();
       },
       error: (error) => {
@@ -236,11 +251,37 @@ export class PlacementCompanyComponent {
       },
     });
   };
+
+  getAllCompanyCampuses = () => {
+    this.placementCompanyApiService
+      .GetAllCompanyCampuses(this.OrgId)
+      .subscribe({
+        next: (odataResponse) => {
+          console.log("Campus Company Mapped", odataResponse.value);
+
+          // Extract only the company data from each record in the response
+          const companies = odataResponse.value.map(
+            (campus: CampusCompany) => campus.Company
+          );
+          console.log(companies);
+          this.campusCompanyList.set(companies);
+          this.applyFilters();
+          // this.filteredCompany = this.companyControl.valueChanges.pipe(
+          //   startWith(""),
+          //   map((value) => this._filterCompanies(value))
+          // );
+        },
+        error: (error) => {
+          console.error("Error fetching companies:", error);
+        },
+      });
+  };
+
   applyFilters() {
     const locationFilter = this.searchLocation.value || "";
     const selectedIndustries = this.industryControl.value || [];
     const selectedSizes = this.companySizeControl.value || [];
-    const filtered = this.companiesList().filter((company: any) => {
+    const filtered = this.campusCompanyList().filter((company: any) => {
       const matchesLocation =
         !locationFilter.length ||
         locationFilter.includes(company.Address || "");
@@ -267,6 +308,7 @@ export class PlacementCompanyComponent {
       return matchesLocation && industryMatches && matchesCompanySize;
     });
     this.filteredCompanyData.set(filtered);
+    this.filteredCompanyData1.set(filtered);
   }
   getAllIndustries = () => {
     this.placementCompanyApiService.GetAllIndustries().subscribe({
@@ -301,10 +343,20 @@ export class PlacementCompanyComponent {
   get selectedLocations(): string {
     return this.searchLocation.value || "";
   }
+
   private _filterCompanies(value: string): Companydatum[] {
     const filterValue = value.toLowerCase();
-    return this.companiesList().filter((company) =>
-      company.Name.toLowerCase().includes(filterValue)
+    return this.companiesList().filter(
+      (company) =>
+        company.Name.toLowerCase().includes(filterValue) &&
+        !this._isCompanyInCampusList(company)
+    );
+  }
+
+  // Helper function to check if the company is in campusCompanyList
+  private _isCompanyInCampusList(company: Companydatum): boolean {
+    return this.campusCompanyList().some(
+      (campusCompany) => campusCompany.Id === company.Id // Assuming each company has a unique Id
     );
   }
 
@@ -320,6 +372,7 @@ export class PlacementCompanyComponent {
   }
 
   openCompanyModalPopup(company: any): void {
+    console.log(company);
     this.dialog.open(CompanyDetailDialogModalComponent, {
       width: "1200px",
       height: "620px",
@@ -542,4 +595,25 @@ export class PlacementCompanyComponent {
   getCompanyIndustryTypesString = (company: Companydatum): string => {
     return getCompanyIndustryTypes(company);
   };
+  handletogglechange(event: MouseEvent): void {
+    if (event) {
+      this.filteredCompanyData.set(this.filteredCompanyData1());
+    } else {
+      const filteredCompanies = this.companiesList().filter(
+        (company) =>
+          company.Jobpostings &&
+          company.Jobpostings.some((job) => (job?.Vacancies || 0) > 0)
+      );
+      this.filteredCompanyData.set(filteredCompanies);
+    }
+  }
+
+  showVacantCompaniesOnly(): void {
+    const filteredCompanies = this.companiesList().filter(
+      (company) =>
+        company.Jobpostings &&
+        company.Jobpostings.some((job) => (job?.Vacancies || 0) > 0)
+    );
+    this.filteredCompanyData.set(filteredCompanies);
+  }
 }

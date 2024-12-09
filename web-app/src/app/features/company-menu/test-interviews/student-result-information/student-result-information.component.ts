@@ -15,7 +15,7 @@ import { map, Observable } from "rxjs";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { StudentResultInformationApiService } from "./StudentResultInformationApiService";
 import { Jobposting } from "src/app/services/types/Jobposting";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { PostJobpostStudentround } from "src/app/services/types/JobpostStudentround";
 
 @Component({
@@ -61,8 +61,8 @@ export class StudentResultInformation {
       .pipe(map(({ matches }) => (matches ? "horizontal" : "vertical")));
 
     this.studentResultInformationForm = this.fb.group({
-      Score: "",
-      Feedback: "",
+      Score: ["", Validators.required],
+      Feedback: ["", Validators.required],
     });
   }
 
@@ -71,9 +71,11 @@ export class StudentResultInformation {
       const jobPostingId = Number(params.get("jobPostingId"));
       const jobPostingInterviewRoundId = Number(params.get("roundId"));
       const studentId = Number(params.get("studentId"));
+      const currentRoundIndex = Number(params.get("currentRoundIndex"));
       this.jobPostingId = jobPostingId;
       this.jobPostingInterviewRoundId = jobPostingInterviewRoundId;
       this.studentId = studentId;
+      this.currentRoundIndex.set(currentRoundIndex);
       this.GetJobInterviewRounds();
     });
   }
@@ -87,13 +89,13 @@ export class StudentResultInformation {
           this.JobInterviewRoundsData.set(data);
           console.log(this.JobInterviewRoundsData());
           console.log(this.jobPostingInterviewRoundId);
-          const currentRoundIndex =
-            this.JobInterviewRoundsData()[0].Jobinterviewrounds.findIndex(
-              (round) => round.Id === this.jobPostingInterviewRoundId
-            );
-          this.currentRoundIndex.set(
-            currentRoundIndex !== -1 ? currentRoundIndex : 0
-          );
+          // const currentRoundIndex =
+          //   this.JobInterviewRoundsData()[0].Jobinterviewrounds.findIndex(
+          //     (round) => round.Id === this.jobPostingInterviewRoundId
+          //   );
+          // this.currentRoundIndex.set(
+          //   currentRoundIndex !== -1 ? currentRoundIndex : 0
+          // );
         },
         error: (error) => {
           console.error(error);
@@ -102,14 +104,25 @@ export class StudentResultInformation {
   };
 
   onStepChange(index: number): void {
+    // if (this.studentResultInformationForm.invalid) {
+    //   this.sweetAlertService.error("All fields are required.");
+    //   return;
     this.currentRoundIndex.set(index);
   }
 
   goBack(): void {
     this.location.back();
   }
-
   openMoveToNextRoundOrReject = async (action: number) => {
+    if (
+      this.studentResultInformationForm.invalid ||
+      !this.studentResultInformationForm.value.Score ||
+      !this.studentResultInformationForm.value.Feedback
+    ) {
+      this.sweetAlertService.error("Please enter both the score and feedback.");
+      return;
+    }
+
     const postJobpostStudentroundForm: Partial<PostJobpostStudentround> =
       this.studentResultInformationForm.value;
     const confirmationMessage =
@@ -133,7 +146,15 @@ export class StudentResultInformation {
           next: (response: { success: boolean; message: any }) => {
             console.log(response);
             if (response.success) {
-              this.sweetAlertService.success(response.message);
+              if (action === 1) {
+                this.sweetAlertService.success(
+                  "Student successfully moved to the next round."
+                );
+              } else {
+                this.sweetAlertService.success(
+                  "Student successfully rejected."
+                );
+              }
               this.goBack();
             } else {
               this.sweetAlertService.error(response.message);

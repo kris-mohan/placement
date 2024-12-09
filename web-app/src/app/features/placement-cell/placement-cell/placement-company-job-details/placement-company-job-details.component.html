@@ -250,6 +250,15 @@
     <!-- </div> -->
 
     <div class="right-content">
+      <!-- Mat Raised Button -->
+      <button
+        mat-raised-button
+        color="warn"
+        class="remove-job-btn"
+        (click)="removeJobPosting()"
+      >
+        Remove Job Posting
+      </button>
       <div class="related-jobs">
         <div class="headers">
           <h3>{{ JobPostingsDescriptionData()[0]?.Name }}</h3>

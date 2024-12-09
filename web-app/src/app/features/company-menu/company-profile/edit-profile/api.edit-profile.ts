@@ -9,6 +9,7 @@ import {
 } from "src/app/services/types/Companydatum";
 import { Industry } from "src/app/services/types/Industry";
 import { ODataEntity } from "src/app/services/types/OData";
+import { environment } from "src/environments/environment";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
@@ -19,7 +20,7 @@ export class EditProfileApiService {
     private apiHttpService: ApiHttpService,
     private http: HttpClient
   ) {}
-
+  baseUrl = environment.API_BASE_URL;
   public GetAllIndustries(): Observable<ODataEntity<Industry[]>> {
     return this.apiHttpService.get<ODataEntity<Industry[]>>(`/Industry`);
   }
@@ -33,9 +34,25 @@ export class EditProfileApiService {
 
   uploadDocument(formData: FormData): Observable<any> {
     return this.http.post<any>(
-      `https://localhost:44304/api/Files/UploadFiles`,
+      `${this.baseUrl}/api/Files/UploadFiles`,
       formData
     );
+  }
+
+  downloadDocument(FilePath: string): void {
+    const downloadURL = `${this.baseUrl}/api/Files/DownloadFile?filePath=${FilePath}`;
+    const link = document.createElement("a");
+    link.href = downloadURL;
+
+    const fileName = FilePath.split("/").pop() || "downloaded-file";
+    link.download = fileName;
+
+    link.click();
+    window.URL.revokeObjectURL(downloadURL);
+
+    // return this.http.get<any>(
+    //   `${this.baseUrl}/api/Files/DownloadFile?filePath=${FilePath}`
+    // );
   }
 
   saveDocumentDetails(doc: any): Observable<any> {

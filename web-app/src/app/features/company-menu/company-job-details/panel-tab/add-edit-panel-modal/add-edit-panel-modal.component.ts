@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Inject } from "@angular/core";
+import { Component, EventEmitter, Inject, Output } from "@angular/core";
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -15,7 +15,7 @@ import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { TestRoundsApiService } from "../../test-rounds/TestRoundsApiService";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { PanelAPIService } from "../panel.apiservice";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Jobinterviewpanel } from "src/app/services/types/Jobinterviewpanel";
 
 @Component({
@@ -35,8 +35,9 @@ import { Jobinterviewpanel } from "src/app/services/types/Jobinterviewpanel";
 })
 export class AddEditPanelModalComponent {
   UserRoleId: number;
-  panelId: number | null = null;
-  //HiringRound: any;
+  panelId!: number;
+  jobPostingId!: number;
+  @Output() panelsUpdated = new EventEmitter<void>();
   panelAddEditForm: FormGroup;
   constructor(
     public dialogRef: MatDialogRef<AddEditPanelModalComponent>,
@@ -47,26 +48,37 @@ export class AddEditPanelModalComponent {
     private fb: FormBuilder,
 
     private testRoundsApiService: TestRoundsApiService,
-    @Inject(MAT_DIALOG_DATA) public PanelId: any
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
     this.panelAddEditForm = this.fb.group({
-      PanelName: "",
-      Description: "",
-      Designation: "",
+      PanelName: ["", Validators.required],
+      Description: ["", Validators.required],
+      Designation: ["", Validators.required],
     });
-    this.panelId = this.PanelId;
+    // this.panelId = this.PanelId;
   }
+
+  panelEditData = {
+    PanelName: "",
+    Description: "",
+    Designation: "",
+  };
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get("roundId");
-      this.panelId = id !== null ? +id : null;
-      if (this.panelId) {
-      }
+      console.log("Params", params.get("jobId"));
     });
-    if (this.PanelId != 0) this.getRoundsById(this.PanelId);
+    // this.route.paramMap.subscribe((params) => {
+    //   const id = params.get("roundId");
+    //   this.panelId = id !== null ? +id : null;
+    //   if (this.panelId) {
+    //   }
+    // });
+    if (this.panelId) {
+      this.getRoundsById(this.panelId);
+    }
   }
   RoundDataSource: Jobinterviewround[] = [];
 
@@ -83,8 +95,10 @@ export class AddEditPanelModalComponent {
   //     },
   //   });
   // };
-
-  getRoundsById(id: number | null) {
+  // onClose(): void {
+  //   this.dialogRef.close();
+  // }
+  getRoundsById(id: number) {
     this.apiPanelRounds.GetPanelDataById(id).subscribe({
       next: (response) => {
         const data: any = response.value;
@@ -93,6 +107,11 @@ export class AddEditPanelModalComponent {
           Description: data[0].Description,
           Designation: data[0].Designation,
         });
+        this.panelEditData = {
+          PanelName: data[0].PanelName,
+          Description: data[0].Description,
+          Designation: data[0].Designation,
+        };
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);
@@ -101,6 +120,10 @@ export class AddEditPanelModalComponent {
   }
 
   async onSubmit() {
+    if (this.panelAddEditForm.invalid) {
+      this.sweetAlertService.error("All fields are required.");
+      return;
+    }
     const companyData: Partial<Jobinterviewpanel> = this.panelAddEditForm.value;
     const isUpdate = !!this.panelId;
     const actionText = isUpdate ? "update" : "add";
@@ -111,7 +134,7 @@ export class AddEditPanelModalComponent {
     if (confirmed) {
       const companydatum: any = {
         Id: this.panelId ?? 0,
-        JobPostingId: 1,
+        JobPostingId: this.jobPostingId ?? 0,
         PanelName: companyData.PanelName ?? "",
         Description: companyData.Description ?? "",
         Designation: companyData.Designation ?? "",
@@ -120,9 +143,10 @@ export class AddEditPanelModalComponent {
         next: (response: { success: boolean; message: any }) => {
           console.log(response);
           if (response.success) {
+            this.panelsUpdated.emit();
             this.sweetAlertService.success(response.message);
-            this.router.navigate(["company-job-details/add-edit-jobPosting/0"]);
-            this.onClose();
+            //this.router.navigate(["company-job-details/add-edit-jobPosting/0"]);
+            this.dialogRef.close();
           } else {
             this.sweetAlertService.error(response.message);
           }
@@ -135,5 +159,9 @@ export class AddEditPanelModalComponent {
   }
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  handleResetPanel(): void {
+    this.panelAddEditForm.patchValue(this.panelEditData);
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { GetDateInYYYYMMDD } from "src/app/core/helper/DateHelper";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
+import { CampusCompany } from "src/app/services/types/CampusCompany";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { Industry } from "src/app/services/types/Industry";
 import { ODataEntity } from "src/app/services/types/OData";
@@ -16,7 +17,15 @@ export class PlacementCompanyApiService {
     return this.apiHttpService.get<ODataEntity<Companydatum[]>>(
       `/Companydatum?$expand=Jobpostings($filter=ValidTill ge ${GetDateInYYYYMMDD(
         new Date()
-      )};$select=Id;$expand=Company($expand=Companyindustries($expand= Industry)))`
+      )};$select=Id,Vacancies;$expand=Company($expand=Companyindustries($expand= Industry)))`
+    );
+  }
+
+  GetAllCompanyCampuses(id: number): Observable<ODataEntity<CampusCompany[]>> {
+    return this.apiHttpService.get<ODataEntity<CampusCompany[]>>(
+      `/CampusCompany?$expand=Company($expand=Jobpostings($filter=ValidTill ge ${GetDateInYYYYMMDD(
+        new Date()
+      )};$select=Id;$expand=Company($expand=Companyindustries($expand= Industry))))&filter=CampusId eq ${id}`
     );
   }
 
