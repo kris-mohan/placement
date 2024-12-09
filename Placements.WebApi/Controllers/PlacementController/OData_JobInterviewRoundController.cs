@@ -32,7 +32,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 _context.Jobinterviewrounds.Add(jobinterviewround);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Job interview rounds Added Successfully" });
+                return Ok(new { success = true, message = "Job interview rounds Added Successfully", Id = jobinterviewround.Id });
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 _context.Jobinterviewrounds.Update(original);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Job interview rounds Updated Successfully." });
+                return Ok(new { success = true, message = "Job interview rounds Updated Successfully.", Id = jobinterviewround.Id });
             }
             catch (Exception ex)
             {
@@ -81,7 +81,7 @@ namespace Placements.WebApi.Controllers.PlacementController
 
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Job interview rounds Updated Successfully." });
+                return Ok(new { success = true, message = "Job interview rounds Updated Successfully.", Id = original.Id });
             }
             catch (Exception ex)
             {
