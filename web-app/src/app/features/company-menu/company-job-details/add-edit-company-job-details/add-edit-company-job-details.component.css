@@ -2,14 +2,14 @@ button {
   margin: 0 8px 8px 0;
 }
 
-.matbutton {
+/* .matbutton {
   background-color: #3f51b5;
-}
+} */
 .maticon {
   color: white;
 }
 .matName {
-  color: white;
+  color: black;
 }
 .mdc-checkbox__native-control:enabled:indeterminate
   ~ .mdc-checkbox__background {

@@ -8,11 +8,11 @@ import { Studentacademic } from "src/app/services/types/Studentacademic";
 import { StudentSemesterMark } from "src/app/services/types/StudentSemesterMark";
 import { StudentSkill } from "src/app/services/types/StudentSkill";
 import { GetDate } from "src/app/core/helper/DateHelper";
-
+import { CommonModule } from "@angular/common";
 @Component({
   selector: "app-studentdetails-dialog",
   standalone: true,
-  imports: [AMGModules],
+  imports: [AMGModules, CommonModule],
   templateUrl: "./studentdetails-dialog.component.html",
   styleUrl: "./studentdetails-dialog.component.css",
 })
@@ -38,8 +38,10 @@ export class StudentdetailsDialogComponent {
   }>([]);
 
   studentSemWiseMarksData = new MatTableDataSource<{
-    semesterName: number;
+    semesterName: string;
     sgpa: number;
+    actions: string;
+    status?: string;
   }>();
 
   class12thMarksData = new MatTableDataSource<{
@@ -60,7 +62,7 @@ export class StudentdetailsDialogComponent {
     "status",
     "interviewDate",
   ];
-  displayedSemesterColumns: string[] = ["semesterName", "sgpa"];
+  displayedSemesterColumns: string[] = ["semesterName", "sgpa", "actions"];
 
   ngOnInit(): void {
     this.getStudentDetails();
@@ -145,22 +147,30 @@ export class StudentdetailsDialogComponent {
           (item.StudentSemesterMarks || []).map((mark: any) => ({
             semesterName: `Sem ${mark.Semester || 0}`,
             sgpa: mark.Sgpa || 0,
+            actions: "",
+            status: "",
           }))
         );
+        console.log("Data Source:", this.studentSemWiseMarksData.data);
         let class12thDataSet = {
           semesterName: "12th",
           sgpa: response.value[0].TwelthMarks,
+          actions: "",
+          status: "",
         };
-         const class12thData: { semesterName: string; sgpa: number }[] = [];
-         class12thData.push(class12thDataSet);
-        
-        let class10thDataset={
-          semesterName:"10th",
-          sgpa:response.value[0].TenthMarks,
+        const class12thData: {
+          semesterName: string;
+          sgpa: number;
+        }[] = [];
+        class12thData.push(class12thDataSet);
+
+        let class10thDataset = {
+          semesterName: "10th",
+          sgpa: response.value[0].TenthMarks,
+          actions: "",
         };
-        const class10thData:{ semesterName: string; sgpa: number }[] = [];
+        const class10thData: { semesterName: string; sgpa: number }[] = [];
         class10thData.push(class10thDataset);
-        
 
         this.studentSemWiseMarksData.data = data;
         this.class12thMarksData.data = class12thData;
@@ -174,4 +184,15 @@ export class StudentdetailsDialogComponent {
       },
     });
   };
+
+  onApproveClick(sem: any): void {
+    sem.status = "approved";
+    console.log("Approved", sem);
+    alert(`Approved: ${sem.semesterName}, SGPA: ${sem.sgpa}`);
+  }
+  onRejectClick(sem: any): void {
+    sem.status = "rejected";
+    console.log("Rejected", sem);
+    alert(`Rejected: ${sem.semesterName}, SGPA: ${sem.sgpa}`);
+  }
 }

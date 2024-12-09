@@ -457,11 +457,16 @@
         </div>
 
         <div class="add-job-posting">
-          <button mat-raised-button class="matbutton" type="button">
+          <button
+            mat-raised-button
+            class="matbutton"
+            type="button"
+            color="Basic"
+          >
             <p class="matName">Reset</p>
           </button>
-          <button mat-raised-button class="matbutton" type="submit">
-            <p class="matName">
+          <button mat-raised-button type="submit" color="primary">
+            <p>
               {{ JObPostRouteId ? "Update Job Posting" : "Add Job Posting" }}
             </p>
           </button>
@@ -485,11 +490,11 @@
       </mat-card-content>
       <div>
         <mat-card-actions class="footer-actions">
-          <button mat-raised-button class="matbutton">
+          <button mat-raised-button class="matbutton" color="Basic">
             <p class="matName">Reset</p>
           </button>
-          <button mat-raised-button class="matbutton" type="submit">
-            <p class="matName">
+          <button mat-raised-button type="submit" color="primary">
+            <p>
               Share
               <!-- {{ TrainerId ? "Update" : "Add" }} -->
             </p>

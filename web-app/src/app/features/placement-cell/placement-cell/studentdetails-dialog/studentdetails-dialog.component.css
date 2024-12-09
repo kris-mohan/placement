@@ -69,7 +69,6 @@ td.mat-cell {
 
 th.mat-mdc-header-cell.mdc-data-table__header-cell.cdk-header-cell.cdk-column-sgpa.mat-column-sgpa.ng-star-inserted {
   text-align: left;
-  
 }
 .compact-tab-group {
   margin-top: 16px;
@@ -90,14 +89,53 @@ th.mat-mdc-header-cell.mdc-data-table__header-cell.cdk-header-cell.cdk-column-sg
 }
 
 .mat-mdc-card-content:last-child {
-    padding-bottom: 16px;
-    padding-left: 24px;
+  padding-bottom: 16px;
+  padding-left: 24px;
 }
 .mat-mdc-card-title {
-    display: block;
-    margin: 0;
-    padding-left: 14px;
+  display: block;
+  margin: 0;
+  padding-left: 14px;
 }
 td.mat-mdc-cell {
-    padding-left: 28px;
+  padding-left: 15px;
+}
+.right-button {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  line-height: 36px;
+  font-size: 16px;
+  padding: 0;
+  margin-right: 10px;
+}
+.wrong-button {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  line-height: 36px;
+  font-size: 16px;
+  padding: 0;
+  margin-right: 10px;
+}
+.actions-cell {
+  padding-left: 10px; /* Adds space inside the cell */
+  text-align: left; /* Ensure content stays aligned to the left */
+}
+.highlighted {
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.8); /* Green glow for approved */
+}
+
+.actions-cell button {
+  margin-right: 8px;
+}
+
+.status-label {
+  font-weight: bold;
+  color: #555;
+  margin-left: 16px;
+}
+.mat-mdc-header-cell {
+  background: inherit;
+  padding-left: 17px;
 }
