@@ -12,7 +12,6 @@ import { LayoutComponent } from "./shared/layout/layout.component";
 import { ConfirmDialogComponent } from "./shared/confirm-dialog/confirm-dialog.component";
 import { ContentPlaceholderAnimationComponent } from "./shared/content-placeholder-animation/content-placeholder-animation.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
-
 import { CustomMaterialModule } from "../app/custom-material/custom-material.module";
 import { LimitToPipe } from "./shared/pipes/limit-to.pipe";
 import { LocalDatePipe } from "./shared/pipes/local-date.pipe";
