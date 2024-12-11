@@ -64,6 +64,7 @@ export class PlacementCompanyJobDetailsComponent {
   readonly dialog = inject(MatDialog);
 
   UserRoleId: number;
+  campusCompanyId: number = 0;
 
   dataSource1 = new MatTableDataSource<companyTableList>([]);
 
@@ -156,6 +157,47 @@ export class PlacementCompanyJobDetailsComponent {
     this.filteredJobpostingData.set(filtered);
     console.log("Filtered Data:", filtered);
   }
+
+  removeJobPosting() {
+    this.getAllCompanyCampuses();
+  }
+
+  getAllCompanyCampuses = () => {
+    this.placementCompanyJobDetailsApiService
+      .GetCampusCompanyById(this.CompanyId)
+      .subscribe({
+        next: (odataResponse) => {
+          console.log("Company", odataResponse.value);
+          this.campusCompanyId = odataResponse.value[0].Id;
+          console.log(this.campusCompanyId);
+          this.deleteCompanyById();
+        },
+        error: (error) => {
+          console.error("Error fetching companies:", error);
+        },
+      });
+  };
+
+  deleteCompanyById = () => {
+    this.placementCompanyJobDetailsApiService
+      .DeleteCompanyById(this.campusCompanyId)
+      .subscribe({
+        next: (response: { success: boolean; message: string }) => {
+          if (response.success) {
+            this.sweetAlertService.success(response.message);
+            this.router.navigate(["/placement-company"]);
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error(
+            "An unexpected error occurred while deleting the Company."
+          );
+          console.error("Error deleting Company:", error);
+        },
+      });
+  };
 
   filterCities(search: string) {
     const filterValue = search.toLowerCase();

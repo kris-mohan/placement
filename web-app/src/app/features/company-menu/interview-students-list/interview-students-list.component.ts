@@ -222,6 +222,7 @@ export class InterviewStudentsListComponent implements OnInit {
       this.JobPostingId,
       JobPostingRoundId,
       studentId,
+      this.currentRoundIndex,
     ]);
   }
 }

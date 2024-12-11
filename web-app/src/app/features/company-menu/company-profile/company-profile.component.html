@@ -3,7 +3,8 @@
     <button
       mat-raised-button
       class="matbutton"
-      (click)="openEditCompanyProfile()">
+      (click)="openEditCompanyProfile()"
+    >
       <mat-icon class="maticon">add</mat-icon>
       <p class="matName">Add Details</p>
     </button>
@@ -44,13 +45,14 @@
           <div class="more_info_item">
             <strong>Type : </strong>
             <span>{{
-              CompanyProfileData()[0]?.IsActive ? 'Active' : 'Inactive'
+              CompanyProfileData()[0]?.IsActive ? "Active" : "Inactive"
             }}</span>
           </div>
           <div class="more_info_item">
             <strong>Founded: </strong>
             <span
-              *ngIf="CompanyProfileData()[0]?.DateOfRegistration; else noDate">
+              *ngIf="CompanyProfileData()[0]?.DateOfRegistration; else noDate"
+            >
               {{ CompanyProfileData()[0].DateOfRegistration | date }}
             </span>
             <ng-template #noDate>Not Available</ng-template>
@@ -85,7 +87,7 @@
         <h2>Uploaded Resources</h2>
         <div class="resources-container">
           <div class="video-column">
-            <h4>Video:</h4>
+            <!-- <h4>Video:</h4>
             <iframe
               width="100%"
               height="200"
@@ -93,37 +95,84 @@
               title="Dummy YouTube Video"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
+              allowfullscreen
+            ></iframe> -->
+
+            <div>
+              <h4>Video:</h4>
+              <div *ngFor="let document of CompanyProfileDocumentData()">
+                <ng-container *ngIf="document.FileType === 'video'">
+                  <span
+                    class="file_links"
+                    (click)="openDocument(document.FilePath)"
+                  >
+                    <mat-icon>picture_as_pdf</mat-icon> {{ document.FileName }}
+                  </span>
+                </ng-container>
+              </div>
+            </div>
           </div>
 
           <div class="resources-column">
-            <div>
+            <!-- <div>
               <h4>PPT:</h4>
               <a
                 href="../../../../assets/PaataashalaBrochure.pdf"
                 target="_blank"
-                class="resource-link">
+                class="resource-link"
+              >
                 <mat-icon>picture_as_pdf</mat-icon> View PPT
               </a>
+            </div> -->
+            <div>
+              <h4>PPT:</h4>
+              <div *ngFor="let document of CompanyProfileDocumentData()">
+                <ng-container *ngIf="document.FileType === 'ppt'">
+                  <span
+                    class="file_links"
+                    (click)="openDocument(document.FilePath)"
+                  >
+                    <mat-icon>picture_as_pdf</mat-icon> {{ document.FileName }}
+                  </span>
+                </ng-container>
+              </div>
             </div>
             <div>
               <h4>Document:</h4>
-              <a
-                href="../../../../assets/PaataashalaBrochure.pdf"
-                target="_blank"
-                class="resource-link">
-                <mat-icon>description</mat-icon> View Document
-              </a>
+              <div *ngFor="let document of CompanyProfileDocumentData()">
+                <ng-container *ngIf="document.FileType === 'document'">
+                  <span
+                    class="file_links"
+                    (click)="openDocument(document.FilePath)"
+                  >
+                    <mat-icon>description</mat-icon> {{ document.FileName }}
+                  </span>
+                </ng-container>
+              </div>
             </div>
             <div>
+              <h4>Audio:</h4>
+              <div *ngFor="let document of CompanyProfileDocumentData()">
+                <ng-container *ngIf="document.FileType === 'audio'">
+                  <span
+                    class="file_links"
+                    (click)="openDocument(document.FilePath)"
+                  >
+                    <mat-icon>volume_up</mat-icon> {{ document.FileName }}
+                  </span>
+                </ng-container>
+              </div>
+            </div>
+            <!-- <div>
               <h4>Audio:</h4>
               <a
                 href="../../../../assets/Shiva_Tandava_Stotram_Original_Powerful_Best_Trance_(youconvert.net).mp3"
                 target="_blank"
-                class="resource-link">
+                class="resource-link"
+              >
                 <mat-icon>volume_up</mat-icon> Listen to Audio
               </a>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

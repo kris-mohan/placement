@@ -53,16 +53,17 @@ export class AddEditCompanyJobDetailsComponent {
   selectedCourseIds: number[] = [];
   selectedStreamIds: number[] = [];
   CompanyRouteId: number | null = null;
-  JObPostRouteId: number | null = null;
+  //JObPostRouteId: number | null = null;
+  JObPostRouteId = signal<number | null>(null);
   sessionCompanyId: number;
+  sessionCampusId: number;
   addEditJobPostingForm: FormGroup;
-
+  userRoleId :number;  //OrgId: number | null = null;
   JobTypes: string[] = JobTypes;
   ModeOfWorks: string[] = ModeOfWorks;
   ShiftTypes: string[] = ShiftTypes;
 
   Months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
   readonly dialog = inject(MatDialog);
   constructor(
     private tabService: TabsCompanyJobDetailsService,
@@ -75,6 +76,11 @@ export class AddEditCompanyJobDetailsComponent {
   ) {
     const storedCompanyId = sessionStorage.getItem("CompanyId");
     this.sessionCompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
+
+    const userRoleId = sessionStorage.getItem("userRoleId");
+    this.userRoleId = userRoleId ? parseInt(userRoleId) : 0;
+    const storedCampusId = sessionStorage.getItem("CampusId");
+    this.sessionCampusId = storedCampusId ? parseInt(storedCampusId) : 0;
 
     this.addEditJobPostingForm = this.fb.group({
       JobRole: ["", [Validators.required]],
@@ -121,6 +127,10 @@ export class AddEditCompanyJobDetailsComponent {
       width: "500px",
       height: "600px",
       data: company,
+      // data: {
+      //   data: company,
+      //   orgId: this.OrgId,
+      // },
     });
   }
   onTabChange(event: number): void {
@@ -220,13 +230,15 @@ export class AddEditCompanyJobDetailsComponent {
       const companyId = params.get("companyId");
       this.CompanyRouteId = companyId !== null ? +companyId : null;
       const jobId = params.get("jobId");
-      this.JObPostRouteId = jobId !== null ? +jobId : null;
-      if (this.JObPostRouteId) {
+      //this.JObPostRouteId = jobId !== null ? +jobId : null;
+      this.JObPostRouteId.set(jobId !== null ? +jobId : null);
+      if (this.JObPostRouteId()) {
         this.addeditCompanyJobDetailsApiService
-          .GetJobPostingById(this.JObPostRouteId)
+          .GetJobPostingById(this.JObPostRouteId() ?? 0)
           .subscribe({
             next: (response) => {
               const data: Jobposting = response.value[0];
+              //this.OrgId = data.OrgId || null;
               if (data) {
                 this.addEditJobPostingForm.patchValue(data);
 
@@ -293,7 +305,7 @@ export class AddEditCompanyJobDetailsComponent {
       // }
 
       const jobPostingData: PostJobposting = {
-        Id: this.JObPostRouteId ?? 0,
+        Id: this.JObPostRouteId() ?? 0,
         CompanyId: this.sessionCompanyId
           ? this.sessionCompanyId
           : this.CompanyRouteId || 0,
@@ -320,46 +332,57 @@ export class AddEditCompanyJobDetailsComponent {
         MaximumMonthExperience: jobPosting.MaximumMonthExperience ?? 0,
         IsDeleted: 0,
         IsClosed: 0,
+        OrgId: this.sessionCampusId,
         Collegejobpostings: (jobPosting.Collegejobpostings ?? []).map(
           (collegeId) => ({
-            JobPostingId: this.JObPostRouteId ?? 0,
+            JobPostingId: this.JObPostRouteId() ?? 0,
             CollegeId: collegeId as number,
           })
         ),
         JobpostingSkills: (jobPosting.JobpostingSkills ?? []).map(
           (skillId) => ({
-            JobPostingId: this.JObPostRouteId ?? 0,
+            JobPostingId: this.JObPostRouteId() ?? 0,
             SkillId: skillId as number,
           })
         ),
         CompanyJobBatches: (jobPosting.CompanyJobBatches ?? []).map(
           (batchId) => ({
-            JobPostingId: this.JObPostRouteId ?? 0,
+            JobPostingId: this.JObPostRouteId() ?? 0,
             BatchId: batchId as number,
           })
         ),
         CompanyJobCourses: (jobPosting.CompanyJobCourses ?? []).map(
           (courseId) => ({
-            JobPostingId: this.JObPostRouteId ?? 0,
+            JobPostingId: this.JObPostRouteId() ?? 0,
             CourseId: courseId as number,
           })
         ),
         CompanyJobStreams: (jobPosting.CompanyJobStreams ?? []).map(
           (streamId) => ({
-            JobPostingId: this.JObPostRouteId ?? 0,
+            JobPostingId: this.JObPostRouteId() ?? 0,
             StreamId: streamId as number,
           })
         ),
       };
 
       this.addeditCompanyJobDetailsApiService
-        .addUpdateJobPosting(this.JObPostRouteId, jobPostingData)
+        .addUpdateJobPosting(this.JObPostRouteId(), jobPostingData)
         .subscribe({
-          next: (response: { success: boolean; message: any }) => {
+          next: (response: { success: boolean; message: any; id: number }) => {
             if (response.success) {
               this.sweetAlertService.success(response.message);
+              if (!this.JObPostRouteId()) {
+                this.JObPostRouteId.set(response.id);
+                this.router.navigate([
+                  "/company-job-details/add-edit-jobPosting/",
+                  response.id,
+                ]);
+              }
               //this.GetJobPostingById();
-              this.goBack();
+              //this.goBack();
+              // this.router.navigate([
+              //   "/company-job-details/add-edit-jobPosting/",
+              // ]);
             } else {
               this.sweetAlertService.error(response.message);
             }

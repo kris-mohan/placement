@@ -15,6 +15,7 @@ import { Tblstudent } from "src/app/services/types/Tblstudent";
 import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { CompanyjobdescriptionApiService } from "../company-job-description/company-job-description-ApiService";
+import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
 @Component({
   selector: "app-company-job-description",
   standalone: true,
@@ -143,13 +144,12 @@ export class CompanyJobDescriptionComponent {
               const data: Jobposting[] = jobPostings.value;
               const mappedData = data.map((jobposting: any) => ({
                 ...jobposting,
-                ValidTill: this.convertToDateOnly(jobposting.ValidTill),
-                ValidFrom: this.convertToDateOnly(jobposting.ValidFrom),
-                DriveDate: this.convertToDateOnly(jobposting.DriveDate),
+                ValidTill: GetDateDDMMYYYY(jobposting.ValidTill),
+                ValidFrom: GetDateDDMMYYYY(jobposting.ValidFrom),
+                DriveDate: GetDateDDMMYYYY(jobposting.DriveDate),
               }));
               this.JobPostingsDescriptionData.set(mappedData);
-              this.JobPostingsData.set([mappedData[0]]);
-              this.getJobPostingData();
+              this.JobPostingsData.set(mappedData);
               console.log("Company Name:", this.JobPostingsDescriptionData());
             },
             error: (error) => {

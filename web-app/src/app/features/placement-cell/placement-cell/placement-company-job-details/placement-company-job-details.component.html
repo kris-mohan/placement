@@ -250,13 +250,28 @@
     <!-- </div> -->
 
     <div class="right-content">
+      <!-- Mat Raised Button -->
+      <button
+        mat-raised-button
+        color="warn"
+        class="remove-job-btn"
+        (click)="removeJobPosting()"
+      >
+        Remove Job Posting
+      </button>
       <div class="related-jobs">
-        <h3>{{ JobPostingsDescriptionData()[0]?.Name }}</h3>
+        <div class="headers">
+          <h3>{{ JobPostingsDescriptionData()[0]?.Name }}</h3>
+          <div>
+            <button mat-raised-button class="matbutton">Invite Company</button>
+          </div>
+        </div>
         <img
           src="{{ JobPostingsDescriptionData()[0]?.LogoPath }}"
           alt="image"
           class="image"
         />
+
         <ul>
           <li>
             <h4>About the company</h4>

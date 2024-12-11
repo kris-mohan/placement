@@ -83,6 +83,7 @@ export type PostJobposting = {
   MinPucpercentage?: number;
   MinCgpa?: number;
   BacklogsAllowed?: number;
+  OrgId?: number;
   Collegejobpostings: { JobPostingId?: number; CollegeId?: number }[];
   JobpostingSkills?: { SkillId?: number; JobPostingId?: number }[];
   CompanyJobBatches?: { JobPostingId?: number; BatchId?: number }[];

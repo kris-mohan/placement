@@ -26,16 +26,15 @@ type Sector = {
 };
 
 interface UploadedFileInfo {
+  id: number;
   fileName: string;
   filePath: string;
   fileType: string;
-  timestampedFileName: string;
-  errorMessage: string | null;
   parentType: string;
   parentId: number;
   isDeleted: boolean;
-  createdDate: Date;
-  createdBy: string;
+  createdDate: DateTime;
+  createdBy: boolean;
 }
 
 @Component({
@@ -172,7 +171,7 @@ export class EditProfileComponent implements OnInit {
     this.addEditCompanyProfile.patchValue({ document: this.selectedDocuments });
   }
 
-  uploadDocument(selectedFiles: File[]): void {
+  uploadDocument(selectedFiles: File[], fileType: string): void {
     if (selectedFiles.length > 0) {
       const formData = new FormData();
       selectedFiles.forEach((file) => formData.append("files", file));
@@ -184,11 +183,15 @@ export class EditProfileComponent implements OnInit {
               this.uploadedFiles = [
                 ...this.uploadedFiles,
                 {
-                  ...f,
+                  id: 0,
+                  fileName: f.fileName,
+                  filePath: f.filePath,
+                  fileType: fileType,
                   parentType: "company",
                   parentId: 1,
-                  isDeleted: false,
+                  isDeleted: true,
                   createdDate: DateTime.now(),
+                  createdBy: true,
                 },
               ];
             });
@@ -207,16 +210,16 @@ export class EditProfileComponent implements OnInit {
   uploadFiles(fileType: string): void {
     switch (fileType) {
       case "video":
-        this.uploadDocument(this.selectedVideos);
+        this.uploadDocument(this.selectedVideos, "video");
         break;
       case "ppt":
-        this.uploadDocument(this.selectedPpts);
+        this.uploadDocument(this.selectedPpts, "ppt");
         break;
       case "audio":
-        this.uploadDocument(this.selectedAudios);
+        this.uploadDocument(this.selectedAudios, "audio");
         break;
       case "document":
-        this.uploadDocument(this.selectedDocuments);
+        this.uploadDocument(this.selectedDocuments, "document");
         break;
       default:
         break;

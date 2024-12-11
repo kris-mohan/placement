@@ -1,6 +1,18 @@
 button {
   margin: 0 8px 8px 0;
 }
+
+.right-content {
+  position: relative;
+}
+
+.remove-job-btn {
+  position: absolute;
+  top: 20px; /* Adjust top positioning */
+  right: 20px; /* Adjust right positioning */
+  z-index: 10;
+}
+
 .mat-mdc-card-header {
   display: unset;
 }
@@ -33,6 +45,8 @@ table {
 
 .matbutton {
   background-color: #3f51b5;
+  color: white;
+  font-size: small;
 }
 .maticon {
   color: white;
@@ -189,6 +203,10 @@ cdk-overlay-pane {
   font-weight: 500;
 }
 .Headers {
+  display: flex;
+  justify-content: space-between;
+}
+.headers {
   display: flex;
   justify-content: space-between;
 }

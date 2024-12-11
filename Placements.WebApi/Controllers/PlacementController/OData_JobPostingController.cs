@@ -34,7 +34,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 _context.Jobpostings.Add(jobposting);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Jobposting Added Successfully" });
+                return Ok(new { success = true, message = "Jobposting Added Successfully", Id = jobposting.Id });
             }
             catch (Exception ex)
             {
@@ -66,7 +66,7 @@ namespace Placements.WebApi.Controllers.PlacementController
                 _context.Jobpostings.Update(jobposting);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Jobposting Updated Successfully." });
+                return Ok(new { success = true, message = "Jobposting Updated Successfully.", Id = jobposting.Id });
             }
             catch (Exception ex)
             {
@@ -90,7 +90,7 @@ namespace Placements.WebApi.Controllers.PlacementController
 
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Job Posting Updated Successfully." });
+                return Ok(new { success = true, message = "Job Posting Updated Successfully.", Id = original.Id });
             }
             catch (Exception ex)
             {

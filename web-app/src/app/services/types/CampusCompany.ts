@@ -8,3 +8,9 @@ export type CampusCompany = {
   Campus: Campusregistration;
   Company: Companydatum;
 };
+
+export type PostCampusCompany = {
+  Id: number;
+  CampusId?: number;
+  CompanyId?: number;
+};
