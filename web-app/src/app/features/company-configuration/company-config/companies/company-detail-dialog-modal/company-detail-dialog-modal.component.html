@@ -59,6 +59,14 @@
             </tr>
           </tbody>
         </table>
+        <mat-dialog-actions align="end">
+          <button *ngIf="UserRoleId !== 3" mat-button (click)="clickKnowMore()">
+            Add Company
+          </button>
+          <button *ngIf="UserRoleId === 3" mat-button (click)="clickKnowMore()">
+            Apply now
+          </button>
+        </mat-dialog-actions>
       </mat-dialog-content>
 
       <div class="column2">

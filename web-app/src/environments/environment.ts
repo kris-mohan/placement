@@ -13,6 +13,6 @@ export const environment = {
   API_URL: "https://localhost:44304/odata",
   API_BASE_URL: "https://localhost:44304/api/dashboard"
   //API_URL: "http://localhost:5056/odata",
-  API_BASE_URL: "https://localhost:44304",
+  // API_BASE_URL: "https://localhost:44304",
 };
 
