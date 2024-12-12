@@ -51,7 +51,9 @@ table.compact-table {
 
 th.mat-header-cell,
 td.mat-cell {
-  padding: 4px;
+  padding: 4px 8px;
+  text-align: left;
+  vertical-align: middle;
 }
 
 th.mat-header-cell {
@@ -63,4 +65,77 @@ th.mat-header-cell {
 td.mat-cell {
   background-color: #fff;
   color: #555;
+}
+
+th.mat-mdc-header-cell.mdc-data-table__header-cell.cdk-header-cell.cdk-column-sgpa.mat-column-sgpa.ng-star-inserted {
+  text-align: left;
+}
+.compact-tab-group {
+  margin-top: 16px;
+}
+
+.compact-table-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.semester-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-mdc-card-content:last-child {
+  padding-bottom: 16px;
+  padding-left: 24px;
+}
+.mat-mdc-card-title {
+  display: block;
+  margin: 0;
+  padding-left: 14px;
+}
+td.mat-mdc-cell {
+  padding-left: 15px;
+}
+.right-button {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  line-height: 36px;
+  font-size: 16px;
+  padding: 0;
+  margin-right: 10px;
+}
+.wrong-button {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  line-height: 36px;
+  font-size: 16px;
+  padding: 0;
+  margin-right: 10px;
+}
+.actions-cell {
+  padding-left: 10px; /* Adds space inside the cell */
+  text-align: left; /* Ensure content stays aligned to the left */
+}
+.highlighted {
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.8); /* Green glow for approved */
+}
+
+.actions-cell button {
+  margin-right: 8px;
+}
+
+.status-label {
+  font-weight: bold;
+  color: #555;
+  margin-left: 16px;
+}
+.mat-mdc-header-cell {
+  background: inherit;
+  padding-left: 17px;
 }

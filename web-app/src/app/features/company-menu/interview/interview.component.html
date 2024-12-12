@@ -159,6 +159,10 @@
         </div>
       </div>
     </mat-card-header>
+    <div *ngIf="isLoading" class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!isLoading"></div>
 
     <mat-card-content
       fxLayout="row wrap"
@@ -213,11 +217,15 @@
           <div *ngIf="UserRoleId !== 3">
             <p>
               <strong>Number of students cleared:</strong>
-              12
+              {{
+                calculateClearedStudents(scheduledInterview.JobpostStudentrounds)
+              }}
             </p>
             <p>
               <strong>Number of students rejected:</strong>
-              2
+              {{
+                calculateRejectedStudents(scheduledInterview.JobpostStudentrounds)
+              }}
             </p>
           </div>
         </div>

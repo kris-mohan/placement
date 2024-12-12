@@ -32,6 +32,7 @@ export class IndentplacementComponent {
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
 
+  isLoading = true;
   jobSummary = [
     { jobTitle: "Software Engineer", studentsCount: 1 },
     { jobTitle: "Data Scientist", studentsCount: 1 },
@@ -133,6 +134,9 @@ export class IndentplacementComponent {
       next: (response) => {
         const data: IndentForm[] = response.value;
         this.indentdata = data;
+        this.isLoading=false;
+
+    
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);

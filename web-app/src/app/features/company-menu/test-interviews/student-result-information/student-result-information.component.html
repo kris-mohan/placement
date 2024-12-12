@@ -39,23 +39,32 @@
               fxFlex.gt-lg="25%"
               fxFlex.gt-sm="50%"
             >
-              <p class="grid-label">Score</p>
-              <mat-form-field appearance="outline" class="matFormField">
-                <mat-label> Score</mat-label>
-                <input matInput formControlName="Score" type="number" />
-              </mat-form-field>
-            </div>
-            <div
-              fxFlex="100%"
-              fxFlex.gt-md="33%"
-              fxFlex.gt-lg="25%"
-              fxFlex.gt-sm="50%"
-            >
-              <p class="grid-label">Feedback</p>
-              <mat-form-field appearance="outline" class="matFormField">
-                <mat-label> Feedback</mat-label>
-                <textarea matInput formControlName="Feedback"></textarea>
-              </mat-form-field>
+              <div fxLayout="row" fxLayoutAlign="start center">
+                <p class="grid-label">Score</p>
+                <mat-form-field appearance="outline" class="matFormField">
+                  <mat-label> Score</mat-label>
+                  <input matInput formControlName="Score" type="number" />
+                </mat-form-field>
+              </div>
+              <div>
+                <div>
+                  <div
+                    fxLayout="row"
+                    fxLayoutAlign="start center"
+                    style="width: 100%"
+                  >
+                    <p class="grid-labels">Feedback</p>
+                    <mat-form-field appearance="outline" class="matFormField">
+                      <mat-label> Feedback</mat-label>
+                      <textarea
+                        matInput
+                        formControlName="Feedback"
+                        rows="2"
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </mat-card-content>
@@ -65,15 +74,75 @@
         <button
           mat-raised-button
           class="matbutton"
-          (click)="openMoveToNextRoundOrReject(1)"
+          (click)="handleGenerateOffer()"
+          *ngIf="
+            currentRoundIndex() >
+            JobInterviewRoundsData()[0].Jobinterviewrounds.length - 2
+          "
         >
-          <p class="matName">Move to next Round</p>
+          <p class="matName">Genrate offer</p>
         </button>
         <button
           mat-raised-button
-          class="matbutton"
+          color="primary"
+          (click)="handleGenerateOffer()"
+          *ngIf="
+            currentRoundIndex() >
+            JobInterviewRoundsData()[0].Jobinterviewrounds.length - 2
+          "
+        >
+          <p class="matName">Genrate offer</p>
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openMoveToNextRoundOrReject(1)"
+          *ngIf="
+            currentRoundIndex() <
+            JobInterviewRoundsData()[0].Jobinterviewrounds.length - 1
+          "
+          [disabled]="
+            studentResultInformationForm.invalid ||
+            !studentResultInformationForm.value.Score ||
+            !studentResultInformationForm.value.Feedback
+          "
+          disabledInteractive
+          matTooltip="Enter Score and Feedback to proceed"
+        >
+          Move to next Round
+          *ngIf="
+            currentRoundIndex() <
+            JobInterviewRoundsData()[0].Jobinterviewrounds.length - 1
+          "
+          [disabled]="
+            studentResultInformationForm.invalid ||
+            !studentResultInformationForm.value.Score ||
+            !studentResultInformationForm.value.Feedback
+          "
+          disabledInteractive
+          matTooltip="Enter Score and Feedback to proceed"
+        >
+          Move to next Round
+        </button>
+        <button
+          mat-raised-button
           type="submit"
+          color="warn"
           (click)="openMoveToNextRoundOrReject(0)"
+          [disabled]="
+            studentResultInformationForm.invalid ||
+            !studentResultInformationForm.value.Score ||
+            !studentResultInformationForm.value.Feedback
+          "
+          disabledInteractive
+          matTooltip="Enter Score and Feedback to proceed"
+          [disabled]="
+            studentResultInformationForm.invalid ||
+            !studentResultInformationForm.value.Score ||
+            !studentResultInformationForm.value.Feedback
+          "
+          disabledInteractive
+          matTooltip="Enter Score and Feedback to proceed"
         >
           <p class="matName">Reject</p>
         </button>

@@ -247,6 +247,10 @@
       </div>
     </div>
   </mat-card-header>
+  <div *ngIf="isloading" class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="!isloading"></div>
 
   <mat-card-content
     fxLayout="row wrap"

@@ -43,12 +43,24 @@
   margin-left: 10px;
 }
 
-.matbutton {
+/* .matbutton {
   background-color: #3f51b5;
-}
+} */
 .maticon {
   color: white;
 }
 .matName {
   color: white;
+}
+.grid-label {
+  margin-right: 15px;
+    padding-left: 20px;
+}
+.grid-labels {
+  margin-right: 15px;
+}
+
+.matFormField {
+  width: 100%; 
+  
 }

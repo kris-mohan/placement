@@ -169,3 +169,10 @@ cdk-overlay-pane {
     max-width: 100%;
   }
 }
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}

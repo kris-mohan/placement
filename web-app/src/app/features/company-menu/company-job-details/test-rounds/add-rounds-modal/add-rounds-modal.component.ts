@@ -357,7 +357,7 @@ export class AddRoundsModalComponent {
                   );
                   this.roundsUpdated.emit();
                   this.dialogRef.close({ data: roundResponse });
-                },
+                   },
                 error: (error) => {
                   console.error("Error saving JobInterviewRound:", error);
                 },

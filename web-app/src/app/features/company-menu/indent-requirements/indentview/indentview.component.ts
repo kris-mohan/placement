@@ -27,6 +27,7 @@ export interface ODataResponse<T> {
 export class IndentviewComponent {
   [x: string]: any;
   UserRoleId: number;
+  isLoading = true;
   constructor(
     private router: Router,
     private dialogService: DialogMessageService,
@@ -145,6 +146,7 @@ export class IndentviewComponent {
       next: (response) => {
         const data: IndentForm[] = response.value;
         this.indentdata = data;
+        this.isLoading = false;
         console.log(this.indentdata);
       },
       error: (error) => {

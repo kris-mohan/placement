@@ -141,3 +141,11 @@ cdk-overlay-pane {
   padding: 20px;
   width: 25%;
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}

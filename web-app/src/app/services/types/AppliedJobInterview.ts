@@ -4,5 +4,5 @@ export type AppliedJobInterview = {
   JobRole?: string;
   Status?: string;
   Company?: string;
-  Date?: Date;
+  Date?: string;
 };

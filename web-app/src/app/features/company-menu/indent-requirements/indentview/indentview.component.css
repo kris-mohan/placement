@@ -67,3 +67,10 @@ table {
 mat-grid-list th {
   display: none;
 }
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
