@@ -150,3 +150,9 @@ table {
 .company-designation div h3 {
   margin: 0 0 0 0 !important;
 }
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;}

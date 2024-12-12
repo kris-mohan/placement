@@ -144,3 +144,10 @@ cdk-overlay-pane {
   font-size: x-large;
   color: darkblue;
 }
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}

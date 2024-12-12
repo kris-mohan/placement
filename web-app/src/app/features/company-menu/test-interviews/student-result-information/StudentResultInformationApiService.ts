@@ -9,6 +9,7 @@ import {
   JobpostStudentround,
   PostJobpostStudentround,
 } from "src/app/services/types/JobpostStudentround";
+import { JobpostingSelectedstudent } from "src/app/services/types/JobpostingSelectedstudent";
 import { postJobpostingSelectedstudent } from "src/app/services/types/postjobpostingselectedstudent";
 
 @Injectable({
@@ -58,6 +59,13 @@ export class StudentResultInformationApiService {
     return this.apiHttpService.post(url, JobpostStudentround);
   }
 
+  public generateOffer(
+    JobpostStudentround: postJobpostingSelectedstudent
+  ): Observable<any> {
+    const url = `/JobpostingSelectedstudent`;
+    return this.apiHttpService.post(url, JobpostStudentround);
+  }
+
   public JobpostStudentround(
     studentId: number,
     jobPostingId: number
@@ -65,11 +73,5 @@ export class StudentResultInformationApiService {
     return this.apiHttpService.get<ODataEntity<JobpostStudentround[]>>(
       `/JobpostStudentround?$filter=StudentId eq ${studentId} and JobPostingRound/JobPostingId eq ${jobPostingId}`
     );
-  }
-  public generateOffer(
-    JobpostStudentround: postJobpostingSelectedstudent
-  ): Observable<any> {
-    const url = `/JobpostingSelectedstudent`;
-    return this.apiHttpService.post(url, JobpostStudentround);
   }
 }

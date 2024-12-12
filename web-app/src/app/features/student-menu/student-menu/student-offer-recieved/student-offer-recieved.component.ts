@@ -54,6 +54,7 @@ export class StudentOfferRecievedComponent {
     end: new FormControl(new Date(year, month, 16)),
   });
 
+  isLoading = true;
   studentId: number;
 
   getAllOfferRecieved = () => {
@@ -233,6 +234,7 @@ export class StudentOfferRecievedComponent {
     if (!selectedIndustries.length && !selectedSalaryRanges.length) {
       // No filters applied
       this.filterOfferRecievedData.set(this.JobpostingSelectedstudentData());
+      this.isLoading = false;
       return;
     }
 
@@ -255,6 +257,7 @@ export class StudentOfferRecievedComponent {
     });
 
     this.filterOfferRecievedData.set(filteredData);
+    this.isLoading = false;
   }
 
   openCompanyModalPopup(company: any): void {

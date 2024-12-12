@@ -1,5 +1,6 @@
 import { CommonModule, Location } from "@angular/common";
 import { Component, inject, OnInit, signal } from "@angular/core";
+import { Component, inject, OnInit, signal } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
@@ -21,6 +22,8 @@ import {
   PostJobpostStudentround,
 } from "src/app/services/types/JobpostStudentround";
 import { postJobpostingSelectedstudent } from "src/app/services/types/postjobpostingselectedstudent";
+import { MatButton } from "@angular/material/button";
+import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
   selector: "app-student-result-information",
@@ -33,6 +36,8 @@ import { postJobpostingSelectedstudent } from "src/app/services/types/postjobpos
     SecondRoundComponent,
     ThirdRoundComponent,
     FourthRoundComponent,
+    MatButton,
+    MatTooltip,
   ],
   templateUrl: "./student-result-information.component.html",
   styleUrl: "./student-result-information.component.css",
@@ -90,6 +95,43 @@ export class StudentResultInformation implements OnInit {
     });
     this.getStudentRoundDetails();
   }
+
+  getStudentRoundDetails = () => {
+    this.studentResultInformationApiService
+      .JobpostStudentround(this.studentId, this.jobPostingId)
+      .subscribe({
+        next: (studentRounds) => {
+          const data = studentRounds.value;
+          console.log(data);
+          this.studentRoundsData.set(data);
+          this.patchFormValues(0);
+          this.currentRoundIndex.set(data.length);
+          console.log(this.currentRoundIndex());
+        },
+      });
+  };
+
+  patchFormValues(roundIndex: number) {
+    const roundData = this.studentRoundsData()[roundIndex];
+    console.log(roundData);
+
+    if (roundData) {
+      this.studentResultInformationForm.patchValue({
+        Score: roundData.Score || "",
+        Feedback: roundData.Feedback || "",
+      });
+      this.studentResultInformationForm.get("Score")?.disable();
+      this.studentResultInformationForm.get("Feedback")?.disable();
+    } else {
+      this.studentResultInformationForm.patchValue({
+        Score: "",
+        Feedback: "",
+      });
+      this.studentResultInformationForm.get("Score")?.enable();
+      this.studentResultInformationForm.get("Feedback")?.enable();
+    }
+  }
+
   GetJobInterviewRounds = () => {
     const jobPostId = this.jobPostingId ?? 0;
     this.studentResultInformationApiService

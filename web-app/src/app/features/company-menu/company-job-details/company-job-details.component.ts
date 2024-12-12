@@ -76,6 +76,7 @@ export class CompanyJobDetailsComponent {
   filteredCompany: Observable<any[]> = of([]);
 
   UserRoleId: number;
+  isloading = true;
   readonly dialog = inject(MatDialog);
 
   dataSource1 = new MatTableDataSource<companyTableList>([]);
@@ -177,6 +178,7 @@ export class CompanyJobDetailsComponent {
     });
 
     this.filteredJobPostings.set(filtered);
+    this.isloading = false;
   }
 
   filterCities(search: string) {

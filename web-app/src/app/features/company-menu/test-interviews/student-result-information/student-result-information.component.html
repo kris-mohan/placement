@@ -85,7 +85,31 @@
         <button
           mat-raised-button
           color="primary"
+          (click)="handleGenerateOffer()"
+          *ngIf="
+            currentRoundIndex() >
+            JobInterviewRoundsData()[0].Jobinterviewrounds.length - 2
+          "
+        >
+          <p class="matName">Genrate offer</p>
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
           (click)="openMoveToNextRoundOrReject(1)"
+          *ngIf="
+            currentRoundIndex() <
+            JobInterviewRoundsData()[0].Jobinterviewrounds.length - 1
+          "
+          [disabled]="
+            studentResultInformationForm.invalid ||
+            !studentResultInformationForm.value.Score ||
+            !studentResultInformationForm.value.Feedback
+          "
+          disabledInteractive
+          matTooltip="Enter Score and Feedback to proceed"
+        >
+          Move to next Round
           *ngIf="
             currentRoundIndex() <
             JobInterviewRoundsData()[0].Jobinterviewrounds.length - 1
@@ -105,6 +129,13 @@
           type="submit"
           color="warn"
           (click)="openMoveToNextRoundOrReject(0)"
+          [disabled]="
+            studentResultInformationForm.invalid ||
+            !studentResultInformationForm.value.Score ||
+            !studentResultInformationForm.value.Feedback
+          "
+          disabledInteractive
+          matTooltip="Enter Score and Feedback to proceed"
           [disabled]="
             studentResultInformationForm.invalid ||
             !studentResultInformationForm.value.Score ||

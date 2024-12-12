@@ -24,6 +24,7 @@ import { PlacementOfferRecievedApiService } from "./api.placement-offer-recieved
 import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
 import { PlacementOfferRecievedUploadFileComponent } from "./placement-offer-recieved-upload-file/placement-offer-recieved-upload-file.component";
 import { Companyindustry } from "src/app/services/types/Companyindustry";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 const today = new Date();
 const month = today.getMonth();
@@ -32,7 +33,7 @@ const year = today.getFullYear();
 @Component({
   selector: "app-placement-offer-recieved",
   standalone: true,
-  imports: [CommonModule, SharedModule, AMGModules],
+  imports: [CommonModule, SharedModule, AMGModules, MatProgressSpinnerModule],
   templateUrl: "./placement-offer-recieved.component.html",
   styleUrl: "./placement-offer-recieved.component.css",
 })
@@ -52,6 +53,7 @@ export class PlacementOfferRecievedComponent {
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
   });
+  isLoading = true; // Start with loading state
 
   JobpostingSelectedstudentData = signal<JobpostingSelectedstudent[]>([]);
   filteredStudents = signal<JobpostingSelectedstudent[]>([]);
@@ -220,6 +222,7 @@ export class PlacementOfferRecievedComponent {
     this.getAllIndustries();
     this.getBranches();
     this.getBatches();
+
     // Listen to changes in search fields and filter data accordingly
     this.searchName.valueChanges.subscribe(() => this.applyFilters());
     this.branchControl.valueChanges.subscribe(() => this.applyFilters());
@@ -263,6 +266,7 @@ export class PlacementOfferRecievedComponent {
     const selectedRanges = this.salaryControl.value || [];
     if (!selectedRanges.length) {
       this.filteredStudents.set(this.JobpostingSelectedstudentData());
+      this.isLoading = false;
       return;
     }
     const filteredData = this.JobpostingSelectedstudentData().filter(
@@ -275,6 +279,7 @@ export class PlacementOfferRecievedComponent {
       }
     );
     this.filteredStudents.set(filteredData);
+    this.isLoading = false;
   }
   filterIndustries(searchTerm: string) {
     const lowerSearchTerm = searchTerm.toLowerCase();
@@ -371,6 +376,7 @@ export class PlacementOfferRecievedComponent {
     });
 
     this.filteredStudents.set(filtered);
+    this.isLoading = false;
   }
   onCompanySelected(event: MatAutocompleteSelectedEvent) {
     const selectedCompanyName = event.option.value;
