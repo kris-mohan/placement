@@ -20,7 +20,7 @@ export class EditProfileApiService {
     private apiHttpService: ApiHttpService,
     private http: HttpClient
   ) {}
-  baseUrl = environment.API_BASE_URL;
+  baseUrl = environment.API_BASE_URL1;
   public GetAllIndustries(): Observable<ODataEntity<Industry[]>> {
     return this.apiHttpService.get<ODataEntity<Industry[]>>(`/Industry`);
   }
