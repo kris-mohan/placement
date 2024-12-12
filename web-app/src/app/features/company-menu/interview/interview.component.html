@@ -213,11 +213,15 @@
           <div *ngIf="UserRoleId !== 3">
             <p>
               <strong>Number of students cleared:</strong>
-              12
+              {{
+                calculateClearedStudents(scheduledInterview.JobpostStudentrounds)
+              }}
             </p>
             <p>
               <strong>Number of students rejected:</strong>
-              2
+              {{
+                calculateRejectedStudents(scheduledInterview.JobpostStudentrounds)
+              }}
             </p>
           </div>
         </div>

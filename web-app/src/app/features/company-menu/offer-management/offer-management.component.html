@@ -63,8 +63,14 @@
           <mat-form-field class="search-full-width" appearance="outline">
             <mat-label>Search Students,Job title</mat-label>
             <mat-icon matSuffix>search</mat-icon>
-            <input type="text" matInput [matAutocomplete]="autoCompany" />
-            <mat-autocomplete #autoCompany="matAutocomplete">
+            <input
+              type="text"
+              [(ngModel)]="searchName.value"
+              (input)="applyFilters()"
+              aria-label="Search"
+              matInput
+              [formControl]="searchControl"
+            /><mat-autocomplete #autoCompany="matAutocomplete">
             </mat-autocomplete>
           </mat-form-field>
         </div>
@@ -207,7 +213,7 @@
     class="mat-card-content"
   >
     <div
-      *ngFor="let offer of JobpostingSelectedstudentData()"
+      *ngFor="let offer of filteredselectedStudents()"
       fxFlex="100%"
       fxFlex.gt-sm="50%"
       fxFlex.gt-md="28%"

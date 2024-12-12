@@ -30,6 +30,7 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { interviewApiService } from "src/app/features/company-menu/interview/api.interview";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { GetDateForLabel } from "src/app/core/helper/DateHelper";
+import { JobpostStudentround } from "src/app/services/types/JobpostStudentround";
 // import * as XLSX from "xlsx";
 // import { jsPDF } from "jspdf";
 
@@ -165,7 +166,17 @@ export class PlacementInterviewComponent {
       },
     });
   };
+  calculateClearedStudents(
+    jobpostStudentRounds: JobpostStudentround[]
+  ): number {
+    return jobpostStudentRounds.filter((x) => x.HasPassed).length;
+  }
 
+  calculateRejectedStudents(
+    jobpostStudentRounds: JobpostStudentround[]
+  ): number {
+    return jobpostStudentRounds.filter((x) => !x.HasPassed).length;
+  }
   ngOnInit() {
     // this.loadCompanies();
     // this.loadIndustries();

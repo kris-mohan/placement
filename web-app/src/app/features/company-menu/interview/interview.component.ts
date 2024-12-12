@@ -29,6 +29,7 @@ import { InterviewAdditionalFilterComponent } from "./interview-additional-filte
 import { interviewApiService } from "./api.interview";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { Campusregistration } from "src/app/services/types/Campusregistration";
+import { JobpostStudentround } from "src/app/services/types/JobpostStudentround";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -187,6 +188,17 @@ export class InterviewComponent {
       },
     });
   };
+  calculateClearedStudents(
+    jobpostStudentRounds: JobpostStudentround[]
+  ): number {
+    return jobpostStudentRounds.filter((x) => x.HasPassed).length;
+  }
+
+  calculateRejectedStudents(
+    jobpostStudentRounds: JobpostStudentround[]
+  ): number {
+    return jobpostStudentRounds.filter((x) => !x.HasPassed).length;
+  }
   calculateStatus(driveDate: Date | null | undefined): string {
     if (!driveDate) return "";
 

@@ -181,17 +181,17 @@
 
         <p>
           <strong>Date:</strong>
-          <!-- {{
+          {{
             GetDateLabelByDate(
-              scheduledInterview.JobPosting.ValidFrom || undefined
+              scheduledInterview.JobPosting?.ValidFrom || undefined
             )
           }}
           -
           {{
             GetDateLabelByDate(
-              scheduledInterview.JobPosting.ValidTill || undefined
+              scheduledInterview.JobPosting?.ValidTill || undefined
             )
-          }} -->
+          }}
         </p>
       </div>
 
@@ -202,16 +202,23 @@
           class="company-logo"
           style="max-width: 100px; max-height: 50px; object-fit: contain"
         />
-        <p><strong>Status:</strong> NA</p>
+        <p>
+          <strong>Status:</strong
+          >{{scheduledInterview.JobPosting?.JobpostingsEligiblestudents?.[0]?.Status?.Name}}
+        </p>
         <!-- <p><strong>Status:</strong> {{ scheduledInterview.status }}</p> -->
         <div *ngIf="UserRoleId !== 3">
           <p>
             <strong>Number of students cleared:</strong>
-            <!-- {{ scheduledInterview.studentsCleared }} -->
+            {{
+              calculateClearedStudents(scheduledInterview.JobpostStudentrounds)
+            }}
           </p>
           <p>
             <strong>Number of students rejected:</strong>
-            <!-- {{ scheduledInterview.studentsRejected }} -->
+            {{
+              calculateRejectedStudents(scheduledInterview.JobpostStudentrounds)
+            }}
           </p>
         </div>
       </div>
