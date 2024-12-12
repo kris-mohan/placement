@@ -370,7 +370,7 @@ export class AddRoundsModalComponent {
       }
     }
   }
-  // handleResetRounds(): void {
-  //   this.roundAddEditForm.patchValue(this.RoundEditData);
-  // }
+  handleResetRounds(): void {
+    this.roundAddEditForm.patchValue(this.RoundEditData);
+  }
 }

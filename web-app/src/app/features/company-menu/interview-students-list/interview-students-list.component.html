@@ -304,7 +304,10 @@
         class="grid-item"
         class="mat-grid-tile"
         (click)="
-          openInterviewMarksDetails(students.Id, students.JobPostingRoundId)
+          openInterviewMarksDetails(
+            students.StudentId,
+            students.JobPostingRoundId
+          )
         "
       >
         <div class="company-details">
