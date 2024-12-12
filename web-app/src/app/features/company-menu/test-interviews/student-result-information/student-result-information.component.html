@@ -39,23 +39,32 @@
               fxFlex.gt-lg="25%"
               fxFlex.gt-sm="50%"
             >
-              <p class="grid-label">Score</p>
-              <mat-form-field appearance="outline" class="matFormField">
-                <mat-label> Score</mat-label>
-                <input matInput formControlName="Score" type="number" />
-              </mat-form-field>
-            </div>
-            <div
-              fxFlex="100%"
-              fxFlex.gt-md="33%"
-              fxFlex.gt-lg="25%"
-              fxFlex.gt-sm="50%"
-            >
-              <p class="grid-label">Feedback</p>
-              <mat-form-field appearance="outline" class="matFormField">
-                <mat-label> Feedback</mat-label>
-                <textarea matInput formControlName="Feedback"></textarea>
-              </mat-form-field>
+              <div fxLayout="row" fxLayoutAlign="start center">
+                <p class="grid-label">Score</p>
+                <mat-form-field appearance="outline" class="matFormField">
+                  <mat-label> Score</mat-label>
+                  <input matInput formControlName="Score" type="number" />
+                </mat-form-field>
+              </div>
+              <div>
+                <div>
+                  <div
+                    fxLayout="row"
+                    fxLayoutAlign="start center"
+                    style="width: 100%"
+                  >
+                    <p class="grid-labels">Feedback</p>
+                    <mat-form-field appearance="outline" class="matFormField">
+                      <mat-label> Feedback</mat-label>
+                      <textarea
+                        matInput
+                        formControlName="Feedback"
+                        rows="2"
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </mat-card-content>
@@ -65,6 +74,7 @@
         <button
           mat-raised-button
           class="matbutton"
+          color="primary"
           (click)="openMoveToNextRoundOrReject(1)"
         >
           <p class="matName">Move to next Round</p>
@@ -73,6 +83,7 @@
           mat-raised-button
           class="matbutton"
           type="submit"
+          color="warn"
           (click)="openMoveToNextRoundOrReject(0)"
         >
           <p class="matName">Reject</p>

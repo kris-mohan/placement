@@ -194,7 +194,7 @@
         type="text"
         [(ngModel)]="newsoftskill"
         placeholder="Add a new soft skill" />
-      <button mat-stroked-button (click)="addsoftskill()">
+      <button  (click)="addsoftskill()">
         Add Soft Skill
       </button>
       <h4>Added Skills:</h4>
@@ -216,7 +216,7 @@
         type="text"
         [(ngModel)]="newTechnical"
         placeholder="Add a new technical skill" />
-      <button mat-stroked-button (click)="addTechnical()">Add Technical</button>
+      <button  (click)="addTechnical()">Add Technical</button>
       <h4>Added Skills:</h4>
       <ul>
         <li *ngFor="let technical of resumeData.technical; let i = index">
@@ -268,7 +268,7 @@
           type="text"
           [(ngModel)]="newHobby"
           placeholder="Add a new hobby" />
-        <button mat-stroked-button (click)="addHobby()">Add Hobby</button>
+        <button  (click)="addHobby()">Add Hobby</button>
         <h4>Selected Hobbies:</h4>
         <ul>
           <li *ngFor="let hobby of resumeData.hobbies; let i = index">
@@ -288,7 +288,7 @@
           type="text"
           [(ngModel)]="newCurricular"
           placeholder="Add a new Curricular Activity" />
-        <button mat-stroked-button (click)="addCurricular()">
+        <button  (click)="addCurricular()">
           Add Curricular Activity
         </button>
         <h4>Added Activities:</h4>
