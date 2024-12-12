@@ -1,6 +1,5 @@
 import { CommonModule, Location } from "@angular/common";
 import { Component, inject, OnInit, signal } from "@angular/core";
-import { Component, inject, OnInit, signal } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
@@ -169,44 +168,44 @@ export class StudentResultInformation implements OnInit {
   }
 
   // Function to patch the form values for a specific round (indexed by roundIndex)
-  patchFormValues(roundIndex: number) {
-    const roundData = this.studentRoundsData()[roundIndex];
-    console.log(roundData);
+  // patchFormValues(roundIndex: number) {
+  //   const roundData = this.studentRoundsData()[roundIndex];
+  //   console.log(roundData);
 
-    // Patch the form values if data exists
-    if (roundData) {
-      this.studentResultInformationForm.patchValue({
-        Score: roundData.Score || "",
-        Feedback: roundData.Feedback || "",
-      });
-      // Disable the input fields if data exists
-      this.studentResultInformationForm.get("Score")?.disable();
-      this.studentResultInformationForm.get("Feedback")?.disable();
-    } else {
-      // If no data, reset the fields
-      this.studentResultInformationForm.patchValue({
-        Score: "",
-        Feedback: "",
-      });
-      this.studentResultInformationForm.get("Score")?.enable();
-      this.studentResultInformationForm.get("Feedback")?.enable();
-    }
-  }
+  //   // Patch the form values if data exists
+  //   if (roundData) {
+  //     this.studentResultInformationForm.patchValue({
+  //       Score: roundData.Score || "",
+  //       Feedback: roundData.Feedback || "",
+  //     });
+  //     // Disable the input fields if data exists
+  //     this.studentResultInformationForm.get("Score")?.disable();
+  //     this.studentResultInformationForm.get("Feedback")?.disable();
+  //   } else {
+  //     // If no data, reset the fields
+  //     this.studentResultInformationForm.patchValue({
+  //       Score: "",
+  //       Feedback: "",
+  //     });
+  //     this.studentResultInformationForm.get("Score")?.enable();
+  //     this.studentResultInformationForm.get("Feedback")?.enable();
+  //   }
+  // }
 
-  getStudentRoundDetails = () => {
-    this.studentResultInformationApiService
-      .JobpostStudentround(this.studentId, this.jobPostingId)
-      .subscribe({
-        next: (studentRounds) => {
-          const data = studentRounds.value;
-          console.log(data);
-          this.studentRoundsData.set(data);
-          this.currentRoundIndex.set(data.length);
-          // this.currentRoundIndex.set(data.length);
-          // console.log(this.currentRoundIndex());
-        },
-      });
-  };
+  // getStudentRoundDetails = () => {
+  //   this.studentResultInformationApiService
+  //     .JobpostStudentround(this.studentId, this.jobPostingId)
+  //     .subscribe({
+  //       next: (studentRounds) => {
+  //         const data = studentRounds.value;
+  //         console.log(data);
+  //         this.studentRoundsData.set(data);
+  //         this.currentRoundIndex.set(data.length);
+  //         // this.currentRoundIndex.set(data.length);
+  //         // console.log(this.currentRoundIndex());
+  //       },
+  //     });
+  // };
 
   goBack(): void {
     this.location.back();
