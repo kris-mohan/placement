@@ -58,7 +58,7 @@ export class InterviewComponent {
   companies: companyTableList[] = [];
 
   industries: Industry[] = [];
-
+  isLoading = true;
   companySizes: string[] = [
     "1-10 Employees",
     "11-50 Employees",
@@ -263,6 +263,7 @@ export class InterviewComponent {
     });
 
     this.filteredJobInterviewRounds.set(filteredData);
+    this.isLoading=false;
   }
   getBatches(): void {
     this.InterviewService.GetBatches().subscribe({

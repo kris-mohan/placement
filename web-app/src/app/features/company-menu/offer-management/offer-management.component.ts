@@ -74,6 +74,7 @@ export class OfferManagementComponent {
     this.companyId = userCompanyId ? parseInt(userCompanyId) : 0;
   }
   universityTypes: University[] = [];
+  isLoading = true;
 
   readonly dialog = inject(MatDialog);
 
@@ -157,6 +158,7 @@ export class OfferManagementComponent {
           const data: JobpostingSelectedstudent[] = response.value;
           console.log("Selected Students", data);
           this.JobpostingSelectedstudentData.set(data);
+          this.isLoading=false;
           this.offers = data;
           this.calculateAcceptedOffers();
           this.calculateRejectedOffer();

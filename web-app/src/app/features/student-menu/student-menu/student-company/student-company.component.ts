@@ -35,6 +35,7 @@ export class StudentCompanyComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   companies: companyTableList[] = [];
+  
 
   industries: Industry[] = [];
 

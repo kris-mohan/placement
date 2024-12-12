@@ -147,7 +147,7 @@ export class PlacementInterviewComponent {
     { key: "Actions", label: "Actions" },
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
-
+  isLoading = true; // Start with loading state
   GetDateLabelByDate = (date?: Date) => {
     return date ? GetDateForLabel(date) : "NA";
   };
@@ -223,6 +223,7 @@ export class PlacementInterviewComponent {
       return matchesName && branchMatch && batchMatch;
     });
     this.filteredStudents.set(filtered);
+    this.isLoading=false;
   }
   getBatches(): void {
     this.InterviewService.GetBatches().subscribe({

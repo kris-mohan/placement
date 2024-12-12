@@ -199,7 +199,11 @@
       <p class="matButtonText">Add Job Postings</p>
     </button>
   </div> -->
-
+<div *ngIf="isLoading" class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="!isLoading"></div>
+  
   <mat-card-content
     class="offer Management"
     fxLayout="row wrap"
@@ -228,7 +232,7 @@
         <p>
           <strong>Status:</strong
           >{{
-            offer.HasAcceptedOffer == null
+            offer.HasAcceptedOffer === null
               ? "Pending"
               : offer.HasAcceptedOffer === 1
               ? "Accepted"

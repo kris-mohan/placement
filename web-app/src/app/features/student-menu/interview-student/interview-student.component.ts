@@ -57,6 +57,7 @@ export class InterviewStudentComponent {
   companies: companyTableList[] = [];
 
   industries: Industry[] = [];
+  isLoading = true;
 
   companySizes: string[] = [
     "1-10 Employees",
@@ -287,6 +288,8 @@ export class InterviewStudentComponent {
         // });
 
         this.jobInterviewRounds.set(data);
+         
+      this.isLoading = false;
         console.log(this.jobInterviewRounds());
       },
       error: (error) => {
@@ -325,6 +328,8 @@ export class InterviewStudentComponent {
         // });
 
         this.jobInterviewRounds.set(finalData);
+        
+      this.isLoading = false;
         console.log(this.jobInterviewRounds());
       },
       error: (error) => {
