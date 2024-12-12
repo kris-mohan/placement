@@ -114,7 +114,11 @@ export class InterviewStudentsListComponent implements OnInit {
 
   getAllStudents = () => {
     console.log(this.JobPostingId);
-    const id = this.JobPostingId ? parseInt(this.JobPostingId) : 0;
+    console.log(this.JobInterviewRoundId);
+    // const id = this.JobPostingId ? parseInt(this.JobPostingId) : 0;
+    const id = this.JobInterviewRoundId
+      ? parseInt(this.JobInterviewRoundId)
+      : 0;
     console.log(id);
     this.interviewStudentListApiService
       .GetAllJobInterviewStudentsData(id)
