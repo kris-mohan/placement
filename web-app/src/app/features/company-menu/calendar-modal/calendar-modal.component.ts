@@ -50,22 +50,15 @@ export class CalendarModalComponent implements OnInit {
     private calendarModalApiService: CalendarModalApiService
   ) {
     this.isEdited = this.data.isEdited;
-
-    // const storedCollegeId = sessionStorage.getItem("CompanyId");
-    // this.CollegeRoleId = storedCollegeId ? parseInt(storedCollegeId) : 0;
     const userRoleId = sessionStorage.getItem("userRoleId");
     this.userRole = !!userRoleId ? parseInt(userRoleId) : 0;
     const storedCompanyId = sessionStorage.getItem("CompanyId");
     console.log(storedCompanyId);
     this.CompanyId = !!storedCompanyId ? parseInt(storedCompanyId) : 0;
     console.log(this.CompanyId);
-
+    const storedStudentId = sessionStorage.getItem("StudentId");
+    console.log("storedStudentId", storedStudentId);
     this.formDataa = this.formBuilder.group({
-      // jobRole: ["", Validators.required],
-      // round: ["", Validators.required],
-      // panels: ["", Validators.required],
-      // venueDetails: ["", Validators.required],
-      // startDate: ["", Validators.required],
       startTime: ["", Validators.required],
       eventType: ["interview"],
       companyId: ["", Validators.required],
