@@ -55,6 +55,13 @@ export class PlacementDashboardComponent implements OnInit {
   courseLabels: string[] = [];
   placementTrendData: any[] = [];
   timeLabels: string[] = [];
+  monthlyTrendsData: any[] = [];
+  monthLabels: string[] = [];
+  batchPlacementData: any[] = []; 
+  batchLabels: string[] = [];
+  unplacedStudentsData: string[] = [];
+  placementStatusData: any[] = [];
+  statusLabels: string[] = [];
 
   constructor(private placementApiService: PlacementDashboardApiService) {}
 
@@ -141,9 +148,10 @@ export class PlacementDashboardComponent implements OnInit {
     this.interviewDataByCompanies();
     this.companyWisePlacementData();
     this.yearlyComparisonDataSetup();
-    this.setupTopHiringCompaniesData();
+    this.GetTopHiringCompaniesData();
     this.setupSkillDemandData();
     this.branchWisePlacementStatus();
+    this.monthlyPlacementTrends();
   }
 
   apiCall = async () => {
@@ -242,31 +250,16 @@ export class PlacementDashboardComponent implements OnInit {
     });
   };
 
-  setupTopHiringCompaniesData = async () => {
-    this.topHiringCompaniesData = [
-      {
-        name: 'Microsoft',
-        data: [120, 110, 90, 95, 85],
+  GetTopHiringCompaniesData = async () => {
+    this.placementApiService.GetTopCompanies().subscribe({
+      next: (response: any) => {
+        this.topHiringCompaniesData = response.topHiringCompaniesData || [];
+        this.companyLabels = response.companyLabels || [];
       },
-      {
-        name: 'TCS',
-        data: [150, 50, 60, 120, 40],
+      error: (err: any) => {
+        console.error('Error fetching skill:', err);
       },
-      {
-        name: 'Accenture',
-        data: [90, 10, 90, 95, 85],
-      },
-      {
-        name: 'Google',
-        data: [200, 100, 110, 35, 50],
-      },
-      {
-        name: 'Wipro',
-        data: [180, 30, 87, 54, 43],
-      },
-    ];
-
-    this.topCompanyYearLabels = ['2020', '2021', '2022', '2023', '2024'];
+    });
   };
 
   setupSkillDemandData(): void {
@@ -274,6 +267,54 @@ export class PlacementDashboardComponent implements OnInit {
       next: (response: any) => {
         this.skillDemandData = response.skillDemandData || [];
         this.skillLabels = response.skillLabels || [];
+      },
+      error: (err: any) => {
+        console.error('Error fetching skill:', err);
+      },
+    });
+  }
+
+  monthlyPlacementTrends(): void {
+    this.placementApiService.GetMonthlyPlacementTrends().subscribe({
+      next: (response: any) => {
+        this.monthlyTrendsData = response.monthlyTrendsData || [];
+        this.monthLabels = response.monthLabels || [];
+      },
+      error: (err: any) => {
+        console.error('Error fetching mo thly placement trends:', err);
+      },
+    });
+  }
+
+  getTopCompanies(): void {
+    this.placementApiService.GetTopCompanies().subscribe({
+      next: (response: any) => {
+        this.topHiringCompaniesData = response.topHiringCompaniesData || [];
+        this.companyLabels = response.companyLabels || [];
+      },
+      error: (err: any) => {
+        console.error('Error fetching skill:', err);
+      },
+    });
+  }
+
+  getBatchWisePlacements(): void {
+    this.placementApiService.GetBatchWisePlacements().subscribe({
+      next: (response: any) => {
+        this.batchPlacementData = response.batchPlacementData || [];
+        this.batchLabels = response.batchLabels || [];
+      },
+      error: (err: any) => {
+        console.error('Error fetching skill:', err);
+      },
+    });
+  }
+
+  getPlacementStatus(): void {
+    this.placementApiService.GetPlacementStatusSummary().subscribe({
+      next: (response: any) => {
+        this.placementStatusData = response.placementStatusData || [];
+        this.statusLabels = response.statusLabels || [];
       },
       error: (err: any) => {
         console.error('Error fetching skill:', err);

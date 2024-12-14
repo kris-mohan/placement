@@ -37,4 +37,24 @@ export class PlacementDashboardApiService {
   GetUpcomingDriveById(id: number): Observable<any> {
     return this.apiHttpService.get<any>(`/Jobposting?$filter=Id eq ${id}`);
   }
+
+  GetMonthlyPlacementTrends(): Observable<any> {
+    return this.apiHttpService.get<any>(`/monthly-placement-trends`);
+  }
+
+  GetTopCompanies(): Observable<any> {
+    return this.apiHttpService.get<any>(`/top-companies`);
+  }
+
+  GetBatchWisePlacements(): Observable<any> {
+    return this.apiHttpService.get<any>(`/batch-wise-placements`);
+  }
+
+  GetUnplacedStudentsByBranch(): Observable<any> {
+    return this.apiHttpService.get<any>(`/unplaced-students-by-branch`);
+  }
+
+  GetPlacementStatusSummary(): Observable<any> {
+    return this.apiHttpService.get<any>(`/placement-status`);
+  }
 }

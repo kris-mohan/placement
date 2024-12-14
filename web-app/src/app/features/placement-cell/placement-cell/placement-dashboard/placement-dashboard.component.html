@@ -56,13 +56,13 @@
       [branchLabels]="branchLabels"
       titleText="Branch-Wise Student Placement Status"></app-simple-pie-chart>
 
-    <app-basic-column-chart
+    <!-- <app-basic-column-chart
       [seriesData]="interviewData"
       [categoriesData]="companyLabels"
       titleText="Total Number of Interviews Conducted"
       xLabel="Name of Companies"
       yLabel="Number of Interviews">
-    </app-basic-column-chart>
+    </app-basic-column-chart> -->
     <app-basic-column-chart
       [seriesData]="yearlyComparisonData"
       [categoriesData]="yearLabels"
@@ -82,6 +82,34 @@
       [categoriesData]="skillLabels"
       titleText="Skill-wise Demand Across Companies"
       xLabel="Skills"
+      yLabel="Demand Level">
+    </app-basic-column-chart>
+    <app-basic-column-chart
+      [seriesData]="monthlyTrendsData"
+      [categoriesData]="monthLabels"
+      titleText="Monthly Placement Trend Chart"
+      xLabel="Skills"
+      yLabel="Demand Level">
+    </app-basic-column-chart>
+    <app-basic-column-chart
+      [seriesData]="topHiringCompaniesData"
+      [categoriesData]="companyLabels"
+      titleText="Top Hiring Companies"
+      xLabel="Companies"
+      yLabel="Demand Level">
+    </app-basic-column-chart>
+    <app-basic-column-chart
+      [seriesData]="batchPlacementData"
+      [categoriesData]="batchLabels"
+      titleText="Batch Wise Placement Data"
+      xLabel="Batch"
+      yLabel="Demand Level">
+    </app-basic-column-chart>
+    <app-basic-column-chart
+      [seriesData]="placementStatusData"
+      [categoriesData]="statusLabels"
+      titleText="Placement Status Summary"
+      xLabel="Batch"
       yLabel="Demand Level">
     </app-basic-column-chart>
     <!-- <app-basic-line-chart
