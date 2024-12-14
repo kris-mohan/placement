@@ -85,6 +85,8 @@ import { IndentrequirementplacementComponent } from "./features/indentrequiremen
 import { IndentplacementComponent } from "./features/indentplacement/indentplacement.component";
 import { InterviewStudentComponent } from "./features/student-menu/interview-student/interview-student.component";
 import { PlacementUploadFileComponent } from "./features/placement-cell/placement-cell/company-list-details/placement-upload-file/placement-upload-file.component";
+import { AddEditTemplateCategoryDialogComponent } from "./features/template-generator/add-edit-template-category-dialog/add-edit-template-category-dialog.component";
+import { TemplatesByCategoryComponent } from "./features/template-generator/templates-by-category/templates-by-category.component";
 
 // import { AuthGuard } from "./core/guards/auth.guard";
 
@@ -339,6 +341,10 @@ const appRoutes: Routes = [
         component: AddRoundsModalComponent,
       },
       {
+        path: "add-edit-template-category-dialog",
+        component: AddEditTemplateCategoryDialogComponent,
+      },
+      {
         path: "Panel",
         component: PanelTabComponent,
       },
@@ -460,8 +466,8 @@ const appRoutes: Routes = [
         component: TemplateGeneratorComponent,
       },
       {
-        path: "template-generator",
-        component: TemplateGeneratorComponent,
+        path: "templates-by-category/:id",
+        component: TemplatesByCategoryComponent,
       },
       {
         path: "Indent-view-placement",
@@ -472,7 +478,7 @@ const appRoutes: Routes = [
         component: IndentrequirementplacementComponent,
       },
       {
-        path: "placement-upload-file/:?id",
+        path: "placement-upload-file/:id",
         component: PlacementUploadFileComponent,
       },
       {

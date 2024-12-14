@@ -41,8 +41,6 @@ const year = today.getFullYear();
   templateUrl: "./student-jobs.component.html",
   styleUrl: "./student-jobs.component.css",
 })
-
-
 export class StudentJobsComponent {
   constructor(
     private router: Router,
@@ -62,6 +60,8 @@ export class StudentJobsComponent {
     start: new FormControl(new Date(year, month - 1, today.getDate())),
     end: new FormControl(new Date()),
   });
+
+  isLoading = true;
 
   searchCity: string = "";
   filteredCompanies: companyTableList[] = [];
@@ -194,6 +194,7 @@ export class StudentJobsComponent {
       );
     });
     this.filteredStudents.set(filtered);
+      this.isLoading = false;
   }
   convertToDateOnly(dateString: string): string {
     const date = new Date(dateString);

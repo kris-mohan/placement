@@ -74,6 +74,7 @@ export class OfferManagementComponent {
     this.companyId = userCompanyId ? parseInt(userCompanyId) : 0;
   }
   universityTypes: University[] = [];
+  isLoading = true;
 
   readonly dialog = inject(MatDialog);
 
@@ -97,10 +98,13 @@ export class OfferManagementComponent {
   colleges: Campusregistration[] = [];
 
   JobpostingSelectedstudentData = signal<JobpostingSelectedstudent[]>([]);
+  filteredselectedStudents = signal<JobpostingSelectedstudent[]>([]);
   acceptedOffersCount: number = 0;
   rejectedOffersCount: number = 0;
   pendingOffersCount: number = 0;
 
+  searchName = new FormControl("");
+  searchControl = new FormControl("");
   displayedColumns: string[] = [
     "Name",
     "Industries",
@@ -157,10 +161,12 @@ export class OfferManagementComponent {
           const data: JobpostingSelectedstudent[] = response.value;
           console.log("Selected Students", data);
           this.JobpostingSelectedstudentData.set(data);
+          this.isLoading=false;
           this.offers = data;
           this.calculateAcceptedOffers();
           this.calculateRejectedOffer();
           this.calculatePendingOffer();
+          this.applyFilters();
         },
         error: (error) => {
           console.log("Error fetching rounds: ", error);
@@ -229,6 +235,7 @@ export class OfferManagementComponent {
     this.getAllStatuses();
 
     this.getAllTechnologies();
+    this.searchName.valueChanges.subscribe(() => this.applyFilters());
 
     // this.dataSource.paginator = this.paginator;
 
@@ -255,7 +262,19 @@ export class OfferManagementComponent {
     //   map((value) => this._filterCompanies(value))
     // );
   }
-
+  applyFilters() {
+    const filtered = this.JobpostingSelectedstudentData().filter((student) => {
+      const nameFilter = this.searchName.value?.toLowerCase() || "";
+      const matchesName =
+        !nameFilter ||
+        `${student.Student?.FirstName ?? ""} ${student.Student?.LastName ?? ""}`
+          .toLowerCase()
+          .includes(nameFilter) ||
+        student.JobPosting?.JobRole?.toLowerCase().includes(nameFilter);
+      return matchesName;
+    });
+    this.filteredselectedStudents.set(filtered);
+  }
   goBack(): void {
     this.location.back();
   }

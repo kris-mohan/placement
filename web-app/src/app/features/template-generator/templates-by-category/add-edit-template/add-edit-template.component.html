@@ -1,0 +1,75 @@
+<div>
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>
+        {{ false ? "Edit Template" : "Add Template" }}</mat-card-title
+      >
+    </mat-card-header>
+    <!-- class="mat-typography" -->
+    <mat-card-content style="height: 500px; overflow: auto">
+      <div>
+        <div class="main-container">
+          <!-- Template Category Dropdown -->
+          <!-- <mat-form-field class="full-width">
+            <mat-label>Template Category</mat-label>
+            <input
+              type="text"
+              matInput
+              [matAutocomplete]="auto"
+              [(ngModel)]="selectedCategory"
+              (input)="onSearch($event)"
+            />
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              [displayWith]="displayCategory"
+            >
+              <mat-option
+                *ngFor="let category of filteredCategories()"
+                [value]="category"
+              >
+                {{ category.Name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <br /> -->
+          <mat-form-field class="full-width">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" [(ngModel)]="templateName" />
+          </mat-form-field>
+          <br />
+          <mat-form-field class="full-width">
+            <mat-label>Subject</mat-label>
+            <input matInput type="text" [(ngModel)]="subject" />
+          </mat-form-field>
+          <br />
+          <div
+            class="editor-container editor-container_classic-editor"
+            #editorContainerElement
+          >
+            <div class="editor-container__editor">
+              <div #editorElement>
+                <ckeditor
+                  [editor]="Editor"
+                  [config]="config"
+                  (ready)="onReady($event)"
+                  *ngIf="isLayoutReady"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onSave()"
+        cdkFocusInitial
+      >
+        Save
+      </button>
+    </mat-dialog-actions>
+  </mat-card>
+</div>

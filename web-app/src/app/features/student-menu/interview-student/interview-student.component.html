@@ -120,49 +120,10 @@
           <div>
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Batch</mat-label>
-              <mat-select
-                [formControl]="industryControl"
-                multiple
-                (openedChange)="onIndustryDropdownOpen()"
-              >
-                <mat-select-trigger>
-                  {{ selectedIndustries }}
-                </mat-select-trigger>
-                <mat-form-field appearance="outline">
-                  <input
-                    class="full-width"
-                    matInput
-                    [(ngModel)]="searchIndustry"
-                    (ngModelChange)="filterIndustries($event)"
-                    placeholder="Search"
-                  />
-                </mat-form-field>
-                <mat-option *ngIf="!filteredIndustries.length" disabled
-                  >No options</mat-option
-                >
-                <mat-option
-                  *ngFor="let industry of filteredIndustries"
-                  [value]="industry.Type"
-                >
-                  {{ industry.Type }}
-                </mat-option>
-
-                <mat-dialog-actions class="mat-dialog-actions">
-                  <button
-                    mat-button
-                    mat-dialog-close
-                    (click)="resetIndustrySelection()"
-                  >
-                    Reset
-                  </button>
-                  <button
-                    mat-raised-button
-                    class="matbutton"
-                    (click)="showIndustryResults()"
-                  >
-                    <p class="matName">Show results</p>
-                  </button>
-                </mat-dialog-actions>
+              <mat-select [formControl]="batchControl" multiple>
+                <mat-option *ngFor="let batch of batches" [value]="batch">{{
+                  batch
+                }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -170,49 +131,10 @@
           <div>
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Branch</mat-label>
-              <mat-select
-                [formControl]="industryControl"
-                multiple
-                (openedChange)="onIndustryDropdownOpen()"
-              >
-                <mat-select-trigger>
-                  {{ selectedIndustries }}
-                </mat-select-trigger>
-                <mat-form-field appearance="outline">
-                  <input
-                    class="full-width"
-                    matInput
-                    [(ngModel)]="searchIndustry"
-                    (ngModelChange)="filterIndustries($event)"
-                    placeholder="Search"
-                  />
-                </mat-form-field>
-                <mat-option *ngIf="!filteredIndustries.length" disabled
-                  >No options</mat-option
-                >
-                <mat-option
-                  *ngFor="let industry of filteredIndustries"
-                  [value]="industry.Type"
-                >
-                  {{ industry.Type }}
-                </mat-option>
-
-                <mat-dialog-actions class="mat-dialog-actions">
-                  <button
-                    mat-button
-                    mat-dialog-close
-                    (click)="resetIndustrySelection()"
-                  >
-                    Reset
-                  </button>
-                  <button
-                    mat-raised-button
-                    class="matbutton"
-                    (click)="showIndustryResults()"
-                  >
-                    <p class="matName">Show results</p>
-                  </button>
-                </mat-dialog-actions>
+              <mat-select [formControl]="branchControl" multiple>
+                <mat-option *ngFor="let branch of branches" [value]="branch">{{
+                  branch
+                }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -224,10 +146,11 @@
               <mat-icon matSuffix>search</mat-icon>
               <input
                 type="text"
-                aria-label="Number"
+                [(ngModel)]="searchName.value"
+                (input)="applyFilters()"
+                aria-label="Search"
                 matInput
-                [formControl]="companyControl"
-                [matAutocomplete]="auto"
+                [formControl]="searchControl"
               />
               <mat-autocomplete
                 autoActiveFirstOption
@@ -255,6 +178,10 @@
         </div>
       </div>
     </mat-card-header>
+    <div *ngIf="isLoading" class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="!isLoading"></div>
 
     <mat-card-content
       fxLayout="row wrap"
@@ -262,7 +189,7 @@
       class="mat-card-content"
     >
       <div
-        *ngFor="let scheduledInterview of jobInterviewRounds()"
+        *ngFor="let scheduledInterview of filteredJobInterviewRounds()"
         fxFlex="100%"
         fxFlex.gt-sm="50%"
         fxFlex.gt-md="28%"
@@ -277,22 +204,22 @@
           </div>
           <h3>{{ scheduledInterview.JobRole }}</h3>
 
-          <!-- <p><strong>Status:</strong>{{ scheduledInterview.Status }}</p> -->
+          <p><strong>Status:</strong>{{ scheduledInterview.Status }}</p>
           <p><strong>Company:</strong>{{ scheduledInterview.Company }}</p>
-          <p><strong>Date:</strong>10-12-2012</p>
+          <p><strong>Date:</strong>{{ scheduledInterview.Date }}</p>
         </div>
 
-        <div class="company"> 
+        <div class="company">
           <div class="company-type"></div>
 
           <div *ngIf="UserRoleId !== 3">
             <p>
               <strong>Number of students cleared:</strong>
-              12
+              {{ studentsCleared }}
             </p>
             <p>
               <strong>Number of students rejected:</strong>
-              2
+              {{ studentsRejected }}
             </p>
           </div>
         </div>

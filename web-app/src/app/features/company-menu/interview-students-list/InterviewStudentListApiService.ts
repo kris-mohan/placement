@@ -52,4 +52,5 @@ export class InterviewStudentListApiService {
       `/Jobinterviewround?$expand=JobpostStudentrounds($expand=Student($expand=Batch,Studentacademics($expand=Course)))&$filter=Id eq ${Id}`
     );
   }
+  
 }

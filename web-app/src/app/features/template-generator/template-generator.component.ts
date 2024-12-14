@@ -58,6 +58,18 @@ import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatIconModule } from "@angular/material/icon";
+import { MatDialog } from "@angular/material/dialog";
+import { AddEditTemplateCategoryDialogComponent } from "./add-edit-template-category-dialog/add-edit-template-category-dialog.component";
+import {
+  ConfirmDeletion,
+  SuccessNotification,
+} from "src/app/utilities/AlertMessage/AlertMessage";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { SharedModule } from "src/app/shared/shared.module";
+import { Router } from "@angular/router";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { Template } from "src/app/services/types/Template";
+import { ShowTemplateComponent } from "./templates-by-category/show-template/show-template.component";
 
 @Component({
   selector: "app-template-generator",
@@ -78,43 +90,65 @@ import { MatIconModule } from "@angular/material/icon";
     MatTableModule,
     MatAutocompleteModule,
     MatIconModule,
+    AMGModules,
+    SharedModule,
+    MatSlideToggleModule,
   ],
   templateUrl: "./template-generator.component.html",
   styleUrl: "./template-generator.component.css",
   encapsulation: ViewEncapsulation.None,
 })
 export class TemplateGeneratorComponent {
+  displayedColumns: string[] = ["Id", "Name", "Description", "actions"];
+  displayedTemplateColumns: string[] = [
+    "Id",
+    "Name",
+    "Subject",
+    "CategoryName",
+    "actions",
+  ];
+  isChecked = false;
+
   constructor(
+    private router: Router,
     private changeDetector: ChangeDetectorRef,
-    private templateGeneratorService: TemplateGeneratorService
+    private templateGeneratorService: TemplateGeneratorService,
+    private dialog: MatDialog
   ) {
     effect(() => {
       this.dataSource.data = this.templateCategories();
+      this.dataSourceTemplates.data = this.templates();
     });
 
     this.loadTemplateCategories();
+    this.loadTemplates();
   }
   public templateCategories = signal<TemplateCategory[]>([]);
+  public templates = signal<Template[]>([]);
   public pageIndex = signal(0);
-  public pageSize = signal(5);
+  public pageSize = signal(10);
   public totalCount = signal(0);
+  public pageIndexTemplate = signal(0);
+  public pageSizeTemplate = signal(10);
+  public totalCountTemplate = signal(0);
   public dataSource = new MatTableDataSource<TemplateCategory>([]);
-
-  public isLayoutReady = false;
-  public Editor = ClassicEditor;
-  public config: EditorConfig = {};
-  public filteredCategories = signal<TemplateCategory[]>([]);
-  public selectedCategory: TemplateCategory | null = null;
-  public subject = "";
-  public content = "";
+  public dataSourceTemplates = new MatTableDataSource<Template>([]);
 
   loadTemplateCategories() {
     this.templateGeneratorService
       .getTemplateCategories(this.pageIndex(), this.pageSize())
       .subscribe((templates) => {
-        console.log(templates);
         this.templateCategories.set(templates.value);
         this.totalCount.set(templates["@odata.count"]);
+      });
+  }
+
+  loadTemplates() {
+    this.templateGeneratorService
+      .getTemplates(this.pageIndex(), this.pageSize())
+      .subscribe((templates) => {
+        this.templates.set(templates.value);
+        this.totalCountTemplate.set(templates["@odata.count"]);
       });
   }
 
@@ -124,152 +158,72 @@ export class TemplateGeneratorComponent {
     this.loadTemplateCategories();
   }
 
-  public ngAfterViewInit(): void {
-    this.config = {
-      toolbar: {
-        items: [
-          "undo",
-          "redo",
-          "|",
-          "sourceEditing",
-          "showBlocks",
-          "textPartLanguage",
-          "|",
-          "heading",
-          "|",
-          "bold",
-          "italic",
-          "underline",
-          "|",
-          "link",
-          "insertTable",
-          "blockQuote",
-          "htmlEmbed",
-          "|",
-          "outdent",
-          "indent",
-        ],
-        shouldNotGroupWhenFull: false,
-      },
-      plugins: [
-        AccessibilityHelp,
-        Autoformat,
-        Autosave,
-        BlockQuote,
-        Bold,
-        Essentials,
-        FullPage,
-        GeneralHtmlSupport,
-        Heading,
-        HtmlComment,
-        HtmlEmbed,
-        Indent,
-        IndentBlock,
-        Italic,
-        Link,
-        Paragraph,
-        SelectAll,
-        ShowBlocks,
-        SourceEditing,
-        Table,
-        TableCaption,
-        TableCellProperties,
-        TableColumnResize,
-        TableProperties,
-        TableToolbar,
-        TextPartLanguage,
-        TextTransformation,
-        Title,
-        Underline,
-        Undo,
-      ],
-      heading: {
-        options: [
-          {
-            model: "paragraph",
-            title: "Paragraph",
-            class: "ck-heading_paragraph",
-          },
-          {
-            model: "heading1",
-            view: "h1",
-            title: "Heading 1",
-            class: "ck-heading_heading1",
-          },
-          {
-            model: "heading2",
-            view: "h2",
-            title: "Heading 2",
-            class: "ck-heading_heading2",
-          },
-          {
-            model: "heading3",
-            view: "h3",
-            title: "Heading 3",
-            class: "ck-heading_heading3",
-          },
-          {
-            model: "heading4",
-            view: "h4",
-            title: "Heading 4",
-            class: "ck-heading_heading4",
-          },
-          {
-            model: "heading5",
-            view: "h5",
-            title: "Heading 5",
-            class: "ck-heading_heading5",
-          },
-          {
-            model: "heading6",
-            view: "h6",
-            title: "Heading 6",
-            class: "ck-heading_heading6",
-          },
-        ],
-      },
-      htmlSupport: {
-        allow: [
-          {
-            name: /^.*$/,
-            styles: true,
-            attributes: true,
-            classes: true,
-          },
-        ],
-      },
-      initialData: "",
-      link: {
-        addTargetToExternalLinks: true,
-        defaultProtocol: "https://",
-        decorators: {
-          toggleDownloadable: {
-            mode: "manual",
-            label: "Downloadable",
-            attributes: {
-              download: "file",
-            },
-          },
-        },
-      },
-      placeholder: "Type or paste your content here!",
-      table: {
-        contentToolbar: [
-          "tableColumn",
-          "tableRow",
-          "mergeTableCells",
-          "tableProperties",
-          "tableCellProperties",
-        ],
-      },
-    };
-
-    this.isLayoutReady = true;
-    this.changeDetector.detectChanges();
+  onPageChangeTemplate(event: any) {
+    this.pageIndexTemplate.set(event.pageIndex);
+    this.pageSizeTemplate.set(event.pageSize);
+    this.loadTemplates();
   }
 
-  displayCategory(category: TemplateCategory): string {
-    return category?.Name || "";
+  openAddCategoryDialog() {
+    const dialogRef = this.dialog.open(AddEditTemplateCategoryDialogComponent, {
+      width: "600px",
+      height: "auto",
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.templateGeneratorService
+          .createTemplateCategory(result.Name, result.Description)
+          .subscribe((response) => {
+            if (response) {
+              this.loadTemplateCategories();
+            }
+            SuccessNotification(
+              `Category "${result.Name}" with Description "${result.Description}" added successfully!`
+            );
+          });
+        this.loadTemplateCategories();
+      }
+    });
+  }
+
+  editTemplateCategory(template: TemplateCategory) {
+    const dialogRef = this.dialog.open(AddEditTemplateCategoryDialogComponent, {
+      width: "600px",
+      height: "auto",
+      data: template,
+    });
+
+    dialogRef.afterClosed().subscribe((result: TemplateCategory) => {
+      if (result) {
+        this.templateGeneratorService
+          .updateTemplateCategory(result.Id, result.Name, result.Description)
+          .subscribe((response) => {
+            if (response) {
+              this.loadTemplateCategories();
+            }
+            SuccessNotification(
+              `Category "${result.Name}" with Description "${result.Description}" updated successfully!`
+            );
+          });
+      }
+    });
+  }
+
+  deleteTemplateCategory(template: TemplateCategory) {
+    ConfirmDeletion("Do you want to delete this template category?", () => {
+      this.templateGeneratorService
+        .deleteTemplateCategory(template.Id)
+        .subscribe((response) => {
+          if (response) {
+            this.loadTemplateCategories();
+          }
+          SuccessNotification(
+            `Category "${template.Name}" with Description "${template.Description}" deleted successfully!`
+          );
+        });
+    });
   }
 
   onSearch(event: any): void {
@@ -278,33 +232,19 @@ export class TemplateGeneratorComponent {
     this.templateGeneratorService
       .getSearchedTemplateCategories(query)
       .subscribe((categories) => {
-        this.filteredCategories.set(categories.value);
+        this.templateCategories.set(categories.value);
       });
   }
 
-  saveTemplate() {
-    if (!this.selectedCategory || !this.subject || !this.content) {
-      alert("Please select a category, enter a subject, and add content!");
-      return;
-    }
+  templatesByCategory(templateCategory: TemplateCategory) {
+    console.log(templateCategory);
+    this.router.navigate([`/templates-by-category`, templateCategory.Id]);
+  }
 
-    const templateData = {
-      categoryId: this.selectedCategory.Id,
-      subject: this.subject,
-      content: this.content,
-    };
-
-    this.templateGeneratorService.createTemplate(templateData).subscribe(
-      (response) => {
-        alert("Template saved successfully!");
-        this.subject = "";
-        this.content = "";
-        this.selectedCategory = null;
-      },
-      (error) => {
-        console.error("Error saving template", error);
-        alert("Failed to save the template. Please try again.");
-      }
-    );
+  viewTemplate(template: Template) {
+    this.dialog.open(ShowTemplateComponent, {
+      width: "600px",
+      data: template,
+    });
   }
 }
