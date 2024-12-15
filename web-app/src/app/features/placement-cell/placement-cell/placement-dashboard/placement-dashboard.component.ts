@@ -57,7 +57,7 @@ export class PlacementDashboardComponent implements OnInit {
   timeLabels: string[] = [];
   monthlyTrendsData: any[] = [];
   monthLabels: string[] = [];
-  batchPlacementData: any[] = []; 
+  batchPlacementData: any[] = [];
   batchLabels: string[] = [];
   unplacedStudentsData: string[] = [];
   placementStatusData: any[] = [];
@@ -136,6 +136,20 @@ export class PlacementDashboardComponent implements OnInit {
       jobRole: 'Software Engineer',
       venue: 'On Campus, Main Hall',
       round: 'HR Round',
+    },
+    {
+      company: 'Tata Consultancy Services (TCS)',
+      date: new Date('2024-10-20'),
+      jobRole: 'Developer',
+      venue: 'On Campus, Main Hall',
+      round: 'Technical Round',
+    },
+    {
+      company: 'Tata Consultancy Services (TCS)',
+      date: new Date('2024-10-20'),
+      jobRole: 'Developer',
+      venue: 'On Campus, Main Hall',
+      round: 'Technical Round',
     },
   ];
 
