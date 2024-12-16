@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Template Details</h2>
+<mat-dialog-content>
+  <dl>
+    <dt>Name:</dt>
+    <dd>{{ data.Name }}</dd>
+
+    <dt>Subject:</dt>
+    <dd>{{ data.Subject }}</dd>
+
+    <dt>Category Name:</dt>
+    <dd>{{ data.Category?.Name || "N/A" }}</dd>
+
+    <dt>Body:</dt>
+    <dd [innerHTML]="data.Body"></dd>
+  </dl>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

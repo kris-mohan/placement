@@ -47,3 +47,16 @@
 .mat-tab-group {
   margin-bottom: 48px;
 }
+
+.button-container {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+mat-slide-toggle {
+  margin: 8px 0;
+  display: block;
+}

@@ -17,7 +17,7 @@ export class interviewApiService {
     // );
     return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
       //`/Jobinterviewround?expand=JobPosting(expand=Company)`
-      `/Jobinterviewround?expand=JobPosting(expand=Company),JobpostStudentrounds($expand=Student($expand=Studentacademics($expand=Course),Batch))`
+      `/Jobinterviewround?expand=JobPosting(expand=Company,JobpostingsEligiblestudents(expand=Status)),JobpostStudentrounds($expand=Student($expand=Studentacademics($expand=Course),Batch))`
     );
   }
 
@@ -28,7 +28,7 @@ export class interviewApiService {
     //   "/Companydatum?$filter=Id eq 4&expand=Jobpostings(expand=Jobinterviewrounds)"
     // );
     return this.apiHttpService.get<ODataEntity<Jobinterviewround[]>>(
-      `/Jobinterviewround?expand=JobPosting(expand=Company)${
+      `/Jobinterviewround?expand=JobPosting(expand=Company),JobpostStudentrounds($expand=Student($expand=Studentacademics($expand=Course),Batch))${
         companyId != 0 ? `&filter=JobPosting/CompanyId eq ${companyId}` : ""
       }`
     );
@@ -43,7 +43,7 @@ export class interviewApiService {
     return this.apiHttpService.get<ODataEntity<any[]>>(
       `/Tblstudent?${
         studentId != 0 ? `$filter=Id eq ${studentId}` : ""
-      }&$expand=JobpostStudentrounds($expand=JobPostingRound($expand=JobPosting($expand=Company)))`
+      }&$expand=JobpostStudentrounds($expand=JobPostingRound($expand=JobPosting(expand=Company,JobpostingsEligiblestudents(expand=Status))))`
     );
   }
   GetBatches(): Observable<any> {

@@ -158,3 +158,21 @@ table {
 .company-designation div h3 {
   margin: 0 0 0 0 !important;
 }
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+at-grid-tile[_ngcontent-ng-c255510817] {
+  border-radius: 0.5rem;
+  background-color: #c3d2f899;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  margin: 1em;
+  width: 588px;
+  height: 285px;
+  border: solid 0.1px #bfbfd4;
+}

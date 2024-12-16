@@ -31,6 +31,7 @@ import { InterviewAdditionalFilterComponent } from "../../company-menu/interview
 import { interviewApiService } from "../../company-menu/interview/api.interview";
 import { AppliedJobInterview } from "src/app/services/types/AppliedJobInterview";
 import { Campusregistration } from "src/app/services/types/Campusregistration";
+import { GetDate } from "src/app/core/helper/DateHelper";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -53,10 +54,11 @@ export class InterviewStudentComponent {
   });
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   jobInterviewRounds = signal<AppliedJobInterview[]>([]);
-
+  filteredJobInterviewRounds = signal<AppliedJobInterview[]>([]);
   companies: companyTableList[] = [];
 
   industries: Industry[] = [];
+  isLoading = true;
 
   companySizes: string[] = [
     "1-10 Employees",
@@ -114,6 +116,8 @@ export class InterviewStudentComponent {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
+  statuses: string[] = ["Pending", "Ongoing", "Completed"];
+  statusFilterControl = new FormControl([]);
   displayedColumns: string[] = [
     // "Url",
     // "Name",
@@ -145,6 +149,9 @@ export class InterviewStudentComponent {
     { key: "Actions", label: "Actions" },
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
+
+  studentsCleared: number = 0;
+  studentsRejected: number = 0;
   // Getinterview = () => {
   //   this.InterviewService.Getinterview().subscribe({
   //     next: (response) => {
@@ -158,118 +165,7 @@ export class InterviewStudentComponent {
   //     },
   //   });
   // };
-  // companiesCard = [
-  //   {
-  //     Id: 1,
-  //     logo: "company-logo-1.png",
-  //     name: "Haier Appliances",
-  //     rating: 4.1,
-  //     reviews: "1.3K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 4,
-  //     registeredStudents: 120,
-  //     placedStudents: 80,
-  //   },
-  //   {
-  //     Id: 2,
-  //     logo: "company-logo-2.png",
-  //     name: "Sony Electronics",
-  //     rating: 4.5,
-  //     reviews: "2K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 5,
-  //     registeredStudents: 100,
-  //     placedStudents: 60,
-  //   },
-  //   {
-  //     Id: 3,
-  //     logo: "company-logo-3.png",
-  //     name: "Samsung Tech",
-  //     rating: 4.2,
-  //     reviews: "1.5K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 3,
-  //     registeredStudents: 200,
-  //     placedStudents: 150,
-  //   },
-  //   {
-  //     Id: 4,
-  //     logo: "company-logo-4.png",
-  //     name: "LG Electronics",
-  //     rating: 4.3,
-  //     reviews: "1.8K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 6,
-  //     registeredStudents: 140,
-  //     placedStudents: 110,
-  //   },
-  //   {
-  //     Id: 5,
-  //     logo: "company-logo-5.png",
-  //     name: "Apple Inc.",
-  //     rating: 4.8,
-  //     reviews: "3K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 7,
-  //     registeredStudents: 250,
-  //     placedStudents: 200,
-  //   },
-  //   {
-  //     Id: 6,
-  //     logo: "company-logo-6.png",
-  //     name: "Microsoft Corp.",
-  //     rating: 4.7,
-  //     reviews: "2.7K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 5,
-  //     registeredStudents: 180,
-  //     placedStudents: 160,
-  //   },
-  //   {
-  //     Id: 7,
-  //     logo: "company-logo-7.png",
-  //     name: "Google LLC",
-  //     rating: 4.9,
-  //     reviews: "5K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 8,
-  //     registeredStudents: 300,
-  //     placedStudents: 250,
-  //   },
-  //   {
-  //     Id: 8,
-  //     logo: "company-logo-8.png",
-  //     name: "Facebook Inc.",
-  //     rating: 4.6,
-  //     reviews: "2.2K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 4,
-  //     registeredStudents: 170,
-  //     placedStudents: 130,
-  //   },
-  //   {
-  //     Id: 9,
-  //     logo: "company-logo-9.png",
-  //     name: "Amazon Web Services",
-  //     rating: 4.4,
-  //     reviews: "2.5K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 6,
-  //     registeredStudents: 220,
-  //     placedStudents: 180,
-  //   },
-  //   {
-  //     Id: 10,
-  //     logo: "company-logo-10.png",
-  //     name: "Tesla Inc.",
-  //     rating: 4.7,
-  //     reviews: "2.8K+ reviews",
-  //     type: "Foreign MNC",
-  //     numberOfJobs: 5,
-  //     registeredStudents: 160,
-  //     placedStudents: 140,
-  //   },
-  // ];
+
   GetJobInterviewRounds = () => {
     const companyId = sessionStorage.getItem("CompanyId");
     this.InterviewService.GetJobInterviewRoundsByCompanyId(
@@ -285,8 +181,9 @@ export class InterviewStudentComponent {
         //     Name: d.JobPosting?.JobRole,
         //   });
         // });
-
         this.jobInterviewRounds.set(data);
+         
+      this.isLoading = false;
         console.log(this.jobInterviewRounds());
       },
       error: (error) => {
@@ -303,29 +200,41 @@ export class InterviewStudentComponent {
       next: (response) => {
         console.log(response.value, "res");
         const data = response.value;
-
         const finalData: AppliedJobInterview[] = [];
-        data?.flatMap((s) => {
-          s.JobpostStudentrounds?.flatMap((r: any) => {
+        this.studentsCleared = 0;
+        this.studentsRejected = 0;
+        data?.forEach((s) => {
+          s.JobpostStudentrounds?.forEach((r: any) => {
+            if (r.HasPassed === 1) {
+              this.studentsCleared++;
+            } else if (r.HasPassed === 0) {
+              this.studentsRejected++;
+            }
+            const driveDate = r.JobPostingRound?.JobPosting?.DriveDate;
+            const date = driveDate ? GetDate(new Date(driveDate)) : "";
             finalData.push({
               Id: r.JobPostingRound?.Id,
               RoundName: r.JobPostingRound?.Name,
               JobRole: r.JobPostingRound?.JobPosting?.JobRole,
-              Status: "Accepted",
+              Status:
+                r.JobPostingRound?.JobPosting?.JobpostingsEligiblestudents?.[0]
+                  ?.Status.Name,
               Company: r.JobPostingRound?.JobPosting?.Company?.Name,
+              Date: date,
             });
           });
         });
-
         // data.map((d) => {
         //   finalData.push({
         //     ...d,
         //     Name: d.JobPosting?.JobRole,
         //   });
         // });
-
         this.jobInterviewRounds.set(finalData);
+        
+      this.isLoading = false;
         console.log(this.jobInterviewRounds());
+        this.applyFilters();
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);
@@ -362,28 +271,18 @@ export class InterviewStudentComponent {
     //this.GetJobInterviewRounds();
     this.GetAppliedJobInterviewRounds();
     this.dataSource.paginator = this.paginator;
+    this.searchName.valueChanges.subscribe(() => this.applyFilters());
+  }
+  applyFilters() {
+    const nameFilter = this.searchName.value?.toLowerCase() || "";
+    const filteredData = this.jobInterviewRounds().filter((round) => {
+      const matchesName =
+        !nameFilter || round.Company?.toLowerCase().includes(nameFilter);
 
-    this.CityControl.valueChanges.subscribe(() => {
-      this.filterCities(this.searchCity);
+      return matchesName;
     });
 
-    this.industryControl.valueChanges.subscribe(() => {
-      this.filterIndustries(this.searchIndustry);
-    });
-
-    this.filteredCities = this.CityFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCities(value))
-    );
-    this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterIndustries(value))
-    );
-
-    this.filteredCompany = this.companyControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCompanies(value))
-    );
+    this.filteredJobInterviewRounds.set(filteredData);
   }
   getBatches(): void {
     this.InterviewService.GetBatches().subscribe({
