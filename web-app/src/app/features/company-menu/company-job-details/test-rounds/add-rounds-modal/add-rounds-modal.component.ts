@@ -15,7 +15,21 @@ import { TestRoundsApiService } from "../TestRoundsApiService";
 import { MatTableDataSource } from "@angular/material/table";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
-import { interviewRounds } from "./add-rounds-modal.model";
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+
+function uniqueNameValidator(
+  existingNames: string[],
+  currentName: string
+): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const name = control.value?.trim().toLowerCase();
+    // Only validate if the name has changed and is a duplicate
+    if (name && name !== currentName && existingNames.includes(name)) {
+      return { duplicateName: true };
+    }
+    return null;
+  };
+}
 
 @Component({
   selector: "app-add-rounds-modal",
@@ -35,9 +49,9 @@ export class AddRoundsModalComponent {
   selectedPriority: string = "";
   roundId: number;
   roundAddEditForm: FormGroup;
+  existingRoundNames: string[] = [];
   jobPostingId: number;
   companyId: number = 0;
-  //OrgId: number | null = null;
   sessionCampusId: number;
   sessionCompanyId: number;
   @Output() roundsUpdated = new EventEmitter<void>();
@@ -61,28 +75,16 @@ export class AddRoundsModalComponent {
     this.roundId = this.data?.roundsId;
     this.jobPostingId = this.data?.JobPostingId;
     console.log("Modal data", data);
-    // this.OrgId = data.orgId || null; // Get OrgId from data
-    // console.log("OrgId received:", this.OrgId);
-
     this.roundAddEditForm = this.fb.group({
       Name: ["", Validators.required],
       Description: ["", Validators.required],
-      Priority: ["", Validators.required],
       startDate: ["", Validators.required],
       endDate: ["", Validators.required],
       startTime: ["", Validators.required],
       endTime: ["", Validators.required],
     });
   }
-  RoundEditData = {
-    Name: "",
-    Description: "",
-    // Priority: "",
-    startDate: null,
-    endDate: null,
-    startTime: null,
-    endTime: null,
-  };
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       console.log("Params", params.get("jobId"));
@@ -91,18 +93,25 @@ export class AddRoundsModalComponent {
     if (this.roundId) {
       this.getRoundsById(this.roundId);
     }
-    // this.route.paramMap.subscribe((params) => {
-    //   const id = params.get("roundsId");
-    //   this.roundId = id !== null ? +id : null;
-    //   if (this.roundId) {
-    //     const technology = HIRING_ROUNDS_DATA.find(
-    //       (t) => t.roundId === this.roundId
-    //     );
-    //     // if (technology) {
-    //     //   this.addEditTrainerForm.patchValue(technology);
-    //     // }
-    //   }
-    // });
+    this.testRoundsApiService.GetAllRounds(this.jobPostingId).subscribe({
+      next: (response) => {
+        this.existingRoundNames = response.value.map((round: any) =>
+          round.Name.trim().toLowerCase()
+        );
+        const currentName =
+          this.roundAddEditForm.get("Name")?.value?.trim().toLowerCase() || "";
+        this.roundAddEditForm
+          .get("Name")
+          ?.setValidators([
+            Validators.required,
+            uniqueNameValidator(this.existingRoundNames, currentName),
+          ]);
+        this.roundAddEditForm.get("Name")?.updateValueAndValidity();
+      },
+      error: (error) => {
+        console.error("Error fetching existing rounds:", error);
+      },
+    });
   }
 
   RoundDataById = new MatTableDataSource<Jobinterviewround>([]);
@@ -112,50 +121,26 @@ export class AddRoundsModalComponent {
       next: (response) => {
         const data: any = response.value;
         console.log("rounds by id", data);
-
-        // const preFilledPriority = [
-        //   { value: "1", viewValue: String(data[0].Priority) },
-        // ];
-
-        // const selectedPriority = String(data[0].Priority);
-        //const selectedPriority = String(data[0].Priority);
-
-        // console.log(preFilledPriority);
-        // console.log(this.Priority);
         this.roundAddEditForm.patchValue({
           Name: data[0].Name,
           Description: data[0].Description,
-          // startDate: data.startDate ? new Date(data.startDate) : null,
-          // endDate: data.endDate ? new Date(data.endDate) : null,
-          // startTime: data.startTime ? new Date(data.startTime) : null,
-          // endTime: data.endTime ? new Date(data.endTime) : null,
-          //Priority: selectedPriority,
           startDate: data[0].Event.EventStartDateTime
             ? new Date(data[0].Event.EventStartDateTime.split("T")[0])
-            : null,
+            : this.roundAddEditForm.value.startDate,
           endDate: data[0].Event.EventEndDateTime
             ? new Date(data[0].Event.EventEndDateTime.split("T")[0])
-            : null,
+            : this.roundAddEditForm.value.endDate,
           startTime: data[0].Event.EventStartDateTime
             ? new Date(data[0].Event.EventStartDateTime).getHours() +
               ":" +
               new Date(data[0].Event.EventStartDateTime).getMinutes()
-            : null,
+            : this.roundAddEditForm.value.startTime,
           endTime: data[0].Event.EventEndDateTime
             ? new Date(data[0].Event.EventEndDateTime).getHours() +
               ":" +
               new Date(data[0].Event.EventStartDateTime).getMinutes()
-            : null,
+            : this.roundAddEditForm.value.endTime,
         });
-        this.RoundEditData = {
-          Name: data[0].Name,
-          Description: data[0].Description,
-          startDate: data.startDate || null,
-          endDate: data.endDate || null,
-          // Priority: selectedPriority,
-          startTime: null,
-          endTime: null,
-        };
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);
@@ -174,75 +159,13 @@ export class AddRoundsModalComponent {
       },
     });
   }
-  // async onSubmit() {
-  //   // const companyData: Partial<interviewRounds> = this.roundAddEditForm.value;
-  //   // const isUpdate = !!this.roundId;
-  //   // const actionText = isUpdate ? "update" : "add";
-  //   // const confirmed = await this.sweetAlertService.confirm(
-  //   //   `Do you want to ${actionText} this round?`
-  //   // );
-  //   const companyData: {
-  //     Name: string;
-  //     Description: string;
-  //     startDate: any;
-  //     endDate: any;
-  //     startTime: any;
-  //     endTime: any;
-  //   } = this.roundAddEditForm.value;
-  //   const parseTime = (time: string): Date | null => {
-  //     const timeParts = time.match(/(\d+):(\d+)\s*(AM|PM)/);
-  //     if (timeParts) {
-  //       let hours = parseInt(timeParts[1], 10);
-  //       const minutes = parseInt(timeParts[2], 10);
-  //       const period = timeParts[3];
-  //       if (period === "PM" && hours < 12) hours += 12;
-  //       if (period === "AM" && hours === 12) hours = 0;
-
-  //       const now = new Date(); // Use current date
-  //       now.setHours(hours, minutes, 0, 0);
-  //       return now;
-  //     }
-  //     return null;
-  //   };
-  //   // if (confirmed) {
-  //   const companydatum: any = {
-  //     Id: this.roundId ?? 0,
-  //     // JobPostingId: this.jobPostingId ?? "",
-  //     Name: companyData.Name ?? "",
-  //     Description: companyData.Description ?? "",
-  //     //Priority: companyData.Priority ?? "",
-  //     // };
-  //     // this.apiInterviewRounds
-  //     //   .addInterviewRounds(this.roundId, companydatum)
-  //     //   .subscribe({
-  //     //     next: (response: { success: boolean; message: any }) => {
-  //     //       console.log(response);
-  //     //       if (response.success) {
-  //     //         this.sweetAlertService.success(response.message);
-  //     //         this.router.navigate(["/company-job-details/add-edit-jobPosting/"]);
-  //     //       } else {
-  //     //         this.sweetAlertService.error(response.message);
-  //     //       }
-  //     //     },
-  //     //     error: (error) => {
-  //     //       this.sweetAlertService.error("An unexpected error occurred.");
-  //     //     },
-  //     //   });
-  //     // }
-  //     StartDate: companyData.startDate,
-  //     EndDate: companyData.endDate,
-  //     StartTime: parseTime(companyData.startTime),
-  //     EndTime: parseTime(companyData.endTime),
-  //   };
-  //   console.log("Round", companydatum);
-  //   this.dialogRef.close({ data: companydatum });
-  // }
   async onSubmit() {
     if (this.roundAddEditForm.invalid) {
       this.sweetAlertService.error("All fields are required.");
       return;
     }
     // const companyData: Partial<interviewRounds> = this.roundAddEditForm.value;
+
     const isUpdate = !!this.roundId;
     const actionText = isUpdate ? "update" : "add";
     const confirmed = await this.sweetAlertService.confirm(
@@ -256,42 +179,21 @@ export class AddRoundsModalComponent {
       startTime: any;
       endTime: any;
     } = this.roundAddEditForm.value;
-    // const parseTime = (time: string): Date | null => {
-    //   const timeParts = time.match(/(\d+):(\d+)\s*(AM|PM)/);
-    //   if (timeParts) {
-    //     let hours = parseInt(timeParts[1], 10);
-    //     const minutes = parseInt(timeParts[2], 10);
-    //     const period = timeParts[3];
-    //     if (period === "PM" && hours < 12) hours += 12;
-    //     if (period === "AM" && hours === 12) hours = 0;
-    //     const now = new Date();
-    //     now.setHours(hours, minutes, 0, 0);
-    //     return now;
-    //   }
-    //   return null;
-    // };
     if (this.roundAddEditForm.valid && confirmed) {
       const formData = this.roundAddEditForm.value;
-
-      // Helper to combine date and time
-      const combineDateAndTime = (date: Date, time: string): string | null => {
+      const combineDateAndTime = (
+        date: Date | null,
+        time: string | null
+      ): string | null => {
         if (!date || !time) return null;
 
-        const timeParts = time.match(/(\d+):(\d+)\s*(AM|PM)/);
-        if (timeParts) {
-          let hours = parseInt(timeParts[1], 10);
-          const minutes = parseInt(timeParts[2], 10);
-          const period = timeParts[3];
-          if (period === "PM" && hours < 12) hours += 12;
-          if (period === "AM" && hours === 12) hours = 0;
+        const [hours, minutes] = time.split(":").map(Number);
+        const combinedDate = new Date(date);
+        combinedDate.setHours(hours || 0, minutes || 0, 0, 0);
 
-          // Create a new Date object using the selected date
-          const combinedDate = new Date(date);
-          combinedDate.setHours(hours, minutes, 0, 0);
-          return combinedDate.toISOString(); // Convert to ISO string
-        }
-        return null;
+        return combinedDate.toISOString();
       };
+
       const startDateTime = combineDateAndTime(
         formData.startDate,
         formData.startTime
@@ -306,29 +208,6 @@ export class AddRoundsModalComponent {
           JobPostingId: this.jobPostingId ?? "",
           Name: companyData.Name ?? "",
           Description: companyData.Description ?? "",
-
-          // };
-          // this.apiInterviewRounds
-          //   .addInterviewRounds(this.roundId, companydatum)
-          //   .subscribe({
-          //     next: (response: { success: boolean; message: any }) => {
-          //       console.log(response);
-          //       if (response.success) {
-          //         this.sweetAlertService.success(response.message);
-          //         this.router.navigate(["/company-job-details/add-edit-jobPosting/"]);
-          //       } else {
-          //         this.sweetAlertService.error(response.message);
-          //       }
-          //     },
-          //     error: (error) => {
-          //       this.sweetAlertService.error("An unexpected error occurred.");
-          //     },
-          //   });
-          // }
-          // StartDate: companyData.startDate,
-          // EndDate: companyData.endDate,
-          // StartTime: parseTime(companyData.startTime),
-          // EndTime: parseTime(companyData.endTime),
         };
         console.log("Round", companydatum);
         this.dialogRef.close({ data: companydatum });
@@ -357,7 +236,7 @@ export class AddRoundsModalComponent {
                   );
                   this.roundsUpdated.emit();
                   this.dialogRef.close({ data: roundResponse });
-                   },
+                },
                 error: (error) => {
                   console.error("Error saving JobInterviewRound:", error);
                 },
@@ -371,6 +250,13 @@ export class AddRoundsModalComponent {
     }
   }
   handleResetRounds(): void {
-    this.roundAddEditForm.patchValue(this.RoundEditData);
+    this.roundAddEditForm.reset({
+      Name: "",
+      Description: "",
+      startDate: "",
+      endDate: "",
+      startTime: "",
+      endTime: "",
+    });
   }
 }
