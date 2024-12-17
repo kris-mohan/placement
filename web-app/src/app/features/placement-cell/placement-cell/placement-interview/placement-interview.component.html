@@ -20,33 +20,29 @@
               [formGroup]="campaignOne"
               [rangePicker]="campaignOnePicker"
               [comparisonStart]="campaignOne.value.start"
-              [comparisonEnd]="campaignOne.value.end"
-            >
+              [comparisonEnd]="campaignOne.value.end">
               <input
                 matStartDate
                 placeholder="Start date"
-                formControlName="start"
-              />
+                formControlName="start" />
               <input matEndDate placeholder="End date" formControlName="end" />
             </mat-date-range-input>
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle
               matIconSuffix
-              [for]="campaignOnePicker"
-            ></mat-datepicker-toggle>
+              [for]="campaignOnePicker"></mat-datepicker-toggle>
             <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
           </mat-form-field>
         </div>
 
-        <div>
+        <!-- <div>
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Status</mat-label>
             <mat-select
               [formControl]="CityControl"
               multiple
               (openedChange)="onCityDropdownOpen()"
-              panelClass="custom-dropdown-panel"
-            >
+              panelClass="custom-dropdown-panel">
               <mat-select-trigger>
                 {{ selectedCompanyCities }}
               </mat-select-trigger>
@@ -56,34 +52,41 @@
                   matInput
                   [(ngModel)]="searchCity"
                   (ngModelChange)="filterCities($event)"
-                  placeholder="Search"
-                />
+                  placeholder="Search" />
               </mat-form-field>
               <mat-option *ngIf="!filteredCompanies.length" disabled
                 >No options</mat-option
               >
               <mat-option
                 *ngFor="let company of filteredCompanies"
-                [value]="company.City"
-              >
+                [value]="company.City">
                 {{ company.City }}
               </mat-option>
               <mat-dialog-actions class="mat-dialog-actions">
                 <button
                   mat-button
                   mat-dialog-close
-                  (click)="resetLocationSelection()"
-                >
+                  (click)="resetLocationSelection()">
                   Reset
                 </button>
                 <button
                   mat-raised-button
                   class="matbutton"
-                  (click)="showLocationResults()"
-                >
+                  (click)="showLocationResults()">
                   <p class="matName">Show results</p>
                 </button>
               </mat-dialog-actions>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+
+        <div>
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Status</mat-label>
+            <mat-select [formControl]="statusControl" multiple>
+              <mat-option *ngFor="let jobS of JobStatus" [value]="jobS">{{
+                jobS
+              }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -121,8 +124,7 @@
               (input)="applyFilters()"
               aria-label="Search"
               matInput
-              [formControl]="searchControl"
-            />
+              [formControl]="searchControl" />
             <!-- <mat-autocomplete
               autoActiveFirstOption
               #auto="matAutocomplete"
@@ -141,15 +143,14 @@
           <button
             mat-raised-button
             class="matbutton"
-            (click)="openPlacementinterviewAdditionalFilter()"
-          >
+            (click)="openPlacementinterviewAdditionalFilter()">
             <p class="matName">Additional Filters</p>
           </button>
         </div>
       </div>
     </div>
   </mat-card-header>
-    <div *ngIf="isLoading" class="spinner-container">
+  <div *ngIf="isLoading" class="spinner-container">
     <mat-spinner></mat-spinner>
   </div>
   <div *ngIf="!isLoading"></div>
@@ -157,8 +158,7 @@
   <mat-card-content
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"
-    class="mat-card-content"
-  >
+    class="mat-card-content">
     <div
       *ngFor="let scheduledInterview of filteredStudents()"
       fxFlex="100%"
@@ -172,8 +172,7 @@
           scheduledInterview.JobPostingId ? scheduledInterview.JobPostingId : 0,
           scheduledInterview.Id
         )
-      "
-    >
+      ">
       <div class="company-details">
         <div class="company-type">
           {{ scheduledInterview.JobPosting?.Company?.Name }}
@@ -204,8 +203,7 @@
           src="../../../../../assets/images/sslogoglobal.png"
           alt="company logo"
           class="company-logo"
-          style="max-width: 100px; max-height: 50px; object-fit: contain"
-        />
+          style="max-width: 100px; max-height: 50px; object-fit: contain" />
         <p>
           <strong>Status:</strong
           >{{scheduledInterview.JobPosting?.JobpostingsEligiblestudents?.[0]?.Status?.Name}}
