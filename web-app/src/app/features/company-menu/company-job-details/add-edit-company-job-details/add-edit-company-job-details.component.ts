@@ -141,7 +141,7 @@ export class AddEditCompanyJobDetailsComponent {
     this.location.back();
   }
 
-  ngOnInit() {
+  ngOnInit() {      
     this.GetAllCollegeName();
     this.GetAllBatchName();
     this.GetAllCoursesName();

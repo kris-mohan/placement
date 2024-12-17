@@ -12,6 +12,7 @@ import { CommonModule } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
+import { interviewApiService } from "../api.interview";
 
 @Component({
   selector: "app-interview-additional-filter",
@@ -69,7 +70,8 @@ export class InterviewAdditionalFilterComponent {
 
   constructor(
     private apiCompanyService: CompanyAPIService,
-    private apiIndustryService: IndustryAPIService
+    private apiIndustryService: IndustryAPIService,
+    private interviewApiService:interviewApiService,
   ) {}
 
   ngOnInit() {
@@ -197,7 +199,7 @@ export class InterviewAdditionalFilterComponent {
   }
 
   loadCompanies() {
-    this.apiCompanyService.loadCompanyData().subscribe({
+    this.interviewApiService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
         console.log("API Response:", response);
         this.companies = response.value;
@@ -211,7 +213,7 @@ export class InterviewAdditionalFilterComponent {
   }
 
   loadIndustries() {
-    this.apiIndustryService.loadIndustryData().subscribe({
+    this.interviewApiService.loadIndustryData().subscribe({
       next: (response: ODataResponse<any>) => {
         console.log("API Response:", response);
         this.industries = response.value;

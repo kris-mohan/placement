@@ -6,6 +6,11 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { CalendarEventAPIService } from "../api.calendar.events";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import {
+  PostCalendarevent,
+  PostCalEvent,
+} from "src/app/services/types/Calendarevent";
 
 @Component({
   selector: "app-add-edit-calendar-events",
@@ -21,24 +26,89 @@ import { CalendarEventAPIService } from "../api.calendar.events";
 })
 export class AddEditCalendarEventsComponent {
   addEditCalendarEventForm: FormGroup;
+  calendarEventForm: FormGroup;
   calendarEventId: string | null = null;
   Id: number | null = null;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private sweetAlertService: SweetAlertService,
+
     private route: ActivatedRoute,
     private apiCalendarEventsService: CalendarEventAPIService
   ) {
     this.addEditCalendarEventForm = this.fb.group({
       Id: null,
-      EventStartDateTime: "",
-      EventEndDateTime: "",
-      EventType: "",
-      EventDescription: "",
+      EventStartDateTime: ["", [Validators.required]],
+      EventEndDateTime: ["", [Validators.required]],
+      EventType: ["", [Validators.required]],
+      EventDescription: ["", [Validators.required]],
       OrgId: null,
       CompanyId: null,
     });
+
+    this.calendarEventForm = this.fb.group({
+      EventStartDateTime: ["", [Validators.required]],
+      EventEndDateTime: "",
+    });
+  }
+  async onSubmit() {
+    debugger;
+    if (this.calendarEventForm.invalid) {
+      this.sweetAlertService.error("Please enter all the required field .");
+      return;
+    }
+
+    const companyData: Partial<PostCalEvent> = this.calendarEventForm.value;
+
+    if (
+      !this.validateEventDates(
+        companyData.EventStartDateTime,
+        companyData.EventEndDateTime
+      )
+    ) {
+      this.sweetAlertService.error(
+        "End Date Time must be after Start Date Time"
+      );
+      return;
+    }
+
+    const isUpdate = this.calendarEventId != "0";
+    const actionText = isUpdate ? "update" : "add";
+    const confirmed = await this.sweetAlertService.confirm(
+      `Do you want to ${actionText} this event ?`
+    );
+
+    if (confirmed) {
+      const companydatum: any = {
+        // Id: 0,
+        EventStartDateTime: companyData.EventStartDateTime ?? "",
+        EventEndDateTime: companyData.EventEndDateTime ?? "",
+      };
+
+      const calendarEventId =
+        this.calendarEventId === "0"
+          ? null
+          : parseInt(this.calendarEventId ?? "0");
+
+      this.apiCalendarEventsService
+        .addUpdateCalendarEvent(calendarEventId, companydatum)
+        .subscribe({
+          next: (response: { success: boolean; message: any }) => {
+            console.log(response);
+            if (response.success) {
+              this.sweetAlertService.success(response.message);
+              this.router.navigate(["/campus-configuration"]);
+            } else {
+              this.sweetAlertService.error(response.message);
+            }
+          },
+          error: (error) => {
+            this.sweetAlertService.error("An unexpected error occurred.");
+          },
+        });
+    }
   }
   // ngOnInit(): void {
   //   this.getCalendarEventsById();
@@ -64,4 +134,19 @@ export class AddEditCalendarEventsComponent {
   //     }
   //   });
   // }
+
+  validateEventDates(
+    startDate: Date | undefined,
+    endDate: Date | undefined
+  ): boolean {
+    if (!startDate || !endDate) {
+      return false;
+    }
+
+    if (endDate <= startDate) {
+      return false;
+    }
+
+    return true;
+  }
 }

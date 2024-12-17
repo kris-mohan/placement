@@ -234,7 +234,7 @@ export class PlacementInterviewComponent {
       return matchesName && branchMatch && batchMatch;
     });
     this.filteredStudents.set(filtered);
-    this.isLoading=false;
+    this.isLoading = false;
   }
   getBatches(): void {
     this.InterviewService.GetBatches().subscribe({
@@ -361,7 +361,6 @@ export class PlacementInterviewComponent {
   openPlacementinterviewAdditionalFilter() {
     this.dialog.open(PlacementInterviewAdditionalFilterComponent, {
       width: "500px",
-      height: "600px",
     });
   }
 

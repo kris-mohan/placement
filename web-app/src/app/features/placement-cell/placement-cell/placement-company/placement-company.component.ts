@@ -123,6 +123,7 @@ export class PlacementCompanyComponent {
   searchLocation = new FormControl();
   searchLocationValue: string = "";
   filteredLocations: string[] = [];
+  showAll: boolean = false;
 
   readonly dialog = inject(MatDialog);
   constructor(
@@ -307,7 +308,17 @@ export class PlacementCompanyComponent {
         });
       return matchesLocation && industryMatches && matchesCompanySize;
     });
-    this.filteredCompanyData.set(filtered);
+
+    if (!this.showAll) {
+      const filteredCompanies = filtered.filter(
+        (company) =>
+          company.Jobpostings &&
+          company.Jobpostings.some((job) => (job?.Vacancies || 0) > 0)
+      );
+      this.filteredCompanyData.set(filteredCompanies);
+    } else {
+      this.filteredCompanyData.set(filtered);
+    }
     this.filteredCompanyData1.set(filtered);
   }
   getAllIndustries = () => {
@@ -381,7 +392,7 @@ export class PlacementCompanyComponent {
   }
 
   loadCompanies() {
-    this.apiCompanyService.loadCompanyData().subscribe({
+    this.placementCompanyApiService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
         console.log("API Response:", response);
         this.dataSource.data = response.value;
@@ -396,7 +407,7 @@ export class PlacementCompanyComponent {
   }
 
   loadIndustries() {
-    this.apiIndustryService.loadIndustryData().subscribe({
+    this.placementCompanyApiService.loadIndustryData().subscribe({
       next: (response: ODataResponse<any>) => {
         console.log("API Response:", response);
         this.industries = response.value;
@@ -446,7 +457,7 @@ export class PlacementCompanyComponent {
   }
 
   openImportCompanyDialog() {
-    this.dialog.open(ImportCompanyDialogComponent);
+    this.dialog.open(ImportCompanyDialogComponent, { width: "500px" });
   }
 
   // filterCities(search: string) {
@@ -596,10 +607,11 @@ export class PlacementCompanyComponent {
     return getCompanyIndustryTypes(company);
   };
   handletogglechange(event: MouseEvent): void {
+    this.showAll = !this.showAll;
     if (event) {
       this.filteredCompanyData.set(this.filteredCompanyData1());
     } else {
-      const filteredCompanies = this.companiesList().filter(
+      const filteredCompanies = this.campusCompanyList().filter(
         (company) =>
           company.Jobpostings &&
           company.Jobpostings.some((job) => (job?.Vacancies || 0) > 0)
