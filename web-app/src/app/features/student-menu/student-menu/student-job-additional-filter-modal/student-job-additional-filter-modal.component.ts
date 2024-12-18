@@ -20,6 +20,7 @@ import { map, Observable, of, startWith } from "rxjs";
 import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 import { ModeOfWorks } from "src/app/services/common-dropdowns/ModeOfWorks";
 import { PlacementCompanyApiService } from "src/app/features/placement-cell/placement-cell/placement-company/PlacementCompanyApiService";
+import { set } from "date-fns";
 
 @Component({
   selector: "app-student-job-additional-filter-modal",
@@ -107,6 +108,7 @@ export class StudentJobAdditionalFilterModalComponent {
     // this.loadIndustries();
     this.skillsControl.valueChanges.subscribe(() => this.applyFilters());
     this.industryControl.valueChanges.subscribe(() => this.applyFilters());
+    this.companyFilterControl.valueChanges.subscribe(() => this.applyFilters());
     this.companyControl.valueChanges.subscribe(() => {
       this.filterCompanies(this.searchCompany);
     });
@@ -284,6 +286,7 @@ export class StudentJobAdditionalFilterModalComponent {
     this.modeOfWorksControl.setValue([]);
     this.industryControl.setValue([]);
     this.filteredStudents = [...this.JobPostingsData];
+    this.companyFilterControl.setValue([]);
   }
 
   onCompanySelected(e: any) {}

@@ -263,7 +263,7 @@ export class PlacementInterviewComponent {
       );
     });
     this.filteredStudents.set(filtered);
-    this.isLoading = false;
+    this.isLoading=false;
   }
 
   getBatches(): void {
@@ -390,8 +390,8 @@ export class PlacementInterviewComponent {
 
   openPlacementinterviewAdditionalFilter() {
     this.dialog.open(PlacementInterviewAdditionalFilterComponent, {
-      width: '500px',
-      height: '600px',
+      width: "500px",
+      height: "600px",
     });
   }
 

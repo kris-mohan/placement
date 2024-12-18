@@ -201,7 +201,8 @@
                         [disabled]="
                           sem.status === 'approved' || sem.status === 'rejected'
                         "
-                        (click)="onApproveClick(sem)">
+                        (click)="onApproveClick(sem)"
+                      >
                         <mat-icon>check</mat-icon>
                       </button>
 
@@ -210,7 +211,8 @@
                         mat-fab
                         color="warn"
                         class="wrong-button"
-                        (click)="onRejectClick(sem)">
+                        (click)="onRejectClick(sem)"
+                      >
                         <mat-icon>close</mat-icon>
                       </button>
                     </ng-template>
@@ -251,12 +253,6 @@
             mat-row
             *matRowDef="let row; columns: displayedSkillsColumns"></tr>
         </table>
-      </div>
-    </mat-tab>
-
-    <mat-tab label="Status">
-      <div class="status">
-        <!-- Add your status content here -->
       </div>
     </mat-tab>
   </mat-tab-group>

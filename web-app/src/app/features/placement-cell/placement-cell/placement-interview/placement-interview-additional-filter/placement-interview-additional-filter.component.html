@@ -70,7 +70,7 @@
     </mat-select>
   </mat-form-field>
 
-  <p>Mode of Interview</p>
+  <!-- <p>Mode of Interview</p>
   <mat-form-field class="full-width" appearance="outline">
     <mat-label>Mode of Interview</mat-label>
     <mat-select
@@ -92,15 +92,15 @@
       </mat-form-field>
       <mat-option *ngIf="!filteredCompanies.length" disabled
         >No options</mat-option
-      >
-      <mat-option
+      > -->
+  <!-- <mat-option
         *ngFor="let company of filteredCompanies"
         [value]="company.City"
       >
         {{ company.City }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+      </mat-option> -->
+  <!-- </mat-select>
+  </mat-form-field> -->
 
   <!-- <p>Company Size</p>
   <mat-form-field appearance="outline" class="full-width">
@@ -122,7 +122,10 @@
     </mat-select>
   </mat-form-field> -->
 </mat-dialog-content>
-<mat-dialog-actions class="mat-dialog-actions">
+<mat-dialog-actions
+  class="mat-dialog-actions"
+  style="background-color: lightgray"
+>
   <button mat-button mat-dialog-close>Reset</button>
   <button
     mat-raised-button

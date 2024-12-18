@@ -14,7 +14,7 @@ export class CalendarEventAPIService {
   constructor(private apiHttpService: ApiHttpService) {}
 
   public loadCalendarEventData(): Observable<ODataResponse<any>> {
-    return this.apiHttpService.get("/Calendarevent/?filter=Isdeleted eq false");
+    return this.apiHttpService.get("/Calendarevent/?filter=Isdeleted eq 0");
   }
 
   public getCalendarEventById(id: number): Observable<ODataResponse<any>> {

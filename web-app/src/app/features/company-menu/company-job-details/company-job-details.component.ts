@@ -22,7 +22,7 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { CompanyJobDetailsApiService } from "./company-job-details-apiService";
 import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
-
+import * as XLSX from "xlsx";
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
@@ -107,6 +107,32 @@ export class CompanyJobDetailsComponent {
     this.experienceLevelControl.valueChanges.subscribe(() =>
       this.applyFilters()
     );
+  }
+  exportToExcel() {
+    const jobPostings = this.JobPostingsData();
+    const exportData = jobPostings.map(
+      (jobposting: JobpostingWithApplicants) => ({
+        "Job Role": jobposting.JobRole,
+        "Job Type": jobposting.JobType,
+        Skills: jobposting.SkillTypes,
+        Salary: jobposting.Salary,
+        Location: jobposting.Location,
+        Experience: `${jobposting.MinimumYearExperience}-${jobposting.MaximumYearExperience} years`,
+        "Mode of Work": jobposting.ModeOfWork,
+        "No. of Vacancies": jobposting.Vacancies,
+        "Applicants Applied": jobposting.ApplicantsApplied,
+        "Applicants Rejected": jobposting.ApplicantsRejected,
+        "Drive Date": jobposting.DriveDate,
+        "Posted Date": jobposting.ValidFrom,
+        "Application Last Date": jobposting.ValidTill,
+      })
+    );
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { "Job Postings": worksheet },
+      SheetNames: ["Job Postings"],
+    };
+    XLSX.writeFile(workbook, "JobPostings.xlsx");
   }
 
   GetAllJobPosting = (id: number) => {
