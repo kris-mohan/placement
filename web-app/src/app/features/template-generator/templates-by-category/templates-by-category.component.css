@@ -1,0 +1,32 @@
+.full-height-card {
+  display: flex;
+  flex-direction: column;
+  height: 85vh; /* Adjust to your desired full height, can be container height as well */
+}
+
+/* .scrollable-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 16px; 
+} */
+.scrollable-content {
+  overflow-y: auto;
+  height: calc(100% - 64px);
+}
+.button-container {
+  margin-top: 1rem;
+  text-align: right;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.search-field {
+  width: 250px;
+  margin-right: 1rem;
+}

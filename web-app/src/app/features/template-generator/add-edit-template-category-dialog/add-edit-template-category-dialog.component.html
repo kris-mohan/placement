@@ -1,0 +1,37 @@
+<div>
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>
+        {{
+          isEditMode ? "Edit Template Category" : "Add Template Category"
+        }}</mat-card-title
+      >
+    </mat-card-header>
+    <!-- class="mat-typography" -->
+    <mat-card-content>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Category Name</mat-label>
+          <input matInput [(ngModel)]="Name" />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Category Description</mat-label>
+          <textarea matInput [(ngModel)]="Description"></textarea>
+        </mat-form-field>
+      </p>
+    </mat-card-content>
+    <mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onSave()"
+        cdkFocusInitial
+      >
+        Save
+      </button>
+    </mat-dialog-actions>
+  </mat-card>
+</div>
