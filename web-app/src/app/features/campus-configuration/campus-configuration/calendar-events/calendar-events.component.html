@@ -11,11 +11,12 @@
           </div>
         </div>
         <div class="example-button-container">
-          <button mat-fab extended class = "matbutton-download">
+          <button mat-fab extended class="matbutton-download">
             <mat-icon>file_download</mat-icon>Excel
           </button>
-          <button mat-fab extended class = "matbutton-download">
-            <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <h5>PDF</h5>
           </button>
           <button
             mat-raised-button
@@ -65,6 +66,11 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr *ngIf="dataSource.data.length === 0">
+        <td [attr.colspan]="displayedColumns.length" class="no-data-message">
+          No Data Available
+        </td>
+      </tr>
     </table>
   </mat-card-content>
 </mat-card>

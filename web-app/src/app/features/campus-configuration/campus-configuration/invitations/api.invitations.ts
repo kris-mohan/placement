@@ -10,7 +10,7 @@ export class InvitationAPIService {
   constructor(private apiHttpService: ApiHttpService) {}
 
   public loadInvitationData(): Observable<ODataResponse<any>> {
-    return this.apiHttpService.get("/Invitation/?filter=Isdeleted eq false");
+    return this.apiHttpService.get("/Invitation/?filter=Isdeleted eq 0");
   }
 
   public getInvitationDataById(id: number): Observable<ODataResponse<any>> {
