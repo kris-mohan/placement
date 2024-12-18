@@ -6,6 +6,7 @@ import { CampusCompany } from "src/app/services/types/CampusCompany";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { Industry } from "src/app/services/types/Industry";
 import { ODataEntity } from "src/app/services/types/OData";
+import { ODataResponse } from "./placement-company.component";
 
 @Injectable({
   providedIn: "root",
@@ -25,7 +26,7 @@ export class PlacementCompanyApiService {
     return this.apiHttpService.get<ODataEntity<CampusCompany[]>>(
       `/CampusCompany?$expand=Company($expand=Jobpostings($filter=ValidTill ge ${GetDateInYYYYMMDD(
         new Date()
-      )};$select=Id;$expand=Company($expand=Companyindustries($expand= Industry))))&filter=CampusId eq ${id}`
+      )};$select=Id,Vacancies;$expand=Company($expand=Companyindustries($expand= Industry))))&filter=CampusId eq ${id}`
     );
   }
 
@@ -36,5 +37,13 @@ export class PlacementCompanyApiService {
   }
   GetAllIndustries(): Observable<ODataEntity<Industry[]>> {
     return this.apiHttpService.get<ODataEntity<Industry[]>>(`/Industry`);
+  }
+  public loadCompanyData(): Observable<ODataResponse<any>> {
+    return this.apiHttpService.get(
+      "/Companydatum?filter=Isdeleted eq 0& $expand= Companyindustries($expand=Industry)"
+    );
+  }
+  public loadIndustryData(): Observable<ODataEntity<Industry[]>> {
+    return this.apiHttpService.get(`/Industry?filter=Isdeleted eq 0`);
   }
 }

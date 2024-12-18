@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, signal } from "@angular/core";
 import {
   FormGroup,
   FormControl,
@@ -7,6 +7,7 @@ import {
   FormArray,
   Validators,
 } from "@angular/forms";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule, Location } from "@angular/common";
 import { AMGModules } from "src/AMG-Module/AMG-module";
@@ -17,6 +18,7 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
 import { IndentForm } from "src/app/services/types/IndentForm";
 import { IndentRequirementsApiService } from "../company-menu/indent-requirements/IndentRequirementsApiService";
 import { MatTableDataSource } from "@angular/material/table";
+import { merge, Observable } from "rxjs";
 @Component({
   selector: "app-indentrequirementplacement",
   standalone: true,
@@ -42,18 +44,37 @@ export class IndentrequirementplacementComponent {
     private IndentRequirementapi: IndentRequirementsApiService
   ) {
     this.addIndentForm = this.fb.group({
-      CompanyName: new FormControl(""),
-      ContactPersonDesignation: new FormControl(""),
-      Email: new FormControl(""),
-      PhoneNumber: new FormControl(""),
+      CompanyName: new FormControl("", Validators.required),
+      ContactPersonDesignation: new FormControl("", Validators.required),
+      Email: ["", [Validators.required, Validators.email]],
+
+      PhoneNumber: new FormControl("", [
+        Validators.required,
+        Validators.pattern(/^\d{10}$/), //
+      ]),
+
       Extra1: new FormControl(""),
       IndentFormDynamicFields: this.fb.array([]),
     });
-
+    merge(
+      this.addIndentForm.get("Email")?.statusChanges as Observable<any>,
+      this.addIndentForm.get("Email")?.valueChanges as Observable<any>
+    )
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorMessage());
     this.IndentFormDynamicFields = this.addIndentForm.get(
       "IndentFormDynamicFields"
     ) as FormArray;
+    merge(
+      this.addIndentForm.get("PhoneNumber")?.statusChanges as Observable<any>,
+      this.addIndentForm.get("PhoneNumber")?.valueChanges as Observable<any>
+    )
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updatePhoneNumberErrorMessage());
   }
+  errorMessage = signal("");
+  phoneNumberErrorMessage = signal("");
+
   RoundDataSource = new MatTableDataSource<IndentForm>([]);
   RoundDataById = new MatTableDataSource<IndentForm>([]);
 
@@ -70,7 +91,28 @@ export class IndentrequirementplacementComponent {
       Value: new FormControl(Value, Validators.required), // Form control for description
     });
   }
+  updateErrorMessage() {
+    const emailControl = this.addIndentForm.get("Email");
 
+    if (emailControl?.hasError("required")) {
+      this.errorMessage.set("You must enter a value");
+    } else if (emailControl?.hasError("email")) {
+      this.errorMessage.set("Not a valid email");
+    } else {
+      this.errorMessage.set("");
+    }
+  }
+  updatePhoneNumberErrorMessage() {
+    const phoneControl = this.addIndentForm.get("PhoneNumber");
+
+    if (phoneControl?.hasError("required")) {
+      this.phoneNumberErrorMessage.set("You must enter a phone number");
+    } else if (phoneControl?.hasError("pattern")) {
+      this.phoneNumberErrorMessage.set("Not a valid phone number");
+    } else {
+      this.phoneNumberErrorMessage.set("");
+    }
+  }
   handleAddGrid(): void {
     this.IndentFormDynamicFields.push(this.createItemFormControl("", ""));
   }
@@ -110,6 +152,11 @@ export class IndentrequirementplacementComponent {
   }
 
   async onSubmit() {
+    if (this.addIndentForm.invalid) {
+      this.sweetAlertService.error("Please enter all the required field .");
+      return;
+    }
+
     debugger;
     const companyData: Partial<IndentForm> = this.addIndentForm.value;
     const isUpdate = this.Id != "0";
@@ -153,9 +200,7 @@ export class IndentrequirementplacementComponent {
   onSubmitDiv() {
     this.location.back();
   }
-  onReset() {
-    this.location.back();
-  }
+  onReset() {}
 
   goBack(): void {
     this.location.back();
