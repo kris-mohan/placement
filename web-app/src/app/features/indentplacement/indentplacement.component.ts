@@ -11,6 +11,7 @@ import { IndentData } from "../company-menu/indent-requirements/indentview/inden
 import { ODataResponse } from "../company-menu/indent-requirements/indentview/indentview.component";
 import { IndentRequirementsApiService } from "../company-menu/indent-requirements/IndentRequirementsApiService";
 import { IndentForm } from "src/app/services/types/IndentForm";
+import * as XLSX from "xlsx";
 
 @Component({
   selector: "app-indentplacement",
@@ -104,7 +105,20 @@ export class IndentplacementComponent {
       },
     });
   }
-
+  exportToExcel(): void {
+    const studentData = this.indentdata.map((indent: IndentForm) => ({
+      Department: indent.ContactPersonDesignation,
+      Address: indent.CompanyName,
+      Designation: indent.Email,
+      EmailAddress: indent.PhoneNumber,
+    }));
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { "Job Postings": worksheet },
+      SheetNames: ["Job Postings"],
+    };
+    XLSX.writeFile(workbook, "JobPostings.xlsx");
+  }
   async deleteCalendarEvent(id: number) {
     const confirmed = await this.sweetAlertService.confirmDelete(
       "Do you really want to delete this Calendar Event?"
@@ -134,9 +148,7 @@ export class IndentplacementComponent {
       next: (response) => {
         const data: IndentForm[] = response.value;
         this.indentdata = data;
-        this.isLoading=false;
-
-    
+        this.isLoading = false;
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);

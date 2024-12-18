@@ -25,6 +25,7 @@ import { PlacementUploadFileComponent } from "../company-list-details/placement-
 import { PlacementOfferRecievedUploadFileComponent } from "./placement-offer-recieved-upload-file/placement-offer-recieved-upload-file.component";
 import { Companyindustry } from "src/app/services/types/Companyindustry";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import * as XLSX from "xlsx";
 
 const today = new Date();
 const month = today.getMonth();
@@ -322,7 +323,26 @@ export class PlacementOfferRecievedComponent {
       },
     });
   }
-
+  exportToExcel() {
+    const offers = this.JobpostingSelectedstudentData();
+    const exportData = offers.map((job: JobpostingSelectedstudent) => ({
+      "Student Name": `${job.Student.FirstName} ${job.Student.LastName}`,
+      "USN No": job.Student.RollNo,
+      Batch: job.Student.Batch.Name,
+      Branch: job.Student.Studentacademics[0].Course.FullForm,
+      "Company Name": job.JobPosting.Company?.Name,
+      "Job Role": job.JobPosting.JobRole,
+      // "Industry Type ": getIndustryTypes(job),
+      //"Status":job.JobPosting?.
+      Skills: job.Student.skills,
+    }));
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { "Job Postings": worksheet },
+      SheetNames: ["Job Postings"],
+    };
+    XLSX.writeFile(workbook, "JobPostings.xlsx");
+  }
   showResults(): void {
     this.applyFilters();
     console.log(this.filteredStudents());
