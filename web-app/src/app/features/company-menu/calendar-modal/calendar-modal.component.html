@@ -137,46 +137,61 @@
       <div
         *ngIf="isEdited !== true"
         fxFlex="100%"
-        fxFlex.gt-sm="30%"
-        fxFlex.gt-md="30%"
+        fxLayout="row"
+        fxLayoutAlign="Start center"
+        fxLayoutGap="20px"
       >
-        <mat-checkbox [checked]="toggle" (change)="onToggleChange($event)">
-          Multiple Days
-        </mat-checkbox>
-      </div>
-      <div
-        *ngIf="toggle === true"
-        fxFlex="100%"
-        fxFlex.gt-sm="30%"
-        fxFlex.gt-md="30%"
-      >
-        <mat-form-field appearance="outline">
-          <mat-label>End Date</mat-label>
-          <input formControlName="endDate" matInput [matDatepicker]="picker" />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
+        <div fxFlex="30%">
+          <mat-checkbox [checked]="toggle" (change)="onToggleChange($event)">
+            Multiple Days
+          </mat-checkbox>
+        </div>
 
-      <div
-        *ngIf="toggle === true"
-        fxFlex="100%"
-        fxFlex.gt-sm="30%"
-        fxFlex.gt-md="30%"
-      >
-        <mat-checkbox [checked]="weekdays" (change)="onWeekdaysChange($event)">
-          Weekdays only
-        </mat-checkbox>
+        <div *ngIf="toggle === true" fxFlex="40%">
+          <mat-form-field appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input
+              formControlName="endDate"
+              matInput
+              [matDatepicker]="picker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="toggle === true" fxFlex="30%">
+          <mat-checkbox
+            [checked]="weekdays"
+            (change)="onWeekdaysChange($event)"
+          >
+            Weekdays only
+          </mat-checkbox>
+        </div>
       </div>
     </div>
-
     <strong>
-      <p fxLayout="row" fxLayoutAlign="center center">
+      <p fxLayout="row" fxLayoutAlign="center center" fxFlex="100%">
         Start Date: {{ data.date | date : "mediumDate" }}
       </p>
+      <mat-form-field appearance="outline" *ngIf="isEdited !== true">
+        <mat-label>Meeting Link</mat-label>
+        <input matInput formControlName="meetingLink" />
+      </mat-form-field>
+      <div *ngIf="isEdited" fxFlex="20%" fxFlex.gt-sm="20%" fxFlex.gt-md="20%">
+        <button mat-raised-button color="primary">
+          <a
+            [href]="formDataa.value.meetingLink"
+            target="_blank"
+            style="text-decoration: none; color: white"
+          >
+            JoinMeeting
+          </a>
+        </button>
+      </div>
     </strong>
   </form>
 </div>

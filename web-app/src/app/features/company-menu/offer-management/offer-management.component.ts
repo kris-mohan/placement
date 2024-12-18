@@ -33,6 +33,7 @@ import { Campusregistration } from "src/app/services/types/Campusregistration";
 import { Jobstudentstatus } from "src/app/services/types/Jobstudentstatus";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { Technology } from "src/app/services/types/Technology";
+import * as XLSX from "xlsx";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -161,7 +162,7 @@ export class OfferManagementComponent {
           const data: JobpostingSelectedstudent[] = response.value;
           console.log("Selected Students", data);
           this.JobpostingSelectedstudentData.set(data);
-          this.isLoading=false;
+          this.isLoading = false;
           this.offers = data;
           this.calculateAcceptedOffers();
           this.calculateRejectedOffer();
@@ -173,7 +174,28 @@ export class OfferManagementComponent {
         },
       });
   };
-
+  exportToExcel() {
+    const offers = this.JobpostingSelectedstudentData();
+    const exportData = offers.map((offer: JobpostingSelectedstudent) => ({
+      Name: `${offer.Student.FirstName} ${offer.Student.LastName}`,
+      Position: offer.JobPosting.JobRole,
+      "Date Sent": offer.OfferLetterSentDate,
+      Status: `${
+        offer.HasAcceptedOffer === null
+          ? "Pending"
+          : offer.HasAcceptedOffer === 1
+          ? "Accepted"
+          : "Rejected"
+      }`,
+      "Offer Expiry": offer.OfferLetterExpiryDate,
+    }));
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { "Offer management": worksheet },
+      SheetNames: ["Offer management"],
+    };
+    XLSX.writeFile(workbook, "OfferManagement.xlsx");
+  }
   getAllUniversities = () => {
     this.offerManagementDetailsApiService.GetAllUniversities().subscribe({
       next: (response) => {

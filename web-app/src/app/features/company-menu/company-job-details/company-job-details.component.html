@@ -221,7 +221,12 @@
     </div>
     <div class="button">
       <div class="example-button-container filter_items">
-        <button mat-fab extended class="matbutton-download">
+        <button
+          mat-fab
+          extended
+          class="matbutton-download"
+          (click)="exportToExcel()"
+        >
           <mat-icon>file_download</mat-icon>Excel
         </button>
         <button mat-fab extended class="matbutton-download">

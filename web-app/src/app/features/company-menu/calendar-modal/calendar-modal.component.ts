@@ -66,9 +66,12 @@ export class CalendarModalComponent implements OnInit {
       endTime: ["", Validators.required],
       jobPosting: ["", Validators.required],
       rounds: [""],
+      meetingLink: [""],
     });
+    if (this.isEdited && this.data.eventData) {
+      this.formDataa.patchValue(this.data.eventData);
+    }
   }
-
   onJobPostingChange(event: any): void {
     console.log("Selected Job Posting Id", event.value);
     const selectedJobPostingId = event.value;
@@ -94,7 +97,6 @@ export class CalendarModalComponent implements OnInit {
       },
     });
   };
-
   getJobPostingById = () => {
     this.calendarModalApiService
       .GetJobPostingById(this.data.eventData.jobPostingId)
@@ -186,6 +188,7 @@ export class CalendarModalComponent implements OnInit {
       const returnData = {
         ...this.formDataa.value, // Spread the form values
         // toggle: this.toggle,
+        //meetingLink: this.formDataa.value.meetingLink.trim(),
         weekdays: this.weekdays, // Add the weekdays state
         OrgId: this.OrgId,
         // Add any other specific data you want to send back
@@ -251,6 +254,7 @@ export class CalendarModalComponent implements OnInit {
         endDate: null,
         jobPosting: this.jobPostingId,
         rounds: this.data.eventData.roundId,
+        meetingLink: this.data.eventData.meetingLink,
       });
       console.log(this.formDataa.value);
 
