@@ -104,12 +104,21 @@ export class PlacementOfferRecievedComponent {
     if (!job?.JobPosting?.Company?.Companyindustries) {
       return "";
     }
-    return job.JobPosting.Company.Companyindustries.filter(
+
+    const industries = job.JobPosting.Company.Companyindustries.filter(
       (x: Companyindustry) => x.Industry?.Type
-    )
-      .map((x: Companyindustry) => x.Industry?.Type)
-      .join(", ");
+    ).map((x: Companyindustry) => x.Industry?.Type);
+
+    let result = industries.join(", ");
+
+    const maxLength = 100;
+    if (result.length > maxLength) {
+      result = result.slice(0, maxLength) + "...";
+    }
+
+    return result;
   }
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   companies: companyTableList[] = [];
@@ -479,7 +488,6 @@ export class PlacementOfferRecievedComponent {
   openPlacementinterviewAdditionalFilter() {
     this.dialog.open(PlacementInterviewAdditionalFilterComponent, {
       width: "500px",
-      height: "600px",
     });
   }
 

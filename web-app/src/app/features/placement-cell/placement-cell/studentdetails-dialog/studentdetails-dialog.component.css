@@ -139,3 +139,23 @@ td.mat-mdc-cell {
   background: inherit;
   padding-left: 17px;
 }
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end; 
+  padding: 10px 20px; 
+}
+
+.matbutton {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.matbutton:hover {
+  background-color: #5c6bc0;
+}

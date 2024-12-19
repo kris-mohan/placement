@@ -50,22 +50,15 @@ export class CalendarModalComponent implements OnInit {
     private calendarModalApiService: CalendarModalApiService
   ) {
     this.isEdited = this.data.isEdited;
-
-    // const storedCollegeId = sessionStorage.getItem("CompanyId");
-    // this.CollegeRoleId = storedCollegeId ? parseInt(storedCollegeId) : 0;
     const userRoleId = sessionStorage.getItem("userRoleId");
     this.userRole = !!userRoleId ? parseInt(userRoleId) : 0;
     const storedCompanyId = sessionStorage.getItem("CompanyId");
     console.log(storedCompanyId);
     this.CompanyId = !!storedCompanyId ? parseInt(storedCompanyId) : 0;
     console.log(this.CompanyId);
-
+    const storedStudentId = sessionStorage.getItem("StudentId");
+    console.log("storedStudentId", storedStudentId);
     this.formDataa = this.formBuilder.group({
-      // jobRole: ["", Validators.required],
-      // round: ["", Validators.required],
-      // panels: ["", Validators.required],
-      // venueDetails: ["", Validators.required],
-      // startDate: ["", Validators.required],
       startTime: ["", Validators.required],
       eventType: ["interview"],
       companyId: ["", Validators.required],
@@ -73,9 +66,12 @@ export class CalendarModalComponent implements OnInit {
       endTime: ["", Validators.required],
       jobPosting: ["", Validators.required],
       rounds: [""],
+      meetingLink: [""],
     });
+    if (this.isEdited && this.data.eventData) {
+      this.formDataa.patchValue(this.data.eventData);
+    }
   }
-
   onJobPostingChange(event: any): void {
     console.log("Selected Job Posting Id", event.value);
     const selectedJobPostingId = event.value;
@@ -101,7 +97,6 @@ export class CalendarModalComponent implements OnInit {
       },
     });
   };
-
   getJobPostingById = () => {
     this.calendarModalApiService
       .GetJobPostingById(this.data.eventData.jobPostingId)
@@ -193,6 +188,7 @@ export class CalendarModalComponent implements OnInit {
       const returnData = {
         ...this.formDataa.value, // Spread the form values
         // toggle: this.toggle,
+        //meetingLink: this.formDataa.value.meetingLink.trim(),
         weekdays: this.weekdays, // Add the weekdays state
         OrgId: this.OrgId,
         // Add any other specific data you want to send back
@@ -258,6 +254,7 @@ export class CalendarModalComponent implements OnInit {
         endDate: null,
         jobPosting: this.jobPostingId,
         rounds: this.data.eventData.roundId,
+        meetingLink: this.data.eventData.meetingLink,
       });
       console.log(this.formDataa.value);
 

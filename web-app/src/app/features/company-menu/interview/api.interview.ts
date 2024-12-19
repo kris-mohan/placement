@@ -4,6 +4,8 @@ import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { ODataEntity } from "src/app/services/types/OData";
+import { ODataResponse } from "./interview.component";
+import { Industry } from "src/app/services/types/Industry";
 
 @Injectable({
   providedIn: "root",
@@ -57,5 +59,13 @@ export class interviewApiService {
   }
   GetAllColleges(): Observable<any> {
     return this.apiHttpService.get("/Campusregistration");
+  }
+  public loadCompanyData(): Observable<ODataResponse<any>> {
+    return this.apiHttpService.get(
+      "/Companydatum?filter=Isdeleted eq 0& $expand= Companyindustries($expand=Industry)"
+    );
+  }
+  public loadIndustryData(): Observable<ODataEntity<Industry[]>> {
+    return this.apiHttpService.get(`/Industry?filter=Isdeleted eq 0`);
   }
 }

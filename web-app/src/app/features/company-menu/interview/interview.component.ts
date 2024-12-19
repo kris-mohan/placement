@@ -275,7 +275,7 @@ export class InterviewComponent {
     });
 
     this.filteredJobInterviewRounds.set(filteredData);
-    this.isLoading=false;
+    this.isLoading = false;
   }
   getBatches(): void {
     this.InterviewService.GetBatches().subscribe({
@@ -575,7 +575,6 @@ export class InterviewComponent {
   openInterviewAdditionalFilter() {
     this.dialog.open(InterviewAdditionalFilterComponent, {
       width: "500px",
-      height: "600px",
     });
   }
 }

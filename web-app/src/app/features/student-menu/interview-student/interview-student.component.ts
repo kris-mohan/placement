@@ -182,8 +182,8 @@ export class InterviewStudentComponent {
         //   });
         // });
         this.jobInterviewRounds.set(data);
-         
-      this.isLoading = false;
+
+        this.isLoading = false;
         console.log(this.jobInterviewRounds());
       },
       error: (error) => {
@@ -231,8 +231,8 @@ export class InterviewStudentComponent {
         //   });
         // });
         this.jobInterviewRounds.set(finalData);
-        
-      this.isLoading = false;
+
+        this.isLoading = false;
         console.log(this.jobInterviewRounds());
         this.applyFilters();
       },
@@ -642,7 +642,6 @@ export class InterviewStudentComponent {
   openInterviewAdditionalFilter() {
     this.dialog.open(InterviewAdditionalFilterComponent, {
       width: "500px",
-      height: "600px",
     });
   }
 }

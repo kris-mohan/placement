@@ -155,7 +155,12 @@
 
       <!-- Buttons -->
       <div class="button-group">
-        <button mat-fab extended class="matbutton-download">
+        <button
+          mat-fab
+          extended
+          class="matbutton-download"
+          (click)="exportToExcel()"
+        >
           <mat-icon>file_download</mat-icon>Excel
         </button>
         <button mat-fab extended class="matbutton-download">
@@ -205,11 +210,11 @@
       <p class="matButtonText">Add Job Postings</p>
     </button>
   </div> -->
-<div *ngIf="isLoading" class="spinner-container">
+  <div *ngIf="isLoading" class="spinner-container">
     <mat-spinner></mat-spinner>
   </div>
   <div *ngIf="!isLoading"></div>
-  
+
   <mat-card-content
     class="offer Management"
     fxLayout="row wrap"
