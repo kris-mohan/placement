@@ -26,7 +26,6 @@ type calendarEvent = {
   jobPostingId?: number;
   round?: number;
   OrgId?: number;
-  meetingLink?: string;
   // className: string;
 };
 
@@ -43,7 +42,7 @@ export class InterviewScheduleComponent implements OnInit {
   jobinterviewroundsData = signal<Jobinterviewround[]>([]);
   isEdited: boolean = false;
   editedId: number = 0;
-  meetingLink: string = "";
+
   private eventIDCounter = 0;
   currentEvents: EventApi[] = [];
 
@@ -194,11 +193,7 @@ export class InterviewScheduleComponent implements OnInit {
     console.log(this.newEventDate.date);
     const dialogRef = this.dialog.open(CalendarModalComponent, {
       width: "70vw",
-      data: {
-        date: this.newEventDate.date,
-        isEdited: this.isEdited,
-        meetingLink: this.meetingLink?.trim() || "",
-      }, // Pass the clicked date to the modal
+      data: { date: this.newEventDate.date, isEdited: this.isEdited }, // Pass the clicked date to the modal
       panelClass: "custom-dialog-container",
     });
 
@@ -217,6 +212,7 @@ export class InterviewScheduleComponent implements OnInit {
       this.jobPostingId = result.jobPosting;
       this.OrgId = result.OrgId;
       const title = result.eventType;
+      // const jobRole = result.jobRole;
       const className = "bg-primary text-white";
 
       let startTime: Date | null = null;
@@ -244,6 +240,7 @@ export class InterviewScheduleComponent implements OnInit {
           console.log(startTime);
         }
       } else {
+        // If it's already a Date object
         startTime = result.startTime;
       }
 
@@ -275,6 +272,21 @@ export class InterviewScheduleComponent implements OnInit {
       }
 
       console.log("End Time", endTime);
+
+      // console.log(typeof(startTime));
+      // const startDateTime = new Date(this.newEventDate.date);
+      // startDateTime.setHours(startTime.getHours(), startTime.getMinutes());
+
+      // let endDateTime;
+      // if (result.endDate) {
+      //   const endDate = result.endDate;
+      //   endDateTime = new Date(endDate);
+      //   endDateTime.setHours(23, 59);
+      // }
+      // else{
+      //   endDateTime = startTime;
+      // }
+
       const endDate = result.endDate ? new Date(result.endDate) : endTime;
       if (endDate && endTime && !this.isEdited) {
         endDate?.setHours(endTime?.getHours(), endTime?.getMinutes());
@@ -299,6 +311,25 @@ export class InterviewScheduleComponent implements OnInit {
                 endOfDay.setHours(23, 59);
               }
 
+              // endOfDay.setHours(endTime.getHours(), endTime.getMinutes());
+
+              // calendarApi.addEvent({
+              //   id: this.eventIDCounter++,
+              //   title: title,
+              //   start: startTime,
+              //   end: endTime,
+              //   className: className,
+              //   jobRoles: jobRole,
+              // });
+
+              // calendarApi.addEvent({
+              //   id: this.eventIDCounter++,
+              //   title: title,
+              //   start: new Date(currentDate),
+              //   end: endOfDay,
+              //   className: className,
+              // });
+
               if (this.isEdited) {
                 const newEventData: PostCalendarevent = {
                   EventType: title,
@@ -307,7 +338,6 @@ export class InterviewScheduleComponent implements OnInit {
                   EventDescription: title,
                   OrgId: this.OrgId,
                   CompanyId: this.companyId,
-                  MeetingLink: result.meetingLink,
                 };
                 this.updateCalendarEventHandler(this.editedId, newEventData);
               } else {
@@ -318,7 +348,6 @@ export class InterviewScheduleComponent implements OnInit {
                   EventDescription: title,
                   OrgId: this.OrgId,
                   CompanyId: this.companyId,
-                  MeetingLink: result.meetingLink,
                 };
                 console.log("New Event Data:", newEventData);
                 this.saveCalendarEventHandler(newEventData);
@@ -343,6 +372,16 @@ export class InterviewScheduleComponent implements OnInit {
             } else {
               endOfDay.setHours(23, 59);
             }
+
+            // endOfDay.setHours(endTime.getHours(), endTime.getMinutes());
+
+            // calendarApi.addEvent({
+            //   id: this.eventIDCounter++,
+            //   title: title,
+            //   start: new Date(currentDate),
+            //   end: endOfDay,
+            //   className: className,
+            // });
             console.log("Current Date", currentDate);
 
             if (this.isEdited) {
@@ -353,7 +392,6 @@ export class InterviewScheduleComponent implements OnInit {
                 EventDescription: title,
                 OrgId: this.OrgId,
                 CompanyId: this.companyId,
-                MeetingLink: result.meetingLink,
               };
               console.log("Update Event Data", newEventData);
               this.updateCalendarEventHandler(this.editedId, newEventData);
@@ -365,15 +403,39 @@ export class InterviewScheduleComponent implements OnInit {
                 EventDescription: title,
                 OrgId: this.OrgId,
                 CompanyId: this.companyId,
-                MeetingLink: result.meetingLink,
               };
               console.log("New Event Data:", newEventData);
               this.saveCalendarEventHandler(newEventData);
             }
+
+            // console.log(
+            //   "id:",
+            //   this.eventIDCounter++,
+            //   "title:",
+            //   title,
+            //   "start:",
+            //   new Date(currentDate),
+            //   "end:",
+            //   endOfDay,
+            //   "className:",
+            //   className
+            // );
           }
           currentDate.setDate(currentDate.getDate() + 1);
         }
       } else {
+        // Add a single-day event if it doesn't span multiple days
+
+        // const calendarApi = this.newEventDate.view.calendar;
+        // calendarApi.addEvent({
+        //   id: this.eventIDCounter++,
+        //   title: title,
+        //   start: startTime,
+        //   end: endTime,
+        //   className: className,
+        //   jobRoles: jobRole,
+        // });
+
         if (this.isEdited) {
           console.log(this.editedId);
           const newEventData: PostCalendarevent = {
@@ -383,7 +445,6 @@ export class InterviewScheduleComponent implements OnInit {
             EventDescription: title,
             OrgId: this.OrgId,
             CompanyId: this.companyId,
-            MeetingLink: result.meetingLink,
           };
           console.log("Update Event Data", newEventData);
           this.updateCalendarEventHandler(this.editedId, newEventData);
@@ -395,12 +456,20 @@ export class InterviewScheduleComponent implements OnInit {
             EventDescription: title,
             OrgId: this.OrgId,
             CompanyId: this.companyId,
-            MeetingLink: result.meetingLink,
           };
           console.log("New Event Data:", newEventData);
           this.saveCalendarEventHandler(newEventData);
         }
       }
+
+      // const calendarApi = this.newEventDate.view.calendar;
+      // calendarApi.addEvent({
+      //   id: this.eventIDCounter++,
+      //   title: title,
+      //   start: startTime,
+      //   end: endTime,
+      //   className: className,
+      // });
     }
   }
 
@@ -442,7 +511,6 @@ export class InterviewScheduleComponent implements OnInit {
     // console.log(event.event.extendedProps.jobRole);
     console.log(event.event.start);
     // console.log(event.event.end);
-    const meetingLink = event.event.extendedProps.meetingLink;
     const dialogRef = this.dialog.open(CalendarModalComponent, {
       width: "70vw",
       data: {
@@ -454,12 +522,9 @@ export class InterviewScheduleComponent implements OnInit {
           jobRole: event.event.extendedProps.jobRoles || "",
           jobPostingId: event.event.extendedProps.jobPostingId || 0, // Extract jobPostingId from extendedProps
           roundId: event.event.extendedProps.round || "", // Extract round description from extendedProps
-          //meetingLink: event.event.extendedProps.meetingLink,
-          meetingLink: meetingLink,
         },
         isEdited: this.isEdited,
         date: event.event.start,
-        isJoinable: !!meetingLink,
       }, // Pass the clicked date to the modal
       panelClass: "custom-dialog-container",
     });
@@ -495,13 +560,11 @@ export class InterviewScheduleComponent implements OnInit {
             title: x.EventType,
             start: new Date(x.EventStartDateTime),
             end: new Date(x.EventEndDateTime),
-            meetingLink: x.MeetingLink ?? "",
             extendedProps: {
               jobPostingId: x.Jobinterviewrounds[0]
                 ? x.Jobinterviewrounds[0].JobPostingId
                 : 0,
               round: rounds,
-
               // OrgId: x.Jobinterviewrounds[0]?.JobPosting
               //   ? x.Jobinterviewrounds[0].JobPosting.OrgId
               //   : "",
