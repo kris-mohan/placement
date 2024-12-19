@@ -278,19 +278,21 @@ export class PlacementCompanyComponent {
         },
       });
   };
+  isDataAvailable(): boolean {
+    const companies = this.campusCompanyList();
+    return companies && companies.length > 0;
+  }
   exportToExcel() {
     const companies = this.campusCompanyList();
-    const exportData = companies.map(
-      (companies: Companydatum) => ({
-        "Company Name": companies.Name,
-        "Email": companies.Email,
-        URL: companies.Url,
-        "Phone No": companies.PhoneNumber,
-        Vacancies: companies.Jobpostings.length,
-        "Company Size":companies.CompanySize,
-        "Location": companies.Address,
-      })
-    );
+    const exportData = companies.map((companies: Companydatum) => ({
+      "Company Name": companies.Name,
+      Email: companies.Email,
+      URL: companies.Url,
+      "Phone No": companies.PhoneNumber,
+      Vacancies: companies.Jobpostings.length,
+      "Company Size": companies.CompanySize,
+      Location: companies.Address,
+    }));
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
     const workbook: XLSX.WorkBook = {
       Sheets: { "Company Details": worksheet },

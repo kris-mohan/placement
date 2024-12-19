@@ -323,6 +323,10 @@ export class PlacementOfferRecievedComponent {
       },
     });
   }
+  isDataAvailable(): boolean {
+    const offers = this.JobpostingSelectedstudentData();
+    return offers && offers.length > 0;
+  }
   exportToExcel() {
     const offers = this.JobpostingSelectedstudentData();
     const exportData = offers.map((job: JobpostingSelectedstudent) => ({

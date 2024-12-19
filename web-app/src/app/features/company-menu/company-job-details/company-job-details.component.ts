@@ -108,6 +108,10 @@ export class CompanyJobDetailsComponent {
       this.applyFilters()
     );
   }
+  isDataAvailable(): boolean {
+    const jobPostings = this.JobPostingsData();
+    return jobPostings && jobPostings.length > 0;
+  }
   exportToExcel() {
     const jobPostings = this.JobPostingsData();
     const exportData = jobPostings.map(

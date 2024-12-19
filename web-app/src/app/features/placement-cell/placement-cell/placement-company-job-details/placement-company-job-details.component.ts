@@ -26,10 +26,18 @@ import { Jobposting } from "src/app/services/types/Jobposting";
 import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
 import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
 import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
+import * as XLSX from "xlsx";
+
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
-
+export interface JobpostingWithApplicants extends Jobposting {
+  ApplicantsApplied: number;
+  ApplicantsRejected: number;
+  MinimumYearExperience: number;
+  MaximumYearExperience: number;
+  SkillTypes?: string;
+}
 @Component({
   selector: "app-placement-company-job-details",
   standalone: true,
@@ -130,7 +138,34 @@ export class PlacementCompanyJobDetailsComponent {
       }
     });
   }
-
+  isDataAvailable(): boolean {
+    const jobPostings = this.jobPostingsData();
+    return jobPostings && jobPostings.length > 0;
+  }
+  exportToExcel() {
+    const jobPostings = this.jobPostingsData();
+    const exportData = jobPostings.map((jobposting: Jobposting) => ({
+      "Job Role": jobposting.JobRole,
+      "Job Type": jobposting.JobType,
+      //Skills: jobposting.SkillTypes,
+      Salary: jobposting.Salary,
+      Location: jobposting.Location,
+      Shift: jobposting.Shift,
+      "Mode of Work": jobposting.ModeOfWork,
+      "No. of Vacancies": jobposting.Vacancies,
+      // "Applicants Applied": jobposting.ApplicantsApplied,
+      //"Applicants Rejected": jobposting.ApplicantsRejected,
+      "Drive Date": jobposting.DriveDate,
+      "Posted Date": jobposting.ValidFrom,
+      "Application Last Date": jobposting.ValidTill,
+    }));
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { "Job Postings": worksheet },
+      SheetNames: ["Job Postings"],
+    };
+    XLSX.writeFile(workbook, "JobPostings.xlsx");
+  }
   ngOnInit() {
     this.getCompanyJobDescriptionById();
     this.searchName.valueChanges.subscribe(() => this.applyFilters());

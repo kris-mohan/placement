@@ -130,6 +130,11 @@ export class EligibleStudentsListComponent {
       }
     });
   }
+  isDataAvailable(): boolean {
+    return (
+      this.StudentDataSource.data && this.StudentDataSource.data.length > 0
+    );
+  }
   exportToExcel(): void {
     const studentData = this.StudentDataSource.data.map(
       (student: employeeDataList) => ({

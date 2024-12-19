@@ -105,6 +105,9 @@ export class IndentplacementComponent {
       },
     });
   }
+  isDataAvailable(): boolean {
+    return this.indentdata && this.indentdata.length > 0;
+  }
   exportToExcel(): void {
     const studentData = this.indentdata.map((indent: IndentForm) => ({
       Department: indent.ContactPersonDesignation,

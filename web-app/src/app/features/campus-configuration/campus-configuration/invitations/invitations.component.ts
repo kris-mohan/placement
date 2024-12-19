@@ -9,6 +9,7 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
 import { SharedModule } from "src/app/shared/shared.module";
 import { Invitation } from "./invitations-model";
 import { InvitationAPIService } from "./api.invitations";
+import * as XLSX from "xlsx";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -102,5 +103,24 @@ export class InvitationsComponent {
         },
       });
     }
+  }
+  isDataAvailable(): boolean {
+    return this.dataSource.data && this.dataSource.data.length > 0;
+  }
+  exportToExcel(): void {
+    const exportData = this.dataSource.data.map((item) => {
+      return {
+        Id: item.Id,
+        InvitationTemplate: item.InvitationTemplateId,
+        Recipients: item.Recipients,
+        Cc: item.Cc,
+        Bcc: item.Bcc,
+        From: item.From,
+      };
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Calendar Events");
+    XLSX.writeFile(wb, "calendar_events.xlsx");
   }
 }
