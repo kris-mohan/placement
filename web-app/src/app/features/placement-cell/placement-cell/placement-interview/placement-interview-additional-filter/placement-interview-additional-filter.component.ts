@@ -13,6 +13,9 @@ import { IndustryAPIService } from "src/app/features/company-configuration/compa
 import { SharedModule } from "src/app/shared/shared.module";
 import { ODataResponse } from "../placement-interview.component";
 import { interviewApiService } from "../api.interview";
+import { MatDialogRef } from "@angular/material/dialog";
+import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
+import { JobRoles } from "src/app/services/common-dropdowns/JobRoles";
 
 @Component({
   selector: "app-placement-interview-additional-filter",
@@ -24,6 +27,7 @@ import { interviewApiService } from "../api.interview";
 export class PlacementInterviewAdditionalFilterComponent {
   companies: companyTableList[] = [];
   industries: Industry[] = [];
+  interviewRounds: string[] = [];
   companySizes: string[] = [
     "1-10 employees",
     "11-50 employees",
@@ -54,11 +58,17 @@ export class PlacementInterviewAdditionalFilterComponent {
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
+  jobTypes: string[] = JobTypes;
+  jobRoles: string[] = JobRoles;
 
   CityControl = new FormControl();
   companyControl = new FormControl();
   locationControl = new FormControl();
   industryControl = new FormControl();
+  jobTypeControl = new FormControl();
+  jobRoleControl = new FormControl();
+  interviewRoundControl = new FormControl();
+
   companySizeControl = new FormControl();
   salaryRangeControl = new FormControl();
 
@@ -71,12 +81,14 @@ export class PlacementInterviewAdditionalFilterComponent {
   constructor(
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService,
-    private interviewApiService: interviewApiService
+    private interviewApiService: interviewApiService,
+    public dialogRef: MatDialogRef<PlacementInterviewAdditionalFilterComponent>
   ) {}
 
   ngOnInit() {
     this.loadCompanies();
     this.loadIndustries();
+    this.loadInterviewRounds();
 
     this.companyControl.valueChanges.subscribe(() => {
       this.filterCompanies(this.searchCompany);
@@ -224,6 +236,27 @@ export class PlacementInterviewAdditionalFilterComponent {
       },
     });
   }
+  loadInterviewRounds() {
+    this.interviewApiService.loadInterviewRounds().subscribe({
+      next: (response: ODataResponse<any>) => {
+        this.interviewRounds = response.value.flatMap((i) => {
+          return i.Name;
+        });
+      },
+      error: (error: any) => {
+        console.error("Error loading Industries", error);
+      },
+    });
+  }
 
   openAddEditCompanyForm() {}
+
+  showResults() {
+    this.dialogRef.close({
+      companies: this.companyControl.value,
+      jobTypes: this.jobTypeControl.value,
+      jobRoles: this.jobRoleControl.value,
+      interviewRounds: this.interviewRoundControl.value,
+    });
+  }
 }

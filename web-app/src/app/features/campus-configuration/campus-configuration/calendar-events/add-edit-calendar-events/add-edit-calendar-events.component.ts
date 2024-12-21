@@ -51,6 +51,8 @@ export class AddEditCalendarEventsComponent {
     this.calendarEventForm = this.fb.group({
       EventStartDateTime: ["", [Validators.required]],
       EventEndDateTime: "",
+      EventType: "",
+      EventDescription: "",
     });
   }
   async onSubmit() {
@@ -85,6 +87,8 @@ export class AddEditCalendarEventsComponent {
         // Id: 0,
         EventStartDateTime: companyData.EventStartDateTime ?? "",
         EventEndDateTime: companyData.EventEndDateTime ?? "",
+        EventType: companyData.EventType ?? "",
+        EventDescription: companyData.EventDescription ?? "",
       };
 
       const calendarEventId =

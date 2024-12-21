@@ -147,7 +147,7 @@
               </mat-autocomplete> -->
             </mat-form-field>
           </div>
-          <div class="example-button-container">
+          <!-- <div class="example-button-container">
             <button
               mat-raised-button
               class="matbutton"
@@ -155,7 +155,7 @@
             >
               <p class="matName">Additional Filters</p>
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </mat-card-header>
@@ -218,13 +218,17 @@
             <p>
               <strong>Number of students cleared:</strong>
               {{
-                calculateClearedStudents(scheduledInterview.JobpostStudentrounds)
+                calculateClearedStudents(
+                  scheduledInterview.JobpostStudentrounds
+                )
               }}
             </p>
             <p>
               <strong>Number of students rejected:</strong>
               {{
-                calculateRejectedStudents(scheduledInterview.JobpostStudentrounds)
+                calculateRejectedStudents(
+                  scheduledInterview.JobpostStudentrounds
+                )
               }}
             </p>
           </div>

@@ -4,6 +4,7 @@ import { ApiHttpService } from "src/app/services/api-services/api-http-services"
 import { CampusCompany } from "src/app/services/types/CampusCompany";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { ODataEntity } from "src/app/services/types/OData";
+import { Template } from "src/app/services/types/Template";
 
 @Injectable({
   providedIn: "root",
@@ -29,5 +30,9 @@ export class PlacementCompanyJobDetailsApiService {
     return this.apiHttpService.delete<ODataEntity<any>>(
       `/CampusCompany?key=${id}`
     );
+  }
+  getTemplates(): Observable<ODataEntity<Template[]>> {
+    let url = `/Template?$expand=Category`;
+    return this.apiHttpService.get<ODataEntity<Template[]>>(url);
   }
 }

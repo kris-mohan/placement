@@ -83,6 +83,7 @@ export class PlacementInterviewComponent {
   filteredCompanySize: Observable<string[]> = of([]);
   filteredIndustries: Industry[] = [];
   filteredIndutry: Observable<any[]> = of([]);
+  additionalFilterData: any = {};
 
   searchCompany: string = "";
   searchCity: string = "";
@@ -171,7 +172,6 @@ export class PlacementInterviewComponent {
   ): number {
     return jobpostStudentRounds.filter((x) => x.HasPassed).length;
   }
-
   calculateRejectedStudents(
     jobpostStudentRounds: JobpostStudentround[]
   ): number {
@@ -359,9 +359,43 @@ export class PlacementInterviewComponent {
   }
 
   openPlacementinterviewAdditionalFilter() {
-    this.dialog.open(PlacementInterviewAdditionalFilterComponent, {
-      width: "500px",
+    const dialogRef = this.dialog.open(
+      PlacementInterviewAdditionalFilterComponent,
+      {
+        width: "500px",
+      }
+    );
+    dialogRef.afterClosed().subscribe((filterValues) => {
+      if (filterValues) {
+        this.filterData(filterValues);
+      }
     });
+  }
+
+  filterData(filterValues: any) {
+    const filtered = this.jobInterviewRounds().filter((student) => {
+      const selectedCompanies = filterValues.companies || [];
+      const selectedJobTypes = filterValues.jobTypes || [];
+      const selectedJobroles = filterValues.jobRoles || [];
+      const selectedInterviewRounds = filterValues.interviewRounds || [];
+
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(student.JobPosting?.Company?.Name || "");
+      const jobTypeMatch =
+        selectedJobTypes.length === 0 ||
+        selectedJobTypes.includes(student.JobPosting?.JobType || "");
+      const jobRoleMatch =
+        selectedJobroles.length === 0 ||
+        selectedJobroles.includes(student.JobPosting?.JobRole || "");
+      const interviewRoundsMatch =
+        selectedInterviewRounds.length === 0 ||
+        selectedInterviewRounds.includes(student.Name || "");
+      return (
+        companyMatch && jobTypeMatch && jobRoleMatch && interviewRoundsMatch
+      );
+    });
+    this.filteredStudents.set(filtered);
   }
 
   filterCities(search: string) {

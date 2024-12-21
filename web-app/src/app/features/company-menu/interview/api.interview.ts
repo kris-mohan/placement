@@ -68,4 +68,8 @@ export class interviewApiService {
   public loadIndustryData(): Observable<ODataEntity<Industry[]>> {
     return this.apiHttpService.get(`/Industry?filter=Isdeleted eq 0`);
   }
+
+  loadInterviewRounds(): Observable<ODataEntity<Jobinterviewround[]>> {
+    return this.apiHttpService.get(`/Jobinterviewround`);
+  }
 }

@@ -38,41 +38,33 @@
     </mat-select>
   </mat-form-field>
 
-  <p>Industry</p>
-  <mat-form-field class="full-width" appearance="outline">
-    <mat-label>Industry</mat-label>
-    <mat-select
-      [formControl]="industryControl"
-      multiple
-      (openedChange)="onIndustryDropdownOpen()"
-    >
-      <mat-select-trigger>
-        {{ selectedIndustries }}
-      </mat-select-trigger>
-      <mat-form-field appearance="outline">
-        <input
-          class="full-width"
-          matInput
-          [(ngModel)]="searchIndustry"
-          (ngModelChange)="filterIndustries($event)"
-          placeholder="Search"
-        />
-      </mat-form-field>
-      <mat-option *ngIf="!filteredIndustries.length" disabled
-        >No options</mat-option
-      >
-      <mat-option
-        *ngFor="let industry of filteredIndustries"
-        [value]="industry.Type"
-      >
-        {{ industry.Type }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <p>Interview Rounds</p>
+  <div>
+    <mat-form-field appearance="outline" class="filter-field full-width">
+      <mat-label>Interview Rounds</mat-label>
+      <mat-select [formControl]="interviewRoundControl" multiple>
+        <mat-option *ngFor="let ir of interviewRounds" [value]="ir">{{
+          ir
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-  <!-- <p>Location</p>
+  <!-- 
+  <div>
+    <mat-form-field appearance="outline" class="filter-field full-width">
+      <mat-label>Job Type</mat-label>
+      <mat-select [formControl]="jobTypeControl" multiple>
+        <mat-option *ngFor="let jobtype of jobTypes" [value]="jobtype">{{
+          jobtype
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div> 
+
+  <!-- <p>Mode of Interview</p>
   <mat-form-field class="full-width" appearance="outline">
-    <mat-label>Location</mat-label>
+    <mat-label>Mode of Interview</mat-label>
     <mat-select
       [formControl]="CityControl"
       multiple
@@ -92,17 +84,17 @@
       </mat-form-field>
       <mat-option *ngIf="!filteredCompanies.length" disabled
         >No options</mat-option
-      >
-      <mat-option
+      > -->
+  <!-- <mat-option
         *ngFor="let company of filteredCompanies"
         [value]="company.City"
       >
         {{ company.City }}
-      </mat-option>
-    </mat-select>
+      </mat-option> -->
+  <!-- </mat-select>
   </mat-form-field> -->
-  <!-- 
-  <p>Company Size</p>
+
+  <!-- <p>Company Size</p>
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Company Size</mat-label>
     <mat-select [formControl]="companySizeControl" multiple>
@@ -110,9 +102,9 @@
       <mat-option [value]="companySize">{{ companySize }}</mat-option>
       }
     </mat-select>
-  </mat-form-field> -->
+  </mat-form-field>
 
-  <!-- <p>Salary Range</p>
+  <p>Salary Range</p>
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Salary Range</mat-label>
     <mat-select [formControl]="salaryRangeControl" multiple>
@@ -127,11 +119,7 @@
   style="background-color: lightgray"
 >
   <button mat-button mat-dialog-close>Reset</button>
-  <button
-    mat-raised-button
-    class="matbutton"
-    (click)="openAddEditCompanyForm()"
-  >
+  <button mat-raised-button class="matbutton" (click)="showResults()">
     <p class="matName">Show results</p>
   </button>
 </mat-dialog-actions>
