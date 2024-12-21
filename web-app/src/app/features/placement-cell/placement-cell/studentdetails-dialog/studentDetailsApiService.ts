@@ -8,6 +8,7 @@ import { Studentacademic } from "src/app/services/types/Studentacademic";
 import { StudentSkill } from "src/app/services/types/StudentSkill";
 import { Tblstudent } from "src/app/services/types/Tblstudent";
 
+
 @Injectable({
   providedIn: "root",
 })

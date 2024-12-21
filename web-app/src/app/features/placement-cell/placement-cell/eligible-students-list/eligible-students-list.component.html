@@ -11,12 +11,18 @@
         mat-fab
         extended
         class="matbutton-download"
-(click)="openUploadExcel()"      >
+        (click)="openUploadExcel()"
+      >
         <mat-icon>cloud_upload</mat-icon>
         Upload
       </button>
 
-      <button mat-fab extended class="matbutton-download">
+      <button
+        mat-fab
+        extended
+        class="matbutton-download"
+        (click)="exportToExcel()"
+      >
         <mat-icon>file_download</mat-icon>Excel
       </button>
       <button mat-fab extended class="matbutton-download">

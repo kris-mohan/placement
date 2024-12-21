@@ -55,6 +55,18 @@ export class CompanyDashboardComponent implements OnInit {
       venue: 'On Campus, Main Hall',
       round: 'HR Round',
     },
+    {
+      date: new Date('2024-10-22'),
+      jobRole: 'Software Engineer',
+      venue: 'On Campus, Main Hall',
+      round: 'HR Round',
+    },
+    {
+      date: new Date('2024-10-22'),
+      jobRole: 'Software Engineer',
+      venue: 'On Campus, Main Hall',
+      round: 'HR Round',
+    },
   ];
   notifications = [
     {

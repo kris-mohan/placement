@@ -5,7 +5,7 @@
   <div class="upcoming-drive-container">
     <h3>Upcoming Campus Drives</h3>
     <p>Here is your schedule for this week:</p>
-    <!-- New paragraph added here -->
+
     <div class="upcoming-drive-row">
       <div *ngFor="let interview of upcomingDrives" class="upcoming-drive-card">
         <mat-card [routerLink]="['/interview']" style="cursor: pointer">
@@ -25,19 +25,37 @@
     <!-- <mat-icon>show_chart</mat-icon> -->
     Charts Overview
   </h3>
-  <div class="chart-container">
-    <app-funnel-chart></app-funnel-chart>
-    <app-basic-column-chart
-      [seriesData]="employeeIntakes"
-      [categoriesData]="colleges"
-      [titleText]="inTakeChartTitle"
-      [xLabel]="inTakexAxisLabel"
-      [yLabel]="inTakeyAxisLabel">
-    </app-basic-column-chart>
-    <app-simple-pie-chart
-      [branchPlacementSeries]="noOfJobRolesOpenings"
-      [branchLabels]="jobRoleNames"
-      titleText="Job Openings based on Job-Roles"></app-simple-pie-chart>
+  <div>
+    <mat-accordion>
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Recruitment Chart </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-funnel-chart></app-funnel-chart>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Student Intake by College Chart </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-basic-column-chart
+          [seriesData]="employeeIntakes"
+          [categoriesData]="colleges"
+          [xLabel]="inTakexAxisLabel"
+          [yLabel]="inTakeyAxisLabel">
+        </app-basic-column-chart>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Job Openings by Job-Roles </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-simple-pie-chart
+          [branchPlacementSeries]="noOfJobRolesOpenings"
+          [branchLabels]="jobRoleNames">
+        </app-simple-pie-chart>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 </div>
 
