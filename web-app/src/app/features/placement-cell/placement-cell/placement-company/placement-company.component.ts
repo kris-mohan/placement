@@ -212,6 +212,7 @@ export class PlacementCompanyComponent {
 
     this.placementCompanyApiService.GetAllCompanies().subscribe((companies) => {
       this.companiesList.set(companies.value);
+      console.log(companies.value);
 
       console.log(this.companyControl);
 
@@ -365,6 +366,7 @@ export class PlacementCompanyComponent {
           .filter(
             (location): location is string =>
               location !== undefined &&
+              location !== "" &&
               location.toLowerCase().includes(filterValue)
           )
       )
