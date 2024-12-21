@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
-import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { CalendarEventAPIService } from "../api.calendar.events";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
@@ -37,7 +36,6 @@ export class AddEditCalendarEventsComponent {
     private sweetAlertService: SweetAlertService,
 
     private route: ActivatedRoute,
-    private sweetAlertService: SweetAlertService,
 
     private apiCalendarEventsService: CalendarEventAPIService
   ) {
@@ -156,4 +154,5 @@ export class AddEditCalendarEventsComponent {
 
     return true;
   }
+  onReset(): void {}
 }

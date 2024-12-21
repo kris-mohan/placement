@@ -28,6 +28,7 @@ import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEl
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
 import { AppliedJobInterview } from "src/app/services/types/AppliedJobInterview";
+import { SalaryRanges } from "src/app/services/common-dropdowns/salaryRanges";
 
 const today = new Date();
 const month = today.getMonth();
@@ -71,6 +72,7 @@ export class StudentJobsComponent {
   filteredCompanies: companyTableList[] = [];
   companyId: number | undefined = undefined;
   companies: companyTableList[] = [];
+  salaryOptions: any[] = SalaryRanges;
   filteredCompany: Observable<any[]> = of([]);
 
   UserRoleId: number;
@@ -385,22 +387,26 @@ export class StudentJobsComponent {
       StudentJobAdditionalFilterModalComponent,
       {
         width: "500px",
+        data: {
+          JobPostingData: this.JobPostingsData(),
+          FilteredStudents: this.filteredStudents(),
+        },
       }
     );
     dialogRef.afterClosed().subscribe((filterValues) => {
-      debugger;
       if (filterValues) {
         this.filterData(filterValues);
       }
     });
   }
   filterData(filterValues: any) {
-    debugger;
     console.log(filterValues, "filter values");
     const filtered = this.JobPostingsData().filter((student) => {
+      debugger;
       const selectedCompanies = filterValues.companies || [];
       const selectedJobTypes = filterValues.jobTypes || [];
       const selectedworkModes = filterValues.ModeOfWorks || [];
+      const selectedSalaryRanges = filterValues.salaryRanges || [];
 
       const companyMatch =
         selectedCompanies.length === 0 ||
@@ -410,7 +416,16 @@ export class StudentJobsComponent {
         selectedworkModes.length === 0 ||
         selectedworkModes.includes(student.JobPosting.ModeOfWork || "");
 
-      return companyMatch && jobmodeWorkMatch;
+      const salary = student.JobPosting.Salary || 0;
+
+      const salaryMatch = selectedSalaryRanges.some((rangeObj: any) => {
+        const range = this.salaryOptions.find(
+          (r) => r.label === rangeObj.label
+        );
+        return range && salary >= range.min && salary <= range.max;
+      });
+
+      return companyMatch && jobmodeWorkMatch && salaryMatch;
     });
     this.filteredStudents.set(filtered);
   }

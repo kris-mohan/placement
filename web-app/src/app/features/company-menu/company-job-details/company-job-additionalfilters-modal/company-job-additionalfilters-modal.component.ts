@@ -9,10 +9,15 @@ import { IndustryAPIService } from "src/app/features/company-configuration/compa
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { FormControl } from "@angular/forms";
 import { Observable, of } from "rxjs";
-import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from "@angular/material/dialog";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { ModeOfWorks } from "src/app/services/common-dropdowns/ModeOfWorks";
 import { Companydatum } from "src/app/services/types/Companydatum";
+import { SalaryRanges } from "src/app/services/common-dropdowns/salaryRanges";
 @Component({
   selector: "app-company-job-additionalfilters-modal",
   standalone: true,
@@ -38,25 +43,8 @@ export class CompanyJobAdditionalfiltersModalComponent {
     "10001+ employees",
   ];
 
-  salaryOptions: string[] = [
-    "0 - 2 LPA",
-    "2 - 4 LPA",
-    "4 - 6 LPA",
-    "6 - 8 LPA",
-    "8 - 10 LPA",
-    "10 - 15 LPA",
-    "15 - 20 LPA",
-    "20+ LPA",
-  ];
-  salaryRanges = [
-    { label: "0 - 2 LPA", min: 0, max: 200000 },
-    { label: "2 - 4 LPA", min: 200000, max: 400000 },
-    { label: "4 - 6 LPA", min: 400000, max: 600000 },
-    { label: "8 - 10 LPA", min: 800000, max: 1000000 },
-    { label: "10 - 15 LPA", min: 1000000, max: 1500000 },
-    { label: "15 - 20 LPA", min: 1500000, max: 2000000 },
-    { label: "20+ LPA", min: 2000000, max: Infinity },
-  ];
+  salaryOptions: any[] = SalaryRanges;
+
   salaryControl = new FormControl<string[]>([]);
   modeOfWorksControl = new FormControl();
   filteredModeOfWorks = ModeOfWorks;
@@ -83,6 +71,7 @@ export class CompanyJobAdditionalfiltersModalComponent {
   salaryRangeFilterControl = new FormControl();
   readonly dialog = inject(MatDialog);
   constructor(
+    public dialogRef: MatDialogRef<CompanyJobAdditionalfiltersModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService
@@ -117,5 +106,12 @@ export class CompanyJobAdditionalfiltersModalComponent {
     //   console.log("Filtered Data:", filtered);
   }
   onCompanySelected(e: any) {}
-  openAddEditCompanyForm() {}
+
+  showResults() {
+    this.dialogRef.close({
+      companies: this.companyControl.value,
+      ModeOfWorks: this.modeOfWorksControl.value,
+      salaryRanges: this.salaryControl.value,
+    });
+  }
 }
