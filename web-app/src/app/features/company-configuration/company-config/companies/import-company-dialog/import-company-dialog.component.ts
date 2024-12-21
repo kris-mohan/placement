@@ -17,6 +17,7 @@ import { IndustryAPIService } from "../../industry/api.industry";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { FormControl } from "@angular/forms";
 import { map, Observable, of, startWith } from "rxjs";
+import { PlacementCompanyApiService } from "src/app/features/placement-cell/placement-cell/placement-company/PlacementCompanyApiService";
 
 @Component({
   selector: "app-import-company-dialog",
@@ -74,7 +75,8 @@ export class ImportCompanyDialogComponent implements OnInit {
 
   constructor(
     private apiCompanyService: CompanyAPIService,
-    private apiIndustryService: IndustryAPIService
+    private apiIndustryService: IndustryAPIService,
+    private placementCompanyApiService: PlacementCompanyApiService
   ) {}
 
   ngOnInit() {
@@ -202,7 +204,7 @@ export class ImportCompanyDialogComponent implements OnInit {
   }
 
   loadCompanies() {
-    this.apiCompanyService.loadCompanyData().subscribe({
+    this.placementCompanyApiService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
         console.log("API Response:", response);
         this.companies = response.value;
@@ -216,7 +218,7 @@ export class ImportCompanyDialogComponent implements OnInit {
   }
 
   loadIndustries() {
-    this.apiIndustryService.loadIndustryData().subscribe({
+    this.placementCompanyApiService.loadIndustryData().subscribe({
       next: (response: ODataResponse<any>) => {
         console.log("API Response:", response);
         this.industries = response.value;

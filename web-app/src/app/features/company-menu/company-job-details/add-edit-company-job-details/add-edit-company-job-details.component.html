@@ -9,26 +9,26 @@
         {{ JObPostRouteId() ? "Edit Job Posting" : "Add Job Posting" }}
       </p>
     </div>
-
+  </mat-card-header>
+  <div class="header-spacing"></div>
+  <mat-card-header class="custom-card-header">
     <!-- Job Details: Displayed Only for Edit Job Posting -->
     <div class="job-details" *ngIf="JObPostRouteId()">
       <div class="job-info" *ngIf="userRoleId === 1">
-        <strong>Company Name:</strong>
-        <span> ABC College </span>
+        <strong>Company Name: </strong>
+        <span>{{ companyName }}</span>
       </div>
       <div class="job-info">
-        <strong>Job Role:</strong>
-        <span> Software Engineer</span>
+        <strong>Job Role: </strong>
+        <span> {{ jobRole }}</span>
       </div>
       <div class="job-info">
-        <strong>Job ID:</strong>
-        <span> 1234</span>
+        <strong>Job ID: </strong>
+        <span>{{ jobId }}</span>
       </div>
     </div>
   </mat-card-header>
-
   <mat-divider></mat-divider>
-
   <form
     class="form-content"
     [formGroup]="addEditJobPostingForm"
@@ -477,7 +477,7 @@
             <p class="matName">Reset</p>
           </button>
           <button mat-raised-button color="primary" type="submit">
-            <p class="matName">
+            <p class="matButtonText">
               {{ JObPostRouteId() ? "Update Job Posting" : "Add Job Posting" }}
             </p>
           </button>

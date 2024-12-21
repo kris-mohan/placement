@@ -23,6 +23,8 @@ public partial class Calendarevent
 
     public long? JobInterviewRoundId { get; set; }
 
+    public string? MeetingLink { get; set; }
+
     public virtual Companydatum? Company { get; set; }
 
     public virtual Jobinterviewround? JobInterviewRound { get; set; }

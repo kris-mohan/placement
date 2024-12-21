@@ -58,11 +58,13 @@ export class AddEditCompanyJobDetailsComponent {
   sessionCompanyId: number;
   sessionCampusId: number;
   addEditJobPostingForm: FormGroup;
-  userRoleId :number;  //OrgId: number | null = null;
+  userRoleId: number; //OrgId: number | null = null;
   JobTypes: string[] = JobTypes;
   ModeOfWorks: string[] = ModeOfWorks;
   ShiftTypes: string[] = ShiftTypes;
-
+  jobRole: string | null = null;
+  jobId: number | null = null;
+  companyName: string | null = null;
   Months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   readonly dialog = inject(MatDialog);
   constructor(
@@ -141,7 +143,7 @@ export class AddEditCompanyJobDetailsComponent {
     this.location.back();
   }
 
-  ngOnInit() {
+  ngOnInit() {      
     this.GetAllCollegeName();
     this.GetAllBatchName();
     this.GetAllCoursesName();
@@ -241,7 +243,9 @@ export class AddEditCompanyJobDetailsComponent {
               //this.OrgId = data.OrgId || null;
               if (data) {
                 this.addEditJobPostingForm.patchValue(data);
-
+                this.jobRole = data.JobRole ?? "";
+                this.jobId = data.Id;
+                this.companyName = data.Company.Name;
                 this.selectedSkillTypeIds = Array.from(
                   new Set(
                     data.JobpostingSkills?.filter(

@@ -16,6 +16,7 @@ import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Tblstudent } from "src/app/services/types/Tblstudent";
 import { EligibleStudentsListApiService } from "./EligibleStudentsListApiService";
 import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
+import * as XLSX from "xlsx";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -128,6 +129,25 @@ export class EligibleStudentsListComponent {
       if (companyId) {
       }
     });
+  }
+  exportToExcel(): void {
+    const studentData = this.StudentDataSource.data.map(
+      (student: employeeDataList) => ({
+        "Student ID": student.StudentID,
+        "Student Name": student.StudentName,
+        Branch: student.Branch,
+        Batch: student.Batch,
+        CGPA: student.CGPA,
+        "Registration Status": student.Status,
+        "Application Approval Status": student.ApplicationApprovalStatus,
+      })
+    );
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { "Job Postings": worksheet },
+      SheetNames: ["Job Postings"],
+    };
+    XLSX.writeFile(workbook, "JobPostings.xlsx");
   }
 
   applyFilter() {

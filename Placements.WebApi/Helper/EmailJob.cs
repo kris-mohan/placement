@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Placements.DataAccess.Placement.Models;
+﻿using Placements.DataAccess.Placement.Models;
 
 namespace Placements.WebApi.Helper
 {
@@ -28,6 +27,7 @@ namespace Placements.WebApi.Helper
 
                     // Mark the email as sent only if no exception occurs
                     email.IsSent = true;
+                    email.SentAt = DateTime.Now;
                     _dbContext.Update(email);
                 }
                 catch (Exception ex)

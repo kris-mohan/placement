@@ -9,7 +9,7 @@
   </strong>
 </h1>
 <mat-divider></mat-divider>
-<!-- <hr /> -->
+
 <div mat-dialog-content>
   <form [formGroup]="formDataa">
     <div
@@ -17,7 +17,7 @@
       fxLayoutAlign="space-around start"
       fxLayoutGap="20px"
     >
-      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
+      <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
         <mat-form-field appearance="outline">
           <mat-label>Event Type</mat-label>
           <!-- <input
@@ -38,8 +38,8 @@
       <div
         *ngIf="showJobPostingsAndRounds"
         fxFlex="100%"
-        fxFlex.gt-sm="48%"
-        fxFlex.gt-md="24%"
+        fxFlex.gt-sm="30%"
+        fxFlex.gt-md="30%"
       >
         <mat-form-field appearance="outline">
           <mat-label>Select Company</mat-label>
@@ -62,7 +62,6 @@
           </mat-select>
         </mat-form-field>
       </div>
-
       <!-- <div>
         <mat-form-field appearance="outline">
           <mat-label>Job Role</mat-label>
@@ -74,12 +73,11 @@
           <input matInput placeholder="Job Role" formControlName="jobRole" />
         </mat-form-field>
       </div> -->
-
       <div
         *ngIf="showJobPostingsAndRounds"
         fxFlex="100%"
-        fxFlex.gt-sm="48%"
-        fxFlex.gt-md="24%"
+        fxFlex.gt-sm="30%"
+        fxFlex.gt-md="30%"
       >
         <mat-form-field appearance="outline">
           <mat-label>Job Posting</mat-label>
@@ -96,13 +94,11 @@
           </mat-select>
         </mat-form-field>
       </div>
-
-      <!-- Rounds Dropdown -->
       <div
         *ngIf="showJobPostingsAndRounds"
         fxFlex="100%"
-        fxFlex.gt-sm="48%"
-        fxFlex.gt-md="24%"
+        fxFlex.gt-sm="30%"
+        fxFlex.gt-md="30%"
       >
         <mat-form-field appearance="outline">
           <mat-label>Rounds</mat-label>
@@ -113,103 +109,93 @@
           </mat-select>
         </mat-form-field>
       </div>
-    </div>
 
-    <strong
-      ><p fxLayout="row" fxLayoutAlign="center center">
-        Start Date: {{ data.date | date : "mediumDate" }}
-      </p></strong
-    >
-
-    <div
-      fxLayout="row wrap"
-      fxLayoutAlign="space-around start"
-      fxLayoutGap="20px"
-    >
-      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
-        <p>Start Time</p>
-        <mat-form-field appearance="outline" class="matFormField">
+      <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
+        <mat-form-field appearance="outline">
           <mat-label>Start Time</mat-label>
           <input
             formControlName="startTime"
-            id="StartTimePicker"
             matInput
             [ngxTimepicker]="startTimePicker"
           />
           <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
         </mat-form-field>
       </div>
-      <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
-        <p>End Time</p>
-        <mat-form-field appearance="outline" class="matFormField">
+
+      <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
+        <mat-form-field appearance="outline">
           <mat-label>End Time</mat-label>
           <input
             formControlName="endTime"
-            id="EndTimePicker"
             matInput
             [ngxTimepicker]="endTimePicker"
           />
           <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
         </mat-form-field>
       </div>
-    </div>
 
-    <div *ngIf="isEdited !== true">
-      <p fxLayout="row" fxLayoutAlign="center center">
-        <mat-checkbox [checked]="toggle" (change)="onToggleChange($event)"
-          >Multiple Days</mat-checkbox
-        >
-      </p>
-    </div>
+      <div
+        *ngIf="isEdited !== true"
+        fxFlex="100%"
+        fxLayout="row"
+        fxLayoutAlign="Start center"
+        fxLayoutGap="20px"
+      >
+        <div fxFlex="30%">
+          <mat-checkbox [checked]="toggle" (change)="onToggleChange($event)">
+            Multiple Days
+          </mat-checkbox>
+        </div>
 
-    <div *ngIf="toggle === true">
-      <!-- <p>End Date</p> -->
-      <!-- <mat-form-field appearance="fill" class="matFormField">
-          <mat-label>End Date</mat-label>
-          <input
-            formControlName="endDate"
-            matInput
-            [matDatepicker]="endDatePicker"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="endDatePicker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #endDatePicker></mat-datepicker>
-        </mat-form-field> -->
-      <p fxLayout="row" fxLayoutAlign="center center">
-        <mat-checkbox [checked]="weekdays" (change)="onWeekdaysChange($event)"
-          >Weekdays only</mat-checkbox
-        >
-      </p>
-      <div fxLayout="row wrap" fxLayoutAlign="center start" fxLayoutGap="20px">
-        <div fxFlex="100%" fxFlex.gt-sm="48%" fxFlex.gt-md="24%">
-          <label><p>End Date</p></label>
+        <div *ngIf="toggle === true" fxFlex="40%">
           <mat-form-field appearance="outline">
-            <mat-label>Choose a date</mat-label>
+            <mat-label>End Date</mat-label>
             <input
               formControlName="endDate"
               matInput
               [matDatepicker]="picker"
             />
-            <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle
-              matIconSuffix
+              matSuffix
               [for]="picker"
             ></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         </div>
+
+        <div *ngIf="toggle === true" fxFlex="30%">
+          <mat-checkbox
+            [checked]="weekdays"
+            (change)="onWeekdaysChange($event)"
+          >
+            Weekdays only
+          </mat-checkbox>
+        </div>
       </div>
     </div>
-    <!-- <mat-form-field> -->
-    <!-- <p>Selected Date: {{ data.date | date : "mediumDate" }}</p> -->
-    <!-- </mat-form-field> -->
-
-    <!-- Display the selected date -->
+    <strong>
+      <p fxLayout="row" fxLayoutAlign="center center" fxFlex="100%">
+        Start Date: {{ data.date | date : "mediumDate" }}
+      </p>
+      <mat-form-field appearance="outline" *ngIf="isEdited !== true">
+        <mat-label>Meeting Link</mat-label>
+        <input matInput formControlName="meetingLink" />
+      </mat-form-field>
+      <div *ngIf="isEdited" fxFlex="20%" fxFlex.gt-sm="20%" fxFlex.gt-md="20%">
+        <button mat-raised-button color="primary">
+          <a
+            [href]="formDataa.value.meetingLink"
+            target="_blank"
+            style="text-decoration: none; color: white"
+          >
+            JoinMeeting
+          </a>
+        </button>
+      </div>
+    </strong>
   </form>
 </div>
-<!-- <hr /> -->
+
 <mat-divider></mat-divider>
 
 <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">

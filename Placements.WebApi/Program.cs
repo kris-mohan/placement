@@ -71,6 +71,7 @@ builder.Services.AddHangfire(config =>
 });
 
 builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<IEmailCreationService, EmailCreationService>();
 builder.Services.AddTransient<EmailJob>();
 builder.Services.AddHangfireServer();
 
@@ -112,7 +113,7 @@ app.UseCors("AllowAngularDevClient");
 app.MapControllers();
 var scope = app.Services.CreateScope();
 var emailJob = scope.ServiceProvider.GetRequiredService<EmailJob>();
-RecurringJob.AddOrUpdate("process-emails-job", () => emailJob.ProcessEmailsAsync(), Cron.Minutely);
+RecurringJob.AddOrUpdate("process-emails-job", () => emailJob.ProcessEmailsAsync(), "*/5 * * * *");
 
 
 app.Run();
@@ -176,6 +177,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Template>("Template");
     modelBuilder.EntitySet<TemplatePlaceholder>("TemplatePlaceholder");
     modelBuilder.EntitySet<Document>("Document");
+    modelBuilder.EntitySet<Email>("Email");
 
     return modelBuilder.GetEdmModel();
 }

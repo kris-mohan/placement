@@ -30,6 +30,18 @@
               >
                 <mat-label>Round Name</mat-label>
                 <input matInput formControlName="Name" />
+                <mat-error
+                  *ngIf="roundAddEditForm.get('Name')?.hasError('required')"
+                >
+                  Round Name is required.
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    roundAddEditForm.get('Name')?.hasError('duplicateName')
+                  "
+                >
+                  Round Name already exists. Please choose another name.
+                </mat-error>
               </mat-form-field>
             </div>
 
@@ -128,8 +140,12 @@
 
     <mat-dialog-actions class="mat-dialog-actions">
       <mat-card-actions>
-        <button mat-raised-button class="matbutton" type="button"            (click)="handleResetRounds()"
->
+        <button
+          mat-raised-button
+          class="matbutton"
+          type="button"
+          (click)="handleResetRounds()"
+        >
           <p class="matName">Reset</p>
         </button>
         <button mat-raised-button class="matbutton" type="submit">

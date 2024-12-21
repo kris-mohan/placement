@@ -33,6 +33,7 @@ import { getCompanyIndustryTypes } from "./placement-company-module";
 import { Companyindustry } from "src/app/services/types/Companyindustry";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { CampusCompany } from "src/app/services/types/CampusCompany";
+import * as XLSX from "xlsx";
 
 const today = new Date();
 const month = today.getMonth();
@@ -123,6 +124,7 @@ export class PlacementCompanyComponent {
   searchLocation = new FormControl();
   searchLocationValue: string = "";
   filteredLocations: string[] = [];
+  showAll: boolean = false;
 
   readonly dialog = inject(MatDialog);
   constructor(
@@ -276,7 +278,26 @@ export class PlacementCompanyComponent {
         },
       });
   };
-
+  exportToExcel() {
+    const companies = this.campusCompanyList();
+    const exportData = companies.map(
+      (companies: Companydatum) => ({
+        "Company Name": companies.Name,
+        "Email": companies.Email,
+        URL: companies.Url,
+        "Phone No": companies.PhoneNumber,
+        Vacancies: companies.Jobpostings.length,
+        "Company Size":companies.CompanySize,
+        "Location": companies.Address,
+      })
+    );
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { "Company Details": worksheet },
+      SheetNames: ["Company Details"],
+    };
+    XLSX.writeFile(workbook, "CompanyDetails.xlsx");
+  }
   applyFilters() {
     const locationFilter = this.searchLocation.value || "";
     const selectedIndustries = this.industryControl.value || [];
@@ -307,7 +328,17 @@ export class PlacementCompanyComponent {
         });
       return matchesLocation && industryMatches && matchesCompanySize;
     });
-    this.filteredCompanyData.set(filtered);
+
+    if (!this.showAll) {
+      const filteredCompanies = filtered.filter(
+        (company) =>
+          company.Jobpostings &&
+          company.Jobpostings.some((job) => (job?.Vacancies || 0) > 0)
+      );
+      this.filteredCompanyData.set(filteredCompanies);
+    } else {
+      this.filteredCompanyData.set(filtered);
+    }
     this.filteredCompanyData1.set(filtered);
   }
   getAllIndustries = () => {
@@ -381,7 +412,7 @@ export class PlacementCompanyComponent {
   }
 
   loadCompanies() {
-    this.apiCompanyService.loadCompanyData().subscribe({
+    this.placementCompanyApiService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
         console.log("API Response:", response);
         this.dataSource.data = response.value;
@@ -396,7 +427,7 @@ export class PlacementCompanyComponent {
   }
 
   loadIndustries() {
-    this.apiIndustryService.loadIndustryData().subscribe({
+    this.placementCompanyApiService.loadIndustryData().subscribe({
       next: (response: ODataResponse<any>) => {
         console.log("API Response:", response);
         this.industries = response.value;
@@ -446,7 +477,7 @@ export class PlacementCompanyComponent {
   }
 
   openImportCompanyDialog() {
-    this.dialog.open(ImportCompanyDialogComponent);
+    this.dialog.open(ImportCompanyDialogComponent, { width: "500px" });
   }
 
   // filterCities(search: string) {
@@ -596,10 +627,11 @@ export class PlacementCompanyComponent {
     return getCompanyIndustryTypes(company);
   };
   handletogglechange(event: MouseEvent): void {
+    this.showAll = !this.showAll;
     if (event) {
       this.filteredCompanyData.set(this.filteredCompanyData1());
     } else {
-      const filteredCompanies = this.companiesList().filter(
+      const filteredCompanies = this.campusCompanyList().filter(
         (company) =>
           company.Jobpostings &&
           company.Jobpostings.some((job) => (job?.Vacancies || 0) > 0)

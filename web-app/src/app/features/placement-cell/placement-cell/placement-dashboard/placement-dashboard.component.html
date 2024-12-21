@@ -34,62 +34,133 @@
     </div>
   </div>
 
-  <div class="chart-container">
+  <div>
     <h3>Chart Overview</h3>
-    <app-basic-column-chart
-      [seriesData]="studentPlacementData"
-      [categoriesData]="branchLabels"
-      titleText="Student Placement Gender-wise Chart"
-      xLabel="Name of Branches"
-      yLabel="No. of Students">
-    </app-basic-column-chart>
+    <mat-accordion>
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Student Placement Gender-wise Chart
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-basic-column-chart
+          [seriesData]="studentPlacementData"
+          [categoriesData]="branchLabels"
+          xLabel="Name of Branches"
+          yLabel="No. of Students">
+        </app-basic-column-chart>
+      </mat-expansion-panel>
 
-    <app-stacked-column-chart
-      [seriesData]="studentPlacementSeries"
-      [categoriesData]="placementCategories"
-      titleText="Company-Wise Placement"
-      xLabel="Name of Companies"
-      yLabel="Number of Students"></app-stacked-column-chart>
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Company-Wise Placement </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-stacked-column-chart
+          [seriesData]="studentPlacementSeries"
+          [categoriesData]="placementCategories"
+          xLabel="Name of Companies"
+          yLabel="Number of Students">
+        </app-stacked-column-chart>
+      </mat-expansion-panel>
 
-    <app-simple-pie-chart
-      [branchPlacementSeries]="branchPlacementSeries"
-      [branchLabels]="branchLabels"
-      titleText="Branch-Wise Student Placement Status"></app-simple-pie-chart>
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Branch-Wise Student Placement Status
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-simple-pie-chart
+          [branchPlacementSeries]="branchPlacementSeries"
+          [branchLabels]="branchLabels">
+        </app-simple-pie-chart>
+      </mat-expansion-panel>
 
-    <app-basic-column-chart
-      [seriesData]="interviewData"
-      [categoriesData]="companyLabels"
-      titleText="Total Number of Interviews Conducted"
-      xLabel="Name of Companies"
-      yLabel="Number of Interviews">
-    </app-basic-column-chart>
-    <app-basic-column-chart
-      [seriesData]="yearlyComparisonData"
-      [categoriesData]="yearLabels"
-      titleText="Yearly Placement Comparison"
-      xLabel="Years"
-      yLabel="No. of Students Placed">
-    </app-basic-column-chart>
-    <app-basic-column-chart
-      [seriesData]="topHiringCompaniesData"
-      [categoriesData]="topCompanyYearLabels"
-      titleText="Top Hiring Companies"
-      xLabel="Years"
-      yLabel="No. of Students Placed">
-    </app-basic-column-chart>
-    <app-basic-column-chart
-      [seriesData]="skillDemandData"
-      [categoriesData]="skillLabels"
-      titleText="Skill-wise Demand Across Companies"
-      xLabel="Skills"
-      yLabel="Demand Level">
-    </app-basic-column-chart>
-    <!-- <app-basic-line-chart
-      [seriesData]="placementTrendData"
-      [categoriesData]="timeLabels"
-      [titleText]="Placement Trends Over Time"
-      [xLabel]="Time(Months)"
-      [yLabel]="Number of Events/Students"></app-basic-line-chart> -->
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Yearly Placement Comparison </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-basic-column-chart
+          [seriesData]="yearlyComparisonData"
+          [categoriesData]="yearLabels"
+          xLabel="Years"
+          yLabel="No. of Students Placed">
+        </app-basic-column-chart>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Top Hiring Companies </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-basic-column-chart
+          [seriesData]="topHiringCompaniesData"
+          [categoriesData]="topCompanyYearLabels"
+          xLabel="Years"
+          yLabel="No. of Students Placed">
+        </app-basic-column-chart>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Skill-wise Demand Across Companies
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-basic-column-chart
+          [seriesData]="skillDemandData"
+          [categoriesData]="skillLabels"
+          xLabel="Skills"
+          yLabel="Demand Level">
+        </app-basic-column-chart>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Monthly Placement Trend Chart </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-basic-column-chart
+          [seriesData]="monthlyTrendsData"
+          [categoriesData]="monthLabels"
+          xLabel="Months"
+          yLabel="Number of Placements">
+        </app-basic-column-chart>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Top Hiring Companies-Data Chart </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-basic-column-chart
+          [seriesData]="topHiringCompaniesData"
+          [categoriesData]="companyLabels"
+          xLabel="Companies"
+          yLabel="Number of Placements">
+        </app-basic-column-chart>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Batch-Wise Placement Chart </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-basic-column-chart
+          [seriesData]="batchPlacementData"
+          [categoriesData]="batchLabels"
+          xLabel="Batch"
+          yLabel="Number of Placements">
+        </app-basic-column-chart>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="mat-accordion">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Placement Status Chart </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-basic-column-chart
+          [seriesData]="placementStatusData"
+          [categoriesData]="statusLabels"
+          xLabel="Status"
+          yLabel="Number of Placements">
+        </app-basic-column-chart>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 </div>
 

@@ -11,6 +11,9 @@ button {
 .matName {
   color: black;
 }
+.matButtonText {
+  color: white;
+}
 .mdc-checkbox__native-control:enabled:indeterminate
   ~ .mdc-checkbox__background {
   border-color: var(--mdc-checkbox-selected-icon-color);
@@ -122,12 +125,17 @@ button {
 .job-info span {
   color: #555;
 }
+.header-spacing {
+  height: 1rem; /* Adjust this value for the desired space */
+}
+
 .custom-card-header {
   display: flex;
   flex-direction: column;
   padding: 1rem;
   background-color: #f5f5f5; /* Light background for contrast */
   border-bottom: 1px solid #ddd; /* Separator line */
+  
 }
 
 /* Align Back Icon and Header Title in a Row */

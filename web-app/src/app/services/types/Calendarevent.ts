@@ -9,6 +9,7 @@ export type Calendarevent = {
   OrgId: number;
   CompanyId: number;
   IsDeleted: boolean;
+  MeetingLink: string;
   Jobinterviewrounds: Jobinterviewround[];
 };
 
@@ -23,5 +24,6 @@ export type PostCalEvent = {
   OrgId: number;
   CompanyId: number;
   IsDeleted: boolean;
+  MeetingLink: string;
   Jobinterviewrounds: { eventId?: number };
 };

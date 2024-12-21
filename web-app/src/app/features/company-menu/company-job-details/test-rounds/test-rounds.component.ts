@@ -124,8 +124,8 @@ export class TestRoundsComponent {
 
     const dialogRef = this.dialog.open(AddRoundsModalComponent, {
       data: { roundsId, JobPostingId: this.JobPostId },
-      width: "500px",
-      height: "600px",
+      width: "60%",
+      panelClass: "custom-dialog-container",
     });
     dialogRef.componentInstance.roundsUpdated.subscribe(() => {
       this.getAllRounds();

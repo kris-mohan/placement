@@ -165,6 +165,7 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
+            entity.Property(e => e.MeetingLink).HasMaxLength(500);
 
             entity.HasOne(d => d.Company).WithMany(p => p.Calendarevents)
                 .HasForeignKey(d => d.CompanyId)
@@ -513,15 +514,16 @@ public partial class PlacementContext : DbContext
             entity.ToTable("email");
 
             entity.Property(e => e.Bcc)
-                .HasMaxLength(45)
+                .HasMaxLength(245)
                 .HasColumnName("BCC");
-            entity.Property(e => e.Body).HasMaxLength(250);
             entity.Property(e => e.Cc)
-                .HasMaxLength(45)
+                .HasMaxLength(245)
                 .HasColumnName("CC");
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.IsSent).HasDefaultValueSql("'0'");
-            entity.Property(e => e.Subject).HasMaxLength(45);
-            entity.Property(e => e.To).HasMaxLength(45);
+            entity.Property(e => e.SentAt).HasColumnType("datetime");
+            entity.Property(e => e.Subject).HasMaxLength(245);
+            entity.Property(e => e.To).HasMaxLength(245);
         });
 
         modelBuilder.Entity<Group>(entity =>

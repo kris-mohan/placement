@@ -12,6 +12,7 @@ import {
 import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
 import { SharedModule } from "src/app/shared/shared.module";
 import { ODataResponse } from "../placement-interview.component";
+import { interviewApiService } from "../api.interview";
 
 @Component({
   selector: "app-placement-interview-additional-filter",
@@ -69,7 +70,8 @@ export class PlacementInterviewAdditionalFilterComponent {
 
   constructor(
     private apiCompanyService: CompanyAPIService,
-    private apiIndustryService: IndustryAPIService
+    private apiIndustryService: IndustryAPIService,
+    private interviewApiService: interviewApiService
   ) {}
 
   ngOnInit() {
@@ -197,27 +199,27 @@ export class PlacementInterviewAdditionalFilterComponent {
   }
 
   loadCompanies() {
-    this.apiCompanyService.loadCompanyData().subscribe({
+    this.interviewApiService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
         console.log("API Response:", response);
         this.companies = response.value;
         // this.filteredCompanies = this.companies;
         // this.filteredCities = this.companies;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error("Error loading companies", error);
       },
     });
   }
 
   loadIndustries() {
-    this.apiIndustryService.loadIndustryData().subscribe({
+    this.interviewApiService.loadIndustryData().subscribe({
       next: (response: ODataResponse<any>) => {
         console.log("API Response:", response);
         this.industries = response.value;
         // this.filteredIndustries = response.value;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error("Error loading Industries", error);
       },
     });
