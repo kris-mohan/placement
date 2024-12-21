@@ -18,4 +18,8 @@ public partial class Email
     public bool? IsSent { get; set; }
 
     public string? Body { get; set; }
+
+    public DateTime? CreatedAt { get; set; }
+
+    public DateTime? SentAt { get; set; }
 }
