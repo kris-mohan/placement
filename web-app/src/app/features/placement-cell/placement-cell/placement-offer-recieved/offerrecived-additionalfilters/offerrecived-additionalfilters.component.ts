@@ -1,29 +1,32 @@
+import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { Observable, of, startWith, map } from "rxjs";
+import { AMGModules } from "src/AMG-Module/AMG-module";
 import { CompanyAPIService } from "src/app/features/company-configuration/company-config/companies/api.companies";
 import {
   companyTableList,
   Industry,
 } from "src/app/features/company-configuration/company-config/companies/companies-model";
 import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
-import { ODataResponse } from "../interview.component";
-import { CommonModule } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
-import { AMGModules } from "src/AMG-Module/AMG-module";
-import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
-import { interviewApiService } from "../api.interview";
-import { PlacementInterviewAdditionalFilterComponent } from "src/app/features/placement-cell/placement-cell/placement-interview/placement-interview-additional-filter/placement-interview-additional-filter.component";
 import { MatDialogRef } from "@angular/material/dialog";
+import { interviewApiService } from "src/app/features/company-menu/interview/api.interview";
+import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
+import { JobRoles } from "src/app/services/common-dropdowns/JobRoles";
+interface ODataResponse<T> {
+  value: T[];
+}
 
 @Component({
-  selector: "app-interview-additional-filter",
+  selector: "app-offerrecived-additionalfilters",
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules, NgxMatSelectSearchModule],
-  templateUrl: "./interview-additional-filter.component.html",
-  styleUrl: "./interview-additional-filter.component.css",
+  templateUrl: "./offerrecived-additionalfilters.component.html",
+  styleUrl: "./offerrecived-additionalfilters.component.css",
 })
-export class InterviewAdditionalFilterComponent {
+export class OfferrecivedAdditionalfiltersComponent {
   companies: companyTableList[] = [];
   industries: Industry[] = [];
   companySizes: string[] = [
@@ -56,13 +59,17 @@ export class InterviewAdditionalFilterComponent {
   searchCompany: string = "";
   searchCity: string = "";
   searchIndustry: string = "";
+  jobTypes: string[] = JobTypes;
+  jobRoles: string[] = JobRoles;
 
   CityControl = new FormControl();
   companyControl = new FormControl();
   locationControl = new FormControl();
   industryControl = new FormControl();
+  jobTypeControl = new FormControl();
   companySizeControl = new FormControl();
   salaryRangeControl = new FormControl();
+  jobRoleControl = new FormControl();
 
   companyFilterControl = new FormControl();
   locationFilterControl = new FormControl();
@@ -74,7 +81,7 @@ export class InterviewAdditionalFilterComponent {
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService,
     private interviewApiService: interviewApiService,
-    public dialogRef: MatDialogRef<PlacementInterviewAdditionalFilterComponent>
+    public dialogRef: MatDialogRef<OfferrecivedAdditionalfiltersComponent>
   ) {}
 
   ngOnInit() {
@@ -209,7 +216,7 @@ export class InterviewAdditionalFilterComponent {
         // this.filteredCompanies = this.companies;
         // this.filteredCities = this.companies;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error("Error loading companies", error);
       },
     });
@@ -222,17 +229,19 @@ export class InterviewAdditionalFilterComponent {
         this.industries = response.value;
         // this.filteredIndustries = response.value;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error("Error loading Industries", error);
       },
     });
   }
+
+  openAddEditCompanyForm() {}
+
   showResults() {
     this.dialogRef.close({
       companies: this.companyControl.value,
       jobTypes: this.industryControl.value,
+      jobRoles: this.jobRoleControl.value,
     });
   }
-
-  openAddEditCompanyForm() {}
 }

@@ -1,0 +1,28 @@
+<mat-dialog-content>
+  <div style="display: flex; justify-content: space-between">
+    <mat-label class="mat-label">Invite</mat-label>
+    <mat-icon mat-button mat-dialog-close style="cursor: pointer"
+      >cancel</mat-icon
+    >
+  </div>
+  <p>Templates</p>
+  <div>
+    <mat-form-field appearance="outline" class="filter-field full-widbth">
+      <m-label>Templates</mat-label>
+      <matat-select [formControl]="templateControl">
+        <mat-option *ngFor="let template of templates" [value]="template">{{
+          template
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions
+  class="mat-dialog-actions"
+  style="background-color: lightgray"
+>
+  <button mat-button mat-dialog-close>Reset</button>
+  <button mat-raised-button class="matbutton" (click)="handleSend()">
+    <p class="matName">Send</p>
+  </button>
+</mat-dialog-actions>

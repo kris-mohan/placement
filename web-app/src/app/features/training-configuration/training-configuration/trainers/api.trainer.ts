@@ -22,9 +22,9 @@ export class TrainerAPIService {
     return throwError(() => new Error(errorMessage));
   }
 
-  GetAllTrainers(): Observable<Trainer[]> {
+ GetAllTrainers(): Observable<Trainer[]> {
     return this.apiHttpService.get<Trainer[]>(
-      "/Trainer?$filter=Isdeleted eq 0"
+      "/Trainer?$filter=Isdeleted eq false"
     );
   }
 

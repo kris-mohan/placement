@@ -62,7 +62,7 @@ export class InvitationsComponent {
   goBack(): void {
     this.location.back();
   }
-
+  
   ngOnInit() {
     this.loadInvitationData();
   }

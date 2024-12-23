@@ -7,6 +7,7 @@ import {
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
+  MatDialogRef,
   MatDialogTitle,
 } from "@angular/material/dialog";
 import { CompanyAPIService } from "src/app/features/company-configuration/company-config/companies/api.companies";
@@ -21,6 +22,7 @@ import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEl
 import { ModeOfWorks } from "src/app/services/common-dropdowns/ModeOfWorks";
 import { PlacementCompanyApiService } from "src/app/features/placement-cell/placement-cell/placement-company/PlacementCompanyApiService";
 import { set } from "date-fns";
+import { StudentInterviewAddtionalfilterComponent } from "../../interview-student/student-interview-addtionalfilter/student-interview-addtionalfilter.component";
 
 @Component({
   selector: "app-student-job-additional-filter-modal",
@@ -85,6 +87,7 @@ export class StudentJobAdditionalFilterModalComponent {
   locationControl = new FormControl();
   companySizeControl = new FormControl();
   salaryRangeControl = new FormControl();
+  jobTypeControl = new FormControl();
 
   companyFilterControl = new FormControl();
   locationFilterControl = new FormControl();
@@ -95,7 +98,7 @@ export class StudentJobAdditionalFilterModalComponent {
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService,
     private placementCompanyApiService: PlacementCompanyApiService,
-
+    public dialogRef: MatDialogRef<StudentJobAdditionalFilterModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.JobPostingsData = data.JobPostingData;
@@ -292,4 +295,12 @@ export class StudentJobAdditionalFilterModalComponent {
   onCompanySelected(e: any) {}
 
   openAddEditCompanyForm() {}
+  showResults() {
+    debugger;
+    this.dialogRef.close({
+      companies: this.companyControl.value,
+      jobTypes: this.jobTypeControl.value,
+      ModeOfWorks: this.modeOfWorksControl.value,
+    });
+  }
 }

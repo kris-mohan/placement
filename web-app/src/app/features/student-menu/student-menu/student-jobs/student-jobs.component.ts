@@ -27,6 +27,7 @@ import { signal } from "@angular/core";
 import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
+import { AppliedJobInterview } from "src/app/services/types/AppliedJobInterview";
 
 const today = new Date();
 const month = today.getMonth();
@@ -48,6 +49,7 @@ export class StudentJobsComponent {
     private sweetAlertService: SweetAlertService,
     private location: Location,
     private studentJobsApiService: StudentJobsApiSerivce,
+
     private cd: ChangeDetectorRef
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
@@ -62,6 +64,8 @@ export class StudentJobsComponent {
   });
 
   isLoading = true;
+  jobInterviewRounds = signal<AppliedJobInterview[]>([]);
+  filteredJobInterviewRounds = signal<AppliedJobInterview[]>([]);
 
   searchCity: string = "";
   filteredCompanies: companyTableList[] = [];
@@ -194,7 +198,7 @@ export class StudentJobsComponent {
       );
     });
     this.filteredStudents.set(filtered);
-      this.isLoading = false;
+    this.isLoading = false;
   }
   convertToDateOnly(dateString: string): string {
     const date = new Date(dateString);
@@ -375,5 +379,39 @@ export class StudentJobsComponent {
         FilteredStudents: this.filteredStudents(),
       },
     });
+  }
+  openInterviewAdditionalFilter() {
+    const dialogRef = this.dialog.open(
+      StudentJobAdditionalFilterModalComponent,
+      {
+        width: "500px",
+      }
+    );
+    dialogRef.afterClosed().subscribe((filterValues) => {
+      debugger;
+      if (filterValues) {
+        this.filterData(filterValues);
+      }
+    });
+  }
+  filterData(filterValues: any) {
+    debugger;
+    console.log(filterValues, "filter values");
+    const filtered = this.JobPostingsData().filter((student) => {
+      const selectedCompanies = filterValues.companies || [];
+      const selectedJobTypes = filterValues.jobTypes || [];
+      const selectedworkModes = filterValues.ModeOfWorks || [];
+
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(student.JobPosting.Company?.Name || "");
+
+      const jobmodeWorkMatch =
+        selectedworkModes.length === 0 ||
+        selectedworkModes.includes(student.JobPosting.ModeOfWork || "");
+
+      return companyMatch && jobmodeWorkMatch;
+    });
+    this.filteredStudents.set(filtered);
   }
 }

@@ -251,6 +251,10 @@
 
     <div class="right-content">
       <!-- Mat Raised Button -->
+      <button mat-raised-button class="matbutton" (click)="showInvitePopup()">
+        <p class="matName">Invite</p>
+      </button>
+
       <button
         mat-raised-button
         color="warn"
@@ -262,9 +266,9 @@
       <div class="related-jobs">
         <div class="headers">
           <h3>{{ JobPostingsDescriptionData()[0]?.Name }}</h3>
-          <div>
+          <!-- <div>
             <button mat-raised-button class="matbutton">Invite Company</button>
-          </div>
+          </div> -->
         </div>
         <img
           src="{{ JobPostingsDescriptionData()[0]?.LogoPath }}"

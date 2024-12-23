@@ -66,6 +66,11 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr *ngIf="dataSource.data.length === 0">
+        <td [attr.colspan]="displayedColumns.length" class="no-data-message">
+          No Data Available
+        </td>
+      </tr>
     </table>
   </mat-card-content>
 </mat-card>
