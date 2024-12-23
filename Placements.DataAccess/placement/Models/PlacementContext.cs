@@ -165,7 +165,6 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
-            entity.Property(e => e.MeetingLink).HasMaxLength(500);
 
             entity.HasOne(d => d.Company).WithMany(p => p.Calendarevents)
                 .HasForeignKey(d => d.CompanyId)
@@ -535,6 +534,7 @@ public partial class PlacementContext : DbContext
             entity.HasIndex(e => e.CreatedBy, "FK_User_Groups_idx");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.GroupDescription).HasMaxLength(45);
             entity.Property(e => e.GroupName).HasMaxLength(45);
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Groups)
@@ -887,9 +887,33 @@ public partial class PlacementContext : DbContext
 
             entity.ToTable("messages");
 
+            entity.HasIndex(e => e.ChatId, "FK_Chat_Messages_idx");
+
+            entity.HasIndex(e => e.GroupId, "FK_Group_Messages_idx");
+
+            entity.HasIndex(e => e.ReceiverId, "FK_Receiver_Messages_idx");
+
+            entity.HasIndex(e => e.SenderId, "FK_Sender_Messages_idx");
+
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.MessageText).HasMaxLength(1000);
             entity.Property(e => e.MessageType).HasColumnType("enum('Text','Image','Video','File')");
+
+            entity.HasOne(d => d.Chat).WithMany(p => p.Messages)
+                .HasForeignKey(d => d.ChatId)
+                .HasConstraintName("FK_Chat_Messages");
+
+            entity.HasOne(d => d.Group).WithMany(p => p.Messages)
+                .HasForeignKey(d => d.GroupId)
+                .HasConstraintName("FK_Group_Messages");
+
+            entity.HasOne(d => d.Receiver).WithMany(p => p.MessageReceivers)
+                .HasForeignKey(d => d.ReceiverId)
+                .HasConstraintName("FK_Receiver_Messages");
+
+            entity.HasOne(d => d.Sender).WithMany(p => p.MessageSenders)
+                .HasForeignKey(d => d.SenderId)
+                .HasConstraintName("FK_Sender_Messages");
         });
 
         modelBuilder.Entity<Messagestatus>(entity =>
