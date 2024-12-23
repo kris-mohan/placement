@@ -8,8 +8,8 @@
   <p>Templates</p>
   <div>
     <mat-form-field appearance="outline" class="filter-field full-widbth">
-      <m-label>Templates</mat-label>
-      <matat-select [formControl]="templateControl">
+      <mat-label>Templates</mat-label>
+      <mat-select [formControl]="templateControl">
         <mat-option *ngFor="let template of templates" [value]="template">{{
           template
         }}</mat-option>
