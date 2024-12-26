@@ -365,8 +365,7 @@ export class PlacementCompanyComponent {
           .map((student) => student.Address || "")
           .filter(
             (location): location is string =>
-              location !== undefined &&
-              location.toLowerCase().includes(filterValue)
+              location != "" && location.toLowerCase().includes(filterValue)
           )
       )
     );

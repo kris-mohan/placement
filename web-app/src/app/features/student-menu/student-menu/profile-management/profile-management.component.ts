@@ -745,97 +745,98 @@ export class ProfileManagementComponent {
     this.fields.splice(index, 1);
   }
 
-  async onSubmit() {
-    // const studentProfile: Partial<PostTblstudent> =
-    //   this.studentProfileForm.value;
-    // const isUpdate = !!this.Id;
-    // const actionText = isUpdate ? "update" : "add";
-    // const confirmed = await this.sweetAlertService.confirm(
-    //   `Do you want to ${actionText} your Profile?`
-    // );
-    // if (confirmed) {
-    //   const studentProfileData: PostTblstudent = {
-    //     Id: this.sessionStudentId ?? 0,
-    //     // OrgId: studentProfile.OrgId ?? 0,
-    //     FirstName: studentProfile.FirstName ?? "",
-    //     MiddleName: studentProfile.MiddleName ?? "",
-    //     LastName: studentProfile.LastName ?? "",
-    //     BatchId: studentProfile.BatchId ?? 0,
-    //     AadharCardNumber: studentProfile.AadharCardNumber ?? "",
-    //     PermanentAddress: studentProfile.PermanentAddress ?? "",
-    //     CurrentAddress: studentProfile.CurrentAddress ?? "",
-    //     Email: studentProfile.Email ?? "",
-    //     PhoneNumber: studentProfile.PhoneNumber ?? "",
-    //     FatherName: studentProfile.FatherName ?? "",
-    //     FatherPhoneNumber: studentProfile.FatherPhoneNumber ?? "",
-    //     MotherName: studentProfile.MotherName ?? "",
-    //     MotherPhoneNumber: studentProfile.MotherPhoneNumber ?? "",
-    //     DateOfBirth: studentProfile.DateOfBirth ?? null,
-    //     RollNo: studentProfile.RollNo ?? "",
-    //     BloodGroup: studentProfile.BloodGroup ?? "",
-    //     Pannumber: studentProfile.Pannumber ?? "",
-    //     skills: studentProfile.skills ?? "",
-    //     Batch: {
-    //       Id: studentProfile.Batch?.Id ?? 0,
-    //       Name: studentProfile.Batch?.Name ?? "",
-    //     },
-    //     Studentacademics: {
-    //       StudentId: this.sessionStudentId ?? 0,
-    //       CourseId: studentProfile.Studentacademics?.CourseId ?? 0,
-    //       StreamId: studentProfile.Studentacademics?.StreamId ?? 0,
-    //       Cgpa: studentProfile.Studentacademics?.Cgpa ?? 0,
-    //       TenthMarks: studentProfile.Studentacademics?.TenthMarks ?? 0,
-    //       TwelthMarks: studentProfile.Studentacademics?.TwelthMarks ?? 0,
-    //       TenthBoard: studentProfile.Studentacademics?.TenthBoard ?? "",
-    //       TwelthBoard: studentProfile.Studentacademics?.TwelthBoard ?? "",
-    //       TenthPassedOutYear:
-    //         studentProfile.Studentacademics?.TenthPassedOutYear ?? 0,
-    //       TwelthPassedOutYear:
-    //         studentProfile.Studentacademics?.TwelthPassedOutYear ?? 0,
-    //       TenthSchoolName:
-    //         studentProfile.Studentacademics?.TenthSchoolName ?? "",
-    //       TwelthSchoolName:
-    //         studentProfile.Studentacademics?.TwelthSchoolName ?? "",
-    //       DiplomaCollegeName:
-    //         studentProfile.Studentacademics?.DiplomaCollegeName ?? "",
-    //       StudentSemesterMarks:
-    //         studentProfile.Studentacademics?.StudentSemesterMarks?.map(
-    //           (mark) => ({
-    //             StudentAcademicId: mark.StudentAcademicId ?? 0,
-    //             Semester: mark.Semester ?? 0,
-    //             Sgpa: mark.Sgpa ?? 0.0,
-    //           })
-    //         ) ?? [],
-    //     },
-    //     StudentSkills:
-    //       studentProfile.StudentSkills?.map((skill) => ({
-    //         SkillId: skill.SkillId ?? 0,
-    //         StudentId: this.sessionStudentId ?? 0,
-    //       })) ?? [],
-    //   };
-    //   try {
-    //     if (isUpdate) {
-    //       await this.studentApiService.addUpdateCompany(
-    //         this.Id,
-    //         studentProfileData
-    //       );
-    //     } else {
-    //       await this.studentApiService.addUpdateCompany(
-    //         this.Id,
-    //         studentProfileData
-    //       );
-    //     }
-    //     this.sweetAlertService.success(
-    //       `${
-    //         actionText.charAt(0).toUpperCase() + actionText.slice(1)
-    //       } successful!`
-    //     );
-    //   } catch (error) {
-    //     this.sweetAlertService.error(
-    //       "An error occurred while saving the profile. Please try again."
-    //     );
-    //   }
-    // }
+   async onSubmit() {
+  //   const studentProfile: Partial<PostTblstudent> =
+  //     this.studentProfileForm.value;
+  //   const isUpdate = !!this.Id;
+  //   const actionText = isUpdate ? "update" : "add";
+  //   const confirmed = await this.sweetAlertService.confirm(
+  //     `Do you want to ${actionText} your Profile?`
+  //   );
+  //   if (confirmed) {
+  //     const studentProfileData: PostTblstudent = {
+  //       Id: this.sessionStudentId ?? 0,
+  //       // OrgId: studentProfile.OrgId ?? 0,
+  //       FirstName: studentProfile.FirstName ?? "",
+  
+  //       MiddleName: studentProfile.MiddleName ?? "",
+  //       LastName: studentProfile.LastName ?? "",
+  //       BatchId: studentProfile.BatchId ?? 0,
+  //       AadharCardNumber: studentProfile.AadharCardNumber ?? "",
+  //       PermanentAddress: studentProfile.PermanentAddress ?? "",
+  //       CurrentAddress: studentProfile.CurrentAddress ?? "",
+  //       Email: studentProfile.Email ?? "",
+  //       PhoneNumber: studentProfile.PhoneNumber ?? "",
+  //       FatherName: studentProfile.FatherName ?? "",
+  //       FatherPhoneNumber: studentProfile.FatherPhoneNumber ?? "",
+  //       MotherName: studentProfile.MotherName ?? "",
+  //       MotherPhoneNumber: studentProfile.MotherPhoneNumber ?? "",
+  //       DateOfBirth: studentProfile.DateOfBirth ?? null,
+  //       RollNo: studentProfile.RollNo ?? "",
+  //       BloodGroup: studentProfile.BloodGroup ?? "",
+  //       Pannumber: studentProfile.Pannumber ?? "",
+  //       skills: studentProfile.skills ?? "",
+  //       Batch: {
+  //         Id: studentProfile.Batch?.Id ?? 0,
+  //         Name: studentProfile.Batch?.Name ?? "",
+  //       },
+  //       Studentacademics: {
+  //         StudentId: this.sessionStudentId ?? 0,
+  //         CourseId: studentProfile.Studentacademics?.CourseId ?? 0,
+  //         StreamId: studentProfile.Studentacademics?.StreamId ?? 0,
+  //         Cgpa: studentProfile.Studentacademics?.Cgpa ?? 0,
+  //         TenthMarks: studentProfile.Studentacademics?.TenthMarks ?? 0,
+  //         TwelthMarks: studentProfile.Studentacademics?.TwelthMarks ?? 0,
+  //         TenthBoard: studentProfile.Studentacademics?.TenthBoard ?? "",
+  //         TwelthBoard: studentProfile.Studentacademics?.TwelthBoard ?? "",
+  //         TenthPassedOutYear:
+  //           studentProfile.Studentacademics?.TenthPassedOutYear ?? 0,
+  //         TwelthPassedOutYear:
+  //           studentProfile.Studentacademics?.TwelthPassedOutYear ?? 0,
+  //         TenthSchoolName:
+  //           studentProfile.Studentacademics?.TenthSchoolName ?? "",
+  //         TwelthSchoolName:
+  //           studentProfile.Studentacademics?.TwelthSchoolName ?? "",
+  //         DiplomaCollegeName:
+  //           studentProfile.Studentacademics?.DiplomaCollegeName ?? "",
+  //         StudentSemesterMarks:
+  //           studentProfile.Studentacademics?.StudentSemesterMarks?.map(
+  //             (mark) => ({
+  //               StudentAcademicId: mark.StudentAcademicId ?? 0,
+  //               Semester: mark.Semester ?? 0,
+  //               Sgpa: mark.Sgpa ?? 0.0,
+  //             })
+  //           ) ?? [],
+  //       },
+  //       StudentSkills:
+  //         studentProfile.StudentSkills?.map((skill) => ({
+  //           SkillId: skill.SkillId ?? 0,
+  //           StudentId: this.sessionStudentId ?? 0,
+  //         })) ?? [],
+  //     };
+  //     try {
+  //       if (isUpdate) {
+  //         await this.studentApiService.addUpdateCompany(
+  //           this.Id,
+  //           studentProfileData
+  //         );
+  //       } else {
+  //         await this.studentApiService.addUpdateCompany(
+  //           this.Id,
+  //           studentProfileData
+  //         );
+  //       }
+  //       this.sweetAlertService.success(
+  //         `${
+  //           actionText.charAt(0).toUpperCase() + actionText.slice(1)
+  //         } successful!`
+  //       );
+  //     } catch (error) {
+  //       this.sweetAlertService.error(
+  //         "An error occurred while saving the profile. Please try again."
+  //       );
+  //     }
+  //   }
   }
 
   // get selectedSkillTypes(): string {

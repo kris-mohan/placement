@@ -27,4 +27,7 @@ export class PlacementOfferRecievedApiService {
   GetBranches(): Observable<any> {
     return this.apiHttpService.get(`/Course`);
   }
+  loadJobRole(): Observable<ODataEntity<Jobinterviewround[]>> {
+    return this.apiHttpService.get(`/Jobposting?$select=JobRole `);
+  }
 }

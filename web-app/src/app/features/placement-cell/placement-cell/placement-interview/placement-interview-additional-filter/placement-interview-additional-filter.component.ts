@@ -15,7 +15,7 @@ import { ODataResponse } from "../placement-interview.component";
 import { interviewApiService } from "../api.interview";
 import { MatDialogRef } from "@angular/material/dialog";
 import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
-import { JobRoles } from "src/app/services/common-dropdowns/JobRoles";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 
 @Component({
   selector: "app-placement-interview-additional-filter",
@@ -59,7 +59,8 @@ export class PlacementInterviewAdditionalFilterComponent {
   searchCity: string = "";
   searchIndustry: string = "";
   jobTypes: string[] = JobTypes;
-  jobRoles: string[] = JobRoles;
+  jobRoles: string[] = [];
+  jobRoleData: any[] = [];
 
   CityControl = new FormControl();
   companyControl = new FormControl();
@@ -89,9 +90,11 @@ export class PlacementInterviewAdditionalFilterComponent {
     this.loadCompanies();
     this.loadIndustries();
     this.loadInterviewRounds();
+    this.loadjobRole();
 
     this.companyControl.valueChanges.subscribe(() => {
       this.filterCompanies(this.searchCompany);
+      this.filterJobRoles();
     });
 
     this.CityControl.valueChanges.subscribe(() => {
@@ -258,5 +261,34 @@ export class PlacementInterviewAdditionalFilterComponent {
       jobRoles: this.jobRoleControl.value,
       interviewRounds: this.interviewRoundControl.value,
     });
+  }
+  loadjobRole() {
+    this.interviewApiService.loadJobRole().subscribe({
+      next: (response: ODataResponse<any>) => {
+        this.jobRoleData = response.value;
+        const data = response.value.flatMap((r) => {
+          return r.JobRole;
+        });
+        const uniqueValues = Array.from(new Set(data));
+        const filteredRoles = uniqueValues.filter((j) => j != "");
+        this.jobRoles = filteredRoles;
+      },
+      error: (error: any) => {
+        console.error("Error loading Industries", error);
+      },
+    });
+  }
+
+  filterJobRoles() {
+    const filteredJobRoles = this.jobRoleData.filter((j) => {
+      const selectedCompanies = this.companyControl.value || [];
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(j.Company?.Name || "");
+      return companyMatch && j.JobRole != "";
+    });
+    const data = filteredJobRoles.flatMap((j) => j.JobRole);
+    const uniqueValues = Array.from(new Set(data));
+    this.jobRoles = uniqueValues;
   }
 }

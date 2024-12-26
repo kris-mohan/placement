@@ -22,7 +22,8 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { CompanyJobDetailsApiService } from "./company-job-details-apiService";
 import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
-import * as XLSX from "xlsx";import { SalaryRanges } from "src/app/services/common-dropdowns/salaryRanges";
+import * as XLSX from "xlsx";
+import { SalaryRanges } from "src/app/services/common-dropdowns/salaryRanges";
 
 const today = new Date();
 const month = today.getMonth();
@@ -215,11 +216,10 @@ export class CompanyJobDetailsComponent {
     this.filteredLocations = Array.from(
       new Set(
         this.JobPostingsData()
-          .map((student) => student.Location)
+          .map((student) => student.Location || "")
           .filter(
             (location): location is string =>
-              location !== undefined &&
-              location.toLowerCase().includes(filterValue)
+              location != "" && location.toLowerCase().includes(filterValue)
           )
       )
     );
