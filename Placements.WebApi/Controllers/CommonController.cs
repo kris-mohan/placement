@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
+using OfficeOpenXml.DataValidation;
 using Placements.DataAccess.Placement.Models;
 
 namespace Placements.WebApi.Controllers
@@ -273,6 +274,237 @@ namespace Placements.WebApi.Controllers
             }
             return null; // or throw an exception based on your requirement
         }
+
+        #endregion
+
+        #region upload jobPostings
+        [HttpPost("upload-jobpostings")]
+        public async Task<IActionResult> UploadJobPostings(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            try
+            {
+                var jobPostings = new List<Jobposting>(); 
+                var errors = new List<string>(); 
+
+                using (var stream = new MemoryStream())
+                {
+                    await file.CopyToAsync(stream);
+
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        var worksheet = package.Workbook.Worksheets[0]; 
+
+                        // Start reading from the second row (first row is header)
+                        for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                        {
+                            // Read data from the Excel row
+                            var jobRole = worksheet.Cells[row, 1].Text;
+                            var jobDescription = worksheet.Cells[row, 2].Text;
+                            var validFrom = worksheet.Cells[row, 3].Text;
+                            var validTill = worksheet.Cells[row, 4].Text;
+                            var positions = worksheet.Cells[row, 5].Text;
+                            var salary = worksheet.Cells[row, 6].Text;
+                            var location = worksheet.Cells[row, 7].Text;
+                            var vacancies = worksheet.Cells[row, 8].Text;
+                            var jobType = worksheet.Cells[row, 9].Text;
+                            var shift = worksheet.Cells[row, 10].Text;
+                            var modeOfWork = worksheet.Cells[row, 11].Text;
+                            var driveDate = worksheet.Cells[row, 12].Text;
+                            var minSslcPercentage = worksheet.Cells[row, 13].Text;
+                            var minPucPercentage = worksheet.Cells[row, 14].Text;
+                            var minCgpa = worksheet.Cells[row, 15].Text;
+                            var backLogsAllowed = worksheet.Cells[row, 16].Text;
+                            var postedDate = worksheet.Cells[row, 17].Text;
+                            var minimumYearExperience = worksheet.Cells[row, 18].Text;
+                            var maximumYearExperience = worksheet.Cells[row, 19].Text;
+                            var minimumMonthExperience = worksheet.Cells[row, 20].Text;
+                            var maximumMonthExperience = worksheet.Cells[row, 21].Text;
+
+                            // Check if the entire row is empty
+                            if (string.IsNullOrWhiteSpace(jobRole) &&
+                                string.IsNullOrWhiteSpace(jobDescription) &&
+                                string.IsNullOrWhiteSpace(validFrom) &&
+                                string.IsNullOrWhiteSpace(validTill) &&
+                                string.IsNullOrWhiteSpace(salary) &&
+                                string.IsNullOrWhiteSpace(location) &&
+                                string.IsNullOrWhiteSpace(jobType) &&
+                                string.IsNullOrWhiteSpace(shift) &&
+                                string.IsNullOrWhiteSpace(modeOfWork) &&
+                                string.IsNullOrWhiteSpace(driveDate))
+                            {
+                                continue;
+                            }
+
+                            // Validate required fields
+                            var missingFields = new List<string>();
+
+                            if (string.IsNullOrWhiteSpace(jobRole))
+                                missingFields.Add("Job Role");
+                            if (string.IsNullOrWhiteSpace(jobDescription))
+                                missingFields.Add("Job Description");
+                            if (string.IsNullOrWhiteSpace(validFrom))
+                                missingFields.Add("Valid From");
+                            if (string.IsNullOrWhiteSpace(validTill))
+                                missingFields.Add("Valid Till");
+                            if (string.IsNullOrWhiteSpace(salary))
+                                missingFields.Add("Salary");
+                            if (string.IsNullOrWhiteSpace(location))
+                                missingFields.Add("Location");
+                            if (string.IsNullOrWhiteSpace(modeOfWork))
+                                missingFields.Add("Mode of Work");
+                            if (string.IsNullOrWhiteSpace(driveDate))
+                                missingFields.Add("Drive Date");
+                            if (string.IsNullOrWhiteSpace(jobType))
+                                missingFields.Add("Job Type");
+                            if (string.IsNullOrWhiteSpace(shift))
+                                missingFields.Add("Shift");
+
+                            // If there are any missing fields, add an error message
+                            if (missingFields.Any())
+                            {
+                                errors.Add($"Row {row}: Missing details - {string.Join(", ", missingFields)}.");
+                                continue; // Skip this row
+                            }
+
+                            // Create new job posting object
+                            var jobPosting = new Jobposting
+                            {
+                                JobRole = jobRole,
+                                JobDescription = jobDescription,
+                                ValidFrom = DateTime.Parse(validFrom), 
+                                ValidTill = DateTime.Parse(validTill), 
+                                Positions = int.TryParse(positions, out int pos) ? pos : 0,
+                                Salary = decimal.TryParse(salary, out decimal sal) ? sal : 0,
+                                Location = location,
+                                Vacancies = int.TryParse(vacancies, out int vac) ? vac : 0,
+                                JobType = jobType,
+                                Shift = shift,
+                                ModeOfWork = modeOfWork,
+                                DriveDate = DateTime.Parse(driveDate), 
+                                MinSslcpercentage = decimal.TryParse(minSslcPercentage, out decimal sslc) ? sslc : 0,
+                                MinPucpercentage = decimal.TryParse(minPucPercentage, out decimal puc) ? puc : 0,
+                                MinCgpa = decimal.TryParse(minCgpa, out decimal cgpa) ? cgpa : 0,
+                                BacklogsAllowed = bool.TryParse(backLogsAllowed, out bool allowed) ? (allowed ? 1 : 0) : (int?)null,
+                                PostedDate = DateTime.Now, 
+                                MinimumYearExperience = int.TryParse(minimumYearExperience, out int minYear) ? minYear : 0,
+                                MaximumYearExperience = int.TryParse(maximumYearExperience, out int maxYear) ? maxYear : 0,
+                                MinimumMonthExperience = int.TryParse(minimumMonthExperience, out int minMonth) ? minMonth : 0,
+                                MaximumMonthExperience = int.TryParse(maximumMonthExperience, out int maxMonth) ? maxMonth : 0,
+                            };
+
+                            jobPostings.Add(jobPosting);
+                        }
+                    }
+                }
+
+                // Check if there are errors
+                if (errors.Any())
+                {
+                    return BadRequest(new { message = "Some rows have errors.", errors });
+                }
+
+                // Add job postings to the context and save changes
+                await _context.Jobpostings.AddRangeAsync(jobPostings);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = $"{jobPostings.Count} job postings uploaded successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        #endregion
+
+        #region download JobPostings
+        [HttpGet("download-jobpostings-template")]
+        public async Task<IActionResult> DownloadJobPostingsTemplate()
+        {
+            return await GenerateJobPostingsTemplate();
+        }
+
+        private async Task<FileContentResult> GenerateJobPostingsTemplate()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+   
+            var technologies = await _context.Technologies.Select(c => new { c.Id, c.Name }).ToListAsync();
+
+  
+            using (var package = new ExcelPackage())
+            {
+      
+                var worksheet = package.Workbook.Worksheets.Add("JobPostings");
+
+            
+                worksheet.Cells[1, 1].Value = "Job Role";
+                worksheet.Cells[1, 2].Value = "Job Description";
+                worksheet.Cells[1, 3].Value = "Valid From";
+                worksheet.Cells[1, 4].Value = "Valid Till";
+                worksheet.Cells[1, 5].Value = "Positions";
+                worksheet.Cells[1, 6].Value = "Salary";
+                worksheet.Cells[1, 7].Value = "Location";
+                worksheet.Cells[1, 8].Value = "Vacancies";
+                worksheet.Cells[1, 9].Value = "Job Type";
+                worksheet.Cells[1, 10].Value = "Shift";
+                worksheet.Cells[1, 11].Value = "Mode of Work";
+                worksheet.Cells[1, 12].Value = "Drive Date";
+                worksheet.Cells[1, 13].Value = "Min Sslc Percentage";
+                worksheet.Cells[1, 14].Value = "Min Puc Percentage";
+                worksheet.Cells[1, 15].Value = "Min Cgpa";
+                worksheet.Cells[1, 16].Value = "Backlogs Allowed";
+                worksheet.Cells[1, 17].Value = "Posted Date";
+                worksheet.Cells[1, 18].Value = "Minimum Year Experience";
+                worksheet.Cells[1, 19].Value = "Maximum Year Experience";
+                worksheet.Cells[1, 20].Value = "Minimum Month Experience";
+                worksheet.Cells[1, 21].Value = "Maximum Month Experience";
+             
+
+                worksheet.Cells.Style.WrapText = true;
+
+           
+                for (int col = 1; col <= 11; col++)
+                {
+                    worksheet.Column(col).Width = 40;
+                }
+
+                // Example of setting dropdown lists for relevant columns
+                // Technologies dropdown (Column 8)
+                //SetDropdown(worksheet, 8, technologies.Select(t => t.Name).ToArray());
+
+                // Backlogs Allowed dropdown (Column 9)
+                //SetDropdown(worksheet, 9, new[] { "Yes", "No" });
+
+              
+                var fileName = "JobPostingsTemplate.xlsx";
+                var fileContents = package.GetAsByteArray();
+
+             
+                return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+        //private void SetDropdown(ExcelWorksheet worksheet, int column, string[] items)
+        //{
+        //    var validation = worksheet.DataValidations.AddListValidation(worksheet.Cells[2, column, 1000, column].Address);
+        //    foreach (var item in items)
+        //    {
+        //        validation.Formula.Values.Add(item);
+        //    }
+        //    validation.ShowErrorMessage = true;
+        //    validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
+        //    validation.ErrorTitle = "Invalid Input";
+        //    validation.Error = "Please select a value from the dropdown.";
+        //}
+
 
         #endregion
 
