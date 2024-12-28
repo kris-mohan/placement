@@ -80,6 +80,7 @@ export class CoursesComponent {
       },
       error: (error) => {
         console.error("Error loading Training Course", error);
+        this.dataSource.data = [];
       },
     });
   }

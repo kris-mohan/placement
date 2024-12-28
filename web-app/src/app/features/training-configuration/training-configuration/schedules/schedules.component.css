@@ -56,3 +56,13 @@ table {
 .td-mat-button {
   display: flex;
 }
+.no-data-row {
+  text-align: center;
+}
+
+.no-data-cell {
+  font-weight: bold;
+  color: gray;
+  display: flex;
+  justify-content: center;
+}

@@ -68,12 +68,12 @@
     </div>
   </div>
 
-  <mat-card-content class="table-container">
+  <mat-card-content>
     <table
       mat-table
+      *ngIf="detailsDataSource"
       [dataSource]="detailsDataSource"
       class="student-table mat-elevation-z8"
-      *ngIf="true"
     >
       <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
         <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
@@ -88,5 +88,14 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <br />
+    <div class="no-data-cell">
+      <tr
+        *ngIf="!detailsDataSource || detailsDataSource.data.length === 0"
+        class="no-data-row"
+      >
+        <td [attr.colspan]="displayedColumns.length">No data available</td>
+      </tr>
+    </div>
   </mat-card-content>
 </mat-card>

@@ -85,3 +85,9 @@
 .student-details-container > div:not(:last-child) {
   margin-right: 20px;
 }
+.no-data-cell {
+  font-weight: bold;
+  color: gray;
+  display: flex;
+  justify-content: center;
+}

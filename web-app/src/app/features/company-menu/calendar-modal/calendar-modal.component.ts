@@ -144,6 +144,8 @@ export class CalendarModalComponent implements OnInit {
   onCompanySelected(event: any): void {
     console.log(event.value);
     this.CompanyId = event.value;
+    this.formDataa.patchValue({ companyId: this.CompanyId });
+
     if (this.userRole !== 2) {
       this.getJobPostings();
     }

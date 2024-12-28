@@ -89,7 +89,7 @@ export class OfferManagementDetailsComponent {
     return window.innerWidth > 768;
   }
 
-  detailsDataSource = new MatTableDataSource<columnData>();
+  detailsDataSource = new MatTableDataSource<columnData>([]);
   displayedColumns: string[] = [
     "SlNo",
     "RoundNo",

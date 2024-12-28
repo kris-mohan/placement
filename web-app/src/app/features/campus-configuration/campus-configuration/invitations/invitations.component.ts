@@ -63,7 +63,7 @@ export class InvitationsComponent {
   goBack(): void {
     this.location.back();
   }
-  
+
   ngOnInit() {
     this.loadInvitationData();
   }
@@ -72,10 +72,11 @@ export class InvitationsComponent {
     this.apiInvitationservice.loadInvitationData().subscribe({
       next: (response: ODataResponse<any>) => {
         console.log("API Response:", response);
-        this.dataSource.data = response.value;
+        this.dataSource.data = response?.value || [];
       },
       error: (error) => {
         console.error("Error loading Invitation", error);
+         this.dataSource.data = [];
       },
     });
   }
