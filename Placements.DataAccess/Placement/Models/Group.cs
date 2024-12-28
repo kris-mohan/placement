@@ -15,7 +15,11 @@ public partial class Group
 
     public bool? IsActive { get; set; }
 
+    public string? GroupDescription { get; set; }
+
     public virtual Login? CreatedByNavigation { get; set; }
 
     public virtual ICollection<Groupmember> Groupmembers { get; set; } = new List<Groupmember>();
+
+    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 }

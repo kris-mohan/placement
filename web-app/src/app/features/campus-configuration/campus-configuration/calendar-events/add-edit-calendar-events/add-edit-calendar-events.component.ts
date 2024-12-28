@@ -6,7 +6,6 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { CalendarEventAPIService } from "../api.calendar.events";
-import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import {
   PostCalendarevent,
   PostCalEvent,

@@ -1,31 +1,34 @@
-import { CommonModule, Location } from "@angular/common";
-import { Component, inject, OnInit, signal } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { AMGModules } from "src/AMG-Module/AMG-module";
-import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
-import { SharedModule } from "src/app/shared/shared.module";
-import { FirstRoundComponent } from "./first-round/first-round.component";
-import { SecondRoundComponent } from "./second-round/second-round.component";
-import { ThirdRoundComponent } from "./third-round/third-round.component";
-import { FourthRoundComponent } from "./fourth-round/fourth-round.component";
+import { CommonModule, Location } from '@angular/common';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AMGModules } from 'src/AMG-Module/AMG-module';
+import { SweetAlertService } from 'src/app/services/sweet-alert-service/sweet-alert-service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { FirstRoundComponent } from './first-round/first-round.component';
+import { SecondRoundComponent } from './second-round/second-round.component';
+import { ThirdRoundComponent } from './third-round/third-round.component';
+import { FourthRoundComponent } from './fourth-round/fourth-round.component';
 //import { HIRING_ROUNDS_DATA } from "../../company-job-details/test-rounds/test-rounds.component";
-import { HiringRound } from "../../company-job-details/test-rounds/test-rounds-model";
-import { StepperOrientation } from "@angular/material/stepper";
-import { map, Observable } from "rxjs";
-import { BreakpointObserver } from "@angular/cdk/layout";
-import { StudentResultInformationApiService } from "./StudentResultInformationApiService";
-import { Jobposting } from "src/app/services/types/Jobposting";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { HiringRound } from '../../company-job-details/test-rounds/test-rounds-model';
+import { StepperOrientation } from '@angular/material/stepper';
+import { map, Observable } from 'rxjs';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { StudentResultInformationApiService } from './StudentResultInformationApiService';
+import { Jobposting } from 'src/app/services/types/Jobposting';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   JobpostStudentround,
   PostJobpostStudentround,
-} from "src/app/services/types/JobpostStudentround";
-import { postJobpostingSelectedstudent } from "src/app/services/types/postjobpostingselectedstudent";
-import { MatButton } from "@angular/material/button";
-import { MatTooltip } from "@angular/material/tooltip";
+} from 'src/app/services/types/JobpostStudentround';
+import { postJobpostingSelectedstudent } from 'src/app/services/types/postjobpostingselectedstudent';
+import { MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { NotifyPopupComponent } from './notify-popup/notify-popup.component';
+import { Template } from 'src/app/services/types/Template';
 
 @Component({
-  selector: "app-student-result-information",
+  selector: 'app-student-result-information',
   standalone: true,
   imports: [
     CommonModule,
@@ -38,14 +41,15 @@ import { MatTooltip } from "@angular/material/tooltip";
     MatButton,
     MatTooltip,
   ],
-  templateUrl: "./student-result-information.component.html",
-  styleUrl: "./student-result-information.component.css",
+  templateUrl: './student-result-information.component.html',
+  styleUrl: './student-result-information.component.css',
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class StudentResultInformation implements OnInit {
   hiringRounds: HiringRound[] = [];
-  JobInterviewRoundId: string | null = "0";
-
+  id: number = 0;
+  JobInterviewRoundId: string | null = '0';
+  Templates = signal<Template[]>([]);
   jobPostingId: number = 0;
   studentId: number = 0;
   jobPostingInterviewRoundId: number | null = 0;
@@ -55,6 +59,7 @@ export class StudentResultInformation implements OnInit {
   stepperOrientation: Observable<StepperOrientation>;
   studentResultInformationForm: FormGroup;
   studentRoundsData = signal<JobpostStudentround[]>([]);
+  readonly dialog = inject(MatDialog);
 
   constructor(
     private router: Router,
@@ -67,24 +72,24 @@ export class StudentResultInformation implements OnInit {
     const breakpointObserver = inject(BreakpointObserver);
 
     this.stepperOrientation = breakpointObserver
-      .observe("(min-width: 800px)")
-      .pipe(map(({ matches }) => (matches ? "horizontal" : "vertical")));
+      .observe('(min-width: 800px)')
+      .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
 
     this.studentResultInformationForm = this.fb.group({
-      Score: ["", Validators.required],
-      Feedback: ["", Validators.required],
+      Score: ['', Validators.required],
+      Feedback: ['', Validators.required],
     });
   }
 
   ngOnInit() {
     // this.currentRoundIndex.set(2);
     this.route.paramMap.subscribe((params) => {
-      const jobPostingId = Number(params.get("jobPostingId"));
-      const jobPostingInterviewRoundId = Number(params.get("roundId"));
-      const studentId = Number(params.get("studentId"));
+      const jobPostingId = Number(params.get('jobPostingId'));
+      const jobPostingInterviewRoundId = Number(params.get('roundId'));
+      const studentId = Number(params.get('studentId'));
       // const currentRoundIndex = 2;
-      const currentRoundIndex = Number(params.get("currentRoundIndex"));
-      console.log("Current round index", currentRoundIndex);
+      const currentRoundIndex = Number(params.get('currentRoundIndex'));
+      console.log('Current round index', currentRoundIndex);
       this.jobPostingId = jobPostingId;
       this.jobPostingInterviewRoundId = jobPostingInterviewRoundId;
       this.studentId = studentId;
@@ -93,6 +98,7 @@ export class StudentResultInformation implements OnInit {
       this.GetJobInterviewRounds();
     });
     this.getStudentRoundDetails();
+    // this.GetNextRoundNotification();
   }
 
   getStudentRoundDetails = () => {
@@ -116,18 +122,18 @@ export class StudentResultInformation implements OnInit {
 
     if (roundData) {
       this.studentResultInformationForm.patchValue({
-        Score: roundData.Score || "",
-        Feedback: roundData.Feedback || "",
+        Score: roundData.Score || '',
+        Feedback: roundData.Feedback || '',
       });
-      this.studentResultInformationForm.get("Score")?.disable();
-      this.studentResultInformationForm.get("Feedback")?.disable();
+      this.studentResultInformationForm.get('Score')?.disable();
+      this.studentResultInformationForm.get('Feedback')?.disable();
     } else {
       this.studentResultInformationForm.patchValue({
-        Score: "",
-        Feedback: "",
+        Score: '',
+        Feedback: '',
       });
-      this.studentResultInformationForm.get("Score")?.enable();
-      this.studentResultInformationForm.get("Feedback")?.enable();
+      this.studentResultInformationForm.get('Score')?.enable();
+      this.studentResultInformationForm.get('Feedback')?.enable();
     }
   }
 
@@ -210,13 +216,14 @@ export class StudentResultInformation implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
   openMoveToNextRoundOrReject = async (action: number) => {
     if (
       this.studentResultInformationForm.invalid ||
       !this.studentResultInformationForm.value.Score ||
       !this.studentResultInformationForm.value.Feedback
     ) {
-      this.sweetAlertService.error("Please enter both the score and feedback.");
+      this.sweetAlertService.error('Please enter both the score and feedback.');
       return;
     }
 
@@ -224,8 +231,8 @@ export class StudentResultInformation implements OnInit {
       this.studentResultInformationForm.value;
     const confirmationMessage =
       action === 1
-        ? "Do you want to move this student to the next round?"
-        : "Do you want to reject this student?";
+        ? 'Do you want to move this student to the next round?'
+        : 'Do you want to reject this student?';
 
     const confirmed = await this.sweetAlertService.confirm(confirmationMessage);
     if (confirmed) {
@@ -245,11 +252,11 @@ export class StudentResultInformation implements OnInit {
             if (response.success) {
               if (action === 1) {
                 this.sweetAlertService.success(
-                  "Student successfully moved to the next round."
+                  'Student successfully moved to the next round.'
                 );
               } else {
                 this.sweetAlertService.success(
-                  "Student successfully rejected."
+                  'Student successfully rejected.'
                 );
               }
               this.goBack();
@@ -258,7 +265,7 @@ export class StudentResultInformation implements OnInit {
             }
           },
           error: (error) => {
-            this.sweetAlertService.error("An unexpected error occurred.");
+            this.sweetAlertService.error('An unexpected error occurred.');
           },
         });
     }
@@ -270,14 +277,14 @@ export class StudentResultInformation implements OnInit {
       !this.studentResultInformationForm.value.Score ||
       !this.studentResultInformationForm.value.Feedback
     ) {
-      this.sweetAlertService.error("Please enter both the score and feedback.");
+      this.sweetAlertService.error('Please enter both the score and feedback.');
       return;
     }
 
     const postJobpostStudentroundForm: Partial<PostJobpostStudentround> =
       this.studentResultInformationForm.value;
     const confirmationMessage =
-      "Do you want to generate offer for this student ?";
+      'Do you want to generate offer for this student ?';
 
     const confirmed = await this.sweetAlertService.confirm(confirmationMessage);
     if (confirmed) {
@@ -289,7 +296,7 @@ export class StudentResultInformation implements OnInit {
         HasPassed: 1,
         Score: postJobpostStudentroundForm.Score,
       };
-      console.log(postJobpostStudentround, "round");
+      console.log(postJobpostStudentround, 'round');
       this.studentResultInformationApiService
         .MoveToNextRoundOrReject(postJobpostStudentround)
         .subscribe({
@@ -310,7 +317,7 @@ export class StudentResultInformation implements OnInit {
                   next: (response: { success: boolean; message: any }) => {
                     if (response.success) {
                       this.sweetAlertService.success(
-                        "Student successfully moved to the next round."
+                        'Student successfully moved to the next round.'
                       );
 
                       this.goBack();
@@ -320,7 +327,7 @@ export class StudentResultInformation implements OnInit {
                   },
                   error: (error: any) => {
                     this.sweetAlertService.error(
-                      "An unexpected error occurred."
+                      'An unexpected error occurred.'
                     );
                   },
                 });
@@ -329,9 +336,26 @@ export class StudentResultInformation implements OnInit {
             }
           },
           error: (error) => {
-            this.sweetAlertService.error("An unexpected error occurred.");
+            this.sweetAlertService.error('An unexpected error occurred.');
           },
         });
     }
   };
+
+  // confirmAndMoveToNextRound() {
+  //   const dialogRef = this.dialog.open(NotifyPopupComponent, {
+  //     width: '350px',
+  //     data: {
+  //       title: 'Confirm Action',
+  //       message: 'Are you sure you want to move to the next round?',
+  //     },
+  //   });
+
+  showNotificationPopup() {
+    this.dialog.open(NotifyPopupComponent, {
+      data: this.Templates,
+      width: '500px',
+      height: '400px',
+    });
+  }
 }

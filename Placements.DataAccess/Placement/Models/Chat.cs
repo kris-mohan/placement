@@ -13,6 +13,8 @@ public partial class Chat
 
     public string? IsDeleted { get; set; }
 
+    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
+
     public virtual Login? Receiver { get; set; }
 
     public virtual Login? Sender { get; set; }

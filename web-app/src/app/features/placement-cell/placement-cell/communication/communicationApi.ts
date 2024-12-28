@@ -52,7 +52,7 @@ export class CommuicationApiService {
 
   GetStudentDetails(): Observable<ODataEntity<Tblstudent[]>> {
     return this.apiHttpService.get<ODataEntity<Tblstudent[]>>(
-      `/Tblstudent?expand=Studentacademics($expand = Course)`
+      `/Tblstudent?expand=Studentacademics($expand = Course),Logins($select=Id)`
     );
   }
 
