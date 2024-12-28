@@ -428,10 +428,10 @@ export class CompanyJobDetailsComponent {
   }
 
   openBulkUploadDialog() {
-    this.dialog.open(UploadCompanyDetailsComponent, {
-      width: '500px',
-      height: '250px',
-      data: { JobPostingsData: this.JobPostingsData() },
-    });
+    // this.dialog.open(UploadCompanyDetailsComponent, {
+    //   width: '500px',
+    //   height: '250px',
+    //   data: { JobPostingsData: this.JobPostingsData() },
+    // });
   }
 }

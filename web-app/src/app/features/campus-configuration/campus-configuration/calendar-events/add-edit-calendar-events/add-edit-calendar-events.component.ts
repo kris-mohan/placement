@@ -10,6 +10,7 @@ import {
   PostCalendarevent,
   PostCalEvent,
 } from "src/app/services/types/Calendarevent";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 
 @Component({
   selector: "app-add-edit-calendar-events",
