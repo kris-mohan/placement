@@ -6,22 +6,19 @@
   <mat-stepper
     [orientation]="(stepperOrientation | async)!"
     [selectedIndex]="currentRoundIndex()"
-    (selectionChange)="onStepChange($event.selectedIndex)"
-  >
+    (selectionChange)="onStepChange($event.selectedIndex)">
     <mat-step
       *ngFor="
         let round of JobInterviewRoundsData()[0]?.Jobinterviewrounds;
         let i = index
       "
-      [label]="round.Name ? round.Name : 'Undefined'"
-    >
+      [label]="round.Name ? round.Name : 'Undefined'">
       <div>
         <button mat-button matStepperPrevious *ngIf="i > 0">Back</button>
         <button
           mat-button
           matStepperNext
-          *ngIf="i < JobInterviewRoundsData()[0].Jobinterviewrounds.length"
-        >
+          *ngIf="i < JobInterviewRoundsData()[0].Jobinterviewrounds.length">
           Next
         </button>
       </div>
@@ -37,8 +34,7 @@
               fxFlex="100%"
               fxFlex.gt-md="33%"
               fxFlex.gt-lg="25%"
-              fxFlex.gt-sm="50%"
-            >
+              fxFlex.gt-sm="50%">
               <div fxLayout="row" fxLayoutAlign="start center">
                 <p class="grid-label">Score</p>
                 <mat-form-field appearance="outline" class="matFormField">
@@ -51,16 +47,14 @@
                   <div
                     fxLayout="row"
                     fxLayoutAlign="start center"
-                    style="width: 100%"
-                  >
+                    style="width: 100%">
                     <p class="grid-labels">Feedback</p>
                     <mat-form-field appearance="outline" class="matFormField">
                       <mat-label> Feedback</mat-label>
                       <textarea
                         matInput
                         formControlName="Feedback"
-                        rows="2"
-                      ></textarea>
+                        rows="2"></textarea>
                     </mat-form-field>
                   </div>
                 </div>
@@ -71,29 +65,23 @@
       </div>
 
       <mat-card-actions class="footer-actions">
-        <!-- <button
+        <button
           mat-raised-button
           class="matbutton"
-          (click)="handleGenerateOffer()"
-          *ngIf="
-            currentRoundIndex() >
-            JobInterviewRoundsData()[0].Jobinterviewrounds.length - 2
-          "
-        >
-          <p class="matName">Genrate offer</p>
-        </button> -->
-        <button
+          (click)="showNotificationPopup()">
+          <p class="matName">Send Email</p>
+        </button>
+        <!-- <button
           mat-raised-button
           color="primary"
           (click)="handleGenerateOffer()"
           *ngIf="
             currentRoundIndex() >
             JobInterviewRoundsData()[0].Jobinterviewrounds.length - 2
-          "
-        >
-          <p class="matName">Genrate offer</p>
-        </button>
-        <!-- <button
+          ">
+          <p class="matName">Generate offer</p>
+        </button> -->
+        <button
           mat-raised-button
           color="primary"
           (click)="openMoveToNextRoundOrReject(1)"
@@ -106,24 +94,10 @@
             !studentResultInformationForm.value.Score ||
             !studentResultInformationForm.value.Feedback
           "
-          disabledInteractive
-          matTooltip="Enter Score and Feedback to proceed"
-        > -->
-        <!-- Move to next Round
-          *ngIf="
-            currentRoundIndex() <
-            JobInterviewRoundsData()[0].Jobinterviewrounds.length - 1
-          "
-          [disabled]="
-            studentResultInformationForm.invalid ||
-            !studentResultInformationForm.value.Score ||
-            !studentResultInformationForm.value.Feedback
-          "
-          disabledInteractive
-          matTooltip="Enter Score and Feedback to proceed"
-        >
-          Move to next Round
-        </button> -->
+          matTooltip="Enter Score and Feedback to proceed">
+          Move to Next Round
+        </button>
+
         <button
           mat-raised-button
           type="submit"
@@ -142,8 +116,7 @@
             !studentResultInformationForm.value.Feedback
           "
           disabledInteractive
-          matTooltip="Enter Score and Feedback to proceed"
-        >
+          matTooltip="Enter Score and Feedback to proceed">
           <p class="matName">Reject</p>
         </button>
       </mat-card-actions>

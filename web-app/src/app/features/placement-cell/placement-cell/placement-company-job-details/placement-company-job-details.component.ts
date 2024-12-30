@@ -26,8 +26,7 @@ import { Jobposting } from "src/app/services/types/Jobposting";
 import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
 import { PlacementUploadFileComponent } from "../company-list-details/placement-upload-file/placement-upload-file.component";
 import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
-import * as XLSX from "xlsx";
-
+import { CompanyInvitePopupComponent } from "./company-invite-popup/company-invite-popup.component";
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
@@ -417,6 +416,11 @@ export class PlacementCompanyJobDetailsComponent {
       data: id,
       width: "500px",
       height: "600px",
+    });
+  }
+  showInvitePopup() {
+    this.dialog.open(CompanyInvitePopupComponent, {
+      width: "500px",
     });
   }
 }

@@ -26,15 +26,13 @@ export class AddEditInvitationsComponent {
     private apiInvitationService: InvitationAPIService
   ) {
     this.addEditInvitationForm = this.fb.group({
-      InvitationTemplateId: null,
-      Recipients: "",
-      Cc: "",
-      Bcc: "",
-      From: "",
-      // IsAccepted: null,
+      InvitationTemplateId: [null, Validators.required],
+      Recipients: ["", Validators.required],
+      Cc: ["", Validators.required],
+      Bcc: ["", Validators.required],
+      From: ["", Validators.required],
     });
   }
-
   ngOnInit(): void {
     this.invitationTemplates = [
       { id: 1, name: "Event Invitation" },
@@ -47,6 +45,10 @@ export class AddEditInvitationsComponent {
   }
 
   async onSubmit(): Promise<void> {
+    if (this.addEditInvitationForm.invalid) {
+      this.addEditInvitationForm.markAllAsTouched(); // Highlight all errors
+      return;
+    }
     const roleData: Partial<any> = this.addEditInvitationForm.value;
     const isUpdate = !!this.Id;
     const actionText = isUpdate ? "update" : "add";
@@ -76,5 +78,6 @@ export class AddEditInvitationsComponent {
 
   onReset() {
     this.addEditInvitationForm.reset();
+    this.addEditInvitationForm.markAsUntouched();
   }
 }

@@ -25,7 +25,7 @@ import { PlacementUploadFileComponent } from "../company-list-details/placement-
 import { PlacementOfferRecievedUploadFileComponent } from "./placement-offer-recieved-upload-file/placement-offer-recieved-upload-file.component";
 import { Companyindustry } from "src/app/services/types/Companyindustry";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import * as XLSX from "xlsx";
+import { OfferrecivedAdditionalfiltersComponent } from "./offerrecived-additionalfilters/offerrecived-additionalfilters.component";
 
 const today = new Date();
 const month = today.getMonth();
@@ -510,9 +510,42 @@ export class PlacementOfferRecievedComponent {
   }
 
   openPlacementinterviewAdditionalFilter() {
-    this.dialog.open(PlacementInterviewAdditionalFilterComponent, {
+    const dialogRef = this.dialog.open(OfferrecivedAdditionalfiltersComponent, {
       width: "500px",
     });
+
+    dialogRef.afterClosed().subscribe((filterValues) => {
+      if (filterValues) {
+        this.filterData(filterValues);
+      }
+    });
+  }
+
+  filterData(filterValues: any) {
+    const filtered = this.JobpostingSelectedstudentData().filter((student) => {
+      const selectedCompanies = filterValues.companies || [];
+      const selectedIndustries = filterValues.jobTypes || [];
+      const selectedJobroles = filterValues.jobRoles || [];
+
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(student.JobPosting.Company?.Name || "");
+
+        const jobRoleMatch =
+          selectedJobroles.length === 0 ||
+          selectedJobroles.includes(student.JobPosting?.JobRole || "");
+
+      const industryMatches =
+        selectedIndustries.length === 0 ||
+        student?.JobPosting?.Company?.Companyindustries?.some(
+          (ci: any) =>
+            ci.Industry?.Type && selectedIndustries.includes(ci.Industry?.Type)
+        );
+
+      return companyMatch && industryMatches && jobRoleMatch;
+    });
+
+    this.filteredStudents.set(filtered);
   }
 
   filterCities(search: string) {

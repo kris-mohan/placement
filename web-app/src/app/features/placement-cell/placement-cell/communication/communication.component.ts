@@ -7,6 +7,8 @@ import { CreateMessageComponent } from "./create-message/create-message.componen
 import { CreateGroupComponent } from "./create-group/create-group.component";
 import { CommuicationApiService } from "./communicationApi";
 import { Messages, TransformedChat } from "src/app/services/types/Messages";
+import { Subscription } from "rxjs";
+import { GroupService } from "src/app/services/refresh/groupService";
 
 @Component({
   selector: "app-communication",
@@ -16,15 +18,20 @@ import { Messages, TransformedChat } from "src/app/services/types/Messages";
   styleUrls: ["./communication.component.css"],
 })
 export class CommunicationComponent {
-  constructor(private communicationApiService: CommuicationApiService) {}
+  constructor(private communicationApiService: CommuicationApiService,private groupService: GroupService) {}
   loginId = sessionStorage.getItem("LoginId");
   chats = signal<Messages[]>([]);
   recentChats = signal<TransformedChat[]>([]);
   recentgroups = signal<TransformedChat[]>([]);
+  private groupRefreshSubscription!: Subscription;
+
 
   ngOnInit() {
     this.recentCommunication();
     this.fetchGroups();
+    this.groupRefreshSubscription = this.groupService.refreshGroups$.subscribe(() => {
+      this.fetchGroups();
+    });
   }
 
   recentCommunication() {
@@ -248,7 +255,7 @@ export class CommunicationComponent {
         return {
           Id : msg.id ? msg.id : 0,
           SenderId: msg.sender === "You" ? +SenderId : msg.sender, 
-          ChatId: this.selectedGroup.id,
+          GroupId: this.selectedGroup.id,
           MessageText: msg.text,
           CreatedDate: msg.CreatedDate ? msg.CreatedDate : new Date().toISOString(),
         };

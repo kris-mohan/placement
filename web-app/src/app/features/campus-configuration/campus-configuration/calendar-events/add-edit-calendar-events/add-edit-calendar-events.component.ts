@@ -6,11 +6,11 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { CalendarEventAPIService } from "../api.calendar.events";
-import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import {
   PostCalendarevent,
   PostCalEvent,
 } from "src/app/services/types/Calendarevent";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 
 @Component({
   selector: "app-add-edit-calendar-events",
@@ -36,6 +36,7 @@ export class AddEditCalendarEventsComponent {
     private sweetAlertService: SweetAlertService,
 
     private route: ActivatedRoute,
+
     private apiCalendarEventsService: CalendarEventAPIService
   ) {
     this.addEditCalendarEventForm = this.fb.group({
@@ -51,6 +52,8 @@ export class AddEditCalendarEventsComponent {
     this.calendarEventForm = this.fb.group({
       EventStartDateTime: ["", [Validators.required]],
       EventEndDateTime: "",
+      EventType: "",
+      EventDescription: "",
     });
   }
   async onSubmit() {
@@ -85,6 +88,8 @@ export class AddEditCalendarEventsComponent {
         // Id: 0,
         EventStartDateTime: companyData.EventStartDateTime ?? "",
         EventEndDateTime: companyData.EventEndDateTime ?? "",
+        EventType: companyData.EventType ?? "",
+        EventDescription: companyData.EventDescription ?? "",
       };
 
       const calendarEventId =
@@ -149,4 +154,5 @@ export class AddEditCalendarEventsComponent {
 
     return true;
   }
+  onReset(): void {}
 }

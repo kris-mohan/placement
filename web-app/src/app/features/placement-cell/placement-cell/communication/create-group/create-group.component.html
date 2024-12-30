@@ -61,13 +61,13 @@
   <mat-list class="members-list">
     <mat-list-item *ngFor="let student of filteredStudents">
       <mat-checkbox
-        [checked]="selectedStudents().has(student.Id.toString())"
-        (change)="toggleStudentSelection(student.Id.toString(), $event.checked)">
-        {{ student.FirstName + ' ' + student.LastName }}
+        [checked]="selectedStudents()?.has(student?.Logins?.[0]?.Id?.toString() || '')"
+        (change)="toggleStudentSelection(student?.Logins?.[0]?.Id?.toString() || '', $event.checked)">
+        {{ (student?.FirstName || '') + ' ' + (student?.LastName || '') }}
       </mat-checkbox>
     </mat-list-item>
-  </mat-list>
-
+  </mat-list>  
+  
   <div class="button-container">
     <button mat-button (click)="createGroup()" color="primary">
       Create Group

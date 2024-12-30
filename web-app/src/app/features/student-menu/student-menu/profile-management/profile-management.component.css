@@ -176,8 +176,26 @@ mat-form-field {
 .skills-form-field {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 16px;
+}
+.highlighted-fields .row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.highlighted-fields .column {
+  flex: 1 1;
+  margin: 10px;
+}
+
+.skills-form-field {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .highlighted-fields .column {
+    flex: 1 1 100%;
+  }
 }
 
 /* mat-form-field {
@@ -186,4 +204,3 @@ mat-form-field {
   border: none;
   width: 100%;
 } */
-

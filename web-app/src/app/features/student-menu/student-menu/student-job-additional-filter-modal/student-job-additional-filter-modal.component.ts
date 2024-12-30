@@ -7,6 +7,7 @@ import {
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
+  MatDialogRef,
   MatDialogTitle,
 } from "@angular/material/dialog";
 import { CompanyAPIService } from "src/app/features/company-configuration/company-config/companies/api.companies";
@@ -21,6 +22,8 @@ import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEl
 import { ModeOfWorks } from "src/app/services/common-dropdowns/ModeOfWorks";
 import { PlacementCompanyApiService } from "src/app/features/placement-cell/placement-cell/placement-company/PlacementCompanyApiService";
 import { set } from "date-fns";
+import { StudentInterviewAddtionalfilterComponent } from "../../interview-student/student-interview-addtionalfilter/student-interview-addtionalfilter.component";
+import { SalaryRanges } from "src/app/services/common-dropdowns/salaryRanges";
 
 @Component({
   selector: "app-student-job-additional-filter-modal",
@@ -49,25 +52,27 @@ export class StudentJobAdditionalFilterModalComponent {
     "10001+ employees",
   ];
 
-  salaryOptions: string[] = [
-    "0 - 2 LPA",
-    "2 - 4 LPA",
-    "4 - 6 LPA",
-    "6 - 8 LPA",
-    "8 - 10 LPA",
-    "10 - 15 LPA",
-    "15 - 20 LPA",
-    "20+ LPA",
-  ];
-  salaryRanges = [
-    { label: "0 - 2 LPA", min: 0, max: 200000 },
-    { label: "2 - 4 LPA", min: 200000, max: 400000 },
-    { label: "4 - 6 LPA", min: 400000, max: 600000 },
-    { label: "8 - 10 LPA", min: 800000, max: 1000000 },
-    { label: "10 - 15 LPA", min: 1000000, max: 1500000 },
-    { label: "15 - 20 LPA", min: 1500000, max: 2000000 },
-    { label: "20+ LPA", min: 2000000, max: Infinity },
-  ];
+  // salaryOptions: string[] = [
+  //   "0 - 2 LPA",
+  //   "2 - 4 LPA",
+  //   "4 - 6 LPA",
+  //   "6 - 8 LPA",
+  //   "8 - 10 LPA",
+  //   "10 - 15 LPA",
+  //   "15 - 20 LPA",
+  //   "20+ LPA",
+  // ];
+  // salaryRanges = [
+  //   { label: "0 - 2 LPA", min: 0, max: 200000 },
+  //   { label: "2 - 4 LPA", min: 200000, max: 400000 },
+  //   { label: "4 - 6 LPA", min: 400000, max: 600000 },
+  //   { label: "8 - 10 LPA", min: 800000, max: 1000000 },
+  //   { label: "10 - 15 LPA", min: 1000000, max: 1500000 },
+  //   { label: "15 - 20 LPA", min: 1500000, max: 2000000 },
+  //   { label: "20+ LPA", min: 2000000, max: Infinity },
+  // ];
+
+  salaryOptions: any[] = SalaryRanges;
   salaryControl = new FormControl<string[]>([]);
   modeOfWorksControl = new FormControl();
   filteredModeOfWorks = ModeOfWorks;
@@ -85,6 +90,7 @@ export class StudentJobAdditionalFilterModalComponent {
   locationControl = new FormControl();
   companySizeControl = new FormControl();
   salaryRangeControl = new FormControl();
+  jobTypeControl = new FormControl();
 
   companyFilterControl = new FormControl();
   locationFilterControl = new FormControl();
@@ -95,7 +101,7 @@ export class StudentJobAdditionalFilterModalComponent {
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService,
     private placementCompanyApiService: PlacementCompanyApiService,
-
+    public dialogRef: MatDialogRef<StudentJobAdditionalFilterModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.JobPostingsData = data.JobPostingData;
@@ -106,21 +112,22 @@ export class StudentJobAdditionalFilterModalComponent {
     this.JobPostingsData, this.filteredStudents, this.getAllIndustries();
     // this.loadCompanies();
     // this.loadIndustries();
-    this.skillsControl.valueChanges.subscribe(() => this.applyFilters());
-    this.industryControl.valueChanges.subscribe(() => this.applyFilters());
-    this.companyFilterControl.valueChanges.subscribe(() => this.applyFilters());
-    this.companyControl.valueChanges.subscribe(() => {
-      this.filterCompanies(this.searchCompany);
-    });
+    // this.skillsControl.valueChanges.subscribe(() => this.applyFilters());
+    // this.industryControl.valueChanges.subscribe(() => this.applyFilters());
+    // this.companyFilterControl.valueChanges.subscribe(() => this.applyFilters());
+    // this.companyControl.valueChanges.subscribe(() => {
+    //   this.filterCompanies(this.searchCompany);
+    // });
 
-    this.CityControl.valueChanges.subscribe(() => {
-      this.filterCities(this.searchCity);
-    });
+    // this.CityControl.valueChanges.subscribe(() => {
+    //   this.filterCities(this.searchCity);
+    // });
 
-    this.filteredCities = this.locationFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCities(value))
-    );
+    // this.filteredCities = this.locationFilterControl.valueChanges.pipe(
+    //   startWith(""),
+    //   map((value) => this._filterCities(value))
+    // );
+    console.log(this.salaryOptions, "so");
   }
 
   filterCompanies(search: string) {
@@ -163,7 +170,7 @@ export class StudentJobAdditionalFilterModalComponent {
       const matchesSalary =
         !selectedSalaryRanges.length ||
         selectedSalaryRanges.some((rangeLabel) => {
-          const range = this.salaryRanges.find((r) => r.label === rangeLabel);
+          const range = this.salaryOptions.find((r) => r.label === rangeLabel);
           return (
             company.Salary >= (range?.min || 0) &&
             company.Salary <= (range?.max || Infinity)
@@ -292,4 +299,12 @@ export class StudentJobAdditionalFilterModalComponent {
   onCompanySelected(e: any) {}
 
   openAddEditCompanyForm() {}
+  showResults() {
+    this.dialogRef.close({
+      companies: this.companyControl.value,
+      jobTypes: this.jobTypeControl.value,
+      ModeOfWorks: this.modeOfWorksControl.value,
+      salaryRanges: this.salaryControl.value,
+    });
+  }
 }

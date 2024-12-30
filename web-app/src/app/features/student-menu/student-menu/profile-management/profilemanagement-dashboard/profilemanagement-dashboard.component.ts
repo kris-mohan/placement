@@ -9,6 +9,8 @@ import { Stream } from "src/app/services/types/Stream";
 import { StudentProfileApiService } from "../StudentProfileApiService";
 import { StudentSkill } from "src/app/services/types/StudentSkill";
 import { MatTableDataSource } from "@angular/material/table";
+import { environment } from "src/environments/environment";
+
 @Component({
   selector: "app-profilemanagement-dashboard",
   standalone: true,
@@ -20,6 +22,8 @@ export class ProfilemanagementDashboardComponent {
   companyID: string = "";
   UserRoleId: number;
   sessionStudentId: number;
+  profilePicUrl: string = "";
+  baseUrl = environment.API_BASE_URL1;
   Id: number | null = null;
   StudentAcademicData = signal<Studentacademic[]>([]);
   StudentDataSource = signal<Tblstudent[]>([]);
@@ -43,6 +47,7 @@ export class ProfilemanagementDashboardComponent {
 
   ngOnInit() {
     this.getStudentProfileId();
+    this.getProfilePic();
     this.GetStudentSkillsByStudentId();
   }
 
@@ -52,7 +57,9 @@ export class ProfilemanagementDashboardComponent {
     // } else {
     //   this.router.navigate(['/company-configuration/company', 0]);
     // }
-    const id = this.StudentAcademicData()[0].StudentId;
+    const studentData = this.StudentAcademicData();
+    const id =
+      studentData && studentData[0]?.StudentId ? studentData[0].StudentId : 0;
     this.router.navigate([
       "profile-management-dashboard/profile-management",
       id,
@@ -96,6 +103,24 @@ export class ProfilemanagementDashboardComponent {
             skillType: key,
             skills: groupedData[key].join(", "),
           }));
+        },
+      });
+  }
+
+  getProfilePic(): void {
+    this.studentApiService
+      .getDocDetails(this.sessionStudentId, "student")
+      .subscribe({
+        next: (studentProfile: { value: any[] }) => {
+          const data: any[] = studentProfile.value;
+          const imageUrl = `${this.baseUrl}/api/Files/DownloadFile?filePath=${
+            data[data.length - 1].FilePath
+          }`;
+          this.profilePicUrl = imageUrl;
+        },
+
+        error: (error) => {
+          console.error("Error fetching doc data", error);
         },
       });
   }

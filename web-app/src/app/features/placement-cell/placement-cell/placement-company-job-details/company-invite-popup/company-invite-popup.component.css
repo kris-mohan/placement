@@ -1,0 +1,38 @@
+.mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+}
+.matbutton {
+  background-color: #3f51b5;
+}
+.maticon {
+  color: white;
+}
+.matName {
+  color: white;
+}
+.full-width {
+  width: 100%;
+}
+.mat-label {
+  font-size: x-large;
+  font-weight: bold;
+}
+.mat-label {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+dl {
+  margin: 0;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+  word-wrap: break-word;
+}
