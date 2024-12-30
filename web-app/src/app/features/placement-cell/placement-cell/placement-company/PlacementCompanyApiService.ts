@@ -7,12 +7,16 @@ import { Companydatum } from "src/app/services/types/Companydatum";
 import { Industry } from "src/app/services/types/Industry";
 import { ODataEntity } from "src/app/services/types/OData";
 import { ODataResponse } from "./placement-company.component";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root",
 })
 export class PlacementCompanyApiService {
-  constructor(private apiHttpService: ApiHttpService) {}
+  constructor(
+    private apiHttpService: ApiHttpService,
+    private http: HttpClient
+  ) {}
 
   GetAllCompanies(): Observable<ODataEntity<Companydatum[]>> {
     return this.apiHttpService.get<ODataEntity<Companydatum[]>>(
@@ -45,5 +49,9 @@ export class PlacementCompanyApiService {
   }
   public loadIndustryData(): Observable<ODataEntity<Industry[]>> {
     return this.apiHttpService.get(`/Industry?filter=Isdeleted eq 0`);
+  }
+  downloadCompaniesData(OrgId: number): Observable<Blob> {
+    const url = `https://localhost:44304/api/common/Export-Companies?campusId=${OrgId}`;
+    return this.http.get(url, { responseType: "blob" });
   }
 }

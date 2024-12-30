@@ -399,4 +399,24 @@ export class PlacementCompanyJobDetailsComponent {
       width: "500px",
     });
   }
+  exportToExcel(): void {
+    if (this.CompanyId) {
+      this.placementCompanyJobDetailsApiService.exportToExcel(this.CompanyId).subscribe({
+        next: (response: Blob) => {
+          const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `JobDetails_${this.CompanyId}.xlsx`;
+          a.click();
+          window.URL.revokeObjectURL(url);
+        },
+        error: (error) => {
+          console.error('Error exporting to Excel:', error);
+        },
+      });
+    } else {
+      console.warn('Company ID is not available');
+    }
+  }
 }

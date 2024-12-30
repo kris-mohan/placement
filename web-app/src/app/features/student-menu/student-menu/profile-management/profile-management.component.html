@@ -16,6 +16,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+            
                 <p class="grid-label">First Name</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>First Name</mat-label> -->
@@ -40,6 +41,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+                
                 <p class="grid-label">Last Name</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Last Name</mat-label> -->
@@ -55,6 +57,8 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+                fxFlex.gt-sm="50%"
+              >
                 <p class="grid-label">Date Of Birth</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>DOB</mat-label> -->
@@ -63,9 +67,12 @@
                     [matDatepicker]="picker"
                     formControlName="DateOfBirth"
                   />
+                
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker-toggle
                     matIconSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
                     [for]="picker"
                   ></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
@@ -77,6 +84,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+             
                 <p class="grid-label">Blood Group</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Blood Group</mat-label> -->
@@ -84,10 +92,12 @@
                     (selectionChange)="onBloodChange($event)"
                     formControlName="BloodGroup"
                   >
+                 
                     <mat-option
                       *ngFor="let blood of BloodGroup"
                       [value]="blood"
                     >
+                  
                       {{ blood }}
                     </mat-option>
                   </mat-select>
@@ -99,6 +109,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <p class="grid-label">Mobile No</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Mobile No</mat-label> -->
@@ -111,6 +122,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <P class="grid-label"> Upload Photo</P>
                 <input
                   type="file"
@@ -130,6 +142,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+             
                 <p class="grid-label">Email</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Email</mat-label> -->
@@ -188,6 +201,7 @@
                       *ngFor="let course of Courses()"
                       [value]="course.Id"
                     >
+                   
                       {{ course.Name }}
                     </mat-option>
                   </mat-select>
@@ -200,6 +214,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <p class="grid-label">Enter USN No.</p>
                 <mat-form-field appearance="outline">
                   <!-- <mat-label>USN no.</mat-label> -->
@@ -217,6 +232,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <p class="grid-label">Enter Aadhar Number</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Aadhar Number</mat-label> -->
@@ -240,6 +256,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <p class="grid-label">Enter Address</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Address</mat-label> -->
@@ -257,6 +274,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <p class="grid-label">Enter Father Name</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Father Name</mat-label> -->
@@ -269,6 +287,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <p class="grid-label">Enter Father Mobile No</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Father Mobile No</mat-label> -->
@@ -296,6 +315,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <p class="grid-label">Enter Mother Name</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Mother Name</mat-label> -->
@@ -308,6 +328,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+               
                 <p class="grid-label">Enter Mother Mobile No</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Mother Mobile No</mat-label> -->
@@ -348,6 +369,7 @@
                   fxFlex.gt-lg="25%"
                   fxFlex.gt-sm="50%"
                 >
+                
                   <p class="grid-label">School Name</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <!-- <mat-label>School Name</mat-label> -->
@@ -361,6 +383,7 @@
                   fxFlex.gt-lg="25%"
                   fxFlex.gt-sm="50%"
                 >
+                 
                   <p class="grid-label">10th Board</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <!-- <mat-label>Select Board</mat-label> -->
@@ -402,6 +425,7 @@
                   fxFlex.gt-lg="25%"
                   fxFlex.gt-sm="50%"
                 >
+               
                   <p class="grid-label">Score</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <!-- <mat-label>Enter Score</mat-label> -->
@@ -446,6 +470,7 @@
                   fxFlex.gt-lg="25%"
                   fxFlex.gt-sm="50%"
                 >
+                
                   <p class="grid-label">Upload File</p>
                   <input type="file" formControlName="TenthFile" />
                 </div>
@@ -463,6 +488,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <p class="grid-label">College Name</p>
                 <mat-form-field appearance="outline" class="Education-Fields">
                   <!-- <mat-label>College Name</mat-label> -->
@@ -476,6 +502,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <p class="grid-label">2nd PUC/ 12th Board</p>
                 <mat-form-field appearance="outline" class="Education-Fields">
                   <!-- <mat-label>Select Board</mat-label> -->
@@ -484,6 +511,7 @@
                       *ngFor="let board of TwelfthBoardNames"
                       [value]="board"
                     >
+                    
                       {{ board }}
                     </mat-option>
                   </mat-select>
@@ -517,6 +545,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+             
                 <p class="grid-label">Enter Score</p>
                 <mat-form-field appearance="outline" class="Education-Fields">
                   <!-- <mat-label>Enter Score</mat-label> -->
@@ -561,6 +590,7 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
+              
                 <p class="grid-label">Upload File</p>
                 <input type="file" formControlName="TwelfthFile" />
               </div>
@@ -754,12 +784,14 @@
                   class="skillName-form-field"
                   appearance="outline"
                 >
+                
                   <mat-label>Select Skills</mat-label>
                   <mat-select formControlName="skills" multiple>
                     <mat-option
                       *ngFor="let skill of SkillsNames()"
                       [value]="skill.Id"
                     >
+                    
                       {{ skill.Name }}
                     </mat-option>
                   </mat-select>

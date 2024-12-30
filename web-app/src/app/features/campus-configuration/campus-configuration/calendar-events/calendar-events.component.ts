@@ -9,7 +9,6 @@ import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-al
 import { SharedModule } from "src/app/shared/shared.module";
 import { Calendarevent } from "./calendar-events-module";
 import { CalendarEventAPIService } from "./api.calendar.events";
-import * as XLSX from "xlsx";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -131,24 +130,25 @@ export class CalendarEventsComponent {
   isDataAvailable(): boolean {
     return this.dataSource.data && this.dataSource.data.length > 0;
   }
-  exportToExcel(): void {
-    const exportData = this.dataSource.data.map((item) => {
-      return {
-        Id: item.Id,
-        "Event Start": item.EventStartDateTime,
-        "Event End": item.EventEndDateTime,
-        "Event Type": item.EventType,
-        Description: item.EventDescription,
-        OrgId: item.OrgId,
-        CompanyId: item.CompanyId,
-      };
-    });
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Calendar Events");
-    XLSX.writeFile(wb, "calendar_events.xlsx");
-  }
+
   goBack(): void {
     this.location.back();
+  }
+  exportCalendarEvents() {
+    this.APICalendarEventsService.downloadCalendarevent().subscribe({
+      next: (response) => {
+        const fileName = 'CalendarEvents.xlsx';
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Error downloading the file: ', error);
+      },
+    });
   }
 }

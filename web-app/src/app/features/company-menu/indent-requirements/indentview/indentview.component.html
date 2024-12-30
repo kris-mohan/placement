@@ -11,7 +11,12 @@
           </div>
         </div>
         <div class="example-button-container">
-          <button mat-fab extended class="matbutton-download">
+          <button
+            mat-fab
+            extended
+            class="matbutton-download"
+            (click)="exportIndentData()"
+          >
             <mat-icon>file_download</mat-icon>Excel
           </button>
           <button mat-fab extended class="matbutton-download">
@@ -30,11 +35,11 @@
       </div>
     </div>
   </mat-card-header>
-<div *ngIf="isLoading" class="spinner-container">
+  <div *ngIf="isLoading" class="spinner-container">
     <mat-spinner></mat-spinner>
   </div>
   <div *ngIf="!isLoading"></div>
-  
+
   <mat-card-content
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"

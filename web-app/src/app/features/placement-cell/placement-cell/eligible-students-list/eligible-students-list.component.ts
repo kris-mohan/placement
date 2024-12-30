@@ -332,4 +332,20 @@ export class EligibleStudentsListComponent {
       },
     });
   }
+  downloadExcel() {
+    this.eligibleStudentsListApiService.ExportEligibleStudents().subscribe({
+      next: (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "EligibleStudents.xlsx";
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error("Error downloading Excel file:", error);
+      },
+    });
+  }
+
 }

@@ -553,9 +553,13 @@ export class InterviewComponent {
     return Array.from(industriesSet) as Industry[];
   }
 
-  goToInterviewStudentsDetails(id: number) {
+  goToInterviewStudentsDetails(jobpostId?: number, interviewRoundId?: number) {
     if (this.UserRoleId === 1 || this.UserRoleId === 2) {
-      this.router.navigate(["interview/interview-students-list", id]);
+      this.router.navigate([
+        "interview/interview-students-list",
+        jobpostId,
+        interviewRoundId,
+      ]);
     }
   }
 

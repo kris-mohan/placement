@@ -189,6 +189,7 @@
           mat-fab
           extended
           class="matbutton-download"
+          (click)="downloadExcel()"
           [disabled]="!isDataAvailable()"
         >
           <mat-icon>file_download</mat-icon>Excel

@@ -10,9 +10,7 @@ import { FormGroup, FormControl } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
-import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
-import { Observable, of, startWith, map } from "rxjs";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -31,9 +29,10 @@ import { JobpostingSelectedstudent } from "src/app/services/types/JobpostingSele
 import { University } from "src/app/services/types/University";
 import { Campusregistration } from "src/app/services/types/Campusregistration";
 import { Jobstudentstatus } from "src/app/services/types/Jobstudentstatus";
-import { Jobposting } from "src/app/services/types/Jobposting";
 import { Technology } from "src/app/services/types/Technology";
-import * as XLSX from "xlsx";
+import { TemplatesByCategoryService } from "../../template-generator/templates-by-category/templates-by-category.service";
+import { Template } from "src/app/services/types/Template";
+import { TemplateCategory } from "src/app/services/types/TemplateCategory";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -67,7 +66,8 @@ export class OfferManagementComponent {
     private location: Location,
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService,
-    private offerManagementDetailsApiService: OfferManagementApiService
+    private offerManagementDetailsApiService: OfferManagementApiService,
+    private templatesByCategoryService: TemplatesByCategoryService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -86,23 +86,28 @@ export class OfferManagementComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   companyId: number;
-
   UserRoleId: number;
-
   statuses: Jobstudentstatus[] = [];
   selectedStatuses: Jobstudentstatus[] = [];
-
   technologies: Technology[] = [];
   selectedTechnologies: Technology[] = [];
-
   companies: companyTableList[] = [];
   colleges: Campusregistration[] = [];
-
+  templateCategories: TemplateCategory[] = [];
+  templates: Template[] = [];
   JobpostingSelectedstudentData = signal<JobpostingSelectedstudent[]>([]);
   filteredselectedStudents = signal<JobpostingSelectedstudent[]>([]);
   acceptedOffersCount: number = 0;
   rejectedOffersCount: number = 0;
   pendingOffersCount: number = 0;
+
+  selectedTemplate: { Subject: string; Body: string } | null = null;
+  templateSubject: string = "";
+  templateBody: string = "";
+  isPopupOpen: boolean = false;
+  selectedOffers: JobpostingSelectedstudent[] = [];
+  students: JobpostingSelectedstudent[] = [];
+  isSecondPopupOpen: boolean = false;
 
   searchName = new FormControl("");
   searchControl = new FormControl("");
@@ -174,28 +179,7 @@ export class OfferManagementComponent {
         },
       });
   };
-  exportToExcel() {
-    const offers = this.JobpostingSelectedstudentData();
-    const exportData = offers.map((offer: JobpostingSelectedstudent) => ({
-      Name: `${offer.Student.FirstName} ${offer.Student.LastName}`,
-      Position: offer.JobPosting.JobRole,
-      "Date Sent": offer.OfferLetterSentDate,
-      Status: `${
-        offer.HasAcceptedOffer === null
-          ? "Pending"
-          : offer.HasAcceptedOffer === 1
-          ? "Accepted"
-          : "Rejected"
-      }`,
-      "Offer Expiry": offer.OfferLetterExpiryDate,
-    }));
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { "Offer management": worksheet },
-      SheetNames: ["Offer management"],
-    };
-    XLSX.writeFile(workbook, "OfferManagement.xlsx");
-  }
+
   getAllUniversities = () => {
     this.offerManagementDetailsApiService.GetAllUniversities().subscribe({
       next: (response) => {
@@ -249,40 +233,15 @@ export class OfferManagementComponent {
 
   ngOnInit() {
     this.getAllOffers();
-
     this.getAllUniversities();
 
     this.getAllColleges();
 
     this.getAllStatuses();
-
+    this.getTemplates();
+    this.getStudentsList();
     this.getAllTechnologies();
     this.searchName.valueChanges.subscribe(() => this.applyFilters());
-
-    // this.dataSource.paginator = this.paginator;
-
-    // this.CityControl.valueChanges.subscribe(() => {
-    //   this.filterCities(this.searchCity);
-    //   this.filterObject.Status = 2;
-    // });
-
-    // this.industryControl.valueChanges.subscribe(() => {
-    //   this.filterIndustries(this.searchIndustry);
-    // });
-
-    // this.filteredCities = this.CityFilterControl.valueChanges.pipe(
-    //   startWith(""),
-    //   map((value) => this._filterCities(value))
-    // );
-    // this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-    //   startWith(""),
-    //   map((value) => this._filterIndustries(value))
-    // );
-
-    // this.filteredCompany = this.companyControl.valueChanges.pipe(
-    //   startWith(""),
-    //   map((value) => this._filterCompanies(value))
-    // );
   }
   applyFilters() {
     const filtered = this.JobpostingSelectedstudentData().filter((student) => {
@@ -368,7 +327,6 @@ export class OfferManagementComponent {
   }
 
   viewInterviewDetails(id: number) {
-    // Navigate to interview details page (to be implemented)
     console.log("View details for interview ID:", id);
   }
 
@@ -386,5 +344,163 @@ export class OfferManagementComponent {
       studentId,
       id,
     ]);
+  }
+  openPopup() {
+    this.isPopupOpen = true;
+    this.selectedOffers = [];
+    this.selectedTemplate = null;
+    this.templateSubject = "";
+    this.templateBody = "";
+  }
+
+  closePopup() {
+    this.isPopupOpen = false;
+    this.selectedOffers = [];
+  }
+
+  toggleSelection(offer: JobpostingSelectedstudent) {
+    const index = this.selectedOffers.indexOf(offer);
+    if (index === -1) {
+      this.selectedOffers.push(offer);
+    } else {
+      this.selectedOffers.splice(index, 1);
+    }
+  }
+
+  toggleSelectAll(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.selectedOffers = isChecked ? [...this.students] : [];
+  }
+  getStudentsList = () => {
+    this.offerManagementDetailsApiService.GetStudent().subscribe({
+      next: (response) => {
+        const data: JobpostingSelectedstudent[] = response.value;
+        console.log("Selected Students", data);
+        this.isLoading = false;
+        this.students = data;
+      },
+      error: (error) => {
+        console.log("Error fetching rounds: ", error);
+      },
+    });
+  };
+  showSecondPopup() {
+    if (this.selectedOffers.length === 0) {
+      alert("Please select at least one student.");
+      return;
+    }
+    this.isPopupOpen = false;
+    this.isSecondPopupOpen = true;
+  }
+
+  closeSecondPopup() {
+    this.isSecondPopupOpen = false;
+    this.selectedTemplate = null;
+    this.templateSubject = "";
+    this.templateBody = "";
+  }
+  getTemplates = () => {
+    this.offerManagementDetailsApiService.GetAllTemplateCategories().subscribe({
+      next: (response) => {
+        this.templateCategories = response.value;
+        this.templates = response.value.flatMap(
+          (category) => category.Templates
+        );
+        console.log("Template Categories:", this.templateCategories);
+        console.log("Templates:", this.templates);
+      },
+      error: (error) => {
+        console.error("Error fetching templates", error);
+      },
+    });
+  };
+  onTemplateChange(templateId: number): void {
+    this.selectedTemplate =
+      this.templates.find((template) => template.Id === templateId) || null;
+    if (this.selectedTemplate) {
+      this.templateSubject = this.selectedTemplate.Subject;
+      this.templateBody = this.selectedTemplate.Body;
+    }
+  }
+  confirmAction() {
+    console.log("Offer letter confirmed!");
+    if (this.selectedOffers.length > 0) {
+      const currentDate = new Date();
+      this.selectedOffers.forEach((offer) => {
+        const email = {
+          To: offer.Student.Email,
+          Cc: offer.Student.Org.Email ?? "",
+          Bcc: "",
+          Subject: this.templateSubject,
+          Body: this.templateBody,
+          SentAt: currentDate,
+        };
+        this.closeSecondPopup();
+        this.offerManagementDetailsApiService.SendOfferLetter(email).subscribe({
+          next: () => {
+            console.log(
+              "Offer letter sent successfully for",
+              offer.Student.FirstName
+            );
+            this.offerManagementDetailsApiService
+              .sendStudentData(offer.Student.Id, offer.JobPosting.Id)
+              .subscribe({
+                next: () => {
+                  console.log("Student data updated successfully!");
+                  const updateData = {
+                    OfferLetterSentDate: currentDate,
+                  };
+
+                  this.offerManagementDetailsApiService
+                    .UpdateOffer(offer.Id, updateData)
+                    .subscribe({
+                      next: () => {
+                        console.log(
+                          `OfferLetterSentDate updated successfully for student`
+                        );
+                      },
+                      error: (error) => {
+                        console.error(
+                          `Error updating OfferLetterSentDate for student:`,
+                          error
+                        );
+                      },
+                    });
+                },
+                error: (error) => {
+                  console.error(
+                    `Error updating student data for student`,
+                    error
+                  );
+                },
+              });
+          },
+          error: (error) => {
+            console.error(`Error sending offer letter for student`, error);
+          },
+        });
+      });
+    }
+  }
+  exportOffers() {
+    this.offerManagementDetailsApiService
+      .exportOffers(this.companyId)
+      .subscribe({
+        next: (response: Blob) => {
+          const blob = new Blob([response], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "Offers.xlsx";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        },
+        error: (error) => {
+          console.error("Error exporting offers:", error);
+        },
+      });
   }
 }

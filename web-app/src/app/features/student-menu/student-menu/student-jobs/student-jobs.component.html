@@ -245,15 +245,19 @@
             >
             <span
               ><strong> Drive Date:</strong>
-              {{ jobPosting.JobPosting.DriveDate }}</span
+              {{ jobPosting.JobPosting.DriveDate | date : "dd-MMM-yyyy" }}</span
             >
             <span
               ><strong>Posted Date:</strong>
-              {{ jobPosting.JobPosting.PostedDate }}</span
+              {{
+                jobPosting.JobPosting.PostedDate | date : "dd-MMM-yyyy"
+              }}</span
             >
             <span
               ><strong>Application last date:</strong
-              >{{ jobPosting.JobPosting.ValidTill }}</span
+              >{{
+                jobPosting.JobPosting.ValidTill | date : "dd-MMM-yyyy"
+              }}</span
             >
           </div>
         </div>
