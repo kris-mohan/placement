@@ -327,26 +327,7 @@ export class PlacementOfferRecievedComponent {
     const offers = this.JobpostingSelectedstudentData();
     return offers && offers.length > 0;
   }
-  exportToExcel() {
-    const offers = this.JobpostingSelectedstudentData();
-    const exportData = offers.map((job: JobpostingSelectedstudent) => ({
-      "Student Name": `${job.Student.FirstName} ${job.Student.LastName}`,
-      "USN No": job.Student.RollNo,
-      Batch: job.Student.Batch.Name,
-      Branch: job.Student.Studentacademics[0].Course.FullForm,
-      "Company Name": job.JobPosting.Company?.Name,
-      "Job Role": job.JobPosting.JobRole,
-      // "Industry Type ": getIndustryTypes(job),
-      //"Status":job.JobPosting?.
-      Skills: job.Student.skills,
-    }));
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { "Job Postings": worksheet },
-      SheetNames: ["Job Postings"],
-    };
-    XLSX.writeFile(workbook, "JobPostings.xlsx");
-  }
+
   showResults(): void {
     this.applyFilters();
     console.log(this.filteredStudents());
@@ -531,9 +512,9 @@ export class PlacementOfferRecievedComponent {
         selectedCompanies.length === 0 ||
         selectedCompanies.includes(student.JobPosting.Company?.Name || "");
 
-        const jobRoleMatch =
-          selectedJobroles.length === 0 ||
-          selectedJobroles.includes(student.JobPosting?.JobRole || "");
+      const jobRoleMatch =
+        selectedJobroles.length === 0 ||
+        selectedJobroles.includes(student.JobPosting?.JobRole || "");
 
       const industryMatches =
         selectedIndustries.length === 0 ||

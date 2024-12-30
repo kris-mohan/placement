@@ -141,30 +141,6 @@ export class PlacementCompanyJobDetailsComponent {
     const jobPostings = this.jobPostingsData();
     return jobPostings && jobPostings.length > 0;
   }
-  exportToExcel() {
-    const jobPostings = this.jobPostingsData();
-    const exportData = jobPostings.map((jobposting: Jobposting) => ({
-      "Job Role": jobposting.JobRole,
-      "Job Type": jobposting.JobType,
-      //Skills: jobposting.SkillTypes,
-      Salary: jobposting.Salary,
-      Location: jobposting.Location,
-      Shift: jobposting.Shift,
-      "Mode of Work": jobposting.ModeOfWork,
-      "No. of Vacancies": jobposting.Vacancies,
-      // "Applicants Applied": jobposting.ApplicantsApplied,
-      //"Applicants Rejected": jobposting.ApplicantsRejected,
-      "Drive Date": jobposting.DriveDate,
-      "Posted Date": jobposting.ValidFrom,
-      "Application Last Date": jobposting.ValidTill,
-    }));
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { "Job Postings": worksheet },
-      SheetNames: ["Job Postings"],
-    };
-    XLSX.writeFile(workbook, "JobPostings.xlsx");
-  }
   ngOnInit() {
     this.getCompanyJobDescriptionById();
     this.searchName.valueChanges.subscribe(() => this.applyFilters());
