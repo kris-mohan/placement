@@ -147,6 +147,7 @@ export class CompanyJobDescriptionComponent {
                 ValidTill: GetDateDDMMYYYY(jobposting.ValidTill),
                 ValidFrom: GetDateDDMMYYYY(jobposting.ValidFrom),
                 DriveDate: GetDateDDMMYYYY(jobposting.DriveDate),
+                PostedDate: GetDateDDMMYYYY(jobposting.PostedDate),
               }));
               this.JobPostingsDescriptionData.set(mappedData);
               this.JobPostingsData.set(mappedData);

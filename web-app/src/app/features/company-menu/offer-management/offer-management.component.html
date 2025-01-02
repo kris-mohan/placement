@@ -159,16 +159,95 @@
           mat-fab
           extended
           class="matbutton-download"
-          (click)="exportToExcel()"
+          (click)="exportOffers()"
         >
           <mat-icon>file_download</mat-icon>Excel
         </button>
         <button mat-fab extended class="matbutton-download">
           <mat-icon>picture_as_pdf</mat-icon>PDF
         </button>
-        <button mat-raised-button class="matbutton">
+        <button mat-raised-button class="matbutton" (click)="openPopup()">
           <p class="matName"><mat-icon>mail</mat-icon>Generate Offer Letter</p>
         </button>
+      </div>
+      <div *ngIf="isPopupOpen" class="popup-overlay">
+        <div class="popup-container">
+          <div class="popup-header">
+            <button class="close-button" (click)="closePopup()">Close</button>
+          </div>
+          <div class="popup-content">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <input type="checkbox" (change)="toggleSelectAll($event)" />
+                  </th>
+                  <th>Student Name</th>
+                  <th>Job Role</th>
+                  <th>Batch</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let offer of students">
+                  <td>
+                    <input
+                      type="checkbox"
+                      [checked]="selectedOffers.includes(offer)"
+                      (change)="toggleSelection(offer)"
+                    />
+                  </td>
+                  <td>
+                    {{ offer.Student.FirstName }} {{ offer.Student.LastName }}
+                  </td>
+                  <td>{{ offer.JobPosting.JobRole }}</td>
+                  <td>{{ offer.Student.Batch.Name }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="popup-footer">
+            <button mat-button class="send-button" (click)="showSecondPopup()">
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isSecondPopupOpen" class="popup-overlay">
+        <div class="popup-container">
+          <div class="popup-header">
+            <button class="close-button" (click)="closeSecondPopup()">
+              Close
+            </button>
+          </div>
+          <div class="popup-content">
+            <mat-form-field appearance="outline" class="mat-select large-input">
+              <mat-label>Choose the Template</mat-label>
+              <mat-select (selectionChange)="onTemplateChange($event.value)">
+                <mat-option
+                  *ngFor="let template of templates"
+                  [value]="template.Id"
+                >
+                  {{ template.Name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="selectedTemplate" class="offer-letter-card">
+              <mat-card class="offer-letter-card-container centered-content">
+                <mat-card-header>
+                  <mat-card-title>{{ templateSubject }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="template-body" [innerHTML]="templateBody"></div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+          <div class="popup-footer">
+            <button mat-button class="send-button" (click)="confirmAction()">
+              Confirm
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

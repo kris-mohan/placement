@@ -1,5 +1,5 @@
-import { SelectionModel } from "@angular/cdk/collections";
-import { CommonModule, Location } from "@angular/common";
+import { SelectionModel } from '@angular/cdk/collections';
+import { CommonModule, Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -23,6 +23,8 @@ import { Jobposting } from "src/app/services/types/Jobposting";
 import { CompanyJobDetailsApiService } from "./company-job-details-apiService";
 import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
 import * as XLSX from "xlsx";
+import { SalaryRanges } from "src/app/services/common-dropdowns/salaryRanges";
+
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
@@ -36,16 +38,18 @@ export interface JobpostingWithApplicants extends Jobposting {
 }
 
 @Component({
-  selector: "app-company-job-details",
+  selector: 'app-company-job-details',
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules],
-  templateUrl: "./company-job-details.component.html",
-  styleUrl: "./company-job-details.component.css",
+  templateUrl: './company-job-details.component.html',
+  styleUrl: './company-job-details.component.css',
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompanyJobDetailsComponent {
   sessionCompanyId: number;
+  salaryOptions: any[] = SalaryRanges;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -54,9 +58,9 @@ export class CompanyJobDetailsComponent {
     private companyJobDetailsApiService: CompanyJobDetailsApiService,
     private cd: ChangeDetectorRef
   ) {
-    const storedUserRoleId = sessionStorage.getItem("userRoleId");
+    const storedUserRoleId = sessionStorage.getItem('userRoleId');
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
-    const storedCompanyId = sessionStorage.getItem("CompanyId");
+    const storedCompanyId = sessionStorage.getItem('CompanyId');
     this.sessionCompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
   }
   readonly campaignOne = new FormGroup({
@@ -64,7 +68,7 @@ export class CompanyJobDetailsComponent {
     end: new FormControl(new Date()),
   });
 
-  searchCity: string = "";
+  searchCity: string = '';
   filteredCompanies: companyTableList[] = [];
   companyId: number | undefined = undefined;
   companies: companyTableList[] = [];
@@ -83,7 +87,7 @@ export class CompanyJobDetailsComponent {
 
   CityControl = new FormControl();
   industryControl = new FormControl();
-  searchIndustry: string = "";
+  searchIndustry: string = '';
   industries: Industry[] = [];
   filteredIndustries: Industry[] = [];
   companySizeControl = new FormControl();
@@ -92,11 +96,11 @@ export class CompanyJobDetailsComponent {
   filteredJobPostings = signal<JobpostingWithApplicants[]>([]);
   jobroles: string[] = [];
 
-  searchControl = new FormControl("");
-  searchJob = new FormControl("");
-  searchLocation = new FormControl("");
+  searchControl = new FormControl('');
+  searchJob = new FormControl('');
+  searchLocation = new FormControl('');
 
-  searchLocationValue: string = "";
+  searchLocationValue: string = '';
   filteredLocations: string[] = [];
 
   ngOnInit() {
@@ -108,32 +112,40 @@ export class CompanyJobDetailsComponent {
       this.applyFilters()
     );
   }
+  isDataAvailable(): boolean {
+    const jobPostings = this.JobPostingsData();
+    return jobPostings && jobPostings.length > 0;
+  }
   exportToExcel() {
     const jobPostings = this.JobPostingsData();
     const exportData = jobPostings.map(
       (jobposting: JobpostingWithApplicants) => ({
-        "Job Role": jobposting.JobRole,
-        "Job Type": jobposting.JobType,
+        'Job Role': jobposting.JobRole,
+        'Job Type': jobposting.JobType,
         Skills: jobposting.SkillTypes,
         Salary: jobposting.Salary,
         Location: jobposting.Location,
         Experience: `${jobposting.MinimumYearExperience}-${jobposting.MaximumYearExperience} years`,
-        "Mode of Work": jobposting.ModeOfWork,
-        "No. of Vacancies": jobposting.Vacancies,
-        "Applicants Applied": jobposting.ApplicantsApplied,
-        "Applicants Rejected": jobposting.ApplicantsRejected,
-        "Drive Date": jobposting.DriveDate,
-        "Posted Date": jobposting.ValidFrom,
-        "Application Last Date": jobposting.ValidTill,
+        'Mode of Work': jobposting.ModeOfWork,
+        'No. of Vacancies': jobposting.Vacancies,
+        'Applicants Applied': jobposting.ApplicantsApplied,
+        'Applicants Rejected': jobposting.ApplicantsRejected,
+        'Drive Date': jobposting.DriveDate,
+        'Posted Date': jobposting.ValidFrom,
+        'Application Last Date': jobposting.ValidTill,
       })
     );
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
     const workbook: XLSX.WorkBook = {
-      Sheets: { "Job Postings": worksheet },
-      SheetNames: ["Job Postings"],
+      Sheets: { 'Job Postings': worksheet },
+      SheetNames: ['Job Postings'],
     };
-    XLSX.writeFile(workbook, "JobPostings.xlsx");
+    XLSX.writeFile(workbook, 'JobPostings.xlsx');
   }
+
+
+  
+  
 
   GetAllJobPosting = (id: number) => {
     this.companyJobDetailsApiService.GetAllJobPostings(id).subscribe({
@@ -157,7 +169,7 @@ export class CompanyJobDetailsComponent {
               )
             )
               .filter((name: any) => name)
-              .join(", ") || "NA";
+              .join(', ') || 'NA';
           return {
             ...jobposting,
             ApplicantsApplied: applicantsApplied,
@@ -169,7 +181,7 @@ export class CompanyJobDetailsComponent {
           };
         });
         this.JobPostingsData.set(mappedData);
-        console.log("jobPosting", this.JobPostingsData);
+        console.log('jobPosting', this.JobPostingsData);
         const experiences = data.map(
           (student) =>
             `${student.MinimumYearExperience}-${student.MaximumYearExperience} years`
@@ -179,22 +191,22 @@ export class CompanyJobDetailsComponent {
         this.applyFilters();
       },
       error: (error) => {
-        console.error("Error fetching jobPostings:", error);
+        console.error('Error fetching jobPostings:', error);
       },
     });
   };
   applyFilters() {
     const roleFilter = this.searchJob.value
       ? this.searchJob.value.toLowerCase()
-      : "";
-    const locationFilter = this.searchLocation.value || "";
+      : '';
+    const locationFilter = this.searchLocation.value || '';
     const experienceFilter = this.experienceLevelControl.value || [];
     const filtered = this.JobPostingsData().filter((jobposting: any) => {
       const matchesRole =
         jobposting.JobRole?.toLowerCase().includes(roleFilter);
       const matchesLocation =
         !locationFilter.length ||
-        locationFilter.includes(jobposting.Location || "");
+        locationFilter.includes(jobposting.Location || '');
       const matchesExperience =
         !experienceFilter.length ||
         experienceFilter.includes(
@@ -212,19 +224,19 @@ export class CompanyJobDetailsComponent {
     this.filteredLocations = Array.from(
       new Set(
         this.JobPostingsData()
-          .map((student) => student.Location)
+          .map((student) => student.Location || "")
           .filter(
             (location): location is string =>
-              location !== undefined &&
-              location.toLowerCase().includes(filterValue)
+              location != "" && location.toLowerCase().includes(filterValue)
           )
       )
     );
   }
 
   get selectedLocations(): string {
-    return this.searchLocation.value || "";
+    return this.searchLocation.value || '';
   }
+  
   filterExperienceLevels(search: string) {
     const filterValue = search.toLowerCase();
     this.searchExperiencelevel = this.experienceLevel.filter((level) =>
@@ -233,19 +245,19 @@ export class CompanyJobDetailsComponent {
   }
   convertToDateOnly(dateString: string): string {
     const date = new Date(dateString);
-    return date.toISOString().split("T")[0];
+    return date.toISOString().split('T')[0];
   }
 
   openAddEditCompanyForm(id?: number) {
     if (id !== undefined) {
-      this.router.navigate(["/company-job-details/add-edit-jobPosting/", id]);
+      this.router.navigate(['/company-job-details/add-edit-jobPosting/', id]);
     } else {
-      this.router.navigate(["/company-job-details/add-edit-jobPosting/", 0]);
+      this.router.navigate(['/company-job-details/add-edit-jobPosting/', 0]);
     }
   }
 
   openTestRounds(id: number) {
-    this.router.navigate(["/company-job-details/test-rounds", id]);
+    this.router.navigate(['/company-job-details/test-rounds', id]);
   }
 
   async deleteCompany(id: number) {
@@ -270,11 +282,11 @@ export class CompanyJobDetailsComponent {
   }
   get selectedCompanyCities(): string {
     const selected = this.CityControl.value;
-    return selected ? selected.join(", ") : "";
+    return selected ? selected.join(', ') : '';
   }
   resetLocationSelection() {
     this.CityControl.reset();
-    this.searchCity = "";
+    this.searchCity = '';
     this.filteredCompanies = this.companies;
     this.dataSource1.data = this.filteredCompanies;
   }
@@ -333,11 +345,11 @@ export class CompanyJobDetailsComponent {
   }
   get selectedIndustries(): string {
     const selected = this.industryControl.value;
-    return selected ? selected.join(", ") : "";
+    return selected ? selected.join(', ') : '';
   }
   resetIndustrySelection() {
     this.industryControl.reset();
-    this.searchIndustry = "";
+    this.searchIndustry = '';
     this.filteredCompanies = this.companies;
     this.dataSource1.data = this.filteredCompanies;
   }
@@ -360,20 +372,87 @@ export class CompanyJobDetailsComponent {
   openCopmanyJobDescriptionPage(jobId?: number) {
     if (jobId !== undefined) {
       this.router.navigate([
-        "/company-job-details/companyJobDescription",
+        '/company-job-details/companyJobDescription',
         jobId,
       ]);
     } else {
-      this.router.navigate(["company-job-details"]);
+      this.router.navigate(['company-job-details']);
     }
   }
   openStudentJobAdditionalFiltersModal() {
-    this.dialog.open(CompanyJobAdditionalfiltersModalComponent, {
-      width: "500px",
-      data: {
-        JobPostingsData: this.JobPostingsData(),
-        FilteredJobPostings: this.filteredJobPostings(),
+    const dialogRef = this.dialog.open(
+      CompanyJobAdditionalfiltersModalComponent,
+      {
+        width: "500px",
+        data: {
+          JobPostingsData: this.JobPostingsData(),
+          FilteredJobPostings: this.filteredJobPostings(),
+        },
+      }
+    );
+    dialogRef.afterClosed().subscribe((filterValues) => {
+      if (filterValues) {
+        this.filterData(filterValues);
+      }
+    });
+  }
+  filterData(filterValues: any) {
+    console.log(filterValues, "filter values");
+    const filtered = this.JobPostingsData().filter((student) => {
+      debugger;
+      // const selectedCompanies = filterValues.companies || [];
+      // const selectedJobTypes = filterValues.jobTypes || [];
+      const selectedworkModes = filterValues.ModeOfWorks || [];
+      const selectedSalaryRanges = filterValues.salaryRanges || [];
+
+      // const companyMatch =
+      //   selectedCompanies.length === 0 ||
+      //   selectedCompanies.includes(student.JobPosting.Company?.Name || "");
+
+      const jobmodeWorkMatch =
+        selectedworkModes.length === 0 ||
+        selectedworkModes.includes(student.ModeOfWork || "");
+
+      const salary = student.Salary || 0;
+
+      const salaryMatch =
+        selectedSalaryRanges.length === 0 ||
+        selectedSalaryRanges.some((rangeObj: any) => {
+          const range = this.salaryOptions.find(
+            (r) => r.label === rangeObj.label
+          );
+          return range && salary >= range.min && salary <= range.max;
+        });
+
+      return jobmodeWorkMatch && salaryMatch;
+    });
+    this.filteredJobPostings.set(filtered);
+  }
+
+  openBulkUploadDialog() {
+    // this.dialog.open(UploadCompanyDetailsComponent, {
+    //   width: '500px',
+    //   height: '250px',
+    //   data: { JobPostingsData: this.JobPostingsData() },
+    // });
+  }
+  downloadJobPostings(): void {
+    this.companyJobDetailsApiService.exportJobPostingsToExcel().subscribe({
+      next: (response: Blob) => {
+        const blob = new Blob([response], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = downloadUrl;
+        anchor.download = "JobPostings.xlsx";
+        anchor.click();
+        window.URL.revokeObjectURL(downloadUrl);
+      },
+      error: (err) => {
+        console.error("Error downloading file:", err);
       },
     });
   }
+
 }

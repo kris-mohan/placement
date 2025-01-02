@@ -61,14 +61,6 @@ export class IndentviewComponent {
       this.router.navigate(["interview/interview-students-list", id]);
     }
   }
-  // columns = [
-  // { key: "indentId", label: "Round ID" },
-  // { key: "Department", label: "Department" },
-  // { key: "Address", label: "Address" },
-  // { key: "Designation", label: "Designation" },
-  // { key: "EmailAddress", label: "Email Address" },
-  // { key: "actions", label: "Actions" },
-  // ];
 
   columns: { key: string; label: string }[] = [];
   dataSource = new MatTableDataSource<IndentData>([]);
@@ -156,5 +148,20 @@ export class IndentviewComponent {
   };
   ngOnInit() {
     this.getAllIndent();
+  }
+  exportIndentData(): void {
+    this.IndentApiService.exportIndentData().subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "IndentData.xlsx";
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error("Error exporting indent data:", error);
+      },
+    });
   }
 }

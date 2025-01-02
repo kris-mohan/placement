@@ -500,8 +500,8 @@ public partial class PlacementContext : DbContext
             entity.ToTable("documents");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.FileName).HasMaxLength(45);
-            entity.Property(e => e.FilePath).HasMaxLength(2545);
+            entity.Property(e => e.FileName).HasMaxLength(255);
+            entity.Property(e => e.FilePath).HasMaxLength(255);
             entity.Property(e => e.FileType).HasMaxLength(45);
             entity.Property(e => e.ParentType).HasMaxLength(45);
         });

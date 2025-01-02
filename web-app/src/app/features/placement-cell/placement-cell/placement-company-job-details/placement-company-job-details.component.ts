@@ -30,7 +30,13 @@ import { CompanyInvitePopupComponent } from "./company-invite-popup/company-invi
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
-
+export interface JobpostingWithApplicants extends Jobposting {
+  ApplicantsApplied: number;
+  ApplicantsRejected: number;
+  MinimumYearExperience: number;
+  MaximumYearExperience: number;
+  SkillTypes?: string;
+}
 @Component({
   selector: "app-placement-company-job-details",
   standalone: true,
@@ -131,7 +137,10 @@ export class PlacementCompanyJobDetailsComponent {
       }
     });
   }
-
+  isDataAvailable(): boolean {
+    const jobPostings = this.jobPostingsData();
+    return jobPostings && jobPostings.length > 0;
+  }
   ngOnInit() {
     this.getCompanyJobDescriptionById();
     this.searchName.valueChanges.subscribe(() => this.applyFilters());
@@ -388,7 +397,26 @@ export class PlacementCompanyJobDetailsComponent {
   showInvitePopup() {
     this.dialog.open(CompanyInvitePopupComponent, {
       width: "500px",
-      height: "500px",
     });
+  }
+  exportToExcel(): void {
+    if (this.CompanyId) {
+      this.placementCompanyJobDetailsApiService.exportToExcel(this.CompanyId).subscribe({
+        next: (response: Blob) => {
+          const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `JobDetails_${this.CompanyId}.xlsx`;
+          a.click();
+          window.URL.revokeObjectURL(url);
+        },
+        error: (error) => {
+          console.error('Error exporting to Excel:', error);
+        },
+      });
+    } else {
+      console.warn('Company ID is not available');
+    }
   }
 }

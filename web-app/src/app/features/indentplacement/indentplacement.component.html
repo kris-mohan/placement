@@ -11,7 +11,13 @@
           </div>
         </div>
         <div class="example-button-container">
-          <button mat-fab extended class="matbutton-download">
+          <button
+            mat-fab
+            extended
+            class="matbutton-download"
+            (click)="exportIndentData()"
+            [disabled]="!isDataAvailable()"
+          >
             <mat-icon>file_download</mat-icon>Excel
           </button>
           <button mat-fab extended class="matbutton-download">
