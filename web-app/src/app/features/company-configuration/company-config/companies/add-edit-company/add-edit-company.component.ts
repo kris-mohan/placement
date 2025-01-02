@@ -107,10 +107,13 @@ export class AddEditCompanyComponent {
     this.industryApiService.loadIndustryData().subscribe((list) => {
       this.industries.set(list.value);
     });
-    
   }
 
   async onSubmit() {
+    // if (this.addEditCompanyForm.invalid) {
+    //   this.sweetAlertService.error("Please fill in all required fields.");
+    //   return; // Prevent submission if the form is invalid
+    // }
     const companyData: Partial<Companydatum> = this.addEditCompanyForm.value;
     const isUpdate = !!this.Id;
     const actionText = isUpdate ? "update" : "add";

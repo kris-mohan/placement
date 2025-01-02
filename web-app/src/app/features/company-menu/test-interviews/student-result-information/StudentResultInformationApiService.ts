@@ -1,19 +1,22 @@
-import { HttpErrorResponse } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
-import { ApiHttpService } from "src/app/services/api-services/api-http-services";
-import { Jobposting } from "src/app/services/types/Jobposting";
-import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
-import { ODataEntity } from "src/app/services/types/OData";
+import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { catchError, firstValueFrom, Observable, throwError } from 'rxjs';
+import { ApiHttpService } from 'src/app/services/api-services/api-http-services';
+import { Jobposting } from 'src/app/services/types/Jobposting';
+import { Jobinterviewround } from 'src/app/services/types/Jobinterviewround';
+import { ODataEntity } from 'src/app/services/types/OData';
+import { Template } from 'src/app/services/types/Template';
 import {
   JobpostStudentround,
   PostJobpostStudentround,
-} from "src/app/services/types/JobpostStudentround";
-import { JobpostingSelectedstudent } from "src/app/services/types/JobpostingSelectedstudent";
-import { postJobpostingSelectedstudent } from "src/app/services/types/postjobpostingselectedstudent";
+} from 'src/app/services/types/JobpostStudentround';
+import { JobpostingSelectedstudent } from 'src/app/services/types/JobpostingSelectedstudent';
+import { postJobpostingSelectedstudent } from 'src/app/services/types/postjobpostingselectedstudent';
+import { TemplateCategory } from 'src/app/services/types/TemplateCategory';
+import { Email } from 'src/app/services/types/Email';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class StudentResultInformationApiService {
   constructor(private apiHttpService: ApiHttpService) {}
@@ -23,6 +26,12 @@ export class StudentResultInformationApiService {
   ): Observable<ODataEntity<Jobposting[]>> {
     return this.apiHttpService.get<ODataEntity<Jobposting[]>>(
       `/Jobposting?$filter=CompanyId eq ${id} & expand=Jobinterviewrounds(expand=JobpostStudentrounds)`
+    );
+  }
+
+  GetnextRoundTemplate(): Observable<ODataEntity<TemplateCategory[]>> {
+    return this.apiHttpService.get<ODataEntity<TemplateCategory[]>>(
+      `/TemplateCategory?$filter=contains(Name, 'Notification')&$expand=Templates`
     );
   }
 
@@ -38,7 +47,7 @@ export class StudentResultInformationApiService {
     id: number | null,
     IndentForm: Jobposting
   ): Observable<ODataEntity<Jobposting[]>> {
-    const url = `/JobpostStudentround${id ? `?key=${id}` : ""}`;
+    const url = `/JobpostStudentround${id ? `?key=${id}` : ''}`;
     return id
       ? this.apiHttpService.patch(url, IndentForm)
       : this.apiHttpService.post(url, IndentForm);
@@ -74,4 +83,15 @@ export class StudentResultInformationApiService {
       `/JobpostStudentround?$filter=StudentId eq ${studentId} and JobPostingRound/JobPostingId eq ${jobPostingId}`
     );
   }
+  
+  selectedForNextRoundEmail(email: Email) {
+    return this.apiHttpService.post<Email>(`/Email`, email);
+  }
+
+  // public selectedForNextRoundEmail(
+  //   Email: PostJobpostStudentround
+  // ): Observable<any> {
+  //   const url = `/JobpostStudentround`;
+  //   return this.apiHttpService.post(url, JobpostStudentround);
+  // }
 }

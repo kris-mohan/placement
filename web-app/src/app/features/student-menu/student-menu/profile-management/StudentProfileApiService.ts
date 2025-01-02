@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import {
   catchError,
@@ -25,12 +25,17 @@ import {
   Tblstudent,
 } from "src/app/services/types/Tblstudent";
 import { StudentSkill } from "src/app/services/types/StudentSkill";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class StudentProfileApiService {
-  constructor(private apiHttpService: ApiHttpService) {}
+  constructor(
+    private apiHttpService: ApiHttpService,
+    private http: HttpClient
+  ) {}
+  baseUrl = environment.API_BASE_URL1;
 
   public GetStudentProfileDataById(
     id: number
@@ -128,12 +133,32 @@ export class StudentProfileApiService {
       ? this.apiHttpService.patch(url, Studentacademic)
       : this.apiHttpService.post(url, Studentacademic);
   }
-  
+
   GetStudentSkillsByStudentId(
     studentId: number
   ): Observable<ODataEntity<StudentSkill[]>> {
     return this.apiHttpService.get<ODataEntity<StudentSkill[]>>(
       `/StudentSkill?$filter=StudentId eq ${studentId}&expand=Skill(expand=SkillType)`
+    );
+  }
+
+  uploadDocument(formData: FormData): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/Files/UploadFiles`,
+      formData
+    );
+  }
+
+  saveDocumentDetails(doc: any): Observable<any> {
+    return this.apiHttpService.post(`/Document`, doc);
+  }
+
+  getDocDetails(
+    parentId: number,
+    parentType: string
+  ): Observable<ODataEntity<any[]>> {
+    return this.apiHttpService.get<ODataEntity<any[]>>(
+      `/Document?filter=ParentId eq ${parentId} and ParentType eq '${parentType}'`
     );
   }
 }

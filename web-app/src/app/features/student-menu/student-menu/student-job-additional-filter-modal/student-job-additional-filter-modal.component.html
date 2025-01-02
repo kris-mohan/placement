@@ -5,8 +5,18 @@
       >cancel</mat-icon
     >
   </div>
-  <br />
-  <div>
+
+  <p>Salary Range</p>
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Salary Range</mat-label>
+    <mat-select [formControl]="salaryControl" multiple>
+      <mat-option *ngFor="let salary of salaryOptions" [value]="salary">
+        {{ salary.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- <div>
     <mat-form-field class="example-full-width full-width" appearance="outline">
       <mat-label>Skills</mat-label>
       <input
@@ -29,9 +39,8 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-  </div>
-
-  <div>
+  </div> -->
+  <!-- <div>
     <mat-form-field class="example-full-width full-width" appearance="outline">
       <mat-label>Industry</mat-label>
       <mat-select
@@ -53,42 +62,34 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  </div>
-  <div>
+  </div> -->
+  <!-- <div>
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Salary Range</mat-label>
       <mat-select [formControl]="salaryControl" multiple>
         <mat-option *ngFor="let salary of salaryOptions" [value]="salary">
-          {{ salary }}
+          {{ salary.label }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field class="example-full-width full-width" appearance="outline">
-      <mat-label>Mode of work</mat-label>
-      <mat-select [formControl]="modeOfWorksControl" multiple>
-        <mat-option
-          *ngFor="let jobType of filteredModeOfWorks"
-          [value]="jobType"
-        >
-          {{ jobType }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+  </div> -->
+
+  <p>Mode of work</p>
+  <mat-form-field class="example-full-width full-width" appearance="outline">
+    <mat-label>Mode of work</mat-label>
+    <mat-select [formControl]="modeOfWorksControl" multiple>
+      <mat-option *ngFor="let jobType of filteredModeOfWorks" [value]="jobType">
+        {{ jobType }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions
   class="mat-dialog-actions"
   style="background-color: lightgray"
 >
-  <button mat-raised-button (click)="resetFilters()">Reset</button
-    >
-  <button
-    mat-raised-button
-    class="matbutton"
-    (click)="openAddEditCompanyForm()"
-  >
+  <button mat-raised-button (click)="resetFilters()">Reset</button>
+  <button mat-raised-button class="matbutton" (click)="showResults()">
     <p class="matName">Show results</p>
   </button>
 </mat-dialog-actions>

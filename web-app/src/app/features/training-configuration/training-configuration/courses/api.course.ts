@@ -10,9 +10,7 @@ export class TrainingCourseAPIService {
   constructor(private apiHttpService: ApiHttpService) {}
 
   public loadTrainingCourseData(): Observable<ODataResponse<any>> {
-    return this.apiHttpService.get(
-      "/Trainingcourse/?filter=Isdeleted eq false"
-    );
+    return this.apiHttpService.get("/Trainingcourse/?filter=Isdeleted eq 0");
   }
 
   public getTrainingCourseDataById(id: number): Observable<ODataResponse<any>> {

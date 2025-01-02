@@ -1,0 +1,44 @@
+<mat-dialog-content>
+  <div style="display: flex; justify-content: space-between">
+    <mat-label class="mat-label">Invite</mat-label>
+    <mat-icon mat-button mat-dialog-close style="cursor: pointer"
+      >cancel</mat-icon
+    >
+  </div>
+  <p>Templates</p>
+  <div>
+    <mat-form-field appearance="outline" class="filter-field full-widbth">
+      <mat-label>Templates</mat-label>
+      <mat-select [formControl]="templateControl">
+        <mat-option *ngFor="let template of templates" [value]="template">{{
+          template.Name
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="selectedTemplate">
+    <!-- <h2 mat-dialog-title>Template Details</h2> -->
+    <dl>
+      <!-- <dt>Name:</dt>
+      <dd>{{ selectedTemplate?.Name }}</dd> -->
+
+      <dt>Subject:</dt>
+      <dd>{{ selectedTemplate?.Subject }}</dd>
+
+      <!-- <dt>Category Name:</dt>
+      <dd>{{ selectedTemplate?.Category?.Name || "N/A" }}</dd> -->
+
+      <!-- <dt>Body:</dt> -->
+      <dd [innerHTML]="selectedTemplate?.Body"></dd>
+    </dl>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions
+  class="mat-dialog-actions"
+  style="background-color: lightgray"
+>
+  <button mat-button mat-dialog-close>Reset</button>
+  <button mat-raised-button class="matbutton" (click)="handleSend()">
+    <p class="matName">Send</p>
+  </button>
+</mat-dialog-actions>

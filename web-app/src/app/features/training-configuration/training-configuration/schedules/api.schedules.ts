@@ -11,7 +11,7 @@ export class TrainerScheduleAPIService {
 
   public loadTrainerScheduleData(): Observable<ODataResponse<any>> {
     return this.apiHttpService.get(
-      "/Trainerschedule/?filter=Isdeleted eq false"
+      "/Trainerschedule/?filter=Isdeleted eq 0"
     );
   }
 

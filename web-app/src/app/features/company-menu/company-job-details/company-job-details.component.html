@@ -22,8 +22,7 @@
               (input)="applyFilters()"
               aria-label="Search"
               matInput
-              [formControl]="searchControl"
-            />
+              [formControl]="searchControl" />
             <!-- <mat-autocomplete
               autoActiveFirstOption
               #auto="matAutocomplete"
@@ -46,8 +45,7 @@
               [formControl]="searchLocation"
               multiple
               (openedChange)="onCityDropdownOpen()"
-              panelClass="custom-dropdown-panel"
-            >
+              panelClass="custom-dropdown-panel">
               <mat-select-trigger>
                 {{ selectedLocations }}
               </mat-select-trigger>
@@ -57,34 +55,30 @@
                   matInput
                   [(ngModel)]="searchLocationValue"
                   (ngModelChange)="filterCities($event)"
-                  placeholder="Search"
-                />
+                  placeholder="Search" />
               </mat-form-field>
               <mat-option *ngIf="!filteredLocations.length" disabled
                 >No options</mat-option
               >
               <mat-option
                 *ngFor="let location of filteredLocations"
-                [value]="location"
-              >
+                [value]="location">
                 {{ location }}
               </mat-option>
-              <mat-dialog-actions class="mat-dialog-actions">
+              <!-- <mat-dialog-actions class="mat-dialog-actions">
                 <button
                   mat-button
                   mat-dialog-close
-                  (click)="resetLocationSelection()"
-                >
+                  (click)="resetLocationSelection()">
                   Reset
                 </button>
                 <button
                   mat-raised-button
                   class="matbutton"
-                  (click)="showLocationResults()"
-                >
+                  (click)="showLocationResults()">
                   <p class="matName">Show results</p>
                 </button>
-              </mat-dialog-actions>
+              </mat-dialog-actions> -->
             </mat-select>
           </mat-form-field>
         </div>
@@ -96,20 +90,17 @@
               [formGroup]="campaignOne"
               [rangePicker]="campaignOnePicker"
               [comparisonStart]="campaignOne.value.start"
-              [comparisonEnd]="campaignOne.value.end"
-            >
+              [comparisonEnd]="campaignOne.value.end">
               <input
                 matStartDate
                 placeholder="Start date"
-                formControlName="start"
-              />
+                formControlName="start" />
               <input matEndDate placeholder="End date" formControlName="end" />
             </mat-date-range-input>
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle
               matIconSuffix
-              [for]="campaignOnePicker"
-            ></mat-datepicker-toggle>
+              [for]="campaignOnePicker"></mat-datepicker-toggle>
             <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
           </mat-form-field>
         </div>
@@ -130,8 +121,7 @@
             <mat-select [formControl]="experienceLevelControl" multiple>
               <mat-option
                 *ngFor="let expLevel of searchExperiencelevel"
-                [value]="expLevel"
-              >
+                [value]="expLevel">
                 {{ expLevel }}
               </mat-option>
             </mat-select>
@@ -225,8 +215,14 @@
           mat-fab
           extended
           class="matbutton-download"
-          (click)="exportToExcel()"
-        >
+          (click)="openBulkUploadDialog()">
+          <mat-icon>file_upload</mat-icon>Upload
+        </button>
+        <button
+          mat-fab
+          extended
+          class="matbutton-download"
+          (click)="exportToExcel()">
           <mat-icon>file_download</mat-icon>Excel
         </button>
         <button mat-fab extended class="matbutton-download">
@@ -236,16 +232,14 @@
         <button
           mat-raised-button
           class="matbutton"
-          (click)="openStudentJobAdditionalFiltersModal()"
-        >
+          (click)="openStudentJobAdditionalFiltersModal()">
           <p class="matName">Additional Filters</p>
         </button>
         <button
           *ngIf="UserRoleId !== 3"
           mat-raised-button
           class="matbutton"
-          (click)="openAddEditCompanyForm(0)"
-        >
+          (click)="openAddEditCompanyForm(0)">
           <mat-icon class="maticon">add</mat-icon>
           <p class="matButtonText">Add Job Postings</p>
         </button>
@@ -260,8 +254,7 @@
   <mat-card-content
     fxLayout="row wrap"
     fxLayoutAlign="start stretch"
-    class="mat-card-content"
-  >
+    class="mat-card-content">
     <div
       *ngFor="let jobposting of filteredJobPostings()"
       (click)="openCopmanyJobDescriptionPage(jobposting.Id)"
@@ -269,8 +262,7 @@
       fxFlex.gt-sm="100%"
       fxFlex.gt-md="45%"
       fxFlex.gt-lg="30%"
-      class="mat-grid-tile"
-    >
+      class="mat-grid-tile">
       <div class="company-details">
         <div class="company-designation">
           <h2 class="heading1">{{ jobposting.JobRole }}</h2>

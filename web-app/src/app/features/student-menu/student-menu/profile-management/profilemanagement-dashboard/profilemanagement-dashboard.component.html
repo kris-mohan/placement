@@ -52,11 +52,7 @@
       </mat-card-content>
     </mat-card>
     <div class="image-container">
-      <img
-        src="../../../../../../assets/images/StudentImage.png"
-        alt="Student Photo"
-        class="student-photo"
-      />
+      <img [src]="profilePicUrl" alt="Student Photo" class="student-photo" />
     </div>
   </div>
   <div class="bottom-cards">
@@ -82,31 +78,31 @@
         </div>
         <mat-divider></mat-divider>
 
-        <div class="education-section">
+        <div class="education-section" *ngIf="StudentAcademicData().length > 0">
           <h3>12th Grade</h3>
           <div class="education-row">
             <div class="strong">
               <strong>Board:</strong>
-              {{ StudentAcademicData()[0].TwelthBoard }}
+              {{ StudentAcademicData()[0]?.TwelthBoard || "N/A" }}
               <div>
                 <strong>12 percentage/marks:</strong>
-                {{ StudentAcademicData()[0].TwelthMarks }}
+                {{ StudentAcademicData()[0]?.TwelthMarks || "N/A" }}
               </div>
               <div>
                 <strong>Pass out year:</strong>
-                {{ StudentAcademicData()[0].TwelthPassedOutYear }}
+                {{ StudentAcademicData()[0]?.TwelthPassedOutYear || "N/A" }}
               </div>
-              <!-- <p><strong>Pass-out Year:</strong></p> -->
             </div>
           </div>
         </div>
+
         <mat-divider></mat-divider>
 
         <div class="education-section">
           <h3>Present College</h3>
           <div class="education-row">
             <div class="strong">
-              <strong>CGPA:</strong> {{ StudentAcademicData()[0].Cgpa }}
+              <strong>CGPA:</strong> {{ StudentAcademicData()[0]?.Cgpa }}
             </div>
           </div>
           <p>

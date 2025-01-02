@@ -33,6 +33,8 @@ import { getCompanyIndustryTypes } from "./placement-company-module";
 import { Companyindustry } from "src/app/services/types/Companyindustry";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { CampusCompany } from "src/app/services/types/CampusCompany";
+import { CompanyAddtionlfiltersComponent } from "../company-addtionlfilters/company-addtionlfilters.component";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import * as XLSX from "xlsx";
 
 const today = new Date();
@@ -63,7 +65,8 @@ export class PlacementCompanyComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   OrgId: number;
-
+  jobInterviewRounds = signal<Jobinterviewround[]>([]);
+  filteredStudents = signal<Jobinterviewround[]>([]);
   companyData: [] = [];
 
   companiesList = signal<Companydatum[]>([]);
@@ -280,17 +283,15 @@ export class PlacementCompanyComponent {
   };
   exportToExcel() {
     const companies = this.campusCompanyList();
-    const exportData = companies.map(
-      (companies: Companydatum) => ({
-        "Company Name": companies.Name,
-        "Email": companies.Email,
-        URL: companies.Url,
-        "Phone No": companies.PhoneNumber,
-        Vacancies: companies.Jobpostings.length,
-        "Company Size":companies.CompanySize,
-        "Location": companies.Address,
-      })
-    );
+    const exportData = companies.map((companies: Companydatum) => ({
+      "Company Name": companies.Name,
+      Email: companies.Email,
+      URL: companies.Url,
+      "Phone No": companies.PhoneNumber,
+      Vacancies: companies.Jobpostings.length,
+      "Company Size": companies.CompanySize,
+      Location: companies.Address,
+    }));
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
     const workbook: XLSX.WorkBook = {
       Sheets: { "Company Details": worksheet },
@@ -364,8 +365,7 @@ export class PlacementCompanyComponent {
           .map((student) => student.Address || "")
           .filter(
             (location): location is string =>
-              location !== undefined &&
-              location.toLowerCase().includes(filterValue)
+              location != "" && location.toLowerCase().includes(filterValue)
           )
       )
     );
@@ -477,7 +477,7 @@ export class PlacementCompanyComponent {
   }
 
   openImportCompanyDialog() {
-    this.dialog.open(ImportCompanyDialogComponent, { width: "500px" });
+    this.dialog.open(CompanyAddtionlfiltersComponent, { width: "500px" });
   }
 
   // filterCities(search: string) {
@@ -647,5 +647,45 @@ export class PlacementCompanyComponent {
         company.Jobpostings.some((job) => (job?.Vacancies || 0) > 0)
     );
     this.filteredCompanyData.set(filteredCompanies);
+  }
+
+  openPlacementinterviewAdditionalFilter() {
+    const dialogRef = this.dialog.open(CompanyAddtionlfiltersComponent, {
+      width: "500px",
+    });
+    dialogRef.afterClosed().subscribe((filterValues) => {
+      if (filterValues) {
+        this.filterData(filterValues);
+      }
+    });
+  }
+
+  filterData(filterValues: any) {
+    console.log(filterValues, "filter values");
+    const filtered = this.campusCompanyList().filter((company) => {
+      debugger;
+      const selectedCompanies = filterValues.companies || [];
+      const selectedIndustries = filterValues.jobTypes || [];
+
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(company?.Name || "");
+      // const jobTypeMatch =
+      //   selectedJobTypes.length === 0 ||
+      //   selectedJobTypes.includes(student.JobPosting?.JobType || "");
+
+      const industryMatches =
+        selectedIndustries.length === 0 ||
+        company?.Jobpostings?.some((jobposting: any) =>
+          jobposting?.Company?.Companyindustries?.some(
+            (ci: any) =>
+              ci.Industry?.Type &&
+              selectedIndustries.includes(ci.Industry?.Type)
+          )
+        );
+
+      return companyMatch && industryMatches;
+    });
+    this.filteredCompanyData.set(filtered);
   }
 }

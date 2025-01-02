@@ -39,6 +39,7 @@ import {
   Studentacademic,
 } from "src/app/services/types/Studentacademic";
 import { StudentSemesterMark } from "src/app/services/types/StudentSemesterMark";
+import { DateTime } from "luxon";
 
 @Component({
   selector: "app-profile-management",
@@ -49,6 +50,7 @@ import { StudentSemesterMark } from "src/app/services/types/StudentSemesterMark"
 })
 export class ProfileManagementComponent {
   selectedPhoto: string | ArrayBuffer | null | undefined = null;
+  selectedProfilePhoto: File[] = [];
   selectedSkillTypeIds: number[] = [];
   selectedSkillIds: number[] = [];
   selectedSemester: string = "";
@@ -83,6 +85,7 @@ export class ProfileManagementComponent {
   filteredSkillTypes = signal<SkillType[]>([]);
   filteredCompany: Observable<any[]> = of([]);
   studentId: number;
+  Id: number;
   studentAcademicId: number = 0;
   semesterData: StudentSemesterMark[] = [];
   sessionStudentId: number | null;
@@ -115,6 +118,7 @@ export class ProfileManagementComponent {
       RollNo: [{ value: "", disabled: true }, [Validators.required]],
       CourseId: [{ value: "", disabled: true }, [Validators.required]],
       StreamId: [{ value: "", disabled: true }, [Validators.required]],
+      profilePhoto: [null],
     });
     this.studentEducationForm = this.fb.group({
       TenthSchoolName: ["", [Validators.required]],
@@ -137,6 +141,7 @@ export class ProfileManagementComponent {
       semester8: this.createSemesterGroup(),
     });
     this.studentSkillsForm = this.fb.group({
+      fields: this.fb.array([]),
       LinkedInLink: [""],
       Achievement: [""],
       Project: [""],
@@ -145,6 +150,7 @@ export class ProfileManagementComponent {
     });
     const id = this.route.snapshot.paramMap.get("id");
     this.studentId = id ? parseInt(id) : 0;
+    this.Id = id ? parseInt(id) : 0;
   }
 
   createSemesterGroup() {
@@ -483,7 +489,7 @@ export class ProfileManagementComponent {
         const data: Course[] = course.value;
         this.Courses.set(data);
         console.log("course:", data);
-      }, 
+      },
     });
   };
 
@@ -622,6 +628,7 @@ export class ProfileManagementComponent {
           };
           console.log(studentData);
           this.SaveStudentDetails(tab, studentData);
+          this.uploadProfilePic();
         }
       }
     }
@@ -686,6 +693,69 @@ export class ProfileManagementComponent {
         }
       }
     }
+
+    if (tab === 3) {
+      console.log(this.studentSkillsForm.value, "skills Form");
+      // if (this.studentSkillsForm.valid) {
+      //   const confirmed = await this.sweetAlertService.confirm(
+      //     `Do you want to save your details?`
+      //   );
+      //   if (confirmed) {
+      //     const semesterMarks = Array.from({ length: 8 }, (_, index) => {
+      //       const semesterKey = `semester${index + 1}`;
+      //       const semesterFormGroup =
+      //         this.studentEducationForm.get(semesterKey);
+      //       const existingSemesterData = this.semesterData.find(
+      //         (semester) => semester.Semester === index + 1
+      //       );
+
+      //       if (semesterFormGroup) {
+      //         return {
+      //           Id: existingSemesterData?.Id || 0,
+      //           Semester: index + 1,
+      //           StudentAcademicId: this.studentAcademicId,
+      //           Sgpa: +semesterFormGroup.value.sgpa || null,
+      //           ClosedBacklogs: +semesterFormGroup.value.closedBacklogs || 0,
+      //           LiveBacklogs: +semesterFormGroup.value.liveBacklogs || 0,
+      //           // MarkaPercentage: semesterFormGroup.value.file || null, // Assuming file maps to MarkaPercentage
+      //         };
+      //       }
+      //       return null;
+      //     }).filter((semester) => semester !== null);
+
+      //     // Calculate CGPA (average of all SGPAs)
+      //     const totalSgpa = semesterMarks.reduce(
+      //       (acc, semester) => acc + (semester.Sgpa || 0),
+      //       0
+      //     );
+      //     const averageSgpa = totalSgpa / semesterMarks.length;
+      //     const CGPA = averageSgpa; // Store the average as CGPA
+      //     console.log("CGPA", CGPA);
+      //     const studentEducationData: PatchStudentAcademic = {
+      //       Id: this.studentAcademicId,
+      //       TenthMarks: this.studentEducationForm.value.TenthMarks || null,
+      //       TwelthMarks: this.studentEducationForm.value.TwelfthMarks,
+      //       TenthBoard: this.studentEducationForm.value.TenthBoard,
+      //       TwelthBoard: this.studentEducationForm.value.TwelfthBoard,
+      //       TenthPassedOutYear:
+      //         this.studentEducationForm.value.TenthPassedOutYear,
+      //       TwelthPassedOutYear:
+      //         this.studentEducationForm.value.TwelfthPassedOutYear,
+      //       TenthSchoolName: this.studentEducationForm.value.TenthSchoolName,
+      //       TwelthSchoolName: this.studentEducationForm.value.TwelfthSchoolName,
+      //       StudentSemesterMarks: semesterMarks,
+      //       Cgpa: CGPA,
+      //     };
+
+      //     console.log(studentEducationData);
+
+      //     this.SaveEducationDetails(
+      //       this.studentAcademicId,
+      //       studentEducationData
+      //     );
+      //   }
+      // }
+    } 
   }
 
   SaveEducationDetails(id: number, studentData: PatchStudentAcademic) {
@@ -704,6 +774,52 @@ export class ProfileManagementComponent {
           this.sweetAlertService.error("An unexpected error occurred:");
         },
       });
+  }
+
+  uploadProfilePic() {
+    if (this.selectedProfilePhoto.length > 0) {
+      const formData = new FormData();
+      formData.append("files", this.selectedProfilePhoto[0]);
+
+      this.studentApiService.uploadDocument(formData).subscribe({
+        next: (response) => {
+          if (response.success && response.files) {
+            response.files.flatMap((f: any) => {
+              try {
+                const doc = {
+                  id: 0,
+                  fileName: f.fileName,
+                  filePath: f.filePath,
+                  fileType: "Image",
+                  parentType: "student",
+                  parentId: this.Id,
+                  isDeleted: true,
+                  createdDate: DateTime.now(),
+                  createdBy: true,
+                };
+
+                this.studentApiService.saveDocumentDetails(doc).subscribe({
+                  next: (response: { success: boolean; message: any }) => {
+                    if (response.success) {
+                      console.log(response.success, "success");
+                    } else {
+                    }
+                  },
+                  error: (error) => {},
+                });
+              } catch (e) {
+                console.log(e);
+              }
+            });
+          }
+        },
+        error: (error) => {
+          console.error("Error uploading documents:", error);
+        },
+      });
+    } else {
+      console.log("No files selected.");
+    }
   }
 
   // fields: any[] = [{ id: 1 }];
@@ -739,103 +855,102 @@ export class ProfileManagementComponent {
     const selectedSkillTypes = [...this.selectedSkillTypes()];
     selectedSkillTypes.splice(index, 1);
     this.selectedSkillTypes.set(selectedSkillTypes);
-
     // Update filtered skill types again after removal
     this.updateFilteredSkillTypes();
     this.fields.splice(index, 1);
   }
 
   async onSubmit() {
-    // const studentProfile: Partial<PostTblstudent> =
-    //   this.studentProfileForm.value;
-    // const isUpdate = !!this.Id;
-    // const actionText = isUpdate ? "update" : "add";
-    // const confirmed = await this.sweetAlertService.confirm(
-    //   `Do you want to ${actionText} your Profile?`
-    // );
-    // if (confirmed) {
-    //   const studentProfileData: PostTblstudent = {
-    //     Id: this.sessionStudentId ?? 0,
-    //     // OrgId: studentProfile.OrgId ?? 0,
-    //     FirstName: studentProfile.FirstName ?? "",
-    //     MiddleName: studentProfile.MiddleName ?? "",
-    //     LastName: studentProfile.LastName ?? "",
-    //     BatchId: studentProfile.BatchId ?? 0,
-    //     AadharCardNumber: studentProfile.AadharCardNumber ?? "",
-    //     PermanentAddress: studentProfile.PermanentAddress ?? "",
-    //     CurrentAddress: studentProfile.CurrentAddress ?? "",
-    //     Email: studentProfile.Email ?? "",
-    //     PhoneNumber: studentProfile.PhoneNumber ?? "",
-    //     FatherName: studentProfile.FatherName ?? "",
-    //     FatherPhoneNumber: studentProfile.FatherPhoneNumber ?? "",
-    //     MotherName: studentProfile.MotherName ?? "",
-    //     MotherPhoneNumber: studentProfile.MotherPhoneNumber ?? "",
-    //     DateOfBirth: studentProfile.DateOfBirth ?? null,
-    //     RollNo: studentProfile.RollNo ?? "",
-    //     BloodGroup: studentProfile.BloodGroup ?? "",
-    //     Pannumber: studentProfile.Pannumber ?? "",
-    //     skills: studentProfile.skills ?? "",
-    //     Batch: {
-    //       Id: studentProfile.Batch?.Id ?? 0,
-    //       Name: studentProfile.Batch?.Name ?? "",
-    //     },
-    //     Studentacademics: {
-    //       StudentId: this.sessionStudentId ?? 0,
-    //       CourseId: studentProfile.Studentacademics?.CourseId ?? 0,
-    //       StreamId: studentProfile.Studentacademics?.StreamId ?? 0,
-    //       Cgpa: studentProfile.Studentacademics?.Cgpa ?? 0,
-    //       TenthMarks: studentProfile.Studentacademics?.TenthMarks ?? 0,
-    //       TwelthMarks: studentProfile.Studentacademics?.TwelthMarks ?? 0,
-    //       TenthBoard: studentProfile.Studentacademics?.TenthBoard ?? "",
-    //       TwelthBoard: studentProfile.Studentacademics?.TwelthBoard ?? "",
-    //       TenthPassedOutYear:
-    //         studentProfile.Studentacademics?.TenthPassedOutYear ?? 0,
-    //       TwelthPassedOutYear:
-    //         studentProfile.Studentacademics?.TwelthPassedOutYear ?? 0,
-    //       TenthSchoolName:
-    //         studentProfile.Studentacademics?.TenthSchoolName ?? "",
-    //       TwelthSchoolName:
-    //         studentProfile.Studentacademics?.TwelthSchoolName ?? "",
-    //       DiplomaCollegeName:
-    //         studentProfile.Studentacademics?.DiplomaCollegeName ?? "",
-    //       StudentSemesterMarks:
-    //         studentProfile.Studentacademics?.StudentSemesterMarks?.map(
-    //           (mark) => ({
-    //             StudentAcademicId: mark.StudentAcademicId ?? 0,
-    //             Semester: mark.Semester ?? 0,
-    //             Sgpa: mark.Sgpa ?? 0.0,
-    //           })
-    //         ) ?? [],
-    //     },
-    //     StudentSkills:
-    //       studentProfile.StudentSkills?.map((skill) => ({
-    //         SkillId: skill.SkillId ?? 0,
+    //   const studentProfile: Partial<PostTblstudent> =
+    //     this.studentProfileForm.value;
+    //   const isUpdate = !!this.Id;
+    //   const actionText = isUpdate ? "update" : "add";
+    //   const confirmed = await this.sweetAlertService.confirm(
+    //     `Do you want to ${actionText} your Profile?`
+    //   );
+    //   if (confirmed) {
+    //     const studentProfileData: PostTblstudent = {
+    //       Id: this.sessionStudentId ?? 0,
+    //       // OrgId: studentProfile.OrgId ?? 0,
+    //       FirstName: studentProfile.FirstName ?? "",
+    //       MiddleName: studentProfile.MiddleName ?? "",
+    //       LastName: studentProfile.LastName ?? "",
+    //       BatchId: studentProfile.BatchId ?? 0,
+    //       AadharCardNumber: studentProfile.AadharCardNumber ?? "",
+    //       PermanentAddress: studentProfile.PermanentAddress ?? "",
+    //       CurrentAddress: studentProfile.CurrentAddress ?? "",
+    //       Email: studentProfile.Email ?? "",
+    //       PhoneNumber: studentProfile.PhoneNumber ?? "",
+    //       FatherName: studentProfile.FatherName ?? "",
+    //       FatherPhoneNumber: studentProfile.FatherPhoneNumber ?? "",
+    //       MotherName: studentProfile.MotherName ?? "",
+    //       MotherPhoneNumber: studentProfile.MotherPhoneNumber ?? "",
+    //       DateOfBirth: studentProfile.DateOfBirth ?? null,
+    //       RollNo: studentProfile.RollNo ?? "",
+    //       BloodGroup: studentProfile.BloodGroup ?? "",
+    //       Pannumber: studentProfile.Pannumber ?? "",
+    //       skills: studentProfile.skills ?? "",
+    //       Batch: {
+    //         Id: studentProfile.Batch?.Id ?? 0,
+    //         Name: studentProfile.Batch?.Name ?? "",
+    //       },
+    //       Studentacademics: {
     //         StudentId: this.sessionStudentId ?? 0,
-    //       })) ?? [],
-    //   };
-    //   try {
-    //     if (isUpdate) {
-    //       await this.studentApiService.addUpdateCompany(
-    //         this.Id,
-    //         studentProfileData
+    //         CourseId: studentProfile.Studentacademics?.CourseId ?? 0,
+    //         StreamId: studentProfile.Studentacademics?.StreamId ?? 0,
+    //         Cgpa: studentProfile.Studentacademics?.Cgpa ?? 0,
+    //         TenthMarks: studentProfile.Studentacademics?.TenthMarks ?? 0,
+    //         TwelthMarks: studentProfile.Studentacademics?.TwelthMarks ?? 0,
+    //         TenthBoard: studentProfile.Studentacademics?.TenthBoard ?? "",
+    //         TwelthBoard: studentProfile.Studentacademics?.TwelthBoard ?? "",
+    //         TenthPassedOutYear:
+    //           studentProfile.Studentacademics?.TenthPassedOutYear ?? 0,
+    //         TwelthPassedOutYear:
+    //           studentProfile.Studentacademics?.TwelthPassedOutYear ?? 0,
+    //         TenthSchoolName:
+    //           studentProfile.Studentacademics?.TenthSchoolName ?? "",
+    //         TwelthSchoolName:
+    //           studentProfile.Studentacademics?.TwelthSchoolName ?? "",
+    //         DiplomaCollegeName:
+    //           studentProfile.Studentacademics?.DiplomaCollegeName ?? "",
+    //         StudentSemesterMarks:
+    //           studentProfile.Studentacademics?.StudentSemesterMarks?.map(
+    //             (mark) => ({
+    //               StudentAcademicId: mark.StudentAcademicId ?? 0,
+    //               Semester: mark.Semester ?? 0,
+    //               Sgpa: mark.Sgpa ?? 0.0,
+    //             })
+    //           ) ?? [],
+    //       },
+    //       StudentSkills:
+    //         studentProfile.StudentSkills?.map((skill) => ({
+    //           SkillId: skill.SkillId ?? 0,
+    //           StudentId: this.sessionStudentId ?? 0,
+    //         })) ?? [],
+    //     };
+    //     try {
+    //       if (isUpdate) {
+    //         await this.studentApiService.addUpdateCompany(
+    //           this.Id,
+    //           studentProfileData
+    //         );
+    //       } else {
+    //         await this.studentApiService.addUpdateCompany(
+    //           this.Id,
+    //           studentProfileData
+    //         );
+    //       }
+    //       this.sweetAlertService.success(
+    //         `${
+    //           actionText.charAt(0).toUpperCase() + actionText.slice(1)
+    //         } successful!`
     //       );
-    //     } else {
-    //       await this.studentApiService.addUpdateCompany(
-    //         this.Id,
-    //         studentProfileData
+    //     } catch (error) {
+    //       this.sweetAlertService.error(
+    //         "An error occurred while saving the profile. Please try again."
     //       );
     //     }
-    //     this.sweetAlertService.success(
-    //       `${
-    //         actionText.charAt(0).toUpperCase() + actionText.slice(1)
-    //       } successful!`
-    //     );
-    //   } catch (error) {
-    //     this.sweetAlertService.error(
-    //       "An error occurred while saving the profile. Please try again."
-    //     );
     //   }
-    // }
   }
 
   // get selectedSkillTypes(): string {
@@ -888,4 +1003,8 @@ export class ProfileManagementComponent {
   // onSkillTypeDropdownOpen() {
   //   this.filterSkillTypes(this.searchSkillType);
   // }
+
+  onProfilePhotoSelected(event: any): void {
+    this.selectedProfilePhoto = Array.from(event.target.files);
+  }
 }
