@@ -11,6 +11,8 @@ import { Jobposting } from "src/app/services/types/Jobposting";
 import { SharedModule } from "src/app/shared/shared.module";
 import { CalendarModalApiService } from "./api.calendar-modal";
 import { Companydatum } from "src/app/services/types/Companydatum";
+import { Template } from "src/app/services/types/Template";
+import { TemplateCategory } from "src/app/services/types/TemplateCategory";
 // import { MatDatepickerModule } from "@angular/material/datepicker";
 import { interval, Subscription } from "rxjs";
 @Component({
@@ -44,6 +46,10 @@ export class CalendarModalComponent implements OnInit {
   jobPostingId: number = 0;
   OrgId: number = 0;
   allCompanies = signal<Companydatum[]>([]);
+  isSaved: boolean = false;
+  selectedNotificationTemplate: Template | null = null;
+  templates: Template[] = [];
+  templateCategories: TemplateCategory[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<CalendarModalComponent>,
@@ -185,8 +191,16 @@ export class CalendarModalComponent implements OnInit {
   // }
 
   onSave(): void {
-    console.log(this.formDataa.value);
+    console.log("this.formDataa.value", this.formDataa.value);
     if (this.formDataa.valid) {
+      // Add a new control for the notification template dynamically
+      if (!this.formDataa.contains("templateControl")) {
+        this.formDataa.addControl(
+          "templateControl",
+          this.formBuilder.control("", Validators.required) // Add validation here
+        );
+      }
+
       const returnData = {
         ...this.formDataa.value, // Spread the form values
         // toggle: this.toggle,
@@ -195,8 +209,9 @@ export class CalendarModalComponent implements OnInit {
         OrgId: this.OrgId,
         // Add any other specific data you want to send back
       };
-      console.log(returnData);
-      this.dialogRef.close(returnData);
+      console.log("return Data", returnData);
+      this.isSaved = true;
+      // this.dialogRef.close(returnData);
     }
   }
 
@@ -214,6 +229,7 @@ export class CalendarModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCompanies();
+    this.getTemplates();
 
     if (!!this.CompanyId) {
       console.log(this.CompanyId);
@@ -273,6 +289,46 @@ export class CalendarModalComponent implements OnInit {
     hours = hours % 12 || 12;
 
     return `${hours}:${minutes} ${period}`;
+  }
+
+  getTemplates(): void {
+    this.calendarModalApiService.getTemplates().subscribe({
+      next: (response) => {
+        console.log(response, "template");
+        this.templateCategories = response.value;
+        this.templates = response.value.flatMap(
+          (category) => category.Templates
+        );
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  onSelect(): void {
+    const notificationTemplateControl = this.formDataa.get("templateControl");
+
+    if (notificationTemplateControl?.invalid) {
+      notificationTemplateControl.markAsTouched();
+      console.log("Template selection is required.");
+      return;
+    }
+
+    console.log("Selected Template:", this.formDataa.value.templateControl);
+  }
+  handleTemplateChange() {
+    console.log(
+      "this.formDataa.value.templateControl",
+      this.formDataa.value.templateControl
+    );
+    const template = this.formDataa.value.templateControl;
+    console.log("template", template);
+    this.selectedNotificationTemplate = template;
+    console.log(
+      "this.selectedNotificationTemplate",
+      this.selectedNotificationTemplate
+    );
   }
   monitorMeetingTimes(): void {
     this.timerSubscription = interval(1000).subscribe(() => {

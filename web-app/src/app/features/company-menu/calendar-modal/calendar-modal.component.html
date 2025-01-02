@@ -5,198 +5,256 @@
   style="padding-top: 0.5rem"
 >
   <strong>
-    {{ isEdited ? "Edit Event" : "Add New Event" }}
+    {{
+      isSaved
+        ? "Select Notification Template"
+        : isEdited
+        ? "Edit Event"
+        : "Add New Event"
+    }}
   </strong>
 </h1>
 <mat-divider></mat-divider>
 
 <div mat-dialog-content>
   <form [formGroup]="formDataa">
-    <div
-      fxLayout="row wrap"
-      fxLayoutAlign="space-around start"
-      fxLayoutGap="20px"
-    >
-      <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
-        <mat-form-field appearance="outline">
-          <mat-label>Event Type</mat-label>
-          <!-- <input
-            matInput
-            placeholder="Insert Event Name"
-            formControlName="eventType"
-          /> -->
-          <mat-select
-            [(value)]="formDataa.value.eventType"
-            (selectionChange)="onEventTypeChange($event)"
-          >
-            <mat-option value="interview">Interview</mat-option>
-            <mat-option value="training">Training</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
+    <ng-container *ngIf="!isSaved">
       <div
-        *ngIf="showJobPostingsAndRounds"
-        fxFlex="100%"
-        fxFlex.gt-sm="30%"
-        fxFlex.gt-md="30%"
-      >
-        <mat-form-field appearance="outline">
-          <mat-label>Select Company</mat-label>
-          <!-- <input
-            matInput
-            placeholder="Insert Event Name"
-            formControlName="eventType"
-          /> -->
-          <mat-select
-            [(value)]="formDataa.value.companyId"
-            (selectionChange)="onCompanySelected($event)"
-            [disabled]="userRole === 2"
-          >
-            <mat-option
-              *ngFor="let company of allCompanies()"
-              [value]="company.Id"
-            >
-              {{ company.Name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <!-- <div>
-        <mat-form-field appearance="outline">
-          <mat-label>Job Role</mat-label>
-          <mat-select formControlName="jobRole">
-            <mat-option *ngFor="let role of roles" [value]="role.id">
-              {{ role.name }}
-            </mat-option>
-          </mat-select>
-          <input matInput placeholder="Job Role" formControlName="jobRole" />
-        </mat-form-field>
-      </div> -->
-      <div
-        *ngIf="showJobPostingsAndRounds"
-        fxFlex="100%"
-        fxFlex.gt-sm="30%"
-        fxFlex.gt-md="30%"
-      >
-        <mat-form-field appearance="outline">
-          <mat-label>Job Posting</mat-label>
-          <mat-select
-            formControlName="jobPosting"
-            (selectionChange)="onJobPostingChange($event)"
-          >
-            <mat-option
-              *ngFor="let posting of jobPostings"
-              [value]="posting.Id"
-            >
-              {{ posting.JobRole }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div
-        *ngIf="showJobPostingsAndRounds"
-        fxFlex="100%"
-        fxFlex.gt-sm="30%"
-        fxFlex.gt-md="30%"
-      >
-        <mat-form-field appearance="outline">
-          <mat-label>Rounds</mat-label>
-          <mat-select formControlName="rounds">
-            <mat-option *ngFor="let round of rounds" [value]="round.Id">
-              {{ round.Name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
-        <mat-form-field appearance="outline">
-          <mat-label>Start Time</mat-label>
-          <input
-            formControlName="startTime"
-            matInput
-            [ngxTimepicker]="startTimePicker"
-          />
-          <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
-        </mat-form-field>
-      </div>
-
-      <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
-        <mat-form-field appearance="outline">
-          <mat-label>End Time</mat-label>
-          <input
-            formControlName="endTime"
-            matInput
-            [ngxTimepicker]="endTimePicker"
-          />
-          <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
-        </mat-form-field>
-      </div>
-
-      <div
-        *ngIf="isEdited !== true"
-        fxFlex="100%"
-        fxLayout="row"
-        fxLayoutAlign="Start center"
+        fxLayout="row wrap"
+        fxLayoutAlign="space-around start"
         fxLayoutGap="20px"
       >
-        <div fxFlex="30%">
-          <mat-checkbox [checked]="toggle" (change)="onToggleChange($event)">
-            Multiple Days
-          </mat-checkbox>
-        </div>
-
-        <div *ngIf="toggle === true" fxFlex="40%">
+        <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
           <mat-form-field appearance="outline">
-            <mat-label>End Date</mat-label>
-            <input
-              formControlName="endDate"
+            <mat-label>Event Type</mat-label>
+            <!-- <input
               matInput
-              [matDatepicker]="picker"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+              placeholder="Insert Event Name"
+              formControlName="eventType"
+            /> -->
+            <mat-select
+              [(value)]="formDataa.value.eventType"
+              (selectionChange)="onEventTypeChange($event)"
+            >
+              <mat-option value="interview">Interview</mat-option>
+              <mat-option value="training">Training</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
 
-        <div *ngIf="toggle === true" fxFlex="30%">
-          <mat-checkbox
-            [checked]="weekdays"
-            (change)="onWeekdaysChange($event)"
-          >
-            Weekdays only
-          </mat-checkbox>
+        <div
+          *ngIf="showJobPostingsAndRounds"
+          fxFlex="100%"
+          fxFlex.gt-sm="30%"
+          fxFlex.gt-md="30%"
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>Select Company</mat-label>
+            <!-- <input
+              matInput
+              placeholder="Insert Event Name"
+              formControlName="eventType"
+            /> -->
+            <mat-select
+              [(value)]="formDataa.value.companyId"
+              (selectionChange)="onCompanySelected($event)"
+              [disabled]="userRole === 2"
+            >
+              <mat-option
+                *ngFor="let company of allCompanies()"
+                [value]="company.Id"
+              >
+                {{ company.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Job Role</mat-label>
+            <mat-select formControlName="jobRole">
+              <mat-option *ngFor="let role of roles" [value]="role.id">
+                {{ role.name }}
+              </mat-option>
+            </mat-select>
+            <input matInput placeholder="Job Role" formControlName="jobRole" />
+          </mat-form-field>
+        </div> -->
+        <div
+          *ngIf="showJobPostingsAndRounds"
+          fxFlex="100%"
+          fxFlex.gt-sm="30%"
+          fxFlex.gt-md="30%"
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>Job Posting</mat-label>
+            <mat-select
+              formControlName="jobPosting"
+              (selectionChange)="onJobPostingChange($event)"
+            >
+              <mat-option
+                *ngFor="let posting of jobPostings"
+                [value]="posting.Id"
+              >
+                {{ posting.JobRole }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div
+          *ngIf="showJobPostingsAndRounds"
+          fxFlex="100%"
+          fxFlex.gt-sm="30%"
+          fxFlex.gt-md="30%"
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>Rounds</mat-label>
+            <mat-select formControlName="rounds">
+              <mat-option *ngFor="let round of rounds" [value]="round.Id">
+                {{ round.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
+          <mat-form-field appearance="outline">
+            <mat-label>Start Time</mat-label>
+            <input
+              formControlName="startTime"
+              matInput
+              [ngxTimepicker]="startTimePicker"
+            />
+            <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
+          <mat-form-field appearance="outline">
+            <mat-label>End Time</mat-label>
+            <input
+              formControlName="endTime"
+              matInput
+              [ngxTimepicker]="endTimePicker"
+            />
+            <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
+          </mat-form-field>
+        </div>
+
+        <div
+          *ngIf="isEdited !== true"
+          fxFlex="100%"
+          fxLayout="row"
+          fxLayoutAlign="Start center"
+          fxLayoutGap="20px"
+        >
+          <div fxFlex="30%">
+            <mat-checkbox [checked]="toggle" (change)="onToggleChange($event)">
+              Multiple Days
+            </mat-checkbox>
+          </div>
+
+          <div *ngIf="toggle === true" fxFlex="40%">
+            <mat-form-field appearance="outline">
+              <mat-label>End Date</mat-label>
+              <input
+                formControlName="endDate"
+                matInput
+                [matDatepicker]="picker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="toggle === true" fxFlex="30%">
+            <mat-checkbox
+              [checked]="weekdays"
+              (change)="onWeekdaysChange($event)"
+            >
+              Weekdays only
+            </mat-checkbox>
+          </div>
         </div>
       </div>
-    </div>
-    <strong>
-      <p fxLayout="row" fxLayoutAlign="center center" fxFlex="100%">
-        Start Date: {{ data.date | date : "mediumDate" }}
-      </p>
-      <mat-form-field appearance="outline" *ngIf="isEdited !== true">
-        <mat-label>Meeting Link</mat-label>
-        <input matInput formControlName="meetingLink" />
-      </mat-form-field>
-      <div *ngIf="isEdited" fxFlex="20%" fxFlex.gt-sm="20%" fxFlex.gt-md="20%">
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="!joinMeetingEnabled"
+      <strong>
+        <p fxLayout="row" fxLayoutAlign="center center" fxFlex="100%">
+          Start Date: {{ data.date | date : "mediumDate" }}
+        </p>
+        <mat-form-field appearance="outline" *ngIf="isEdited !== true">
+          <mat-label>Meeting Link</mat-label>
+          <input matInput formControlName="meetingLink" />
+        </mat-form-field>
+        <div
+          *ngIf="isEdited"
+          fxFlex="20%"
+          fxFlex.gt-sm="20%"
+          fxFlex.gt-md="20%"
         >
-          <a
-            [href]="formDataa.value.meetingLink"
-            target="_blank"
-            style="text-decoration: none; color: white"
+          <button mat-raised-button color="primary">
+            <a
+              [href]="formDataa.value.meetingLink"
+              target="_blank"
+              style="text-decoration: none; color: white"
+            >
+              JoinMeeting
+            </a>
+          </button>
+        </div>
+      </strong>
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+      <!-- Content to display after Save button is clicked -->
+      <div style="display: flex; align-items: center">
+        <span style="margin-right: 8px">Select Notification Template : </span>
+        <mat-form-field
+          appearance="outline"
+          style="flex: 1; display: flex; align-items: center"
+        >
+          <!-- <mat-label>Select Notification Template</mat-label> -->
+          <mat-select
+            formControlName="templateControl"
+            (selectionChange)="handleTemplateChange()"
           >
-            JoinMeeting
-          </a>
-        </button>
+            <!-- <mat-option value="template1">Template 1</mat-option>
+          <mat-option value="template2">Template 2</mat-option> -->
+            <mat-option *ngFor="let template of templates" [value]="template">
+              {{ template.Name }}
+            </mat-option>
+            <!-- Add more options as needed -->
+          </mat-select>
+        </mat-form-field>
       </div>
-    </strong>
+      <div
+        *ngIf="
+          formDataa.get('notificationTemplate')?.invalid &&
+          formDataa.get('notificationTemplate')?.touched
+        "
+        class="error"
+      >
+        Please select a notification template.
+      </div>
+      <div *ngIf="selectedNotificationTemplate">
+        <!-- <h2 mat-dialog-title>Template Details</h2> -->
+        <dl>
+          <dt>Name:</dt>
+          <dd>{{ selectedNotificationTemplate?.Name }}</dd>
+
+          <dt>Subject:</dt>
+          <dd>{{ selectedNotificationTemplate?.Subject }}</dd>
+
+          <!-- <dt>Category Name:</dt>
+      <dd>{{ selectedTemplate?.Category?.Name || "N/A" }}</dd> -->
+
+          <!-- <dt>Body:</dt> -->
+          <dd [innerHTML]="selectedNotificationTemplate?.Body"></dd>
+        </dl>
+      </div>
+    </ng-container>
   </form>
 </div>
 
@@ -207,5 +265,8 @@
   <!-- <button mat-button (click)="onSave()" [disabled]="!formDataa.valid">
     Save
   </button> -->
-  <button mat-button (click)="onSave()">Save</button>
+  <button *ngIf="!isSaved" mat-button (click)="onSave()">Save</button>
+  <button *ngIf="isSaved" mat-button (click)="onSelect()">
+    Select Template
+  </button>
 </div>

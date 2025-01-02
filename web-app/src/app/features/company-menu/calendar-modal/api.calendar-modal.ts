@@ -10,6 +10,8 @@ import { Companydatum } from "src/app/services/types/Companydatum";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { ODataEntity } from "src/app/services/types/OData";
+import { Template } from "src/app/services/types/Template";
+import { TemplateCategory } from "src/app/services/types/TemplateCategory";
 
 @Injectable({
   providedIn: "root",
@@ -83,5 +85,9 @@ export class CalendarModalApiService {
     return this.apiHttpService.get<ODataEntity<Companydatum[]>>(
       "/Companydatum"
     );
+  }
+  getTemplates(): Observable<ODataEntity<TemplateCategory[]>> {
+    let url = `/TemplateCategory?$filter=contains(Name, 'Schedule')&$expand=Templates`;
+    return this.apiHttpService.get<ODataEntity<TemplateCategory[]>>(url);
   }
 }
