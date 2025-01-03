@@ -38,7 +38,7 @@
 
 /* Header Styling */
 .header {
-  background-color: #e1e1e9;
+  background-color: #9999ed;
   padding: 8px 16px;
   border-radius: 4px;
   font-size: 1.5rem;
@@ -102,12 +102,32 @@
   text-decoration: underline;
 }
 
-
 .Dialog::before {
-  display: none; 
+  display: none;
 }
 
 mat-dialog-content {
   max-height: 60vh;
   overflow-y: auto;
+}
+/* .custom-blue-button {
+  background-color: #2196f3;
+  color: white;
+  font-weight: bold;
+}
+
+.custom-blue-button:hover {
+  background-color: #1976d2;
+} */
+.info-row {
+  margin: 10px 0;
+}
+
+.info-heading {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.info-content {
+  font-weight: normal;
 }

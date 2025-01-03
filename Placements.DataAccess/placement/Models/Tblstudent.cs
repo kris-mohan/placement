@@ -45,6 +45,8 @@ public partial class Tblstudent
 
     public string? Gender { get; set; }
 
+    public bool? IsSentInvitation { get; set; }
+
     public virtual Batch? Batch { get; set; }
 
     public virtual ICollection<JobpostStudentround> JobpostStudentrounds { get; set; } = new List<JobpostStudentround>();

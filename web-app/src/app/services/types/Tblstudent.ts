@@ -30,6 +30,7 @@ export type Tblstudent = {
   MotherName: string;
   MotherPhoneNumber: string;
   Gender: string;
+  IsSentInvitation: boolean;
   Batch: Batch;
   Pannumber: string;
   BloodGroup: string;

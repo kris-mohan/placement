@@ -30,7 +30,12 @@
         <mat-icon>picture_as_pdf</mat-icon>
         <h5>PDF</h5>
       </button>
-      <button mat-raised-button color="primary" class="invite-all-btn">
+      <button
+        mat-raised-button
+        color="primary"
+        class="invite-all-btn"
+        (click)="inviteSelectedStudents()"
+      >
         <mat-icon class="maticon">mail</mat-icon>
         Invite All
       </button>
@@ -118,7 +123,14 @@
                 >{{ element.StudentName }}</a
               >
             </ng-container>
-
+            <ng-container *ngSwitchCase="'IsSent'">
+              <mat-icon *ngIf="element.IsSent; else pending" class="check-icon"
+                >check_circle</mat-icon
+              >
+              <ng-template #pending>
+                <mat-icon class="pending-icon">update</mat-icon>
+              </ng-template>
+            </ng-container>
             <ng-container *ngSwitchCase="'Status'">
               <button
                 *ngIf="element.Status === 'Invite'"

@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, EventEmitter, Inject, Output } from "@angular/core";
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -20,6 +20,8 @@ import { PostCampusCompany } from "src/app/services/types/CampusCompany";
   styleUrl: "./company-detail-dialog-modal.component.css",
 })
 export class CompanyDetailDialogModalComponent {
+  @Output() resetSearchField = new EventEmitter<void>();
+  @Output() companyAdded = new EventEmitter<void>();
   UserRoleId: number;
   CampusId: number;
   constructor(
@@ -51,6 +53,9 @@ export class CompanyDetailDialogModalComponent {
           console.log(response);
           if (response.success) {
             this.sweetAlertService.success(response.message);
+            this.dialogRef.close();
+            this.resetSearchField.emit();
+            this.companyAdded.emit(); 
           } else {
             this.sweetAlertService.error(response.message);
           }

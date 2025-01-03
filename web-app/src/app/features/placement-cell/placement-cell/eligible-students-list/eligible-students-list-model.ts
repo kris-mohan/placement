@@ -6,4 +6,6 @@ export type employeeDataList = {
   CGPA: string;
   Status: string;
   ApplicationApprovalStatus: string;
+  IsSent: boolean;
+  Email: string;
 };

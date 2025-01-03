@@ -99,7 +99,129 @@
           >
             Sign In
           </button>
-          <a class="matbutton">Forgot Password?</a>
+          <a class="matbutton" (click)="onForgotPassword()">Forgot Password?</a>
+          <div *ngIf="showEmailPopup" class="email-popup-overlay">
+            <div class="email-popup">
+              <h2>Forgot Password</h2>
+              <p>Please enter your email to receive an OTP.</p>
+              <form #emailForm="ngForm" (ngSubmit)="onSendOtp(emailForm)">
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Email</mat-label>
+                  <input
+                    matInput
+                    type="email"
+                    name="email"
+                    [(ngModel)]="studentEmail"
+                    required
+                    placeholder="Enter your email"
+                  />
+                  <mat-error *ngIf="emailForm.invalid && emailForm.touched">
+                    Please enter a valid email address.
+                  </mat-error>
+                </mat-form-field>
+                <div class="button-container">
+                  <button
+                    type="button"
+                    (click)="closeEmailPopup()"
+                    class="cancel-button"
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" class="send-button">Send OTP</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div *ngIf="showOtpPopup" class="otp-popup-overlay">
+            <div class="otp-popup">
+              <h2>Verify OTP</h2>
+              <p>Please enter the OTP sent to your email.</p>
+              <form #otpForm="ngForm" (ngSubmit)="onVerifyOtp(otpForm)">
+                <input
+                  type="text"
+                  name="otp"
+                  [(ngModel)]="enteredOtp"
+                  required
+                  placeholder="Enter OTP"
+                />
+                <div *ngIf="errorMessage" class="error-message">
+                  {{ errorMessage }}
+                </div>
+                <div class="button-container">
+                  <button
+                    type="button"
+                    (click)="closeOtpPopup()"
+                    class="cancel-button"
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" class="verify-button">Verify</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- Password visibility toggle for new password and confirm new password -->
+          <div *ngIf="showResetPasswordPopup" class="otp-popup-overlay">
+            <div class="otp-popup">
+              <h2>Reset Password</h2>
+              <form #resetForm="ngForm" (ngSubmit)="resetPassword()">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Enter New Password</mat-label>
+                  <input
+                    matInput
+                    [type]="isNewPasswordVisible ? 'text' : 'password'"
+                    name="newPassword"
+                    [(ngModel)]="newPassword"
+                    required
+                    placeholder="Enter New Password"
+                  />
+                  <mat-icon
+                    matSuffix
+                    (click)="toggleNewPasswordVisibility()"
+                    style="cursor: pointer"
+                  >
+                    {{ isNewPasswordVisible ? "visibility" : "visibility_off" }}
+                  </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Confirm New Password</mat-label>
+                  <input
+                    matInput
+                    [type]="isConfirmPasswordVisible ? 'text' : 'password'"
+                    name="confirmNewPassword"
+                    [(ngModel)]="confirmNewPassword"
+                    required
+                    placeholder="Confirm New Password"
+                  />
+                  <mat-icon
+                    matSuffix
+                    (click)="toggleConfirmPasswordVisibility()"
+                    style="cursor: pointer"
+                  >
+                    {{
+                      isConfirmPasswordVisible ? "visibility" : "visibility_off"
+                    }}
+                  </mat-icon>
+                </mat-form-field>
+
+                <div *ngIf="errorMessage" class="error-message">
+                  {{ errorMessage }}
+                </div>
+
+                <div class="button-container">
+                  <button
+                    type="button"
+                    (click)="cancelReset()"
+                    class="cancel-button"
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" class="verify-button">Reset</button>
+                </div>
+              </form>
+            </div>
+          </div>
         </mat-card-actions>
         <div class="anchorTags">
           <div [routerLink]="['/company-registration']">

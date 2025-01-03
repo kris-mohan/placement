@@ -162,3 +162,15 @@ body {
     display: none; /* Hide Student Name and CGPA on smaller screens */
   }
 }
+.check-icon {
+  color: green;
+  font-size: 36px;
+  width: 40px;
+  height: 40px;
+}
+.pending-icon {
+  color: rgb(255, 64, 0);
+  font-size: 36px;
+  width: 40px;
+  height: 40px;
+}
