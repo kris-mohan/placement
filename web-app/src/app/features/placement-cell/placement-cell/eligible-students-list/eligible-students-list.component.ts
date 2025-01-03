@@ -130,7 +130,11 @@ export class EligibleStudentsListComponent {
       }
     });
   }
-
+  isDataAvailable(): boolean {
+    return (
+      this.StudentDataSource.data && this.StudentDataSource.data.length > 0
+    );
+  }
   exportToExcel(): void {
     const studentData = this.StudentDataSource.data.map(
       (student: employeeDataList) => ({
@@ -328,4 +332,20 @@ export class EligibleStudentsListComponent {
       },
     });
   }
+  downloadExcel() {
+    this.eligibleStudentsListApiService.ExportEligibleStudents().subscribe({
+      next: (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "EligibleStudents.xlsx";
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error("Error downloading Excel file:", error);
+      },
+    });
+  }
+
 }

@@ -182,7 +182,11 @@
         <input matInput formControlName="meetingLink" />
       </mat-form-field>
       <div *ngIf="isEdited" fxFlex="20%" fxFlex.gt-sm="20%" fxFlex.gt-md="20%">
-        <button mat-raised-button color="primary">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!joinMeetingEnabled"
+        >
           <a
             [href]="formDataa.value.meetingLink"
             target="_blank"

@@ -215,14 +215,9 @@
           mat-fab
           extended
           class="matbutton-download"
-          (click)="openBulkUploadDialog()">
-          <mat-icon>file_upload</mat-icon>Upload
-        </button>
-        <button
-          mat-fab
-          extended
-          class="matbutton-download"
-          (click)="exportToExcel()">
+          (click)="downloadJobPostings()"
+          
+        >
           <mat-icon>file_download</mat-icon>Excel
         </button>
         <button mat-fab extended class="matbutton-download">
@@ -275,7 +270,7 @@
             > -->
             <span><strong>Job Type:</strong> {{ jobposting.JobType }}</span>
             <span><strong>Skills:</strong> {{ jobposting?.SkillTypes }}</span>
-            <span><strong>Salary:</strong> {{ jobposting.Salary }}</span>
+            <span><strong>CTC Offered:</strong> {{ jobposting.Salary }}</span>
             <span><strong>Location:</strong> {{ jobposting.Location }}</span>
             <span> <strong> Experience :</strong>2 years </span>
             <!-- <span><strong>Shift:</strong> {{ jobposting.Shift }}</span> -->

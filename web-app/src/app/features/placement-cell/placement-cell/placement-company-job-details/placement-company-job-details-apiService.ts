@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
@@ -11,11 +12,14 @@ import { TemplateCategory } from "src/app/services/types/TemplateCategory";
   providedIn: "root",
 })
 export class PlacementCompanyJobDetailsApiService {
-  constructor(private apiHttpService: ApiHttpService) {}
+  constructor(
+    private apiHttpService: ApiHttpService,
+    private http: HttpClient
+  ) {}
 
   GetCompanyById(id: number): Observable<ODataEntity<Companydatum[]>> {
     return this.apiHttpService.get<ODataEntity<Companydatum[]>>(
-      `/Companydatum?$expand=Jobpostings($filter = IsDeleted eq 0)&$filter=id eq ${id} and IsDeleted eq 0`
+      `/Companydatum?$expand=Jobpostings($filter = IsDeleted eq 0;$expand=JobpostingsEligiblestudents,JobpostingSkills($expand=Skill($expand=SkillType)))&$filter=id eq ${id} and IsDeleted eq 0`
     );
   }
 
@@ -45,5 +49,13 @@ export class PlacementCompanyJobDetailsApiService {
     Body: string;
   }) {
     return this.apiHttpService.post(`/Email/`, email);
+  }
+  exportToExcel(companyId: number): Observable<Blob> {
+    return this.http.get<Blob>(
+      `https://localhost:44304/api/common/ExportCompanyJobposting?CompanyId=${companyId}`,
+      {
+        responseType: "blob" as "json",
+      }
+    );
   }
 }

@@ -12,7 +12,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { CalendarModalApiService } from "./api.calendar-modal";
 import { Companydatum } from "src/app/services/types/Companydatum";
 // import { MatDatepickerModule } from "@angular/material/datepicker";
-
+import { interval, Subscription } from "rxjs";
 @Component({
   selector: "app-calendar-modal",
   standalone: true,
@@ -35,6 +35,8 @@ export class CalendarModalComponent implements OnInit {
   isEdited: boolean = false;
   jobPostings: Jobposting[] = [];
   rounds: Jobinterviewround[] = [];
+  joinMeetingEnabled: boolean = false; // For enabling/disabling the JoinMeeting button
+  private timerSubscription!: Subscription;
   // CollegeRoleId: number;
   userRole: number;
   CompanyId: number;
@@ -220,6 +222,7 @@ export class CalendarModalComponent implements OnInit {
     if (this.data.isEdited && this.data.eventData) {
       this.getJobPostingById();
     }
+    this.monitorMeetingTimes();
   }
 
   setCompanyField() {
@@ -267,10 +270,45 @@ export class CalendarModalComponent implements OnInit {
     let hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const period = hours >= 12 ? "PM" : "AM";
-
-    // Convert to 12-hour format
-    hours = hours % 12 || 12; // The hour '0' should be '12'
+    hours = hours % 12 || 12;
 
     return `${hours}:${minutes} ${period}`;
+  }
+  monitorMeetingTimes(): void {
+    this.timerSubscription = interval(1000).subscribe(() => {
+      const now = new Date();
+      const startTime = this.parseTime(this.formDataa.value.startTime);
+      const endTime = this.parseTime(this.formDataa.value.endTime);
+
+      if (startTime && endTime) {
+        const timeBeforeStart = (startTime.getTime() - now.getTime()) / 60000; // Time in minutes
+        this.joinMeetingEnabled =
+          timeBeforeStart <= 10 && now.getTime() < endTime.getTime();
+      } else {
+        this.joinMeetingEnabled = false;
+      }
+    });
+  }
+  parseTime(timeStr: string): Date | null {
+    const date = new Date();
+    const timeParts = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/);
+    if (timeParts) {
+      let hours = parseInt(timeParts[1], 10);
+      const minutes = parseInt(timeParts[2], 10);
+      const period = timeParts[3];
+
+      if (period === "PM" && hours < 12) hours += 12;
+      if (period === "AM" && hours === 12) hours = 0;
+
+      date.setHours(hours, minutes, 0, 0);
+      return date;
+    }
+    return null;
+  }
+
+  ngOnDestroy(): void {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
   }
 }

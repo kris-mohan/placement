@@ -2,16 +2,16 @@ import { Injectable } from "@angular/core";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
 import { ODataResponse } from "./calendar-events.component";
 import { Observable } from "rxjs";
-import {
-  NgxMatDatetimePickerModule,
-  NgxMatNativeDateModule,
-} from "@angular-material-components/datetime-picker";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root",
 })
 export class CalendarEventAPIService {
-  constructor(private apiHttpService: ApiHttpService) {}
+  constructor(
+    private apiHttpService: ApiHttpService,
+    private http: HttpClient
+  ) {}
 
   public loadCalendarEventData(): Observable<ODataResponse<any>> {
     return this.apiHttpService.get("/Calendarevent/?filter=Isdeleted eq 0");
@@ -34,5 +34,9 @@ export class CalendarEventAPIService {
     const url = `/Calendarevent?key=${id ? id : ""}`;
     const method = id ? "patch" : "post";
     return this.apiHttpService[method](url, CalendarEventData);
+  }
+  downloadCalendarevent(): Observable<Blob> {
+    const url = `https://localhost:44304/api/common/ExportCampusCalendarEvents`;
+    return this.http.get(url, { responseType: "blob" });
   }
 }

@@ -181,7 +181,8 @@
           goToInterviewStudentsDetails(
             scheduledInterview.JobPostingId
               ? scheduledInterview.JobPostingId
-              : 0
+              : 0,
+            scheduledInterview.Id
           )
         "
       >
@@ -201,7 +202,10 @@
             >{{ calculateStatus(scheduledInterview.JobPosting?.DriveDate) }}
           </p>
           <p>
-            <strong>Date:</strong>{{ scheduledInterview.JobPosting.DriveDate }}
+            <strong>Date:</strong
+            >{{
+              scheduledInterview.JobPosting.DriveDate | date : "dd-MMM-yyyy"
+            }}
           </p>
         </div>
 

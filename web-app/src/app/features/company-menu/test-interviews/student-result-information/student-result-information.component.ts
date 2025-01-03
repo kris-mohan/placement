@@ -109,8 +109,8 @@ export class StudentResultInformation implements OnInit {
           const data = studentRounds.value;
           console.log(data);
           this.studentRoundsData.set(data);
-          this.patchFormValues(0);
-          this.currentRoundIndex.set(data.length);
+          this.patchFormValues(data.length - 1);
+          this.currentRoundIndex.set(data.length - 1);
           console.log(this.currentRoundIndex());
         },
       });
