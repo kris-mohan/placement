@@ -13,6 +13,8 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { interviewApiService } from "../api.interview";
+import { PlacementInterviewAdditionalFilterComponent } from "src/app/features/placement-cell/placement-cell/placement-interview/placement-interview-additional-filter/placement-interview-additional-filter.component";
+import { MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: "app-interview-additional-filter",
@@ -71,7 +73,8 @@ export class InterviewAdditionalFilterComponent {
   constructor(
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService,
-    private interviewApiService:interviewApiService,
+    private interviewApiService: interviewApiService,
+    public dialogRef: MatDialogRef<PlacementInterviewAdditionalFilterComponent>
   ) {}
 
   ngOnInit() {
@@ -222,6 +225,12 @@ export class InterviewAdditionalFilterComponent {
       error: (error) => {
         console.error("Error loading Industries", error);
       },
+    });
+  }
+  showResults() {
+    this.dialogRef.close({
+      companies: this.companyControl.value,
+      jobTypes: this.industryControl.value,
     });
   }
 

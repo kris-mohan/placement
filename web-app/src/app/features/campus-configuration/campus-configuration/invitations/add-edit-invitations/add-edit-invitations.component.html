@@ -29,7 +29,7 @@
           <p class="grid-label">Invitation Template</p>
           <mat-form-field appearance="fill" class="matFormField">
             <mat-label>Invitation Template</mat-label>
-            <mat-select formControlName="InvitationTemplateId">
+            <mat-select formControlName="InvitationTemplateId" required>
               <mat-option
                 *ngFor="let invitationTemplate of invitationTemplates"
                 [value]="invitationTemplate.id"
@@ -37,6 +37,14 @@
                 {{ invitationTemplate.name }}
               </mat-option>
             </mat-select>
+            <mat-error
+              *ngIf="
+                addEditInvitationForm.get('InvitationTemplateId')?.invalid &&
+                addEditInvitationForm.get('InvitationTemplateId')?.touched
+              "
+            >
+              Please select an invitation template.
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -49,7 +57,15 @@
           <p class="grid-label">Recipients</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Recipients</mat-label>
-            <input matInput formControlName="Recipients" />
+            <input matInput formControlName="Recipients" required />
+            <mat-error
+              *ngIf="
+                addEditInvitationForm.get('Recipients')?.invalid &&
+                addEditInvitationForm.get('Recipients')?.touched
+              "
+            >
+              Recipients are required.
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -62,7 +78,15 @@
           <p class="grid-label">Cc</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Cc</mat-label>
-            <input matInput formControlName="Cc" />
+            <input matInput formControlName="Cc" required />
+            <mat-error
+              *ngIf="
+                addEditInvitationForm.get('Cc')?.invalid &&
+                addEditInvitationForm.get('Cc')?.touched
+              "
+            >
+              Cc is required.
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -77,7 +101,15 @@
           <p class="grid-label">Bcc</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Bcc</mat-label>
-            <input matInput formControlName="Bcc" />
+            <input matInput formControlName="Bcc" required />
+            <mat-error
+              *ngIf="
+                addEditInvitationForm.get('Bcc')?.invalid &&
+                addEditInvitationForm.get('Bcc')?.touched
+              "
+            >
+              Bcc is required.
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -90,7 +122,15 @@
           <p class="grid-label">From</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>From</mat-label>
-            <input matInput formControlName="From" />
+            <input matInput formControlName="From" required />
+            <mat-error
+              *ngIf="
+                addEditInvitationForm.get('From')?.invalid &&
+                addEditInvitationForm.get('From')?.touched
+              "
+            >
+              From is required.
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -106,7 +146,7 @@
             <input matInput formControlName="IsAccepted" />
           </mat-form-field>
         </div> -->
-      </div>
+      </div> 
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">

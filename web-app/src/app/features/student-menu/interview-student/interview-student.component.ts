@@ -32,6 +32,7 @@ import { interviewApiService } from "../../company-menu/interview/api.interview"
 import { AppliedJobInterview } from "src/app/services/types/AppliedJobInterview";
 import { Campusregistration } from "src/app/services/types/Campusregistration";
 import { GetDate } from "src/app/core/helper/DateHelper";
+import { StudentInterviewAddtionalfilterComponent } from "./student-interview-addtionalfilter/student-interview-addtionalfilter.component";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -204,6 +205,7 @@ export class InterviewStudentComponent {
         this.studentsCleared = 0;
         this.studentsRejected = 0;
         data?.forEach((s) => {
+          console.log(s, "dattttta");
           s.JobpostStudentrounds?.forEach((r: any) => {
             if (r.HasPassed === 1) {
               this.studentsCleared++;
@@ -221,6 +223,7 @@ export class InterviewStudentComponent {
                   ?.Status.Name,
               Company: r.JobPostingRound?.JobPosting?.Company?.Name,
               Date: date,
+              JobType: r.JobPostingRound?.JobPosting?.JobType,
             });
           });
         });
@@ -640,8 +643,36 @@ export class InterviewStudentComponent {
   }
 
   openInterviewAdditionalFilter() {
-    this.dialog.open(InterviewAdditionalFilterComponent, {
-      width: "500px",
+    const dialogRef = this.dialog.open(
+      StudentInterviewAddtionalfilterComponent,
+      {
+        width: "500px",
+      }
+    );
+    dialogRef.afterClosed().subscribe((filterValues) => {
+      if (filterValues) {
+        this.filterData(filterValues);
+      }
     });
+  }
+  filterData(filterValues: any) {
+    const filtered = this.jobInterviewRounds().filter((student) => {
+      const selectedCompanies = filterValues.companies || [];
+      const selectedJobTypes = filterValues.jobTypes || [];
+      const selectedInterviewRounds = filterValues.interviewRounds || [];
+
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(student.Company || "");
+      const jobTypeMatch =
+        selectedJobTypes.length === 0 ||
+        selectedJobTypes.includes(student.JobType || "");
+      const interviewRoundsMatch =
+        selectedInterviewRounds.length === 0 ||
+        selectedInterviewRounds.includes(student.RoundName || "");
+
+      return companyMatch && jobTypeMatch && interviewRoundsMatch;
+    });
+    this.filteredJobInterviewRounds.set(filtered);
   }
 }

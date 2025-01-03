@@ -72,17 +72,17 @@
                 <button
                   mat-button
                   mat-dialog-close
-                  (click)="resetLocationSelection()"
+                  (click)=" resetLocationSelection()"
                 >
                   Reset
                 </button>
-                <button
+                <!-- <button
                   mat-raised-button
                   class="matbutton"
                   (click)="showLocationResults()"
                 >
                   <p class="matName">Show results</p>
-                </button>
+                </button> -->
               </mat-dialog-actions>
             </mat-select>
           </mat-form-field>
@@ -126,13 +126,13 @@
                 >
                   Reset
                 </button>
-                <button
+                <!-- <button
                   mat-raised-button
                   class="matbutton"
                   (click)="showIndustryResults()"
                 >
                   <p class="matName">Show results</p>
-                </button>
+                </button> -->
               </mat-dialog-actions>
             </mat-select>
           </mat-form-field>
@@ -157,7 +157,8 @@
           mat-fab
           extended
           class="matbutton-download"
-          (click)="exportToExcel()"
+          (click)="exportExcel()"
+          [disabled]="!isDataAvailable()"
         >
           <mat-icon>file_download</mat-icon>Excel
         </button>
@@ -193,7 +194,7 @@
         <button
           mat-raised-button
           class="matbutton"
-          (click)="openImportCompanyDialog()"
+          (click)="openPlacementinterviewAdditionalFilter()"
         >
           <p class="matName">Additional Filters</p>
         </button>

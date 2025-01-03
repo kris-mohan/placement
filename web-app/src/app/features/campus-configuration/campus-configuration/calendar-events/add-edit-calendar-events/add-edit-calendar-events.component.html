@@ -30,12 +30,20 @@
           <p>Training Timings</p>
           <mat-form-field appearance="fill">
             <mat-label>Start Time</mat-label>
-            <input matInput [ngxTimepicker]="startTimePicker" />
+            <input
+              matInput
+              [ngxTimepicker]="startTimePicker"
+              formControlName="EventStartTime"
+            />
             <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>End Time</mat-label>
-            <input matInput [ngxTimepicker]="endTimePicker" />
+            <input
+              matInput
+              [ngxTimepicker]="endTimePicker"
+              formControlName="EventEndTime"
+            />
             <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
           </mat-form-field>
         </div>
@@ -77,10 +85,38 @@
           </mat-form-field>
         </div>
       </div>
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Event Type</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Event Type</mat-label>
+            <input matInput formControlName="EventType" />
+          </mat-form-field>
+        </div>
+        <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%"
+        >
+          <p class="grid-label">Event Description</p>
+          <mat-form-field appearance="outline" class="matFormField">
+            <mat-label>Event Description</mat-label>
+            <input matInput formControlName="EventDescription" />
+          </mat-form-field>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button mat-raised-button>Reset</button>
+    <button mat-raised-button type="button" >
+      <p>Reset</p>
+    </button>
     <button mat-raised-button class="matbutton" type="submit">
       <p class="matName">
         {{ calendarEventId ? "Update" : "Add" }}

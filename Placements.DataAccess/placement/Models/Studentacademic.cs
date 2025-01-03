@@ -33,6 +33,12 @@ public partial class Studentacademic
 
     public string? DiplomaCollegeName { get; set; }
 
+    public long? TenthStatus { get; set; }
+
+    public long? TwelfthStatus { get; set; }
+
+    public long? CourseStatus { get; set; }
+
     public virtual Course? Course { get; set; }
 
     public virtual Stream? Stream { get; set; }

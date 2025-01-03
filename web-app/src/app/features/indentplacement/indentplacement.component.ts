@@ -104,6 +104,9 @@ export class IndentplacementComponent {
       },
     });
   }
+  isDataAvailable(): boolean {
+    return this.indentdata && this.indentdata.length > 0;
+  }
 
   async deleteCalendarEvent(id: number) {
     const confirmed = await this.sweetAlertService.confirmDelete(
@@ -134,9 +137,7 @@ export class IndentplacementComponent {
       next: (response) => {
         const data: IndentForm[] = response.value;
         this.indentdata = data;
-        this.isLoading=false;
-
-    
+        this.isLoading = false;
       },
       error: (error) => {
         console.log("Error fetching rounds: ", error);
@@ -147,4 +148,19 @@ export class IndentplacementComponent {
   // goBack(): void {
   //   this.location.back();
   // }
+  exportIndentData(): void {
+    this.IndentApiService.exportIndentData().subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "IndentData.xlsx";
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error("Error exporting indent data:", error);
+      },
+    });
+  }
 }

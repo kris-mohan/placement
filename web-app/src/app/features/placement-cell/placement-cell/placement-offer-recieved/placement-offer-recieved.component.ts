@@ -25,6 +25,7 @@ import { PlacementUploadFileComponent } from "../company-list-details/placement-
 import { PlacementOfferRecievedUploadFileComponent } from "./placement-offer-recieved-upload-file/placement-offer-recieved-upload-file.component";
 import { Companyindustry } from "src/app/services/types/Companyindustry";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { OfferrecivedAdditionalfiltersComponent } from "./offerrecived-additionalfilters/offerrecived-additionalfilters.component";
 
 const today = new Date();
 const month = today.getMonth();
@@ -163,47 +164,11 @@ export class PlacementOfferRecievedComponent {
   readonly dialog = inject(MatDialog);
   dataSource = new MatTableDataSource<companyTableList>([]);
 
-  // ngOnInit() {
-  //   // this.loadCompanies();
-  //   // this.loadIndustries();
 
-  //   this.getAllSelectedStudents();
-
-  //   this.dataSource.paginator = this.paginator;
-
-  //   this.CityControl.valueChanges.subscribe(() => {
-  //     this.filterCities(this.searchCity);
-  //   });
-
-  //   this.industryControl.valueChanges.subscribe(() => {
-  //     this.filterIndustries(this.searchIndustry);
-  //   });
-
-  //   this.filteredCities = this.CityFilterControl.valueChanges.pipe(
-  //     startWith(""),
-  //     map((value) => this._filterCities(value))
-  //   );
-  //   this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-  //     startWith(""),
-  //     map((value) => this._filterIndustries(value))
-  //   );
-
-  //   this.filteredCompany = this.companyControl.valueChanges.pipe(
-  //     startWith(""),
-  //     map((value) => this._filterCompanies(value))
-  //   );
-  // }
   searchControl = new FormControl("");
   searchName = new FormControl("");
-  // searchBranch = new FormControl("");
-  // searchBatch = new FormControl("");
   searchSalary = new FormControl("");
 
-  // searchBranchValue: string = "";
-  // searchBatchValue: string = "";
-
-  // filteredBranches: string[] = [];
-  // filteredBatches: string[] = [];
   branches: string[] = [];
   batches: number[] = [];
   branchControl = new FormControl<string[] | null>(null);
@@ -240,37 +205,7 @@ export class PlacementOfferRecievedComponent {
     this.industryControl.valueChanges.subscribe(() => this.applyFilters());
     this.salaryControl.valueChanges.subscribe(() => this.filterBySalaryRange());
   }
-  // filterBranches(search: string): void {
-  //   const filterValue = search.toLowerCase();
 
-  //   this.filteredBranches = Array.from(
-  //     new Set(
-  //       this.JobpostingSelectedstudentData()
-  //         .map(
-  //           (student) =>
-  //             student.Student?.Studentacademics?.[0]?.Course?.FullForm
-  //         )
-  //         .filter((branch): branch is string => branch !== undefined)
-  //     )
-  //   ).filter((branch) => branch.toLowerCase().includes(filterValue));
-  // }
-  // filterBatches(search: string): void {
-  //   const filterValue = search.toLowerCase();
-
-  //   this.filteredBatches = Array.from(
-  //     new Set(
-  //       this.JobpostingSelectedstudentData()
-  //         .map((student) => student.Student?.Batch?.Name)
-  //         .filter((batch): batch is string => batch !== undefined)
-  //     )
-  //   ).filter((batch) => batch.toLowerCase().includes(filterValue));
-  // }
-  // get selectedBranches(): string {
-  //   return this.searchBranch.value || "";
-  // }
-  // get selectedBatches(): string {
-  //   return this.searchBatch.value || "";
-  // }
   filterBySalaryRange() {
     const selectedRanges = this.salaryControl.value || [];
     if (!selectedRanges.length) {
@@ -322,6 +257,11 @@ export class PlacementOfferRecievedComponent {
       },
     });
   }
+  isDataAvailable(): boolean {
+    const offers = this.JobpostingSelectedstudentData();
+    return offers && offers.length > 0;
+  }
+
 
   showResults(): void {
     this.applyFilters();
@@ -352,17 +292,6 @@ export class PlacementOfferRecievedComponent {
           .includes(nameFilter) ||
         student.JobPosting?.Company?.Name?.toLowerCase().includes(nameFilter) ||
         student.Student.RollNo.toLowerCase().includes(nameFilter);
-
-      // const matchesBranch =
-      //   !branchFilter.length ||
-      //   branchFilter.some((branchFilter) =>
-      //     student.Student?.Studentacademics?.[0]?.Course?.FullForm?.toLowerCase().includes(
-      //       branchFilter
-      //     )
-      //   );
-      // const matchesBatch =
-      //   batchFilter.length === 0 ||
-      //   batchFilter.includes(student.Student?.Batch?.Name || "");
       const branchMatch =
         selectedBranches.length === 0 ||
         selectedBranches.includes(
@@ -486,9 +415,42 @@ export class PlacementOfferRecievedComponent {
   }
 
   openPlacementinterviewAdditionalFilter() {
-    this.dialog.open(PlacementInterviewAdditionalFilterComponent, {
+    const dialogRef = this.dialog.open(OfferrecivedAdditionalfiltersComponent, {
       width: "500px",
     });
+
+    dialogRef.afterClosed().subscribe((filterValues) => {
+      if (filterValues) {
+        this.filterData(filterValues);
+      }
+    });
+  }
+
+  filterData(filterValues: any) {
+    const filtered = this.JobpostingSelectedstudentData().filter((student) => {
+      const selectedCompanies = filterValues.companies || [];
+      const selectedIndustries = filterValues.jobTypes || [];
+      const selectedJobroles = filterValues.jobRoles || [];
+
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(student.JobPosting.Company?.Name || "");
+
+      const jobRoleMatch =
+        selectedJobroles.length === 0 ||
+        selectedJobroles.includes(student.JobPosting?.JobRole || "");
+
+      const industryMatches =
+        selectedIndustries.length === 0 ||
+        student?.JobPosting?.Company?.Companyindustries?.some(
+          (ci: any) =>
+            ci.Industry?.Type && selectedIndustries.includes(ci.Industry?.Type)
+        );
+
+      return companyMatch && industryMatches && jobRoleMatch;
+    });
+
+    this.filteredStudents.set(filtered);
   }
 
   filterCities(search: string) {
@@ -657,6 +619,23 @@ export class PlacementOfferRecievedComponent {
       data: id,
       width: "500px",
       height: "600px",
+    });
+  }
+  downloadExcel() {
+    this.placementOfferRecievedApiService.downloadSelectedStudents().subscribe({
+      next: (response) => {
+        const fileName = 'JobpostingSelectedStudents.xlsx';
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Error downloading the file: ', error);
+      },
     });
   }
 }

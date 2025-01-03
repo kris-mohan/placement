@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, firstValueFrom, Observable, throwError } from "rxjs";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
@@ -9,7 +9,10 @@ import { ODataEntity } from "src/app/services/types/OData";
   providedIn: "root",
 })
 export class IndentRequirementsApiService {
-  constructor(private apiHttpService: ApiHttpService) {}
+  constructor(
+    private apiHttpService: ApiHttpService,
+    private http: HttpClient
+  ) {}
 
   GetAllIndents(): Observable<any> {
     return this.apiHttpService.get<any>("/IndentForm");
@@ -57,5 +60,10 @@ export class IndentRequirementsApiService {
     return id
       ? this.apiHttpService.patch(url, data)
       : this.apiHttpService.post(url, data);
+  }
+  exportIndentData(): Observable<Blob> {
+    return this.http.get('https://localhost:44304/api/common/ExportIndentData', {
+      responseType: 'blob',
+    });
   }
 }

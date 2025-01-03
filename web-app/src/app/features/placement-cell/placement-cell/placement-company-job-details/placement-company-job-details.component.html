@@ -136,7 +136,12 @@
             <mat-icon>cloud_upload</mat-icon>
             Upload
           </button>
-          <button mat-fab extended class="matbutton-download">
+          <button
+            mat-fab
+            extended
+            class="matbutton-download"
+            [disabled]="!isDataAvailable()"
+          >
             <mat-icon>file_download</mat-icon>Excel
           </button>
           <button mat-fab extended class="matbutton-download">
@@ -205,7 +210,10 @@
             <div class="job-detail">
               <!-- <span><strong>Experience:</strong> {{ company.Experience }}</span> -->
               <span><strong>Job Type:</strong> {{ company.JobType }}</span>
-              <span><strong>Skills:</strong> </span>
+              <span
+                ><strong>Skills:</strong
+                >{{company.JobpostingSkills?.[0]?.Skill?.SkillType?.Name}}
+              </span>
               <span><strong>Salary:</strong> {{ company.Salary }}</span>
               <span><strong>Location:</strong> {{ company.Location }}</span>
               <span><strong>Shift:</strong> {{ company.Shift }}</span>
@@ -220,8 +228,14 @@
                 ><strong>No. of vacancies:</strong>
                 {{ company.Vacancies }}</span
               >
-              <span><strong>Number of applicants Applied:</strong> </span>
-              <span><strong>Number of applicants Rejected:</strong> </span>
+              <span
+                ><strong>Number of applicants Applied:</strong
+                >{{ company.Vacancies }}
+              </span>
+              <span
+                ><strong>Number of applicants Rejected:</strong
+                >{{ company.Vacancies }}
+              </span>
 
               <span
                 ><strong> Drive Date:</strong>
@@ -251,6 +265,10 @@
 
     <div class="right-content">
       <!-- Mat Raised Button -->
+      <button mat-raised-button class="matbutton" (click)="showInvitePopup()">
+        <p class="matName">Invite</p>
+      </button>
+
       <button
         mat-raised-button
         color="warn"
@@ -262,9 +280,9 @@
       <div class="related-jobs">
         <div class="headers">
           <h3>{{ JobPostingsDescriptionData()[0]?.Name }}</h3>
-          <div>
+          <!-- <div>
             <button mat-raised-button class="matbutton">Invite Company</button>
-          </div>
+          </div> -->
         </div>
         <img
           src="{{ JobPostingsDescriptionData()[0]?.LogoPath }}"

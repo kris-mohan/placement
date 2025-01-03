@@ -1,11 +1,11 @@
-<mat-dialog-content>
-  <div style="display: flex; justify-content: space-between">
+<!-- <mat-dialog-content> -->
+<!-- <div style="display: flex; justify-content: space-between">
     <mat-label class="mat-label">Additional Filters</mat-label>
     <mat-icon mat-button mat-dialog-close style="cursor: pointer"
       >cancel</mat-icon
     >
-  </div>
-  <p>Company</p>
+  </div> -->
+<!-- <p>Company</p>
   <mat-form-field class="full-width" appearance="outline">
     <mat-label>Select Companies</mat-label>
     <mat-select
@@ -17,8 +17,8 @@
         {{ selectedCompanyNames }}
       </mat-select-trigger>
       <mat-form-field appearance="outline">
-        <!-- <mat-label>Add</mat-label> -->
-        <input
+        <mat-label>Add</mat-label> -->
+<!-- <input
           class="full-width"
           matInput
           [(ngModel)]="searchCompany"
@@ -33,12 +33,12 @@
         *ngFor="let company of filteredCompanies"
         [value]="company.Name"
       >
-        {{ company.Name }}
-      </mat-option>
+        {{ company.Name }} -->
+<!-- </mat-option>
     </mat-select>
-  </mat-form-field>
+  </mat-form-field>  -->
 
-  <p>Job Type</p>
+<!-- <p>Job Type</p>
   <mat-form-field class="full-width" appearance="outline">
     <mat-label>Job Type</mat-label>
     <mat-select
@@ -68,9 +68,9 @@
         {{ industry.Type }}
       </mat-option>
     </mat-select>
-  </mat-form-field>
+  </mat-form-field> -->
 
-  <!-- <p>Mode of Interview</p>
+<!-- <p>Mode of Interview</p>
   <mat-form-field class="full-width" appearance="outline">
     <mat-label>Mode of Interview</mat-label>
     <mat-select
@@ -101,17 +101,21 @@
       </mat-option>
     </mat-select>
   </mat-form-field> -->
-</mat-dialog-content>
+<!-- </mat-dialog-content>
 <mat-dialog-actions
   class="mat-dialog-actions"
-  style="background-color: lightgray"
->
-  <button mat-button mat-dialog-close>Reset</button>
+  style="background-color: lightgray" -->
+
+<!-- <button mat-button mat-dialog-close>Reset</button>
   <button
     mat-raised-button
     class="matbutton"
     (click)="openAddEditCompanyForm()"
   >
-    <p class="matName">Show results</p>
-  </button>
-</mat-dialog-actions>
+    <p class="matName">Show results</p> -->
+<!-- <button
+      mat-raised-button
+      class="matbutton"
+      (click)="showResults()"
+    ></button></button -->
+<!-- ></mat-dialog-actions> -->

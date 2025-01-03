@@ -27,6 +27,8 @@ import { signal } from "@angular/core";
 import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEligibleStudent";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
+import { AppliedJobInterview } from "src/app/services/types/AppliedJobInterview";
+import { SalaryRanges } from "src/app/services/common-dropdowns/salaryRanges";
 
 const today = new Date();
 const month = today.getMonth();
@@ -48,6 +50,7 @@ export class StudentJobsComponent {
     private sweetAlertService: SweetAlertService,
     private location: Location,
     private studentJobsApiService: StudentJobsApiSerivce,
+
     private cd: ChangeDetectorRef
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
@@ -62,11 +65,14 @@ export class StudentJobsComponent {
   });
 
   isLoading = true;
+  jobInterviewRounds = signal<AppliedJobInterview[]>([]);
+  filteredJobInterviewRounds = signal<AppliedJobInterview[]>([]);
 
   searchCity: string = "";
   filteredCompanies: companyTableList[] = [];
   companyId: number | undefined = undefined;
   companies: companyTableList[] = [];
+  salaryOptions: any[] = SalaryRanges;
   filteredCompany: Observable<any[]> = of([]);
 
   UserRoleId: number;
@@ -194,7 +200,7 @@ export class StudentJobsComponent {
       );
     });
     this.filteredStudents.set(filtered);
-      this.isLoading = false;
+    this.isLoading = false;
   }
   convertToDateOnly(dateString: string): string {
     const date = new Date(dateString);
@@ -375,5 +381,52 @@ export class StudentJobsComponent {
         FilteredStudents: this.filteredStudents(),
       },
     });
+  }
+  openInterviewAdditionalFilter() {
+    const dialogRef = this.dialog.open(
+      StudentJobAdditionalFilterModalComponent,
+      {
+        width: "500px",
+        data: {
+          JobPostingData: this.JobPostingsData(),
+          FilteredStudents: this.filteredStudents(),
+        },
+      }
+    );
+    dialogRef.afterClosed().subscribe((filterValues) => {
+      if (filterValues) {
+        this.filterData(filterValues);
+      }
+    });
+  }
+  filterData(filterValues: any) {
+    console.log(filterValues, "filter values");
+    const filtered = this.JobPostingsData().filter((student) => {
+      debugger;
+      const selectedCompanies = filterValues.companies || [];
+      const selectedJobTypes = filterValues.jobTypes || [];
+      const selectedworkModes = filterValues.ModeOfWorks || [];
+      const selectedSalaryRanges = filterValues.salaryRanges || [];
+
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(student.JobPosting.Company?.Name || "");
+
+      const jobmodeWorkMatch =
+        selectedworkModes.length === 0 ||
+        selectedworkModes.includes(student.JobPosting.ModeOfWork || "");
+
+      const salary = student.JobPosting.Salary || 0;
+
+      const salaryMatch = selectedSalaryRanges.some((rangeObj: any) => {
+        const range = this.salaryOptions.find(
+          (r) => r.label === rangeObj.label
+        );
+        return range && salary >= range.min && salary <= range.max;
+      });
+
+      return companyMatch && jobmodeWorkMatch && salaryMatch;
+    });
+    this.filteredStudents.set(filtered);
   }
 }

@@ -1,37 +1,37 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule, Location } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   signal,
   ViewChild,
-} from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { Observable, of, startWith, map } from 'rxjs';
-import { AMGModules } from 'src/AMG-Module/AMG-module';
-import { CompanyAPIService } from 'src/app/features/company-configuration/company-config/companies/api.companies';
+} from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
+import { Observable, of, startWith, map } from "rxjs";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { CompanyAPIService } from "src/app/features/company-configuration/company-config/companies/api.companies";
 import {
   companyTableList,
   Industry,
-} from 'src/app/features/company-configuration/company-config/companies/companies-model';
-import { CompanyDetailDialogModalComponent } from 'src/app/features/company-configuration/company-config/companies/company-detail-dialog-modal/company-detail-dialog-modal.component';
-import { ImportCompanyDialogComponent } from 'src/app/features/company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component';
-import { IndustryAPIService } from 'src/app/features/company-configuration/company-config/industry/api.industry';
-import { SweetAlertService } from 'src/app/services/sweet-alert-service/sweet-alert-service';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { PlacementInterviewAdditionalFilterComponent } from './placement-interview-additional-filter/placement-interview-additional-filter.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { interviewApiService } from 'src/app/features/company-menu/interview/api.interview';
-import { Jobinterviewround } from 'src/app/services/types/Jobinterviewround';
-import { GetDateForLabel } from 'src/app/core/helper/DateHelper';
-import { JobpostStudentround } from 'src/app/services/types/JobpostStudentround';
-import { JobStatus } from 'src/app/services/common-dropdowns/JobStatus';
+} from "src/app/features/company-configuration/company-config/companies/companies-model";
+import { CompanyDetailDialogModalComponent } from "src/app/features/company-configuration/company-config/companies/company-detail-dialog-modal/company-detail-dialog-modal.component";
+import { ImportCompanyDialogComponent } from "src/app/features/company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
+import { IndustryAPIService } from "src/app/features/company-configuration/company-config/industry/api.industry";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import { SharedModule } from "src/app/shared/shared.module";
+import { PlacementInterviewAdditionalFilterComponent } from "./placement-interview-additional-filter/placement-interview-additional-filter.component";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { provideNativeDateAdapter } from "@angular/material/core";
+import { interviewApiService } from "src/app/features/company-menu/interview/api.interview";
+import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
+import { GetDateForLabel } from "src/app/core/helper/DateHelper";
+import { JobpostStudentround } from "src/app/services/types/JobpostStudentround";
+import { JobStatus } from "src/app/services/common-dropdowns/JobStatus";
 // import * as XLSX from "xlsx";
 // import { jsPDF } from "jspdf";
 
@@ -44,11 +44,11 @@ const month = today.getMonth();
 const year = today.getFullYear();
 
 @Component({
-  selector: 'app-placement-interview',
+  selector: "app-placement-interview",
   standalone: true,
   imports: [CommonModule, SharedModule, AMGModules, MatDatepickerModule],
-  templateUrl: './placement-interview.component.html',
-  styleUrl: './placement-interview.component.css',
+  templateUrl: "./placement-interview.component.html",
+  styleUrl: "./placement-interview.component.css",
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -66,17 +66,17 @@ export class PlacementInterviewComponent {
   industries: Industry[] = [];
 
   companySizes: string[] = [
-    '1-10 Employees',
-    '11-50 Employees',
-    '51-200 Employees',
-    '201-500 Employees',
-    '501-1000 Employees',
-    '1001-5000 Employees',
-    '5001-10000 Employees',
-    '10001+ Employees',
+    "1-10 Employees",
+    "11-50 Employees",
+    "51-200 Employees",
+    "201-500 Employees",
+    "501-1000 Employees",
+    "1001-5000 Employees",
+    "5001-10000 Employees",
+    "10001+ Employees",
   ];
 
-  experienceLevel: string[] = ['Lateral', 'Intern', 'Fresher', 'Contract'];
+  experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
 
   filteredCompanies: companyTableList[] = [];
   filteredCompany: Observable<any[]> = of([]);
@@ -84,11 +84,12 @@ export class PlacementInterviewComponent {
   filteredCompanySize: Observable<string[]> = of([]);
   filteredIndustries: Industry[] = [];
   filteredIndutry: Observable<any[]> = of([]);
+  additionalFilterData: any = {};
   JobStatus: string[] = JobStatus;
 
-  searchCompany: string = '';
-  searchCity: string = '';
-  searchIndustry: string = '';
+  searchCompany: string = "";
+  searchCity: string = "";
+  searchIndustry: string = "";
   UserRoleId: number;
 
   CityControl = new FormControl();
@@ -101,8 +102,8 @@ export class PlacementInterviewComponent {
   industryFilterControl = new FormControl();
   companySizeFilterControl = new FormControl();
 
-  searchControl = new FormControl('');
-  searchName = new FormControl('');
+  searchControl = new FormControl("");
+  searchName = new FormControl("");
   branches: string[] = [];
   batches: number[] = [];
   status: string[] = [];
@@ -118,7 +119,7 @@ export class PlacementInterviewComponent {
     private apiIndustryService: IndustryAPIService,
     private InterviewService: interviewApiService
   ) {
-    const storedUserRoleId = sessionStorage.getItem('userRoleId');
+    const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
   }
   displayedColumns: string[] = [
@@ -128,33 +129,33 @@ export class PlacementInterviewComponent {
     // "City",
     // "ZipCode",
     // "Actions",
-    'Name',
-    'Industries',
-    'OpenPosition',
-    'ContactPerson',
-    'City',
-    'Email',
-    'PhoneNumber',
-    'Url',
-    'JD',
-    'Actions',
+    "Name",
+    "Industries",
+    "OpenPosition",
+    "ContactPerson",
+    "City",
+    "Email",
+    "PhoneNumber",
+    "Url",
+    "JD",
+    "Actions",
   ];
   columns = [
-    { key: 'Name', label: 'Name' },
-    { key: 'Industries', label: 'Industries' },
-    { key: 'OpenPosition', label: 'Open Position' },
-    { key: 'ContactPerson', label: 'Contact Person' },
-    { key: 'City', label: 'City' },
-    { key: 'Email', label: 'Email' },
-    { key: 'PhoneNumber', label: 'Phone Number' },
-    { key: 'Url', label: 'URL' },
-    { key: 'JD', label: 'JD' },
-    { key: 'Actions', label: 'Actions' },
+    { key: "Name", label: "Name" },
+    { key: "Industries", label: "Industries" },
+    { key: "OpenPosition", label: "Open Position" },
+    { key: "ContactPerson", label: "Contact Person" },
+    { key: "City", label: "City" },
+    { key: "Email", label: "Email" },
+    { key: "PhoneNumber", label: "Phone Number" },
+    { key: "Url", label: "URL" },
+    { key: "JD", label: "JD" },
+    { key: "Actions", label: "Actions" },
   ];
   dataSource = new MatTableDataSource<companyTableList>([]);
   isLoading = true; // Start with loading state
   GetDateLabelByDate = (date?: Date) => {
-    return date ? GetDateForLabel(date) : 'NA';
+    return date ? GetDateForLabel(date) : "NA";
   };
 
   GetJobInterviewRounds = () => {
@@ -166,7 +167,7 @@ export class PlacementInterviewComponent {
         this.applyFilters();
       },
       error: (error) => {
-        console.log('Error fetching rounds: ', error);
+        console.log("Error fetching rounds: ", error);
       },
     });
   };
@@ -175,7 +176,6 @@ export class PlacementInterviewComponent {
   ): number {
     return jobpostStudentRounds.filter((x) => x.HasPassed).length;
   }
-
   calculateRejectedStudents(
     jobpostStudentRounds: JobpostStudentround[]
   ): number {
@@ -205,23 +205,23 @@ export class PlacementInterviewComponent {
     });
 
     this.filteredCities = this.CityFilterControl.valueChanges.pipe(
-      startWith(''),
+      startWith(""),
       map((value) => this._filterCities(value))
     );
     this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-      startWith(''),
+      startWith(""),
       map((value) => this._filterIndustries(value))
     );
 
     this.filteredCompany = this.companyControl.valueChanges.pipe(
-      startWith(''),
+      startWith(""),
       map((value) => this._filterCompanies(value))
     );
   }
 
   applyFilters() {
     const filtered = this.jobInterviewRounds().filter((student) => {
-      const nameFilter = this.searchName.value?.toLowerCase() || '';
+      const nameFilter = this.searchName.value?.toLowerCase() || "";
       const selectedBranches = this.branchControl.value || [];
       const selectedStatus = this.statusControl.value || [];
       const selectedBatches = this.batchControl.value || [];
@@ -234,18 +234,18 @@ export class PlacementInterviewComponent {
         selectedBranches.length === 0 ||
         selectedBranches.includes(
           student.JobpostStudentrounds?.[0]?.Student?.Studentacademics?.[0]
-            ?.Course?.FullForm || ''
+            ?.Course?.FullForm || ""
         );
       const statusMatch =
         selectedStatus.length === 0 ||
         selectedStatus.includes(
           student.JobPosting?.JobpostingsEligiblestudents?.[0]?.Status?.Name ||
-            ''
+            ""
         );
       const batchMatch =
         selectedBatches.length === 0 ||
         selectedBatches.includes(
-          student.JobpostStudentrounds?.[0]?.Student?.Batch?.Name || ''
+          student.JobpostStudentrounds?.[0]?.Student?.Batch?.Name || ""
         );
 
       const dateMatch =
@@ -263,17 +263,17 @@ export class PlacementInterviewComponent {
       );
     });
     this.filteredStudents.set(filtered);
-    this.isLoading=false;
+    this.isLoading = false;
   }
 
   getBatches(): void {
     this.InterviewService.GetBatches().subscribe({
       next: (batchData) => {
         this.batches = batchData.value.map((batch: any) => batch.Name);
-        console.log('Available batches:', this.batches);
+        console.log("Available batches:", this.batches);
       },
       error: (error) => {
-        console.error('Error fetching batches:', error);
+        console.error("Error fetching batches:", error);
       },
     });
   }
@@ -282,10 +282,10 @@ export class PlacementInterviewComponent {
     this.InterviewService.GetBranches().subscribe({
       next: (branchData) => {
         this.branches = branchData.value.map((branch: any) => branch.FullForm);
-        console.log('Available branches:', this.branches);
+        console.log("Available branches:", this.branches);
       },
       error: (error) => {
-        console.error('Error fetching branches:', error);
+        console.error("Error fetching branches:", error);
       },
     });
   }
@@ -307,8 +307,7 @@ export class PlacementInterviewComponent {
 
   openCompanyModalPopup(company: any): void {
     this.dialog.open(CompanyDetailDialogModalComponent, {
-      width: '500px',
-      height: '600px',
+      width: "500px",
       data: company,
     });
   }
@@ -326,14 +325,14 @@ export class PlacementInterviewComponent {
   loadCompanies() {
     this.apiCompanyService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
-        console.log('API Response:', response);
+        console.log("API Response:", response);
         this.dataSource.data = response.value;
         this.companies = response.value;
         this.industries = this.extractIndustriesFromCompanies(this.companies);
         this.filteredIndustries = this.industries;
       },
       error: (error) => {
-        console.error('Error loading companies', error);
+        console.error("Error loading companies", error);
       },
     });
   }
@@ -341,25 +340,25 @@ export class PlacementInterviewComponent {
   loadIndustries() {
     this.apiIndustryService.loadIndustryData().subscribe({
       next: (response: ODataResponse<any>) => {
-        console.log('API Response:', response);
+        console.log("API Response:", response);
         this.industries = response.value;
       },
       error: (error) => {
-        console.error('Error loading Industries', error);
+        console.error("Error loading Industries", error);
       },
     });
   }
   openAddEditCompanyForm(id?: number) {
     if (id !== null && id !== undefined) {
-      this.router.navigate(['/company-configuration/company', id]);
+      this.router.navigate(["/company-configuration/company", id]);
     } else {
-      this.router.navigate(['/company-configuration/company', 0]);
+      this.router.navigate(["/company-configuration/company", 0]);
     }
   }
 
   async deleteCompany(id: number) {
     const confirmed = await this.sweetAlertService.confirmDelete(
-      'Do you really want to delete this Company?'
+      "Do you really want to delete this Company?"
     );
 
     if (confirmed) {
@@ -374,9 +373,9 @@ export class PlacementInterviewComponent {
         },
         error: (error) => {
           this.sweetAlertService.error(
-            'An unexpected error occurred while deleting the Company.'
+            "An unexpected error occurred while deleting the Company."
           );
-          console.error('Error deleting Company:', error);
+          console.error("Error deleting Company:", error);
         },
       });
     }
@@ -389,10 +388,43 @@ export class PlacementInterviewComponent {
   }
 
   openPlacementinterviewAdditionalFilter() {
-    this.dialog.open(PlacementInterviewAdditionalFilterComponent, {
-      width: "500px",
-      height: "600px",
+    const dialogRef = this.dialog.open(
+      PlacementInterviewAdditionalFilterComponent,
+      {
+        width: "500px",
+      }
+    );
+    dialogRef.afterClosed().subscribe((filterValues) => {
+      if (filterValues) {
+        this.filterData(filterValues);
+      }
     });
+  }
+
+  filterData(filterValues: any) {
+    const filtered = this.jobInterviewRounds().filter((student) => {
+      const selectedCompanies = filterValues.companies || [];
+      const selectedJobTypes = filterValues.jobTypes || [];
+      const selectedJobroles = filterValues.jobRoles || [];
+      const selectedInterviewRounds = filterValues.interviewRounds || [];
+
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(student.JobPosting?.Company?.Name || "");
+      const jobTypeMatch =
+        selectedJobTypes.length === 0 ||
+        selectedJobTypes.includes(student.JobPosting?.JobType || "");
+      const jobRoleMatch =
+        selectedJobroles.length === 0 ||
+        selectedJobroles.includes(student.JobPosting?.JobRole || "");
+      const interviewRoundsMatch =
+        selectedInterviewRounds.length === 0 ||
+        selectedInterviewRounds.includes(student.Name || "");
+      return (
+        companyMatch && jobTypeMatch && jobRoleMatch && interviewRoundsMatch
+      );
+    });
+    this.filteredStudents.set(filtered);
   }
 
   filterCities(search: string) {
@@ -437,16 +469,16 @@ export class PlacementInterviewComponent {
 
   get selectedCompanyCities(): string {
     const selected = this.CityControl.value;
-    return selected ? selected.join(', ') : '';
+    return selected ? selected.join(", ") : "";
   }
 
   get selectedIndustries(): string {
     const selected = this.industryControl.value;
-    return selected ? selected.join(', ') : '';
+    return selected ? selected.join(", ") : "";
   }
   get selectedCompanySize(): string {
     const selected = this.companySizeControl.value;
-    return selected ? selected.join(', ') : '';
+    return selected ? selected.join(", ") : "";
   }
 
   onCityDropdownOpen() {
@@ -473,14 +505,14 @@ export class PlacementInterviewComponent {
 
   resetIndustrySelection() {
     this.industryControl.reset();
-    this.searchIndustry = '';
+    this.searchIndustry = "";
     this.filteredCompanies = this.companies;
     this.dataSource.data = this.filteredCompanies;
   }
 
   resetLocationSelection() {
     this.CityControl.reset();
-    this.searchCity = '';
+    this.searchCity = "";
     this.filteredCompanies = this.companies;
     this.dataSource.data = this.filteredCompanies;
   }
@@ -526,7 +558,7 @@ export class PlacementInterviewComponent {
     console.log(interviewRoundId);
     // if (this.UserRoleId === 1 || this.UserRoleId === 2) {
     this.router.navigate([
-      'placement-interview/interview-students-list/',
+      "placement-interview/interview-students-list/",
       jobpostId,
       interviewRoundId,
     ]);
@@ -535,6 +567,6 @@ export class PlacementInterviewComponent {
 
   viewInterviewDetails(id: number) {
     // Navigate to interview details page (to be implemented)
-    console.log('View details for interview ID:', id);
+    console.log("View details for interview ID:", id);
   }
 }

@@ -329,7 +329,7 @@ const appRoutes: Routes = [
         component: InterviewStudentComponent,
       },
       {
-        path: "interview/interview-students-list/:id",
+        path: "interview/interview-students-list/:jobId/:interviewRoundId",
         component: InterviewStudentsListComponent,
       },
       {

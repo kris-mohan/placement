@@ -41,6 +41,7 @@ export class CalendarEventsComponent {
     "CompanyId",
     "Actions",
   ];
+  calendarId: number = 0;
   columns: { key: string; label: string }[] = [];
   dataSource = new MatTableDataSource<Calendarevent>([]);
 
@@ -66,9 +67,28 @@ export class CalendarEventsComponent {
       this.router.navigate(["/campus-configuration/calendar-events", ""]);
     }
   }
+  // getCalendarEventById = () => {
+  //   this.APICalendarEventsService.getCalendarEventById(
+  //     this.calendarId
+  //   ).subscribe({
+  //     next: (response: ODataResponse<any>) => {
+  //       if (response && response.value) {
+  //         this.dataSource.data = response.value;
+  //         console.log("Event Data:", response.value);
+  //       } else {
+  //         this.dataSource.data = [];
+  //         console.log("No data found for the given Id.");
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error("Error fetching event data:", err);
+  //     },
+  //   });
+  // };
 
   ngOnInit() {
     this.loadCalendarEventData();
+    // this.getCalendarEventById();
   }
 
   loadCalendarEventData() {
@@ -107,8 +127,28 @@ export class CalendarEventsComponent {
       });
     }
   }
+  isDataAvailable(): boolean {
+    return this.dataSource.data && this.dataSource.data.length > 0;
+  }
 
   goBack(): void {
     this.location.back();
+  }
+  exportCalendarEvents() {
+    this.APICalendarEventsService.downloadCalendarevent().subscribe({
+      next: (response) => {
+        const fileName = 'CalendarEvents.xlsx';
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Error downloading the file: ', error);
+      },
+    });
   }
 }
