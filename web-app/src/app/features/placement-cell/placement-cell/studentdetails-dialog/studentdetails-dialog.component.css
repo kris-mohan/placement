@@ -107,7 +107,7 @@ td.mat-mdc-cell {
   line-height: 36px;
   font-size: 16px;
   padding: 0;
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 .wrong-button {
   width: 36px;
@@ -116,7 +116,7 @@ td.mat-mdc-cell {
   line-height: 36px;
   font-size: 16px;
   padding: 0;
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 .actions-cell {
   padding-left: 10px; /* Adds space inside the cell */
@@ -126,9 +126,9 @@ td.mat-mdc-cell {
   box-shadow: 0 0 10px rgba(0, 255, 0, 0.8); /* Green glow for approved */
 }
 
-.actions-cell button {
+/* .actions-cell button {
   margin-right: 8px;
-}
+} */
 
 .status-label {
   font-weight: bold;
@@ -142,8 +142,8 @@ td.mat-mdc-cell {
 
 .dialog-footer {
   display: flex;
-  justify-content: flex-end; 
-  padding: 10px 20px; 
+  justify-content: flex-end;
+  padding: 10px 20px;
 }
 
 .matbutton {
@@ -158,4 +158,14 @@ td.mat-mdc-cell {
 
 .matbutton:hover {
   background-color: #5c6bc0;
+}
+
+.clickable-icon {
+  cursor: pointer;
+  color: #3f51b5; /* Adjust color to indicate clickability */
+}
+
+.mdc-data-table__cell,
+.mdc-data-table__header-cell {
+  padding: 0 8px 0 8px;
 }

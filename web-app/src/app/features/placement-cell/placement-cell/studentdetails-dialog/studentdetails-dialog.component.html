@@ -7,7 +7,8 @@
     <img
       src="../../../../../assets/images/StudentImage.png"
       alt="Profile Photo"
-      class="Student-Image" />
+      class="Student-Image"
+    />
     <div class="student-info">
       <h3>{{ studentData()[0]?.FirstName }}</h3>
       <p>
@@ -38,7 +39,8 @@
             <table
               mat-table
               [dataSource]="studentSemWiseMarksData"
-              class="compact-table">
+              class="compact-table"
+            >
               <ng-container matColumnDef="semesterName">
                 <th mat-header-cell *matHeaderCellDef>Semester</th>
                 <td mat-cell *matCellDef="let sem">{{ sem.semesterName }}</td>
@@ -54,7 +56,7 @@
                     <ng-container *ngIf="sem.status; else actionButtons">
                       <span class="status-label">
                         {{
-                          sem.status === 'approved' ? 'Approved' : 'Rejected'
+                          sem.status === "approved" ? "Approved" : "Rejected"
                         }}
                       </span>
                     </ng-container>
@@ -68,7 +70,8 @@
                           sem.status === 'approved' || sem.status === 'rejected'
                         "
                         [ngClass]="{ highlighted: sem.status === 'approved' }"
-                        (click)="onApproveClick(sem)">
+                        (click)="onApproveClick(sem)"
+                      >
                         <mat-icon>check</mat-icon>
                       </button>
 
@@ -81,7 +84,8 @@
                           sem.status === 'approved' || sem.status === 'rejected'
                         "
                         [ngClass]="{ highlighted: sem.status === 'rejected' }"
-                        (click)="onRejectClick(sem)">
+                        (click)="onRejectClick(sem)"
+                      >
                         <mat-icon>close</mat-icon>
                       </button>
                     </ng-template>
@@ -92,12 +96,25 @@
                 </td>
                 <!-- <td mat-cell *matCellDef="let sem">{{ sem.semesterName }}</td> -->
               </ng-container>
+              <ng-container matColumnDef="document">
+                <th mat-header-cell *matHeaderCellDef>View Document</th>
+                <td mat-cell *matCellDef="let sem">
+                  <!-- make it dynamic -->
+                  <mat-icon
+                    class="clickable-icon"
+                    (click)="getDocumentsFilePath(sem.id, 1)"
+                    >attachment</mat-icon
+                  >
+                </td>
+              </ng-container>
               <tr
                 mat-header-row
-                *matHeaderRowDef="displayedSemesterColumns"></tr>
+                *matHeaderRowDef="displayedSemesterColumns"
+              ></tr>
               <tr
                 mat-row
-                *matRowDef="let row; columns: displayedSemesterColumns"></tr>
+                *matRowDef="let row; columns: displayedSemesterColumns"
+              ></tr>
             </table>
           </mat-card-content>
         </mat-card>
@@ -109,7 +126,8 @@
             <table
               mat-table
               [dataSource]="class12thMarksData"
-              class="compact-table">
+              class="compact-table"
+            >
               <ng-container matColumnDef="semesterName">
                 <th mat-header-cell *matHeaderCellDef>Class</th>
                 <td mat-cell *matCellDef="let sem">{{ sem.semesterName }}</td>
@@ -125,7 +143,7 @@
                     <ng-container *ngIf="sem.status; else actionButtons">
                       <span class="status-label">
                         {{
-                          sem.status === 'approved' ? 'Approved' : 'Rejected'
+                          sem.status === "approved" ? "Approved" : "Rejected"
                         }}
                       </span>
                     </ng-container>
@@ -137,7 +155,8 @@
                         [disabled]="
                           sem.status === 'approved' || sem.status === 'rejected'
                         "
-                        (click)="onApproveClick(sem)">
+                        (click)="onApproveClick(sem)"
+                      >
                         <mat-icon>check</mat-icon>
                       </button>
 
@@ -145,7 +164,8 @@
                         mat-fab
                         color="warn"
                         class="wrong-button"
-                        (click)="onRejectClick(sem)">
+                        (click)="onRejectClick(sem)"
+                      >
                         <mat-icon>close</mat-icon>
                       </button>
                     </ng-template>
@@ -154,12 +174,24 @@
 
                 <!-- <td mat-cell *matCellDef="let sem">{{ sem.semesterName }}</td> -->
               </ng-container>
+              <ng-container matColumnDef="document">
+                <th mat-header-cell *matHeaderCellDef>View Document</th>
+                <td mat-cell *matCellDef="let sem">
+                  <mat-icon
+                    class="clickable-icon"
+                    (click)="getDocumentsFilePath(sem.id, 2)"
+                    >attachment</mat-icon
+                  >
+                </td>
+              </ng-container>
               <tr
                 mat-header-row
-                *matHeaderRowDef="displayedSemesterColumns"></tr>
+                *matHeaderRowDef="displayedSemesterColumns"
+              ></tr>
               <tr
                 mat-row
-                *matRowDef="let row; columns: displayedSemesterColumns"></tr>
+                *matRowDef="let row; columns: displayedSemesterColumns"
+              ></tr>
             </table>
           </mat-card-content>
         </mat-card>
@@ -172,7 +204,8 @@
             <table
               mat-table
               [dataSource]="class10thMarksData"
-              class="compact-table">
+              class="compact-table"
+            >
               <ng-container matColumnDef="semesterName">
                 <th mat-header-cell *matHeaderCellDef>Class</th>
                 <td mat-cell *matCellDef="let sem">{{ sem.semesterName }}</td>
@@ -188,7 +221,7 @@
                     <ng-container *ngIf="sem.status; else actionButtons">
                       <span class="status-label">
                         {{
-                          sem.status === 'approved' ? 'Approved' : 'Rejected'
+                          sem.status === "approved" ? "Approved" : "Rejected"
                         }}
                       </span>
                     </ng-container>
@@ -221,13 +254,25 @@
 
                 <!-- <td mat-cell *matCellDef="let sem">{{ sem.semesterName }}</td> -->
               </ng-container>
+              <ng-container matColumnDef="document">
+                <th mat-header-cell *matHeaderCellDef>View Document</th>
+                <td mat-cell *matCellDef="let sem">
+                  <mat-icon
+                    class="clickable-icon"
+                    (click)="getDocumentsFilePath(sem.id, 3)"
+                    >attachment</mat-icon
+                  >
+                </td>
+              </ng-container>
               <tr
                 mat-header-row
-                *matHeaderRowDef="displayedSemesterColumns"></tr>
+                *matHeaderRowDef="displayedSemesterColumns"
+              ></tr>
 
               <tr
                 mat-row
-                *matRowDef="let row; columns: displayedSemesterColumns"></tr>
+                *matRowDef="let row; columns: displayedSemesterColumns"
+              ></tr>
             </table>
           </mat-card-content>
         </mat-card>
@@ -251,7 +296,8 @@
           <tr mat-header-row *matHeaderRowDef="displayedSkillsColumns"></tr>
           <tr
             mat-row
-            *matRowDef="let row; columns: displayedSkillsColumns"></tr>
+            *matRowDef="let row; columns: displayedSkillsColumns"
+          ></tr>
         </table>
       </div>
     </mat-tab>
