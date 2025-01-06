@@ -16,6 +16,8 @@ import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEl
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { CompanyjobdescriptionApiService } from "../company-job-description/company-job-description-ApiService";
 import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
+import { NotificationsApiService } from "../../student-menu/student-menu/profile-management/profilemanagement-dashboard/NotificationsAPIService";
+import { notification } from "src/app/services/types/Notifications";
 @Component({
   selector: "app-company-job-description",
   standalone: true,
@@ -83,7 +85,8 @@ export class CompanyJobDescriptionComponent {
     private router: Router,
     private jobEligibleStudentsApiService: JobEligibleStudentApiService,
     private companyjobdescriptionApiService: CompanyjobdescriptionApiService,
-    private sweetAlertService: SweetAlertService
+    private sweetAlertService: SweetAlertService,
+    private notificationApiService: NotificationsApiService
   ) {
     const storedUserType = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserType ? parseInt(storedUserType) : 0;
@@ -386,6 +389,19 @@ export class CompanyJobDescriptionComponent {
         .subscribe({
           next: (response: { success: boolean; message: string }) => {
             if (response) {
+              const notification = {
+                Id: 0,
+                Title: "",
+                NotificationContent: "",
+                ParentType: "",
+                ParentId: 0,
+                IsRead: 0,
+                CompanyId: 0,
+                CampusId: null,
+                StudentId: 0,
+              };
+              this.saveNotification(notification);
+
               this.sweetAlertService.success(
                 "You have applied for this job post successfully!"
               );
@@ -398,6 +414,10 @@ export class CompanyJobDescriptionComponent {
         });
     }
   };
+
+  getStudentDetails(){
+    
+  }
 
   rejectJobPostByStudent = async () => {
     const confirmed = await this.sweetAlertService.confirm(
@@ -423,6 +443,18 @@ export class CompanyJobDescriptionComponent {
         });
     }
   };
+
+  saveNotification(body: notification) {
+    this.notificationApiService.Notification(body).subscribe({
+      next: (response: { success: boolean; message: any }) => {
+        if (response.success) {
+          console.log(response.success, "success");
+        } else {
+        }
+      },
+      error: (error) => {},
+    });
+  }
 
   openAddEditCompanyForm(id: number) {}
 }

@@ -50,6 +50,9 @@
 .profile-container {
   margin: 20px;
 }
+.Education-container {
+  margin: 20px;
+}
 
 .profile-container h2 {
   color: darkblue;
@@ -204,3 +207,15 @@ mat-form-field {
   border: none;
   width: 100%;
 } */
+
+.save_btn_tab_2 {
+  margin-top: 10px;
+}
+
+.add_remove_btn {
+  border: 1px solid black;
+}
+
+mat-tab-body  div {
+  overflow: hidden !important;
+}

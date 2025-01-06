@@ -161,4 +161,8 @@ export class StudentProfileApiService {
       `/Document?filter=ParentId eq ${parentId} and ParentType eq '${parentType}'`
     );
   }
+
+  saveStudentSkills(studentSkill: any): Observable<any> {
+    return this.apiHttpService.post(`/StudentSkill`, studentSkill);
+  }
 }

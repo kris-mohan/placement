@@ -1,4 +1,4 @@
-import { CommonModule, Location } from "@angular/common";
+import { CommonModule, Location, NgPlural } from "@angular/common";
 import { Component, inject, signal } from "@angular/core";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -40,6 +40,7 @@ import {
 } from "src/app/services/types/Studentacademic";
 import { StudentSemesterMark } from "src/app/services/types/StudentSemesterMark";
 import { DateTime } from "luxon";
+import { Year } from "src/app/services/common-dropdowns/Year";
 
 @Component({
   selector: "app-profile-management",
@@ -53,6 +54,7 @@ export class ProfileManagementComponent {
   selectedProfilePhoto: File[] = [];
   selectedSkillTypeIds: number[] = [];
   selectedSkillIds: number[] = [];
+
   selectedSemester: string = "";
   selectedBoard: string = "";
   selectedScore: string = "";
@@ -89,6 +91,8 @@ export class ProfileManagementComponent {
   studentAcademicId: number = 0;
   semesterData: StudentSemesterMark[] = [];
   sessionStudentId: number | null;
+  yearDropDownValues: string[] = Year;
+  semesterDropDownValues: string[] = Semester;
 
   constructor(
     private location: Location,
@@ -139,6 +143,7 @@ export class ProfileManagementComponent {
       semester6: this.createSemesterGroup(),
       semester7: this.createSemesterGroup(),
       semester8: this.createSemesterGroup(),
+      semestersAll: this.fb.array([]),
     });
     this.studentSkillsForm = this.fb.group({
       fields: this.fb.array([]),
@@ -148,9 +153,23 @@ export class ProfileManagementComponent {
       Internship: [""],
       // fields: this.fb.array([]), // Initialize with an empty FormArray
     });
+    this.fields = this.studentSkillsForm.get("fields") as FormArray; // initialize fields form array
     const id = this.route.snapshot.paramMap.get("id");
     this.studentId = id ? parseInt(id) : 0;
     this.Id = id ? parseInt(id) : 0;
+  }
+  fields: FormArray;
+
+  get semestersAll(): FormArray {
+    return this.studentEducationForm.get("semestersAll") as FormArray;
+  }
+
+  addSemester(): void {
+    this.semestersAll.push(this.createSemesterGroup());
+  }
+
+  removeSemester(index: number): void {
+    this.semestersAll.removeAt(index);
   }
 
   createSemesterGroup() {
@@ -159,6 +178,29 @@ export class ProfileManagementComponent {
       closedBacklogs: [0],
       liveBacklogs: [0],
       file: [null],
+      Semester: "",
+      Year: null,
+    });
+  }
+
+  onFileSelectedDegree(event: any, index: number): void {
+    const selectedFile = event.target.files[0];
+    const semesterFormGroup = this.semestersAll.at(index) as FormGroup;
+    semesterFormGroup.patchValue({
+      file: selectedFile,
+    });
+  }
+
+  onFileSelected10th(event: any): void {
+    const selectedFile = event.target.files[0];
+    this.studentEducationForm.patchValue({
+      TenthFile: selectedFile,
+    });
+  }
+  onFileSelected12th(event: any): void {
+    const selectedFile = event.target.files[0];
+    this.studentEducationForm.patchValue({
+      TwelfthFile: selectedFile,
     });
   }
 
@@ -190,6 +232,13 @@ export class ProfileManagementComponent {
                 TwelfthBoard: studentDetails.TwelthBoard || "",
                 TwelfthMarks: studentDetails.TwelthMarks || "",
                 TwelfthPassedOutYear: studentDetails.TwelthPassedOutYear || "",
+              });
+
+              this.studentSkillsForm.patchValue({
+                LinkedInLink: studentDetails.LinkedinLink || "",
+                Achievement: studentDetails.Achievements || "",
+                Project: studentDetails.Projects || "",
+                Internship: studentDetails.Internship || "",
               });
 
               // If you have file or other fields to patch, do so here as needed
@@ -246,6 +295,7 @@ export class ProfileManagementComponent {
 
     this.GetPassedOutYear();
     this.GetAllSkillTypes();
+    this.fields.push(this.createSkillFormControl());
   }
 
   onFileSelected(event: Event) {
@@ -303,7 +353,7 @@ export class ProfileManagementComponent {
     //   .at(index)
     //   .get("skills");
     // skillsControl?.setValue([]); // Clear the selected skills for this field
-    this.fields[index].skills = [];
+    // this.fields[index].skills = [];
   }
 
   getYear(index: number): number {
@@ -330,17 +380,17 @@ export class ProfileManagementComponent {
     }
   }
 
-  removeSemester(index: number) {
-    if (this.allSemesters.length > 1) {
-      this.allSemesters.splice(index, 1);
-    } else {
-      alert("At least one semester is required.");
-    }
-  }
+  // removeSemester(index: number) {
+  //   if (this.allSemesters.length > 1) {
+  //     this.allSemesters.splice(index, 1);
+  //   } else {
+  //     alert("At least one semester is required.");
+  //   }
+  // }
 
-  addSemester() {
-    this.semesters.push({ score: "", type: "", file: null });
-  }
+  // addSemester() {
+  //   this.semesters.push({ score: "", type: "", file: null });
+  // }
 
   onSemesterChange(event: any) {
     this.selectedSemester = event.value;
@@ -638,27 +688,53 @@ export class ProfileManagementComponent {
           `Do you want to save your details?`
         );
         if (confirmed) {
-          const semesterMarks = Array.from({ length: 8 }, (_, index) => {
-            const semesterKey = `semester${index + 1}`;
-            const semesterFormGroup =
-              this.studentEducationForm.get(semesterKey);
-            const existingSemesterData = this.semesterData.find(
-              (semester) => semester.Semester === index + 1
-            );
+          // const semesterMarks = Array.from({ length: 8 }, (_, index) => {
+          //   const semesterKey = `semester${index + 1}`;
+          //   const semesterFormGroup =
+          //     this.studentEducationForm.get(semesterKey);
+          //   const existingSemesterData = this.semesterData.find(
+          //     (semester) => semester.Semester === index + 1
+          //   );
 
-            if (semesterFormGroup) {
+          //   if (semesterFormGroup) {
+          //     return {
+          //       Id: existingSemesterData?.Id || 0,
+          //       Semester: index + 1,
+          //       StudentAcademicId: this.studentAcademicId,
+          //       Sgpa: +semesterFormGroup.value.sgpa || null,
+          //       ClosedBacklogs: +semesterFormGroup.value.closedBacklogs || 0,
+          //       LiveBacklogs: +semesterFormGroup.value.liveBacklogs || 0,
+          //       // MarkaPercentage: semesterFormGroup.value.file || null, // Assuming file maps to MarkaPercentage
+          //     };
+          //   }
+          //   return null;
+          // }).filter((semester) => semester !== null);
+
+          const semesterMarks = this.semestersAll.controls.map(
+            (semesterFormGroup, index) => {
+              const existingSemesterData = this.semesterData.find(
+                (semester) => semester.Semester === index + 1
+              );
+              debugger;
+              if (semesterFormGroup.value.file != null) {
+                this.uploadDegreeCertificate(
+                  semesterFormGroup.value.file,
+                  `Degree Certificate Sem-wise ${semesterFormGroup.value.Year} - ${semesterFormGroup.value.Semester}`
+                );
+              }
+
               return {
                 Id: existingSemesterData?.Id || 0,
-                Semester: index + 1,
+                Semester: semesterFormGroup.value.Semester,
                 StudentAcademicId: this.studentAcademicId,
                 Sgpa: +semesterFormGroup.value.sgpa || null,
                 ClosedBacklogs: +semesterFormGroup.value.closedBacklogs || 0,
                 LiveBacklogs: +semesterFormGroup.value.liveBacklogs || 0,
-                // MarkaPercentage: semesterFormGroup.value.file || null, // Assuming file maps to MarkaPercentage
+                Year: +semesterFormGroup.value.Year,
+                // MarkaPercentage: semesterFormGroup.value.file || null, // Assuming file maps to MarkaPercentage()
               };
             }
-            return null;
-          }).filter((semester) => semester !== null);
+          );
 
           // Calculate CGPA (average of all SGPAs)
           const totalSgpa = semesterMarks.reduce(
@@ -670,20 +746,32 @@ export class ProfileManagementComponent {
           console.log("CGPA", CGPA);
           const studentEducationData: PatchStudentAcademic = {
             Id: this.studentAcademicId,
-            TenthMarks: this.studentEducationForm.value.TenthMarks || null,
-            TwelthMarks: this.studentEducationForm.value.TwelfthMarks,
+            TenthMarks: +this.studentEducationForm.value.TenthMarks || null,
+            TwelthMarks: +this.studentEducationForm.value.TwelfthMarks || null,
             TenthBoard: this.studentEducationForm.value.TenthBoard,
             TwelthBoard: this.studentEducationForm.value.TwelfthBoard,
             TenthPassedOutYear:
-              this.studentEducationForm.value.TenthPassedOutYear,
+              +this.studentEducationForm.value.TenthPassedOutYear || null,
             TwelthPassedOutYear:
-              this.studentEducationForm.value.TwelfthPassedOutYear,
+              +this.studentEducationForm.value.TwelfthPassedOutYear || null,
             TenthSchoolName: this.studentEducationForm.value.TenthSchoolName,
             TwelthSchoolName: this.studentEducationForm.value.TwelfthSchoolName,
             StudentSemesterMarks: semesterMarks,
             Cgpa: CGPA,
           };
+          if (this.studentEducationForm.value.TenthFile != null) {
+            this.uploadDegreeCertificate(
+              this.studentEducationForm.value.TenthFile,
+              `Tenth File`
+            );
+          }
 
+          if (this.studentEducationForm.value.TwelfthFile) {
+            this.uploadDegreeCertificate(
+              this.studentEducationForm.value.TwelfthFile,
+              `Tweleth File`
+            );
+          }
           console.log(studentEducationData);
 
           this.SaveEducationDetails(
@@ -695,67 +783,60 @@ export class ProfileManagementComponent {
     }
 
     if (tab === 3) {
+      debugger;
       console.log(this.studentSkillsForm.value, "skills Form");
-      // if (this.studentSkillsForm.valid) {
-      //   const confirmed = await this.sweetAlertService.confirm(
-      //     `Do you want to save your details?`
-      //   );
-      //   if (confirmed) {
-      //     const semesterMarks = Array.from({ length: 8 }, (_, index) => {
-      //       const semesterKey = `semester${index + 1}`;
-      //       const semesterFormGroup =
-      //         this.studentEducationForm.get(semesterKey);
-      //       const existingSemesterData = this.semesterData.find(
-      //         (semester) => semester.Semester === index + 1
-      //       );
+      this;
+      if (this.studentSkillsForm.valid) {
+        const confirmed = await this.sweetAlertService.confirm(
+          `Do you want to save your details?`
+        );
 
-      //       if (semesterFormGroup) {
-      //         return {
-      //           Id: existingSemesterData?.Id || 0,
-      //           Semester: index + 1,
-      //           StudentAcademicId: this.studentAcademicId,
-      //           Sgpa: +semesterFormGroup.value.sgpa || null,
-      //           ClosedBacklogs: +semesterFormGroup.value.closedBacklogs || 0,
-      //           LiveBacklogs: +semesterFormGroup.value.liveBacklogs || 0,
-      //           // MarkaPercentage: semesterFormGroup.value.file || null, // Assuming file maps to MarkaPercentage
-      //         };
-      //       }
-      //       return null;
-      //     }).filter((semester) => semester !== null);
+        if (confirmed) {
+          var skillids = this.studentSkillsForm.value.fields?.flatMap(
+            (f: any) => {
+              f.skills.flatMap((s: any) => {
+                var studentSkill = {
+                  Id: 0,
+                  StudentId: this.Id,
+                  SkillId: s,
+                };
+                this.studentApiService
+                  .saveStudentSkills(studentSkill)
+                  .subscribe({
+                    next: (response: { success: boolean; message: any }) => {
+                      console.log(response);
+                      // if (response.success) {
+                      //   this.sweetAlertService.success(response.message);
+                      // } else {
+                      //   this.sweetAlertService.error(response.message);
+                      // }
+                      return response;
+                    },
+                    error: (error) => {
+                      // this.sweetAlertService.error(
+                      //   "An unexpected error occurred:"
+                      // );
+                      return error;
+                    },
+                  });
+              });
+            }
+          );
+          const studentEducationData: Partial<PatchStudentAcademic> = {
+            Id: this.studentAcademicId,
+            LinkedinLink: this.studentSkillsForm.value.LinkedInLink,
+            Achievements: this.studentSkillsForm.value.Achievement,
+            Projects: this.studentSkillsForm.value.Project,
+            Internship: this.studentSkillsForm.value.Internship,
+          };
 
-      //     // Calculate CGPA (average of all SGPAs)
-      //     const totalSgpa = semesterMarks.reduce(
-      //       (acc, semester) => acc + (semester.Sgpa || 0),
-      //       0
-      //     );
-      //     const averageSgpa = totalSgpa / semesterMarks.length;
-      //     const CGPA = averageSgpa; // Store the average as CGPA
-      //     console.log("CGPA", CGPA);
-      //     const studentEducationData: PatchStudentAcademic = {
-      //       Id: this.studentAcademicId,
-      //       TenthMarks: this.studentEducationForm.value.TenthMarks || null,
-      //       TwelthMarks: this.studentEducationForm.value.TwelfthMarks,
-      //       TenthBoard: this.studentEducationForm.value.TenthBoard,
-      //       TwelthBoard: this.studentEducationForm.value.TwelfthBoard,
-      //       TenthPassedOutYear:
-      //         this.studentEducationForm.value.TenthPassedOutYear,
-      //       TwelthPassedOutYear:
-      //         this.studentEducationForm.value.TwelfthPassedOutYear,
-      //       TenthSchoolName: this.studentEducationForm.value.TenthSchoolName,
-      //       TwelthSchoolName: this.studentEducationForm.value.TwelfthSchoolName,
-      //       StudentSemesterMarks: semesterMarks,
-      //       Cgpa: CGPA,
-      //     };
-
-      //     console.log(studentEducationData);
-
-      //     this.SaveEducationDetails(
-      //       this.studentAcademicId,
-      //       studentEducationData
-      //     );
-      //   }
-      // }
-    } 
+          this.SaveEducationDetails(
+            this.studentAcademicId,
+            studentEducationData
+          );
+        }
+      }
+    }
   }
 
   SaveEducationDetails(id: number, studentData: PatchStudentAcademic) {
@@ -824,13 +905,18 @@ export class ProfileManagementComponent {
 
   // fields: any[] = [{ id: 1 }];
 
-  fields: { skillType: string; skills: string[] }[] = [
-    {
-      skillType: "",
-      skills: [],
-    },
-  ];
-
+  // fields: { skillType: string; skills: string[] }[] = [
+  //   {
+  //     skillType: "",
+  //     skills: [],
+  //   },
+  // ];
+  createSkillFormControl(): FormGroup {
+    return this.fb.group({
+      skillType: new FormControl(""), // Form control for requiredItem
+      skills: new FormControl([]), // Form control for description
+    });
+  }
   addField() {
     // Add a new FormGroup to the FormArray
     // const newField = this.fb.group({
@@ -839,25 +925,20 @@ export class ProfileManagementComponent {
     // });
     // this.fields.push(newField); // Push the new field to the form array
 
-    this.fields.push({
-      skillType: "", // Skill Type initially empty
-      skills: [], // Empty skill list for the new field
-    });
+    // this.fields.push({
+    //   skillType: "", // Skill Type initially empty
+    //   skills: [], // Empty skill list for the new field
+    // });
+
+    this.fields.push(this.createSkillFormControl());
 
     // this.fields.push({ id: this.fields.length + 1 });
   }
 
   removeField(index: number) {
-    // Remove the field from the form array
-    (this.studentSkillsForm.get("fields") as FormArray).removeAt(index);
-
-    // Remove the skill type from the selectedSkillTypes signal
-    const selectedSkillTypes = [...this.selectedSkillTypes()];
-    selectedSkillTypes.splice(index, 1);
-    this.selectedSkillTypes.set(selectedSkillTypes);
-    // Update filtered skill types again after removal
-    this.updateFilteredSkillTypes();
-    this.fields.splice(index, 1);
+    if (index >= 0 && this.fields.length > 0) {
+      this.fields.removeAt(index);
+    }
   }
 
   async onSubmit() {
@@ -1006,5 +1087,47 @@ export class ProfileManagementComponent {
 
   onProfilePhotoSelected(event: any): void {
     this.selectedProfilePhoto = Array.from(event.target.files);
+  }
+  uploadDegreeCertificate(DegreeFile: any, fileType: string) {
+    debugger;
+    const formData = new FormData();
+    formData.append("files", DegreeFile);
+
+    this.studentApiService.uploadDocument(formData).subscribe({
+      next: (response) => {
+        if (response.success && response.files) {
+          response.files.flatMap((f: any) => {
+            try {
+              const doc = {
+                id: 0,
+                fileName: f.fileName,
+                filePath: f.filePath,
+                fileType: fileType,
+                parentType: "student",
+                parentId: this.Id,
+                isDeleted: true,
+                createdDate: DateTime.now(),
+                createdBy: true,
+              };
+
+              this.studentApiService.saveDocumentDetails(doc).subscribe({
+                next: (response: { success: boolean; message: any }) => {
+                  if (response.success) {
+                    console.log(response.success, "success");
+                  } else {
+                  }
+                },
+                error: (error) => {},
+              });
+            } catch (e) {
+              console.log(e);
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error("Error uploading documents:", error);
+      },
+    });
   }
 }

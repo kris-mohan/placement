@@ -14,4 +14,6 @@ public partial class CampusCompany
     public virtual Campusregistration? Campus { get; set; }
 
     public virtual Companydatum? Company { get; set; }
+
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 }

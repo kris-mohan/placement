@@ -9,7 +9,7 @@ public partial class StudentSemesterMark
 
     public long? StudentAcademicId { get; set; }
 
-    public int? Semester { get; set; }
+    public string? Semester { get; set; }
 
     public decimal? Sgpa { get; set; }
 
@@ -20,6 +20,8 @@ public partial class StudentSemesterMark
     public int? ClosedBacklogs { get; set; }
 
     public int? LiveBacklogs { get; set; }
+
+    public int? Year { get; set; }
 
     public virtual Studentacademic? StudentAcademic { get; set; }
 }
