@@ -178,6 +178,7 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<TemplatePlaceholder>("TemplatePlaceholder");
     modelBuilder.EntitySet<Document>("Document");
     modelBuilder.EntitySet<Email>("Email");
+    modelBuilder.EntitySet<Notification>("Notification");
 
     return modelBuilder.GetEdmModel();
 }

@@ -16,7 +16,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-            
                 <p class="grid-label">First Name</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>First Name</mat-label> -->
@@ -41,7 +40,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-                
                 <p class="grid-label">Last Name</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Last Name</mat-label> -->
@@ -57,8 +55,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-                fxFlex.gt-sm="50%"
-              >
                 <p class="grid-label">Date Of Birth</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>DOB</mat-label> -->
@@ -67,13 +63,13 @@
                     [matDatepicker]="picker"
                     formControlName="DateOfBirth"
                   />
-                
+
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker-toggle
                     matIconSuffix
                     [for]="picker"
                   ></mat-datepicker-toggle>
-                  
+
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -83,7 +79,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-             
                 <p class="grid-label">Blood Group</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Blood Group</mat-label> -->
@@ -91,12 +86,10 @@
                     (selectionChange)="onBloodChange($event)"
                     formControlName="BloodGroup"
                   >
-                 
                     <mat-option
                       *ngFor="let blood of BloodGroup"
                       [value]="blood"
                     >
-                  
                       {{ blood }}
                     </mat-option>
                   </mat-select>
@@ -108,7 +101,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <p class="grid-label">Mobile No</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Mobile No</mat-label> -->
@@ -121,7 +113,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <P class="grid-label"> Upload Photo</P>
                 <input
                   type="file"
@@ -141,7 +132,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-             
                 <p class="grid-label">Email</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Email</mat-label> -->
@@ -200,7 +190,6 @@
                       *ngFor="let course of Courses()"
                       [value]="course.Id"
                     >
-                   
                       {{ course.Name }}
                     </mat-option>
                   </mat-select>
@@ -213,7 +202,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <p class="grid-label">Enter USN No.</p>
                 <mat-form-field appearance="outline">
                   <!-- <mat-label>USN no.</mat-label> -->
@@ -231,7 +219,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <p class="grid-label">Enter Aadhar Number</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Aadhar Number</mat-label> -->
@@ -255,7 +242,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <p class="grid-label">Enter Address</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Address</mat-label> -->
@@ -273,7 +259,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <p class="grid-label">Enter Father Name</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Father Name</mat-label> -->
@@ -286,7 +271,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <p class="grid-label">Enter Father Mobile No</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Father Mobile No</mat-label> -->
@@ -314,7 +298,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <p class="grid-label">Enter Mother Name</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Mother Name</mat-label> -->
@@ -327,7 +310,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-               
                 <p class="grid-label">Enter Mother Mobile No</p>
                 <mat-form-field appearance="outline" class="full-width">
                   <!-- <mat-label>Mother Mobile No</mat-label> -->
@@ -355,7 +337,7 @@
         </form>
       </mat-tab>
 
-      <mat-tab label="Education">
+      <mat-tab label="Education" style="overflow: hidden">
         <form [formGroup]="studentEducationForm">
           <div class="Education-container">
             <!-- School Details Section -->
@@ -368,7 +350,6 @@
                   fxFlex.gt-lg="25%"
                   fxFlex.gt-sm="50%"
                 >
-                
                   <p class="grid-label">School Name</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <!-- <mat-label>School Name</mat-label> -->
@@ -382,7 +363,6 @@
                   fxFlex.gt-lg="25%"
                   fxFlex.gt-sm="50%"
                 >
-                 
                   <p class="grid-label">10th Board</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <!-- <mat-label>Select Board</mat-label> -->
@@ -424,7 +404,6 @@
                   fxFlex.gt-lg="25%"
                   fxFlex.gt-sm="50%"
                 >
-               
                   <p class="grid-label">Score</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
                     <!-- <mat-label>Enter Score</mat-label> -->
@@ -469,9 +448,8 @@
                   fxFlex.gt-lg="25%"
                   fxFlex.gt-sm="50%"
                 >
-                
                   <p class="grid-label">Upload File</p>
-                  <input type="file" formControlName="TenthFile" />
+                  <input type="file" (change)="onFileSelected10th($event)" />
                 </div>
               </div>
             </div>
@@ -487,7 +465,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <p class="grid-label">College Name</p>
                 <mat-form-field appearance="outline" class="Education-Fields">
                   <!-- <mat-label>College Name</mat-label> -->
@@ -501,7 +478,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <p class="grid-label">2nd PUC/ 12th Board</p>
                 <mat-form-field appearance="outline" class="Education-Fields">
                   <!-- <mat-label>Select Board</mat-label> -->
@@ -510,7 +486,6 @@
                       *ngFor="let board of TwelfthBoardNames"
                       [value]="board"
                     >
-                    
                       {{ board }}
                     </mat-option>
                   </mat-select>
@@ -544,7 +519,6 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-             
                 <p class="grid-label">Enter Score</p>
                 <mat-form-field appearance="outline" class="Education-Fields">
                   <!-- <mat-label>Enter Score</mat-label> -->
@@ -589,16 +563,15 @@
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
               >
-              
                 <p class="grid-label">Upload File</p>
-                <input type="file" formControlName="TwelfthFile" />
+                <input type="file" (change)="onFileSelected12th($event)" />
               </div>
             </div>
 
             <mat-divider></mat-divider>
 
             <!-- Degree Details Section -->
-            <h2>Degree Details</h2>
+            <!--   <h2>Degree Details</h2>
             <div
               fxLayout="row wrap"
               class="row-wrap"
@@ -633,7 +606,7 @@
                 >
                   <p class="grid-label">Semester {{ i + 1 }}</p>
                 </div>
-                <!-- <div
+                 <div
                     fxFlex="100%"
                     fxFlex.gt-md="25%"
                     fxFlex.gt-lg="25%"
@@ -654,7 +627,7 @@
                     </mat-form-field>
                   </div> -->
 
-                <!-- <div
+            <!-- <div
                     fxFlex="100%"
                     fxFlex.gt-md="25%"
                     fxFlex.gt-lg="25%"
@@ -675,7 +648,7 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
-                  </div> -->
+                  </div> 
 
                 <div
                   fxFlex="100%"
@@ -686,7 +659,7 @@
                 >
                   <p class="grid-label">SGPA</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
-                    <!-- <mat-label>Enter SGPA</mat-label> -->
+                     <mat-label>Enter SGPA</mat-label> 
                     <input matInput formControlName="sgpa" />
                   </mat-form-field>
                 </div>
@@ -700,7 +673,7 @@
                 >
                   <p class="grid-label">Closed Backlogs</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
-                    <!-- <mat-label>Enter Closed Backlogs</mat-label> -->
+                     <mat-label>Enter Closed Backlogs</mat-label> 
                     <input matInput formControlName="closedBacklogs" />
                   </mat-form-field>
                 </div>
@@ -714,7 +687,7 @@
                 >
                   <p class="grid-label">Live Backlogs</p>
                   <mat-form-field appearance="outline" class="Education-Fields">
-                    <!-- <mat-label>Enter Live Backlogs</mat-label> -->
+                     <mat-label>Enter Live Backlogs</mat-label> 
                     <input matInput formControlName="liveBacklogs" />
                   </mat-form-field>
                 </div>
@@ -727,21 +700,139 @@
                   [formGroupName]="semester"
                 >
                   <p class="grid-label">Upload File</p>
-                  <!-- <button *ngIf="fields.length > 1" (click)="removeField(i)">
+                   <button *ngIf="fields.length > 1" (click)="removeField(i)">
                       <mat-icon> remove</mat-icon>
-                    </button> -->
+                    </button> 
                   <input type="file" formControlName="file" />
                 </div>
               </div>
-            </div>
+            </div>-->
+            <mat-card class="degree-details-card">
+              <mat-card-header>
+                <mat-card-title>Degree Details</mat-card-title>
+              </mat-card-header>
+              <button
+                mat-button
+                type="button"
+                (click)="addSemester()"
+                style="position: absolute; right: 10px; top: 10px"
+                class="add_remove_btn"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+
+              <div
+                fxLayout="row wrap"
+                class="row-wrap"
+                formArrayName="semestersAll"
+                *ngFor="let semester of semestersAll.controls; let i = index"
+              >
+                <div
+                  class="Semester-Fields"
+                  [formGroupName]="i"
+                  fxLayout="row"
+                  fxLayoutWrap
+                  fxLayoutGap="10px"
+                >
+                  <!-- Select Year -->
+                  <div fxFlex="15%">
+                    <p class="grid-label">Select Year</p>
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-select formControlName="Year">
+                        <mat-option
+                          *ngFor="let i of yearDropDownValues"
+                          [value]="i"
+                        >
+                          Year {{ i }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Select Semester -->
+                  <div fxFlex="15%">
+                    <p class="grid-label">Select Semester</p>
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-select formControlName="Semester">
+                        <mat-option
+                          *ngFor="let i of semesterDropDownValues"
+                          [value]="i"
+                        >
+                          {{ i }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- SGPA -->
+                  <div fxFlex="15%">
+                    <p class="grid-label">SGPA</p>
+                    <mat-form-field
+                      appearance="outline"
+                      class="Education-Fields"
+                    >
+                      <input matInput formControlName="sgpa" />
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Closed Backlogs -->
+                  <div fxFlex="15%">
+                    <p class="grid-label">Closed Backlogs</p>
+                    <mat-form-field
+                      appearance="outline"
+                      class="Education-Fields"
+                    >
+                      <input matInput formControlName="closedBacklogs" />
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Live Backlogs -->
+                  <div fxFlex="15%">
+                    <p class="grid-label">Live Backlogs</p>
+                    <mat-form-field
+                      appearance="outline"
+                      class="Education-Fields"
+                    >
+                      <input matInput formControlName="liveBacklogs" />
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Upload File -->
+                  <div fxFlex="25%">
+                    <p class="grid-label">Upload File</p>
+                    <input
+                      type="file"
+                      (change)="onFileSelectedDegree($event, i)"
+                      style="width: 100%"
+                    />
+                  </div>
+                </div>
+
+                <!-- Remove Semester Button (Placed on the next row) -->
+                <div fxLayout="row" fxLayoutAlign="end center" fxFlex="100%">
+                  <button
+                    mat-button
+                    color="warn"
+                    type="button"
+                    (click)="removeSemester(i)"
+                    class="add_remove_btn"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </mat-card>
           </div>
-          <div style="position: fixed; bottom: 2%; right: 5%">
-            <button mat-raised-button color="primary" (click)="onSave(2)">
+
+          <div fxLayout="row" fxLayoutAlign="end center">
+            <button
+              mat-raised-button
+              color="primary"
+              class="save_btn_tab_2"
+              (click)="onSave(2)"
+            >
               Save
             </button>
-            <!-- <div class="AddButton">
-                <button (click)="addField()"><mat-icon> add</mat-icon></button>
-              </div> -->
           </div>
         </form>
       </mat-tab>
@@ -750,142 +841,137 @@
 
       <mat-tab label="Skills">
         <form [formGroup]="studentSkillsForm">
-          <div>
+          <div formArrayName="fields">
             <h3>Skill Type and Skill Name</h3>
-            <div
-              *ngFor="let field of fields; let i = index"
-              class="skillsField"
-              [formGroupName]="i"
-            >
-              <div>
-                <mat-form-field
-                  class="skillType-form-field"
-                  appearance="outline"
-                >
-                  <mat-label>Select Skill Type</mat-label>
-                  <mat-select
-                    (selectionChange)="onSkillTypeChange($event, i)"
-                    formControlName="skillType"
+            <div>
+              <div
+                *ngFor="let field of fields.controls; let i = index"
+                class="skillsField"
+                [formGroupName]="i"
+              >
+                <div>
+                  <mat-form-field
+                    class="skillType-form-field"
+                    appearance="outline"
                   >
-                    <mat-option
-                      *ngFor="let skillType of filteredSkillTypes()"
-                      [value]="skillType.Id"
+                    <mat-label>Select Skill Type</mat-label>
+                    <mat-select
+                      (selectionChange)="onSkillTypeChange($event, i)"
+                      formControlName="skillType"
                     >
-                      {{ skillType.Name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+                      <mat-option
+                        *ngFor="let skillType of filteredSkillTypes()"
+                        [value]="skillType.Id"
+                      >
+                        {{ skillType.Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
 
-              <div>
-                <!-- <h4>Skill Name</h4> -->
+                <div>
+                  <!-- <h4>Skill Name</h4> -->
+                  <mat-form-field
+                    class="skillName-form-field"
+                    appearance="outline"
+                  >
+                    <mat-label>Select Skills</mat-label>
+                    <mat-select formControlName="skills" multiple>
+                      <mat-option
+                        *ngFor="let skill of SkillsNames()"
+                        [value]="skill.Id"
+                      >
+                        {{ skill.Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="fields.length > 1">
+                  <button (click)="removeField(i)">
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </div>
+
+                <div class="AddSkillButton">
+                  <button *ngIf="i === fields.length - 1" (click)="addField()">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Modified LinkedIn, Achievement, Project, and Internship fields in two-column layout -->
+          </div>
+          <div class="highlighted-fields">
+            <div class="row">
+              <div class="column">
+                <h3>
+                  <b
+                    ><p class="grid-label">
+                      <mat-icon class="icon">link</mat-icon>LinkedIn Profile
+                      Link
+                    </p></b
+                  >
+                </h3>
                 <mat-form-field
-                  class="skillName-form-field"
+                  class="skills-form-field highlighted-form-field"
                   appearance="outline"
                 >
-                
-                  <mat-label>Select Skills</mat-label>
-                  <mat-select formControlName="skills" multiple>
-                    <mat-option
-                      *ngFor="let skill of SkillsNames()"
-                      [value]="skill.Id"
-                    >
-                    
-                      {{ skill.Name }}
-                    </mat-option>
-                  </mat-select>
+                  <!-- <mat-label>LinkedIn Profile Link</mat-label> -->
+                  <textarea matInput formControlName="LinkedInLink"></textarea>
                 </mat-form-field>
               </div>
-              <div *ngIf="fields.length > 1">
-                <button (click)="removeField(i)">
-                  <mat-icon>remove</mat-icon>
-                </button>
-              </div>
 
-              <div class="AddSkillButton">
-                <button *ngIf="i === fields.length - 1" (click)="addField()">
-                  <mat-icon>add</mat-icon>
-                </button>
+              <div class="column">
+                <h3>
+                  <b
+                    ><p class="grid-label">
+                      <mat-icon class="icon">emoji_events</mat-icon>Achievement
+                    </p></b
+                  >
+                </h3>
+                <mat-form-field
+                  class="skills-form-field highlighted-form-field"
+                  appearance="outline"
+                >
+                  <!-- <mat-label>Achievement</mat-label> -->
+                  <textarea matInput formControlName="Achievement"></textarea>
+                </mat-form-field>
               </div>
             </div>
 
-            <!-- Modified LinkedIn, Achievement, Project, and Internship fields in two-column layout -->
-            <div class="highlighted-fields">
-              <div class="row">
-                <div class="column">
-                  <h3>
-                    <b
-                      ><p class="grid-label">
-                        <mat-icon class="icon">link</mat-icon>LinkedIn Profile
-                        Link
-                      </p></b
-                    >
-                  </h3>
-                  <mat-form-field
-                    class="skills-form-field highlighted-form-field"
-                    appearance="outline"
+            <div class="row">
+              <div class="column">
+                <h3>
+                  <b
+                    ><p class="grid-label">
+                      <mat-icon class="icon">folder</mat-icon>Project
+                    </p></b
                   >
-                    <!-- <mat-label>LinkedIn Profile Link</mat-label> -->
-                    <textarea
-                      matInput
-                      formControlName="LinkedInLink"
-                    ></textarea>
-                  </mat-form-field>
-                </div>
-
-                <div class="column">
-                  <h3>
-                    <b
-                      ><p class="grid-label">
-                        <mat-icon class="icon">emoji_events</mat-icon
-                        >Achievement
-                      </p></b
-                    >
-                  </h3>
-                  <mat-form-field
-                    class="skills-form-field highlighted-form-field"
-                    appearance="outline"
-                  >
-                    <!-- <mat-label>Achievement</mat-label> -->
-                    <textarea matInput formControlName="Achievement"></textarea>
-                  </mat-form-field>
-                </div>
+                </h3>
+                <mat-form-field
+                  class="skills-form-field highlighted-form-field"
+                  appearance="outline"
+                >
+                  <!-- <mat-label>Project</mat-label> -->
+                  <textarea matInput formControlName="Project"></textarea>
+                </mat-form-field>
               </div>
 
-              <div class="row">
-                <div class="column">
-                  <h3>
-                    <b
-                      ><p class="grid-label">
-                        <mat-icon class="icon">folder</mat-icon>Project
-                      </p></b
-                    >
-                  </h3>
-                  <mat-form-field
-                    class="skills-form-field highlighted-form-field"
-                    appearance="outline"
+              <div class="column">
+                <h3>
+                  <b
+                    ><p class="grid-label">
+                      <mat-icon class="icon">work</mat-icon>Internship
+                    </p></b
                   >
-                    <!-- <mat-label>Project</mat-label> -->
-                    <textarea matInput formControlName="Project"></textarea>
-                  </mat-form-field>
-                </div>
-
-                <div class="column">
-                  <h3>
-                    <b
-                      ><p class="grid-label">
-                        <mat-icon class="icon">work</mat-icon>Internship
-                      </p></b
-                    >
-                  </h3>
-                  <mat-form-field
-                    class="skills-form-field highlighted-form-field"
-                    appearance="outline"
-                  >
-                    <!-- <mat-label>Internship</mat-label> -->
-                    <textarea matInput formControlName="Internship"></textarea>
-                  </mat-form-field>
-                </div>
+                </h3>
+                <mat-form-field
+                  class="skills-form-field highlighted-form-field"
+                  appearance="outline"
+                >
+                  <!-- <mat-label>Internship</mat-label> -->
+                  <textarea matInput formControlName="Internship"></textarea>
+                </mat-form-field>
               </div>
             </div>
           </div>

@@ -253,4 +253,5 @@ export class OfferManagementDetailsComponent {
         });
     }
   };
+  saveNotification() {}
 }

@@ -75,5 +75,7 @@ public partial class Companydatum
 
     public virtual ICollection<Login> Logins { get; set; } = new List<Login>();
 
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+
     public virtual ICollection<Paatashalaregistration> Paatashalaregistrations { get; set; } = new List<Paatashalaregistration>();
 }
