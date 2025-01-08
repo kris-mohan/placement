@@ -14,3 +14,7 @@ hr {
   background-color: #ccc; /* Change to desired color */
   margin: 16px 0; /* Adjust margins as needed */
 }
+
+.date-heading {
+  padding-left: 30px;
+}

@@ -60,16 +60,29 @@ export class CalendarModalComponent implements OnInit {
     console.log(this.CompanyId);
     const storedStudentId = sessionStorage.getItem("StudentId");
     console.log("storedStudentId", storedStudentId);
-    this.formDataa = this.formBuilder.group({
-      startTime: ["", Validators.required],
-      eventType: ["interview"],
-      companyId: ["", Validators.required],
-      endDate: [""],
-      endTime: ["", Validators.required],
-      jobPosting: ["", Validators.required],
-      rounds: [""],
-      meetingLink: [""],
-    });
+    this.formDataa = this.formBuilder.group(
+      {
+        startTime: ["", Validators.required],
+        eventType: ["interview"],
+        companyId: ["", Validators.required],
+        endDate: [""],
+        endTime: ["", Validators.required],
+        jobPosting: ["", Validators.required],
+        rounds: [""],
+        meetingLink: [""],
+      },
+      {
+        validators: (formGroup) => {
+          const startTime = formGroup.get("startTime")?.value;
+          const endTime = formGroup.get("endTime")?.value;
+
+          if (startTime && endTime && endTime <= startTime) {
+            return { endTimeBeforeStartTime: true };
+          }
+          return null;
+        },
+      }
+    );
     if (this.isEdited && this.data.eventData) {
       this.formDataa.patchValue(this.data.eventData);
     }
@@ -79,26 +92,16 @@ export class CalendarModalComponent implements OnInit {
     const selectedJobPostingId = event.value;
 
     const currentCompanyId = this.formDataa.value.companyId;
+
+    // Fetch the rounds based on the selected job posting
     this.getAllRounds(selectedJobPostingId);
 
+    // Ensure the companyId remains intact in the form
     if (currentCompanyId) {
       this.formDataa.patchValue({ companyId: currentCompanyId });
     }
   }
 
-  getJobPostings = () => {
-    this.calendarModalApiService.GetAllJobPostings(this.CompanyId).subscribe({
-      next: (response) => {
-        const data: Jobposting[] = response.value;
-        console.log(data);
-        this.jobPostings = data;
-        this.OrgId = data[0].CompanyId || 0;
-      },
-      error: (error) => {
-        console.error("Error fetching Job Postings:", error);
-      },
-    });
-  };
   getJobPostingById = () => {
     this.calendarModalApiService
       .GetJobPostingById(this.data.eventData.jobPostingId)
@@ -144,10 +147,29 @@ export class CalendarModalComponent implements OnInit {
   onCompanySelected(event: any): void {
     console.log(event.value);
     this.CompanyId = event.value;
+
+    // Retain the selected companyId in the form
+    this.formDataa.patchValue({ companyId: this.CompanyId });
+
+    // Fetch job postings only for non-role 2 users
     if (this.userRole !== 2) {
       this.getJobPostings();
     }
   }
+
+  getJobPostings = () => {
+    this.calendarModalApiService.GetAllJobPostings(this.CompanyId).subscribe({
+      next: (response) => {
+        const data: Jobposting[] = response.value;
+        console.log(data);
+        this.jobPostings = data;
+        this.OrgId = data[0].CompanyId || 0;
+      },
+      error: (error) => {
+        console.error("Error fetching Job Postings:", error);
+      },
+    });
+  };
 
   onEventTypeChange(event: any): void {
     const selectedEventType = this.formDataa.value.eventType;
@@ -185,18 +207,30 @@ export class CalendarModalComponent implements OnInit {
   // }
 
   onSave(): void {
-    console.log(this.formDataa.value);
+    // Debug: Log the current form state
+    console.log("Form Values Before Saving:", this.formDataa.value);
+
     if (this.formDataa.valid) {
+      // Ensure the meetingLink and weekdays are properly handled
+      const meetingLink = this.formDataa.value.meetingLink
+        ? this.formDataa.value.meetingLink.trim()
+        : ""; // Default to an empty string if undefined or null
+
       const returnData = {
         ...this.formDataa.value, // Spread the form values
-        // toggle: this.toggle,
-        //meetingLink: this.formDataa.value.meetingLink.trim(),
-        weekdays: this.weekdays, // Add the weekdays state
-        OrgId: this.OrgId,
-        // Add any other specific data you want to send back
+        meetingLink, // Trimmed meeting link
+        weekdays: this.weekdays || [], // Ensure weekdays has a default value
+        OrgId: this.OrgId || null, // Default OrgId to null if not defined
       };
-      console.log(returnData);
+
+      // Debug: Log the data being sent back
+      console.log("Data to Save:", returnData);
+
+      // Close the dialog and pass the return data
       this.dialogRef.close(returnData);
+    } else {
+      // Debug: Handle invalid form case
+      console.error("Form is invalid. Please check required fields.");
     }
   }
 
