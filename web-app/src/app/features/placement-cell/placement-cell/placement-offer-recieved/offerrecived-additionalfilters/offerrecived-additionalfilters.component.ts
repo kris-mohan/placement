@@ -14,7 +14,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { MatDialogRef } from "@angular/material/dialog";
 import { interviewApiService } from "src/app/features/company-menu/interview/api.interview";
 import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
-import { JobRoles } from "src/app/services/common-dropdowns/JobRoles";
+
 interface ODataResponse<T> {
   value: T[];
 }
@@ -60,7 +60,8 @@ export class OfferrecivedAdditionalfiltersComponent {
   searchCity: string = "";
   searchIndustry: string = "";
   jobTypes: string[] = JobTypes;
-  jobRoles: string[] = JobRoles;
+  jobRoleData: any[] = [];
+  jobRoles: string[] = [];
 
   CityControl = new FormControl();
   companyControl = new FormControl();
@@ -87,8 +88,10 @@ export class OfferrecivedAdditionalfiltersComponent {
   ngOnInit() {
     this.loadCompanies();
     this.loadIndustries();
+    this.loadjobRole();
 
     this.companyControl.valueChanges.subscribe(() => {
+      this.filterJobRoles();
       this.filterCompanies(this.searchCompany);
     });
 
@@ -243,5 +246,33 @@ export class OfferrecivedAdditionalfiltersComponent {
       jobTypes: this.industryControl.value,
       jobRoles: this.jobRoleControl.value,
     });
+  }
+  loadjobRole() {
+    this.interviewApiService.loadJobRole().subscribe({
+      next: (response: ODataResponse<any>) => {
+        this.jobRoleData = response.value;
+        const data = response.value.flatMap((r) => {
+          return r.JobRole;
+        });
+        const uniqueValues = Array.from(new Set(data));
+        const filteredRoles = uniqueValues.filter((j) => j != "");
+        this.jobRoles = filteredRoles;
+      },
+      error: (error: any) => {
+        console.error("Error loading Industries", error);
+      },
+    });
+  }
+  filterJobRoles() {
+    const filteredJobRoles = this.jobRoleData.filter((j) => {
+      const selectedCompanies = this.companyControl.value || [];
+      const companyMatch =
+        selectedCompanies.length === 0 ||
+        selectedCompanies.includes(j.Company?.Name || "");
+      return companyMatch && j.JobRole != "";
+    });
+    const data = filteredJobRoles.flatMap((j) => j.JobRole);
+    const uniqueValues = Array.from(new Set(data));
+    this.jobRoles = uniqueValues;
   }
 }

@@ -5,6 +5,7 @@ import { CampusCompany } from "src/app/services/types/CampusCompany";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { ODataEntity } from "src/app/services/types/OData";
 import { Template } from "src/app/services/types/Template";
+import { TemplateCategory } from "src/app/services/types/TemplateCategory";
 
 @Injectable({
   providedIn: "root",
@@ -31,8 +32,18 @@ export class PlacementCompanyJobDetailsApiService {
       `/CampusCompany?key=${id}`
     );
   }
-  getTemplates(): Observable<ODataEntity<Template[]>> {
-    let url = `/Template?$expand=Category`;
-    return this.apiHttpService.get<ODataEntity<Template[]>>(url);
+  getTemplates(): Observable<ODataEntity<TemplateCategory[]>> {
+    let url = `/TemplateCategory?$filter=contains(Name, 'Invitation')&$expand=Templates`;
+    return this.apiHttpService.get<ODataEntity<TemplateCategory[]>>(url);
+  }
+
+  sendEmail(email: {
+    To: string;
+    Cc: string;
+    Bcc: string;
+    Subject: string;
+    Body: string;
+  }) {
+    return this.apiHttpService.post(`/Email/`, email);
   }
 }

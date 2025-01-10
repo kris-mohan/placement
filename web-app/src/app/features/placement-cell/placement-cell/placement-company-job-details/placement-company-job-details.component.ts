@@ -388,7 +388,6 @@ export class PlacementCompanyJobDetailsComponent {
   showInvitePopup() {
     this.dialog.open(CompanyInvitePopupComponent, {
       width: "500px",
-      height: "500px",
     });
   }
 }

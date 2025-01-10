@@ -11,10 +11,26 @@
       <mat-label>Templates</mat-label>
       <mat-select [formControl]="templateControl">
         <mat-option *ngFor="let template of templates" [value]="template">{{
-          template
+          template.Name
         }}</mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
+  <div *ngIf="selectedTemplate">
+    <!-- <h2 mat-dialog-title>Template Details</h2> -->
+    <dl>
+      <!-- <dt>Name:</dt>
+      <dd>{{ selectedTemplate?.Name }}</dd> -->
+
+      <dt>Subject:</dt>
+      <dd>{{ selectedTemplate?.Subject }}</dd>
+
+      <!-- <dt>Category Name:</dt>
+      <dd>{{ selectedTemplate?.Category?.Name || "N/A" }}</dd> -->
+
+      <!-- <dt>Body:</dt> -->
+      <dd [innerHTML]="selectedTemplate?.Body"></dd>
+    </dl>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions

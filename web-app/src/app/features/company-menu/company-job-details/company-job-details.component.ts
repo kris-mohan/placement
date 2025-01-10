@@ -6,24 +6,25 @@ import {
   Component,
   inject,
   signal,
-} from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AMGModules } from 'src/AMG-Module/AMG-module';
-import { SweetAlertService } from 'src/app/services/sweet-alert-service/sweet-alert-service';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { FormControl, FormGroup } from '@angular/forms';
-import { companyTableList } from '../../company-configuration/company-config/companies/companies-model';
-import { Industry } from '../../company-configuration/company-config/industry/industry.module';
-import { Observable, of } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { CompanyJobAdditionalfiltersModalComponent } from './company-job-additionalfilters-modal/company-job-additionalfilters-modal.component';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { Jobposting } from 'src/app/services/types/Jobposting';
-import { CompanyJobDetailsApiService } from './company-job-details-apiService';
-import { UploadCompanyDetailsComponent } from './upload-company-details/upload-company-details.component';
-import { GetDateDDMMYYYY } from 'src/app/core/helper/DateHelper';
-import * as XLSX from 'xlsx';
+} from "@angular/core";
+import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import { SharedModule } from "src/app/shared/shared.module";
+import { FormControl, FormGroup } from "@angular/forms";
+import { companyTableList } from "../../company-configuration/company-config/companies/companies-model";
+import { Industry } from "../../company-configuration/company-config/industry/industry.module";
+import { Observable, of } from "rxjs";
+import { MatDialog } from "@angular/material/dialog";
+import { CompanyJobAdditionalfiltersModalComponent } from "./company-job-additionalfilters-modal/company-job-additionalfilters-modal.component";
+import { provideNativeDateAdapter } from "@angular/material/core";
+import { Jobposting } from "src/app/services/types/Jobposting";
+import { CompanyJobDetailsApiService } from "./company-job-details-apiService";
+import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
+import * as XLSX from "xlsx";
+import { SalaryRanges } from "src/app/services/common-dropdowns/salaryRanges";
+
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
@@ -47,6 +48,8 @@ export interface JobpostingWithApplicants extends Jobposting {
 })
 export class CompanyJobDetailsComponent {
   sessionCompanyId: number;
+  salaryOptions: any[] = SalaryRanges;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -219,11 +222,10 @@ export class CompanyJobDetailsComponent {
     this.filteredLocations = Array.from(
       new Set(
         this.JobPostingsData()
-          .map((student) => student.Location)
+          .map((student) => student.Location || "")
           .filter(
             (location): location is string =>
-              location !== undefined &&
-              location.toLowerCase().includes(filterValue)
+              location != "" && location.toLowerCase().includes(filterValue)
           )
       )
     );
@@ -376,20 +378,60 @@ export class CompanyJobDetailsComponent {
     }
   }
   openStudentJobAdditionalFiltersModal() {
-    this.dialog.open(CompanyJobAdditionalfiltersModalComponent, {
-      width: '500px',
-      data: {
-        JobPostingsData: this.JobPostingsData(),
-        FilteredJobPostings: this.filteredJobPostings(),
-      },
+    const dialogRef = this.dialog.open(
+      CompanyJobAdditionalfiltersModalComponent,
+      {
+        width: "500px",
+        data: {
+          JobPostingsData: this.JobPostingsData(),
+          FilteredJobPostings: this.filteredJobPostings(),
+        },
+      }
+    );
+    dialogRef.afterClosed().subscribe((filterValues) => {
+      if (filterValues) {
+        this.filterData(filterValues);
+      }
     });
+  }
+  filterData(filterValues: any) {
+    console.log(filterValues, "filter values");
+    const filtered = this.JobPostingsData().filter((student) => {
+      debugger;
+      // const selectedCompanies = filterValues.companies || [];
+      // const selectedJobTypes = filterValues.jobTypes || [];
+      const selectedworkModes = filterValues.ModeOfWorks || [];
+      const selectedSalaryRanges = filterValues.salaryRanges || [];
+
+      // const companyMatch =
+      //   selectedCompanies.length === 0 ||
+      //   selectedCompanies.includes(student.JobPosting.Company?.Name || "");
+
+      const jobmodeWorkMatch =
+        selectedworkModes.length === 0 ||
+        selectedworkModes.includes(student.ModeOfWork || "");
+
+      const salary = student.Salary || 0;
+
+      const salaryMatch =
+        selectedSalaryRanges.length === 0 ||
+        selectedSalaryRanges.some((rangeObj: any) => {
+          const range = this.salaryOptions.find(
+            (r) => r.label === rangeObj.label
+          );
+          return range && salary >= range.min && salary <= range.max;
+        });
+
+      return jobmodeWorkMatch && salaryMatch;
+    });
+    this.filteredJobPostings.set(filtered);
   }
 
   openBulkUploadDialog() {
-    this.dialog.open(UploadCompanyDetailsComponent, {
-      width: '500px',
-      height: '250px',
-      data: { JobPostingsData: this.JobPostingsData() },
-    });
+    // this.dialog.open(UploadCompanyDetailsComponent, {
+    //   width: '500px',
+    //   height: '250px',
+    //   data: { JobPostingsData: this.JobPostingsData() },
+    // });
   }
 }

@@ -33,4 +33,10 @@ export class interviewApiService {
   loadInterviewRounds(): Observable<ODataEntity<Jobinterviewround[]>> {
     return this.apiHttpService.get(`/Jobinterviewround`);
   }
+
+  loadJobRole(): Observable<ODataEntity<Jobinterviewround[]>> {
+    return this.apiHttpService.get(
+      `/Jobposting?$select=JobRole&$expand=Company($select=Name) `
+    );
+  }
 }
