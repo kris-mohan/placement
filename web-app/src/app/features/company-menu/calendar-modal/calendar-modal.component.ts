@@ -147,11 +147,7 @@ export class CalendarModalComponent implements OnInit {
   onCompanySelected(event: any): void {
     console.log(event.value);
     this.CompanyId = event.value;
-
-    // Retain the selected companyId in the form
     this.formDataa.patchValue({ companyId: this.CompanyId });
-
-    // Fetch job postings only for non-role 2 users
     if (this.userRole !== 2) {
       this.getJobPostings();
     }
@@ -218,15 +214,13 @@ export class CalendarModalComponent implements OnInit {
 
       const returnData = {
         ...this.formDataa.value, // Spread the form values
-        meetingLink, // Trimmed meeting link
-        weekdays: this.weekdays || [], // Ensure weekdays has a default value
-        OrgId: this.OrgId || null, // Default OrgId to null if not defined
+        // toggle: this.toggle,
+        meetingLink: this.formDataa.value.meetingLink.trim(),
+        weekdays: this.weekdays, // Add the weekdays state
+        OrgId: this.OrgId,
+        // Add any other specific data you want to send back
       };
-
-      // Debug: Log the data being sent back
-      console.log("Data to Save:", returnData);
-
-      // Close the dialog and pass the return data
+      console.log(returnData);
       this.dialogRef.close(returnData);
     } else {
       // Debug: Handle invalid form case

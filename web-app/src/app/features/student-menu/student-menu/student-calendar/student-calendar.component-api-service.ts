@@ -14,7 +14,7 @@ export class StudentCalendarApiService {
     studentId: number
   ): Observable<ODataEntity<JobpostStudentround[]>> {
     return this.apiHttpService.get<ODataEntity<JobpostStudentround[]>>(
-      `/JobpostStudentround?$filter=StudentId eq ${studentId} &expand=JobPostingRound(expand=Event)`
+      `/JobpostStudentround?$filter=StudentId eq ${studentId} &expand=JobPostingRound(expand=Event,JobPosting)`
     );
   }
   public GetAllRounds(

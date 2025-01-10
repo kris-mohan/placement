@@ -22,4 +22,10 @@ public partial class Email
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? SentAt { get; set; }
+
+    public bool? HasAttachment { get; set; }
+
+    public long? DocumentId { get; set; }
+
+    public virtual Document? Document { get; set; }
 }

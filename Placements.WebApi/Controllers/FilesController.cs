@@ -16,7 +16,7 @@ namespace Placements.WebApi.Controllers
         }
 
         [HttpPost("UploadFiles")]
-        public async Task<IActionResult> UploadFiles(IFormFileCollection files)
+        public async Task<IActionResult> UploadFiles(IFormFileCollection files, string folderName)
         {
             var uploadFolder = Path.Combine(_env.WebRootPath, "UploadedFiles");
 
@@ -45,7 +45,7 @@ namespace Placements.WebApi.Controllers
                     uploadedFiles.Add(new UploadedFileInfo
                     {
                         FileName = file.FileName,
-                        FilePath = Path.Combine("wwwroot", "UploadedFiles", timestampedFileName),
+                        FilePath = Path.Combine("wwwroot", "UploadedFiles", folderName, timestampedFileName),
                         FileType = file.ContentType,
                         TimestampedFileName = timestampedFileName
                     });

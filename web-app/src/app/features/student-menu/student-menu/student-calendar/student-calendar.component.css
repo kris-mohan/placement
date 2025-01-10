@@ -35,7 +35,7 @@
 }
 
 .example-card {
-  margin: 1rem;
+  margin: 0.5rem;
   width: 93%;
   background-color: #c3d2f899;
   border-radius: 10px;
@@ -45,7 +45,7 @@
 .mat-card-content {
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+  padding: 25px;
 }
 
 .company-info h3 {
@@ -57,16 +57,17 @@
 .company-info p,
 .company-timings p {
   margin: 5px 0;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
 }
 
 .company-timings {
   text-align: right;
+  font-size: 0.8rem;
 }
 
 .company-timings p {
   /* color: #757575; */
-  font-size: 0.95rem;
+  font-size: 0.8rem;
 }
 
 .mat-card-content p strong {

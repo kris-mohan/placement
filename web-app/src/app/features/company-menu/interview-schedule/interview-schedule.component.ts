@@ -211,6 +211,7 @@ export class InterviewScheduleComponent implements OnInit {
       this.roundsId = result.rounds;
       this.jobPostingId = result.jobPosting;
       this.OrgId = result.OrgId;
+      this.companyId = result.companyId;
       const title = result.eventType;
       // const jobRole = result.jobRole;
       const className = "bg-primary text-white";
