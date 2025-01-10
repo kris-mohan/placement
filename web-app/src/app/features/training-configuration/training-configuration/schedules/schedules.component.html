@@ -11,17 +11,17 @@
           </div>
         </div>
         <div class="example-button-container">
-          <button mat-fab extended class = "matbutton-download">
+          <button mat-fab extended class="matbutton-download">
             <mat-icon>file_download</mat-icon>Excel
           </button>
-          <button mat-fab extended class = "matbutton-download">
-            <mat-icon>picture_as_pdf</mat-icon><h5>PDF</h5>
+          <button mat-fab extended class="matbutton-download">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <h5>PDF</h5>
           </button>
           <button
             mat-raised-button
             class="matbutton"
-            (click)="openAddEditScheduleForm(0)"
-          >
+            (click)="openAddEditScheduleForm(0)">
             <mat-icon class="maticon">add</mat-icon>
             <p class="matName">Add Schedule</p>
           </button>
@@ -42,16 +42,17 @@
           <ng-container [ngSwitch]="column.key">
             <ng-container *ngSwitchCase="'Actions'">
               <div class="td-mat-button">
+                <button mat-icon-button (click)="openTrainingAttendance()">
+                  <mat-icon> checklist </mat-icon>
+                </button>
                 <button
                   mat-icon-button
-                  (click)="openAddEditScheduleForm(element.Id)"
-                >
+                  (click)="openAddEditScheduleForm(element.Id)">
                   <mat-icon> edit </mat-icon>
                 </button>
                 <button
                   mat-icon-button
-                  (click)="deleteTrainerSchedule(element.Id)"
-                >
+                  (click)="deleteTrainerSchedule(element.Id)">
                   <mat-icon> delete </mat-icon>
                 </button>
               </div>
@@ -64,7 +65,10 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (click)="openDialog(row)"></tr>
     </table>
   </mat-card-content>
 </mat-card>

@@ -260,6 +260,13 @@ export class EligibleStudentsListComponent {
         const data: Tblstudent[] = response.value;
         console.log('Tblstudent', data);
         this.StudentDataSource.data = data.map((student: Tblstudent) => {
+          var approvalStatus =
+            student.Studentacademics[0]?.TenthStatus == 1 &&
+            student.Studentacademics[0]?.TwelfthStatus == 1;
+          var rejectedStatus =
+            student.Studentacademics[0]?.TenthStatus == 0 ||
+            student.Studentacademics[0]?.TwelfthStatus == 0;
+
           return {
             StudentID: student.Id,
             StudentName: student.FirstName,
@@ -273,7 +280,11 @@ export class EligibleStudentsListComponent {
                 ? student.Studentacademics[0].Course?.FullForm ?? ''
                 : '',
             Status: 'Pending',
-            ApplicationApprovalStatus: 'Pending',
+            ApplicationApprovalStatus: approvalStatus
+              ? 'Approved'
+              : rejectedStatus
+              ? 'Rejected'
+              : 'Pending',
           };
         });
         console.log(this.StudentDataSource);

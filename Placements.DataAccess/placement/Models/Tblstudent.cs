@@ -62,4 +62,6 @@ public partial class Tblstudent
     public virtual ICollection<Studentacademic> Studentacademics { get; set; } = new List<Studentacademic>();
 
     public virtual ICollection<Studentplaced> Studentplaceds { get; set; } = new List<Studentplaced>();
+
+    public virtual ICollection<Trainingfeedbackre> Trainingfeedbackres { get; set; } = new List<Trainingfeedbackre>();
 }

@@ -1,0 +1,101 @@
+.feedback-container {
+  margin-top: 20px;
+}
+
+.header-mat-label {
+  margin-left: 3rem;
+  font-weight: bolder;
+  font-size: x-large;
+  color: darkblue;
+}
+
+.dropdown-button-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.button-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.course-form-field {
+  width: 60%;
+  flex: 1;
+}
+
+.add-question-button {
+  white-space: nowrap;
+}
+
+/* .mat-button {
+  width: fit-content;
+
+} */
+
+.section-label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.toggle-button {
+  margin: 16px;
+}
+
+.feedback-container {
+  padding: 20px;
+}
+
+.header-mat-label {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.create-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.questions-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.question-field {
+  width: 100%;
+}
+
+.responses-section {
+  padding: 20px;
+}
+
+.responses-section h3 {
+  margin-bottom: 20px;
+}
+
+.responses-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.responses-section li {
+  margin-bottom: 10px;
+}
+
+.field-and-buttons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mat-button {
+  white-space: nowrap;
+  width: fit-content;
+  margin-left: 16px;
+}

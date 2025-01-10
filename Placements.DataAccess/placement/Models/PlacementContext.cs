@@ -47,6 +47,8 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Companytechnology> Companytechnologies { get; set; }
 
+    public virtual DbSet<Companytechonology> Companytechonologies { get; set; }
+
     public virtual DbSet<Course> Courses { get; set; }
 
     public virtual DbSet<Document> Documents { get; set; }
@@ -124,6 +126,10 @@ public partial class PlacementContext : DbContext
     public virtual DbSet<Trainerschedule> Trainerschedules { get; set; }
 
     public virtual DbSet<Trainingcourse> Trainingcourses { get; set; }
+
+    public virtual DbSet<Trainingfeedbackque> Trainingfeedbackques { get; set; }
+
+    public virtual DbSet<Trainingfeedbackre> Trainingfeedbackres { get; set; }
 
     public virtual DbSet<Trainingmodule> Trainingmodules { get; set; }
 
@@ -483,6 +489,29 @@ public partial class PlacementContext : DbContext
                 .HasConstraintName("FK_CompanyTechnologies_Technologies");
         });
 
+        modelBuilder.Entity<Companytechonology>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("companytechonologies");
+
+            entity.HasIndex(e => e.CompanyId, "FK_CompanyTechonologies_CompanyData");
+
+            entity.HasIndex(e => e.TechnologyId, "FK_CompanyTechonologies_Technologies");
+
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValueSql("b'0'")
+                .HasColumnType("bit(1)");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Companytechonologies)
+                .HasForeignKey(d => d.CompanyId)
+                .HasConstraintName("FK_CompanyTechonologies_CompanyData");
+
+            entity.HasOne(d => d.Technology).WithMany(p => p.Companytechonologies)
+                .HasForeignKey(d => d.TechnologyId)
+                .HasConstraintName("FK_CompanyTechonologies_Technologies");
+        });
+
         modelBuilder.Entity<Course>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -503,7 +532,7 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.FileName).HasMaxLength(45);
             entity.Property(e => e.FilePath).HasMaxLength(2545);
             entity.Property(e => e.FileType).HasMaxLength(45);
-            entity.Property(e => e.ParentType).HasMaxLength(45);
+            entity.Property(e => e.ParentType).HasColumnType("enum('company','std_sem_marks','std_academics_tenth','std_academics_twelth')");
         });
 
         modelBuilder.Entity<Email>(entity =>
@@ -1246,6 +1275,7 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
+            entity.Property(e => e.ScheduleName).HasMaxLength(45);
             entity.Property(e => e.ScheduleType).HasMaxLength(50);
             entity.Property(e => e.StartDate).HasColumnType("datetime");
 
@@ -1271,6 +1301,52 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.ValidFrom).HasColumnType("datetime");
             entity.Property(e => e.ValidTill).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<Trainingfeedbackque>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("trainingfeedbackque");
+
+            entity.HasIndex(e => e.ScheduleId, "FK_Schedule_TFQ_idx");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.Question).HasMaxLength(250);
+
+            entity.HasOne(d => d.Schedule).WithMany(p => p.Trainingfeedbackques)
+                .HasForeignKey(d => d.ScheduleId)
+                .HasConstraintName("FK_Schedule_TFQ");
+        });
+
+        modelBuilder.Entity<Trainingfeedbackre>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("trainingfeedbackres");
+
+            entity.HasIndex(e => e.FeedBackQueId, "FK_FeedBackQue_TFR_idx");
+
+            entity.HasIndex(e => e.StudentId, "FK_Student_TFR_idx");
+
+            entity.HasIndex(e => e.TrainingId, "FK_training_TFR_idx");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.Response).HasMaxLength(250);
+
+            entity.HasOne(d => d.FeedBackQue).WithMany(p => p.Trainingfeedbackres)
+                .HasForeignKey(d => d.FeedBackQueId)
+                .HasConstraintName("FK_FeedBackQue_TFR");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.Trainingfeedbackres)
+                .HasForeignKey(d => d.StudentId)
+                .HasConstraintName("FK_Student_TFR");
+
+            entity.HasOne(d => d.Training).WithMany(p => p.Trainingfeedbackres)
+                .HasForeignKey(d => d.TrainingId)
+                .HasConstraintName("FK_training_TFR");
         });
 
         modelBuilder.Entity<Trainingmodule>(entity =>

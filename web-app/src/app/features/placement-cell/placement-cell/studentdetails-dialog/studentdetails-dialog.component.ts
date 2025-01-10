@@ -10,6 +10,7 @@ import { StudentSkill } from 'src/app/services/types/StudentSkill';
 import { GetDate } from 'src/app/core/helper/DateHelper';
 import { CommonModule } from '@angular/common';
 import { JobStatus } from 'src/app/services/common-dropdowns/JobStatus';
+import { SweetAlertService } from 'src/app/services/sweet-alert-service/sweet-alert-service';
 
 @Component({
   selector: 'app-studentdetails-dialog',
@@ -20,9 +21,11 @@ import { JobStatus } from 'src/app/services/common-dropdowns/JobStatus';
 })
 export class StudentdetailsDialogComponent {
   studentById: number;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private studentId: number,
-    private studentDetailsApiService: StudentDetailsDialogApiService
+    private studentDetailsApiService: StudentDetailsDialogApiService,
+    private sweetAlertService: SweetAlertService
   ) {
     this.studentById = studentId;
   }
@@ -50,11 +53,13 @@ export class StudentdetailsDialogComponent {
   class12thMarksData = new MatTableDataSource<{
     semesterName: string;
     sgpa: number;
+    status?: string;
   }>();
 
   class10thMarksData = new MatTableDataSource<{
     semesterName: string;
     sgpa: number;
+    status?: string;
   }>();
 
   displayedSkillsColumns: string[] = ['skillType', 'skills'];
@@ -72,6 +77,7 @@ export class StudentdetailsDialogComponent {
     this.getStudentSkills();
     this.getstatusData();
     this.getSemesterData();
+    // this.OnSave();
   }
 
   getStudentDetails = () => {
@@ -159,7 +165,12 @@ export class StudentdetailsDialogComponent {
           semesterName: '12th',
           sgpa: response.value[0].TwelthMarks,
           actions: '',
-          status: '',
+          status:
+            response.value[0].TwelfthStatus != null
+              ? response.value[0].TwelfthStatus == 1
+                ? 'approved'
+                : 'rejected'
+              : null,
         };
         const class12thData: {
           semesterName: string;
@@ -171,6 +182,12 @@ export class StudentdetailsDialogComponent {
           semesterName: '10th',
           sgpa: response.value[0].TenthMarks,
           actions: '',
+          status:
+            response.value[0].TenthStatus != null
+              ? response.value[0].TenthStatus == 1
+                ? 'approved'
+                : 'rejected'
+              : null,
         };
         const class10thData: { semesterName: string; sgpa: number }[] = [];
         class10thData.push(class10thDataset);
@@ -197,5 +214,48 @@ export class StudentdetailsDialogComponent {
     sem.status = 'rejected';
     console.log('Rejected', sem);
     // alert(`Rejected: ${sem.semesterName}, SGPA: ${sem.sgpa}`);
+  }
+
+  OnSave(): void {
+    debugger;
+    const studentAcademics: Partial<Studentacademic> = {
+      Id: this.studentAcademicsData()[0]?.Id,
+      TenthStatus: this.class10thMarksData.data.some(
+        (data) => data.status === ''
+      )
+        ? null
+        : this.class10thMarksData.data.some(
+            (data) => data.status === 'approved'
+          )
+        ? 1
+        : 0,
+      TwelfthStatus: this.class12thMarksData.data.some(
+        (data) => data.status === ''
+      )
+        ? null
+        : this.class12thMarksData.data.some(
+            (data) => data.status === 'approved'
+          )
+        ? 1
+        : 0,
+    };
+    this.studentDetailsApiService
+      .VerifyAcademicStatus(
+        this.studentAcademicsData()[0]?.Id,
+        studentAcademics
+      )
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          if (response) {
+            this.sweetAlertService.success('');
+          } else {
+            this.sweetAlertService;
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.error('An unexpected error occurred.');
+        },
+      });
   }
 }

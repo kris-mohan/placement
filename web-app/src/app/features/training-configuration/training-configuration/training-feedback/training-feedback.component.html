@@ -1,0 +1,174 @@
+<div class="feedback-container">
+  <div class="header-mat-label">
+    <mat-label>TRAINING FEEDBACK</mat-label>
+  </div>
+
+  <mat-tab-group>
+    <mat-tab label="Create Feedback">
+      <div class="create-feedback">
+        <!-- <div class="feedback-name-section">
+          <p class="section-label">Feedback Name</p>
+          <mat-form-field appearance="outline" class="course-form-field">
+            <mat-label>Enter Feedback Name</mat-label>
+            <input matInput [(ngModel)]="feedbackName" />
+          </mat-form-field>
+        </div> -->
+
+        <div>
+          <p class="section-label">Schedule Name</p>
+          <mat-form-field appearance="outline" class="course-form-field">
+            <mat-label>Select Schedule</mat-label>
+            <mat-select [(value)]="selectedSchedule">
+              <mat-option
+                *ngFor="let schedule of trainingSchedule"
+                [value]="schedule.Id">
+                {{ schedule.ScheduleName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button
+            mat-raised-button
+            color="primary"
+            class="mat-button add-question-button"
+            (click)="addQuestion()">
+            <mat-icon>add_circle</mat-icon>
+            Add Question
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            class="mat-button remove-question-button"
+            (click)="removeLastQuestion()">
+            <mat-icon>remove_circle</mat-icon>
+            Remove Question
+          </button>
+        </div>
+
+        <div class="questions-section">
+          <ng-container *ngFor="let question of questions; let i = index">
+            <p class="question-label">Question {{ i + 1 }}</p>
+            <mat-form-field appearance="outline" class="question-field">
+              <mat-label>Question {{ i + 1 }}</mat-label>
+              <input matInput [(ngModel)]="questions[i]" />
+            </mat-form-field>
+          </ng-container>
+        </div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="mat-button"
+          (click)="submitFeedback()">
+          Save Format
+        </button>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Responses">
+      <div class="responses-section">
+        <div class="header">
+          <h3>Student Responses</h3>
+          <mat-slide-toggle
+            color="primary"
+            (change)="toggleView()"
+            class="toggle-button">
+            {{ showResponses ? 'Show Student Responses' : 'Show Responses' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div *ngIf="showResponses">
+          <table mat-table [dataSource]="responses" class="mat-elevation-z8">
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef>Sl. No</th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                {{ i + 1 }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="feedbackName">
+              <th mat-header-cell *matHeaderCellDef>Feedback Name</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.feedbackName || 'N/A' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="scheduleName">
+              <th mat-header-cell *matHeaderCellDef>Schedule Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.schedule }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let element">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="openStudentFeedbackList()">
+                  View
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <div>
+            <app-simple-pie-chart
+              [branchPlacementSeries]="ratingSeries"
+              [branchLabels]="ratingLabels"
+              chartTitle="Student Feedback Ratings">
+            </app-simple-pie-chart>
+          </div>
+        </div>
+
+        <div *ngIf="!showResponses">
+          <table mat-table [dataSource]="studentList" class="mat-elevation-z8">
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef>Sl. No</th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                {{ i + 1 }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="studentName">
+              <th mat-header-cell *matHeaderCellDef>Student Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="scheduleName">
+              <th mat-header-cell *matHeaderCellDef>Schedule Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.schedule }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let element">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="openScheduleList()">
+                  View
+                </button>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="[
+                'slNo',
+                'studentName',
+                'scheduleName',
+                'actions'
+              ]"></tr>
+            <tr
+              mat-row
+              *matRowDef="
+                let row;
+                columns: ['slNo', 'studentName', 'scheduleName', 'actions']
+              "></tr>
+          </table>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

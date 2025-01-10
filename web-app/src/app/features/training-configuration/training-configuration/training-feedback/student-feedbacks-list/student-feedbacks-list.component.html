@@ -1,0 +1,36 @@
+<div class="feedback-container">
+  <h2>Student Feedbacks List</h2>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="slNo">
+      <mat-header-cell *matHeaderCellDef> Sl No </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.slNo }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="studentName">
+      <mat-header-cell *matHeaderCellDef> Student Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.studentName }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="scheduleName">
+      <mat-header-cell *matHeaderCellDef> Schedule Name </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.scheduleName }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="view">
+      <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openStudentsResponse()">
+          View
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>

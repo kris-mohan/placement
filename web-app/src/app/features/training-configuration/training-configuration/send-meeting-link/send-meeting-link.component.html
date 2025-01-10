@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Schedule Details</h2>
+<mat-dialog-content>
+  <div class="schedule-details">
+    <p><strong>Course:</strong>Course 1</p>
+    <p><strong>Trainer:</strong>Usha Nuchin</p>
+  </div>
+  <p>Meeting Link</p>
+  <mat-form-field appearance="outline" class="mat-form-field">
+    <mat-label>Enter Meeting Link</mat-label>
+    <input matInput />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions class="mat-action-button">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSend()">Send</button>
+</mat-dialog-actions>

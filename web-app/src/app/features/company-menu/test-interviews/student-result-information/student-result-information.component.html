@@ -65,12 +65,6 @@
       </div>
 
       <mat-card-actions class="footer-actions">
-        <button
-          mat-raised-button
-          class="matbutton"
-          (click)="showNotificationPopup()">
-          <p class="matName">Send Email</p>
-        </button>
         <!-- <button
           mat-raised-button
           color="primary"
@@ -89,11 +83,6 @@
             currentRoundIndex() <
             JobInterviewRoundsData()[0].Jobinterviewrounds.length - 1
           "
-          [disabled]="
-            studentResultInformationForm.invalid ||
-            !studentResultInformationForm.value.Score ||
-            !studentResultInformationForm.value.Feedback
-          "
           matTooltip="Enter Score and Feedback to proceed">
           Move to Next Round
         </button>
@@ -110,11 +99,6 @@
           "
           disabledInteractive
           matTooltip="Enter Score and Feedback to proceed"
-          [disabled]="
-            studentResultInformationForm.invalid ||
-            !studentResultInformationForm.value.Score ||
-            !studentResultInformationForm.value.Feedback
-          "
           disabledInteractive
           matTooltip="Enter Score and Feedback to proceed">
           <p class="matName">Reject</p>

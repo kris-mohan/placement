@@ -18,6 +18,7 @@ export class UploadCompanyDetailsComponent {
   readonly dialog = inject(MatDialog);
   formData: FormGroup;
   selectedFile: File[] = [];
+  sessionCompanyId: number;
   file: File[] = [];
 
   constructor(
@@ -29,6 +30,8 @@ export class UploadCompanyDetailsComponent {
     this.formData = this.fb.group({
       file: [null],
     });
+    const storedCompanyId = sessionStorage.getItem('CompanyId');
+    this.sessionCompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
   }
 
   onFileSelected(event: any): void {
@@ -41,16 +44,18 @@ export class UploadCompanyDetailsComponent {
       const formData = new FormData();
       this.selectedFile.forEach((file) => formData.append('file', file));
 
-      this.companyApiService.uploadJobPostingsFile(formData).subscribe({
-        next: (response) => {
-          this.sweetAlertService.success(response.message);
-          this.dialogRef.close(response.message);
-        },
-        error: (error) => {
-          console.error('Error uploading documents:', error);
-          this.dialogRef.close('Error occurred while uploading.');
-        },
-      });
+      this.companyApiService
+        .uploadJobPostingsFile(this.sessionCompanyId, formData)
+        .subscribe({
+          next: (response) => {
+            this.sweetAlertService.success(response.message);
+            this.dialogRef.close(response.message);
+          },
+          error: (error) => {
+            console.error('Error uploading documents:', error);
+            this.dialogRef.close('Error occurred while uploading.');
+          },
+        });
     } else {
       console.log('No files selected.');
       this.dialogRef.close('No files selected.');

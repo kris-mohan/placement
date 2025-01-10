@@ -24,8 +24,10 @@ import { postJobpostingSelectedstudent } from 'src/app/services/types/postjobpos
 import { MatButton } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
-import { NotifyPopupComponent } from './notify-popup/notify-popup.component';
+// import { NotifyPopupComponent } from './notify-popup/notify-popup.component';
 import { Template } from 'src/app/services/types/Template';
+import { NotifyPopupComponent } from './notify-popup/notify-popup.component';
+import { TemplateCategory } from 'src/app/services/types/TemplateCategory';
 
 @Component({
   selector: 'app-student-result-information',
@@ -46,10 +48,19 @@ import { Template } from 'src/app/services/types/Template';
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class StudentResultInformation implements OnInit {
-  hiringRounds: HiringRound[] = [];
-  id: number = 0;
-  JobInterviewRoundId: string | null = '0';
   Templates = signal<Template[]>([]);
+  id: number = 0;
+  templateCategories: TemplateCategory[] = [];
+  templates: Template[] = [];
+  selectedTemplate: { Subject: string; Body: string } | null = null;
+  templateSubject: string = '';
+  templateBody: string = '';
+  studentEmail: string = '';
+  selectedRound: JobpostStudentround[] = [];
+  hiringRounds: HiringRound[] = [];
+
+  JobInterviewRoundId: string | null = '0';
+  indexId: number = 0;
   jobPostingId: number = 0;
   studentId: number = 0;
   jobPostingInterviewRoundId: number | null = 0;
@@ -96,9 +107,41 @@ export class StudentResultInformation implements OnInit {
       // this.currentRoundIndex = currentRoundIndex;
       this.currentRoundIndex.set(currentRoundIndex);
       this.GetJobInterviewRounds();
+      // this.confirmAction();
     });
     this.getStudentRoundDetails();
+    this.getEmailTemplate();
+    this.getStudentDetails();
     // this.GetNextRoundNotification();
+  }
+
+  getEmailTemplate() {
+    this.studentResultInformationApiService.getNextRoundTemplates().subscribe({
+      next: (res) => {
+        const data = res.value;
+        if (data.length === 0) {
+          this.sweetAlertService.error('No email templates found.');
+          return;
+        }
+        this.templateBody = data[0].Body;
+        this.templateSubject = data[0].Subject;
+      },
+      error: (error) => {
+        console.error('Error fetching email templates:', error);
+        this.sweetAlertService.error('Failed to fetch email templates.');
+      },
+    });
+  }
+
+  getStudentDetails() {
+    this.studentResultInformationApiService
+      .GetStudentEmail(this.studentId)
+      .subscribe({
+        next: (res) => {
+          const data = res.value[0];
+          this.studentEmail = data.Email;
+        },
+      });
   }
 
   getStudentRoundDetails = () => {
@@ -115,6 +158,36 @@ export class StudentResultInformation implements OnInit {
         },
       });
   };
+
+  confirmAction() {
+    console.log('Offer letter confirmed!');
+    // if (this.selectedRound.length > 0) {
+    const currentDate = new Date();
+    // this.selectedRound.forEach((offer) => {
+    const email = {
+      To: this.studentEmail,
+      Cc: this.studentEmail,
+      Bcc: '',
+      Subject: this.templateSubject,
+      Body: this.templateBody,
+      SentAt: currentDate,
+    };
+    this.studentResultInformationApiService
+      .selectedForNextRoundEmail(email as any)
+      .subscribe({
+        next: () => {
+          console.log('Offer letter sent successfully!');
+          this.sweetAlertService;
+        },
+        error: (error) => {
+          console.error('Error:', error);
+        },
+      });
+    // });
+    // } else {
+    //   // this.closeSecondPopup();
+    // }
+  }
 
   patchFormValues(roundIndex: number) {
     const roundData = this.studentRoundsData()[roundIndex];
@@ -217,6 +290,32 @@ export class StudentResultInformation implements OnInit {
     this.location.back();
   }
 
+  moveToNextRound(postJobpostStudentround: PostJobpostStudentround) {
+    this.studentResultInformationApiService
+      .MoveToNextRoundOrReject(postJobpostStudentround)
+      .subscribe({
+        next: (response: { success: boolean; message: any }) => {
+          if (response.success) {
+            this.sweetAlertService.success(
+              postJobpostStudentround.HasPassed === 1
+                ? 'Student successfully moved to the next round.'
+                : 'Student successfully rejected.'
+            );
+            if (postJobpostStudentround.HasPassed === 1) {
+              this.confirmAction();
+              this.onStepChange(this.indexId);
+            }
+          } else {
+            this.sweetAlertService.error(response.message);
+          }
+        },
+        error: (error) => {
+          console.error('Error moving student:', error);
+          this.sweetAlertService.error('An unexpected error occurred.');
+        },
+      });
+  }
+
   openMoveToNextRoundOrReject = async (action: number) => {
     if (
       this.studentResultInformationForm.invalid ||
@@ -227,47 +326,80 @@ export class StudentResultInformation implements OnInit {
       return;
     }
 
-    const postJobpostStudentroundForm: Partial<PostJobpostStudentround> =
-      this.studentResultInformationForm.value;
     const confirmationMessage =
       action === 1
         ? 'Do you want to move this student to the next round?'
         : 'Do you want to reject this student?';
 
     const confirmed = await this.sweetAlertService.confirm(confirmationMessage);
-    if (confirmed) {
-      const postJobpostStudentround: PostJobpostStudentround = {
-        Id: 0,
-        StudentId: this.studentId ?? 0,
-        JobPostingRoundId: this.jobPostingInterviewRoundId ?? 0,
-        Feedback: postJobpostStudentroundForm.Feedback,
-        HasPassed: action,
-        Score: postJobpostStudentroundForm.Score,
-      };
+    if (!confirmed) {
+      return;
+    }
+
+    const postJobpostStudentroundForm: Partial<PostJobpostStudentround> =
+      this.studentResultInformationForm.value;
+
+    const postJobpostStudentround: PostJobpostStudentround = {
+      Id: 0,
+      StudentId: this.studentId ?? 0,
+      JobPostingRoundId: this.jobPostingInterviewRoundId ?? 0,
+      Feedback: postJobpostStudentroundForm.Feedback,
+      HasPassed: action,
+      Score: postJobpostStudentroundForm.Score,
+    };
+
+    if (action === 1) {
       this.studentResultInformationApiService
-        .MoveToNextRoundOrReject(postJobpostStudentround)
+        .getNextRoundTemplates()
         .subscribe({
-          next: (response: { success: boolean; message: any }) => {
-            console.log(response);
-            if (response.success) {
-              if (action === 1) {
-                this.sweetAlertService.success(
-                  'Student successfully moved to the next round.'
-                );
-              } else {
-                this.sweetAlertService.success(
-                  'Student successfully rejected.'
-                );
-              }
-              this.goBack();
-            } else {
-              this.sweetAlertService.error(response.message);
+          next: (res) => {
+            const data = res.value;
+            if (data.length === 0) {
+              this.sweetAlertService.error(
+                'Cannot move student to the next round. No email templates found.'
+              );
+              return;
             }
+
+            // Proceed if the template exists
+            this.templateBody = data[0].Body;
+            this.templateSubject = data[0].Subject;
+
+            // Send the email
+            const email = {
+              To: this.studentEmail,
+              Cc: this.studentEmail,
+              Bcc: '',
+              Subject: this.templateSubject,
+              Body: this.templateBody,
+              SentAt: new Date(),
+            };
+
+            this.studentResultInformationApiService
+              .selectedForNextRoundEmail(email as any)
+              .subscribe({
+                next: () => {
+                  console.log('Email sent successfully!');
+                  this.moveToNextRound(postJobpostStudentround);
+                },
+                error: (error) => {
+                  console.error('Error sending email:', error);
+                  this.sweetAlertService.error(
+                    'Failed to send email. Cannot move student to the next round.'
+                  );
+                },
+              });
           },
           error: (error) => {
-            this.sweetAlertService.error('An unexpected error occurred.');
+            console.error('Error fetching templates:', error);
+            this.sweetAlertService.error(
+              'Failed to fetch email template. Cannot move student to the next round.'
+            );
           },
         });
+    } else {
+      // Reject the student
+      this.moveToNextRound(postJobpostStudentround);
     }
   };
 

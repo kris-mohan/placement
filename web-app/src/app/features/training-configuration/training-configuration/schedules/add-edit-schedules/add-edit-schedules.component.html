@@ -8,7 +8,7 @@
       </div>
       <div>
         <p class="matHeaderName">
-          {{ Id ? "Edit Schedule details" : "Add Schedule details" }}
+          {{ Id ? 'Edit Schedule details' : 'Add Schedule details' }}
         </p>
       </div>
     </div>
@@ -23,16 +23,14 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Company</p>
-          <mat-form-field class="matFormField">
-            <mat-label>select </mat-label>
-            <mat-select formControlName="CompanyId">
+          fxFlex.gt-sm="50%">
+          <p class="grid-label">Company Name</p>
+          <mat-form-field class="matFormField" appearance="outline">
+            <mat-label>Select Company Name </mat-label>
+            <mat-select multiple formControlName="CompanyId">
               <mat-option
                 *ngFor="let company of companies"
-                [value]="company.Id"
-              >
+                [value]="company.Id">
                 {{ company.Name }}
               </mat-option>
             </mat-select>
@@ -42,27 +40,42 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">School</p>
-          <mat-form-field class="matFormField">
-            <mat-label>select</mat-label>
+          fxFlex.gt-sm="50%">
+          <p class="grid-label">Batch Name</p>
+          <mat-form-field class="matFormField" appearance="outline">
+            <mat-label>Select Batch</mat-label>
+            <mat-select multiple formControlName="BatchId">
+              <mat-option *ngFor="let batch of batches" [value]="batch.Id"
+                >{{ batch.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- <div
+          fxFlex="100%"
+          fxFlex.gt-md="33%"
+          fxFlex.gt-lg="25%"
+          fxFlex.gt-sm="50%">
+          <p class="grid-label">School Name</p>
+          <mat-form-field class="matFormField" appearance="outline">
+            <mat-label>Select School Name</mat-label>
             <mat-select multiple formControlName="SchoolId">
               <mat-option> </mat-option
             ></mat-select>
           </mat-form-field>
-        </div>
+        </div> -->
         <div
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Students</p>
-          <mat-form-field class="matFormField">
-            <mat-label>Select </mat-label>
-            <mat-select multiple formControlName="StudentId">
-              <mat-option> </mat-option>
+          fxFlex.gt-sm="50%">
+          <p class="grid-label">Course Name</p>
+          <mat-form-field class="matFormField" appearance="outline">
+            <mat-label>Select Course</mat-label>
+            <mat-select multiple formControlName="CourseId">
+              <mat-option *ngFor="let course of courses" [value]="course.Id">
+                {{ course.FullForm }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -73,14 +86,15 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Course</p>
-          <mat-form-field class="matFormField">
-            <mat-label>Select </mat-label>
-            <mat-select formControlName="CourseId">
-              <mat-option *ngFor="let course of courses" [value]="course.Id">
-                {{ course.Name }}
+          fxFlex.gt-sm="50%">
+          <p class="grid-label">Students Name</p>
+          <mat-form-field class="matFormField" appearance="outline">
+            <mat-label>Students Name</mat-label>
+            <mat-select multiple formControlName="StudentId">
+              <mat-option
+                *ngFor="let student of filteredStudents"
+                [value]="student.Id">
+                {{ student.FirstName + ' ' + student.LastName }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -89,13 +103,14 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
-          <p class="grid-label">Trainers</p>
-          <mat-form-field class="matFormField">
-            <mat-label>select </mat-label>
+          fxFlex.gt-sm="50%">
+          <p class="grid-label">Trainers Name</p>
+          <mat-form-field class="matFormField" appearance="outline">
+            <mat-label>Select Trainers</mat-label>
             <mat-select formControlName="TrainerId">
-              <mat-option *ngFor="let trainer of trainers" [value]="trainer.Id">
+              <mat-option
+                *ngFor="let trainer of trainersData"
+                [value]="trainer.Id">
                 {{ trainer.Name }}
               </mat-option>
             </mat-select>
@@ -105,11 +120,10 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
+          fxFlex.gt-sm="50%">
           <p class="grid-label">Schedule Type</p>
-          <mat-form-field class="matFormField">
-            <mat-label>Schedule Type</mat-label>
+          <mat-form-field class="matFormField" appearance="outline">
+            <mat-label> Select Schedule Type</mat-label>
             <mat-select formControlName="ScheduleType">
               <mat-option *ngFor="let type of scheduleTypes" [value]="type">
                 {{ type }}
@@ -117,14 +131,13 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div
+        <!-- <div
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
+          fxFlex.gt-sm="50%">
           <p class="grid-label">Schedule</p>
-          <mat-form-field class="matFormField">
+          <mat-form-field class="matFormField" appearance="outline">
             <mat-label>Schedule </mat-label>
             <mat-select formControlName="Schedule">
               <mat-option *ngFor="let type of schedule" [value]="type">
@@ -132,7 +145,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </div>
+        </div> -->
       </div>
       <div fxLayout="row wrap">
         <div
@@ -140,30 +153,26 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
+          fxFlex.gt-sm="50%">
           <p>Start Date</p>
-          <mat-form-field appearance="fill" class="matFormField">
+          <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Start Date</mat-label>
             <input
               formControlName="StartDate"
               matInput
-              [matDatepicker]="startDatePicker"
-            />
+              [matDatepicker]="startDatePicker" />
             <mat-datepicker-toggle
               matSuffix
-              [for]="startDatePicker"
-            ></mat-datepicker-toggle>
+              [for]="startDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #startDatePicker></mat-datepicker>
           </mat-form-field>
           <p>Start Time</p>
-          <mat-form-field appearance="fill" class="matFormField">
+          <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Start Time</mat-label>
             <input
               id="StartTimePicker"
               matInput
-              [ngxTimepicker]="startTimePicker"
-            />
+              [ngxTimepicker]="startTimePicker" />
             <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
           </mat-form-field>
         </div>
@@ -172,31 +181,27 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
+          fxFlex.gt-sm="50%">
           <p>End Date</p>
-          <mat-form-field appearance="fill" class="matFormField">
+          <mat-form-field appearance="outline" class="matFormField">
             <mat-label>End Date</mat-label>
             <input
               formControlName="EndDate"
               matInput
-              [matDatepicker]="endDatePicker"
-            />
+              [matDatepicker]="endDatePicker" />
             <mat-datepicker-toggle
               matSuffix
-              [for]="endDatePicker"
-            ></mat-datepicker-toggle>
+              [for]="endDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #endDatePicker></mat-datepicker>
           </mat-form-field>
 
           <p>End Time</p>
-          <mat-form-field appearance="fill" class="matFormField">
+          <mat-form-field appearance="outline" class="matFormField">
             <mat-label>End Time</mat-label>
             <input
               id="EndTimePicker"
               matInput
-              [ngxTimepicker]="endTimePicker"
-            />
+              [ngxTimepicker]="endTimePicker" />
             <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
           </mat-form-field>
         </div>
@@ -283,18 +288,12 @@
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button
-      mat-raised-button
-     
-      type="button"
-      color="Basic"
-      (click)="onReset()"
-    >
+    <button mat-raised-button type="button" color="Basic" (click)="onReset()">
       <p>Reset</p>
     </button>
     <button mat-raised-button class="matbutton" type="submit">
       <p class="matName">
-        {{ Id ? "Update" : "Add" }}
+        {{ Id ? 'Update' : 'Add' }}
       </p>
     </button>
   </mat-card-actions>

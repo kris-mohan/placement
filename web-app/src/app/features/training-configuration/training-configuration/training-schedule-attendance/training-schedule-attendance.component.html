@@ -1,0 +1,62 @@
+<mat-card>
+  <mat-card-header>
+    <div class="header-content">
+      <div class="course-trainer">
+        <h3>Course: Course 1</h3>
+        <h3>Trainer: Anjali</h3>
+      </div>
+      <div class="select-all-container">
+        <button mat-raised-button color="primary" (click)="markAll('present')">
+          Mark All Present
+        </button>
+        <button mat-raised-button color="warn" (click)="markAll('absent')">
+          Mark All Absent
+        </button>
+      </div>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <table mat-table [dataSource]="studentsData" class="mat-elevation-z8">
+      <ng-container matColumnDef="slNo">
+        <th mat-header-cell *matHeaderCellDef>Sl. No</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          {{ i + 1 }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="studentName">
+        <th mat-header-cell *matHeaderCellDef>Student Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.FirstName }} {{ element?.LastName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="present">
+        <th mat-header-cell *matHeaderCellDef>Present</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-radio-button
+            [checked]="element.attendance === 'present'"
+            (change)="updateAttendance(element, 'present')">
+          </mat-radio-button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="absent">
+        <th mat-header-cell *matHeaderCellDef>Absent</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-radio-button
+            [checked]="element.attendance === 'absent'"
+            (change)="updateAttendance(element, 'absent')">
+          </mat-radio-button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <div class="submit-button">
+      <button mat-raised-button color="primary">Submit</button>
+    </div>
+  </mat-card-content>
+</mat-card>

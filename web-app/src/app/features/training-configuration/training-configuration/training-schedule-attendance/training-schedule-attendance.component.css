@@ -1,0 +1,26 @@
+.header-content {
+  display: flex;
+  justify-content: space-between; /* This will space the items to the left and right */
+  align-items: center; /* Center items vertically */
+  padding: 0 20px; /* Optional: Add some padding to the left and right */
+}
+
+.course-trainer {
+  display: flex;
+  flex-direction: column; /* Stack h3 elements vertically */
+}
+
+.select-all-container {
+  display: flex; /* Ensure the buttons are also in a flex container */
+  gap: 15px; /* Space between buttons */
+}
+
+table {
+  width: 100%;
+}
+
+.submit-button {
+  justify-content: flex-end;
+  display: flex;
+  margin-top: 10px;
+}

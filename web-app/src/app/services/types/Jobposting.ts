@@ -51,7 +51,6 @@ export type Jobposting = {
   CompanyJobBatches?: CompanyJobBatch[];
   CompanyJobCourses?: CompanyJobCourse[];
   CompanyJobStreams?: CompanyJobStream[];
-
   Jobinterviewpanels: Jobinterviewpanel[];
   OrgId?: number;
 };

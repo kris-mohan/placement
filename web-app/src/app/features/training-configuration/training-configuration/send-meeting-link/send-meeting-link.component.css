@@ -1,0 +1,8 @@
+.mat-action-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mat-form-field {
+  width: 100%;
+}

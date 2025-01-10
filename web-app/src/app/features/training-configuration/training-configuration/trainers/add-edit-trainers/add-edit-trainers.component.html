@@ -8,7 +8,7 @@
       </div>
       <div>
         <p class="matHeaderName">
-          {{ Id ? "Edit Trainer" : "Add Trainer" }}
+          {{ Id ? 'Edit Trainer' : 'Add Trainer' }}
         </p>
       </div>
     </div>
@@ -23,8 +23,7 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
+          fxFlex.gt-sm="50%">
           <p class="grid-label">Trainer Name</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Trainer Name</mat-label>
@@ -36,8 +35,7 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
+          fxFlex.gt-sm="50%">
           <p class="grid-label">Email</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Email</mat-label>
@@ -49,8 +47,7 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
+          fxFlex.gt-sm="50%">
           <p class="grid-label">Contact Number</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Contact Number</mat-label>
@@ -61,8 +58,7 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
+          fxFlex.gt-sm="50%">
           <p class="grid-label">Company name</p>
           <mat-form-field appearance="outline" class="matFormField">
             <mat-label>Company name</mat-label>
@@ -73,10 +69,9 @@
           fxFlex="100%"
           fxFlex.gt-md="33%"
           fxFlex.gt-lg="25%"
-          fxFlex.gt-sm="50%"
-        >
+          fxFlex.gt-sm="50%">
           <p class="grid-label">Training</p>
-          <mat-form-field class="matFormField">
+          <mat-form-field class="matFormField" appearance="outline">
             <mat-label>Training </mat-label>
             <mat-select formControlName="TrainerType">
               <mat-option *ngFor="let type of Training" [value]="type">
@@ -89,17 +84,12 @@
     </mat-card-content>
   </mat-card>
   <mat-card-actions class="footer-actions">
-    <button
-      mat-raised-button
-      
-      (click)="onReset()"
-      type="button"
-    >
+    <button mat-raised-button (click)="onReset()" type="button">
       <p>Reset</p>
     </button>
     <button mat-raised-button class="matbutton" type="submit">
       <p class="matName">
-        {{ Id ? "Update" : "Add" }}
+        {{ Id ? 'Update' : 'Add' }}
       </p>
     </button>
   </mat-card-actions>

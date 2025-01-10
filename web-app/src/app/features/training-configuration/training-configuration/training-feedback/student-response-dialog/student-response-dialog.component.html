@@ -1,0 +1,28 @@
+<div class="response-dialog-container">
+  <h2 class="dialog-title">Student Response</h2>
+
+  <div
+    class="questions-container"
+    *ngFor="let question of studentResponses; let i = index">
+    <div class="question-item">
+      <p class="question-label">
+        Question {{ i + 1 }}: {{ question.question }}
+      </p>
+
+      <div class="rating-container">
+        <mat-label>Response:</mat-label>
+        <mat-radio-group [(ngModel)]="question.rating" class="rating-group">
+          <mat-radio-button *ngFor="let rating of ratings" [value]="rating">
+            {{ rating }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <hr class="divider" />
+    </div>
+  </div>
+
+  <div class="dialog-actions" style="display: flex; justify-content: flex-end">
+    <!-- <button mat-button ></button> -->
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="student-response-container">
+  <header class="fixed-header">
+    <h1>Feedback Response</h1>
+    <mat-icon class="close-button" mat-dialog-close>cancel</mat-icon>
+  </header>
+
+  <div class="questions-container">
+    <form class="feedback-form">
+      <div
+        *ngFor="let question of feedBackQuestions"
+        [attr.data-question-id]="question.Id"
+        class="question-section">
+        <h3>{{ question?.Id }}. {{ question?.Question }}</h3>
+        <mat-radio-group class="rating-group">
+          <mat-radio-button *ngFor="let rating of ratings" [value]="rating">
+            {{ rating }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </form>
+  </div>
+
+  <footer class="fixed-footer">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="submitFeedback()"
+      [disabled]="!isFormValid()">
+      Submit Feedback
+    </button>
+  </footer>
+</div>

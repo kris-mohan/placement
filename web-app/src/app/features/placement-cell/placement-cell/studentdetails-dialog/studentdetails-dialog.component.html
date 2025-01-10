@@ -201,8 +201,7 @@
                         [disabled]="
                           sem.status === 'approved' || sem.status === 'rejected'
                         "
-                        (click)="onApproveClick(sem)"
-                      >
+                        (click)="onApproveClick(sem)">
                         <mat-icon>check</mat-icon>
                       </button>
 
@@ -211,8 +210,7 @@
                         mat-fab
                         color="warn"
                         class="wrong-button"
-                        (click)="onRejectClick(sem)"
-                      >
+                        (click)="onRejectClick(sem)">
                         <mat-icon>close</mat-icon>
                       </button>
                     </ng-template>
@@ -233,7 +231,7 @@
         </mat-card>
       </div>
       <div class="dialog-footer">
-        <button class="matbutton matName">Save</button>
+        <button class="matbutton matName" (click)="OnSave()">Save</button>
       </div>
     </mat-tab>
 

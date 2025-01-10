@@ -25,7 +25,15 @@ public partial class Trainerschedule
 
     public ulong IsDeleted { get; set; }
 
+    public long? BatchId { get; set; }
+
+    public string? ScheduleName { get; set; }
+
     public virtual Trainingcourse? Course { get; set; }
 
     public virtual Trainer? Trainer { get; set; }
+
+    public virtual ICollection<Trainingfeedbackque> Trainingfeedbackques { get; set; } = new List<Trainingfeedbackque>();
+
+    public virtual ICollection<Trainingfeedbackre> Trainingfeedbackres { get; set; } = new List<Trainingfeedbackre>();
 }
