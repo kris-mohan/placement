@@ -389,16 +389,39 @@ export class CompanyJobDescriptionComponent {
         .subscribe({
           next: (response: { success: boolean; message: string }) => {
             if (response) {
+              const content = `${
+                this.StudentStatusOfInvitedJobPostData()[0]?.Student?.FirstName
+              } ${
+                this.StudentStatusOfInvitedJobPostData()[0]?.Student?.LastName
+              }, A final year student pursuing ${
+                this.StudentStatusOfInvitedJobPostData()[0]?.Student
+                  ?.Studentacademics[0]?.Stream?.Name
+              } in ${
+                this.StudentStatusOfInvitedJobPostData()[0]?.Student
+                  ?.Studentacademics[0]?.Course?.FullForm
+              }, has applied for ${
+                this.StudentStatusOfInvitedJobPostData()[0]?.JobPosting?.JobRole
+              } position at ${
+                this.StudentStatusOfInvitedJobPostData()[0]?.JobPosting?.Company
+                  ?.Name
+              }`;
               const notification = {
                 Id: 0,
-                Title: "",
-                NotificationContent: "",
+                Title: "jobs Applied",
+                NotificationContent: content,
                 ParentType: "",
                 ParentId: 0,
                 IsRead: 0,
-                CompanyId: 0,
-                CampusId: null,
-                StudentId: 0,
+                CompanyId:
+                  this.StudentStatusOfInvitedJobPostData()[0]?.JobPosting
+                    ?.CompanyId ?? null,
+                CampusId:
+                  this.StudentStatusOfInvitedJobPostData()[0]?.Student?.OrgId ??
+                  null,
+                // StudentId:
+                //   this.StudentStatusOfInvitedJobPostData()[0]?.Student?.Id ??
+                //   null,
+                StudentId: null,
               };
               this.saveNotification(notification);
 
@@ -414,11 +437,6 @@ export class CompanyJobDescriptionComponent {
         });
     }
   };
-
-  getStudentDetails(){
-    
-  }
-
   rejectJobPostByStudent = async () => {
     const confirmed = await this.sweetAlertService.confirm(
       `Do you want to Reject for this job posting?`

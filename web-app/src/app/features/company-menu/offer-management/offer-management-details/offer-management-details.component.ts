@@ -9,6 +9,8 @@ import { OfferManagementDetailsApiService } from "./api.offer-management-details
 import { ActivatedRoute } from "@angular/router";
 import { Jobposting } from "src/app/services/types/Jobposting";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
+import { NotificationsApiService } from "src/app/features/student-menu/student-menu/profile-management/profilemanagement-dashboard/NotificationsAPIService";
+import { notification } from "src/app/services/types/Notifications";
 
 export type columnData = {
   SlNo: number;
@@ -46,7 +48,8 @@ export class OfferManagementDetailsComponent {
     private location: Location,
     private offerManagementDetailsApiService: OfferManagementDetailsApiService,
     private route: ActivatedRoute,
-    private sweetAlertService: SweetAlertService
+    private sweetAlertService: SweetAlertService,
+    private notificationApiService: NotificationsApiService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
@@ -55,6 +58,7 @@ export class OfferManagementDetailsComponent {
   JobPostingId: number | null = null;
   StudentId: number | null = null;
   interviewDetails: InterviewDetails | null = null;
+  basicDetails: Jobposting | null = null;
   Id: number | null = null;
   ngOnInit() {
     this.getStudentOfferStatus();
@@ -126,7 +130,8 @@ export class OfferManagementDetailsComponent {
           .subscribe({
             next: (response) => {
               const data: Jobposting[] = response.value;
-              console.log("Details", data);
+              this.basicDetails = data[0];
+              console.log("Details", this.basicDetails);
               const transformedData: columnData[] = [];
 
               data.forEach((jobPosting) => {
@@ -208,6 +213,23 @@ export class OfferManagementDetailsComponent {
           next: (response: { success: boolean; message: any }) => {
             this.getInterviewDetails();
             if (response.success) {
+              const content = ` ${this.basicDetails?.Jobinterviewrounds[0]?.JobpostStudentrounds[0]?.Student?.FirstName} ${this.basicDetails?.Jobinterviewrounds[0]?.JobpostStudentrounds[0]?.Student?.LastName}! has accepted offer with ${this.basicDetails?.Company?.Name}.
+               We're thrilled to have you on board and look forward to your journey with us. More details will follow soon!
+               `;
+              const notification = {
+                Id: 0,
+                Title: "Offer Accepted",
+                NotificationContent: content,
+                ParentType: "",
+                ParentId: 0,
+                IsRead: 0,
+                CompanyId: this.basicDetails?.CompanyId ?? null,
+                CampusId: this.basicDetails?.OrgId ?? null,
+                // StudentId: this.StudentId ?? null,
+                StudentId: null,
+              };
+              this.saveNotification(notification);
+
               this.isOfferAccepted.set(true);
               this.sweetAlertService.success("Offer accepted successfully.");
             } else {
@@ -253,5 +275,15 @@ export class OfferManagementDetailsComponent {
         });
     }
   };
-  saveNotification() {}
+  saveNotification(body: notification) {
+    this.notificationApiService.Notification(body).subscribe({
+      next: (response: { success: boolean; message: any }) => {
+        if (response.success) {
+          console.log(response.success, "success");
+        } else {
+        }
+      },
+      error: (error) => {},
+    });
+  }
 }

@@ -7,7 +7,7 @@ export type notification = {
   ParentType: string;
   ParentId: number;
   IsRead: number;
-  CompanyId: number;
-  CampusId: null;
-  StudentId: number;
+  CompanyId: number | null;
+  CampusId: number | null;
+  StudentId: number | null;
 };

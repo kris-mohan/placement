@@ -44,6 +44,7 @@ export class CalendarModalComponent implements OnInit {
   jobPostingId: number = 0;
   OrgId: number = 0;
   allCompanies = signal<Companydatum[]>([]);
+  jobRole: string | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<CalendarModalComponent>,
@@ -92,6 +93,10 @@ export class CalendarModalComponent implements OnInit {
     const selectedJobPostingId = event.value;
 
     const currentCompanyId = this.formDataa.value.companyId;
+
+    this.jobRole =
+      this.jobPostings.find((r) => r.Id === selectedJobPostingId)?.JobRole ??
+      null;
 
     // Fetch the rounds based on the selected job posting
     this.getAllRounds(selectedJobPostingId);
@@ -221,6 +226,7 @@ export class CalendarModalComponent implements OnInit {
         meetingLink, // Trimmed meeting link
         weekdays: this.weekdays || [], // Ensure weekdays has a default value
         OrgId: this.OrgId || null, // Default OrgId to null if not defined
+        jobRole: this.jobRole,
       };
 
       // Debug: Log the data being sent back

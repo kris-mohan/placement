@@ -11,12 +11,18 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { APIInterviewScheduleService } from "./api.interview-schedule";
 import { Colleges, Universities } from "src/app/services/types/Universities";
 import { ODataEntity } from "src/app/services/types/OData";
-import { PostCalendarevent } from "src/app/services/types/Calendarevent";
+import {
+  Calendarevent,
+  PostCalendarevent,
+  PostCalEvent,
+} from "src/app/services/types/Calendarevent";
 import { InterviewScheduleApiService } from "./InterviewScheduleApiService";
-import { GetDate } from "src/app/core/helper/DateHelper";
+import { GetDate, GetDateDDMMYYYYTT } from "src/app/core/helper/DateHelper";
 import { PatchJobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { Jobinterviewround } from "src/app/services/types/Jobinterviewround";
 import { CalendarModalApiService } from "../calendar-modal/api.calendar-modal";
+import { NotificationsApiService } from "../../student-menu/student-menu/profile-management/profilemanagement-dashboard/NotificationsAPIService";
+import { notification } from "src/app/services/types/Notifications";
 
 type calendarEvent = {
   // id: string;
@@ -49,6 +55,8 @@ export class InterviewScheduleComponent implements OnInit {
   roundsId: number = 0;
   jobPostingId: number = 0;
   OrgId: number = 0;
+  selectedCompanyId: number | null = null;
+  jobRole: string | null = null;
 
   roundsIdForBatchCall: Jobinterviewround[] = [];
 
@@ -94,15 +102,20 @@ export class InterviewScheduleComponent implements OnInit {
   calendarEvents = signal<calendarEvent[]>([]);
 
   companyId: number = 0;
-
+  sessionCompanyId: number;
+  sessionCampusId: number;
   constructor(
     private dialog: MatDialog,
     private interviewScheduleApiService: InterviewScheduleApiService,
     private APiInterviewScheduleService: APIInterviewScheduleService,
+    private notificationApiService: NotificationsApiService,
     private calendarModalApiService: CalendarModalApiService
   ) {
     const storedCompanyId = sessionStorage.getItem("CompanyId");
     this.companyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
+    this.sessionCompanyId = storedCompanyId ? parseInt(storedCompanyId) : 0;
+    const storedCampusId = sessionStorage.getItem("CampusId");
+    this.sessionCampusId = storedCampusId ? parseInt(storedCampusId) : 0;
   }
 
   ngOnInit(): void {
@@ -207,10 +220,13 @@ export class InterviewScheduleComponent implements OnInit {
 
   addEditNewEvent(result: any) {
     if (result) {
+      debugger;
       console.log("New event", result);
       this.roundsId = result.rounds;
       this.jobPostingId = result.jobPosting;
       this.OrgId = result.OrgId;
+      this.selectedCompanyId = result.companyId;
+      this.jobRole = result.jobRole;
       const title = result.eventType;
       // const jobRole = result.jobRole;
       const className = "bg-primary text-white";
@@ -581,9 +597,41 @@ export class InterviewScheduleComponent implements OnInit {
       },
     });
   };
+
+  isCalendarevent(event: PostCalendarevent): event is Calendarevent {
+    return (event as Calendarevent).EventStartDateTime !== undefined;
+  }
+
   saveCalendarEventHandler = (event: PostCalendarevent) => {
     this.interviewScheduleApiService.saveCalendarEvent(event).subscribe({
       next: (response) => {
+        if (this.isCalendarevent(event)) {
+          const login =
+            this.sessionCompanyId != 0
+              ? "company"
+              : this.sessionCompanyId != 0
+              ? "tpc"
+              : "student";
+
+          const content = `Interview for the ${
+            this.jobRole
+          } position has been scheduled on ${GetDateDDMMYYYYTT(
+            event.EventStartDateTime
+          )}. Please be prepared and join us promptly`;
+          const notification = {
+            Id: 0,
+            Title: "Interview Scheduled",
+            NotificationContent: content,
+            ParentType: "student",
+            ParentId: 0,
+            IsRead: 0,
+            CompanyId: login != "company" ? this.selectedCompanyId : null,
+            CampusId: login != "tpc" ? event.OrgId : null,
+            StudentId: null,
+          };
+          this.saveNotification(notification);
+        }
+
         console.log("Calendar event saved successfully:", response);
         // this.calendarEvents();
         console.log(this.roundsId);
@@ -664,6 +712,17 @@ export class InterviewScheduleComponent implements OnInit {
       error: (error) => {
         console.error("Error updating calendar event:", error);
       },
+    });
+  }
+  saveNotification(body: notification) {
+    this.notificationApiService.Notification(body).subscribe({
+      next: (response: { success: boolean; message: any }) => {
+        if (response.success) {
+          console.log(response.success, "success");
+        } else {
+        }
+      },
+      error: (error) => {},
     });
   }
 }
