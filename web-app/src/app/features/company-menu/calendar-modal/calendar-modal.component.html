@@ -1,202 +1,171 @@
-<h1
-  mat-dialog-title
-  fxLayout="row"
-  fxLayoutAlign="center center"
-  style="padding-top: 0.5rem"
->
-  <strong>
-    {{ isEdited ? "Edit Event" : "Add New Event" }}
-  </strong>
-</h1>
+<div>
+  <h1
+    mat-dialog-title
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    style="padding-top: 0.5rem"
+  >
+    <strong>
+      {{ isEdited ? "Edit Event" : "Add New Event" }}
+    </strong>
+  </h1>
+</div>
+
 <mat-divider></mat-divider>
+<div class="date-heading">
+  <h3>
+    {{ data.date | date : "mediumDate" }}
+  </h3>
+</div>
 
 <div mat-dialog-content>
   <form [formGroup]="formDataa">
-    <div
-      fxLayout="row wrap"
-      fxLayoutAlign="space-around start"
-      fxLayoutGap="20px"
-    >
-      <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
-        <mat-form-field appearance="outline">
-          <mat-label>Event Type</mat-label>
-          <!-- <input
-            matInput
-            placeholder="Insert Event Name"
-            formControlName="eventType"
-          /> -->
-          <mat-select
-            [(value)]="formDataa.value.eventType"
-            (selectionChange)="onEventTypeChange($event)"
-          >
-            <mat-option value="interview">Interview</mat-option>
-            <mat-option value="training">Training</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+    <!-- Row 1: Event Type -->
+    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between center">
+      <mat-form-field fxFlex="45%" appearance="outline">
+        <mat-label>Event Type</mat-label>
+        <mat-select
+          [(value)]="formDataa.value.eventType"
+          (selectionChange)="onEventTypeChange($event)"
+        >
+          <mat-option value="interview">Interview</mat-option>
+          <mat-option value="training">Training</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-      <div
+      <mat-form-field
+        fxFlex="45%"
+        appearance="outline"
         *ngIf="showJobPostingsAndRounds"
-        fxFlex="100%"
-        fxFlex.gt-sm="30%"
-        fxFlex.gt-md="30%"
       >
-        <mat-form-field appearance="outline">
-          <mat-label>Select Company</mat-label>
-          <!-- <input
-            matInput
-            placeholder="Insert Event Name"
-            formControlName="eventType"
-          /> -->
-          <mat-select
-            [(value)]="formDataa.value.companyId"
-            (selectionChange)="onCompanySelected($event)"
-            [disabled]="userRole === 2"
+        <mat-label>Select Company</mat-label>
+        <mat-select
+          [(value)]="formDataa.value.companyId"
+          (selectionChange)="onCompanySelected($event)"
+          [disabled]="userRole === 2"
+        >
+          <mat-option
+            *ngFor="let company of allCompanies()"
+            [value]="company.Id"
           >
-            <mat-option
-              *ngFor="let company of allCompanies()"
-              [value]="company.Id"
-            >
-              {{ company.Name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <!-- <div>
-        <mat-form-field appearance="outline">
-          <mat-label>Job Role</mat-label>
-          <mat-select formControlName="jobRole">
-            <mat-option *ngFor="let role of roles" [value]="role.id">
-              {{ role.name }}
-            </mat-option>
-          </mat-select>
-          <input matInput placeholder="Job Role" formControlName="jobRole" />
-        </mat-form-field>
-      </div> -->
-      <div
-        *ngIf="showJobPostingsAndRounds"
-        fxFlex="100%"
-        fxFlex.gt-sm="30%"
-        fxFlex.gt-md="30%"
-      >
-        <mat-form-field appearance="outline">
-          <mat-label>Job Posting</mat-label>
-          <mat-select
-            formControlName="jobPosting"
-            (selectionChange)="onJobPostingChange($event)"
-          >
-            <mat-option
-              *ngFor="let posting of jobPostings"
-              [value]="posting.Id"
-            >
-              {{ posting.JobRole }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div
-        *ngIf="showJobPostingsAndRounds"
-        fxFlex="100%"
-        fxFlex.gt-sm="30%"
-        fxFlex.gt-md="30%"
-      >
-        <mat-form-field appearance="outline">
-          <mat-label>Rounds</mat-label>
-          <mat-select formControlName="rounds">
-            <mat-option *ngFor="let round of rounds" [value]="round.Id">
-              {{ round.Name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
-        <mat-form-field appearance="outline">
-          <mat-label>Start Time</mat-label>
-          <input
-            formControlName="startTime"
-            matInput
-            [ngxTimepicker]="startTimePicker"
-          />
-          <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
-        </mat-form-field>
-      </div>
-
-      <div fxFlex="100%" fxFlex.gt-sm="30%" fxFlex.gt-md="30%">
-        <mat-form-field appearance="outline">
-          <mat-label>End Time</mat-label>
-          <input
-            formControlName="endTime"
-            matInput
-            [ngxTimepicker]="endTimePicker"
-          />
-          <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
-        </mat-form-field>
-      </div>
-
-      <div
-        *ngIf="isEdited !== true"
-        fxFlex="100%"
-        fxLayout="row"
-        fxLayoutAlign="Start center"
-        fxLayoutGap="20px"
-      >
-        <div fxFlex="30%">
-          <mat-checkbox [checked]="toggle" (change)="onToggleChange($event)">
-            Multiple Days
-          </mat-checkbox>
-        </div>
-
-        <div *ngIf="toggle === true" fxFlex="40%">
-          <mat-form-field appearance="outline">
-            <mat-label>End Date</mat-label>
-            <input
-              formControlName="endDate"
-              matInput
-              [matDatepicker]="picker"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-
-        <div *ngIf="toggle === true" fxFlex="30%">
-          <mat-checkbox
-            [checked]="weekdays"
-            (change)="onWeekdaysChange($event)"
-          >
-            Weekdays only
-          </mat-checkbox>
-        </div>
-      </div>
+            {{ company.Name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-    <strong>
-      <p fxLayout="row" fxLayoutAlign="center center" fxFlex="100%">
-        Start Date: {{ data.date | date : "mediumDate" }}
-      </p>
-      <mat-form-field appearance="outline" *ngIf="isEdited !== true">
+
+    <!-- Row 2: Job Posting & Rounds -->
+    <div
+      fxLayout="row"
+      fxLayoutGap="16px"
+      fxLayoutAlign="space-between center"
+      *ngIf="showJobPostingsAndRounds"
+    >
+      <mat-form-field fxFlex="45%" appearance="outline">
+        <mat-label>Job Posting</mat-label>
+        <mat-select
+          formControlName="jobPosting"
+          (selectionChange)="onJobPostingChange($event)"
+        >
+          <mat-option *ngFor="let posting of jobPostings" [value]="posting.Id">
+            {{ posting.JobRole }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="45%" appearance="outline">
+        <mat-label>Rounds</mat-label>
+        <mat-select formControlName="rounds">
+          <mat-option *ngFor="let round of rounds" [value]="round.Id">
+            {{ round.Name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Row 3: Start Time & End Time -->
+    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between center">
+      <mat-form-field fxFlex="45%" appearance="outline">
+        <mat-label>Start Time</mat-label>
+        <input
+          formControlName="startTime"
+          matInput
+          [ngxTimepicker]="startTimePicker"
+        />
+        <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="45%" appearance="outline">
+        <mat-label>End Time</mat-label>
+        <input
+          formControlName="endTime"
+          matInput
+          [ngxTimepicker]="endTimePicker"
+        />
+        <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
+      </mat-form-field>
+    </div>
+    <div
+      style="color: red"
+      *ngIf="formDataa.hasError('endTimeBeforeStartTime')"
+    >
+      End time must be after the start time.
+    </div>
+
+    <!-- Row 4: Multiple Days Toggle -->
+    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between center">
+      <mat-checkbox
+        fxFlex="45%"
+        [checked]="toggle"
+        (change)="onToggleChange($event)"
+      >
+        Multiple Days
+      </mat-checkbox>
+
+      <!-- Meeting Link Field -->
+      <mat-form-field fxFlex="45%" appearance="outline">
         <mat-label>Meeting Link</mat-label>
         <input matInput formControlName="meetingLink" />
       </mat-form-field>
-      <div *ngIf="isEdited" fxFlex="20%" fxFlex.gt-sm="20%" fxFlex.gt-md="20%">
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="!joinMeetingEnabled"
+    </div>
+
+    <!-- Row 5: Weekdays Only and End Date -->
+    <div
+      fxLayout="row"
+      fxLayoutGap="16px"
+      fxLayoutAlign="space-between center"
+      *ngIf="toggle === true"
+    >
+      <!-- Weekdays Only Field -->
+      <mat-checkbox
+        fxFlex="45%"
+        [checked]="weekdays"
+        (change)="onWeekdaysChange($event)"
+      >
+        Weekdays Only
+      </mat-checkbox>
+
+      <!-- End Date Field -->
+      <mat-form-field fxFlex="45%" appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input formControlName="endDate" matInput [matDatepicker]="picker" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Row 6: Join Meeting Button -->
+    <div *ngIf="isEdited" fxLayout="row" fxLayoutAlign="center center">
+      <button mat-raised-button color="primary">
+        <a
+          [href]="formDataa.value.meetingLink"
+          target="_blank"
+          style="text-decoration: none; color: white"
         >
-          <a
-            [href]="formDataa.value.meetingLink"
-            target="_blank"
-            style="text-decoration: none; color: white"
-          >
-            JoinMeeting
-          </a>
-        </button>
-      </div>
-    </strong>
+          Join Meeting
+        </a>
+      </button>
+    </div>
   </form>
 </div>
 
