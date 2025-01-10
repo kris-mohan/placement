@@ -28,7 +28,14 @@
   </div>
 </div>
 <div class="main-div">
-  <full-calendar class="calendar" [options]="calendarOptions"></full-calendar>
+  <mat-card class="mat-card"
+    ><mat-card-content
+      ><full-calendar
+        class="calendar"
+        [options]="calendarOptions"
+      ></full-calendar
+    ></mat-card-content>
+  </mat-card>
   <div style="margin-left: 0px">
     <mat-card class="outer-card-container">
       <div class="inner-cards-container">
