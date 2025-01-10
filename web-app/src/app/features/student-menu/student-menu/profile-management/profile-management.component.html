@@ -11,6 +11,7 @@
             <h2>Personal Information</h2>
             <div fxLayout="row wrap" class="row-wrap">
               <div
+                class="form-field first-name-container"
                 fxFlex="100%"
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
@@ -22,41 +23,29 @@
                   <input matInput formControlName="FirstName" />
                 </mat-form-field>
               </div>
-              <!-- <div
-                  fxFlex="100%"
-                  fxFlex.gt-md="33%"
-                  fxFlex.gt-lg="25%"
-                  fxFlex.gt-sm="50%"
-                >
-                  <p class="grid-label">Middle Name</p>
-                  <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Middle Name</mat-label>
-                    <input matInput formControlName="LastName" />
-                  </mat-form-field>
-                </div> -->
+
               <div
                 fxFlex="100%"
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="last-name-container"
               >
                 <p class="grid-label">Last Name</p>
-                <mat-form-field appearance="outline" class="full-width">
+                <mat-form-field appearance="outline" class="fullwidth-">
                   <!-- <mat-label>Last Name</mat-label> -->
                   <input matInput formControlName="LastName" />
                 </mat-form-field>
               </div>
-            </div>
-
-            <div fxLayout="row wrap" class="row-wrap">
               <div
                 fxFlex="100%"
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="date-of-birth-container"
               >
                 <p class="grid-label">Date Of Birth</p>
-                <mat-form-field appearance="outline" class="full-width">
+                <mat-form-field appearance="outline" class="fullwidth">
                   <!-- <mat-label>DOB</mat-label> -->
                   <input
                     matInput
@@ -73,11 +62,15 @@
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
               </div>
+            </div>
+
+            <div fxLayout="row wrap" class="row-wrap">
               <div
                 fxFlex="100%"
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="blood-group-container"
               >
                 <p class="grid-label">Blood Group</p>
                 <mat-form-field appearance="outline" class="full-width">
@@ -100,6 +93,7 @@
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="mobile-container"
               >
                 <p class="grid-label">Mobile No</p>
                 <mat-form-field appearance="outline" class="full-width">
@@ -112,6 +106,7 @@
                 fxFlex.gt-md="25%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="upload-photo"
               >
                 <P class="grid-label"> Upload Photo</P>
                 <input
@@ -131,6 +126,7 @@
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="email-container"
               >
                 <p class="grid-label">Email</p>
                 <mat-form-field appearance="outline" class="full-width">
@@ -143,6 +139,7 @@
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="batch-container"
               >
                 <p class="grid-label">Batch</p>
                 <mat-form-field appearance="outline" class="full-width">
@@ -162,6 +159,7 @@
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="stream-container"
               >
                 <p class="grid-label">Stream</p>
                 <mat-form-field appearance="outline" class="full-width">
@@ -201,6 +199,7 @@
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="usn-container"
               >
                 <p class="grid-label">Enter USN No.</p>
                 <mat-form-field appearance="outline">
@@ -241,6 +240,7 @@
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="enter-address-container"
               >
                 <p class="grid-label">Enter Address</p>
                 <mat-form-field appearance="outline" class="full-width">
@@ -270,6 +270,7 @@
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="father-mobile-no"
               >
                 <p class="grid-label">Enter Father Mobile No</p>
                 <mat-form-field appearance="outline" class="full-width">
@@ -278,25 +279,12 @@
                 </mat-form-field>
               </div>
 
-              <!-- <div
-                  fxFlex="100%"
-                  fxFlex.gt-md="33%"
-                  fxFlex.gt-lg="25%"
-                  fxFlex.gt-sm="50%">
-                  <p class="grid-label">Enter Father Occupation</p>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Father Occupation</mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </div> -->
-            </div>
-
-            <div fxLayout="row wrap" class="row-wrap">
               <div
                 fxFlex="100%"
                 fxFlex.gt-md="33%"
                 fxFlex.gt-lg="25%"
                 fxFlex.gt-sm="50%"
+                class="mother-name-container"
               >
                 <p class="grid-label">Enter Mother Name</p>
                 <mat-form-field appearance="outline" class="full-width">
@@ -304,6 +292,7 @@
                   <input matInput formControlName="MotherName" />
                 </mat-form-field>
               </div>
+
               <div
                 fxFlex="100%"
                 fxFlex.gt-md="33%"
@@ -316,6 +305,7 @@
                   <input matInput formControlName="MotherPhoneNumber" />
                 </mat-form-field>
               </div>
+
               <!-- <div
                 fxFlex="100%"
                 fxFlex.gt-md="33%"
@@ -410,24 +400,6 @@
                     <input matInput formControlName="TenthMarks" />
                   </mat-form-field>
                 </div>
-
-                <!-- <div
-                  fxFlex="100%"
-                  fxFlex.gt-md="25%"
-                  fxFlex.gt-lg="25%"
-                  fxFlex.gt-sm="50%">
-                  <p class="grid-label">Year of Pass-out</p>
-                  <mat-form-field appearance="outline" class="Education-Fields">
-                    <mat-label>Select Year</mat-label>
-                    <mat-select formControlName="TenthPassedOutYear">
-                      <mat-option
-                        *ngFor="let batch of Batches()"
-                        [value]="batch.Id">
-                        {{ batch.Name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div> -->
 
                 <div
                   fxFlex="100%"
@@ -711,15 +683,14 @@
               <mat-card-header>
                 <mat-card-title>Degree Details</mat-card-title>
               </mat-card-header>
-              <button
-                mat-button
-                type="button"
-                (click)="addSemester()"
-                style="position: absolute; right: 10px; top: 10px"
-                class="add_remove_btn"
-              >
-                <mat-icon>add</mat-icon>
-              </button>
+              <div class="AddDegreeDetaisButton">
+                <button
+                  (click)="addSemester()"
+                  style="position: absolute; right: 7px; top: 5px"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
 
               <div
                 fxLayout="row wrap"
@@ -807,18 +778,14 @@
                     />
                   </div>
                 </div>
-
+                   
                 <!-- Remove Semester Button (Placed on the next row) -->
                 <div fxLayout="row" fxLayoutAlign="end center" fxFlex="100%">
-                  <button
-                    mat-button
-                    color="warn"
-                    type="button"
-                    (click)="removeSemester(i)"
-                    class="add_remove_btn"
-                  >
-                    <mat-icon>remove</mat-icon>
-                  </button>
+                  <div class="AddDegreeDetaisButton">
+                    <button (click)="removeSemester(i)">
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </div>
                 </div>
               </div>
             </mat-card>
@@ -857,7 +824,7 @@
                     <mat-label>Select Skill Type</mat-label>
                     <mat-select
                       (selectionChange)="onSkillTypeChange($event, i)"
-                      formControlName="skillType"
+                      formControlName="skillType" 
                     >
                       <mat-option
                         *ngFor="let skillType of filteredSkillTypes()"

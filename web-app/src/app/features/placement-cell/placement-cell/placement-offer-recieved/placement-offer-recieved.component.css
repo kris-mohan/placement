@@ -176,3 +176,8 @@ at-grid-tile[_ngcontent-ng-c255510817] {
   height: 285px;
   border: solid 0.1px #bfbfd4;
 }
+.custom-card-header {
+  background-color: #f0f0f0;
+  padding: 16px; 
+  border-radius: 4px; 
+}

@@ -1,6 +1,7 @@
 .row-wrap {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  /* gap: 6px; */
 }
 
 .matFormField {
@@ -175,7 +176,10 @@ mat-form-field {
 .skillType-form-field {
   flex: 1; /* Allow each form field to grow equally */
 }
-
+.upload-container {
+  display: flex;
+  justify-content: flex-end;
+}
 .skills-form-field {
   display: flex;
   flex-wrap: wrap;
@@ -211,11 +215,74 @@ mat-form-field {
 .save_btn_tab_2 {
   margin-top: 10px;
 }
+.AddDegreeDetaisButton {
+  size: 10pc;
+}
 
 .add_remove_btn {
   border: 1px solid black;
 }
 
-mat-tab-body  div {
+mat-tab-body div {
   overflow: hidden !important;
+}
+.unique-upload-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.unique-upload-container .grid-label {
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap; /* Ensure responsive wrapping */
+  gap: 20px; /* Add uniform spacing between all fields */
+  font-weight: bold;
+  color: black;
+}
+.last-name-container {
+  gap: 5px;
+  margin-left: 5px;
+}
+.date-of-birth-container {
+  gap: 5px;
+  margin-left: 5px;
+}
+.blood-group-container {
+  margin-left: 5px;
+}
+.mobile-container {
+  margin-left: 5px;
+}
+.email-container {
+  margin-left: 5px;
+}
+.batch-container {
+  margin-left: 5px;
+}
+.stream-container {
+  margin-left: 3px;
+}
+.usn-container {
+  margin-left: 5px;
+}
+.enter-address-container {
+  margin-left: 5px;
+}
+.father-mobile-no {
+  margin-left: 5px;
+}
+.mother-name-container {
+  margin-left: 5px;
+}
+.upload-photo {
+  margin-left: 15px;
 }

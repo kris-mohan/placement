@@ -284,5 +284,11 @@ body.popup-active {
 }
 
 .popup-footer {
-  margin-top: 20px; /* Space between content and footer */
+  margin-top: 20px; 
 }
+/* .custom-card-header {
+  display: flex;
+  background-color: #f0f0f0;
+  padding: 16px; 
+  border-radius: 4px; 
+} */
