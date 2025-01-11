@@ -118,3 +118,24 @@ cdk-overlay-pane {
 .example-button-row {
   display: flex;
 }
+.example-full-width {
+  margin-left: 40px;
+}
+.width-size {
+  width: 93%;
+}
+.status-size {
+  width: 150%;
+}
+.example-full-width-size {
+  margin-left: 10%;
+}
+.role-size {
+  width: 150%;
+}
+.custom-card-header {
+  display: flex;
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+}

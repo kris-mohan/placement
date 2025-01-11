@@ -71,8 +71,7 @@ cdk-overlay-pane {
 }
 
 .mat-grid-tile:hover {
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), -2px -2px 2px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05);
+  transform: scale(1);
   transition: transform 0.3s ease, box-shadow 0.3s ease,
     background-color 0.3s ease, color 0.3s ease;
   background-color: #c3d2f899;
@@ -155,4 +154,14 @@ table {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 100%;}
+  width: 100%;
+}
+/* .full-width {
+  width: 100%;
+  max-width: 300px;
+} */
+.custom-card-header {
+  background-color: #f0f0f0;
+  padding: 16px; 
+  border-radius: 4px; 
+}

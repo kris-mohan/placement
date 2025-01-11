@@ -11,6 +11,13 @@
   color: #004080;
   margin-bottom: 10px;
 }
+.forum-container {
+  background-color: #f0f0f0; 
+  padding: 16px; 
+  border-radius: 4px; 
+  
+}
+
 
 mat-form-field {
   width: 100%;
@@ -94,4 +101,7 @@ div {
   .company-cards {
     grid-template-columns: 1fr;
   }
+}
+.custom-card-header{
+  background-color: #f0f0f0;
 }

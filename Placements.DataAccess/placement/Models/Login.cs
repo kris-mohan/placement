@@ -43,5 +43,5 @@ public partial class Login
 
     public virtual Userrole? Role { get; set; }
 
-    public virtual Tblstudent? Student { get; set; }
+    public virtual Tblstudent ? Student { get; set; }
 }
