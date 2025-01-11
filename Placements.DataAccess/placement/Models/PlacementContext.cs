@@ -91,6 +91,8 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Messagestatus> Messagestatuses { get; set; }
 
+    public virtual DbSet<Notification> Notifications { get; set; }
+
     public virtual DbSet<Paatashalaregistration> Paatashalaregistrations { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -137,9 +139,9 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Userrole> Userroles { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=placement");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -171,6 +173,7 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
+            entity.Property(e => e.MeetingLink).HasMaxLength(500);
 
             entity.HasOne(d => d.Company).WithMany(p => p.Calendarevents)
                 .HasForeignKey(d => d.CompanyId)
@@ -529,8 +532,8 @@ public partial class PlacementContext : DbContext
             entity.ToTable("documents");
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.FileName).HasMaxLength(45);
-            entity.Property(e => e.FilePath).HasMaxLength(2545);
+            entity.Property(e => e.FileName).HasMaxLength(255);
+            entity.Property(e => e.FilePath).HasMaxLength(255);
             entity.Property(e => e.FileType).HasMaxLength(45);
             entity.Property(e => e.ParentType).HasColumnType("enum('company','std_sem_marks','std_academics_tenth','std_academics_twelth')");
         });
@@ -540,6 +543,8 @@ public partial class PlacementContext : DbContext
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("email");
+
+            entity.HasIndex(e => e.DocumentId, "FK_Document_Email_idx");
 
             entity.Property(e => e.Bcc)
                 .HasMaxLength(245)
@@ -552,6 +557,10 @@ public partial class PlacementContext : DbContext
             entity.Property(e => e.SentAt).HasColumnType("datetime");
             entity.Property(e => e.Subject).HasMaxLength(245);
             entity.Property(e => e.To).HasMaxLength(245);
+
+            entity.HasOne(d => d.Document).WithMany(p => p.Emails)
+                .HasForeignKey(d => d.DocumentId)
+                .HasConstraintName("FK_Document_Email");
         });
 
         modelBuilder.Entity<Group>(entity =>
@@ -961,6 +970,40 @@ public partial class PlacementContext : DbContext
                 .HasConstraintName("FK_Message_MessageStatus");
         });
 
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("notifications");
+
+            entity.HasIndex(e => e.CampusId, "FK_CampusId_Notifications_idx");
+
+            entity.HasIndex(e => e.CompanyId, "FK_CompanyId_Notifications_idx");
+
+            entity.HasIndex(e => e.StudentId, "FK_StudentId_Notifications_idx");
+
+            entity.HasIndex(e => e.Id, "Id_UNIQUE").IsUnique();
+
+            entity.Property(e => e.CampusId).HasColumnName("campusId");
+            entity.Property(e => e.CompanyId).HasColumnName("companyId");
+            entity.Property(e => e.NotificationContent).HasMaxLength(255);
+            entity.Property(e => e.ParentType).HasMaxLength(45);
+            entity.Property(e => e.StudentId).HasColumnName("studentId");
+            entity.Property(e => e.Title).HasMaxLength(45);
+
+            entity.HasOne(d => d.Campus).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.CampusId)
+                .HasConstraintName("FK_CampusId_Notifications");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.CompanyId)
+                .HasConstraintName("FK_CompanyId_Notifications");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.StudentId)
+                .HasConstraintName("FK_StudentId_Notifications");
+        });
+
         modelBuilder.Entity<Paatashalaregistration>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -1029,6 +1072,7 @@ public partial class PlacementContext : DbContext
             entity.HasIndex(e => e.StudentAcademicId, "FK_StudentSemMarks_StudentAcademic_idx");
 
             entity.Property(e => e.MarkaPercentage).HasPrecision(10);
+            entity.Property(e => e.Semester).HasMaxLength(45);
             entity.Property(e => e.Sgpa).HasPrecision(10);
             entity.Property(e => e.Status).HasMaxLength(45);
 

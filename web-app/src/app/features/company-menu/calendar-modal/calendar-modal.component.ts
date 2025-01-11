@@ -12,7 +12,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { CalendarModalApiService } from "./api.calendar-modal";
 import { Companydatum } from "src/app/services/types/Companydatum";
 // import { MatDatepickerModule } from "@angular/material/datepicker";
-
+import { interval, Subscription } from "rxjs";
 @Component({
   selector: "app-calendar-modal",
   standalone: true,
@@ -35,6 +35,8 @@ export class CalendarModalComponent implements OnInit {
   isEdited: boolean = false;
   jobPostings: Jobposting[] = [];
   rounds: Jobinterviewround[] = [];
+  joinMeetingEnabled: boolean = false; // For enabling/disabling the JoinMeeting button
+  private timerSubscription!: Subscription;
   // CollegeRoleId: number;
   userRole: number;
   CompanyId: number;
@@ -42,6 +44,7 @@ export class CalendarModalComponent implements OnInit {
   jobPostingId: number = 0;
   OrgId: number = 0;
   allCompanies = signal<Companydatum[]>([]);
+  jobRole: string | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<CalendarModalComponent>,
@@ -58,16 +61,29 @@ export class CalendarModalComponent implements OnInit {
     console.log(this.CompanyId);
     const storedStudentId = sessionStorage.getItem("StudentId");
     console.log("storedStudentId", storedStudentId);
-    this.formDataa = this.formBuilder.group({
-      startTime: ["", Validators.required],
-      eventType: ["interview"],
-      companyId: ["", Validators.required],
-      endDate: [""],
-      endTime: ["", Validators.required],
-      jobPosting: ["", Validators.required],
-      rounds: [""],
-      meetingLink: [""],
-    });
+    this.formDataa = this.formBuilder.group(
+      {
+        startTime: ["", Validators.required],
+        eventType: ["interview"],
+        companyId: ["", Validators.required],
+        endDate: [""],
+        endTime: ["", Validators.required],
+        jobPosting: ["", Validators.required],
+        rounds: [""],
+        meetingLink: [""],
+      },
+      {
+        validators: (formGroup) => {
+          const startTime = formGroup.get("startTime")?.value;
+          const endTime = formGroup.get("endTime")?.value;
+
+          if (startTime && endTime && endTime <= startTime) {
+            return { endTimeBeforeStartTime: true };
+          }
+          return null;
+        },
+      }
+    );
     if (this.isEdited && this.data.eventData) {
       this.formDataa.patchValue(this.data.eventData);
     }
@@ -77,26 +93,20 @@ export class CalendarModalComponent implements OnInit {
     const selectedJobPostingId = event.value;
 
     const currentCompanyId = this.formDataa.value.companyId;
+
+    this.jobRole =
+      this.jobPostings.find((r) => r.Id === selectedJobPostingId)?.JobRole ??
+      null;
+
+    // Fetch the rounds based on the selected job posting
     this.getAllRounds(selectedJobPostingId);
 
+    // Ensure the companyId remains intact in the form
     if (currentCompanyId) {
       this.formDataa.patchValue({ companyId: currentCompanyId });
     }
   }
 
-  getJobPostings = () => {
-    this.calendarModalApiService.GetAllJobPostings(this.CompanyId).subscribe({
-      next: (response) => {
-        const data: Jobposting[] = response.value;
-        console.log(data);
-        this.jobPostings = data;
-        this.OrgId = data[0].CompanyId || 0;
-      },
-      error: (error) => {
-        console.error("Error fetching Job Postings:", error);
-      },
-    });
-  };
   getJobPostingById = () => {
     this.calendarModalApiService
       .GetJobPostingById(this.data.eventData.jobPostingId)
@@ -142,10 +152,26 @@ export class CalendarModalComponent implements OnInit {
   onCompanySelected(event: any): void {
     console.log(event.value);
     this.CompanyId = event.value;
+    this.formDataa.patchValue({ companyId: this.CompanyId });
+
     if (this.userRole !== 2) {
       this.getJobPostings();
     }
   }
+
+  getJobPostings = () => {
+    this.calendarModalApiService.GetAllJobPostings(this.CompanyId).subscribe({
+      next: (response) => {
+        const data: Jobposting[] = response.value;
+        console.log(data);
+        this.jobPostings = data;
+        this.OrgId = data[0].CompanyId || 0;
+      },
+      error: (error) => {
+        console.error("Error fetching Job Postings:", error);
+      },
+    });
+  };
 
   onEventTypeChange(event: any): void {
     const selectedEventType = this.formDataa.value.eventType;
@@ -183,18 +209,31 @@ export class CalendarModalComponent implements OnInit {
   // }
 
   onSave(): void {
-    console.log(this.formDataa.value);
+    // Debug: Log the current form state
+    console.log("Form Values Before Saving:", this.formDataa.value);
+
     if (this.formDataa.valid) {
+      // Ensure the meetingLink and weekdays are properly handled
+      const meetingLink = this.formDataa.value.meetingLink
+        ? this.formDataa.value.meetingLink.trim()
+        : ""; // Default to an empty string if undefined or null
+
       const returnData = {
         ...this.formDataa.value, // Spread the form values
-        // toggle: this.toggle,
-        //meetingLink: this.formDataa.value.meetingLink.trim(),
-        weekdays: this.weekdays, // Add the weekdays state
-        OrgId: this.OrgId,
-        // Add any other specific data you want to send back
+        meetingLink, // Trimmed meeting link
+        weekdays: this.weekdays || [], // Ensure weekdays has a default value
+        OrgId: this.OrgId || null, // Default OrgId to null if not defined
+        jobRole: this.jobRole,
       };
-      console.log(returnData);
+
+      // Debug: Log the data being sent back
+      console.log("Data to Save:", returnData);
+
+      // Close the dialog and pass the return data
       this.dialogRef.close(returnData);
+    } else {
+      // Debug: Handle invalid form case
+      console.error("Form is invalid. Please check required fields.");
     }
   }
 
@@ -220,6 +259,7 @@ export class CalendarModalComponent implements OnInit {
     if (this.data.isEdited && this.data.eventData) {
       this.getJobPostingById();
     }
+    this.monitorMeetingTimes();
   }
 
   setCompanyField() {
@@ -267,10 +307,45 @@ export class CalendarModalComponent implements OnInit {
     let hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const period = hours >= 12 ? "PM" : "AM";
-
-    // Convert to 12-hour format
-    hours = hours % 12 || 12; // The hour '0' should be '12'
+    hours = hours % 12 || 12;
 
     return `${hours}:${minutes} ${period}`;
+  }
+  monitorMeetingTimes(): void {
+    this.timerSubscription = interval(1000).subscribe(() => {
+      const now = new Date();
+      const startTime = this.parseTime(this.formDataa.value.startTime);
+      const endTime = this.parseTime(this.formDataa.value.endTime);
+
+      if (startTime && endTime) {
+        const timeBeforeStart = (startTime.getTime() - now.getTime()) / 60000; // Time in minutes
+        this.joinMeetingEnabled =
+          timeBeforeStart <= 10 && now.getTime() < endTime.getTime();
+      } else {
+        this.joinMeetingEnabled = false;
+      }
+    });
+  }
+  parseTime(timeStr: string): Date | null {
+    const date = new Date();
+    const timeParts = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/);
+    if (timeParts) {
+      let hours = parseInt(timeParts[1], 10);
+      const minutes = parseInt(timeParts[2], 10);
+      const period = timeParts[3];
+
+      if (period === "PM" && hours < 12) hours += 12;
+      if (period === "AM" && hours === 12) hours = 0;
+
+      date.setHours(hours, minutes, 0, 0);
+      return date;
+    }
+    return null;
+  }
+
+  ngOnDestroy(): void {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
   }
 }

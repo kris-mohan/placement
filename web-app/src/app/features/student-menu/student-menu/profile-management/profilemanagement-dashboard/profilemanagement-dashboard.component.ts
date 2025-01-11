@@ -62,7 +62,7 @@ export class ProfilemanagementDashboardComponent {
       studentData && studentData[0]?.StudentId ? studentData[0].StudentId : 0;
     this.router.navigate([
       "profile-management-dashboard/profile-management",
-      id,
+      this.sessionStudentId,
     ]);
   }
 
@@ -124,4 +124,5 @@ export class ProfilemanagementDashboardComponent {
         },
       });
   }
+  
 }

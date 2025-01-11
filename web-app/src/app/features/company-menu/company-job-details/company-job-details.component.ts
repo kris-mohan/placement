@@ -112,8 +112,10 @@ export class CompanyJobDetailsComponent {
       this.applyFilters()
     );
   }
-
-
+  isDataAvailable(): boolean {
+    const jobPostings = this.JobPostingsData();
+    return jobPostings && jobPostings.length > 0;
+  }
   exportToExcel() {
     const jobPostings = this.JobPostingsData();
     const exportData = jobPostings.map(
@@ -434,4 +436,23 @@ export class CompanyJobDetailsComponent {
     //   data: { JobPostingsData: this.JobPostingsData() },
     // });
   }
+  downloadJobPostings(): void {
+    this.companyJobDetailsApiService.exportJobPostingsToExcel().subscribe({
+      next: (response: Blob) => {
+        const blob = new Blob([response], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = downloadUrl;
+        anchor.download = "JobPostings.xlsx";
+        anchor.click();
+        window.URL.revokeObjectURL(downloadUrl);
+      },
+      error: (err) => {
+        console.error("Error downloading file:", err);
+      },
+    });
+  }
+
 }

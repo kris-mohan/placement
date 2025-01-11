@@ -14,6 +14,7 @@ export class CompanyJobDetailsApiService {
     private apiHttpService: ApiHttpService,
     private http: HttpClient
   ) {}
+  
 
   public GetAllJobPostings(
     id: number
@@ -42,6 +43,10 @@ export class CompanyJobDetailsApiService {
     const url = `/Jobposting?key=${id ? id : ''}`;
     const method = id ? 'patch' : 'post';
     return this.apiHttpService[method](url, JobPostingData);
+  }
+  exportJobPostingsToExcel(): Observable<Blob> {
+    const url = `https://localhost:44304/api/common/Export-Jobpostings`;
+    return this.http.get(url, { responseType: "blob" });
   }
 
   uploadJobPostingsFile(

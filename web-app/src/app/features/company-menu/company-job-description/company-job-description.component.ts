@@ -16,6 +16,8 @@ import { JobpostingsEligiblestudent } from "src/app/services/types/JobpostingsEl
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { CompanyjobdescriptionApiService } from "../company-job-description/company-job-description-ApiService";
 import { GetDateDDMMYYYY } from "src/app/core/helper/DateHelper";
+import { NotificationsApiService } from "../../student-menu/student-menu/profile-management/profilemanagement-dashboard/NotificationsAPIService";
+import { notification } from "src/app/services/types/Notifications";
 @Component({
   selector: "app-company-job-description",
   standalone: true,
@@ -83,7 +85,8 @@ export class CompanyJobDescriptionComponent {
     private router: Router,
     private jobEligibleStudentsApiService: JobEligibleStudentApiService,
     private companyjobdescriptionApiService: CompanyjobdescriptionApiService,
-    private sweetAlertService: SweetAlertService
+    private sweetAlertService: SweetAlertService,
+    private notificationApiService: NotificationsApiService
   ) {
     const storedUserType = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserType ? parseInt(storedUserType) : 0;
@@ -147,6 +150,7 @@ export class CompanyJobDescriptionComponent {
                 ValidTill: GetDateDDMMYYYY(jobposting.ValidTill),
                 ValidFrom: GetDateDDMMYYYY(jobposting.ValidFrom),
                 DriveDate: GetDateDDMMYYYY(jobposting.DriveDate),
+                PostedDate: GetDateDDMMYYYY(jobposting.PostedDate),
               }));
               this.JobPostingsDescriptionData.set(mappedData);
               this.JobPostingsData.set(mappedData);
@@ -385,6 +389,42 @@ export class CompanyJobDescriptionComponent {
         .subscribe({
           next: (response: { success: boolean; message: string }) => {
             if (response) {
+              const content = `${
+                this.StudentStatusOfInvitedJobPostData()[0]?.Student?.FirstName
+              } ${
+                this.StudentStatusOfInvitedJobPostData()[0]?.Student?.LastName
+              }, A final year student pursuing ${
+                this.StudentStatusOfInvitedJobPostData()[0]?.Student
+                  ?.Studentacademics[0]?.Stream?.Name
+              } in ${
+                this.StudentStatusOfInvitedJobPostData()[0]?.Student
+                  ?.Studentacademics[0]?.Course?.FullForm
+              }, has applied for ${
+                this.StudentStatusOfInvitedJobPostData()[0]?.JobPosting?.JobRole
+              } position at ${
+                this.StudentStatusOfInvitedJobPostData()[0]?.JobPosting?.Company
+                  ?.Name
+              }`;
+              const notification = {
+                Id: 0,
+                Title: "jobs Applied",
+                NotificationContent: content,
+                ParentType: "",
+                ParentId: 0,
+                IsRead: 0,
+                CompanyId:
+                  this.StudentStatusOfInvitedJobPostData()[0]?.JobPosting
+                    ?.CompanyId ?? null,
+                CampusId:
+                  this.StudentStatusOfInvitedJobPostData()[0]?.Student?.OrgId ??
+                  null,
+                // StudentId:
+                //   this.StudentStatusOfInvitedJobPostData()[0]?.Student?.Id ??
+                //   null,
+                StudentId: null,
+              };
+              this.saveNotification(notification);
+
               this.sweetAlertService.success(
                 "You have applied for this job post successfully!"
               );
@@ -397,7 +437,6 @@ export class CompanyJobDescriptionComponent {
         });
     }
   };
-
   rejectJobPostByStudent = async () => {
     const confirmed = await this.sweetAlertService.confirm(
       `Do you want to Reject for this job posting?`
@@ -422,6 +461,18 @@ export class CompanyJobDescriptionComponent {
         });
     }
   };
+
+  saveNotification(body: notification) {
+    this.notificationApiService.Notification(body).subscribe({
+      next: (response: { success: boolean; message: any }) => {
+        if (response.success) {
+          console.log(response.success, "success");
+        } else {
+        }
+      },
+      error: (error) => {},
+    });
+  }
 
   openAddEditCompanyForm(id: number) {}
 }

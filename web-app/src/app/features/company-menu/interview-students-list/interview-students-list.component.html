@@ -340,9 +340,14 @@
           </p>
         </div>
       </div>
+      c1cc x
     </ng-container>
     <ng-template #noStudents>
-      <p>No students have passed.</p>
+      <div class="no-data-cell">
+        <tr class="no-data-cell">
+          <td [attr.colspan]="displayedColumns.length">No data available</td>
+        </tr>
+      </div>
     </ng-template>
-  </mat-card-content>
-</mat-card>
+  </mat-card-content></mat-card
+>

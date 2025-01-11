@@ -55,8 +55,15 @@ CREATE TABLE `calendarevents` (
   `OrgId` bigint DEFAULT NULL,
   `CompanyId` bigint DEFAULT NULL,
   `IsDeleted` bit(1) NOT NULL DEFAULT b'0',
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `JobInterviewRoundId` bigint DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `FK_Event_Campus_idx` (`OrgId`),
+  KEY `FK_Event_Company_idx` (`CompanyId`),
+  KEY `FK_Event_JobInterviewRound_idx` (`JobInterviewRoundId`),
+  CONSTRAINT `FK_Event_Campus` FOREIGN KEY (`OrgId`) REFERENCES `campusregistration` (`Id`),
+  CONSTRAINT `FK_Event_Company` FOREIGN KEY (`CompanyId`) REFERENCES `companydata` (`Id`),
+  CONSTRAINT `FK_Event_JobInterviewRound` FOREIGN KEY (`JobInterviewRoundId`) REFERENCES `jobinterviewrounds` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +72,7 @@ CREATE TABLE `calendarevents` (
 
 LOCK TABLES `calendarevents` WRITE;
 /*!40000 ALTER TABLE `calendarevents` DISABLE KEYS */;
-INSERT INTO `calendarevents` VALUES (1,'2024-10-10 00:00:00','2024-10-10 00:00:00',NULL,NULL,NULL,NULL,_binary '\0');
+INSERT INTO `calendarevents` VALUES (1,'2024-10-10 00:00:00','2024-10-10 00:00:00',NULL,NULL,NULL,NULL,_binary '\0',NULL),(2,'2024-11-07 07:34:00','2024-11-07 09:44:00','interview','interview',1,4,_binary '\0',NULL),(3,'2024-11-08 07:34:00','2024-11-08 10:51:00','interview','interview',2,4,_binary '\0',NULL),(4,'2024-11-12 08:39:00','2024-11-12 11:55:00','interview','interview',2,4,_binary '\0',NULL),(5,'2024-11-14 07:33:00','2024-11-14 10:52:00','interview','interview',2,4,_binary '\0',NULL),(6,'2024-11-21 05:23:00','2024-11-21 10:50:00','interview','interview',2,4,_binary '\0',NULL),(7,'2024-11-20 05:23:00','2024-11-20 10:50:00','interview','interview',2,4,_binary '\0',NULL),(8,'2024-11-23 05:23:00','2024-11-23 10:50:00','interview','interview',2,4,_binary '\0',NULL),(9,'2024-11-19 05:23:00','2024-11-19 10:50:00','interview','interview',2,4,_binary '\0',NULL),(10,'2024-11-22 05:23:00','2024-11-22 10:50:00','interview','interview',2,4,_binary '\0',NULL),(11,'2024-11-26 08:40:00','2024-11-26 11:55:00','interview','interview',1,5,_binary '\0',NULL);
 /*!40000 ALTER TABLE `calendarevents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +92,7 @@ CREATE TABLE `campus_company` (
   KEY `FK_Company_Companydatum_idx` (`CompanyId`),
   CONSTRAINT `FK_Campus_CampusRegistartion` FOREIGN KEY (`CampusId`) REFERENCES `campusregistration` (`Id`),
   CONSTRAINT `FK_Company_Companydatum` FOREIGN KEY (`CompanyId`) REFERENCES `companydata` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,8 +143,38 @@ CREATE TABLE `campusregistration` (
 
 LOCK TABLES `campusregistration` WRITE;
 /*!40000 ALTER TABLE `campusregistration` DISABLE KEYS */;
-INSERT INTO `campusregistration` VALUES (1,'jnnce','jnnce@gmail.com','1234','','',NULL,'','','','','2024-10-18 19:13:29',_binary '\0',_binary '\0',1,2,NULL),(2,'East West Institute of Technology','ewit@gmail.com','1234','suresh','ewit@gmail.com',987654320,'Bangalore','Karnataka','India','577224','2024-10-18 19:13:29',_binary '\0',_binary '\0',1,1,NULL),(3,'East West College of Engineering','ewce@gmail.com','1234','manjayya','ewce@gmail.com',876435789,'Bangalore','Karnataka','Indida','898888','2024-10-18 19:13:29',_binary '\0',_binary '\0',NULL,2,NULL),(4,'East West School of Architecture','ewsa@gmail.com','1234','Ragayya','ewsa@gmail.com',987654258,'Bangalore','Karnataka','India','989898','2024-10-18 19:13:29',_binary '\0',_binary '\0',NULL,1,NULL),(5,'East West College of Management','ewcm@gmai.com','1234','Somayya','ewcm@gmai.com',875643157,'Bangalore','Karnataka','India','566778','2024-10-18 19:13:29',_binary '\0',_binary '\0',NULL,3,NULL);
+INSERT INTO `campusregistration` VALUES (1,'jnnce','akram.ssg01@gmail.com','1234','','akram.ssg01@gmail.com',NULL,'','','','','2024-10-18 19:13:29',_binary '\0',_binary '\0',1,2,NULL),(2,'East West Institute of Technology','ewit@gmail.com','1234','suresh','ewit@gmail.com',987654320,'Bangalore','Karnataka','India','577224','2024-10-18 19:13:29',_binary '\0',_binary '\0',1,1,NULL),(3,'East West College of Engineering','ewce@gmail.com','1234','manjayya','ewce@gmail.com',876435789,'Bangalore','Karnataka','Indida','898888','2024-10-18 19:13:29',_binary '\0',_binary '\0',NULL,2,NULL),(4,'East West School of Architecture','ewsa@gmail.com','1234','Ragayya','ewsa@gmail.com',987654258,'Bangalore','Karnataka','India','989898','2024-10-18 19:13:29',_binary '\0',_binary '\0',NULL,1,NULL),(5,'East West College of Management','ewcm@gmai.com','1234','Somayya','ewcm@gmai.com',875643157,'Bangalore','Karnataka','India','566778','2024-10-18 19:13:29',_binary '\0',_binary '\0',NULL,3,NULL);
 /*!40000 ALTER TABLE `campusregistration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `chat`
+--
+
+DROP TABLE IF EXISTS `chat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chat` (
+  `Id` bigint NOT NULL AUTO_INCREMENT,
+  `SenderId` bigint DEFAULT NULL,
+  `ReceiverId` bigint DEFAULT NULL,
+  `IsDeleted` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `FK_Sender_Login_idx` (`SenderId`),
+  KEY `FK_Receiver_Login_idx` (`ReceiverId`),
+  CONSTRAINT `FK_Receiver_Login` FOREIGN KEY (`ReceiverId`) REFERENCES `login` (`Id`),
+  CONSTRAINT `FK_Sender_Login` FOREIGN KEY (`SenderId`) REFERENCES `login` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `chat`
+--
+
+LOCK TABLES `chat` WRITE;
+/*!40000 ALTER TABLE `chat` DISABLE KEYS */;
+INSERT INTO `chat` VALUES (1,2,1,NULL);
+/*!40000 ALTER TABLE `chat` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -156,7 +193,7 @@ CREATE TABLE `collegejobposting` (
   KEY `FK_CollegePosting_JobPosting_idx` (`JobPostingId`),
   CONSTRAINT `FK_CollegePosting_College` FOREIGN KEY (`CollegeId`) REFERENCES `campusregistration` (`Id`),
   CONSTRAINT `FK_CollegePosting_JobPosting` FOREIGN KEY (`JobPostingId`) REFERENCES `jobposting` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,7 +202,7 @@ CREATE TABLE `collegejobposting` (
 
 LOCK TABLES `collegejobposting` WRITE;
 /*!40000 ALTER TABLE `collegejobposting` DISABLE KEYS */;
-INSERT INTO `collegejobposting` VALUES (1,2,1),(2,1,1),(3,4,1),(4,5,1),(5,6,1),(6,8,1),(7,11,2),(8,11,3),(9,12,1),(10,12,2),(11,12,3),(12,13,5),(13,14,1),(14,15,4),(15,15,4),(16,15,4),(17,15,4),(18,15,4),(19,15,4),(20,15,4),(21,15,4),(22,15,4),(23,15,4),(24,15,4),(25,15,4),(26,15,4),(27,15,4),(28,15,4),(29,15,4),(30,16,3);
+INSERT INTO `collegejobposting` VALUES (1,2,1),(2,1,1),(3,4,1),(4,5,1),(5,6,1),(6,8,1),(7,11,2),(8,11,3),(9,12,1),(10,12,2),(11,12,3),(12,13,5),(13,14,1),(14,15,4),(15,15,4),(16,15,4),(17,15,4),(18,15,4),(19,15,4),(20,15,4),(21,15,4),(22,15,4),(23,15,4),(24,15,4),(25,15,4),(26,15,4),(27,15,4),(28,15,4),(29,15,4),(30,16,3),(31,17,1),(32,18,1),(33,19,1),(34,21,1),(35,14,1),(36,24,1),(37,24,2);
 /*!40000 ALTER TABLE `collegejobposting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +276,7 @@ CREATE TABLE `company_job_batch` (
   KEY `FK_CompanyJobBatch_Batch_idx` (`BatchId`),
   CONSTRAINT `FK_CompanyJobBatch_Batch` FOREIGN KEY (`BatchId`) REFERENCES `batch` (`Id`),
   CONSTRAINT `FK_CompanyJobBatch_JobPosting` FOREIGN KEY (`JobPostingId`) REFERENCES `jobposting` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +285,7 @@ CREATE TABLE `company_job_batch` (
 
 LOCK TABLES `company_job_batch` WRITE;
 /*!40000 ALTER TABLE `company_job_batch` DISABLE KEYS */;
-INSERT INTO `company_job_batch` VALUES (1,10,2),(2,10,3),(3,11,3),(4,11,4),(5,11,5),(6,11,6),(7,12,5),(8,12,6),(9,13,6),(10,13,7),(11,14,6),(12,14,7),(13,15,7),(14,15,8),(15,15,7),(16,15,8),(17,15,7),(18,15,8),(19,15,7),(20,15,8),(21,15,7),(22,15,8),(23,15,7),(24,15,8),(25,15,7),(26,15,8),(27,15,7),(28,15,8),(29,15,7),(30,15,8),(31,15,7),(32,15,8),(33,15,7),(34,15,8),(35,15,7),(36,15,8),(37,15,7),(38,15,8),(39,15,7),(40,15,8),(41,15,7),(42,15,8),(43,15,7),(44,15,8),(45,16,9);
+INSERT INTO `company_job_batch` VALUES (1,10,2),(2,10,3),(3,11,3),(4,11,4),(5,11,5),(6,11,6),(7,12,5),(8,12,6),(9,13,6),(10,13,7),(11,14,6),(12,14,7),(13,15,7),(14,15,8),(15,15,7),(16,15,8),(17,15,7),(18,15,8),(19,15,7),(20,15,8),(21,15,7),(22,15,8),(23,15,7),(24,15,8),(25,15,7),(26,15,8),(27,15,7),(28,15,8),(29,15,7),(30,15,8),(31,15,7),(32,15,8),(33,15,7),(34,15,8),(35,15,7),(36,15,8),(37,15,7),(38,15,8),(39,15,7),(40,15,8),(41,15,7),(42,15,8),(43,15,7),(44,15,8),(45,16,9),(46,18,1),(47,18,2),(48,18,3),(49,18,4),(50,18,5),(51,18,6),(52,18,7),(53,18,8),(54,18,9),(55,19,1),(56,19,2),(57,19,3),(58,19,4),(59,19,5),(60,19,6),(61,19,7),(62,19,8),(63,19,9),(64,21,4),(65,21,5),(66,21,6),(67,14,6),(68,14,7),(69,24,3),(70,24,4),(71,24,5),(72,24,6);
 /*!40000 ALTER TABLE `company_job_batch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +305,7 @@ CREATE TABLE `company_job_course` (
   KEY `FK_CompanyJobCourse_Course` (`CourseId`),
   CONSTRAINT `FK_CompanyJobCourse_Course` FOREIGN KEY (`CourseId`) REFERENCES `course` (`Id`),
   CONSTRAINT `FK_CompanyJobCourse_JobPost` FOREIGN KEY (`JobPostingId`) REFERENCES `jobposting` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,7 +314,7 @@ CREATE TABLE `company_job_course` (
 
 LOCK TABLES `company_job_course` WRITE;
 /*!40000 ALTER TABLE `company_job_course` DISABLE KEYS */;
-INSERT INTO `company_job_course` VALUES (1,11,1),(2,11,5),(3,12,1),(4,12,5),(5,13,16),(6,13,17),(7,14,5),(8,15,22),(9,15,23),(10,15,22),(11,15,23),(12,15,22),(13,15,23),(14,15,22),(15,15,23),(16,15,22),(17,15,23),(18,15,22),(19,15,23),(20,15,22),(21,15,23),(22,15,22),(23,15,23),(24,15,22),(25,15,23),(26,15,22),(27,15,23),(28,15,22),(29,15,23),(30,15,22),(31,15,23),(32,15,22),(33,15,23),(34,15,22),(35,15,23),(36,15,22),(37,15,23),(38,15,22),(39,15,23),(40,16,1),(41,16,2);
+INSERT INTO `company_job_course` VALUES (1,11,1),(2,11,5),(3,12,1),(4,12,5),(5,13,16),(6,13,17),(7,14,5),(8,15,22),(9,15,23),(10,15,22),(11,15,23),(12,15,22),(13,15,23),(14,15,22),(15,15,23),(16,15,22),(17,15,23),(18,15,22),(19,15,23),(20,15,22),(21,15,23),(22,15,22),(23,15,23),(24,15,22),(25,15,23),(26,15,22),(27,15,23),(28,15,22),(29,15,23),(30,15,22),(31,15,23),(32,15,22),(33,15,23),(34,15,22),(35,15,23),(36,15,22),(37,15,23),(38,15,22),(39,15,23),(40,16,1),(41,16,2),(42,18,1),(43,18,2),(44,18,3),(45,18,4),(46,18,5),(47,19,1),(48,19,2),(49,19,3),(50,19,4),(51,19,5),(52,19,6),(53,19,24),(54,21,1),(55,21,2),(56,21,3),(57,21,4),(58,14,5),(59,24,1),(60,24,3),(61,24,4),(62,24,5);
 /*!40000 ALTER TABLE `company_job_course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,7 +334,7 @@ CREATE TABLE `company_job_stream` (
   KEY `FK_CompanyJobStream_JobPosting_idx` (`JobPostingId`),
   CONSTRAINT `FK_CompanyJobStream_JobPosting` FOREIGN KEY (`JobPostingId`) REFERENCES `jobposting` (`Id`),
   CONSTRAINT `FK_CompanyJobStream_Stream` FOREIGN KEY (`StreamId`) REFERENCES `stream` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,7 +343,7 @@ CREATE TABLE `company_job_stream` (
 
 LOCK TABLES `company_job_stream` WRITE;
 /*!40000 ALTER TABLE `company_job_stream` DISABLE KEYS */;
-INSERT INTO `company_job_stream` VALUES (1,1,13),(2,2,13),(3,3,13),(4,3,14),(5,7,15),(6,1,16);
+INSERT INTO `company_job_stream` VALUES (1,1,13),(2,2,13),(3,3,13),(4,3,14),(5,7,15),(6,1,16),(7,1,18),(8,1,19),(9,1,21),(10,9,21),(11,3,14),(12,1,24);
 /*!40000 ALTER TABLE `company_job_stream` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -347,7 +384,7 @@ CREATE TABLE `companydata` (
   `AudioPath` varchar(255) DEFAULT NULL,
   `CompanyType` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,7 +393,7 @@ CREATE TABLE `companydata` (
 
 LOCK TABLES `companydata` WRITE;
 /*!40000 ALTER TABLE `companydata` DISABLE KEYS */;
-INSERT INTO `companydata` VALUES (1,NULL,'SSG',NULL,'',NULL,'',NULL,'',NULL,NULL,NULL,NULL,_binary '\0',_binary '\0','2024-10-18 19:13:03',2,'1234','ssg@gmail.com',NULL,'https://softserveglobal.co.in/assets/images/sslogoglobal.png',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'tcs.com','TCS','Whitefield','9876543210','GSTIN98753146','Usha','Bangalore','Bangalore','Karnataka','577054','India',1,_binary '\0',_binary '\0','2024-10-21 09:59:37',2,'tcs@123','tcs@gmail.com',NULL,'https://www.tcs.com/content/dam/global-tcs/en/images/home/tcs-logo-1.svg',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'','Dhruv','MSR Nagar','34234','432423','Akram','','Bangalore','Karnataka','560079','India',0,_binary '\0',_binary '\0','2002-07-04 00:00:00',0,'','info@dhruvts.com',250,'https://dhruvts.com/wp-content/uploads/2024/04/Footer-2.svg','we are passionate about building innovative software solutions that empower businesses to thrive in the digital age. Since our founding in [Year], we have been committed to providing high-quality, scalable, and secure software that meets the evolving needs of our clients across various industries.\n\nWe specialize in developing web and mobile applications, custom software development, and cloud-based solutions that drive business efficiency and improve customer experiences. Our team of experienced developers, designers, and IT professionals work collaboratively to deliver technology solutions that are not only functional but also future-ready.','India, US','','','','',NULL),(4,'ssg.com','SSG','MSR Nagar','432423','4234324','Akram','','Bangalore','Karnataka','560054','India',0,_binary '\0',_binary '\0','2016-01-14 00:00:00',0,'','ssg@gmail.com',45,'https://softserveglobal.co.in/assets/images/sslogoglobal.png','Softserve Global','MSR Nagar','','','','',NULL);
+INSERT INTO `companydata` VALUES (1,NULL,'SSG',NULL,'',NULL,'Ashwini',NULL,'',NULL,NULL,NULL,NULL,_binary '\0',_binary '\0','2024-10-18 19:13:03',2,'1234','akrampasha.h@dhruvts.com',NULL,'https://softserveglobal.co.in/assets/images/sslogoglobal.png',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'tcs.com','TCS','Whitefield','9876543210','GSTIN98753146','Usha','Bangalore','Bangalore','Karnataka','577054','India',1,_binary '\0',_binary '\0','2024-10-21 09:59:37',2,'tcs@123','tcs@gmail.com',NULL,'https://www.tcs.com/content/dam/global-tcs/en/images/home/tcs-logo-1.svg',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'','Dhruv','MSR Nagar','34234','432423','Akram','','Bangalore','Karnataka','560079','India',0,_binary '\0',_binary '\0','2002-07-04 00:00:00',0,'','info@dhruvts.com',250,'https://dhruvts.com/wp-content/uploads/2024/04/Footer-2.svg','we are passionate about building innovative software solutions that empower businesses to thrive in the digital age. Since our founding in [Year], we have been committed to providing high-quality, scalable, and secure software that meets the evolving needs of our clients across various industries.\n\nWe specialize in developing web and mobile applications, custom software development, and cloud-based solutions that drive business efficiency and improve customer experiences. Our team of experienced developers, designers, and IT professionals work collaboratively to deliver technology solutions that are not only functional but also future-ready.','India, US','','','','',NULL),(4,'ssg.com','SSG','MSR Nagar','432423','4234324','Akram','','Bangalore','Karnataka','560054','India',0,_binary '\0',_binary '\0','2016-01-14 00:00:00',0,'','ssg@gmail.com',45,'https://softserveglobal.co.in/assets/images/sslogoglobal.png','Softserve Global','MSR Nagar','','','','',NULL),(5,'www.testcompany.com','Test Company',NULL,'8618624233',NULL,'Test Person',NULL,'Bangalore',NULL,NULL,NULL,NULL,_binary '\0',_binary '\0',NULL,2,'1234','test@gmail.com',1000,'https://softserveglobal.co.in/assets/images/sslogoglobal.png','This is a test company','',NULL,NULL,NULL,NULL,NULL),(6,'','','','','','','','','','','',0,_binary '\0',_binary '\0',NULL,0,'','',0,'','','','','','','',NULL),(7,'','Axis Cads','Bengalore','9282928292','HS83SJS3','Vinod','','Bengalore','Karnataka','559003','India',0,_binary '\0',_binary '\0','2002-07-11 00:00:00',0,'','ranju.ssg9902@gmail.com',500,'','','Mumbai','','','','',NULL);
 /*!40000 ALTER TABLE `companydata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -403,7 +440,7 @@ CREATE TABLE `companyindustries` (
   KEY `FK_CompanyIndustries_Industries` (`IndustryId`),
   CONSTRAINT `FK_CompanyIndustries_CompanyData` FOREIGN KEY (`CompanyId`) REFERENCES `companydata` (`Id`),
   CONSTRAINT `FK_CompanyIndustries_Industries` FOREIGN KEY (`IndustryId`) REFERENCES `industries` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -412,7 +449,7 @@ CREATE TABLE `companyindustries` (
 
 LOCK TABLES `companyindustries` WRITE;
 /*!40000 ALTER TABLE `companyindustries` DISABLE KEYS */;
-INSERT INTO `companyindustries` VALUES (1,1,1,_binary '\0'),(2,1,2,_binary '\0'),(3,1,3,_binary '\0'),(4,2,4,_binary '\0'),(5,2,5,_binary '\0'),(6,4,1,_binary '\0'),(7,4,2,_binary '\0'),(8,4,1,_binary '\0'),(9,4,2,_binary '\0'),(10,4,3,_binary '\0'),(11,4,1,_binary '\0'),(12,4,2,_binary '\0'),(13,4,3,_binary '\0'),(14,4,4,_binary '\0');
+INSERT INTO `companyindustries` VALUES (1,1,1,_binary '\0'),(2,1,2,_binary '\0'),(3,1,3,_binary '\0'),(4,2,4,_binary '\0'),(5,2,5,_binary '\0'),(6,4,1,_binary '\0'),(7,4,2,_binary '\0'),(8,4,1,_binary '\0'),(9,4,2,_binary '\0'),(10,4,3,_binary '\0'),(11,4,1,_binary '\0'),(12,4,2,_binary '\0'),(13,4,3,_binary '\0'),(14,4,4,_binary '\0'),(15,4,1,_binary '\0'),(16,4,2,_binary '\0'),(17,4,1,_binary '\0'),(18,4,2,_binary '\0'),(19,4,3,_binary '\0'),(20,4,1,_binary '\0'),(21,4,2,_binary '\0'),(22,4,3,_binary '\0'),(23,4,4,_binary '\0'),(24,5,1,_binary '\0'),(25,5,3,_binary '\0'),(26,5,5,_binary '\0'),(27,5,1,_binary '\0'),(28,5,3,_binary '\0'),(29,5,5,_binary '\0'),(30,5,1,_binary '\0'),(31,5,3,_binary '\0'),(32,5,4,_binary '\0'),(33,5,5,_binary '\0');
 /*!40000 ALTER TABLE `companyindustries` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -512,15 +549,16 @@ DROP TABLE IF EXISTS `documents`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `documents` (
   `Id` bigint NOT NULL AUTO_INCREMENT,
-  `FileName` varchar(45) DEFAULT NULL,
-  `FilePath` varchar(45) DEFAULT NULL,
+  `FileName` varchar(255) DEFAULT NULL,
+  `FilePath` varchar(255) DEFAULT NULL,
   `FileType` varchar(45) DEFAULT NULL,
+  `ParentType` varchar(45) DEFAULT NULL,
   `ParentId` bigint DEFAULT NULL,
   `IsDeleted` tinyint(1) DEFAULT NULL,
   `CreatedDate` datetime DEFAULT NULL,
   `CreatedBy` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -529,6 +567,7 @@ CREATE TABLE `documents` (
 
 LOCK TABLES `documents` WRITE;
 /*!40000 ALTER TABLE `documents` DISABLE KEYS */;
+INSERT INTO `documents` VALUES (1,'ANJS HDFC.html','wwwroot\\UploadedFiles\\20241118_232602_ANJS HDFC.html','text/html','company',1,0,'2024-11-18 23:26:02',NULL);
 /*!40000 ALTER TABLE `documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -541,14 +580,16 @@ DROP TABLE IF EXISTS `email`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `email` (
   `Id` bigint NOT NULL AUTO_INCREMENT,
-  `To` varchar(45) DEFAULT NULL,
-  `CC` varchar(45) DEFAULT NULL,
-  `BCC` varchar(45) DEFAULT NULL,
-  `Subject` varchar(45) DEFAULT NULL,
+  `To` varchar(245) DEFAULT NULL,
+  `CC` varchar(245) DEFAULT NULL,
+  `BCC` varchar(245) DEFAULT NULL,
+  `Subject` varchar(245) DEFAULT NULL,
   `IsSent` tinyint(1) DEFAULT '0',
-  `Body` varchar(250) DEFAULT NULL,
+  `Body` longtext,
+  `CreatedAt` datetime DEFAULT NULL,
+  `SentAt` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -557,8 +598,69 @@ CREATE TABLE `email` (
 
 LOCK TABLES `email` WRITE;
 /*!40000 ALTER TABLE `email` DISABLE KEYS */;
-INSERT INTO `email` VALUES (1,'Ranju.ssg9902@gmail.com',NULL,NULL,'Hello test Placements',1,'TestPlacements Body');
+INSERT INTO `email` VALUES (1,'Ranju.ssg9902@gmail.com',NULL,NULL,'Hello test Placements',1,'TestPlacements Body',NULL,NULL),(2,'akrampasha.h@dhruvts.com','',NULL,'Invitation for Placement Drive Collaboration',1,'\r\n                Dear Ashwini,\r\n\r\n                Greetings from jnnce!\r\n\r\n                We are excited to invite your esteemed organization to collaborate with us for campus placements. We would love to have your company post job openings and conduct placement drives for our talented students.\r\n\r\n                Please use the following link to post job openings or get in touch with us:\r\n                <a href=\'\'>Post Job Openings</a>\r\n\r\n                For further inquiries, feel free to contact our TPC Head:\r\n                Name: \r\n                Email: \r\n                Phone: \r\n\r\n                Looking forward to collaborating with you.\r\n\r\n                Best Regards,\r\n                \r\n                jnnce','2024-12-07 01:04:10','2024-12-07 01:17:50'),(3,'akrampasha.h@dhruvts.com','akram.ssg01@gmail.com',NULL,'Invitation for Placement Drive Collaboration',1,'\r\n                    <!DOCTYPE html>\r\n                    <html>\r\n                    <head>\r\n                        <style>\r\n                            body {\r\n                                font-family: Arial, sans-serif;\r\n                                line-height: 1.6;\r\n                                color: #333;\r\n                            }\r\n                            .container {\r\n                                width: 100%;\r\n                                max-width: 600px;\r\n                                margin: 0 auto;\r\n                                padding: 20px;\r\n                                border: 1px solid #ddd;\r\n                                border-radius: 8px;\r\n                                background-color: #f9f9f9;\r\n                            }\r\n                            .header {\r\n                                background-color: #007BFF;\r\n                                color: #fff;\r\n                                text-align: center;\r\n                                padding: 10px 0;\r\n                                border-radius: 8px 8px 0 0;\r\n                            }\r\n                            .header h1 {\r\n                                margin: 0;\r\n                                font-size: 24px;\r\n                            }\r\n                            .content {\r\n                                padding: 20px;\r\n                            }\r\n                            .content p {\r\n                                margin: 10px 0;\r\n                            }\r\n                            .cta {\r\n                                text-align: center;\r\n                                margin: 20px 0;\r\n                            }\r\n                            .cta a {\r\n                                display: inline-block;\r\n                                padding: 10px 20px;\r\n                                background-color: #007BFF;\r\n                                color: #fff;\r\n                                text-decoration: none;\r\n                                border-radius: 5px;\r\n                                font-size: 16px;\r\n                            }\r\n                            .cta a:hover {\r\n                                background-color: #0056b3;\r\n                            }\r\n                            .footer {\r\n                                margin-top: 20px;\r\n                                text-align: center;\r\n                                font-size: 12px;\r\n                                color: #666;\r\n                            }\r\n                        </style>\r\n                    </head>\r\n                    <body>\r\n                        <div class=\'container\'>\r\n                            <div class=\'header\'>\r\n                                <h1>Invitation for Placement Drive Collaboration</h1>\r\n                            </div>\r\n                            <div class=\'content\'>\r\n                                <p>Dear <strong>Ashwini</strong>,</p>\r\n                                <p>Greetings from <strong>jnnce</strong>!</p>\r\n                                <p>\r\n                                    We are delighted to invite your esteemed organization to collaborate with us for campus placements.\r\n                                    At <strong>jnnce</strong>, we pride ourselves on nurturing talented students who excel\r\n                                    in both academics and co-curricular activities.\r\n                                </p>\r\n                                <p>Here are some highlights about our students and college:</p>\r\n                                <ul>\r\n                                    <li>Average Academic Score: <strong>89.5%</strong></li>\r\n                                    <li>Placement Success Rate: <strong>95%</strong></li>\r\n                                    <li>Top Rankings in National-Level Competitions: <strong>1st Place (AI Hackathon), 2nd Place (Coding Championship)</strong></li>\r\n                                    <li>Alumni in Top Companies: <strong>Google, Microsoft, Amazon</strong></li>\r\n                                </ul>\r\n                                <p>\r\n                                    We believe a collaboration with your esteemed organization will provide our students an invaluable opportunity\r\n                                    to learn and grow while also adding value to your workforce.\r\n                                </p>\r\n                                <div class=\'cta\'>\r\n                                    <a href=\'\' target=\'_blank\'>Post Job Openings</a>\r\n                                </div>\r\n                                <p>\r\n                                    For any further inquiries, please feel free to contact our TPC Head:\r\n                                </p>\r\n                                <ul>\r\n                                    <li><strong>Name:</strong> </li>\r\n                                    <li><strong>Email:</strong> akram.ssg01@gmail.com</li>\r\n                                    <li><strong>Phone:</strong> </li>\r\n                                </ul>\r\n                                <p>\r\n                                    We look forward to collaborating with you and building a strong partnership.\r\n                                </p>\r\n                                <p>\r\n                                    Best Regards,<br>\r\n                                    <strong></strong><br>\r\n                                    <strong>jnnce</strong>\r\n                                </p>\r\n                            </div>\r\n                            <div class=\'footer\'>\r\n                                <p>&copy; 2024 jnnce. All rights reserved.</p>\r\n                            </div>\r\n                        </div>\r\n                    </body>\r\n                    </html>','2024-12-07 01:18:55','2024-12-07 01:21:38');
 /*!40000 ALTER TABLE `email` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `groupmembers`
+--
+
+DROP TABLE IF EXISTS `groupmembers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `groupmembers` (
+  `Id` bigint NOT NULL AUTO_INCREMENT,
+  `GroupId` bigint DEFAULT NULL,
+  `UserId` bigint DEFAULT NULL,
+  `JoinedDate` datetime DEFAULT NULL,
+  `Role` enum('Admin','Member') DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `FK_Group_GroupMember_idx` (`GroupId`),
+  KEY `FK_User_GroupMember_idx` (`UserId`),
+  CONSTRAINT `FK_Group_GroupMember` FOREIGN KEY (`GroupId`) REFERENCES `groups` (`Id`),
+  CONSTRAINT `FK_User_GroupMember` FOREIGN KEY (`UserId`) REFERENCES `login` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `groupmembers`
+--
+
+LOCK TABLES `groupmembers` WRITE;
+/*!40000 ALTER TABLE `groupmembers` DISABLE KEYS */;
+INSERT INTO `groupmembers` VALUES (8,4,8,NULL,NULL),(9,4,10,NULL,NULL),(10,4,2,NULL,NULL);
+/*!40000 ALTER TABLE `groupmembers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `groups`
+--
+
+DROP TABLE IF EXISTS `groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `groups` (
+  `Id` bigint NOT NULL AUTO_INCREMENT,
+  `GroupName` varchar(45) DEFAULT NULL,
+  `CreatedDate` datetime DEFAULT NULL,
+  `CreatedBy` bigint DEFAULT NULL,
+  `IsActive` tinyint(1) DEFAULT NULL,
+  `GroupDescription` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `FK_User_Groups_idx` (`CreatedBy`),
+  CONSTRAINT `FK_User_Groups` FOREIGN KEY (`CreatedBy`) REFERENCES `login` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `groups`
+--
+
+LOCK TABLES `groups` WRITE;
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+INSERT INTO `groups` VALUES (4,'SSG Group',NULL,NULL,NULL,'SSG desc');
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -577,7 +679,7 @@ CREATE TABLE `indent_form` (
   `PhoneNumber` varchar(45) DEFAULT NULL,
   `CreatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -586,6 +688,7 @@ CREATE TABLE `indent_form` (
 
 LOCK TABLES `indent_form` WRITE;
 /*!40000 ALTER TABLE `indent_form` DISABLE KEYS */;
+INSERT INTO `indent_form` VALUES (1,'lmk',NULL,'fdsa','1231','131','2024-11-18 18:00:15');
 /*!40000 ALTER TABLE `indent_form` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -604,7 +707,7 @@ CREATE TABLE `indent_form_dynamic_field` (
   PRIMARY KEY (`Id`),
   KEY `FK_IndentField_IndentForm_idx` (`IndentFormId`),
   CONSTRAINT `FK_IndentField_IndentForm` FOREIGN KEY (`IndentFormId`) REFERENCES `indent_form` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -613,6 +716,7 @@ CREATE TABLE `indent_form_dynamic_field` (
 
 LOCK TABLES `indent_form_dynamic_field` WRITE;
 /*!40000 ALTER TABLE `indent_form_dynamic_field` DISABLE KEYS */;
+INSERT INTO `indent_form_dynamic_field` VALUES (1,1,'adasda','asdad');
 /*!40000 ALTER TABLE `indent_form_dynamic_field` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -712,11 +816,13 @@ CREATE TABLE `jobinterviewrounds` (
   `JobPostingId` bigint DEFAULT NULL,
   `Name` varchar(45) DEFAULT NULL,
   `Description` varchar(255) DEFAULT NULL,
-  `Priority` int DEFAULT NULL,
+  `EventId` bigint DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_Round_JobPosting_idx` (`JobPostingId`),
+  KEY `FK_Round_Event_idx` (`EventId`),
+  CONSTRAINT `FK_Round_Event` FOREIGN KEY (`EventId`) REFERENCES `calendarevents` (`Id`),
   CONSTRAINT `FK_Round_JobPosting` FOREIGN KEY (`JobPostingId`) REFERENCES `jobposting` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -725,7 +831,7 @@ CREATE TABLE `jobinterviewrounds` (
 
 LOCK TABLES `jobinterviewrounds` WRITE;
 /*!40000 ALTER TABLE `jobinterviewrounds` DISABLE KEYS */;
-INSERT INTO `jobinterviewrounds` VALUES (1,2,'test assesment-1','online test',1),(2,2,'test assesment-1','online test-1',1),(3,2,'test assessment-2','Online test-2',2),(4,2,'Technical Round-1','Virtual Interview',3),(5,2,'Technical Round-2','Virtual Interview',4),(6,2,'HR-Interview','Coding Test',5),(7,5,'test assessment-1','CBT-1',1),(8,5,'Technical Round-1','CBT-2',2),(9,5,'HR-Interview','Virtual Interview',3);
+INSERT INTO `jobinterviewrounds` VALUES (1,2,'Test assesment-1','online test',10),(2,2,'Test assesment-1','online test-1',10),(3,2,'Test assessment-2','Online test-2',10),(4,2,'Technical Round-1','Virtual Interview',10),(5,2,'Technical Round-2','Virtual Interview',10),(6,2,'HR-Interview','Coding Test',10),(7,5,'test assessment-1','CBT-1',NULL),(8,5,'Technical Round-1','CBT-2',NULL),(9,5,'HR-Interview','Virtual Interview',NULL),(10,15,'Test assesment-1','online test',NULL),(11,15,'Test assesment-1','online test-1',NULL),(12,15,'Test assessment-2','Online test-2',NULL),(13,15,'Technical Round-1','Virtual Interview',NULL),(14,15,'Technical Round-2','Virtual Interview',NULL),(15,15,'HR-Interview','Coding Test',NULL),(16,13,'Test assessment-1','CBT-1',NULL),(17,13,'Technical Round-1','CBT-2',NULL),(18,13,'HR-Interview','Virtual Interview',NULL),(19,13,'Test assessment-1','Offline test',NULL),(20,6,'Technical Round-1','Virtual Interview',NULL),(21,6,'HR-Interview','Virtual Interview',NULL),(22,16,'Aptitude test round','Online Test',NULL),(23,16,'Coding Round','Online Test',NULL),(24,16,'Technical round-1','Virtual Interview',NULL),(25,16,'Technical round-2','Virtual Interview',NULL),(26,16,'HR interview','Virtual Interview',NULL),(28,18,'Round 1','Apti Round',11),(29,NULL,'ahdbsjds','askjdnsk',NULL);
 /*!40000 ALTER TABLE `jobinterviewrounds` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -743,15 +849,12 @@ CREATE TABLE `jobpost_studentround` (
   `Feedback` varchar(16000) DEFAULT NULL,
   `HasPassed` bit(1) DEFAULT NULL,
   `Score` int DEFAULT NULL,
-  `EventId` bigint DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_JobPost_Student_idx` (`StudentId`),
   KEY `FK_JobPostStudentRound_JobPostRound_idx` (`JobPostingRoundId`),
-  KEY `FK_JobRound_Event_idx` (`EventId`),
   CONSTRAINT `FK_JobPost_Student` FOREIGN KEY (`StudentId`) REFERENCES `tblstudent` (`Id`),
-  CONSTRAINT `FK_JobPostStudentRound_JobPostRound` FOREIGN KEY (`JobPostingRoundId`) REFERENCES `jobinterviewrounds` (`Id`),
-  CONSTRAINT `FK_JobRound_Event` FOREIGN KEY (`EventId`) REFERENCES `calendarevents` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `FK_JobPostStudentRound_JobPostRound` FOREIGN KEY (`JobPostingRoundId`) REFERENCES `jobinterviewrounds` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -760,7 +863,7 @@ CREATE TABLE `jobpost_studentround` (
 
 LOCK TABLES `jobpost_studentround` WRITE;
 /*!40000 ALTER TABLE `jobpost_studentround` DISABLE KEYS */;
-INSERT INTO `jobpost_studentround` VALUES (3,1,1,'wow a lovely student',_binary '',90,NULL),(4,1,2,'Wow a great performance',_binary '\0',0,NULL),(5,2,1,'Good effort, but room for improvement.',_binary '\0',65,NULL),(6,3,1,'Excellent skills shown during the round.',_binary '',92,NULL),(7,3,2,'Need to work on time management.',_binary '\0',60,NULL),(8,2,2,'Fantastic work, nailed the technical part.',_binary '',95,NULL),(10,2,3,'The presentation was lacking detail.',_binary '\0',55,NULL),(11,3,3,'Good approach to problem solving.',_binary '',80,NULL),(12,1,3,'Good approach to problem solving.',_binary '',80,NULL),(13,1,4,'Could improve on communication skills.',_binary '\0',70,NULL),(14,2,4,'Amazing performance overall, very confident.',_binary '',98,NULL),(15,1,5,'Missed some critical details, needs improvement.',_binary '\0',50,NULL);
+INSERT INTO `jobpost_studentround` VALUES (3,1,1,'wow a lovely student',_binary '',90),(4,1,2,'Wow a great performance',_binary '\0',0),(5,2,1,'Good effort, but room for improvement.',_binary '\0',65),(6,3,1,'Excellent skills shown during the round.',_binary '',92),(7,3,2,'Need to work on time management.',_binary '\0',60),(8,2,2,'Fantastic work, nailed the technical part.',_binary '',95),(10,2,3,'The presentation was lacking detail.',_binary '\0',55),(11,3,3,'Good approach to problem solving.',_binary '',80),(12,1,3,'Good approach to problem solving.',_binary '',80),(13,1,4,'Could improve on communication skills.',_binary '\0',70),(14,2,4,'Amazing performance overall, very confident.',_binary '',98),(15,1,5,'Missed some critical details, needs improvement.',_binary '\0',50),(16,3,22,'performed well',_binary '\0',80),(17,4,22,'performed well',_binary '',80),(18,1,1,'wow a lovely student',_binary '',90),(19,1,3,'Good approach to problem solving.',_binary '',80);
 /*!40000 ALTER TABLE `jobpost_studentround` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -799,12 +902,15 @@ CREATE TABLE `jobposting` (
   `MaximumYearExperience` int DEFAULT NULL,
   `MinimumMonthExperience` int DEFAULT NULL,
   `MaximumMonthExperience` int DEFAULT NULL,
+  `OrgId` bigint DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_JobPosting_Company_idx` (`CompanyId`),
   KEY `FK_JobPosting_Technology_idx` (`TechnologyId`),
+  KEY `FK_JobPosting_Campus_idx` (`OrgId`),
+  CONSTRAINT `FK_JobPosting_Campus` FOREIGN KEY (`OrgId`) REFERENCES `campusregistration` (`Id`),
   CONSTRAINT `FK_JobPosting_Company` FOREIGN KEY (`CompanyId`) REFERENCES `companydata` (`Id`),
   CONSTRAINT `FK_JobPosting_Technology` FOREIGN KEY (`TechnologyId`) REFERENCES `technologies` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -813,7 +919,7 @@ CREATE TABLE `jobposting` (
 
 LOCK TABLES `jobposting` WRITE;
 /*!40000 ALTER TABLE `jobposting` DISABLE KEYS */;
-INSERT INTO `jobposting` VALUES (1,2,'Python developer','web application','2024-10-21 15:07:48','2024-10-21 15:07:48',30,9,_binary '\0',_binary '\0',2,900000,'bangalore',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,4,'pyhton testing ','automation testing','2024-10-21 15:07:48','2024-10-21 15:07:48',18,2,_binary '\0',_binary '\0',2,1800000,'bangalore',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,NULL,'Software Engineer','Develop and maintain web applications.',NULL,'2025-01-01 05:29:59',5,2,_binary '\0',_binary '\0',1,60000,'New York, USA',3,'Full-Time','Day','Onsite','2024-11-05 15:30:00',0,0,0,0,NULL,0,0,0,0),(5,4,'Data Analyst','Analyze and interpret complex','2024-10-20 13:30:00','2024-12-21 05:29:59',3,1,_binary '\0',_binary '\0',2,50000,'San Francisco, USA',2,'Contract','Day','Remote','2024-10-25 14:30:00',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6,2,'DevOps Engineer','Ensure smooth software','2024-09-15 13:30:00','2024-11-16 05:29:59',4,0,_binary '\0',_binary '\0',1,75000,'London, UK',4,'Full-Time','Night','Hybrid','2024-09-20 16:30:00',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(8,4,'UX Designer','Design user interfaces and .','2024-12-01 13:30:00','2025-02-01 05:29:59',2,0,_binary '\0',_binary '\0',1,55000,'Berlin, Germany',2,'Full-Time','Day','Onsite','2024-12-10 15:00:00',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(10,4,'','',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,0,'',0,'','','',NULL,0,0,0,0,NULL,NULL,NULL,NULL,NULL),(11,4,'Software Developer','We are looking for a Software Developer to build and implement functional programs. You will work with other Developers and Product Managers throughout the software development life cycle.\n\nIn this role, you should be a team player with a keen eye for detail and problem-solving skills. If you also have experience in Agile frameworks and popular coding languages (e.g. JavaScript), we’d like to meet you.\n\nYour goal will be to build efficient programs and systems that serve user needs.',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,600000,'Bangalore',10,'Full-time','Day','Hybrid',NULL,65,75,7,0,NULL,NULL,NULL,NULL,NULL),(12,4,'Testing','Test lead/manager: A test lead is responsible for:\n\nDefining the testing activities for subordinates – testers or test engineers.\nAll responsibilities of test planning.\nTo check if the team has all the necessary resources to execute the testing activities.\nTo check if testing is going hand in hand with the software development in all phases.\nPrepare the status report of testing activities.\nRequired Interactions with customers.\nUpdating project manager regularly about the progress of testing activities.\nTest engineers/QA testers/QC testers are responsible for:\nTo read all the documents and understand what needs to be tested.\nBased on the information procured in the above step decide how it is to be tested.\nInform the test lead about what all resources will be required for software testing.\nDevelop test cases and prioritize testing activities.\nExecute all the test case and report defects, define severity and priority for each defect.\nCarry out regression testing every time when changes are made to the code to fix defects.',NULL,'2024-10-31 00:00:00',0,0,_binary '\0',_binary '\0',NULL,500000,'Bangalore',20,'Contract','Day','Offline','2024-11-07 00:00:00',75,85,8,0,NULL,NULL,NULL,NULL,NULL),(13,4,'Management','Accomplishes department objectives by managing staff.\nPlans and evaluates department policies, processes, priorities, and performance goals.\nMaintains staff by recruiting, onboarding, training, assessing, and promoting employees.\nEnsures that their department is on track to meet performance goals and makes adjustments based on performance data as needed.\nMotivates direct reports by providing positive feedback and skills development.\nAccomplishes staff results by communicating job expectations and planning, monitoring, and appraising job results.\nDevelops, coordinates, and enforces systems, policies, procedures, and productivity standards.\nEstablishes strategic goals by gathering pertinent business, financial, service, and operations information.\nDefines objectives, identifies and evaluates trends and options, chooses courses of action, and evaluates outcomes.\nAccomplishes financial objectives by forecasting requirements, preparing an annual budget, scheduling expenditures, analyzing variances, and initiating corrective action.\nPrepares reports for senior level management to help track their team’s progress.\nEnsures that staff have the resources they need to complete their work in an optimal manner.\nActs as a liaison with senior level management and other department managers by developing productive, collaborative relationships and utilizing clear and effective communication.\nUpdates sector and management expertise through professional development, participating in professional educational opportunities, reading industry-specific and management publications, and taking part in professional organizations.',NULL,'2024-11-30 00:00:00',0,0,_binary '\0',_binary '\0',NULL,900000,'Chennai',8,'Full-Time','Night Shift','Work from home','2024-12-20 00:00:00',80,90,9,0,'2024-10-30 15:32:55',2,4,0,0),(14,4,'AI & ML','The primary task of a Machine Learning Engineer is to create AI capable of mimicking human thought processes as closely as possible so that they can function reliably and effectively. Doing so involves the following Machine Learning Engineer job duties:\n\nWorking with project managers to establish objectives for AI systems\nCreating AI algorithm prototypes based on project specifications\nRunning tests to assess AI performance\nAnalyzing data gathered during tests to identify strengths and weaknesses of AI\nImplementing changes to algorithms to improve AI performance\nTroubleshooting and addressing problems with deployed AI to improve user experience\nDocumenting all steps in the development process\nRemaining up to date on the latest innovations in machine learning',NULL,'2024-10-17 00:00:00',0,0,_binary '\0',_binary '\0',NULL,8000000,'Bangalore',9,'Internship','Day Shift','Travel-Based','2024-10-10 00:00:00',65,70,9,0,'2024-10-30 18:15:55',1,4,0,0),(15,4,'Architecture Role','Job Summary:\nWe are looking for a skilled and experienced Solution Architect to lead the design, development, and implementation of software solutions. The ideal candidate will have a strong background in software architecture, cloud computing, and full-stack development, and be able to provide technical leadership and strategic direction for large-scale systems. As a Solution Architect, you will collaborate with cross-functional teams to ensure the architecture is scalable, secure, and meets business and technical requirements.\n\nKey Responsibilities:\nArchitectural Design:\n\nLead the design and architecture of software solutions, ensuring alignment with business objectives and technical requirements.\nDesign scalable, secure, and high-performance solutions using modern technologies, frameworks, and cloud platforms.\nProvide leadership in defining technical direction and best practices for both backend and frontend technologies.\nStakeholder Collaboration:\n\nCollaborate with business analysts, product managers, and developers to understand system requirements and design solutions that address both functional and non-functional needs (e.g., scalability, performance, security).\nServe as a technical liaison between different teams (development, operations, security, etc.) to ensure smooth communication and integration.\nTechnical Leadership:\n\nProvide mentorship and guidance to development teams on architectural decisions, coding standards, and best practices.\nConduct code reviews to ensure that solutions adhere to architectural guidelines, best practices, and coding standards.\nLead the evaluation and selection of appropriate technology stacks and tools.\nSystem Integration:\n\nOversee the integration of multiple systems, ensuring compatibility and consistency across applications and platforms.\nEnsure that the architecture supports system scalability, performance, and high availability, with a focus on the long-term success of the platform.\nPerformance and Optimization:\n\nContinuously assess and optimize application performance, security, and scalability.\nImplement strategies for performance tuning, load balancing, and caching to ensure the application is responsive and reliable.\nDocumentation:\n\nCreate and maintain comprehensive technical documentation for architecture, design patterns, and best practices.\nDevelop architectural blueprints, roadmaps, and solution diagrams to support both development teams and stakeholders.\nContinuous Improvement:\n\nStay up-to-date with the latest trends and technologies in software development, cloud computing, and architecture patterns.\nPropose and implement new technologies, tools, or processes that improve efficiency, reduce technical debt, or increase system performance.\nRequired Skills and Qualifications:\nSoftware Architecture Expertise:\n\nProven experience in designing and architecting large-scale, distributed software systems.\nIn-depth knowledge of software design principles, patterns (e.g., microservices, event-driven architecture), and frameworks.\nCloud and DevOps Experience:\n\nStrong experience with cloud platforms (e.g., AWS, Azure, Google Cloud) and knowledge of cloud-native architectures.\nFamiliarity with DevOps principles, CI/CD pipelines, and containerization (e.g., Docker, Kubernetes).\nBackend & Frontend Development:\n\nProficiency in backend technologies such as Java, .NET, Node.js, Python, or similar languages.\nSolid understanding of frontend technologies like Angular, React, Vue.js, or similar.\nDatabases & Data Management:\n\nStrong experience with relational databases (e.g., MySQL, SQL Server) and NoSQL databases (e.g., MongoDB, Cassandra).\nExperience in database design, querying, and optimization for large-scale applications.\nSecurity and Compliance:\n\nExpertise in securing software solutions by implementing encryption, access controls, and other security measures.\nFamiliarity with industry compliance standards (e.g., GDPR, HIPAA, SOC2).\nLeadership & Communication:\n\nStrong leadership skills, with the ability to lead and influence cross-functional teams.\nExcellent communication skills, both verbal and written, with the ability to present complex technical concepts to non-technical stakeholders.\nPreferred Skills:\nExperience with enterprise-level architecture frameworks like TOGAF or Zachman.\nFamiliarity with Service-Oriented Architecture (SOA) and RESTful services.\nExperience in designing and building microservices-based architectures.\nKnowledge of serverless computing and event-driven architectures.\nEducation & Experience:\nBachelor’s degree in Computer Science, Engineering, or a related field (Master’s preferred).\n7+ years of experience in software development, with at least 3-5 years in an architectural role.\nProven experience designing and building complex systems for large-scale applications.',NULL,'2024-11-30 00:00:00',0,0,_binary '\0',_binary '\0',NULL,2500000,'Chennai',9,'Full-Time','Day Shift','Work from home','2024-12-03 00:00:00',90,90,8,0,'2024-11-06 17:28:04',2,7,0,0),(16,4,'Database solution architech','Databases & Data Management:\n\nStrong experience with relational databases (e.g., MySQL, SQL Server) and NoSQL databases (e.g., MongoDB, Cassandra).\nExperience in database design, querying, and optimization for large-scale applications.',NULL,'2024-11-22 00:00:00',0,0,_binary '\0',_binary '\0',NULL,800000,'Noida',4,'Contract','Night Shift','Hybrid','2024-11-28 00:00:00',80,75,8,0,'2024-11-06 18:45:06',2,7,0,0);
+INSERT INTO `jobposting` VALUES (1,2,'Python Developer','web application','2024-10-21 15:07:48','2024-10-21 15:07:48',30,9,_binary '\0',_binary '\0',2,900000,'bangalore',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(2,4,'Pyhton Testing ','automation testing','2024-10-21 15:07:48','2024-10-21 15:07:48',18,2,_binary '\0',_binary '\0',2,1800000,'bangalore',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2),(4,NULL,'Software Engineer','Develop and maintain web applications.',NULL,'2025-01-01 05:29:59',5,2,_binary '\0',_binary '\0',1,60000,'New York, USA',3,'Full-Time','Day','Onsite','2024-11-05 15:30:00',0,0,0,0,NULL,0,0,0,0,1),(5,4,'Data Analyst','Analyze and interpret complex','2024-10-20 13:30:00','2024-12-21 05:29:59',3,1,_binary '\0',_binary '\0',2,50000,'San Francisco, USA',2,'Contract','Day','Remote','2024-10-25 14:30:00',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(6,2,'DevOps Engineer','Ensure smooth software','2024-09-15 13:30:00','2024-11-16 05:29:59',4,0,_binary '\0',_binary '\0',1,75000,'London, UK',4,'Full-Time','Night','Hybrid','2024-09-20 16:30:00',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(8,4,'UX Designer','Design user interfaces and .','2024-12-01 13:30:00','2025-02-01 05:29:59',2,0,_binary '\0',_binary '\0',1,55000,'Berlin, Germany',2,'Full-Time','Day','Onsite','2024-12-10 15:00:00',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(10,4,'','',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,0,'',0,'','','',NULL,0,0,0,0,NULL,NULL,NULL,NULL,NULL,1),(11,4,'Software Developer','We are looking for a Software Developer to build and implement functional programs. You will work with other Developers and Product Managers throughout the software development life cycle.\n\nIn this role, you should be a team player with a keen eye for detail and problem-solving skills. If you also have experience in Agile frameworks and popular coding languages (e.g. JavaScript), we’d like to meet you.\n\nYour goal will be to build efficient programs and systems that serve user needs.',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,600000,'Bangalore',10,'Full-time','Day','Hybrid',NULL,65,75,7,0,NULL,NULL,NULL,NULL,NULL,1),(12,4,'Testing','Test lead/manager: A test lead is responsible for:\n\nDefining the testing activities for subordinates – testers or test engineers.\nAll responsibilities of test planning.\nTo check if the team has all the necessary resources to execute the testing activities.\nTo check if testing is going hand in hand with the software development in all phases.\nPrepare the status report of testing activities.\nRequired Interactions with customers.\nUpdating project manager regularly about the progress of testing activities.\nTest engineers/QA testers/QC testers are responsible for:\nTo read all the documents and understand what needs to be tested.\nBased on the information procured in the above step decide how it is to be tested.\nInform the test lead about what all resources will be required for software testing.\nDevelop test cases and prioritize testing activities.\nExecute all the test case and report defects, define severity and priority for each defect.\nCarry out regression testing every time when changes are made to the code to fix defects.',NULL,'2024-10-31 00:00:00',0,0,_binary '\0',_binary '\0',NULL,500000,'Bangalore',20,'Contract','Day','Offline','2024-11-07 00:00:00',75,85,8,0,NULL,NULL,NULL,NULL,NULL,1),(13,4,'Management','Accomplishes department objectives by managing staff.\nPlans and evaluates department policies, processes, priorities, and performance goals.\nMaintains staff by recruiting, onboarding, training, assessing, and promoting employees.\nEnsures that their department is on track to meet performance goals and makes adjustments based on performance data as needed.\nMotivates direct reports by providing positive feedback and skills development.\nAccomplishes staff results by communicating job expectations and planning, monitoring, and appraising job results.\nDevelops, coordinates, and enforces systems, policies, procedures, and productivity standards.\nEstablishes strategic goals by gathering pertinent business, financial, service, and operations information.\nDefines objectives, identifies and evaluates trends and options, chooses courses of action, and evaluates outcomes.\nAccomplishes financial objectives by forecasting requirements, preparing an annual budget, scheduling expenditures, analyzing variances, and initiating corrective action.\nPrepares reports for senior level management to help track their team’s progress.\nEnsures that staff have the resources they need to complete their work in an optimal manner.\nActs as a liaison with senior level management and other department managers by developing productive, collaborative relationships and utilizing clear and effective communication.\nUpdates sector and management expertise through professional development, participating in professional educational opportunities, reading industry-specific and management publications, and taking part in professional organizations.',NULL,'2024-11-30 00:00:00',0,0,_binary '\0',_binary '\0',NULL,900000,'Chennai',8,'Full-Time','Night Shift','Work from home','2024-12-20 00:00:00',80,90,9,0,'2024-10-30 15:32:55',2,4,0,0,1),(14,4,'AI & ML','The primary task of a Machine Learning Engineer is to create AI capable of mimicking human thought processes as closely as possible so that they can function reliably and effectively. Doing so involves the following Machine Learning Engineer job duties:\n\nWorking with project managers to establish objectives for AI systems\nCreating AI algorithm prototypes based on project specifications\nRunning tests to assess AI performance\nAnalyzing data gathered during tests to identify strengths and weaknesses of AI\nImplementing changes to algorithms to improve AI performance\nTroubleshooting and addressing problems with deployed AI to improve user experience\nDocumenting all steps in the development process\nRemaining up to date on the latest innovations in machine learning',NULL,'2024-10-17 00:00:00',0,0,_binary '\0',_binary '\0',NULL,8000000,'Bangalore',9,'Internship','Day Shift','Travel-Based','2024-10-10 00:00:00',65,70,9,0,'2024-10-30 18:15:55',1,4,0,0,1),(15,4,'Architecture Role','Job Summary:\nWe are looking for a skilled and experienced Solution Architect to lead the design, development, and implementation of software solutions. The ideal candidate will have a strong background in software architecture, cloud computing, and full-stack development, and be able to provide technical leadership and strategic direction for large-scale systems. As a Solution Architect, you will collaborate with cross-functional teams to ensure the architecture is scalable, secure, and meets business and technical requirements.\n\nKey Responsibilities:\nArchitectural Design:\n\nLead the design and architecture of software solutions, ensuring alignment with business objectives and technical requirements.\nDesign scalable, secure, and high-performance solutions using modern technologies, frameworks, and cloud platforms.\nProvide leadership in defining technical direction and best practices for both backend and frontend technologies.\nStakeholder Collaboration:\n\nCollaborate with business analysts, product managers, and developers to understand system requirements and design solutions that address both functional and non-functional needs (e.g., scalability, performance, security).\nServe as a technical liaison between different teams (development, operations, security, etc.) to ensure smooth communication and integration.\nTechnical Leadership:\n\nProvide mentorship and guidance to development teams on architectural decisions, coding standards, and best practices.\nConduct code reviews to ensure that solutions adhere to architectural guidelines, best practices, and coding standards.\nLead the evaluation and selection of appropriate technology stacks and tools.\nSystem Integration:\n\nOversee the integration of multiple systems, ensuring compatibility and consistency across applications and platforms.\nEnsure that the architecture supports system scalability, performance, and high availability, with a focus on the long-term success of the platform.\nPerformance and Optimization:\n\nContinuously assess and optimize application performance, security, and scalability.\nImplement strategies for performance tuning, load balancing, and caching to ensure the application is responsive and reliable.\nDocumentation:\n\nCreate and maintain comprehensive technical documentation for architecture, design patterns, and best practices.\nDevelop architectural blueprints, roadmaps, and solution diagrams to support both development teams and stakeholders.\nContinuous Improvement:\n\nStay up-to-date with the latest trends and technologies in software development, cloud computing, and architecture patterns.\nPropose and implement new technologies, tools, or processes that improve efficiency, reduce technical debt, or increase system performance.\nRequired Skills and Qualifications:\nSoftware Architecture Expertise:\n\nProven experience in designing and architecting large-scale, distributed software systems.\nIn-depth knowledge of software design principles, patterns (e.g., microservices, event-driven architecture), and frameworks.\nCloud and DevOps Experience:\n\nStrong experience with cloud platforms (e.g., AWS, Azure, Google Cloud) and knowledge of cloud-native architectures.\nFamiliarity with DevOps principles, CI/CD pipelines, and containerization (e.g., Docker, Kubernetes).\nBackend & Frontend Development:\n\nProficiency in backend technologies such as Java, .NET, Node.js, Python, or similar languages.\nSolid understanding of frontend technologies like Angular, React, Vue.js, or similar.\nDatabases & Data Management:\n\nStrong experience with relational databases (e.g., MySQL, SQL Server) and NoSQL databases (e.g., MongoDB, Cassandra).\nExperience in database design, querying, and optimization for large-scale applications.\nSecurity and Compliance:\n\nExpertise in securing software solutions by implementing encryption, access controls, and other security measures.\nFamiliarity with industry compliance standards (e.g., GDPR, HIPAA, SOC2).\nLeadership & Communication:\n\nStrong leadership skills, with the ability to lead and influence cross-functional teams.\nExcellent communication skills, both verbal and written, with the ability to present complex technical concepts to non-technical stakeholders.\nPreferred Skills:\nExperience with enterprise-level architecture frameworks like TOGAF or Zachman.\nFamiliarity with Service-Oriented Architecture (SOA) and RESTful services.\nExperience in designing and building microservices-based architectures.\nKnowledge of serverless computing and event-driven architectures.\nEducation & Experience:\nBachelor’s degree in Computer Science, Engineering, or a related field (Master’s preferred).\n7+ years of experience in software development, with at least 3-5 years in an architectural role.\nProven experience designing and building complex systems for large-scale applications.',NULL,'2024-11-30 00:00:00',0,0,_binary '\0',_binary '\0',NULL,2500000,'Chennai',9,'Full-Time','Day Shift','Work from home','2024-12-03 00:00:00',90,90,8,0,'2024-11-06 17:28:04',2,7,0,0,1),(16,4,'Database solution architech','Databases & Data Management:\n\nStrong experience with relational databases (e.g., MySQL, SQL Server) and NoSQL databases (e.g., MongoDB, Cassandra).\nExperience in database design, querying, and optimization for large-scale applications.',NULL,'2024-11-22 00:00:00',0,0,_binary '\0',_binary '\0',NULL,800000,'Noida',4,'Contract','Night Shift','Hybrid','2024-11-28 00:00:00',80,75,8,0,'2024-11-06 18:45:06',2,7,0,0,1),(17,4,'','',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,0,'',0,'','','',NULL,0,0,0,0,'2024-11-18 23:27:52',0,0,0,0,NULL),(18,5,'Software Developer','This is a classic Software Developer Role',NULL,'2024-11-22 00:00:00',0,0,_binary '\0',_binary '\0',NULL,600000,'Bangalore',10,'Seasonal','Flexible Shift','Work from home','2024-11-26 00:00:00',0,0,0,0,'2024-11-19 14:55:42',0,0,0,0,1),(19,5,'Software Intern','This is a good job opportunity',NULL,'2024-11-28 00:00:00',0,0,_binary '\0',_binary '\0',NULL,100000,'Bengaluru',5,'Contract','Split Shift','Hybrid','2024-11-30 00:00:00',0,0,0,0,'2024-11-19 18:42:31',0,0,0,0,NULL),(20,5,'','',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,0,'',0,'','','',NULL,0,0,0,0,'2024-11-21 11:52:06',0,0,0,0,NULL),(21,5,'Test Role','abc',NULL,'2024-11-30 00:00:00',0,0,_binary '\0',_binary '\0',NULL,9000000,'Bangalore',10,'Part-Time','Night Shift','Remote','2024-12-19 00:00:00',80,80,6,0,'2024-11-25 12:38:51',1,8,0,0,NULL),(22,NULL,'','',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,0,'',0,'','','',NULL,0,0,0,0,'2024-11-25 15:30:47',0,0,0,0,NULL),(23,NULL,'','',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,0,'',0,'','','',NULL,0,0,0,0,'2024-11-25 15:32:15',0,0,0,0,NULL),(24,4,'Associate Senior Developer','',NULL,'2024-11-30 00:00:00',0,0,_binary '\0',_binary '\0',NULL,2500000,'Bangalore',3,'Full-Time','Day Shift','Hybrid','2024-12-13 00:00:00',75,80,8,0,'2024-11-28 12:04:22',5,10,0,0,NULL),(27,4,'tpc testing','',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,0,'',0,'','','',NULL,0,0,0,0,'2024-11-28 12:37:05',0,0,0,0,NULL),(28,4,'HR testing','',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,0,'',0,'','','',NULL,0,0,0,0,'2024-11-28 12:38:10',0,0,0,0,NULL),(29,2,'HR testing','',NULL,NULL,0,0,_binary '\0',_binary '\0',NULL,0,'',0,'','','',NULL,0,0,0,0,'2024-11-28 12:40:00',0,0,0,0,NULL);
 /*!40000 ALTER TABLE `jobposting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -837,7 +943,7 @@ CREATE TABLE `jobposting_selectedstudents` (
   KEY `FK_jobposting_selectedstudents_Student_idx` (`StudentId`),
   CONSTRAINT `FK_jobposting_selectedstudents_JobPosting` FOREIGN KEY (`JobPostingId`) REFERENCES `jobposting` (`Id`),
   CONSTRAINT `FK_jobposting_selectedstudents_Student` FOREIGN KEY (`StudentId`) REFERENCES `tblstudent` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -846,7 +952,7 @@ CREATE TABLE `jobposting_selectedstudents` (
 
 LOCK TABLES `jobposting_selectedstudents` WRITE;
 /*!40000 ALTER TABLE `jobposting_selectedstudents` DISABLE KEYS */;
-INSERT INTO `jobposting_selectedstudents` VALUES (1,1,1,1,'2024-10-23 17:33:00',NULL,NULL),(2,2,2,1,'2024-10-23 17:33:00',NULL,NULL),(3,2,2,1,'2024-10-23 17:33:00',NULL,NULL),(4,4,1,1,'2024-10-23 17:33:00',NULL,NULL),(5,5,2,1,'2024-10-23 17:33:00',NULL,NULL),(6,1,1,0,'2024-10-24 22:59:00',NULL,NULL);
+INSERT INTO `jobposting_selectedstudents` VALUES (1,1,1,1,'2024-10-23 17:33:00',NULL,NULL),(2,2,2,1,'2024-10-23 17:33:00',NULL,NULL),(3,2,2,1,'2024-10-23 17:33:00',NULL,NULL),(4,4,1,1,'2024-10-23 17:33:00',NULL,NULL),(5,5,2,1,'2024-10-23 17:33:00',NULL,NULL),(6,1,1,0,'2024-10-24 22:59:00',NULL,NULL),(10,2,3,1,'2024-10-23 17:33:00',NULL,NULL),(11,1,3,1,'2024-10-24 22:59:00',NULL,NULL),(12,5,3,1,'2024-10-24 22:59:00',NULL,NULL),(13,2,1,0,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `jobposting_selectedstudents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -866,7 +972,7 @@ CREATE TABLE `jobposting_skill` (
   KEY `FK_JobPostingSkill_JobPosting_idx` (`JobPostingId`),
   CONSTRAINT `FK_JobPostingSkill_JobPosting` FOREIGN KEY (`JobPostingId`) REFERENCES `jobposting` (`Id`),
   CONSTRAINT `FK_JobPostingSkill_Skill` FOREIGN KEY (`SkillId`) REFERENCES `skill` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -875,7 +981,7 @@ CREATE TABLE `jobposting_skill` (
 
 LOCK TABLES `jobposting_skill` WRITE;
 /*!40000 ALTER TABLE `jobposting_skill` DISABLE KEYS */;
-INSERT INTO `jobposting_skill` VALUES (1,1,11),(2,2,11),(3,3,11),(4,4,11),(5,13,11),(6,28,11),(7,33,11),(8,37,11),(9,38,11),(10,39,11),(11,40,11),(12,42,11),(13,43,11),(14,44,11),(15,45,11),(16,47,11),(17,48,11),(18,123,12),(19,124,12),(20,125,12),(21,126,12),(22,128,12),(23,136,12),(24,138,12),(25,140,12),(26,144,12),(27,145,12),(28,148,12),(29,1,13),(30,4,13),(31,5,13),(32,72,14),(33,73,14),(34,75,14),(35,78,14),(36,80,14),(37,82,14),(38,1,4),(39,2,4),(40,3,4),(41,4,4),(42,6,15),(43,10,15),(44,6,15),(45,10,15),(46,6,15),(47,10,15),(48,6,15),(49,10,15),(50,6,15),(51,10,15),(52,6,15),(53,10,15),(54,6,15),(55,10,15),(56,6,15),(57,10,15),(58,6,15),(59,10,15),(60,6,15),(61,10,15),(62,6,15),(63,10,15),(64,6,15),(65,10,15),(66,6,15),(67,10,15),(68,6,15),(69,10,15),(70,6,15),(71,10,15),(72,6,15),(73,10,15),(74,25,16),(75,26,16),(76,27,16);
+INSERT INTO `jobposting_skill` VALUES (1,1,11),(2,2,11),(3,3,11),(4,4,11),(5,13,11),(6,28,11),(7,33,11),(8,37,11),(9,38,11),(10,39,11),(11,40,11),(12,42,11),(13,43,11),(14,44,11),(15,45,11),(16,47,11),(17,48,11),(18,123,12),(19,124,12),(20,125,12),(21,126,12),(22,128,12),(23,136,12),(24,138,12),(25,140,12),(26,144,12),(27,145,12),(28,148,12),(29,1,13),(30,4,13),(31,5,13),(32,72,14),(33,73,14),(34,75,14),(35,78,14),(36,80,14),(37,82,14),(38,1,4),(39,2,4),(40,3,4),(41,4,4),(42,6,15),(43,10,15),(44,6,15),(45,10,15),(46,6,15),(47,10,15),(48,6,15),(49,10,15),(50,6,15),(51,10,15),(52,6,15),(53,10,15),(54,6,15),(55,10,15),(56,6,15),(57,10,15),(58,6,15),(59,10,15),(60,6,15),(61,10,15),(62,6,15),(63,10,15),(64,6,15),(65,10,15),(66,6,15),(67,10,15),(68,6,15),(69,10,15),(70,6,15),(71,10,15),(72,6,15),(73,10,15),(74,25,16),(75,26,16),(76,27,16),(77,2,18),(78,1,19),(79,12,21),(80,13,21),(81,14,21),(82,28,21),(83,29,21),(84,47,21),(85,72,14),(86,73,14),(87,75,14),(88,78,14),(89,80,14),(90,82,14),(91,11,24),(92,12,24),(93,13,24),(94,14,24),(95,17,24),(96,18,24),(97,19,24),(98,28,24),(99,29,24),(100,30,24),(101,31,24),(102,43,24),(103,44,24),(104,45,24),(105,46,24),(106,48,24);
 /*!40000 ALTER TABLE `jobposting_skill` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -922,7 +1028,7 @@ CREATE TABLE `jobpostings_eligiblestudents` (
   CONSTRAINT `FK_JobPostingEligible_Status` FOREIGN KEY (`StatusId`) REFERENCES `jobstudentstatus` (`Id`),
   CONSTRAINT `FK_jobpostings_eligiblestudents_JobPosting` FOREIGN KEY (`JobPostingId`) REFERENCES `jobposting` (`Id`),
   CONSTRAINT `FK_jobpostings_eligiblestudents_Student` FOREIGN KEY (`StudentId`) REFERENCES `tblstudent` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -931,7 +1037,7 @@ CREATE TABLE `jobpostings_eligiblestudents` (
 
 LOCK TABLES `jobpostings_eligiblestudents` WRITE;
 /*!40000 ALTER TABLE `jobpostings_eligiblestudents` DISABLE KEYS */;
-INSERT INTO `jobpostings_eligiblestudents` VALUES (21,1,1,1),(22,1,2,2),(23,1,4,3),(24,1,6,3),(25,1,5,1),(26,2,1,1),(27,2,2,1),(28,2,5,2),(29,2,8,3),(30,2,6,3),(31,3,4,1),(32,3,5,2),(33,3,8,3);
+INSERT INTO `jobpostings_eligiblestudents` VALUES (21,1,1,5),(22,1,2,2),(23,1,4,3),(24,1,6,3),(25,1,5,1),(26,2,1,1),(27,2,2,1),(28,2,5,2),(29,2,8,3),(30,2,6,3),(31,3,4,8),(32,3,5,5),(33,3,8,5),(37,4,16,5),(38,9,16,8),(39,12,16,6),(40,1,18,6),(41,2,18,6),(42,3,18,5),(43,4,18,8),(44,5,18,6),(45,7,18,6),(46,9,18,6),(47,10,18,6),(48,12,18,6),(49,14,18,5),(50,14,19,5),(51,1,19,6),(52,2,19,6),(53,3,19,6),(54,4,19,6),(55,5,19,6),(56,7,19,6),(57,9,19,6),(58,10,19,6),(59,12,19,6),(60,16,19,6);
 /*!40000 ALTER TABLE `jobpostings_eligiblestudents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -972,7 +1078,7 @@ CREATE TABLE `jobstudentstatus` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -981,7 +1087,7 @@ CREATE TABLE `jobstudentstatus` (
 
 LOCK TABLES `jobstudentstatus` WRITE;
 /*!40000 ALTER TABLE `jobstudentstatus` DISABLE KEYS */;
-INSERT INTO `jobstudentstatus` VALUES (1,'Rejected'),(2,'Selected'),(3,'In-Progress');
+INSERT INTO `jobstudentstatus` VALUES (1,'Rejected'),(2,'Selected'),(3,'In-Progress'),(4,'Pending'),(5,'Accepted'),(6,'Job Post Invited'),(7,'Job Post Not Sent'),(8,'Not Interested');
 /*!40000 ALTER TABLE `jobstudentstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1012,7 +1118,7 @@ CREATE TABLE `login` (
   CONSTRAINT `FK_Login_CompanyData` FOREIGN KEY (`CompanyId`) REFERENCES `companydata` (`Id`),
   CONSTRAINT `FK_Login_Student` FOREIGN KEY (`StudentId`) REFERENCES `tblstudent` (`Id`),
   CONSTRAINT `FK_Login_UserRole` FOREIGN KEY (`RoleId`) REFERENCES `userrole` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1021,8 +1127,76 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES (1,1,'ssg1@gmail.com','1234','2024-10-18 19:13:03',NULL,2,_binary '\0',_binary '\0',NULL),(2,NULL,'jnnce@gmail.com','1234','2024-10-18 19:13:29',1,1,_binary '\0',_binary '\0',NULL),(3,NULL,'usha@gmail.com','1234','2024-10-18 19:14:02',NULL,3,_binary '\0',_binary '\0',1),(4,2,'tcs@gmail.com','tcs@123','2024-10-21 09:59:37',NULL,2,_binary '\0',_binary '\0',NULL),(5,3,'info@dhruvts.com','','2002-07-04 00:00:00',NULL,2,_binary '\0',_binary '\0',NULL),(6,4,'ssg@gmail.com','1234','2016-01-14 00:00:00',NULL,2,_binary '\0',_binary '\0',NULL);
+INSERT INTO `login` VALUES (1,1,'ssg1@gmail.com','1234','2024-10-18 19:13:03',NULL,2,_binary '\0',_binary '\0',NULL),(2,NULL,'jnnce@gmail.com','1234','2024-10-18 19:13:29',1,1,_binary '\0',_binary '\0',NULL),(3,NULL,'usha@gmail.com','1234','2024-10-18 19:14:02',NULL,3,_binary '\0',_binary '\0',3),(4,2,'tcs@gmail.com','tcs@123','2024-10-21 09:59:37',NULL,2,_binary '\0',_binary '\0',NULL),(5,3,'info@dhruvts.com','','2002-07-04 00:00:00',NULL,2,_binary '\0',_binary '\0',NULL),(6,4,'ssg@gmail.com','1234','2016-01-14 00:00:00',NULL,2,_binary '\0',_binary '\0',NULL),(7,NULL,'sunitha@gmail.com','1234',NULL,NULL,3,_binary '\0',_binary '\0',4),(8,NULL,'savan@gmail.com','1234',NULL,NULL,3,_binary '\0',_binary '\0',9),(9,5,'testhr@gmail.com','1234',NULL,NULL,2,_binary '\0',_binary '\0',NULL),(10,NULL,'akhil@gmail.com','1234',NULL,NULL,3,_binary '\0',_binary '\0',14),(11,NULL,'teststudent@gmail.com','1234','2024-11-21 14:00:26',NULL,3,_binary '\0',_binary '\0',16),(12,6,'','',NULL,NULL,2,_binary '\0',_binary '\0',NULL),(13,7,'ranju.ssg9902@gmail.com','','2002-07-11 00:00:00',NULL,2,_binary '\0',_binary '\0',NULL);
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `messages` (
+  `Id` bigint NOT NULL AUTO_INCREMENT,
+  `SenderId` bigint DEFAULT NULL,
+  `GroupId` bigint DEFAULT NULL,
+  `ReceiverId` bigint DEFAULT NULL,
+  `MessageText` varchar(1000) DEFAULT NULL,
+  `CreatedDate` datetime DEFAULT NULL,
+  `IsRead` tinyint(1) DEFAULT NULL,
+  `MessageType` enum('Text','Image','Video','File') DEFAULT NULL,
+  `IsDeleted` tinyint(1) DEFAULT NULL,
+  `ChatId` bigint DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `FK_Chat_Messages_idx` (`ChatId`),
+  KEY `FK_Sender_Messages_idx` (`SenderId`),
+  KEY `FK_Receiver_Messages_idx` (`ReceiverId`),
+  KEY `FK_Group_Messages_idx` (`GroupId`),
+  CONSTRAINT `FK_Chat_Messages` FOREIGN KEY (`ChatId`) REFERENCES `chat` (`Id`),
+  CONSTRAINT `FK_Group_Messages` FOREIGN KEY (`GroupId`) REFERENCES `groups` (`Id`),
+  CONSTRAINT `FK_Receiver_Messages` FOREIGN KEY (`ReceiverId`) REFERENCES `login` (`Id`),
+  CONSTRAINT `FK_Sender_Messages` FOREIGN KEY (`SenderId`) REFERENCES `login` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `messages`
+--
+
+LOCK TABLES `messages` WRITE;
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+INSERT INTO `messages` VALUES (1,2,NULL,1,'Hi',NULL,NULL,NULL,NULL,1),(4,2,4,NULL,'Hi Team','2024-12-22 13:09:13',NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `messagestatus`
+--
+
+DROP TABLE IF EXISTS `messagestatus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `messagestatus` (
+  `Id` bigint NOT NULL AUTO_INCREMENT,
+  `MessageId` bigint DEFAULT NULL,
+  `UserId` bigint DEFAULT NULL,
+  `Status` enum('Delivered','Read') DEFAULT NULL,
+  `UpdatedDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `FK_Message_MessageStatus_idx` (`MessageId`),
+  CONSTRAINT `FK_Message_MessageStatus` FOREIGN KEY (`MessageId`) REFERENCES `messages` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `messagestatus`
+--
+
+LOCK TABLES `messagestatus` WRITE;
+/*!40000 ALTER TABLE `messagestatus` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messagestatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1162,8 +1336,11 @@ CREATE TABLE `student_semester_mark` (
   `Id` bigint NOT NULL AUTO_INCREMENT,
   `StudentAcademicId` bigint DEFAULT NULL,
   `Semester` int DEFAULT NULL,
-  `Sgpa` decimal(10,0) DEFAULT NULL,
+  `Sgpa` decimal(10,2) DEFAULT NULL,
   `Status` varchar(45) DEFAULT NULL,
+  `MarkaPercentage` decimal(10,2) DEFAULT NULL,
+  `ClosedBacklogs` int DEFAULT NULL,
+  `LiveBacklogs` int DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_StudentSemMarks_StudentAcademic_idx` (`StudentAcademicId`),
   CONSTRAINT `FK_StudentSemMarks_StudentAcademic` FOREIGN KEY (`StudentAcademicId`) REFERENCES `studentacademics` (`Id`)
@@ -1176,7 +1353,7 @@ CREATE TABLE `student_semester_mark` (
 
 LOCK TABLES `student_semester_mark` WRITE;
 /*!40000 ALTER TABLE `student_semester_mark` DISABLE KEYS */;
-INSERT INTO `student_semester_mark` VALUES (1,1,1,7,NULL),(2,1,2,8,NULL),(3,1,3,8,NULL),(4,2,1,6,NULL),(5,2,2,8,NULL),(6,2,3,9,NULL),(7,3,1,8,NULL),(8,3,2,7,NULL),(9,3,3,8,NULL);
+INSERT INTO `student_semester_mark` VALUES (1,1,1,7.00,NULL,NULL,NULL,NULL),(2,1,2,8.00,NULL,NULL,NULL,NULL),(3,1,3,8.00,NULL,NULL,NULL,NULL),(4,2,1,6.00,NULL,NULL,NULL,NULL),(5,2,2,8.00,NULL,NULL,NULL,NULL),(6,2,3,9.00,NULL,NULL,NULL,NULL),(7,3,1,8.00,NULL,NULL,NULL,NULL),(8,3,2,7.00,NULL,NULL,NULL,NULL),(9,3,3,8.00,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `student_semester_mark` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1228,6 +1405,12 @@ CREATE TABLE `studentacademics` (
   `TwelthBoard` varchar(145) DEFAULT NULL,
   `TenthPassedOutYear` int DEFAULT NULL,
   `TwelthPassedOutYear` int DEFAULT NULL,
+  `TenthSchoolName` varchar(100) DEFAULT NULL,
+  `TwelthSchoolName` varchar(100) DEFAULT NULL,
+  `DiplomaCollegeName` varchar(100) DEFAULT NULL,
+  `TenthStatus` bigint DEFAULT NULL,
+  `TwelfthStatus` bigint DEFAULT NULL,
+  `CourseStatus` bigint DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_StudentAcademy_Student_idx` (`StudentId`),
   KEY `FK_Student_Course_idx` (`CourseId`),
@@ -1235,7 +1418,7 @@ CREATE TABLE `studentacademics` (
   CONSTRAINT `FK_Student_Course` FOREIGN KEY (`CourseId`) REFERENCES `course` (`Id`),
   CONSTRAINT `FK_Student_Stream` FOREIGN KEY (`StreamId`) REFERENCES `stream` (`Id`),
   CONSTRAINT `FK_StudentAcademy_Student` FOREIGN KEY (`StudentId`) REFERENCES `tblstudent` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1244,7 +1427,7 @@ CREATE TABLE `studentacademics` (
 
 LOCK TABLES `studentacademics` WRITE;
 /*!40000 ALTER TABLE `studentacademics` DISABLE KEYS */;
-INSERT INTO `studentacademics` VALUES (1,1,1,1,8.00,NULL,NULL,NULL,NULL,NULL,NULL),(2,2,5,1,7.00,NULL,NULL,NULL,NULL,NULL,NULL),(3,3,2,1,7.00,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `studentacademics` VALUES (1,13,1,1,8.00,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,14,5,1,7.00,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,15,2,1,7.00,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,1,1,1,8.00,85.00,75.00,NULL,NULL,2012,2014,NULL,NULL,NULL,NULL,NULL,NULL),(5,2,5,1,7.00,79.00,91.00,NULL,NULL,2013,2015,NULL,NULL,NULL,NULL,NULL,NULL),(6,3,1,1,7.00,90.00,85.00,NULL,NULL,2012,2014,NULL,NULL,NULL,NULL,NULL,NULL),(7,4,2,1,8.57,93.00,80.00,NULL,NULL,2014,2016,NULL,NULL,NULL,NULL,NULL,NULL),(8,5,4,1,7.89,75.00,83.00,NULL,NULL,2013,2015,NULL,NULL,NULL,NULL,NULL,NULL),(9,6,6,2,9.30,95.00,93.00,NULL,NULL,2012,2014,NULL,NULL,NULL,NULL,NULL,NULL),(10,7,5,1,6.30,65.00,70.00,NULL,NULL,2013,2015,NULL,NULL,NULL,NULL,NULL,NULL),(11,8,9,8,8.54,85.60,92.50,NULL,NULL,2013,2015,NULL,NULL,NULL,NULL,NULL,NULL),(12,9,1,1,9.00,85.00,80.00,NULL,NULL,2012,2015,NULL,NULL,NULL,NULL,NULL,NULL),(13,10,1,1,7.60,88.13,95.80,NULL,NULL,2013,2015,NULL,NULL,NULL,NULL,NULL,NULL),(14,11,2,4,8.90,73.00,98.90,NULL,NULL,2015,2017,NULL,NULL,NULL,NULL,NULL,NULL),(15,12,1,1,9.60,95.00,90.00,NULL,NULL,2015,2017,NULL,NULL,NULL,NULL,NULL,NULL),(16,16,1,1,8.60,89.30,86.00,NULL,NULL,2019,2021,NULL,NULL,NULL,NULL,NULL,NULL),(17,16,1,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(18,17,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `studentacademics` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1261,7 +1444,15 @@ CREATE TABLE `studentplaced` (
   `OrgId` bigint DEFAULT NULL,
   `JobPostingId` bigint DEFAULT NULL,
   `BatchId` bigint DEFAULT NULL,
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`Id`),
+  KEY `FK_StudentPlaced_Student_idx` (`StudentId`),
+  KEY `FK_StudentPlaces_Campus_idx` (`OrgId`),
+  KEY `FK_StudentPlaced_Job_idx` (`JobPostingId`),
+  KEY `FK_StudentPlaced_Batch_idx` (`BatchId`),
+  CONSTRAINT `FK_StudentPlaced_Batch` FOREIGN KEY (`BatchId`) REFERENCES `batch` (`Id`),
+  CONSTRAINT `FK_StudentPlaced_Campus` FOREIGN KEY (`OrgId`) REFERENCES `campusregistration` (`Id`),
+  CONSTRAINT `FK_StudentPlaced_Job` FOREIGN KEY (`JobPostingId`) REFERENCES `jobposting` (`Id`),
+  CONSTRAINT `FK_StudentPlaced_Student` FOREIGN KEY (`StudentId`) REFERENCES `tblstudent` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1296,7 +1487,7 @@ CREATE TABLE `studentregistartion` (
   `Password` varchar(50) DEFAULT NULL,
   `DateOfRegistration` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1305,7 +1496,7 @@ CREATE TABLE `studentregistartion` (
 
 LOCK TABLES `studentregistartion` WRITE;
 /*!40000 ALTER TABLE `studentregistartion` DISABLE KEYS */;
-INSERT INTO `studentregistartion` VALUES (1,'usha','123','usha@gmail.com','12',1,'2021-2025','Electronics',_binary '\0',_binary '\0',3,'1234','2024-10-18 19:14:02');
+INSERT INTO `studentregistartion` VALUES (1,'usha','123','usha@gmail.com','12',1,'2021-2025','Electronics',_binary '\0',_binary '\0',3,'1234','2024-10-18 19:14:02'),(2,'test student','1rn21is012','test@gmail.com','8618624233',1,'2021-2025','Computer Science',_binary '\0',_binary '\0',3,'1234','2024-11-21 14:00:26');
 /*!40000 ALTER TABLE `studentregistartion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1327,17 +1518,22 @@ CREATE TABLE `tblstudent` (
   `CurrentAddress` varchar(500) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL,
   `PhoneNumber` varchar(45) DEFAULT NULL,
-  `ParentName` varchar(45) DEFAULT NULL,
-  `ParentPhoneNumber` varchar(45) DEFAULT NULL,
+  `FatherName` varchar(100) DEFAULT NULL,
+  `FatherPhoneNumber` varchar(45) DEFAULT NULL,
   `DateOfBirth` datetime DEFAULT NULL,
   `RollNo` varchar(45) DEFAULT NULL,
   `BloodGroup` varchar(45) DEFAULT NULL,
+  `MiddleName` varchar(45) DEFAULT NULL,
+  `PANNumber` varchar(45) DEFAULT NULL,
+  `MotherName` varchar(100) DEFAULT NULL,
+  `MotherPhoneNumber` varchar(45) DEFAULT NULL,
+  `Gender` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_Student_Campus_idx` (`OrgId`),
   KEY `FK_Student_Batch_idx` (`BatchId`),
   CONSTRAINT `FK_Student_Batch` FOREIGN KEY (`BatchId`) REFERENCES `batch` (`Id`),
   CONSTRAINT `FK_Student_Campus` FOREIGN KEY (`OrgId`) REFERENCES `campusregistration` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1346,7 +1542,7 @@ CREATE TABLE `tblstudent` (
 
 LOCK TABLES `tblstudent` WRITE;
 /*!40000 ALTER TABLE `tblstudent` DISABLE KEYS */;
-INSERT INTO `tblstudent` VALUES (1,1,'Akram','Pasha',3,'160090004566','Mulbagala, Kolar, Karnataka - 563131','MSR Nagar, Bangalore, Karnataka','akrampashah1275@gmail.com','8147243278','Hyder Valy','9848022338','1999-06-06 00:00:00','MVJCE00001',NULL),(2,1,'Ranjitha','GN',3,'123456789012','Chintamani, Chikka Ballapura, Karnataka - 563134','MSR Nagar, Bangalore, Karnataka','ranju.ssg9902@gmail.com','9845098768','Narayana Swamy','8978675645','1999-10-04 00:00:00','MVJCE00002',NULL),(3,1,'Usha','Nuchin',2,'123456789','Shivamogga','Bengaluru','usha@gmail.com','9008563285','Geeta','123456789','2024-10-25 10:17:00','MVJCE00032',NULL);
+INSERT INTO `tblstudent` VALUES (1,1,'Akram','Pasha',3,'160090004566','Mulbagala, Kolar, Karnataka - 563131','MSR Nagar, Bangalore, Karnataka','akrampashah1275@gmail.com','8147243278','Hyder Valy','9848022338','1999-06-06 00:00:00','MVJCE00001',NULL,NULL,NULL,NULL,NULL,NULL),(2,1,'Ranjitha','GN',3,'123456789012','Chintamani, Chikka Ballapura, Karnataka - 563134','MSR Nagar, Bangalore, Karnataka','ranju.ssg9902@gmail.com','9845098768','Narayana Swamy','8978675645','1999-10-04 00:00:00','MVJCE00002',NULL,NULL,NULL,NULL,NULL,NULL),(3,1,'Usha','Nuchin',2,'123456789','Shivamogga','Bengaluru','usha@gmail.com','9008563285','Geeta','123456789','2024-10-25 10:17:00','MVJCE00032',NULL,NULL,NULL,NULL,NULL,NULL),(4,1,'Sunitha',' H K ',9,'123456789','Tumkur','Tumkur','sunitha@gmail.com','9008563285','Kumar','123456789','2024-10-25 10:17:00','4BA21CS176',NULL,NULL,NULL,NULL,NULL,NULL),(5,1,'Pallavi','M',9,'123456789','Mysore','Mysore','pallalvi@gmail.com','897645343','Mani','987654989','2024-10-25 10:17:00','4MI19IS085',NULL,NULL,NULL,NULL,NULL,NULL),(6,1,'Jhansi','Chintagunti',9,'987654328','Hyderbad','Hyderbad','jhansi@gmail.com','9099989898','Sangolli','989898989','2024-10-25 10:17:00','4SH19EC089',NULL,NULL,NULL,NULL,NULL,NULL),(7,1,'Yashu','Nuchin',9,'876543234','Davanagere','Davanagere','yashu@gmail.com','876535678','Kantharaj','887767867','2024-10-25 10:17:00','4NC22BC107',NULL,NULL,NULL,NULL,NULL,NULL),(8,1,'Vani','K M',9,'876544455','Shimoga','Shimoga','vani@gmail.com','876543567','Manjunath','989898989','2024-10-25 10:17:00','4JN17IS121',NULL,NULL,NULL,NULL,NULL,NULL),(9,1,'Savan','Hugar',9,'897655449','Bidar','Bidar','savan@gmail.com','976546789','HUgar','989989899','2024-10-25 10:17:00','4TR22MC184',NULL,NULL,NULL,NULL,NULL,NULL),(10,1,'Naveen','H P',9,'875446778','Chikkaballapura','Chikkaballapura','naveen@gmail.com','987765556','Hp','989898898','2024-10-25 10:17:00','4MD20ME087',NULL,NULL,NULL,NULL,NULL,NULL),(11,1,'Siddalinga','Naik',9,'787879888','Kolar','Kolar','siddu@gmail.com','999999999','Naik','989898989','2024-10-25 10:17:00','4BD16ME088',NULL,NULL,NULL,NULL,NULL,NULL),(12,1,'Harsha','s',9,'787676876','Kunigal','Kunigal','sunitha@gmail.com','898989898','soma','898898989','2024-10-25 10:17:00','4HP20IS088',NULL,NULL,NULL,NULL,NULL,NULL),(13,1,'Karthik','s',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(14,1,'Akhil','K',9,'121313413','Bangalore','Bangalore','akhil@gmail.com','8618624233','Satish','123312414','2024-10-25 10:17:00','1RN21IS012','O positive','','',NULL,NULL,'Male'),(15,1,'Prajwal',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(16,1,'test','student',9,'231512','asdgsdg',NULL,'teststudent@gmail.com','8618624233','sadgsd','123523','2024-11-14 00:00:00',NULL,'A-',NULL,NULL,'sadgasd','1235123',NULL),(17,NULL,'Jacob','Prajwal',5,'1234567891234','Bangalore','Bangalore','jacob@gmail.com','898989898',NULL,NULL,'2001-07-09 00:00:00','4RN23CS108',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `tblstudent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1374,6 +1570,92 @@ LOCK TABLES `technologies` WRITE;
 /*!40000 ALTER TABLE `technologies` DISABLE KEYS */;
 INSERT INTO `technologies` VALUES (1,'java','programming language',_binary '\0'),(2,'python','programming language',_binary '\0'),(3,'c#','programming language',_binary '\0'),(6,'SQL','Database',_binary '\0'),(7,'Angular','Front end Language',_binary '\0'),(8,'Reactjs','Front end language',_binary '\0');
 /*!40000 ALTER TABLE `technologies` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `template`
+--
+
+DROP TABLE IF EXISTS `template`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `template` (
+  `Id` bigint NOT NULL AUTO_INCREMENT,
+  `CategoryId` int DEFAULT NULL,
+  `Name` varchar(145) DEFAULT NULL,
+  `Subject` varchar(245) DEFAULT NULL,
+  `Body` text,
+  `CreatedAt` datetime DEFAULT NULL,
+  `UpdatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `FK_Template_Category_idx` (`CategoryId`),
+  CONSTRAINT `FK_Template_Category` FOREIGN KEY (`CategoryId`) REFERENCES `template_category` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `template`
+--
+
+LOCK TABLES `template` WRITE;
+/*!40000 ALTER TABLE `template` DISABLE KEYS */;
+INSERT INTO `template` VALUES (1,1,'Invite Company','Invitation to Placement','Dear {{companyName}}, we are pleased to invite you to our placement drive at {{collegeName}}.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(2,2,'Notify Student','Apply for Job','<h1>Hello,&nbsp;</h1><h3>a new job opportunity is available for you. Visit <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"http://localhost:4200\">http://localhost:4200</a> to apply!</h3>','2024-11-23 12:00:00','2024-12-07 16:31:33'),(5,2,'Akram','Test','<h1>Test</h1><p>&nbsp;</p>','2024-12-07 17:22:02','2024-12-07 17:22:02'),(7,15,'Offer Letter','Exciting Opportunity: Offer for [Job Title] at [Company Name]','<h1>Dear [Candidate’s Name],</h1><p>I hope this email finds you well. We are thrilled to extend you an offer to join <strong>[Company Name]</strong> as a <strong>[Job Title]</strong>, and we’re confident that your skills and experience will make a significant contribution to our team.</p><p>Please find attached your official offer letter detailing the position, compensation, and other relevant terms and conditions. Below are the highlights of the offer:</p><ul><li><strong>Position:</strong> [Job Title]</li><li><strong>Start Date:</strong> [Start Date]</li><li><strong>Location:</strong> [Office Location] (or Remote/Hybrid as applicable)</li><li><strong>Salary:</strong> ₹[Amount] per annum</li><li><strong>Benefits:</strong> [Brief summary of key benefits, e.g., health insurance, paid time off, etc.]</li></ul><p>To accept this offer, please reply to this email or sign and return the attached letter by <strong>[deadline date]</strong>. If you have any questions or require any clarifications, feel free to reach out to me directly.</p><p>We are excited about the possibility of you joining our dynamic team and contributing to our shared success.</p><p>Looking forward to hearing from you!</p><p>Best regards,<br><strong>[Your Full Name]</strong><br><strong>[Your Job Title]</strong><br><strong>[Company Name]</strong><br><strong>[Contact Information]</strong></p>','2024-12-14 10:40:34','2024-12-14 10:40:34');
+/*!40000 ALTER TABLE `template` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `template_category`
+--
+
+DROP TABLE IF EXISTS `template_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `template_category` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `Name` varchar(105) DEFAULT NULL,
+  `Description` varchar(245) DEFAULT NULL,
+  `CreatedAt` datetime DEFAULT NULL,
+  `UpdatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `template_category`
+--
+
+LOCK TABLES `template_category` WRITE;
+/*!40000 ALTER TABLE `template_category` DISABLE KEYS */;
+INSERT INTO `template_category` VALUES (1,'Company Invitation','Templates for inviting companies','2024-11-23 12:00:00','2024-12-07 09:29:58'),(2,'Student Notification','Templates for notifying students','2024-11-23 12:00:00','2024-11-23 12:00:00'),(3,'Internship Opportunities','Templates for managing and categorizing internship opportunities.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(4,'Campus Recruitment Drives','Templates for organizing and communicating about campus recruitment events.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(5,'Technical Skill Assessments','Templates for sending coding challenges or test invitations.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(6,'Job Offer Letters','Templates for formal job offers.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(7,'Placement Analytics Reports','Templates for generating detailed placement reports.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(8,'Event Communications','Templates for event invitations, reminders, and thank-you notes.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(9,'Rejection Letters','Templates for politely declining candidates.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(10,'Onboarding Guides','Templates for welcoming and guiding new hires.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(11,'Feedback Requests','Templates for collecting feedback from candidates and employers.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(12,'Post-Placement Follow-Ups','Templates for checking in with placed candidates and employers.','2024-11-23 12:00:00','2024-11-23 12:00:00'),(15,'Offer Letter','Offer Letters Templates','2024-12-14 10:31:31','2024-12-14 10:31:31');
+/*!40000 ALTER TABLE `template_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `template_placeholder`
+--
+
+DROP TABLE IF EXISTS `template_placeholder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `template_placeholder` (
+  `Id` bigint NOT NULL AUTO_INCREMENT,
+  `TemplateId` bigint DEFAULT NULL,
+  `Name` varchar(145) DEFAULT NULL,
+  `Description` varchar(245) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `FK_TemplatePlaceholder_Template_idx` (`TemplateId`),
+  CONSTRAINT `FK_TemplatePlaceholder_Template` FOREIGN KEY (`TemplateId`) REFERENCES `template` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `template_placeholder`
+--
+
+LOCK TABLES `template_placeholder` WRITE;
+/*!40000 ALTER TABLE `template_placeholder` DISABLE KEYS */;
+INSERT INTO `template_placeholder` VALUES (1,1,'companyName','Dhruv Compusoft Consultance Pvt Ltd'),(2,1,'collegeName','East West Engineering College'),(3,2,'studentName','Akram Pasha H'),(4,2,'jobPortalLink','http://localhost:4200');
+/*!40000 ALTER TABLE `template_placeholder` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1544,6 +1826,10 @@ LOCK TABLES `userrole` WRITE;
 INSERT INTO `userrole` VALUES (1,'TPC'),(2,'HR'),(3,'Student');
 /*!40000 ALTER TABLE `userrole` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'placement'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1554,4 +1840,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-09  8:35:14
+-- Dump completed on 2024-12-28 11:17:05

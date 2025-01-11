@@ -68,36 +68,6 @@ export class StudentCalendarComponent implements OnInit {
   jobPostingId: number = 0;
   OrgId: number = 0;
   roundsIdForBatchCall: Jobinterviewround[] = [];
-  Events = [
-    {
-      companyName: "Capgemini",
-      jobTitle: "Associate Software Engineer",
-      Round: 3,
-      RoundName: "Technical Round",
-      eventDate: "05-10-2024",
-      timings: "10:00 AM - 12:00 PM",
-      duration: "2 hours",
-    },
-    {
-      companyName: "Accenture",
-      jobTitle: "Software Developer",
-      Round: 1,
-      RoundName: "Test Assesment",
-      eventDate: "05-10-2024",
-      timings: "2:00 PM - 3:30 PM",
-      duration: "1.5 hours",
-    },
-    {
-      companyName: "Google",
-      jobTitle: "QA",
-      Round: 2,
-      RoundName: "Interview-1",
-      eventDate: "05-10-2024",
-      timings: "9:00 AM - 1:00 PM",
-      duration: "4 hours",
-    },
-  ];
-
   events: any[] = [];
 
   calendarEvents = signal<calendarEvent[]>([]);
@@ -198,12 +168,65 @@ export class StudentCalendarComponent implements OnInit {
       console.log(calendarData);
     });
   }
+  // getCalendarData(studentId: number) {
+  //   this.studentCalendarApiService.GetCalendarData(studentId).subscribe({
+  //     next: (response) => {
+  //       console.log(response.value);
+  //       const responseList: calendarEvent[] = response.value.map((x) => ({
+  //         id: x.Id.toString(),
+  //         title: x.JobPostingRound?.Event?.EventType || "",
+  //         start: x.JobPostingRound?.Event?.EventStartDateTime
+  //           ? new Date(x.JobPostingRound.Event.EventStartDateTime)
+  //           : new Date(),
+  //         end: x.JobPostingRound?.Event?.EventEndDateTime
+  //           ? new Date(x.JobPostingRound.Event.EventEndDateTime)
+  //           : new Date(),
+  //         extendedProps: {
+  //           jobPostingId: x.JobPostingRound?.JobPostingId || 0,
+  //           round: x.JobPostingRound?.Id || 0,
+  //           OrgId: x.JobPostingRound?.Event?.OrgId || 0,
+  //         },
+  //       }));
+  //       this.calendarOptions.events = responseList;
+  //       this.calendarEvents.set(responseList);
+  //       this.cdr.markForCheck();
+  //       console.log("calendarEvents:", this.calendarEvents());
+  //     },
+  //     error: (error) => {
+  //       console.error("Error fetching Student details:", error);
+  //     },
+  //   });
+  // }
   getCalendarData(studentId: number) {
     this.studentCalendarApiService.GetCalendarData(studentId).subscribe({
       next: (response) => {
         console.log(response.value);
+        this.events = response.value.map((x) => ({
+          jobTitle: x.JobPostingRound?.JobPosting?.JobRole || "N/A",
+          Round: x.JobPostingRound?.Id || "N/A",
+          RoundName: x.JobPostingRound?.Name || "N/A",
+          eventDate: x.JobPostingRound?.Event?.EventStartDateTime
+            ? new Date(x.JobPostingRound.Event.EventStartDateTime)
+            : null,
+          timings: x.JobPostingRound?.Event
+            ? `${new Date(
+                x.JobPostingRound.Event.EventStartDateTime
+              ).toLocaleTimeString()} - ${
+                x.JobPostingRound.Event.EventEndDateTime
+                  ? new Date(
+                      x.JobPostingRound.Event.EventEndDateTime
+                    ).toLocaleTimeString()
+                  : "N/A"
+              }`
+            : "N/A",
+          duration: this.calculateDuration(
+            x.JobPostingRound?.Event?.EventStartDateTime?.toString() ?? null,
+            x.JobPostingRound?.Event?.EventEndDateTime?.toString() ?? null
+          ),
+        }));
+
+        console.log("Events:", this.events);
         const responseList: calendarEvent[] = response.value.map((x) => ({
-          id: x.Id.toString(),
           title: x.JobPostingRound?.Event?.EventType || "",
           start: x.JobPostingRound?.Event?.EventStartDateTime
             ? new Date(x.JobPostingRound.Event.EventStartDateTime)
@@ -211,20 +234,31 @@ export class StudentCalendarComponent implements OnInit {
           end: x.JobPostingRound?.Event?.EventEndDateTime
             ? new Date(x.JobPostingRound.Event.EventEndDateTime)
             : new Date(),
-          extendedProps: {
-            jobPostingId: x.JobPostingRound?.JobPostingId || 0,
-            round: x.JobPostingRound?.Id || 0,
-            OrgId: x.JobPostingRound?.Event?.OrgId || 0,
-          },
+          jobPostingId: x.JobPostingRound?.JobPostingId || 0,
+          round: x.JobPostingRound?.Id || 0,
+          OrgId: x.JobPostingRound?.Event?.OrgId || 0,
         }));
+
         this.calendarOptions.events = responseList;
         this.calendarEvents.set(responseList);
         this.cdr.markForCheck();
-        console.log("calendarEvents:", this.calendarEvents());
       },
       error: (error) => {
         console.error("Error fetching Student details:", error);
       },
     });
+  }
+
+  calculateDuration(start: string | null, end: string | null): string {
+    if (!start || !end) {
+      return "N/A";
+    }
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const durationMs = endDate.getTime() - startDate.getTime();
+    const durationMinutes = Math.floor(durationMs / 60000);
+    const hours = Math.floor(durationMinutes / 60);
+    const minutes = durationMinutes % 60;
+    return `${hours}h ${minutes}m`;
   }
 }

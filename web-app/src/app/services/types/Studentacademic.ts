@@ -20,6 +20,10 @@ export type Studentacademic = {
   TenthSchoolName: string;
   TwelthSchoolName: string;
   DiplomaCollegeName: string;
+  LinkedinLink: string;
+  Achievements: string;
+  Projects: string;
+  Internship: string;
   TenthStatus: number | null;
   TwelfthStatus: number | null;
   CourseStatus: number | null;

@@ -119,3 +119,19 @@ cdk-overlay-pane {
   transform: scale(1.3);
   transition: 0.3s ease;
 }
+.no-data-row {
+  text-align: center;
+}
+
+.no-data-cell {
+  font-weight: bold;
+  color: gray;
+  display: flex;
+  justify-content: center;
+}
+
+.custom-card-header {
+  background-color: #f0f0f0;
+  padding: 16px; 
+  border-radius: 4px; 
+}

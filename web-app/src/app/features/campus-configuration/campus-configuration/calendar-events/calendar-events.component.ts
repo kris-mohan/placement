@@ -127,8 +127,28 @@ export class CalendarEventsComponent {
       });
     }
   }
+  isDataAvailable(): boolean {
+    return this.dataSource.data && this.dataSource.data.length > 0;
+  }
 
   goBack(): void {
     this.location.back();
+  }
+  exportCalendarEvents() {
+    this.APICalendarEventsService.downloadCalendarevent().subscribe({
+      next: (response) => {
+        const fileName = 'CalendarEvents.xlsx';
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Error downloading the file: ', error);
+      },
+    });
   }
 }

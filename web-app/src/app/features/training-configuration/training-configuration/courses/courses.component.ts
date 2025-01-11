@@ -8,6 +8,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { Trainingcourse } from "./courses-module";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { TrainingCourseAPIService } from "./api.course";
+import * as XLSX from "xlsx";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -79,6 +80,7 @@ export class CoursesComponent {
       },
       error: (error) => {
         console.error("Error loading Training Course", error);
+        this.dataSource.data = [];
       },
     });
   }
@@ -106,5 +108,22 @@ export class CoursesComponent {
         },
       });
     }
+  }
+  isDataAvailable(): boolean {
+    return this.dataSource.data && this.dataSource.data.length > 0;
+  }
+  exportToExcel(): void {
+    const exportData = this.dataSource.data.map((item) => {
+      return {
+        Name: item.Name,
+        Description: item.Description,
+        ValidTill: item.ValidTill,
+        ValidFrom: item.ValidFrom,
+      };
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Calendar Events");
+    XLSX.writeFile(wb, "calendar_events.xlsx");
   }
 }

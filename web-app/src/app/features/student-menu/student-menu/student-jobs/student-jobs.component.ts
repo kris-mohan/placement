@@ -145,6 +145,10 @@ export class StudentJobsComponent {
         console.log(data);
 
         this.JobPostingsData.set(data);
+        data.forEach(job => {
+          console.log(`Job ID: ${job.Id}, Status: ${job.Status?.Name}`);
+        });
+  
         // this.filteredJobTypes = Array.from(
         //   new Set(
         //     data

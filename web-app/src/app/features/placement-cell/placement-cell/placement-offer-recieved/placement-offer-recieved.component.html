@@ -185,7 +185,13 @@
           <mat-icon>cloud_upload</mat-icon>
           Upload
         </button>
-        <button mat-fab extended class="matbutton-download">
+        <button
+          mat-fab
+          extended
+          class="matbutton-download"
+          (click)="downloadExcel()"
+          [disabled]="!isDataAvailable()"
+        >
           <mat-icon>file_download</mat-icon>Excel
         </button>
         <button mat-fab extended class="matbutton-download">
@@ -268,13 +274,10 @@
 
           <div>
             <img
-              s
-              rc="../../../../../assets/images/Softserve-logo1.png"
-              alt="Company Logo"
-              class="company-logo"
-              height="70%"
-              width="auto"
-              style="margin-left: 150px"
+              [src]="job.JobPosting.Company?.LogoPath"
+              alt="Company-Logo"
+              class="company-Logo"
+              style="max-width: 100px; max-height: 50px; object-fit: contain"
             />
           </div>
         </div>

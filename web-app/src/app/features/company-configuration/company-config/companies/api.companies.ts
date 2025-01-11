@@ -7,7 +7,9 @@ import { HttpParams } from '@angular/common/http';
 import {
   Companydatum,
   PostCompanydatum,
-} from 'src/app/services/types/Companydatum';
+} from "src/app/services/types/Companydatum";
+import { TemplateCategory } from "src/app/services/types/TemplateCategory";
+import { ODataEntity } from "src/app/services/types/OData";
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +19,27 @@ export class CompanyAPIService {
 
   public loadCompanyData(): Observable<ODataResponse<any>> {
     return this.apiHttpService.get(
-      '/Companydatum?filter=Isdeleted eq 0& $expand= Companyindustries($expand=Industry)'
+      "/Companydatum?filter=Isdeleted eq 0& $expand= Companyindustries($expand=Industry)"
+    );
+  }
+
+  public GetCompaniesData(StudentId: number): Observable<ODataResponse<any>> {
+    return this.apiHttpService.get(
+      `/JobpostingsEligiblestudent?$filter=StudentId eq ${StudentId} and StatusId eq 5 &$expand=Student($select=FirstName,LastName;$expand=JobpostStudentrounds($expand=JobPostingRound($select=Name))),JobPosting($select = JobRole,CompanyId,Salary,Location,PostedDate; expand=Company($select=Name,LogoPath))`
+    );
+  }
+
+  GetTemplate(): Observable<ODataEntity<TemplateCategory[]>> {
+    return this.apiHttpService.get<ODataEntity<TemplateCategory[]>>(
+      `/TemplateCategory?$filter=contains(Name, 'offer ')&$expand=Templates`
+    );
+  }
+
+  public GetJobPostingRounds(
+    StudentId: number
+  ): Observable<ODataResponse<any>> {
+    return this.apiHttpService.get(
+      `/JobpostingsEligiblestudent?$filter=StudentId eq ${StudentId} and StatusId eq 5 &$expand=Student($select=FirstName,LastName;$expand=JobpostStudentrounds($expand=JobPostingRound($select=Name))),JobPosting($select = JobRole,CompanyId,Salary,Location,PostedDate; expand=Company($select=Name,LogoPath))`
     );
   }
 

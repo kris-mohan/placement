@@ -180,6 +180,8 @@ static IEdmModel GetEdmModel()
     modelBuilder.EntitySet<Email>("Email");
     modelBuilder.EntitySet<Trainingfeedbackque>("Trainingfeedbackques");
     modelBuilder.EntitySet<Trainingfeedbackre>("Trainingfeedbackres");
+        modelBuilder.EntitySet<Notification>("Notification");
+
 
     return modelBuilder.GetEdmModel();
 }

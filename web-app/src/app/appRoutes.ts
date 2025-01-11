@@ -33,7 +33,6 @@ import { AddEditRoundsComponent } from './features/company-menu/company-job-deta
 import { TestInterviewsComponent } from './features/company-menu/test-interviews/test-interviews.component';
 import { ScheduledJobsListComponent } from './features/company-menu/test-interviews/scheduled-jobs-list/scheduled-jobs-list.component';
 import { StudentsListComponent } from './features/company-menu/test-interviews/students-list/students-list.component';
-import { StudentResultInformation } from './features/company-menu/test-interviews/student-result-information/student-result-information.component';
 import { AddEditIndustryComponent } from './features/company-configuration/company-config/industry/add-edit-industry/add-edit-industry.component';
 import { AddEditcompanyIndustryComponent } from './features/company-configuration/company-config/industry-technology/add-edit-industry-technology/add-edit-company-industry.component';
 import { FeedbackSurveyComponent } from './features/placement-cell/placement-cell/feedback-survey/feedback-survey.component';
@@ -80,6 +79,7 @@ import { StudentOfferRecievedComponent } from './features/student-menu/student-m
 
 import { AddRoundsModalComponent } from './features/company-menu/company-job-details/test-rounds/add-rounds-modal/add-rounds-modal.component';
 import { TemplateGeneratorComponent } from './features/template-generator/template-generator.component';
+import { StudentResultInformation } from "./features/company-menu/test-interviews/student-result-information/student-result-information.component";
 
 import { IndentrequirementplacementComponent } from './features/indentrequirementplacement/indentrequirementplacement.component';
 import { IndentplacementComponent } from './features/indentplacement/indentplacement.component';
@@ -359,7 +359,7 @@ const appRoutes: Routes = [
         component: InterviewStudentComponent,
       },
       {
-        path: 'interview/interview-students-list/:id',
+        path: 'interview/interview-students-list/:jobId/:interviewRoundId',
         component: InterviewStudentsListComponent,
       },
       {

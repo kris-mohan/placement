@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Placement\" />
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\UploadedFiles\" />
   </ItemGroup>

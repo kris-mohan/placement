@@ -14,7 +14,6 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { MatDialog } from "@angular/material/dialog";
 import { map, Observable, of, startWith } from "rxjs";
 import { FormControl, FormGroup } from "@angular/forms";
-import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { CompanyAPIService } from "src/app/features/company-configuration/company-config/companies/api.companies";
@@ -30,7 +29,6 @@ import { provideNativeDateAdapter } from "@angular/material/core";
 import { Companydatum } from "src/app/services/types/Companydatum";
 import { PlacementCompanyApiService } from "./PlacementCompanyApiService";
 import { getCompanyIndustryTypes } from "./placement-company-module";
-import { Companyindustry } from "src/app/services/types/Companyindustry";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { CampusCompany } from "src/app/services/types/CampusCompany";
 import { CompanyAddtionlfiltersComponent } from "../company-addtionlfilters/company-addtionlfilters.component";
@@ -270,6 +268,7 @@ export class PlacementCompanyComponent {
           );
           console.log(companies);
           this.campusCompanyList.set(companies);
+          
           this.applyFilters();
           // this.filteredCompany = this.companyControl.valueChanges.pipe(
           //   startWith(""),
@@ -281,24 +280,11 @@ export class PlacementCompanyComponent {
         },
       });
   };
-  exportToExcel() {
+  isDataAvailable(): boolean {
     const companies = this.campusCompanyList();
-    const exportData = companies.map((companies: Companydatum) => ({
-      "Company Name": companies.Name,
-      Email: companies.Email,
-      URL: companies.Url,
-      "Phone No": companies.PhoneNumber,
-      Vacancies: companies.Jobpostings.length,
-      "Company Size": companies.CompanySize,
-      Location: companies.Address,
-    }));
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { "Company Details": worksheet },
-      SheetNames: ["Company Details"],
-    };
-    XLSX.writeFile(workbook, "CompanyDetails.xlsx");
+    return companies && companies.length > 0;
   }
+
   applyFilters() {
     const locationFilter = this.searchLocation.value || "";
     const selectedIndustries = this.industryControl.value || [];
@@ -380,14 +366,15 @@ export class PlacementCompanyComponent {
     return this.companiesList().filter(
       (company) =>
         company.Name.toLowerCase().includes(filterValue) &&
-        !this._isCompanyInCampusList(company)
+        company.Name.trim() !== "" &&
+        !this._isCompanyInCampusList(company) &&
+        company.Name.toLowerCase() !== value.toLowerCase()
     );
   }
 
-  // Helper function to check if the company is in campusCompanyList
   private _isCompanyInCampusList(company: Companydatum): boolean {
     return this.campusCompanyList().some(
-      (campusCompany) => campusCompany.Id === company.Id // Assuming each company has a unique Id
+      (campusCompany) => campusCompany.Id === company.Id
     );
   }
 
@@ -404,13 +391,21 @@ export class PlacementCompanyComponent {
 
   openCompanyModalPopup(company: any): void {
     console.log(company);
-    this.dialog.open(CompanyDetailDialogModalComponent, {
-      width: "1200px",
-      height: "620px",
-      data: company,
-    });
+    this.dialog
+      .open(CompanyDetailDialogModalComponent, {
+        width: "1200px",
+        height: "620px",
+        data: company,
+      })
+      .afterClosed()
+      .subscribe(() => {
+        this.resetSearchField();
+        this.getAllCompanyCampuses(); 
+      });
   }
-
+  resetSearchField(): void {
+    this.companyControl.setValue("");
+  }
   loadCompanies() {
     this.placementCompanyApiService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
@@ -687,5 +682,26 @@ export class PlacementCompanyComponent {
       return companyMatch && industryMatches;
     });
     this.filteredCompanyData.set(filtered);
+  }
+  exportExcel(): void {
+    console.log("exportExcel");
+    this.placementCompanyApiService
+      .downloadCompaniesData(this.OrgId)
+      .subscribe({
+        next: (response: Blob) => {
+          const blob = new Blob([response], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          const downloadUrl = window.URL.createObjectURL(blob);
+          const anchor = document.createElement("a");
+          anchor.href = downloadUrl;
+          anchor.download = "CampusCompanies.xlsx";
+          anchor.click();
+          window.URL.revokeObjectURL(downloadUrl);
+        },
+        error: (err) => {
+          console.error("Error downloading file:", err);
+        },
+      });
   }
 }

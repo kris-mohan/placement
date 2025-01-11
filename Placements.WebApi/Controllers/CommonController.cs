@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using Placements.DataAccess.Placement.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Placements.WebApi.Controllers
 {
@@ -748,5 +749,446 @@ namespace Placements.WebApi.Controllers
         }
 
         #endregion
+
+        #region excel exports
+
+        #region Company
+        [HttpGet("Export-Companies")]
+        public async Task<IActionResult> GenerateCompaniesDataExcel(long campusId)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            try
+            {
+                var campusCompanies = await _context.CampusCompanies
+                    .Where(cc => cc.CampusId == campusId)
+                    .Include(cc => cc.Company)
+                    .ThenInclude(c => c.Jobpostings)
+                    .Include(cc => cc.Company)
+                    .ThenInclude(ci => ci.Companyindustries)
+                   .ThenInclude(i => i.Industry)
+                    .ToListAsync();
+                using (var package = new ExcelPackage())
+                {
+                    var worksheet = package.Workbook.Worksheets.Add("Campus Companies");
+                    worksheet.Cells[1, 1].Value = "Company Name";
+                    worksheet.Cells[1, 2].Value = "Email";
+                    worksheet.Cells[1, 3].Value = "URL";
+                    worksheet.Cells[1, 4].Value = "Phone Number";
+                    worksheet.Cells[1, 5].Value = "Industry Types";
+                    worksheet.Cells[1, 6].Value = "Vacancies";
+                    worksheet.Cells[1, 7].Value = "Company Size";
+                    worksheet.Cells[1, 8].Value = "Location";
+                    int row = 2;
+                    foreach (var campusCompany in campusCompanies)
+                    {
+                        var company = campusCompany.Company;
+                        worksheet.Cells[row, 1].Value = company.Name;
+                        worksheet.Cells[row, 2].Value = company.Email;
+                        worksheet.Cells[row, 3].Value = company.Url;
+                        worksheet.Cells[row, 4].Value = company.PhoneNumber;
+                        worksheet.Cells[row, 5].Value = string.Join(", ", company.Companyindustries.Select(ci => ci.Industry.Type));
+                        worksheet.Cells[row, 6].Value = company.Jobpostings.Sum(jp => jp.Vacancies);
+                        worksheet.Cells[row, 7].Value = company.CompanySize;
+                        worksheet.Cells[row, 8].Value = company.Address;
+                        row++;
+                    }
+                    worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+                    var fileName = "CampusCompanies.xlsx";
+                    var fileContents = package.GetAsByteArray();
+                    return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "An error occurred while generating the Excel file.", exception = ex.Message });
+            }
+        }
+
+        [HttpGet("ExportCompanyJobposting")]
+        public IActionResult ExportToExcel(int CompanyId)
+        {
+            try
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                var companyData = _context.Companydata
+                    .Where(c => c.Id == CompanyId && c.IsDeleted == 0)
+                    .Include(c => c.Jobpostings)
+                    .ThenInclude(c => c.JobpostingSkills)
+                    .ThenInclude(js => js.Skill.SkillType)
+                    .FirstOrDefault();
+
+                if (companyData == null)
+                    return NotFound("Company data not found");
+                using (var package = new ExcelPackage())
+                {
+                    var worksheet = package.Workbook.Worksheets.Add("Job Details");
+                    worksheet.Cells[1, 1].Value = "Job Role";
+                    worksheet.Cells[1, 2].Value = "Job Type";
+                    worksheet.Cells[1, 3].Value = "Salary";
+                    worksheet.Cells[1, 4].Value = "Location";
+                    worksheet.Cells[1, 5].Value = "Shift";
+                    worksheet.Cells[1, 6].Value = "Mode of Work";
+                    worksheet.Cells[1, 7].Value = "No. of vacancies";
+                    worksheet.Cells[1, 8].Value = "Drive Date";
+                    worksheet.Cells[1, 9].Value = "Skills";
+                    worksheet.Cells[1, 10].Value = "No of applicants Applied";
+                    worksheet.Cells[1, 11].Value = "Number of applicants Rejected";
+
+                    var row = 2;
+                    foreach (var job in companyData.Jobpostings)
+                    {
+                        worksheet.Cells[row, 1].Value = job.JobRole;
+                        worksheet.Cells[row, 2].Value = job.JobType;
+                        worksheet.Cells[row, 3].Value = job.Salary;
+                        worksheet.Cells[row, 4].Value = job.Location;
+                        worksheet.Cells[row, 5].Value = job.Shift;
+                        worksheet.Cells[row, 6].Value = job.ModeOfWork;
+                        worksheet.Cells[row, 7].Value = job.Vacancies;
+                        worksheet.Cells[row, 8].Value = job.DriveDate.ToString();
+                        worksheet.Cells[row, 9].Value = string.Join(", ", job.JobpostingSkills.Select(s => s.Skill.SkillType.Name));
+                        worksheet.Cells[row, 10].Value = job.Vacancies;
+                        worksheet.Cells[row, 11].Value = job.Vacancies;
+                        row++;
+                    }
+
+                    worksheet.Cells.AutoFitColumns();
+                    var fileContents = package.GetAsByteArray();
+                    var fileName = "JobDetails.xlsx";
+                    return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        #endregion
+
+        #region Jobposting
+        [HttpGet("Export-Jobpostings")]
+        public async Task<IActionResult> ExportJobPostingsToExcel()
+        {
+            try
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                var jobPostings = await _context.Jobpostings
+                    .Include(j => j.JobpostingSkills)
+                    .ThenInclude(js => js.Skill)
+                    .ThenInclude(s => s.SkillType)
+                    .Select(j => new
+                    {
+                        j.Id,
+                        j.JobRole,
+                        j.JobType,
+                        j.Salary,
+                        j.Location,
+                        j.ModeOfWork,
+                        j.Vacancies,
+                        j.ValidFrom,
+                        j.ValidTill,
+                        j.DriveDate,
+                        j.MinimumYearExperience,
+                        j.MaximumYearExperience,
+                        Skills = string.Join(", ", j.JobpostingSkills.Select(js => js.Skill.SkillType.Name))
+                    })
+                    .ToListAsync();
+                using (var package = new ExcelPackage())
+                {
+                    var worksheet = package.Workbook.Worksheets.Add("Job Postings");
+                    worksheet.Cells[1, 1].Value = "Job Role";
+                    worksheet.Cells[1, 2].Value = "Job Type";
+                    worksheet.Cells[1, 3].Value = "Salary";
+                    worksheet.Cells[1, 4].Value = "Location";
+                    worksheet.Cells[1, 5].Value = "Mode of Work";
+                    worksheet.Cells[1, 6].Value = "Vacancies";
+                    worksheet.Cells[1, 7].Value = "Valid From";
+                    worksheet.Cells[1, 8].Value = "Valid Till";
+                    worksheet.Cells[1, 9].Value = "Drive Date";
+                    worksheet.Cells[1, 10].Value = "Experience (Years)";
+                    worksheet.Cells[1, 11].Value = "Skills";
+                    int row = 2;
+                    foreach (var job in jobPostings)
+                    {
+                        worksheet.Cells[row, 1].Value = job.JobRole;
+                        worksheet.Cells[row, 2].Value = job.JobType;
+                        worksheet.Cells[row, 3].Value = job.Salary;
+                        worksheet.Cells[row, 4].Value = job.Location;
+                        worksheet.Cells[row, 5].Value = job.ModeOfWork;
+                        worksheet.Cells[row, 6].Value = job.Vacancies;
+                        worksheet.Cells[row, 7].Value = job.ValidFrom.ToString();
+                        worksheet.Cells[row, 8].Value = job.ValidTill.ToString();
+                        worksheet.Cells[row, 9].Value = job.DriveDate.ToString();
+                        worksheet.Cells[row, 10].Value = $"{job.MinimumYearExperience}-{job.MaximumYearExperience}";
+                        worksheet.Cells[row, 11].Value = job.Skills;
+                        row++;
+                    }
+                    worksheet.Cells.AutoFitColumns();
+                    var fileContents = package.GetAsByteArray();
+                    var fileName = "JobPostings.xlsx";
+                    return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Error exporting data: " + ex.Message });
+            }
+        }
+        #endregion
+
+        #region offermanagement
+        [HttpGet("ExportOffers")]
+        public async Task<IActionResult> ExportOffers(long companyId)
+        {
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var offers = await _context.JobpostingSelectedstudents
+                .Where(o => o.JobPosting.CompanyId == companyId)
+                .Include(o => o.Student)
+                .Include(o => o.JobPosting)
+                .Select(o => new
+                {
+                    o.Id,
+                    StudentName = o.Student.FirstName + " " + o.Student.LastName,
+                    Position = o.JobPosting.JobRole,
+                    OfferStatus = o.HasAcceptedOffer == null ? "Pending" : o.HasAcceptedOffer == 1 ? "Accepted" : "Rejected",
+                    OfferLetterSentDate = o.OfferLetterSentDate,
+                    OfferLetterExpiryDate = o.OfferLetterExpiryDate
+                })
+                .ToListAsync();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Offers");
+                worksheet.Cells[1, 1].Value = "ID";
+                worksheet.Cells[1, 2].Value = "Student Name";
+                worksheet.Cells[1, 3].Value = "Position";
+                worksheet.Cells[1, 4].Value = "Status";
+                worksheet.Cells[1, 5].Value = "Offer Letter Sent Date";
+                worksheet.Cells[1, 6].Value = "Offer Letter Expiry Date";
+                for (int i = 0; i < offers.Count; i++)
+                {
+                    var offer = offers[i];
+                    worksheet.Cells[i + 2, 1].Value = offer.Id;
+                    worksheet.Cells[i + 2, 2].Value = offer.StudentName;
+                    worksheet.Cells[i + 2, 3].Value = offer.Position;
+                    worksheet.Cells[i + 2, 4].Value = offer.OfferStatus;
+                    worksheet.Cells[i + 2, 5].Value = offer.OfferLetterSentDate?.ToString("dd/MM/yyyy");
+                    worksheet.Cells[i + 2, 6].Value = offer.OfferLetterExpiryDate?.ToString("dd/MM/yyyy");
+                }
+
+                worksheet.Cells.AutoFitColumns();
+
+                var fileContents = package.GetAsByteArray();
+                return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Offers.xlsx");
+            }
+        }
+        #endregion
+
+        #region Indent Form
+
+        [HttpGet("ExportIndentData")]
+        public async Task<IActionResult> ExportIndentData()
+        {
+            return await GenerateIndentExcel();
+        }
+
+        private async Task<FileContentResult> GenerateIndentExcel()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var indents = await _context.IndentForms
+                .Select(indent => new
+                {
+                    indent.CompanyName,
+                    indent.ContactPersonName,
+                    indent.ContactPersonDesignation,
+                    indent.Email,
+                    indent.PhoneNumber,
+                }).ToListAsync();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Indent Data");
+                worksheet.Cells[1, 1].Value = "Company Name";
+                worksheet.Cells[1, 2].Value = "Contact PersonName";
+                worksheet.Cells[1, 3].Value = "Designation";
+                worksheet.Cells[1, 4].Value = "Email";
+                worksheet.Cells[1, 5].Value = "Phone Number";
+                for (int i = 0; i < indents.Count; i++)
+                {
+                    worksheet.Cells[i + 2, 1].Value = indents[i].CompanyName;
+                    worksheet.Cells[i + 2, 2].Value = indents[i].ContactPersonName;
+                    worksheet.Cells[i + 2, 3].Value = indents[i].ContactPersonDesignation;
+                    worksheet.Cells[i + 2, 4].Value = indents[i].Email;
+                    worksheet.Cells[i + 2, 5].Value = indents[i].PhoneNumber;
+
+                }
+                worksheet.Cells.Style.WrapText = true;
+                worksheet.Cells.AutoFitColumns();
+
+                var fileName = "IndentData.xlsx";
+                var fileContents = package.GetAsByteArray();
+
+                return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+        #endregion
+
+        #region Student
+        [HttpGet("ExportEligibleStudents")]
+        public async Task<IActionResult> ExportEligibleStudents()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var students = await _context.Tblstudents
+                .Include(s => s.Batch)
+                .Include(s => s.Studentacademics)
+                    .ThenInclude(a => a.Course)
+                .Select(s => new
+                {
+                    StudentName = s.FirstName,
+                    Batch = s.Batch.Name,
+                    CGPA = s.Studentacademics.Any() ? s.Studentacademics.First().Cgpa : null,
+                    Branch = s.Studentacademics.Any() ? s.Studentacademics.First().Course.FullForm : null,
+                    Status = "Pending",
+                    ApplicationApprovalStatus = "Pending"
+                })
+                .ToListAsync();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Eligible Students");
+                worksheet.Cells[1, 1].Value = "Student Name";
+                worksheet.Cells[1, 2].Value = "Batch";
+                worksheet.Cells[1, 3].Value = "CGPA";
+                worksheet.Cells[1, 4].Value = "Branch";
+                worksheet.Cells[1, 5].Value = "Status";
+                worksheet.Cells[1, 6].Value = "Application Approval Status";
+                for (int i = 0; i < students.Count; i++)
+                {
+                    worksheet.Cells[i + 2, 1].Value = students[i].StudentName;
+                    worksheet.Cells[i + 2, 2].Value = students[i].Batch;
+                    worksheet.Cells[i + 2, 3].Value = students[i].CGPA;
+                    worksheet.Cells[i + 2, 4].Value = students[i].Branch;
+                    worksheet.Cells[i + 2, 5].Value = students[i].Status;
+                    worksheet.Cells[i + 2, 6].Value = students[i].ApplicationApprovalStatus;
+                }
+
+                worksheet.Cells.AutoFitColumns();
+                var fileContents = package.GetAsByteArray();
+                return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "EligibleStudents.xlsx");
+            }
+        }
+
+        #endregion
+
+        #region Offer Recieved
+
+        [HttpGet("ExportOfferRecieved")]
+        public async Task<IActionResult> ExportJobPostingsSelectedStudents()
+        {
+            return await GenerateJobPostingsSelectedStudentsExcel();
+        }
+
+        private async Task<FileContentResult> GenerateJobPostingsSelectedStudentsExcel()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+           var jobPostings = await _context.JobpostingSelectedstudents
+               .Include(j => j.Student)
+                  .ThenInclude(s => s.Batch)
+               .Include(j => j.Student)
+                  .ThenInclude(s => s.Studentacademics)
+               .ThenInclude(sa => sa.Course)
+                   .Include(j => j.Student)
+               .ThenInclude(s => s.StudentSkills)
+                   .ThenInclude(ss => ss.Skill)
+               .Include(j => j.JobPosting)
+                   .ThenInclude(jp => jp.Company)
+               .ThenInclude(c => c.Companyindustries)
+                   .ThenInclude(ci => ci.Industry)
+               .ToListAsync();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("JobPostings Selected Students");
+                worksheet.Cells[1, 1].Value = "Student Name";
+                worksheet.Cells[1, 2].Value = "Roll No";
+                worksheet.Cells[1, 3].Value = "Batch";
+                worksheet.Cells[1, 4].Value = "Course";
+                worksheet.Cells[1, 5].Value = "Company Name";
+                worksheet.Cells[1, 6].Value = "Job Role";
+                worksheet.Cells[1, 7].Value = "Industry Type";
+                worksheet.Cells[1, 8].Value = "Skills";
+
+                int row = 2;
+                foreach (var item in jobPostings)
+                {
+                    worksheet.Cells[row, 1].Value = $"{item.Student?.FirstName ?? "N/A"} {item.Student?.LastName ?? "N/A"}";
+                    worksheet.Cells[row, 2].Value = item.Student?.RollNo ?? "N/A";
+                    worksheet.Cells[row, 3].Value = item.Student?.Batch?.Name ?? "N/A";
+                    worksheet.Cells[row, 4].Value = item.Student?.Studentacademics?.FirstOrDefault()?.Course?.FullForm ?? "N/A";
+                    worksheet.Cells[row, 5].Value = item.JobPosting?.Company?.Name ?? "N/A";
+                    worksheet.Cells[row, 6].Value = item.JobPosting?.JobRole ?? "N/A";
+                    worksheet.Cells[row, 7].Value = string.Join(", ", item.JobPosting?.Company?.Companyindustries?.Select(ci => ci.Industry?.Type) ?? new List<string>()) ?? "N/A";
+                    worksheet.Cells[row, 8].Value = string.Join(", ", item.Student?.StudentSkills?.Select(ss => ss.Skill?.Name) ?? new List<string>());
+
+                    row++;
+                }
+
+                worksheet.Cells.AutoFitColumns();
+                var fileName = "JobPostings_Selected_Students.xlsx";
+                var fileContents = package.GetAsByteArray();
+                return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+        #endregion
+
+        #region CampusCalendarEvents
+
+        [HttpGet("ExportCampusCalendarEvents")]
+        public async Task<IActionResult> ExportCalendarEvents()
+        {
+            return await GenerateCalendarEventsExcel();
+        }
+
+        private async Task<FileContentResult> GenerateCalendarEventsExcel()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var calendarEvents = await _context.Calendarevents
+                .Where(e => e.IsDeleted == 0)
+                .Include(o => o.Org)
+                .Include(c => c.Company)
+                .ToListAsync();
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Calendar Events");
+                worksheet.Cells[1, 1].Value = "Start Date";
+                worksheet.Cells[1, 2].Value = "End Date";
+                worksheet.Cells[1, 3].Value = "Event Type";
+                worksheet.Cells[1, 4].Value = "Description";
+                worksheet.Cells[1, 5].Value = "Org Name";
+                worksheet.Cells[1, 6].Value = "Company Name";
+                int row = 2;
+                foreach (var eventItem in calendarEvents)
+                {
+                    worksheet.Cells[row, 1].Value = eventItem.EventStartDateTime.ToString();
+                    worksheet.Cells[row, 2].Value = eventItem.EventEndDateTime.ToString();
+                    worksheet.Cells[row, 3].Value = eventItem.EventType;
+                    worksheet.Cells[row, 4].Value = eventItem.EventDescription;
+                    worksheet.Cells[row, 5].Value = eventItem.Org != null ? eventItem.Org.CollegeName : "N/A";
+                    worksheet.Cells[row, 6].Value = eventItem.Company != null ? eventItem.Company.Name : "N/A";
+                    row++;
+                }
+                worksheet.Cells.AutoFitColumns();
+                var fileName = "CalendarEvents.xlsx";
+                var fileContents = package.GetAsByteArray();
+                return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
     }
 }

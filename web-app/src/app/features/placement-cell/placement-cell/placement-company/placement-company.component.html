@@ -72,7 +72,7 @@
                 <button
                   mat-button
                   mat-dialog-close
-                  (click)=" resetLocationSelection()"
+                  (click)="resetLocationSelection()"
                 >
                   Reset
                 </button>
@@ -157,7 +157,8 @@
           mat-fab
           extended
           class="matbutton-download"
-          (click)="exportToExcel()"
+          (click)="exportExcel()"
+          [disabled]="!isDataAvailable()"
         >
           <mat-icon>file_download</mat-icon>Excel
         </button>
@@ -218,11 +219,16 @@
     </div>
   </mat-card-header>
 
-  <mat-card-content
-    fxLayout="row wrap"
-    fxLayoutAlign="start stretch"
-    class="mat-card-content"
-  >
+  <mat-card-content>
+    <div class="no-data-cell">
+      <tr
+        *ngIf="!dataSource || dataSource.data.length === 0"
+        class="no-data-cell"
+      >
+        <td [attr.colspan]="displayedColumns.length">No data available</td>
+      </tr>
+    </div>
+
     <div
       *ngFor="let company of filteredCompanyData()"
       fxFlex="100%"

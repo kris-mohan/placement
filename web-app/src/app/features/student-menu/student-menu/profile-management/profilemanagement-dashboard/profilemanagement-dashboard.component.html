@@ -52,8 +52,15 @@
       </mat-card-content>
     </mat-card>
     <div class="image-container">
-      <img [src]="profilePicUrl" alt="Student Photo" class="student-photo" />
-    </div>
+      <ng-container *ngIf="profilePicUrl; else nameIcon">
+        <img [src]="profilePicUrl" alt="Student Photo" class="student-photo" />
+      </ng-container>
+      <ng-template #nameIcon>
+        <div class="name-icon">
+          {{ StudentDataSource()[0]?.FirstName?.charAt(0) || 'N' | uppercase }}
+        </div>
+      </ng-template>      
+    </div>    
   </div>
   <div class="bottom-cards">
     <mat-card class="education-details-card">

@@ -11,6 +11,7 @@ import { SweetAlertService } from 'src/app/services/sweet-alert-service/sweet-al
 import { Trainingcourse } from 'src/app/services/types/Trainingcourse';
 import { MatDialog } from '@angular/material/dialog';
 import { SendMeetingLinkComponent } from '../send-meeting-link/send-meeting-link.component';
+import * as XLSX from "xlsx";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -161,5 +162,26 @@ export class SchedulesComponent {
         },
       });
     }
+  }
+  isDataAvailable(): boolean {
+    return this.dataSource.data && this.dataSource.data.length > 0;
+  }
+  exportToExcel(): void {
+    const exportData = this.dataSource.data.map((item) => {
+      return {
+        Id: item.Id,
+        "Schedule Type": item.ScheduleType,
+        "Start Date": item.StartDate,
+        "End Date": item.EndDate,
+        "Company Id": item.CompanyId,
+        "School Id": item.SchoolId,
+        "Course Id": item.CourseId,
+        "Trainer Id": item.TrainerId,
+      };
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Calendar Events");
+    XLSX.writeFile(wb, "calendar_events.xlsx");
   }
 }

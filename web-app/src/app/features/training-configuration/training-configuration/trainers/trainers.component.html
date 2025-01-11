@@ -11,7 +11,13 @@
           </div>
         </div>
         <div class="example-button-container">
-          <button mat-fab extended class="matbutton-download">
+          <button
+            mat-fab
+            extended
+            class="matbutton-download"
+            (click)="exportToExcel()"
+            [disabled]="!isDataAvailable()"
+          >
             <mat-icon>file_download</mat-icon>Excel
           </button>
           <button mat-fab extended class="matbutton-download">
@@ -31,7 +37,12 @@
     </div>
   </mat-card-header>
   <mat-card-content>
-    <table mat-table [dataSource]="TrainerDataSource" class="mat-elevation-z8">
+    <table
+      mat-table
+      *ngIf="TrainerDataSource"
+      [dataSource]="TrainerDataSource"
+      class="mat-elevation-z8"
+    >
       <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
         <th mat-header-cell *matHeaderCellDef>
           <ng-container [ngSwitch]="column.key">
@@ -64,5 +75,14 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <br />
+    <div class="no-data-cell">
+      <tr
+        *ngIf="!TrainerDataSource || TrainerDataSource.data.length === 0"
+        class="no-data-row"
+      >
+        <td [attr.colspan]="displayedColumns.length">No data available</td>
+      </tr>
+    </div>
   </mat-card-content>
 </mat-card>

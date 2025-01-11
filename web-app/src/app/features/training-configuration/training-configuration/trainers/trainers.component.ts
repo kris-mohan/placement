@@ -7,6 +7,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { TrainerAPIService } from "./api.trainer";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
 import { Trainer } from "src/app/services/types/Trainer";
+import * as XLSX from "xlsx";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -87,6 +88,7 @@ export class TrainersComponent {
       this.TrainerDataSource.data = data;
     } catch (error) {
       console.error("Error fetching company details:", error);
+
     }
   }
 
@@ -115,8 +117,28 @@ export class TrainersComponent {
             "An unexpected error occurred while deleting the Trainer."
           );
           console.error("Error deleting Trainer:", error);
+
         },
       });
     }
+  }
+  isDataAvailable(): boolean {
+    return (
+      this.TrainerDataSource.data && this.TrainerDataSource.data.length > 0
+    );
+  }
+  exportToExcel(): void {
+    const exportData = this.TrainerDataSource.data.map((item) => {
+      return {
+        Id: item.Id,
+        Name: item.Name,
+        Email: item.Email,
+        PhoneNumber: item.PhoneNumber,
+      };
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Calendar Events");
+    XLSX.writeFile(wb, "calendar_events.xlsx");
   }
 }

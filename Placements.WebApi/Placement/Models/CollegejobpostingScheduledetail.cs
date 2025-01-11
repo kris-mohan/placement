@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Placements.WebApi.Placement.Models;
+
+public partial class CollegejobpostingScheduledetail
+{
+    public long Id { get; set; }
+
+    public string? Category { get; set; }
+
+    public string? Key { get; set; }
+
+    public string? Value { get; set; }
+}

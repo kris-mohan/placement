@@ -56,7 +56,7 @@ export class InterviewStudentsListComponent implements OnInit {
       .observe("(min-width: 800px)")
       .pipe(map(({ matches }) => (matches ? "horizontal" : "vertical")));
   }
-
+  displayedColumns: string[] = ["studentName", "branch", "batch", "status"];
   ngOnInit(): void {
     this.JobPostingId = this.route.snapshot.paramMap.get("jobId");
     this.JobInterviewRoundId =
