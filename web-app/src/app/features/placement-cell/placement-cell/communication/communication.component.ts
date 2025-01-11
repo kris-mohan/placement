@@ -4,6 +4,8 @@ import { FormsModule } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { CreateMessageComponent } from "./create-message/create-message.component";
+import { GroupMembersComponent } from "./group-members/group-members.component";
+
 import { CreateGroupComponent } from "./create-group/create-group.component";
 import { CommuicationApiService } from "./communicationApi";
 import { Messages, TransformedChat } from "src/app/services/types/Messages";
@@ -18,101 +20,124 @@ import { GroupService } from "src/app/services/refresh/groupService";
   styleUrls: ["./communication.component.css"],
 })
 export class CommunicationComponent {
-  constructor(private communicationApiService: CommuicationApiService,private groupService: GroupService) {}
+  CampusId: number;
+
+  constructor(
+    private communicationApiService: CommuicationApiService,
+    private groupService: GroupService
+  ) {
+    const storedCampusId = sessionStorage.getItem("CampusId");
+    this.CampusId = storedCampusId ? parseInt(storedCampusId) : 0;
+    console.log("CampusId", this.CampusId);
+  }
   loginId = sessionStorage.getItem("LoginId");
   chats = signal<Messages[]>([]);
   recentChats = signal<TransformedChat[]>([]);
   recentgroups = signal<TransformedChat[]>([]);
   private groupRefreshSubscription!: Subscription;
 
-
   ngOnInit() {
     this.recentCommunication();
     this.fetchGroups();
-    this.groupRefreshSubscription = this.groupService.refreshGroups$.subscribe(() => {
-      this.fetchGroups();
-    });
+    this.groupRefreshSubscription = this.groupService.refreshGroups$.subscribe(
+      () => {
+        this.fetchGroups();
+      }
+    );
   }
 
   recentCommunication() {
     const LoginId = this.loginId;
     if (LoginId) {
-      this.communicationApiService.GetRecentChats(LoginId).subscribe((chats) => {
-        const transformedChats = chats?.value?.map((chat: any) => {
-          const messages = chat?.Messages?.map((msg: any) => ({
-            id: msg?.Id || 0,
-            sender: msg?.SenderId === +LoginId ? "You" : msg?.Sender?.UserName || "Unknown",
-            text: msg?.MessageText || "",
-            time: new Date().toLocaleTimeString(),
-            receiver: msg?.ReceiverId || null,
-            CreatedDate: msg?.CreatedDate || null,
-          })) || [];
-  
-          const partnerName = chat?.SenderId === +LoginId
-            ? chat?.Messages?.[0]?.Receiver?.UserName || "Unknown"
-            : chat?.Messages?.[0]?.Sender?.UserName || "Unknown";
-  
-          const lastMessage = chat?.Messages?.length
-            ? chat.Messages[chat.Messages.length - 1]?.MessageText || ""
-            : "";
-  
-          const lastMessageTime = new Date().toLocaleTimeString();
-  
-          return {
-            id: chat?.Id || 0,
-            receiver: chat?.ReceiverId || null,
-            name: partnerName,
-            lastMessage: lastMessage,
-            time: lastMessageTime,
-            photo: "", 
-            messages: messages,
-            lastMessageTime: lastMessageTime,
-          };
+      this.communicationApiService.GetRecentChats(LoginId).subscribe(
+        (chats) => {
+          const transformedChats =
+            chats?.value?.map((chat: any) => {
+              const messages =
+                chat?.Messages?.map((msg: any) => ({
+                  id: msg?.Id || 0,
+                  sender:
+                    msg?.SenderId === +LoginId
+                      ? "You"
+                      : msg?.Sender?.UserName || "Unknown",
+                  text: msg?.MessageText || "",
+                  time: new Date().toLocaleTimeString(),
+                  receiver: msg?.ReceiverId || null,
+                  CreatedDate: msg?.CreatedDate || null,
+                })) || [];
 
+              const partnerName =
+                chat?.SenderId === +LoginId
+                  ? chat?.Messages?.[0]?.Receiver?.UserName || "Unknown"
+                  : chat?.Messages?.[0]?.Sender?.UserName || "Unknown";
+
+              const lastMessage = chat?.Messages?.length
+                ? chat.Messages[chat.Messages.length - 1]?.MessageText || ""
+                : "";
+
+              const lastMessageTime = new Date().toLocaleTimeString();
+
+              return {
+                id: chat?.Id || 0,
+                receiver: chat?.ReceiverId || null,
+                name: partnerName,
+                lastMessage: lastMessage,
+                time: lastMessageTime,
+                photo: "",
+                messages: messages,
+                lastMessageTime: lastMessageTime,
+              };
+            }) || [];
+
+          this.recentChats.set([...transformedChats]);
+        },
+        (error) => {
+          console.error("Error fetching recent chats:", error);
         }
-      ) || [];
-  
-        this.recentChats.set([...transformedChats]);
-      }, (error) => {
-        console.error('Error fetching recent chats:', error);
-      });
+      );
     }
   }
 
   fetchGroups() {
     const LogId = this.loginId;
-  
+
     // Handle missing login ID
     if (!LogId) {
       console.error("Login ID is missing.");
       return;
     }
-  
+
     this.communicationApiService.GetGroups(LogId).subscribe(
       (groups) => {
         if (groups?.value) {
           const transformedChats = groups.value.map((grp: any) => ({
             id: grp?.Id || 0,
             name: grp?.GroupName || "",
-            photo: "", // Add logic here if photos are available.
-            messages: grp?.Messages?.map((msg: any) => ({
-              id: msg?.Id || 0,
-              sender: msg?.SenderId === +LogId ? "You" : msg?.Sender?.UserName || "Unknown",
-              text: msg?.MessageText || "",
-              time: msg?.CreatedDate
-                ? new Date(msg.CreatedDate).toLocaleTimeString()
-                : "Unknown",
-              receiver: msg?.ReceiverId || null,
-              CreatedDate: msg?.CreatedDate || null,
-            })) || [],
+            photo: "", // 
+            messages:
+              grp?.Messages?.map((msg: any) => ({
+                id: msg?.Id || 0,
+                sender:
+                  msg?.SenderId === +LogId
+                    ? "You"
+                    : msg?.Sender?.UserName || "Unknown",
+                text: msg?.MessageText || "",
+                time: msg?.CreatedDate
+                  ? new Date(msg.CreatedDate).toLocaleTimeString()
+                  : "Unknown",
+                receiver: msg?.ReceiverId || null,
+                CreatedDate: msg?.CreatedDate || null,
+              })) || [],
             lastMessage: grp?.Messages?.length
               ? grp.Messages[grp.Messages.length - 1]?.MessageText || ""
               : "",
             lastMessageTime: grp?.Messages?.length
-              ? new Date(grp.Messages[grp.Messages.length - 1]?.CreatedDate).toLocaleTimeString()
+              ? new Date(
+                  grp.Messages[grp.Messages.length - 1]?.CreatedDate
+                ).toLocaleTimeString()
               : "Unknown",
           }));
-  
+
           // Update recent groups
           this.recentgroups.set([...transformedChats]);
         }
@@ -122,7 +147,6 @@ export class CommunicationComponent {
       }
     );
   }
-  
 
   sendGroupMessage() {
     if (this.newMessage.trim() && this.selectedGroup) {
@@ -146,8 +170,6 @@ export class CommunicationComponent {
       // );
     }
   }
-
-
 
   getChatKey(senderId: number, receiverId: number): string {
     return senderId < receiverId
@@ -176,8 +198,8 @@ export class CommunicationComponent {
   selectedChat: any;
   selectedGroup: any;
   newMessage: string = "";
-  activeChat : boolean = false;
-  activeGroup : boolean = false;
+  activeChat: boolean = false;
+  activeGroup: boolean = false;
 
   readonly dialog = inject(MatDialog);
 
@@ -218,12 +240,11 @@ export class CommunicationComponent {
     this.selectedChat = chat;
     this.selectedGroup = null; // Reset selected group
   }
-  
+
   selectGroup(group: TransformedChat) {
     this.selectedGroup = group;
     this.selectedChat = null; // Reset selected chat
   }
-  
 
   async sendMessage() {
     const uiMessage = {
@@ -233,14 +254,14 @@ export class CommunicationComponent {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      receiver:this.selectedChat?.receiver
+      receiver: this.selectedChat?.receiver,
     };
     if (this.newMessage.trim() && this.selectedChat) {
       this.selectedChat.messages.push(uiMessage);
       this.selectedChat.lastMessageTime = uiMessage.time;
       this.newMessage = "";
       await this.UpdateMessages();
-    }else if(this.newMessage.trim() &&  this.selectedGroup){
+    } else if (this.newMessage.trim() && this.selectedGroup) {
       this.selectedGroup.messages.push(uiMessage);
       this.selectedGroup.lastMessageTime = uiMessage.time;
       this.newMessage = "";
@@ -248,16 +269,18 @@ export class CommunicationComponent {
     }
   }
 
-  SendGroupMessages(){
+  SendGroupMessages() {
     const SenderId = this.loginId;
-    if(this.selectedGroup && SenderId){
+    if (this.selectedGroup && SenderId) {
       const apiMessages = this.selectedGroup.messages.map((msg: any) => {
         return {
-          Id : msg.id ? msg.id : 0,
-          SenderId: msg.sender === "You" ? +SenderId : msg.sender, 
+          Id: msg.id ? msg.id : 0,
+          SenderId: msg.sender === "You" ? +SenderId : msg.sender,
           GroupId: this.selectedGroup.id,
           MessageText: msg.text,
-          CreatedDate: msg.CreatedDate ? msg.CreatedDate : new Date().toISOString(),
+          CreatedDate: msg.CreatedDate
+            ? msg.CreatedDate
+            : new Date().toISOString(),
         };
       });
 
@@ -276,29 +299,30 @@ export class CommunicationComponent {
             console.error("Error updating messages:", error);
           }
         );
-  
     }
   }
 
   UpdateMessages() {
     const SenderId = this.loginId;
-    if ( this.selectedChat && SenderId) { 
+    if (this.selectedChat && SenderId) {
       const apiMessages = this.selectedChat.messages.map((msg: any) => {
         return {
-          Id : msg.id ? msg.id : 0,
-          SenderId: msg.sender === "You" ? +SenderId : msg.sender, 
+          Id: msg.id ? msg.id : 0,
+          SenderId: msg.sender === "You" ? +SenderId : msg.sender,
           ReceiverId: this.selectedChat.receiver,
           ChatId: this.selectedChat.id,
           MessageText: msg.text,
-          CreatedDate: msg.CreatedDate ? msg.CreatedDate : new Date().toISOString(),
+          CreatedDate: msg.CreatedDate
+            ? msg.CreatedDate
+            : new Date().toISOString(),
         };
       });
-  
+
       const updateData = {
         Id: this.selectedChat.id,
         Messages: apiMessages,
       };
-  
+
       this.communicationApiService
         .SendNewMessages(updateData.Id, updateData)
         .subscribe(
@@ -313,7 +337,15 @@ export class CommunicationComponent {
       console.warn("Cannot update messages: selectedChat or loginId is null");
     }
   }
-  
+
+  openGroupMembersDialog(): void {
+    this.dialog.open(GroupMembersComponent, {
+      width: "40%",
+      height: "auto",
+      maxWidth: "50vw",
+      panelClass: "custom-dialog-container",
+    });
+  }
 
   openCreateMessage(): void {
     this.dialog.open(CreateMessageComponent, {

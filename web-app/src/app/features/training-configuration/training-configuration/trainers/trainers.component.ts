@@ -88,6 +88,7 @@ export class TrainersComponent {
       this.TrainerDataSource.data = data;
     } catch (error) {
       console.error("Error fetching company details:", error);
+
     }
   }
 
@@ -116,6 +117,7 @@ export class TrainersComponent {
             "An unexpected error occurred while deleting the Trainer."
           );
           console.error("Error deleting Trainer:", error);
+
         },
       });
     }

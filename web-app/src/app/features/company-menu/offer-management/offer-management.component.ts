@@ -33,6 +33,9 @@ import { Technology } from "src/app/services/types/Technology";
 import { TemplatesByCategoryService } from "../../template-generator/templates-by-category/templates-by-category.service";
 import { Template } from "src/app/services/types/Template";
 import { TemplateCategory } from "src/app/services/types/TemplateCategory";
+import { NotificationsApiService } from "../../student-menu/student-menu/profile-management/profilemanagement-dashboard/NotificationsAPIService";
+import { notification } from "src/app/services/types/Notifications";
+import { Jobposting } from "src/app/services/types/Jobposting";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -67,6 +70,8 @@ export class OfferManagementComponent {
     private apiCompanyService: CompanyAPIService,
     private apiIndustryService: IndustryAPIService,
     private offerManagementDetailsApiService: OfferManagementApiService,
+
+    private notificationApiService: NotificationsApiService,
     private templatesByCategoryService: TemplatesByCategoryService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
@@ -95,6 +100,8 @@ export class OfferManagementComponent {
   colleges: Campusregistration[] = [];
   templateCategories: TemplateCategory[] = [];
   templates: Template[] = [];
+  basicDetails: Jobposting | null = null;
+
   JobpostingSelectedstudentData = signal<JobpostingSelectedstudent[]>([]);
   filteredselectedStudents = signal<JobpostingSelectedstudent[]>([]);
   acceptedOffersCount: number = 0;
@@ -442,10 +449,28 @@ export class OfferManagementComponent {
               "Offer letter sent successfully for",
               offer.Student.FirstName
             );
+            console.log("Details", this.basicDetails);
+
             this.offerManagementDetailsApiService
               .sendStudentData(offer.Student.Id, offer.JobPosting.Id)
               .subscribe({
                 next: () => {
+                  const content = `Congratulations, ${offer.Student?.FirstName} ${offer.Student?.LastName}! You've successfully accepted your offer with ${offer?.JobPosting?.Company.Name}. We're thrilled to have you on board and look forward to your journey with us. More details will follow soon!`;
+                  const notification = {
+                    Id: 0,
+                    Title: "Offer Accepted",
+                    NotificationContent: content,
+                    ParentType: "",
+                    ParentId: 0,
+                    IsRead: 0,
+                    // CompanyId: offer?.JobPosting?.CompanyId ?? null,
+                    // CampusId: offer?.Student?.OrgId ?? null ,
+                    CompanyId: null,
+                    CampusId: null,
+                    StudentId: offer?.Student?.Id ?? null,
+                  };
+                  this.saveNotification(notification);
+
                   console.log("Student data updated successfully!");
                   const updateData = {
                     OfferLetterSentDate: currentDate,
@@ -502,5 +527,16 @@ export class OfferManagementComponent {
           console.error("Error exporting offers:", error);
         },
       });
+  }
+  saveNotification(body: notification) {
+    this.notificationApiService.Notification(body).subscribe({
+      next: (response: { success: boolean; message: any }) => {
+        if (response.success) {
+          console.log(response.success, "success");
+        } else {
+        }
+      },
+      error: (error) => {},
+    });
   }
 }

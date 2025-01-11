@@ -22,7 +22,7 @@ export class OfferManagementDetailsApiService {
     jobPostingId: number,
     studentId: number
   ): Observable<ODataEntity<Jobposting[]>> {
-    let query = `/Jobposting?$filter=Id eq ${jobPostingId} &expand=Jobinterviewrounds($expand=JobpostStudentrounds($filter = StudentId eq ${studentId} ;$expand=Student) )`;
+    let query = `/Jobposting?$filter=Id eq ${jobPostingId} &expand=Company,Jobinterviewrounds($expand=JobpostStudentrounds($filter = StudentId eq ${studentId} ;$expand=Student) )`;
     return this.apiHttpService.get<ODataEntity<Jobposting[]>>(query);
   }
   GetInterviewDetailsbystudent(

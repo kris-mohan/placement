@@ -10,7 +10,7 @@
             </div>
           </div>
         </div>
-        <div style="display: flex">
+<div style="display: flex; justify-content: flex-start; align-items: flex-start; gap: 16px;">
           <div>
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Salary Range</mat-label>
@@ -87,9 +87,9 @@
                   {{ industry.Type }}
                 </mat-option>
                 <div *ngIf="isLoading" class="spinner-container">
-    <mat-spinner></mat-spinner>
-  </div>
-  <div *ngIf="!isLoading"></div>
+                  <mat-spinner></mat-spinner>
+                </div>
+                <div *ngIf="!isLoading"></div>
 
                 <mat-dialog-actions class="mat-dialog-actions">
                   <button

@@ -9,6 +9,11 @@ button {
   justify-content: space-between;
   flex-wrap: wrap;
 }
+.custom-card-header {
+  background-color: #f0f0f0;
+  padding: 16px;
+  border-radius: 4px;
+}
 
 .example-button-container {
   display: flex;

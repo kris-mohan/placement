@@ -44,6 +44,7 @@ export class CalendarModalComponent implements OnInit {
   jobPostingId: number = 0;
   OrgId: number = 0;
   allCompanies = signal<Companydatum[]>([]);
+  jobRole: string | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<CalendarModalComponent>,
@@ -92,6 +93,10 @@ export class CalendarModalComponent implements OnInit {
     const selectedJobPostingId = event.value;
 
     const currentCompanyId = this.formDataa.value.companyId;
+
+    this.jobRole =
+      this.jobPostings.find((r) => r.Id === selectedJobPostingId)?.JobRole ??
+      null;
 
     // Fetch the rounds based on the selected job posting
     this.getAllRounds(selectedJobPostingId);
@@ -148,6 +153,7 @@ export class CalendarModalComponent implements OnInit {
     console.log(event.value);
     this.CompanyId = event.value;
     this.formDataa.patchValue({ companyId: this.CompanyId });
+
     if (this.userRole !== 2) {
       this.getJobPostings();
     }
@@ -214,13 +220,16 @@ export class CalendarModalComponent implements OnInit {
 
       const returnData = {
         ...this.formDataa.value, // Spread the form values
-        // toggle: this.toggle,
-        meetingLink: this.formDataa.value.meetingLink.trim(),
-        weekdays: this.weekdays, // Add the weekdays state
-        OrgId: this.OrgId,
-        // Add any other specific data you want to send back
+        meetingLink, // Trimmed meeting link
+        weekdays: this.weekdays || [], // Ensure weekdays has a default value
+        OrgId: this.OrgId || null, // Default OrgId to null if not defined
+        jobRole: this.jobRole,
       };
-      console.log(returnData);
+
+      // Debug: Log the data being sent back
+      console.log("Data to Save:", returnData);
+
+      // Close the dialog and pass the return data
       this.dialogRef.close(returnData);
     } else {
       // Debug: Handle invalid form case
