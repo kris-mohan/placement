@@ -42,12 +42,18 @@ export class CommuicationApiService {
     );
   }
 
+  GetGroupMemberNames(): Observable<any> {
+    return this.apiHttpService.get<any>(
+      `/Groupmembers?&expand=User($expand=Student)`
+    );
+  }
+
   SendNewMessages(chatId: number, data: any): Observable<any> {
     return this.apiHttpService.patch<any>(`/Chats?key=${chatId}`, data);
   }
 
-  SendGroupMessages(grpId: number, data:any):Observable<any>{
-    return this.apiHttpService.patch<any>( `/Groups?key=${grpId}`, data);
+  SendGroupMessages(grpId: number, data: any): Observable<any> {
+    return this.apiHttpService.patch<any>(`/Groups?key=${grpId}`, data);
   }
 
   GetStudentDetails(): Observable<ODataEntity<Tblstudent[]>> {

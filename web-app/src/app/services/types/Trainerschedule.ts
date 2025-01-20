@@ -14,4 +14,5 @@ export type Trainerschedule = {
   IsDeleted: boolean;
   Course?: Trainingcourse;
   Trainer?: Trainer;
+  ScheduleName: string;
 };

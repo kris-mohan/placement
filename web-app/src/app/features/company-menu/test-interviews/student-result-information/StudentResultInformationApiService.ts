@@ -14,6 +14,7 @@ import { JobpostingSelectedstudent } from 'src/app/services/types/JobpostingSele
 import { postJobpostingSelectedstudent } from 'src/app/services/types/postjobpostingselectedstudent';
 import { TemplateCategory } from 'src/app/services/types/TemplateCategory';
 import { Email } from 'src/app/services/types/Email';
+import { Tblstudent } from 'src/app/services/types/Tblstudent';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +33,12 @@ export class StudentResultInformationApiService {
   GetnextRoundTemplate(): Observable<ODataEntity<TemplateCategory[]>> {
     return this.apiHttpService.get<ODataEntity<TemplateCategory[]>>(
       `/TemplateCategory?$filter=contains(Name, 'Notification')&$expand=Templates`
+    );
+  }
+
+  GetStudentEmail(id: number): Observable<ODataEntity<Tblstudent[]>> {
+    return this.apiHttpService.get<ODataEntity<Tblstudent[]>>(
+      `/Tblstudent?$filter=Id eq ${id}&$select=Email,Id,FirstName,LastName`
     );
   }
 
@@ -83,9 +90,14 @@ export class StudentResultInformationApiService {
       `/JobpostStudentround?$filter=StudentId eq ${studentId} and JobPostingRound/JobPostingId eq ${jobPostingId}`
     );
   }
-  
+
   selectedForNextRoundEmail(email: Email) {
     return this.apiHttpService.post<Email>(`/Email`, email);
+  }
+
+  getNextRoundTemplates(): Observable<ODataEntity<Template[]>> {
+    let url = `/Template?filter= Name eq 'Upcoming Interview Round Notificaion'`;
+    return this.apiHttpService.get<ODataEntity<Template[]>>(url);
   }
 
   // public selectedForNextRoundEmail(

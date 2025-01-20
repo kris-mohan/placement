@@ -88,7 +88,9 @@ export class LayoutComponent {
       this.router.navigate(["/student-dashboard"]);
     }
   }
-
+  onResetPassword() {
+    this.router.navigate(["/login"], { queryParams: { resetPassword: true } });
+  }
   // navigateToComponent(notification: Notification) {
   //   if (notification.data) {
   //     this.router.navigate([notification.component], {

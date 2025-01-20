@@ -1,0 +1,18 @@
+<!-- Group Members Popup -->
+<div class="group-members-container">
+  <div class="header">
+    <h3>Group Members</h3>
+    <button mat-dialog-close="" class="close-btn" (click)="closeDialog()">X</button>
+  </div>
+
+  <div class="members-list"> 
+    <ul>
+      <li *ngFor="let member of groupMemberNames" class="member-item">
+        <div class="member-name">
+          <span>{{ member.User?.Student?.FirstName || "N/A" }}</span>
+          <span>{{ member.User?.Student?.LastName || "N/A" }}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

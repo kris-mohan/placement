@@ -1,6 +1,9 @@
-<div>
+<div class="mat-card-header">
+
   <h2 class="header-mat-label">Schedule Interview</h2>
 </div>
+<div class="mat-card-header">
+
 <div style="display: flex">
   <div style="margin: 1rem">
     <mat-form-field
@@ -27,8 +30,16 @@
     </mat-form-field>
   </div>
 </div>
+</div>
 <div class="main-div">
-  <full-calendar class="calendar" [options]="calendarOptions"></full-calendar>
+  <mat-card class="mat-card"
+    ><mat-card-content
+      ><full-calendar
+        class="calendar"
+        [options]="calendarOptions"
+      ></full-calendar
+    ></mat-card-content>
+  </mat-card>
   <div style="margin-left: 0px">
     <mat-card class="outer-card-container">
       <div class="inner-cards-container">

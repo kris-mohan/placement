@@ -268,6 +268,7 @@ export class PlacementCompanyComponent {
           );
           console.log(companies);
           this.campusCompanyList.set(companies);
+          
           this.applyFilters();
           // this.filteredCompany = this.companyControl.valueChanges.pipe(
           //   startWith(""),
@@ -365,14 +366,15 @@ export class PlacementCompanyComponent {
     return this.companiesList().filter(
       (company) =>
         company.Name.toLowerCase().includes(filterValue) &&
-        !this._isCompanyInCampusList(company)
+        company.Name.trim() !== "" &&
+        !this._isCompanyInCampusList(company) &&
+        company.Name.toLowerCase() !== value.toLowerCase()
     );
   }
 
-  // Helper function to check if the company is in campusCompanyList
   private _isCompanyInCampusList(company: Companydatum): boolean {
     return this.campusCompanyList().some(
-      (campusCompany) => campusCompany.Id === company.Id // Assuming each company has a unique Id
+      (campusCompany) => campusCompany.Id === company.Id
     );
   }
 
@@ -389,13 +391,21 @@ export class PlacementCompanyComponent {
 
   openCompanyModalPopup(company: any): void {
     console.log(company);
-    this.dialog.open(CompanyDetailDialogModalComponent, {
-      width: "1200px",
-      height: "620px",
-      data: company,
-    });
+    this.dialog
+      .open(CompanyDetailDialogModalComponent, {
+        width: "1200px",
+        height: "620px",
+        data: company,
+      })
+      .afterClosed()
+      .subscribe(() => {
+        this.resetSearchField();
+        this.getAllCompanyCampuses(); 
+      });
   }
-
+  resetSearchField(): void {
+    this.companyControl.setValue("");
+  }
   loadCompanies() {
     this.placementCompanyApiService.loadCompanyData().subscribe({
       next: (response: ODataResponse<companyTableList>) => {
@@ -675,22 +685,23 @@ export class PlacementCompanyComponent {
   }
   exportExcel(): void {
     console.log("exportExcel");
-    this.placementCompanyApiService.downloadCompaniesData(this.OrgId).subscribe({
-      next: (response: Blob) => {
-        const blob = new Blob([response], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        });
-        const downloadUrl = window.URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.href = downloadUrl;
-        anchor.download = "CampusCompanies.xlsx";
-        anchor.click();
-        window.URL.revokeObjectURL(downloadUrl);
-      },
-      error: (err) => {
-        console.error("Error downloading file:", err);
-      },
-    });
+    this.placementCompanyApiService
+      .downloadCompaniesData(this.OrgId)
+      .subscribe({
+        next: (response: Blob) => {
+          const blob = new Blob([response], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          const downloadUrl = window.URL.createObjectURL(blob);
+          const anchor = document.createElement("a");
+          anchor.href = downloadUrl;
+          anchor.download = "CampusCompanies.xlsx";
+          anchor.click();
+          window.URL.revokeObjectURL(downloadUrl);
+        },
+        error: (err) => {
+          console.error("Error downloading file:", err);
+        },
+      });
   }
-
 }

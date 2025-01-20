@@ -1,0 +1,32 @@
+<div class="feedback-container">
+  <h1>Completed Schedules</h1>
+  <div class="schedule-cards">
+    <mat-card *ngFor="let schedule of completedSchedules" class="schedule-card">
+      <div class="status-badge">
+        <mat-chip
+          [ngClass]="{
+            'status-pending': schedule.status === 'Pending',
+            'status-ongoing': schedule.status === 'Ongoing',
+            'status-completed': schedule.status === 'Completed'
+          }"
+          >{{ schedule.status }}</mat-chip
+        >
+      </div>
+      <mat-card-title>{{ schedule.scheduleName }}</mat-card-title>
+      <mat-card-content>
+        <p><strong>Trainer Name:</strong> {{ schedule.trainerName }}</p>
+        <p><strong>Course Name:</strong> {{ schedule.courseName }}</p>
+        <p><strong>Conducted On:</strong> {{ schedule.conductedOn }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openResponsePage()"
+          [disabled]="schedule.feedbackGiven">
+          {{ schedule.feedbackGiven ? 'Feedback Submitted' : 'Give Feedback' }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

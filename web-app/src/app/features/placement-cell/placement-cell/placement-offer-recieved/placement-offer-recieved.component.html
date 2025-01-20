@@ -274,13 +274,10 @@
 
           <div>
             <img
-              s
-              rc="../../../../../assets/images/Softserve-logo1.png"
-              alt="Company Logo"
-              class="company-logo"
-              height="70%"
-              width="auto"
-              style="margin-left: 150px"
+              [src]="job.JobPosting.Company?.LogoPath"
+              alt="Company-Logo"
+              class="company-Logo"
+              style="max-width: 100px; max-height: 50px; object-fit: contain"
             />
           </div>
         </div>

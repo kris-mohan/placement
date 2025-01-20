@@ -1,7 +1,7 @@
-import { Course } from "./Course";
-import { Stream } from "./Stream";
-import { StudentSemesterMark } from "./StudentSemesterMark";
-import { Tblstudent } from "./Tblstudent";
+import { Course } from './Course';
+import { Stream } from './Stream';
+import { StudentSemesterMark } from './StudentSemesterMark';
+import { Tblstudent } from './Tblstudent';
 
 export type PatchStudentAcademic = Studentacademic | {};
 
@@ -20,6 +20,13 @@ export type Studentacademic = {
   TenthSchoolName: string;
   TwelthSchoolName: string;
   DiplomaCollegeName: string;
+  LinkedinLink: string;
+  Achievements: string;
+  Projects: string;
+  Internship: string;
+  TenthStatus: number | null;
+  TwelfthStatus: number | null;
+  CourseStatus: number | null;
   Course: Course;
   Stream: Stream;
   Student: Tblstudent;
@@ -41,6 +48,9 @@ export type PostStudentacademic = {
   TenthSchoolName: string;
   TwelthSchoolName: string;
   DiplomaCollegeName: string;
+  TenthStatus: string;
+  TwelfthStatus: string;
+  CourseStatus: string;
   Course?: { Id?: number; FullForm?: string };
   Stream?: { Id?: number; Name?: string };
   Student: Tblstudent;

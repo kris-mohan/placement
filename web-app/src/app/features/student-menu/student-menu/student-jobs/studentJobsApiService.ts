@@ -9,7 +9,6 @@ import { ODataEntity } from "src/app/services/types/OData";
 @Injectable({
   providedIn: "root",
 })
-
 export class StudentJobsApiSerivce {
   constructor(private apiHttpService: ApiHttpService) {}
 
@@ -17,7 +16,7 @@ export class StudentJobsApiSerivce {
     id: number
   ): Observable<ODataEntity<JobpostingsEligiblestudent[]>> {
     return this.apiHttpService.get<ODataEntity<JobpostingsEligiblestudent[]>>(
-      `/JobpostingsEligiblestudent?filter =StudentId eq ${id}&expand=JobPosting($expand=Company)`
+      `/JobpostingsEligiblestudent?filter =StudentId eq ${id}&expand=JobPosting($expand=Company),Status($select=Name)`
     );
   }
 

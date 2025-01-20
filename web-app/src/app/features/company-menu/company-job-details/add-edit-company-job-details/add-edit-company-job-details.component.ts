@@ -23,6 +23,9 @@ import { AddeditCompanyJobDetailsApiService } from "./add-edit-company-job-detai
 import { JobTypes } from "src/app/services/common-dropdowns/JobTypes";
 import { ModeOfWorks } from "src/app/services/common-dropdowns/ModeOfWorks";
 import { ShiftTypes } from "src/app/services/common-dropdowns/ShiftTypes";
+import { NotificationsApiService } from "src/app/features/student-menu/student-menu/profile-management/profilemanagement-dashboard/NotificationsAPIService";
+import { notification } from "src/app/services/types/Notifications";
+import { Companydatum } from "src/app/services/types/Companydatum";
 
 @Component({
   selector: "app-add-edit-company-job-details",
@@ -45,7 +48,6 @@ export class AddEditCompanyJobDetailsComponent {
   StreamNames = signal<Stream[]>([]);
   SkillTypeNames = signal<SkillType[]>([]);
   SkillNames = signal<Skill[]>([]);
-
   selectedSkillTypeIds: number[] = [];
   selectedSkillIds: number[] = [];
   selectedCollegeIds: number[] = [];
@@ -65,6 +67,7 @@ export class AddEditCompanyJobDetailsComponent {
   jobRole: string | null = null;
   jobId: number | null = null;
   companyName: string | null = null;
+  companyNameAdd: string | null = null;
   Months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   readonly dialog = inject(MatDialog);
   constructor(
@@ -74,6 +77,7 @@ export class AddEditCompanyJobDetailsComponent {
     private location: Location,
     private fb: FormBuilder,
     private addeditCompanyJobDetailsApiService: AddeditCompanyJobDetailsApiService,
+    private notificationApiService: NotificationsApiService,
     private sweetAlertService: SweetAlertService
   ) {
     const storedCompanyId = sessionStorage.getItem("CompanyId");
@@ -143,7 +147,7 @@ export class AddEditCompanyJobDetailsComponent {
     this.location.back();
   }
 
-  ngOnInit() {      
+  ngOnInit() {
     this.GetAllCollegeName();
     this.GetAllBatchName();
     this.GetAllCoursesName();
@@ -151,7 +155,20 @@ export class AddEditCompanyJobDetailsComponent {
     this.GetAllSkillTypesName();
     this.GetAllSkills();
     this.GetJobPostingById();
+    this.getCompanyName();
   }
+
+  getCompanyName = () => {
+    this.addeditCompanyJobDetailsApiService
+      .GetCompanyName(this.CompanyRouteId)
+      .subscribe({
+        next: (res) => {
+          const data: Companydatum[] = res.value;
+          this.companyNameAdd = data[0]?.Name;
+        },
+        error: (error) => console.error("Error fetching all skills:", error),
+      });
+  };
 
   GetAllSkills = () => {
     this.addeditCompanyJobDetailsApiService.GetSkillsByIds([]).subscribe({
@@ -374,6 +391,31 @@ export class AddEditCompanyJobDetailsComponent {
         .subscribe({
           next: (response: { success: boolean; message: any; id: number }) => {
             if (response.success) {
+              const login =
+                this.sessionCompanyId != 0
+                  ? "company"
+                  : this.sessionCompanyId != 0
+                  ? "tpc"
+                  : "student";
+
+              const content = `We are excited to announce an open position for ${this.addEditJobPostingForm.value.JobRole} at ${this.companyNameAdd}. If you are interested we encourage you to apply.`;
+              const notification = {
+                Id: 0,
+                Title: "New Job Opening",
+                NotificationContent: content,
+                ParentType: "student",
+                ParentId: 0,
+                IsRead: 0,
+                CompanyId:
+                  login != "company"
+                    ? jobPostingData.CompanyId
+                      ? jobPostingData.CompanyId
+                      : null
+                    : null,
+                CampusId: login != "tpc" ? this.sessionCampusId : 1,
+                StudentId: null,
+              };
+              this.saveNotification(notification);
               this.sweetAlertService.success(response.message);
               if (!this.JObPostRouteId()) {
                 this.JObPostRouteId.set(response.id);
@@ -396,5 +438,16 @@ export class AddEditCompanyJobDetailsComponent {
           },
         });
     }
+  }
+  saveNotification(body: notification) {
+    this.notificationApiService.Notification(body).subscribe({
+      next: (response: { success: boolean; message: any }) => {
+        if (response.success) {
+          console.log(response.success, "success");
+        } else {
+        }
+      },
+      error: (error) => {},
+    });
   }
 }

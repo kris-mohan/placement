@@ -49,13 +49,15 @@ export class CompanyJobDetailsApiService {
     return this.http.get(url, { responseType: "blob" });
   }
 
-  uploadJobPostingsFile(formData: FormData): Observable<any> {
+  uploadJobPostingsFile(
+    companyId: number,
+    formData: FormData
+  ): Observable<any> {
     return this.http.post<any>(
-      `https://localhost:44304/api/common/upload-jobpostings`,
+      `https://localhost:44304/api/common/upload-jobpostings?companyId=${companyId}`,
       formData
     );
   }
-
 
   // getJobPostingsTemplate(): Observable<any> {
   //   return this.http.get<any>(
@@ -65,10 +67,10 @@ export class CompanyJobDetailsApiService {
 
   getJobPostingsTemplate(FilePath: string): void {
     const downloadURL = `https://localhost:44304/api/common/download-jobpostings-template`;
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = downloadURL;
 
-    const fileName = FilePath.split("/").pop() || "downloaded-file";
+    const fileName = FilePath.split('/').pop() || 'downloaded-file';
     link.download = fileName;
 
     link.click();

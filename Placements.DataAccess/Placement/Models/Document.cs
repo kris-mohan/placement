@@ -22,4 +22,6 @@ public partial class Document
     public DateTime? CreatedDate { get; set; }
 
     public bool? CreatedBy { get; set; }
+
+    public virtual ICollection<Email> Emails { get; set; } = new List<Email>();
 }

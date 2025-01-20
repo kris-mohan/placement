@@ -4,7 +4,9 @@
       <div class="example-button-row">
         <div class="example-flex-container">
           <div class="example-button-container">
-            <mat-icon  (click)="goBack()" class="BackIcon">keyboard_backspace</mat-icon>
+            <mat-icon (click)="goBack()" class="BackIcon"
+              >keyboard_backspace</mat-icon
+            >
 
             <div class="header-mat-label">
               <mat-label>Applied Jobs</mat-label>
@@ -12,8 +14,11 @@
           </div>
         </div>
 
-        <div>
-          <mat-form-field class="example-full-width" appearance="outline">
+        <div
+          class="width-size"
+          style="gap: 7rem; display: flex; flex-direction: row"
+        >
+          <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Search Company</mat-label>
             <input
               type="text"
@@ -31,106 +36,110 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select
-              [formControl]="CityControl"
-              multiple
-              (openedChange)="onStatusDropdownOpen()"
-              panelClass="custom-dropdown-panel"
-            >
-              <mat-select-trigger>
-                {{ selectedCompanyCities }}
-              </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input
-                  class="full-width"
-                  matInput
-                  [(ngModel)]="searchCity"
-                  (ngModelChange)="filterCities($event)"
-                  placeholder="Search"
-                />
+          <div>
+            <div style="display: flex; flex-direction: row">
+              <mat-form-field appearance="outline" style="width: 100%">
+                <mat-label>Status</mat-label>
+                <mat-select
+                  [formControl]="CityControl"
+                  multiple
+                  (openedChange)="onStatusDropdownOpen()"
+                  panelClass="custom-dropdown-panel"
+                >
+                  <mat-select-trigger>
+                    {{ selectedCompanyCities }}
+                  </mat-select-trigger>
+                  <mat-form-field appearance="outline">
+                    <input
+                      class="full-width"
+                      matInput
+                      [(ngModel)]="searchCity"
+                      (ngModelChange)="filterCities($event)"
+                      placeholder="Search"
+                    />
+                  </mat-form-field>
+                  <mat-option *ngIf="!filteredCompanies.length" disabled
+                    >No options</mat-option
+                  >
+                  <mat-option
+                    *ngFor="let company of filteredCompanies"
+                    [value]="company.City"
+                  >
+                    {{ company.City }}
+                  </mat-option>
+                  <mat-dialog-actions class="mat-dialog-actions">
+                    <button
+                      mat-button
+                      mat-dialog-close
+                      (click)="resetLocationSelection()"
+                    >
+                      Reset
+                    </button>
+                    <button
+                      mat-raised-button
+                      class="matbutton"
+                      (click)="showLocationResults()"
+                    >
+                      <p class="matName">Show results</p>
+                    </button>
+                  </mat-dialog-actions>
+                </mat-select>
               </mat-form-field>
-              <mat-option *ngIf="!filteredCompanies.length" disabled
-                >No options</mat-option
-              >
-              <mat-option
-                *ngFor="let company of filteredCompanies"
-                [value]="company.City"
-              >
-                {{ company.City }}
-              </mat-option>
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button
-                  mat-button
-                  mat-dialog-close
-                  (click)="resetLocationSelection()"
-                >
-                  Reset
-                </button>
-                <button
-                  mat-raised-button
-                  class="matbutton"
-                  (click)="showLocationResults()"
-                >
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
-            </mat-select>
-          </mat-form-field>
-        </div>
+            </div>
+          </div>
 
-        <div>
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Job Role</mat-label>
-            <mat-select
-              [formControl]="industryControl"
-              multiple
-              (openedChange)="onIndustryDropdownOpen()"
-            >
-              <mat-select-trigger>
-                {{ selectedIndustries }}
-              </mat-select-trigger>
-              <mat-form-field appearance="outline">
-                <input
-                  class="full-width"
-                  matInput
-                  [(ngModel)]="searchIndustry"
-                  (ngModelChange)="filterIndustries($event)"
-                  placeholder="Search"
-                />
-              </mat-form-field>
-              <mat-option *ngIf="!filteredIndustries.length" disabled
-                >No options</mat-option
+          <div
+            class="role-size"
+            style="gap: 2rem; display: flex; flex-direction: row"
+          >
+            <mat-form-field appearance="outline" >
+              <mat-label>Job Role</mat-label>
+              <mat-select
+                [formControl]="industryControl"
+                multiple
+                (openedChange)="onIndustryDropdownOpen()"
               >
-              <mat-option
-                *ngFor="let industry of filteredIndustries"
-                [value]="industry.Type"
-              >
-                {{ industry.Type }}
-              </mat-option>
+                <mat-select-trigger>
+                  {{ selectedIndustries }}
+                </mat-select-trigger>
+                <mat-form-field appearance="outline">
+                  <input
+                    class="full-width"
+                    matInput
+                    [(ngModel)]="searchIndustry"
+                    (ngModelChange)="filterIndustries($event)"
+                    placeholder="Search"
+                  />
+                </mat-form-field>
+                <mat-option *ngIf="!filteredIndustries.length" disabled
+                  >No options</mat-option
+                >
+                <mat-option
+                  *ngFor="let industry of filteredIndustries"
+                  [value]="industry.Type"
+                >
+                  {{ industry.Type }}
+                </mat-option>
 
-              <mat-dialog-actions class="mat-dialog-actions">
-                <button
-                  mat-button
-                  mat-dialog-close
-                  (click)="resetIndustrySelection()"
-                >
-                  Reset
-                </button>
-                <button
-                  mat-raised-button
-                  class="matbutton"
-                  (click)="showIndustryResults()"
-                >
-                  <p class="matName">Show results</p>
-                </button>
-              </mat-dialog-actions>
-            </mat-select>
-          </mat-form-field>
+                <mat-dialog-actions class="mat-dialog-actions">
+                  <button
+                    mat-button
+                    mat-dialog-close
+                    (click)="resetIndustrySelection()"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    mat-raised-button
+                    class="matbutton"
+                    (click)="showIndustryResults()"
+                  >
+                    <p class="matName">Show results</p>
+                  </button>
+                </mat-dialog-actions>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
       </div>
     </mat-card-header>

@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { AMGModules } from 'src/AMG-Module/AMG-module';
-import { BasicColumnChartComponent } from 'src/app/features/charts/column chart/basic-column-chart/basic-column-chart.component';
-import { ColumnChartDatalabelsComponent } from 'src/app/features/charts/column chart/column-chart-datalabels/column-chart-datalabels.component';
-import { StackedColumnChartComponent } from 'src/app/features/charts/column chart/stacked-column-chart/stacked-column-chart.component';
-import { HpStackedColumnchartComponent } from 'src/app/features/charts/column chart/hp-stacked-columnchart/hp-stacked-columnchart.component';
-import { SimplePieChartComponent } from 'src/app/features/charts/pie chart/simple-pie-chart/simple-pie-chart.component';
-import { SimpleDonutChartComponent } from 'src/app/features/charts/pie chart/simple-donut-chart/simple-donut-chart.component';
-import { BasicLineChartComponent } from 'src/app/features/charts/line chart/basic-line-chart/basic-line-chart.component';
-import { PlacementDashboardApiService } from './PlacementDashboardApiService';
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { SharedModule } from "src/app/shared/shared.module";
+import { AMGModules } from "src/AMG-Module/AMG-module";
+import { BasicColumnChartComponent } from "src/app/features/charts/column chart/basic-column-chart/basic-column-chart.component";
+import { ColumnChartDatalabelsComponent } from "src/app/features/charts/column chart/column-chart-datalabels/column-chart-datalabels.component";
+import { StackedColumnChartComponent } from "src/app/features/charts/column chart/stacked-column-chart/stacked-column-chart.component";
+import { HpStackedColumnchartComponent } from "src/app/features/charts/column chart/hp-stacked-columnchart/hp-stacked-columnchart.component";
+import { SimplePieChartComponent } from "src/app/features/charts/pie chart/simple-pie-chart/simple-pie-chart.component";
+import { SimpleDonutChartComponent } from "src/app/features/charts/pie chart/simple-donut-chart/simple-donut-chart.component";
+import { BasicLineChartComponent } from "src/app/features/charts/line chart/basic-line-chart/basic-line-chart.component";
+import { PlacementDashboardApiService } from "./PlacementDashboardApiService";
+import { NotificationsApiService } from "src/app/features/student-menu/student-menu/profile-management/profilemanagement-dashboard/NotificationsAPIService";
+import { notification } from "src/app/services/types/Notifications";
 
 @Component({
-  selector: 'app-placement-dashboard',
+  selector: "app-placement-dashboard",
   standalone: true,
   imports: [
     BasicLineChartComponent,
@@ -27,8 +29,8 @@ import { PlacementDashboardApiService } from './PlacementDashboardApiService';
     AMGModules,
   ],
 
-  templateUrl: './placement-dashboard.component.html',
-  styleUrl: './placement-dashboard.component.css',
+  templateUrl: "./placement-dashboard.component.html",
+  styleUrl: "./placement-dashboard.component.css",
 })
 export class PlacementDashboardComponent implements OnInit {
   studentYearlySeries: any[] = [];
@@ -39,9 +41,9 @@ export class PlacementDashboardComponent implements OnInit {
   placementCategories: string[] = [];
   branchPlacementSeries: number[] = [];
   branchLabels: string[] = [];
-  placementOfficerName = 'Ramesh Sharma';
+  placementOfficerName = "Ramesh Sharma";
   genderWiseStudentData: any[] = [];
-  availableYears: string[] = ['2022', '2023', '2024'];
+  availableYears: string[] = ["2022", "2023", "2024"];
   selectedYears: string[] = [];
   totalOffers = 50;
   interviewData: any[] = [];
@@ -62,99 +64,108 @@ export class PlacementDashboardComponent implements OnInit {
   unplacedStudentsData: string[] = [];
   placementStatusData: any[] = [];
   statusLabels: string[] = [];
+  userRoleId: number = 0;
 
-  constructor(private placementApiService: PlacementDashboardApiService) {}
+  constructor(
+    private placementApiService: PlacementDashboardApiService,
+    private notificationApiService: NotificationsApiService
+  ) {
+    const storedUserRoleId = sessionStorage.getItem("CampusId");
+    this.userRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
+  }
 
-  notifications = [
-    {
-      title: 'Interview Reminder',
-      details:
-        'Reminder: Your interview with John Doe for the Software Engineer position is scheduled for October 15th at 10:00 AM.',
-    },
-    {
-      title: 'New Candidate Application',
-      details:
-        'You have received a new application for the Data Scientist position. Please review it at your earliest convenience.',
-    },
-    {
-      title: 'Team Meeting Scheduled',
-      details:
-        'Reminder: All hands meeting scheduled for October 18th at 3:00 PM to discuss hiring targets and team updates.',
-    },
-    {
-      title: 'Offer Letter Issued',
-      details:
-        'Offer letter has been sent to Sarah Parker for the UX Designer position. Awaiting her response.',
-    },
-  ];
+  // notifications = [
+  //   {
+  //     title: "Interview Reminder",
+  //     details:
+  //       "Reminder: Your interview with John Doe for the Software Engineer position is scheduled for October 15th at 10:00 AM.",
+  //   },
+  //   {
+  //     title: "New Candidate Application",
+  //     details:
+  //       "You have received a new application for the Data Scientist position. Please review it at your earliest convenience.",
+  //   },
+  //   {
+  //     title: "Team Meeting Scheduled",
+  //     details:
+  //       "Reminder: All hands meeting scheduled for October 18th at 3:00 PM to discuss hiring targets and team updates.",
+  //   },
+  //   {
+  //     title: "Offer Letter Issued",
+  //     details:
+  //       "Offer letter has been sent to Sarah Parker for the UX Designer position. Awaiting her response.",
+  //   },
+  // ];
+
+  notifications: notification[] = [];
 
   interviewSchedule = [
     {
-      date: new Date('2024-10-20'),
-      time: '10:00 AM',
-      position: 'Software Engineer',
-      candidate: 'Alice Johnson',
+      date: new Date("2024-10-20"),
+      time: "10:00 AM",
+      position: "Software Engineer",
+      candidate: "Alice Johnson",
     },
     {
-      date: new Date('2024-10-22'),
-      time: '1:00 PM',
-      position: 'Product Manager',
-      candidate: 'David Smith',
+      date: new Date("2024-10-22"),
+      time: "1:00 PM",
+      position: "Product Manager",
+      candidate: "David Smith",
     },
     {
-      date: new Date('2024-10-22'),
-      time: '2:30 PM',
-      position: 'Data Analyst',
-      candidate: 'Jessica Lee',
+      date: new Date("2024-10-22"),
+      time: "2:30 PM",
+      position: "Data Analyst",
+      candidate: "Jessica Lee",
     },
     {
-      date: new Date('2024-10-22'),
-      time: '3:30 PM',
-      position: 'UX Designer',
-      candidate: 'Michael Brown',
+      date: new Date("2024-10-22"),
+      time: "3:30 PM",
+      position: "UX Designer",
+      candidate: "Michael Brown",
     },
   ];
 
   upcomingDrives = [
     {
-      company: 'Tata Consultancy Services (TCS)',
-      date: new Date('2024-10-20'),
-      jobRole: 'Developer',
-      venue: 'On Campus, Main Hall',
-      round: 'Technical Round',
+      company: "Tata Consultancy Services (TCS)",
+      date: new Date("2024-10-20"),
+      jobRole: "Developer",
+      venue: "On Campus, Main Hall",
+      round: "Technical Round",
     },
     {
-      company: 'Wipro',
-      date: new Date('2024-10-22'),
-      jobRole: 'UI/UX Designer',
-      venue: 'Online, Main Hall',
-      round: 'Technical Round',
+      company: "Wipro",
+      date: new Date("2024-10-22"),
+      jobRole: "UI/UX Designer",
+      venue: "Online, Main Hall",
+      round: "Technical Round",
     },
     {
-      company: 'IBM',
-      date: new Date('2024-10-22'),
-      jobRole: 'Software Engineer',
-      venue: 'On Campus, Main Hall',
-      round: 'HR Round',
+      company: "IBM",
+      date: new Date("2024-10-22"),
+      jobRole: "Software Engineer",
+      venue: "On Campus, Main Hall",
+      round: "HR Round",
     },
     {
-      company: 'Tata Consultancy Services (TCS)',
-      date: new Date('2024-10-20'),
-      jobRole: 'Developer',
-      venue: 'On Campus, Main Hall',
-      round: 'Technical Round',
+      company: "Tata Consultancy Services (TCS)",
+      date: new Date("2024-10-20"),
+      jobRole: "Developer",
+      venue: "On Campus, Main Hall",
+      round: "Technical Round",
     },
     {
-      company: 'Tata Consultancy Services (TCS)',
-      date: new Date('2024-10-20'),
-      jobRole: 'Developer',
-      venue: 'On Campus, Main Hall',
-      round: 'Technical Round',
+      company: "Tata Consultancy Services (TCS)",
+      date: new Date("2024-10-20"),
+      jobRole: "Developer",
+      venue: "On Campus, Main Hall",
+      round: "Technical Round",
     },
   ];
 
   sendInvite() {
-    console.log('Invite sent to companies');
+    console.log("Invite sent to companies");
   }
   ngOnInit(): void {
     this.apiCall();
@@ -166,20 +177,21 @@ export class PlacementDashboardComponent implements OnInit {
     this.setupSkillDemandData();
     this.branchWisePlacementStatus();
     this.monthlyPlacementTrends();
+    this.getNotification();
   }
 
   apiCall = async () => {
     this.studentYearlySeries = [
       {
-        name: 'High - 2023',
+        name: "High - 2023",
         data: [30, 32, 35, 38, 36, 34, 32],
       },
       {
-        name: 'Low - 2023',
+        name: "Low - 2023",
         data: [25, 16, 18, 20, 19, 17, 16],
       },
     ];
-    this.yearsLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+    this.yearsLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
   };
 
   // genderWisePlacedStudents = async () => {
@@ -203,7 +215,7 @@ export class PlacementDashboardComponent implements OnInit {
         this.branchLabels = response.branchLabels || [];
       },
       error: (err: any) => {
-        console.error('Error fetching Gender-Wise Placement', err);
+        console.error("Error fetching Gender-Wise Placement", err);
       },
     });
   }
@@ -211,32 +223,32 @@ export class PlacementDashboardComponent implements OnInit {
   interviewDataByCompanies = async () => {
     this.interviewData = [
       {
-        name: 'Aptitude Round',
+        name: "Aptitude Round",
         data: [50, 30, 45, 55, 40],
       },
       {
-        name: 'Group Discussion',
+        name: "Group Discussion",
         data: [20, 30, 25, 35, 40],
       },
       {
-        name: 'Technical Round 1',
+        name: "Technical Round 1",
         data: [40, 50, 30, 60, 45],
       },
       {
-        name: 'Technical Round 2',
+        name: "Technical Round 2",
         data: [10, 35, 12, 16, 15],
       },
       {
-        name: 'HR Interview',
+        name: "HR Interview",
         data: [20, 30, 25, 35, 40],
       },
     ];
     this.companyLabels = [
-      'Softserve Global',
-      'TCS',
-      'Wipro',
-      'Capgemini',
-      'Accenture',
+      "Softserve Global",
+      "TCS",
+      "Wipro",
+      "Capgemini",
+      "Accenture",
     ];
   };
 
@@ -247,7 +259,7 @@ export class PlacementDashboardComponent implements OnInit {
         this.studentPlacementSeries = response.studentPlacementSeries || [];
       },
       error: (err: any) => {
-        console.error('Error fetching branch placements:', err);
+        console.error("Error fetching branch placements:", err);
       },
     });
   };
@@ -259,7 +271,7 @@ export class PlacementDashboardComponent implements OnInit {
         this.courseLabels = response.courseLabels || [];
       },
       error: (err: any) => {
-        console.error('Error fetching yearly data:', err);
+        console.error("Error fetching yearly data:", err);
       },
     });
   };
@@ -271,7 +283,7 @@ export class PlacementDashboardComponent implements OnInit {
         this.companyLabels = response.companyLabels || [];
       },
       error: (err: any) => {
-        console.error('Error fetching skill:', err);
+        console.error("Error fetching skill:", err);
       },
     });
   };
@@ -283,7 +295,7 @@ export class PlacementDashboardComponent implements OnInit {
         this.skillLabels = response.skillLabels || [];
       },
       error: (err: any) => {
-        console.error('Error fetching skill:', err);
+        console.error("Error fetching skill:", err);
       },
     });
   }
@@ -295,7 +307,7 @@ export class PlacementDashboardComponent implements OnInit {
         this.monthLabels = response.monthLabels || [];
       },
       error: (err: any) => {
-        console.error('Error fetching mo thly placement trends:', err);
+        console.error("Error fetching mo thly placement trends:", err);
       },
     });
   }
@@ -307,7 +319,7 @@ export class PlacementDashboardComponent implements OnInit {
         this.companyLabels = response.companyLabels || [];
       },
       error: (err: any) => {
-        console.error('Error fetching skill:', err);
+        console.error("Error fetching skill:", err);
       },
     });
   }
@@ -319,7 +331,7 @@ export class PlacementDashboardComponent implements OnInit {
         this.batchLabels = response.batchLabels || [];
       },
       error: (err: any) => {
-        console.error('Error fetching skill:', err);
+        console.error("Error fetching skill:", err);
       },
     });
   }
@@ -331,7 +343,7 @@ export class PlacementDashboardComponent implements OnInit {
         this.statusLabels = response.statusLabels || [];
       },
       error: (err: any) => {
-        console.error('Error fetching skill:', err);
+        console.error("Error fetching skill:", err);
       },
     });
   }
@@ -362,8 +374,20 @@ export class PlacementDashboardComponent implements OnInit {
         this.branchLabels = response.branchLabels || [];
       },
       error: (err: any) => {
-        console.error('Error fetching branch placements:', err);
+        console.error("Error fetching branch placements:", err);
       },
     });
+  }
+  getNotification() {
+    this.notificationApiService
+      .GetNotificationForCampusId(this.userRoleId)
+      .subscribe({
+        next: (response: any) => {
+          this.notifications = response.value;
+        },
+        error: (err: any) => {
+          console.error("Error:No Notification", err);
+        },
+      });
   }
 }

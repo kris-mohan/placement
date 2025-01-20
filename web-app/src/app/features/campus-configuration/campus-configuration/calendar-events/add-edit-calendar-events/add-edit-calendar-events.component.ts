@@ -6,6 +6,7 @@ import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { CalendarEventAPIService } from "../api.calendar.events";
+
 import {
   PostCalendarevent,
   PostCalEvent,
@@ -29,11 +30,11 @@ export class AddEditCalendarEventsComponent {
   calendarEventForm: FormGroup;
   calendarEventId: string | null = null;
   Id: number | null = null;
+  sweetAlertService: any;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private sweetAlertService: SweetAlertService,
 
     private route: ActivatedRoute,
 
@@ -43,6 +44,7 @@ export class AddEditCalendarEventsComponent {
       Id: null,
       EventStartDateTime: ["", [Validators.required]],
       EventEndDateTime: ["", [Validators.required]],
+      EventEndTime: ["", [Validators.required]], // Add missing control
       EventType: ["", [Validators.required]],
       EventDescription: ["", [Validators.required]],
       OrgId: null,
@@ -50,48 +52,60 @@ export class AddEditCalendarEventsComponent {
     });
 
     this.calendarEventForm = this.fb.group({
+      EventStartTime: ["", [Validators.required]], // Ensure this control is defined
+      EventEndTime: ["", [Validators.required]], // Ensure this control is defined
       EventStartDateTime: ["", [Validators.required]],
-      EventEndDateTime: "",
-      EventType: "",
-      EventDescription: "",
+      EventEndDateTime: ["", [Validators.required]],
+      EventType: ["", [Validators.required]],
+      EventDescription: ["", [Validators.required]],
     });
   }
-  async onSubmit() {
+
+  async onSubmit(): Promise<void> {
     debugger;
+      console.log("Action Text (Before Validation):", this.calendarEventId);
+
     if (this.calendarEventForm.invalid) {
       this.sweetAlertService.error("Please enter all the required field .");
       return;
     }
-
-    const companyData: Partial<PostCalEvent> = this.calendarEventForm.value;
-
-    if (
-      !this.validateEventDates(
-        companyData.EventStartDateTime,
-        companyData.EventEndDateTime
-      )
-    ) {
-      this.sweetAlertService.error(
-        "End Date Time must be after Start Date Time"
-      );
-      return;
-    }
-
-    const isUpdate = this.calendarEventId != "0";
+    const formValue = this.calendarEventForm.value;
+    // // Parse and validate `calendarEventId`
+    // const calendarEventId =
+    //   this.calendarEventId && this.calendarEventId !== "0"
+    //     ? parseInt(this.calendarEventId, 10)
+    //     : null;
+    const isUpdate = !!this.calendarEventId && this.calendarEventId !== "0";
     const actionText = isUpdate ? "update" : "add";
+
+    console.log("isUpdate:", isUpdate);
+    console.log("Action Text:", actionText);
+    // Optional: Validate start and end dates
+    // if (
+    //   !this.validateEventDates(
+    //     formValue.EventStartDateTime,
+    //     formValue.EventEndDateTime
+    //   )
+    // ) {
+    //   this.sweetAlertService.error(
+    //     "End Date Time must be after Start Date Time"
+    //   );
+    //   return;
+    // }
+
     const confirmed = await this.sweetAlertService.confirm(
-      `Do you want to ${actionText} this event ?`
+      `Do you want to ${actionText} this event?`
     );
-
+    console.log("Confirmed Data ", confirmed);
     if (confirmed) {
-      const companydatum: any = {
-        // Id: 0,
-        EventStartDateTime: companyData.EventStartDateTime ?? "",
-        EventEndDateTime: companyData.EventEndDateTime ?? "",
-        EventType: companyData.EventType ?? "",
-        EventDescription: companyData.EventDescription ?? "",
-      };
+        console.log("Confirmed Action Text:", actionText);
 
+      const companydatum = {
+        EventStartDateTime: formValue.EventStartDateTime ?? "",
+        EventEndDateTime: formValue.EventEndDateTime ?? "",
+        EventType: formValue.EventType ?? "",
+        EventDescription: formValue.EventDescription ?? "",
+      };
       const calendarEventId =
         this.calendarEventId === "0"
           ? null
@@ -101,7 +115,7 @@ export class AddEditCalendarEventsComponent {
         .addUpdateCalendarEvent(calendarEventId, companydatum)
         .subscribe({
           next: (response: { success: boolean; message: any }) => {
-            console.log(response);
+            // console.log(response);
             if (response.success) {
               this.sweetAlertService.success(response.message);
               this.router.navigate(["/campus-configuration"]);

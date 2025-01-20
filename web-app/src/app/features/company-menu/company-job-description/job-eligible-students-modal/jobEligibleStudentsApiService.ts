@@ -87,7 +87,7 @@ export class JobEligibleStudentApiService {
     statusId: number
   ): Observable<ODataEntity<JobpostingsEligiblestudent[]>> {
     return this.apiHttpService.get<ODataEntity<JobpostingsEligiblestudent[]>>(
-      `/JobpostingsEligiblestudent?$filter=JobPostingId eq ${jobPostId} and StatusId eq ${statusId} & expand = Student(expand=Batch,Studentacademics(expand=Course,Stream),Org),Status,JobPosting`
+      `/JobpostingsEligiblestudent?$filter=JobPostingId eq ${jobPostId} and StatusId eq ${statusId} & expand = Student(expand=Batch,Studentacademics(expand=Course,Stream),Org),Status,JobPosting(expand=Company)`
     );
   }
   GetBatches(): Observable<any> {

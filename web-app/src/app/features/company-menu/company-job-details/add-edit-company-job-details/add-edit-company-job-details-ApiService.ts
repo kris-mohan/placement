@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import { ApiHttpService } from "src/app/services/api-services/api-http-services";
 import { Batch } from "src/app/services/types/Batch";
 import { Campusregistration } from "src/app/services/types/Campusregistration";
+import { Companydatum } from "src/app/services/types/Companydatum";
 import { Course } from "src/app/services/types/Course";
 import { Jobposting, PostJobposting } from "src/app/services/types/Jobposting";
 import { ODataEntity } from "src/app/services/types/OData";
@@ -38,6 +39,13 @@ export class AddeditCompanyJobDetailsApiService {
       `/SkillType?$expand=Skills`
     );
   }
+
+  public GetCompanyName(Id: number | null): Observable<ODataEntity<Companydatum[]>> {
+    return this.apiHttpService.get<ODataEntity<Companydatum[]>>(
+      `/Companydatum?$filter= Id eq ${Id} &select=Name`
+    );
+  }
+
   public GetSkillsByIds(ids: number[]): Observable<ODataEntity<SkillType[]>> {
     const filterQuery =
       ids.length > 0 ? ids.map((id) => `Id eq ${id}`).join(" or ") : "";
