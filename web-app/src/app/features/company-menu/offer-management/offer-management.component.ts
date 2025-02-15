@@ -33,6 +33,7 @@ import { Technology } from "src/app/services/types/Technology";
 import { TemplatesByCategoryService } from "../../template-generator/templates-by-category/templates-by-category.service";
 import { Template } from "src/app/services/types/Template";
 import { TemplateCategory } from "src/app/services/types/TemplateCategory";
+import { string32 } from "pdfjs-dist/types/src/shared/util";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -108,7 +109,7 @@ export class OfferManagementComponent {
   selectedOffers: JobpostingSelectedstudent[] = [];
   students: JobpostingSelectedstudent[] = [];
   isSecondPopupOpen: boolean = false;
-
+  fileMap: { [studentId: string]: File } = {};
   searchName = new FormControl("");
   searchControl = new FormControl("");
   displayedColumns: string[] = [
@@ -422,66 +423,266 @@ export class OfferManagementComponent {
       this.templateBody = this.selectedTemplate.Body;
     }
   }
-  confirmAction() {
-    console.log("Offer letter confirmed!");
-    if (this.selectedOffers.length > 0) {
-      const currentDate = new Date();
-      this.selectedOffers.forEach((offer) => {
-        const email = {
-          To: offer.Student.Email,
-          Cc: offer.Student.Org.Email ?? "",
-          Bcc: "",
-          Subject: this.templateSubject,
-          Body: this.templateBody,
-          SentAt: currentDate,
-        };
-        this.closeSecondPopup();
-        this.offerManagementDetailsApiService.SendOfferLetter(email).subscribe({
-          next: () => {
-            console.log(
-              "Offer letter sent successfully for",
-              offer.Student.FirstName
-            );
-            this.offerManagementDetailsApiService
-              .sendStudentData(offer.Student.Id, offer.JobPosting.Id)
-              .subscribe({
-                next: () => {
-                  console.log("Student data updated successfully!");
-                  const updateData = {
-                    OfferLetterSentDate: currentDate,
-                  };
+  // confirmAction() {
+  //   console.log("Offer letter confirmed!");
+  //   if (this.selectedOffers.length > 0) {
+  //     const currentDate = new Date();
+  //     this.selectedOffers.forEach((offer) => {
+  //       const email = {
+  //         To: "jhansich949@gmail.com", //offer.Student.Email,
+  //         Cc: "jhansich949@gmail.com", //offer.Student.Org.Email ?? "",
+  //         Bcc: "",
+  //         Subject: this.templateSubject,
+  //         Body: this.templateBody,
+  //         SentAt: currentDate,
+  //       };
+  //       this.closeSecondPopup();
+  //       this.offerManagementDetailsApiService.SendOfferLetter(email).subscribe({
+  //         next: () => {
+  //           console.log(
+  //             "Offer letter sent successfully for",
+  //             offer.Student.FirstName
+  //           );
+  //           this.offerManagementDetailsApiService
+  //             .sendStudentData(offer.Student.Id, offer.JobPosting.Id)
+  //             .subscribe({
+  //               next: () => {
+  //                 console.log("Student data updated successfully!");
+  //                 const updateData = {
+  //                   OfferLetterSentDate: currentDate,
+  //                 };
 
-                  this.offerManagementDetailsApiService
-                    .UpdateOffer(offer.Id, updateData)
-                    .subscribe({
-                      next: () => {
-                        console.log(
-                          `OfferLetterSentDate updated successfully for student`
-                        );
-                      },
-                      error: (error) => {
-                        console.error(
-                          `Error updating OfferLetterSentDate for student:`,
-                          error
-                        );
-                      },
-                    });
-                },
-                error: (error) => {
-                  console.error(
-                    `Error updating student data for student`,
-                    error
-                  );
-                },
-              });
-          },
-          error: (error) => {
-            console.error(`Error sending offer letter for student`, error);
-          },
-        });
-      });
+  //                 this.offerManagementDetailsApiService
+  //                   .UpdateOffer(offer.Id, updateData)
+  //                   .subscribe({
+  //                     next: () => {
+  //                       console.log(
+  //                         `OfferLetterSentDate updated successfully for student`
+  //                       );
+  //                     },
+  //                     error: (error) => {
+  //                       console.error(
+  //                         `Error updating OfferLetterSentDate for student:`,
+  //                         error
+  //                       );
+  //                     },
+  //                   });
+  //               },
+  //               error: (error) => {
+  //                 console.error(
+  //                   `Error updating student data for student`,
+  //                   error
+  //                 );
+  //               },
+  //             });
+  //         },
+  //         error: (error) => {
+  //           console.error(`Error sending offer letter for student`, error);
+  //         },
+  //       });
+  //     });
+  //   }
+  // }
+
+  onFileSelected(event: Event, offer: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.fileMap[offer.Student.Id] = file;
+      console.log(`File selected for student ${offer.Student.Id}:`, file.name);
     }
   }
+  confirmAction() {
+    console.log("Offer letter confirmed!");
+    const currentDate = new Date();
+
+    if (this.selectedOffers.length > 0) {
+      this.selectedOffers.forEach((offer) => {
+        const file = this.fileMap[offer.Student.Id];
+        const body = this.templateBody;
+        const subject = this.templateSubject;
+
+        if (file) {
+          const formData = new FormData();
+          const folderName = "offerLetter";
+          formData.append("files", file);
+          formData.append("parentType", "student");
+          formData.append("parentId", offer.Student.Id.toString());
+          formData.append("fileType", file.type);
+          this.offerManagementDetailsApiService
+            .uploadFile(formData, folderName)
+            .subscribe({
+              next: (response) => {
+                console.log("File uploaded successfully", response);
+
+                const documentData = {
+                  FileName: response.files[0].fileName,
+                  FilePath: response.files[0].filePath,
+                  FileType: response.files[0].fileType,
+                  ParentType: "student",
+                  ParentId: offer.Student.Id,
+                  IsDeleted: false,
+                  CreatedDate: new Date(),
+                  CreatedBy: true,
+                };
+                this.offerManagementDetailsApiService
+                  .uploadDocument(documentData)
+                  .subscribe({
+                    next: () => {
+                      console.log("Document saved successfully");
+
+                      this.offerManagementDetailsApiService
+                        .getDocumentByParentId(offer.Student.Id)
+                        .subscribe({
+                          next: (response) => {
+                            console.log("API response:", response);
+                            const documents = response.value;
+                            if (Array.isArray(documents)) {
+                              documents.sort(
+                                (a: any, b: any) =>
+                                  new Date(b.CreatedDate).getTime() -
+                                  new Date(a.CreatedDate).getTime()
+                              );
+                              const studentDocument = documents.find(
+                                (doc: any) =>
+                                  doc.ParentType === "student" &&
+                                  doc.ParentId === offer.Student.Id &&
+                                  this.isDocumentCreatedToday(doc.CreatedDate)
+                              );
+                              if (studentDocument) {
+                                console.log(
+                                  "Found document for student",
+                                  studentDocument
+                                );
+                                this.sendEmailWithAttachment(
+                                  offer,
+                                  currentDate,
+                                  studentDocument.Id,
+                                  studentDocument.FilePath,
+                                  subject,
+                                  body
+                                );
+                              } else {
+                                console.error(
+                                  "No document found for student with Id",
+                                  offer.Student.Id
+                                );
+                                this.sendEmailWithAttachment(
+                                  offer,
+                                  currentDate,
+                                  null,
+                                  null,
+                                  subject,
+                                  body
+                                );
+                              }
+                            } else {
+                              console.error(
+                                "Documents are not in the expected array format",
+                                response
+                              );
+                            }
+                          },
+                          error: (error) => {
+                            console.error("Error fetching document", error);
+                          },
+                        });
+                    },
+                    error: (error) => {
+                      console.error("Error saving document", error);
+                    },
+                  });
+              },
+              error: (error) => {
+                console.error("Error uploading file", error);
+              },
+            });
+        } else {
+          this.sendEmailWithAttachment(
+            offer,
+            currentDate,
+            null,
+            null,
+            subject,
+            body
+          );
+        }
+      });
+      this.closeSecondPopup();
+    }
+  }
+
+  private sendEmailWithAttachment(
+    offer: any,
+    currentDate: Date,
+    documentId: number | null,
+    filePath: string | null,
+    subject: string,
+    body: string
+  ) {
+    const email = {
+      To: "jhansich949@gmail.com", // offer.Student.Email,
+      Cc: "jhansich949@gmail.com", //offer.Student.Org?.Email || "",
+      Bcc: "",
+      Subject: subject,
+      Body: body,
+      SentAt: currentDate,
+      DocumentId: documentId,
+    };
+
+    this.offerManagementDetailsApiService.SendOfferLetter(email).subscribe({
+      next: () => {
+        console.log(
+          "Offer letter sent successfully for",
+          offer.Student.FirstName
+        );
+        this.offerManagementDetailsApiService
+          .sendStudentData(offer.Student.Id, offer.JobPosting.Id)
+          .subscribe({
+            next: () => {
+              console.log("Student data updated successfully!");
+              const updateData = {
+                OfferLetterSentDate: currentDate,
+              };
+
+              this.offerManagementDetailsApiService
+                .UpdateOffer(offer.Id, updateData)
+                .subscribe({
+                  next: () => {
+                    console.log(
+                      "OfferLetterSentDate updated successfully for student"
+                    );
+                  },
+                  error: (error) => {
+                    console.error(
+                      "Error updating OfferLetterSentDate for student:",
+                      error
+                    );
+                  },
+                });
+            },
+            error: (error) => {
+              console.error("Error updating student data for student", error);
+            },
+          });
+      },
+      error: (error) => {
+        console.error("Error sending offer letter for student", error);
+      },
+    });
+  }
+  isDocumentCreatedToday(createdDate: string): boolean {
+    const now = new Date();
+    const docDate = new Date(createdDate);
+    const isSameDate =
+      docDate.getFullYear() === now.getFullYear() &&
+      docDate.getMonth() === now.getMonth() &&
+      docDate.getDate() === now.getDate();
+    const timeDifference = Math.abs(now.getTime() - docDate.getTime());
+    const withinTimeRange = timeDifference <= 24 * 60 * 60 * 1000;
+    return isSameDate && withinTimeRange;
+  }
+
   exportOffers() {
     this.offerManagementDetailsApiService
       .exportOffers(this.companyId)

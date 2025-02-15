@@ -8,6 +8,8 @@ export type Email = {
   Body: string;
   CreatedAt: string;
   SentAt: string;
+  HasAttachment: boolean;
+  DocumentId: number;
 };
 
 export type PostEmail = {
@@ -20,4 +22,6 @@ export type PostEmail = {
   Body: string;
   CreatedAt: string;
   SentAt: string;
+  HasAttachment: boolean;
+  DocumentId: number;
 };

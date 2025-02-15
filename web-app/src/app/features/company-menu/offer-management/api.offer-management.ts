@@ -46,6 +46,21 @@ export class OfferManagementApiService {
   }) {
     return this.apiHttpService.post(`/Email/`, email);
   }
+
+  uploadDocument(documentData: any): Observable<any> {
+    return this.apiHttpService.post("/Document", documentData);
+  }
+
+  uploadFile(formData: FormData, folderName: string): Observable<any> {
+    return this.http.post<any>(
+      `https://localhost:44304/api/Files/UploadFiles?folderName=offerLetter`,
+      formData
+    );
+  }
+  getDocumentByParentId(studentId: number): Observable<any> {
+    return this.apiHttpService.get(`/Document?parentId=${studentId}`);
+  }
+
   GetAllUniversities(): Observable<ODataEntity<University[]>> {
     return this.apiHttpService.get<ODataEntity<University[]>>("/University");
   }
@@ -61,7 +76,10 @@ export class OfferManagementApiService {
       "/Jobstudentstatus"
     );
   }
-
+  fetchFileAsBlob(filePath: string) {
+    const url = `http://localhost:4200/wwwroot/UploadedFiles?folderName=${filePath}`;
+    return this.http.get(url, { responseType: "blob" });
+  }
   GetAllTechnologies(): Observable<ODataEntity<Technology[]>> {
     return this.apiHttpService.get<ODataEntity<Technology[]>>("/Technology");
   }

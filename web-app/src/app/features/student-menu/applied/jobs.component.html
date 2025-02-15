@@ -4,7 +4,9 @@
       <div class="example-button-row">
         <div class="example-flex-container">
           <div class="example-button-container">
-            <mat-icon  (click)="goBack()" class="BackIcon">keyboard_backspace</mat-icon>
+            <mat-icon (click)="goBack()" class="BackIcon"
+              >keyboard_backspace</mat-icon
+            >
 
             <div class="header-mat-label">
               <mat-label>Applied Jobs</mat-label>
@@ -147,9 +149,15 @@
         fxFlex.gt-md="28%"
         fxFlex.gt-lg="25%"
         class="mat-grid-tile"
+        (click)="onCompanySelected(company)"
       >
         <div class="company-details">
-          <img alt="Company Logo" class="company-logo" />
+          <img
+            [src]="company.logo"
+            alt="Company-Logo"
+            class="company-Logo"
+            style="max-width: 100px; max-height: 50px; object-fit: contain"
+          />
           <h3>{{ company.name }}</h3>
 
           <div class="company-type">{{ company.job_role }}</div>
@@ -172,7 +180,8 @@
             <button
               mat-stroked-button
               style="background-color: blue; color: white"
-              (click)="downloadOfferLetter()"
+              (click)="downloadOfferLetter($event, company.companyId)"
+              [disabled]="!company.isOfferLetterEnabled"
             >
               Offer Letter
               <mat-icon>download</mat-icon>
@@ -191,5 +200,33 @@
     </mat-grid-list> -->
       </div>
     </mat-card-content>
+    <div *ngIf="isPopupOpen" class="popup-overlay">
+      <div class="popup-container">
+        <div class="popup-header">
+          <h2>{{ selectedCompany.job_role }}</h2>
+          <button mat-stroked-button class="close-btn" (click)="closePopup()">
+            Close
+          </button>
+        </div>
+        <mat-vertical-stepper>
+          <mat-step *ngFor="let round of selectedCompanyRounds">
+            <ng-template matStepLabel>{{ round.roundName }}</ng-template>
+            <div class="round-details">
+              <div class="round-score">
+                <strong>Score:</strong> {{ round.Score }}
+              </div>
+              <div class="round-feedback">
+                <strong>Feedback:</strong> {{ round.Feedback }}
+              </div>
+              <div class="round-status">
+                <strong>Status:</strong> {{ round.Status }}
+              </div>
+            </div>
+            <button mat-raised-button matStepperNext>Next</button>
+            <button mat-raised-button matStepperPrevious>Previous</button>
+          </mat-step>
+        </mat-vertical-stepper>
+      </div>
+    </div>
   </div>
 </mat-card>

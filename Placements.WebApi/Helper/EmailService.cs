@@ -4,7 +4,7 @@ using Placements.WebApi.Helper;
 
 public class EmailService : IEmailService
 {
-    public async Task SendEmailAsync(string to, string subject, string body, string cc = null, string bcc = null)
+    public async Task SendEmailAsync(string to, string subject, string body, string cc = null, string bcc = null, Stream stream = null, string documentName = "", string contentType = "")
     {
         try
         {
@@ -23,6 +23,10 @@ public class EmailService : IEmailService
                 IsBodyHtml = true
             };
             mailMessage.To.Add(to);
+            if(stream != null && !string.IsNullOrEmpty(contentType))
+            {
+                mailMessage.Attachments.Add(new Attachment(stream, documentName, contentType));
+            }
 
             if (!string.IsNullOrEmpty(cc))
             {

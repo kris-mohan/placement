@@ -1,4 +1,5 @@
-﻿using Placements.DataAccess.Placement.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Placements.DataAccess.Placement.Models;
 
 namespace Placements.WebApi.Helper
 {
@@ -15,15 +16,26 @@ namespace Placements.WebApi.Helper
         }
 
         public async Task ProcessEmailsAsync()
-        {
+         {
             // Fetch unsent emails from the database
-            var unsentEmails = _dbContext.Emails.Where(e => (bool)!e.IsSent).ToList();
+            var unsentEmails = _dbContext.Emails.Include(x => x.Document).Where(e => (bool)!e.IsSent).ToList();
 
             foreach (var email in unsentEmails)
             {
                 try
                 {
-                    await _emailService.SendEmailAsync(email.To, email.Subject, email.Body, email.Cc, email.Bcc);
+                    System.IO.Stream stream = null;
+                    string? documentPath = email.Document?.FilePath;
+                    string? documentName = email.Document?.FileName;
+                    string? contentType = email.Document?.FileType;
+                    if(!string.IsNullOrEmpty(documentName) && !string.IsNullOrEmpty(documentPath))
+                    {
+                        // get file by path and pass it to email function to attach
+
+                        // Stream =
+                        stream = new FileStream(documentPath, FileMode.Open, FileAccess.Read);
+                    }
+                    await _emailService.SendEmailAsync(email.To, email.Subject, email.Body, email.Cc, email.Bcc, stream,documentName, contentType);
 
                     // Mark the email as sent only if no exception occurs
                     email.IsSent = true;

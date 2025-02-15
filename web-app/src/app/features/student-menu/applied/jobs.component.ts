@@ -1,27 +1,25 @@
-import { Component, inject, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, inject, ViewChild } from "@angular/core";
 import { Router, withDebugTracing } from "@angular/router";
 import { SweetAlertService } from "src/app/services/sweet-alert-service/sweet-alert-service";
-// import { companyTableList } from "./companies-model";
 import { MatTableDataSource } from "@angular/material/table";
 import { CommonModule, Location } from "@angular/common";
-// import { CompanyAPIService } from "./api.companies";
 import { AMGModules } from "src/AMG-Module/AMG-module";
 import { SharedModule } from "src/app/shared/shared.module";
-// import { ImportCompanyDialogComponent } from "./import-company-dialog/import-company-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-// import { IndustryAPIService } from "../industry/api.industry";
-// import { Industry } from "../industry/industry.module";
 import { map, Observable, of, startWith } from "rxjs";
 import { FormControl } from "@angular/forms";
-import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { companyTableList } from "../../company-configuration/company-config/companies/companies-model";
 import { CompanyDetailDialogModalComponent } from "../../company-configuration/company-config/companies/company-detail-dialog-modal/company-detail-dialog-modal.component";
 import { Industry } from "../../company-configuration/company-config/industry/industry.module";
 import { ImportCompanyDialogComponent } from "../../company-configuration/company-config/companies/import-company-dialog/import-company-dialog.component";
-// import { CompanyAPIService } from "../../company-configuration/company-config/companies/api.companies";
-// import { IndustryAPIService } from "../../company-configuration/company-config/industry/api.industry";
+import { CompanyAPIService } from "../../company-configuration/company-config/companies/api.companies";
+import { IndustryAPIService } from "../../company-configuration/company-config/industry/api.industry";
+import { TemplateCategory } from "src/app/services/types/TemplateCategory";
+import { Template } from "src/app/services/types/Template";
+import { MatStepperModule } from "@angular/material/stepper";
+import { jsPDF } from "jspdf";
 
 export interface ODataResponse<T> {
   value: T[];
@@ -35,7 +33,13 @@ export interface JobsList {
 @Component({
   selector: "app-companies",
   standalone: true,
-  imports: [AMGModules, CommonModule, SharedModule, MatPaginatorModule],
+  imports: [
+    AMGModules,
+    CommonModule,
+    SharedModule,
+    MatPaginatorModule,
+    MatStepperModule,
+  ],
   templateUrl: "./jobs.component.html",
   styleUrl: "./jobs.component.css",
 })
@@ -43,34 +47,12 @@ export class JobsComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   companies: companyTableList[] = [];
-
-  jobs: JobsList[] = [
-    { id: 1, Name: "Haier Appliances" },
-    { id: 2, Name: "Sony Electronics" },
-    { id: 3, Name: "Samsung Tech" },
-    { id: 4, Name: "LG Electronics" },
-    { id: 5, Name: "Apple Inc." },
-    { id: 6, Name: "Microsoft Corp." },
-    { id: 7, Name: "Google LLC" },
-    { id: 8, Name: "Facebook Inc." },
-    { id: 9, Name: "Amazon Web Services" },
-    { id: 10, Name: "Tesla Inc." },
-  ];
-
+  companiesCard: any[] = [];
+  roundDetails: any[] = [];
+  RoundsData: any[] = [];
+  selectedCompanyRounds: any[] = [];
+  selectedCompany: any;
   industries: Industry[] = [];
-
-  // companySizes: string[] = [
-  //   "1-10 Employees",
-  //   "11-50 Employees",
-  //   "51-200 Employees",
-  //   "201-500 Employees",
-  //   "501-1000 Employees",
-  //   "1001-5000 Employees",
-  //   "5001-10000 Employees",
-  //   "10001+ Employees",
-  // ];
-
-  experienceLevel: string[] = ["Lateral", "Intern", "Fresher", "Contract"];
 
   filteredCompanies: companyTableList[] = [];
   filteredCompany: Observable<any[]> = of([]);
@@ -83,240 +65,44 @@ export class JobsComponent {
   searchCity: string = "";
   searchIndustry: string = "";
   UserRoleId: number;
-
+  StudentId: number;
   CityControl = new FormControl();
   industryControl = new FormControl();
   companySizeControl = new FormControl();
   experienceLevelControl = new FormControl();
   companyControl = new FormControl();
 
-  CityFilterControl = new FormControl();
-  industryFilterControl = new FormControl();
-  companySizeFilterControl = new FormControl();
-
+  templateCategories: TemplateCategory[] = [];
+  templates: Template[] = [];
+  selectedTemplate: { Subject: string; Body: string } | null = null;
+  templateSubject: string = "";
+  templateBody: string = "";
+  isPopupOpen: boolean = false;
   readonly dialog = inject(MatDialog);
   constructor(
     private router: Router,
     private sweetAlertService: SweetAlertService,
-    private location: Location // private apiCompanyService: CompanyAPIService, // private apiIndustryService: IndustryAPIService
+    private location: Location,
+    private apiCompanyService: CompanyAPIService,
+    private apiIndustryService: IndustryAPIService
   ) {
     const storedUserRoleId = sessionStorage.getItem("userRoleId");
     this.UserRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
+    const storedStudentId = sessionStorage.getItem("StudentId");
+    this.StudentId = storedStudentId ? parseInt(storedStudentId) : 0;
   }
-  displayedColumns: string[] = [
-    // "Url",
-    // "Name",
-    // "ContactPerson",
-    // "City",
-    // "ZipCode",
-    // "Actions",
-    "Name",
-    "Industries",
-    "OpenPosition",
-    "ContactPerson",
-    "City",
-    "Email",
-    "PhoneNumber",
-    "Url",
-    "JD",
-    "Actions",
-  ];
-  columns = [
-    { key: "Name", label: "Name" },
-    { key: "Industries", label: "Industries" },
-    { key: "OpenPosition", label: "Open Position" },
-    { key: "ContactPerson", label: "Contact Person" },
-    { key: "City", label: "City" },
-    { key: "Email", label: "Email" },
-    { key: "PhoneNumber", label: "Phone Number" },
-    { key: "Url", label: "URL" },
-    { key: "JD", label: "JD" },
-    { key: "Actions", label: "Actions" },
-  ];
+
   dataSource = new MatTableDataSource<companyTableList>([]);
 
-  companiesCard = [
-    {
-      Id: 1,
-      logo: "company-logo-1.png",
-      name: "Haier Appliances",
-      rating: 4.1,
-      reviews: "1.3K+ reviews",
-      job_role: "Software Developer",
-      status: "Applied",
-      progress: "NA",
-      placedStudents: 80,
-    },
-    {
-      Id: 2,
-      logo: "company-logo-2.png",
-      name: "Sony Electronics",
-      rating: 4.5,
-      reviews: "2K+ reviews",
-      job_role: "Tester",
-      status: "Ongoing",
-      progress: "Round 2",
-      placedStudents: 60,
-    },
-    {
-      Id: 3,
-      logo: "company-logo-3.png",
-      name: "Samsung Tech",
-      rating: 4.2,
-      reviews: "1.5K+ reviews",
-      job_role: "Devops Engineer",
-      status: "Rejected",
-      progress: 200,
-      placedStudents: 150,
-    },
-    {
-      Id: 4,
-      logo: "company-logo-4.png",
-      name: "LG Electronics",
-      rating: 4.3,
-      reviews: "1.8K+ reviews",
-      job_role: "Associate Engineer",
-      status: "Not Applied",
-      progress: 140,
-      placedStudents: 110,
-    },
-    {
-      Id: 5,
-      logo: "company-logo-5.png",
-      name: "Apple Inc.",
-      rating: 4.8,
-      reviews: "3K+ reviews",
-      job_role: "Senior Developer",
-      status: "Eligible",
-      progress: 250,
-      placedStudents: 200,
-    },
-    {
-      Id: 6,
-      logo: "company-logo-6.png",
-      name: "Microsoft Corp.",
-      rating: 4.7,
-      reviews: "2.7K+ reviews",
-      job_role: "Backend Engineer",
-      status: "Applied",
-      progress: 180,
-      placedStudents: 160,
-    },
-    {
-      Id: 7,
-      logo: "company-logo-7.png",
-      name: "Google LLC",
-      rating: 4.9,
-      reviews: "5K+ reviews",
-      job_role: "Fullstack Developer",
-      status: "Selected",
-      progress: 300,
-      placedStudents: 250,
-    },
-    {
-      Id: 8,
-      logo: "company-logo-8.png",
-      name: "Facebook Inc.",
-      rating: 4.6,
-      reviews: "2.2K+ reviews",
-      job_role: "Mobile App Developer",
-      status: "Under Processing",
-      progress: 170,
-      placedStudents: 130,
-    },
-    {
-      Id: 9,
-      logo: "company-logo-9.png",
-      name: "Amazon Web Services",
-      rating: 4.4,
-      reviews: "2.5K+ reviews",
-      job_role: "Cloud Architect",
-      status: "Applied",
-      progress: 220,
-      placedStudents: 180,
-    },
-    {
-      Id: 10,
-      logo: "company-logo-10.png",
-      name: "Tesla Inc.",
-      rating: 4.7,
-      reviews: "2.8K+ reviews",
-      job_role: "Security Engineer",
-      status: "Applied",
-      progress: 160,
-      placedStudents: 140,
-    },
-  ];
-
-  jobRoles: string[] = [
-    "Software Developer",
-    "Tester",
-    "DevOps Engineer",
-    "Fullstack Developer",
-    "Cloud Architect",
-  ];
-
-  statuses: string[] = [
-    "Applied",
-    "Ongoing",
-    "Selected",
-    "Rejected",
-    "Eligible",
-  ];
-
-  filteredJobRoles: Observable<string[]> = of(this.jobRoles);
-  filteredStatuses: Observable<string[]> = of(this.statuses);
-
   ngOnInit() {
-    // this.loadCompanies();
-    // this.loadIndustries();
-
     // this.dataSource.paginator = this.paginator;
-
-    this.CityControl.valueChanges.subscribe(() => {
-      this.filterCities(this.searchCity);
-    });
-
-    this.industryControl.valueChanges.subscribe(() => {
-      this.filterIndustries(this.searchIndustry);
-    });
-
-    this.filteredCities = this.CityFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCities(value))
-    );
-    this.filteredIndutry = this.industryFilterControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterIndustries(value))
-    );
-
-    this.filteredCompany = this.companyControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filterCompanies(value))
-    );
-  }
-
-  // onCompanySelected(event: MatAutocompleteSelectedEvent) {
-  //   const selectedCompanyName = event.option.value;
-  //   const selectedCompany = this.companies.find(
-  //     (company) => company.Name === selectedCompanyName
-  //   );
-  //   if (selectedCompany) {
-  //     this.apiCompanyService
-  //       .getCompanyDataById(selectedCompany.Id)
-  //       .subscribe((response: any) => {
-  //         const companyData = response.value[0];
-  //         this.openCompanyModalPopup(companyData);
-  //       });
-  //   }
-  // }
-
-  openCompanyModalPopup(company: any): void {
-    this.dialog.open(CompanyDetailDialogModalComponent, {
-      width: "500px",
-      height: "600px",
-      data: company,
-    });
+    this.getTemplate();
+    if (this.StudentId > 0) {
+      this.getCompaniesData(this.StudentId);
+    }
+    if (this.StudentId > 0) {
+      this.getJobPostingRounds(this.StudentId);
+    }
   }
 
   _filterCompanies(value: string): companyTableList[] {
@@ -329,65 +115,89 @@ export class JobsComponent {
     );
   }
 
-  // loadCompanies() {
-  //   this.apiCompanyService.loadCompanyData().subscribe({
-  //     next: (response: ODataResponse<companyTableList>) => {
-  //       console.log("API Response:", response);
-  //       this.dataSource.data = response.value;
-  //       this.companies = response.value;
-  //       this.industries = this.extractIndustriesFromCompanies(this.companies);
-  //       this.filteredIndustries = this.industries;
-  //     },
-  //     error: (error: any) => {
-  //       console.error("Error loading companies", error);
-  //     },
-  //   });
-  // }
+  public getCompaniesData(StudentId: number): void {
+    this.apiCompanyService.GetCompaniesData(this.StudentId).subscribe({
+      next: (response: ODataResponse<any>) => {
+        console.log("Companies", response.value);
+        this.companiesCard = response.value.map((item: any) => {
+          const allRoundsPassed = item.Student.JobpostStudentrounds.every(
+            (round: any) => round.HasPassed === 1
+          );
+          const StudentName = item.Student.FirstName;
+          return {
+            companyId: item.JobPosting.CompanyId,
+            jobPostingId: item.JobPostingId,
+            logo: item.JobPosting.Company.LogoPath,
+            name: item.JobPosting.Company.Name,
+            job_role: item.JobPosting.JobRole,
+            status: "Active",
+            progress: "In Progress",
+            PostedDate: item.JobPosting.PostedDate,
+            Salary: item.JobPosting.Salary,
+            Location: item.JobPosting.Location,
+            studentName: StudentName,
+            isOfferLetterEnabled: allRoundsPassed,
+          };
+        });
+      },
+      error: (err) => {
+        console.error("Error fetching job postings:", err);
+      },
+    });
+  }
 
-  // loadIndustries() {
-  //   this.apiIndustryService.loadIndustryData().subscribe({
-  //     next: (response: ODataResponse<any>) => {
-  //       console.log("API Response:", response);
-  //       this.industries = response.value;
-  //     },
-  //     error: (error: any) => {
-  //       console.error("Error loading Industries", error);
-  //     },
-  //   });
-  // }
-  // openAddEditCompanyForm(id?: number) {
-  //   if (id !== null && id !== undefined) {
-  //     this.router.navigate(["/company-configuration/company", id]);
-  //   } else {
-  //     this.router.navigate(["/company-configuration/company", 0]);
-  //   }
-  // }
+  getTemplate = () => {
+    this.apiCompanyService.GetTemplate().subscribe({
+      next: (response) => {
+        this.templateCategories = response.value;
+        this.templates = response.value.flatMap(
+          (category) => category.Templates
+        );
+        this.selectedTemplate = this.templates[0] || null;
+        if (this.selectedTemplate) {
+          this.templateSubject = this.selectedTemplate.Subject;
+          this.templateBody = this.selectedTemplate.Body;
+        }
+        console.log("Templates:", this.templates);
+      },
+      error: (error) => {
+        console.error("Error fetching templates", error);
+      },
+    });
+  };
+  public getJobPostingRounds(StudentId: number): void {
+    this.apiCompanyService.GetJobPostingRounds(this.StudentId).subscribe({
+      next: (response: ODataResponse<any>) => {
+        console.log("job rounds", response.value);
+        this.RoundsData = response.value
+          .map((item: any) =>
+            item.Student.JobpostStudentrounds.map((round: any) => ({
+              JobPostingId: item.JobPostingId,
+              roundName: round.JobPostingRound.Name,
+              Score: round.Score,
+              Feedback: round.Feedback,
+              Status: round.HasPassed === 1 ? "✅" : "🔄",
+            }))
+          )
+          .flat();
+      },
+      error: (err) => {
+        console.error("Error fetching job posting rounds:", err);
+      },
+    });
+  }
 
-  // async deleteCompany(id: number) {
-  //   const confirmed = await this.sweetAlertService.confirmDelete(
-  //     "Do you really want to delete this Company?"
-  //   );
+  onCompanySelected(company: any): void {
+    this.selectedCompany = company;
+    this.selectedCompanyRounds = this.RoundsData.filter(
+      (round: any) => round.JobPostingId === company.jobPostingId
+    );
+    this.isPopupOpen = true;
+  }
 
-  //   if (confirmed) {
-  //     this.apiCompanyService.deleteCompany(id).subscribe({
-  //       next: (response: { success: boolean; message: string }) => {
-  //         if (response.success) {
-  //           this.sweetAlertService.success(response.message);
-  //           this.loadCompanies();
-  //         } else {
-  //           this.sweetAlertService.error(response.message);
-  //         }
-  //       },
-  //       error: (error: any) => {
-  //         this.sweetAlertService.error(
-  //           "An unexpected error occurred while deleting the Company."
-  //         );
-  //         console.error("Error deleting Company:", error);
-  //       },
-  //     });
-  //   }
-  // }
-
+  closePopup(): void {
+    this.isPopupOpen = false;
+  }
   openJdDetails(id: number) {}
 
   goBack(): void {
@@ -539,8 +349,85 @@ export class JobsComponent {
   goToCompanyJobDetails(companyId: number) {
     this.router.navigate(["/company-job-details"]);
   }
-  downloadOfferLetter() {
-    console.log("downloadOfferLetter clicked");
+
+  // downloadOfferLetter(event: MouseEvent): void {
+  //   event.stopPropagation();
+  //   console.log("Downloading offer letter...");
+  //   window.alert("Downloaded successfully");
+  // }
+  downloadOfferLetter(event: MouseEvent, companyId: number): void {
+    event.stopPropagation();
+    console.log("Downloading offer letter...");
+    const company = this.companiesCard.find((c) => c.companyId === companyId);
+    if (!company) {
+      console.error("Company details not found");
+      return;
+    }
+    if (!this.selectedTemplate) {
+      console.error("No template selected for the Offer Letter");
+      return;
+    }
+    const doc = new jsPDF("p", "mm", "a4");
+    doc.setFont("Arial", "normal");
+    doc.setFontSize(16);
+    const logoUrl = company.logo;
+    const logoWidth = 100;
+    const logoHeight = 50;
+    doc.addImage(logoUrl, "JPEG", 10, 10, logoWidth, logoHeight);
+    const mainHeading = `${company.name}`;
+    const titleHeight = 20;
+    doc.text(mainHeading, 100, titleHeight);
+    const subject = this.selectedTemplate.Subject || "Offer Letter";
+    doc.setFontSize(14);
+    doc.text(`Subject: ${subject}`, 10, titleHeight + 10);
+    const name = company.studentName;
+    const namePositionY = titleHeight + 20;
+    doc.setFontSize(12);
+    doc.text(`Dear, ${name}`, 10, namePositionY);
+
+    doc.setFontSize(11);
+    const bodyContent = this.selectedTemplate.Body || "Content not available";
+    const plainTextBody = this.stripHtmlTags(bodyContent);
+    const paragraphs = plainTextBody.split("\n");
+    let currentY = namePositionY + 10;
+    paragraphs.forEach((paragraph) => {
+      const pageWidth = 180;
+      const marginLeft = 10;
+      const wrappedText = doc.splitTextToSize(paragraph, pageWidth);
+      doc.text(wrappedText, marginLeft, currentY);
+      currentY += wrappedText.length * 5;
+      if (currentY > 280) {
+        doc.addPage();
+        currentY = 10;
+      }
+    });
+    currentY += 10;
+    doc.text(`Position: ${company.job_role || "N/A"}`, 10, currentY);
+    currentY += 10;
+    doc.text(
+      `Start Date: ${
+        new Date(company.PostedDate).toLocaleDateString() || "N/A"
+      }`,
+      10,
+      currentY
+    );
+    currentY += 10;
+    doc.text(`Location: ${company.Location || "N/A"}`, 10, currentY);
+    currentY += 10;
+    doc.text(
+      `Salary: ₹${company.Salary?.toLocaleString() || "N/A"}`,
+      10,
+      currentY
+    );
+    const fileName = `OfferLetter_${company.name || "Company"}.pdf`;
+    doc.save(fileName);
+    console.log("Offer Letter downloaded successfully");
+
     window.alert("Downloaded successfully");
+  }
+
+  stripHtmlTags(input: string): string {
+    const doc = new DOMParser().parseFromString(input, "text/html");
+    return doc.body.textContent || "";
   }
 }

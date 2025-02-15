@@ -45,7 +45,7 @@ namespace Placements.WebApi.Controllers
                     uploadedFiles.Add(new UploadedFileInfo
                     {
                         FileName = file.FileName,
-                        FilePath = Path.Combine("wwwroot", "UploadedFiles", folderName, timestampedFileName),
+                        FilePath = Path.Combine("wwwroot", "UploadedFiles",timestampedFileName),
                         FileType = file.ContentType,
                         TimestampedFileName = timestampedFileName
                     });
@@ -58,6 +58,7 @@ namespace Placements.WebApi.Controllers
         [HttpGet("DownloadFile")]
         public async Task<IActionResult> DownloadFile([FromQuery] string filePath)
         {
+            var physicalPath = Path.Combine(_env.WebRootPath, filePath.TrimStart('/'));
             if (!System.IO.File.Exists(filePath))
             {
                 return NotFound(new { message = "File not found." });
