@@ -57,6 +57,8 @@ public partial class Tblstudent
 
     public virtual ICollection<Login> Logins { get; set; } = new List<Login>();
 
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+
     public virtual Campusregistration? Org { get; set; }
 
     public virtual ICollection<StudentSkill> StudentSkills { get; set; } = new List<StudentSkill>();

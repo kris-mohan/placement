@@ -1,7 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { AMGModules } from "src/AMG-Module/AMG-module";
+import { notification } from "src/app/services/types/Notifications";
 import { SharedModule } from "src/app/shared/shared.module";
+import { NotificationsApiService } from "../profile-management/profilemanagement-dashboard/NotificationsAPIService";
 
 @Component({
   selector: "app-student-dashboard",
@@ -12,6 +14,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 })
 export class StudentDashboardComponent {
   studentName = "John Doe";
+  userRoleId: number = 0;
 
   stats = {
     applicationsSent: 10,
@@ -59,29 +62,29 @@ export class StudentDashboardComponent {
     },
   ];
 
-  notifications = [
-    {
-      title: 'Congratulations',
-      details: 'You have an offer from Flipkart Online Services Pvt. Ltd.',
-    },
-    {
-      title: 'Reminder',
-      details: 'Your interview with Microsoft Corporation is on October 12nd.',
-    },
-    {
-      title: "New Job Posting",
-      details: "Softserve Global is hiring for Software Engineer roles.",
-    },
-    {
-      title: "New Job Posting",
-      details: "Softserve Global posted today!",
-    },
-    {
-      title: "New Job Posting",
-      details: "Capgemeni is hiring for Software Engineer roles.",
-    },
-  ];
-
+  // notifications = [
+  //   {
+  //     title: 'Congratulations',
+  //     details: 'You have an offer from Flipkart Online Services Pvt. Ltd.',
+  //   },
+  //   {
+  //     title: 'Reminder',
+  //     details: 'Your interview with Microsoft Corporation is on October 12nd.',
+  //   },
+  //   {
+  //     title: "New Job Posting",
+  //     details: "Softserve Global is hiring for Software Engineer roles.",
+  //   },
+  //   {
+  //     title: "New Job Posting",
+  //     details: "Softserve Global posted today!",
+  //   },
+  //   {
+  //     title: "New Job Posting",
+  //     details: "Capgemeni is hiring for Software Engineer roles.",
+  //   },
+  // ];
+  notifications: notification[] = [];
   interviewSchedule = [
     {
       company: "Tata Consultancy Services (TCS)",
@@ -97,6 +100,11 @@ export class StudentDashboardComponent {
     { company: "Capgemini SE", date: new Date("2024-10-22"), time: "1:00 PM" },
   ];
 
+  constructor(private notificationApiService: NotificationsApiService) {
+    const storedUserRoleId = sessionStorage.getItem("StudentId");
+    this.userRoleId = storedUserRoleId ? parseInt(storedUserRoleId) : 0;
+  }
+
   getStatusClass(status: string): string {
     switch (status) {
       case "In-progress":
@@ -108,5 +116,22 @@ export class StudentDashboardComponent {
       default:
         return "";
     }
+  }
+
+  ngOnInit(): void {
+    this.getNotification();
+  }
+
+  getNotification() {
+    this.notificationApiService
+      .GetNotificationStudentId(this.userRoleId)
+      .subscribe({
+        next: (response: any) => {
+          this.notifications = response.value;
+        },
+        error: (err: any) => {
+          console.error("Error:No Notification", err);
+        },
+      });
   }
 }

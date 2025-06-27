@@ -10,7 +10,7 @@
       <div *ngFor="let interview of upcomingDrives" class="upcoming-drive-card">
         <mat-card [routerLink]="['/interview']" style="cursor: pointer">
           <mat-card-content>
-            <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+            <h4>{{ interview.date | date : "MMM d, y, EEEE" }}</h4>
             <p>
               <strong>Job Role:</strong> {{ interview.jobRole }} <br />
               <strong>Venue:</strong> {{ interview.venue }} <br />
@@ -42,7 +42,8 @@
           [seriesData]="employeeIntakes"
           [categoriesData]="colleges"
           [xLabel]="inTakexAxisLabel"
-          [yLabel]="inTakeyAxisLabel">
+          [yLabel]="inTakeyAxisLabel"
+        >
         </app-basic-column-chart>
       </mat-expansion-panel>
 
@@ -52,7 +53,8 @@
         </mat-expansion-panel-header>
         <app-simple-pie-chart
           [branchPlacementSeries]="noOfJobRolesOpenings"
-          [branchLabels]="jobRoleNames">
+          [branchLabels]="jobRoleNames"
+        >
         </app-simple-pie-chart>
       </mat-expansion-panel>
     </mat-accordion>
@@ -68,17 +70,13 @@
       <li
         *ngFor="let notification of notifications"
         [ngClass]="{
-          'reminder-notification': notification.title.includes('Reminder'),
-          'other-notification': !notification.title.includes('Reminder')
+          'reminder-notification': notification.Title.includes('Reminder'),
+          'other-notification': !notification.Title.includes('Reminder')
         }"
         style="cursor: pointer"
-        [routerLink]="
-          notification.title.includes('Reminder')
-            ? ['/interview']
-            : ['/company-job-details/companyJobDescription/1']
-        ">
-        <h4>{{ notification.title }}</h4>
-        <span>{{ notification.details }}</span>
+      >
+        <h4>{{ notification.Title }}</h4>
+        <span>{{ notification.NotificationContent }}</span>
       </li>
     </ul>
   </div>
@@ -89,12 +87,14 @@
   <div
     class="interview-schedule"
     [routerLink]="['/interview']"
-    style="cursor: pointer">
+    style="cursor: pointer"
+  >
     <ul>
       <li
         *ngFor="let interview of interviewSchedule"
-        class="interview-schedule-notification">
-        <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+        class="interview-schedule-notification"
+      >
+        <h4>{{ interview.date | date : "MMM d, y, EEEE" }}</h4>
         <span>Name of Candidate: {{ interview.candidate }}</span>
         <span>Job Role: {{ interview.position }}</span>
         <span>Time: {{ interview.time }}</span>

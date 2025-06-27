@@ -23,7 +23,7 @@ export class OfferManagementApiService {
     id: number,
     options?: any
   ): Observable<ODataEntity<JobpostingSelectedstudent[]>> {
-    let query = `/JobpostingSelectedstudent?$select=Id,JobPostingId,StudentId,HasAcceptedOffer,OfferLetterSentDate,OfferLetterExpiryDate&$expand=JobPosting($select=Id,CompanyId,JobRole),Student($select=Id,FirstName,LastName,Email;$expand=Batch($select=Name)&$expand=Org($select=Email))&$apply=filter(JobPosting/CompanyId eq ${id})`;
+    let query = `/JobpostingSelectedstudent?$select=Id,JobPostingId,StudentId,HasAcceptedOffer,OfferLetterSentDate,OfferLetterExpiryDate&$expand=JobPosting($select=Id,CompanyId,JobRole;$expand=Company($select=Name)),Student($select=Id,FirstName,LastName,Email,OrgId;$expand=Batch($select=Name)&$expand=Org($select=Email))&$apply=filter(JobPosting/CompanyId eq ${id})`;
     if (options.Status) {
       query += `&Status eq ${options.Status}`;
     }
@@ -34,7 +34,7 @@ export class OfferManagementApiService {
 
   GetStudent(): Observable<ODataEntity<JobpostingSelectedstudent[]>> {
     return this.apiHttpService.get<ODataEntity<JobpostingSelectedstudent[]>>(
-      `/JobpostingSelectedstudent?$filter=HasAcceptedOffer eq 0&$expand=Student($select=Id,FirstName,LastName,Email;$expand=Batch($select=Name)&$expand=Org($select=Email)),JobPosting($select=Id,JobRole,JobDescription)`
+      `/JobpostingSelectedstudent?$filter=HasAcceptedOffer eq 0&$expand=Student($select=Id,FirstName,LastName,Email,OrgId;$expand=Batch($select=Name)&$expand=Org($select=Email)),JobPosting($select=Id,JobRole,JobDescription,CompanyId;$expand=Company($select=Name))`
     );
   }
   SendOfferLetter(email: {

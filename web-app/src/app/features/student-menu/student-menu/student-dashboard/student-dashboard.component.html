@@ -10,14 +10,16 @@
       <div class="stats-section">
         <div
           style="color: white; cursor: pointer"
-          [routerLink]="['/student_applied']">
+          [routerLink]="['/student_applied']"
+        >
           <h2 class="stats-header">{{ stats.applicationsSent }}</h2>
           <p>Applications Sent</p>
         </div>
         <div class="divider"></div>
         <div
           style="color: white; cursor: pointer"
-          [routerLink]="['/interview']">
+          [routerLink]="['/interview']"
+        >
           <h2 class="stats-header">{{ stats.interviewsAttended }}</h2>
           <p>Interviews Attended</p>
         </div>
@@ -41,13 +43,14 @@
           [routerLink]="[
             '/student-company/student-jobs/student-job-description/1'
           ]"
-          style="cursor: pointer">
+          style="cursor: pointer"
+        >
           <div class="status-badge" [ngClass]="getStatusClass(job.status)">
             {{ job.status }}
           </div>
           <mat-card-title>{{ job.company }}</mat-card-title>
           <mat-card-subtitle>{{ job.jobRole }}</mat-card-subtitle>
-          <p>Interview Date: {{ job.interviewDate | date : 'longDate' }}</p>
+          <p>Interview Date: {{ job.interviewDate | date : "longDate" }}</p>
         </div>
       </div>
     </div>
@@ -87,22 +90,17 @@
         <li
           *ngFor="let notification of notifications"
           [ngClass]="{
-            'reminder-notification': notification.title.includes('Reminder'),
+            'reminder-notification': notification.Title.includes('Reminder'),
             'other-notification':
-              !notification.title.includes('Reminder') &&
-              !notification.title.includes('Congratulations'),
+              !notification.Title.includes('Reminder') &&
+              !notification.Title.includes('Congratulations'),
             'success-notification':
-              notification.title.includes('Congratulations')
+              notification.Title.includes('Congratulations')
           }"
           style="cursor: pointer"
-          [routerLink]="
-            notification.title.includes('Reminder')
-              ? ['/interview']
-              : ['/student-company/student-jobs/student-job-description/1']
-          "
         >
-          <h4>{{ notification.title }}</h4>
-          <span>{{ notification.details }}</span>
+          <h4>{{ notification.Title }}</h4>
+          <span>{{ notification.NotificationContent }}</span>
         </li>
       </ul>
     </div>
@@ -116,7 +114,8 @@
           *ngFor="let interview of interviewSchedule"
           [ngClass]="'interview-schedule-notification'"
           [routerLink]="['/interview']"
-          style="cursor: pointer">
+          style="cursor: pointer"
+        >
           <h4>{{ interview.company }}</h4>
           <span>{{ interview.date | date }} - {{ interview.time }}</span>
         </li>

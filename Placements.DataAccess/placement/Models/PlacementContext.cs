@@ -89,6 +89,8 @@ public partial class PlacementContext : DbContext
 
     public virtual DbSet<Messagestatus> Messagestatuses { get; set; }
 
+    public virtual DbSet<Notification> Notifications { get; set; }
+
     public virtual DbSet<Paatashalaregistration> Paatashalaregistrations { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -939,6 +941,40 @@ public partial class PlacementContext : DbContext
                 .HasConstraintName("FK_Message_MessageStatus");
         });
 
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("notifications");
+
+            entity.HasIndex(e => e.CampusId, "FK_CampusId_Notifications_idx");
+
+            entity.HasIndex(e => e.CompanyId, "FK_CompanyId_Notifications_idx");
+
+            entity.HasIndex(e => e.StudentId, "FK_StudentId_Notifications_idx");
+
+            entity.HasIndex(e => e.Id, "Id_UNIQUE").IsUnique();
+
+            entity.Property(e => e.CampusId).HasColumnName("campusId");
+            entity.Property(e => e.CompanyId).HasColumnName("companyId");
+            entity.Property(e => e.NotificationContent).HasMaxLength(255);
+            entity.Property(e => e.ParentType).HasMaxLength(45);
+            entity.Property(e => e.StudentId).HasColumnName("studentId");
+            entity.Property(e => e.Title).HasMaxLength(45);
+
+            entity.HasOne(d => d.Campus).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.CampusId)
+                .HasConstraintName("FK_CampusId_Notifications");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.CompanyId)
+                .HasConstraintName("FK_CompanyId_Notifications");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.StudentId)
+                .HasConstraintName("FK_StudentId_Notifications");
+        });
+
         modelBuilder.Entity<Paatashalaregistration>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -1007,6 +1043,7 @@ public partial class PlacementContext : DbContext
             entity.HasIndex(e => e.StudentAcademicId, "FK_StudentSemMarks_StudentAcademic_idx");
 
             entity.Property(e => e.MarkaPercentage).HasPrecision(10);
+            entity.Property(e => e.Semester).HasMaxLength(45);
             entity.Property(e => e.Sgpa).HasPrecision(10);
             entity.Property(e => e.Status).HasMaxLength(45);
 

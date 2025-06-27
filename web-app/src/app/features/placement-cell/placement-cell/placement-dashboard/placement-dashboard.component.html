@@ -19,9 +19,10 @@
       <div *ngFor="let interview of upcomingDrives" class="upcoming-drive-card">
         <mat-card
           [routerLink]="['/placement-interview']"
-          style="cursor: pointer">
+          style="cursor: pointer"
+        >
           <mat-card-content>
-            <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+            <h4>{{ interview.date | date : "MMM d, y, EEEE" }}</h4>
             <h3>{{ interview.company }}</h3>
             <p>
               <strong>Job Role:</strong> {{ interview.jobRole }} <br />
@@ -47,7 +48,8 @@
           [seriesData]="studentPlacementData"
           [categoriesData]="branchLabels"
           xLabel="Name of Branches"
-          yLabel="No. of Students">
+          yLabel="No. of Students"
+        >
         </app-basic-column-chart>
       </mat-expansion-panel>
 
@@ -59,7 +61,8 @@
           [seriesData]="studentPlacementSeries"
           [categoriesData]="placementCategories"
           xLabel="Name of Companies"
-          yLabel="Number of Students">
+          yLabel="Number of Students"
+        >
         </app-stacked-column-chart>
       </mat-expansion-panel>
 
@@ -71,7 +74,8 @@
         </mat-expansion-panel-header>
         <app-simple-pie-chart
           [branchPlacementSeries]="branchPlacementSeries"
-          [branchLabels]="branchLabels">
+          [branchLabels]="branchLabels"
+        >
         </app-simple-pie-chart>
       </mat-expansion-panel>
 
@@ -83,7 +87,8 @@
           [seriesData]="yearlyComparisonData"
           [categoriesData]="yearLabels"
           xLabel="Years"
-          yLabel="No. of Students Placed">
+          yLabel="No. of Students Placed"
+        >
         </app-basic-column-chart>
       </mat-expansion-panel>
 
@@ -95,7 +100,8 @@
           [seriesData]="topHiringCompaniesData"
           [categoriesData]="topCompanyYearLabels"
           xLabel="Years"
-          yLabel="No. of Students Placed">
+          yLabel="No. of Students Placed"
+        >
         </app-basic-column-chart>
       </mat-expansion-panel>
 
@@ -109,7 +115,8 @@
           [seriesData]="skillDemandData"
           [categoriesData]="skillLabels"
           xLabel="Skills"
-          yLabel="Demand Level">
+          yLabel="Demand Level"
+        >
         </app-basic-column-chart>
       </mat-expansion-panel>
 
@@ -121,7 +128,8 @@
           [seriesData]="monthlyTrendsData"
           [categoriesData]="monthLabels"
           xLabel="Months"
-          yLabel="Number of Placements">
+          yLabel="Number of Placements"
+        >
         </app-basic-column-chart>
       </mat-expansion-panel>
 
@@ -133,7 +141,8 @@
           [seriesData]="topHiringCompaniesData"
           [categoriesData]="companyLabels"
           xLabel="Companies"
-          yLabel="Number of Placements">
+          yLabel="Number of Placements"
+        >
         </app-basic-column-chart>
       </mat-expansion-panel>
 
@@ -145,7 +154,8 @@
           [seriesData]="batchPlacementData"
           [categoriesData]="batchLabels"
           xLabel="Batch"
-          yLabel="Number of Placements">
+          yLabel="Number of Placements"
+        >
         </app-basic-column-chart>
       </mat-expansion-panel>
 
@@ -157,7 +167,8 @@
           [seriesData]="placementStatusData"
           [categoriesData]="statusLabels"
           xLabel="Status"
-          yLabel="Number of Placements">
+          yLabel="Number of Placements"
+        >
         </app-basic-column-chart>
       </mat-expansion-panel>
     </mat-accordion>
@@ -173,17 +184,13 @@
       <li
         *ngFor="let notification of notifications"
         [ngClass]="{
-          'reminder-notification': notification.title.includes('Reminder'),
-          'other-notification': !notification.title.includes('Reminder')
+          'reminder-notification': notification.Title.includes('Reminder'),
+          'other-notification': !notification.Title.includes('Reminder')
         }"
         style="cursor: pointer"
-        [routerLink]="
-          notification.title.includes('Reminder')
-            ? ['/placement-interview']
-            : ['/Placement-offer-Recieved']
-        ">
-        <h4>{{ notification.title }}</h4>
-        <span>{{ notification.details }}</span>
+      >
+        <h4>{{ notification.Title }}</h4>
+        <span>{{ notification.NotificationContent }}</span>
       </li>
     </ul>
   </div>
@@ -194,12 +201,14 @@
   <div
     class="interview-schedule"
     [routerLink]="['/placement-interview']"
-    style="cursor: pointer">
+    style="cursor: pointer"
+  >
     <ul>
       <li
         *ngFor="let interview of interviewSchedule"
-        class="interview-schedule-notification">
-        <h4>{{ interview.date | date : 'MMM d, y, EEEE' }}</h4>
+        class="interview-schedule-notification"
+      >
+        <h4>{{ interview.date | date : "MMM d, y, EEEE" }}</h4>
         <span>Name of Candidate: {{ interview.candidate }}</span>
         <span>Job Role: {{ interview.position }}</span>
         <span>Time: {{ interview.time }}</span>
